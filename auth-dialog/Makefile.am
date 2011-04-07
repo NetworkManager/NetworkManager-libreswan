@@ -3,7 +3,7 @@ INCLUDES = -I${top_srcdir}
 libexec_PROGRAMS = nm-openswan-auth-dialog
 
 nm_openswan_auth_dialog_CPPFLAGS = \
-	$(NM_UTILS_CFLAGS) \
+	$(NM_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GCONF_CFLAGS) \

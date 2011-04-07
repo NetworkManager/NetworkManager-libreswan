@@ -3,7 +3,7 @@ INCLUDES = -I${top_srcdir}
 AM_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
-	$(NM_UTILS_CFLAGS) \
+	$(NM_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
 	-DBINDIR=\"$(bindir)\" \
 	-DPREFIX=\""$(prefix)"\" \
@@ -24,7 +24,7 @@ nm_openswan_service_SOURCES = \
 nm_openswan_service_LDADD = \
 				$(DBUS_LIBS) \
 				$(GTHREAD_LIBS) \
-				$(NM_UTILS_LIBS)
+				$(NM_LIBS)
 
 
 nm_openswan_service_helper_SOURCES = \
@@ -34,6 +34,6 @@ nm_openswan_service_helper_SOURCES = \
 nm_openswan_service_helper_LDADD = \
 				$(DBUS_LIBS) \
 				$(GTHREAD_LIBS) \
-				$(NM_UTILS_LIBS)
+				$(NM_LIBS)
 
 CLEANFILES = *~

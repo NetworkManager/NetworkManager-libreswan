@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager-openswan, 0.8, avagarwa@redhat.com, NetworkManager-openswan)
+AC_INIT(NetworkManager-openswan, 0.8.995, avagarwa@redhat.com, NetworkManager-openswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
@@ -70,10 +70,6 @@ if test x"$with_gnome" != xno; then
 	AC_SUBST(GTK_CFLAGS)
 	AC_SUBST(GTK_LIBS)
 
-	PKG_CHECK_MODULES(GDK_PIXBUF, gdk-pixbuf-2.0)
-	AC_SUBST(GDK_PIXBUF_CFLAGS)
-	AC_SUBST(GDK_PIXBUF_LIBS)
-
 	PKG_CHECK_MODULES(GLADE, libglade-2.0)
 	AC_SUBST(GLADE_CFLAGS)
 	AC_SUBST(GLADE_LIBS)
@@ -87,9 +83,9 @@ if test x"$with_gnome" != xno; then
 	AC_SUBST(GNOMEKEYRING_LIBS)
 fi
 
-PKG_CHECK_MODULES(NM_UTILS, NetworkManager >= 0.8 libnm-util libnm-glib libnm-glib-vpn)
-AC_SUBST(NM_UTILS_CFLAGS)
-AC_SUBST(NM_UTILS_LIBS)
+PKG_CHECK_MODULES(NM, NetworkManager >= 0.8 libnm-util libnm-glib libnm-glib-vpn)
+AC_SUBST(NM_CFLAGS)
+AC_SUBST(NM_LIBS)
 
 NM_COMPILER_WARNINGS
 
