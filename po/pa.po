@@ -1,0 +1,283 @@
+# translation of NetworkManager-vpnc.HEAD.po to Punjabi
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# A S Alam <aalam@users.sf.net>, 2007, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-vpnc.HEAD\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
+"cgi?product=NetworkManager&component=VPN: vpnc\n"
+"POT-Creation-Date: 2009-04-17 10:54+0000\n"
+"PO-Revision-Date: 2009-06-10 06:25+0530\n"
+"Last-Translator: A S Alam <aalam@users.sf.net>\n"
+"Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:103
+msgid "_Secondary Password:"
+msgstr "ਸੈਕੰਡਰੀ ਪਾਸਵਰਡ(_S):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:159
+msgid "_Password:"
+msgstr "ਪਾਸਵਰਡ(_P):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:240
+#| msgid "_Group Password:"
+msgid "Sh_ow passwords"
+msgstr "ਪਾਸਵਰਡ ਵੇਖੋ(_o)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:300
+msgid "_Remember passwords for this session"
+msgstr "ਇਹ ਸ਼ੈਸ਼ਨ ਲਈ ਪਾਸਵਰਡ ਯਾਦ ਰੱਖੋ(_R)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:301
+msgid "_Save passwords in keyring"
+msgstr "ਪਾਸਵਰਡ ਕੀਰਿੰਗ ਵਿੱਚ ਸੰਭਾਲੋ(_S)"
+
+#: ../auth-dialog/main.c:170
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"ਤੁਹਾਨੂੰ ਵੁਰਚੁਅਲ ਪ੍ਰਾਈਵੇਟ ਨੈੱਟਵਰਕ '%s' ਅਸੈੱਸ ਕਰਨ ਲਈ ਪਰਮਾਣਿਤ ਹੋਣ ਦੀ ਲੋੜ ਹੈ।"
+
+#: ../auth-dialog/main.c:171
+msgid "Authenticate VPN"
+msgstr "ਪਰਮਾਣਿਤ VPN"
+
+#: ../auth-dialog/main.c:175
+msgid "_Group Password:"
+msgstr "ਗਰੁੱਪ ਪਾਸਵਰਡ(_G):"
+
+#: ../nm-vpnc.desktop.in.h:1
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "VPN ਕੁਨੈਕਸ਼ਨ ਸ਼ਾਮਿਲ, ਹਟਾਓ ਜਾਂ ਸੋਧ"
+
+#: ../nm-vpnc.desktop.in.h:2
+msgid "VPN Connection Manager (vpnc)"
+msgstr "VPN ਕੁਨੈਕਸ਼ਨ ਮੈਨੇਜਰ (vpnc)"
+
+#: ../properties/nm-vpnc.c:53
+#| msgid "Compatible Cisco VPN client (vpnc)"
+msgid "Cisco Compatible VPN (vpnc)"
+msgstr "Cisco ਅਨੁਕੂਲ VPN (vpnc)"
+
+#: ../properties/nm-vpnc.c:54
+msgid ""
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"VPN gateways."
+msgstr ""
+"ਕਈ ਸਿਸਕੋ, ਜੁਨੀਪੀਅਰ, ਨੈਟਸਕਰੀਨ ਅਤੇ ਸੋਨਿਕਵਾਲ IPSec-ਅਧਾਰਿਤ VPN ਗੇਟਵ ਨਾਲ ਅਨੁਕੂਲ "
+"ਹੈ।"
+
+#: ../properties/nm-vpnc.c:339
+msgid "Saved"
+msgstr "ਸੰਭਾਲੋ"
+
+#: ../properties/nm-vpnc.c:346
+msgid "Always Ask"
+msgstr "ਹਮੇਸ਼ਾ ਪੁੱਛੋ"
+
+#: ../properties/nm-vpnc.c:353
+msgid "Not Required"
+msgstr "ਨਹੀਂ ਚਾਹੀਦਾ"
+
+#: ../properties/nm-vpnc.c:412
+msgid "Secure (default)"
+msgstr "ਸੁਰੱਖਿਅਤ (ਡਿਫਾਲਟ)"
+
+#: ../properties/nm-vpnc.c:415
+msgid "Weak (use with caution)"
+msgstr "ਕਮਜ਼ੋਰ (ਧਿਆਨ ਨਾਲ ਵਰਤੋਂ)"
+
+#: ../properties/nm-vpnc.c:423
+msgid "None (completely insecure)"
+msgstr "ਕੋਈ ਨਹੀਂ (ਪੂਰੀ ਤਰ੍ਹਾਂ ਅਸੁਰੱਖਿਅਤ)"
+
+#: ../properties/nm-vpnc.c:471
+msgid "Cisco UDP (default)"
+msgstr "Cisco UDP (ਡਿਫਾਲਟ)"
+
+#: ../properties/nm-vpnc.c:478
+msgid "NAT-T"
+msgstr "NAT-T"
+
+#: ../properties/nm-vpnc.c:485
+msgid "Disabled"
+msgstr "ਆਯੋਗ"
+
+#: ../properties/nm-vpnc.c:1116
+msgid "TCP tunneling not supported"
+msgstr "TCP ਟਨਲਿੰਗ ਸਹਿਯੋਗੀ ਨਹੀਂ ਹੈ"
+
+#: ../properties/nm-vpnc.c:1118
+#, c-format
+msgid ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+msgstr ""
+"VPN ਸੈਟਿੰਗ ਫਾਇਲ '%s' ਦੱਸ ਰਹੀ ਹੈ ਕਿ VPN ਟਰੈਫਿਕ ਨੂੰ TCP ਰਾਹੀਂ ਟਨਲ ਕੀਤਾ ਜਾਣਾ "
+"ਚਾਹੀਦਾ ਹੈ, ਜੋ ਕਿ ਹਾਲੇ vpnc ਸਾਫਟਵੇਅਰ ਨਾਲ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।\n"
+"\n"
+"ਕੁਨੈਕਸ਼ਨ ਤਾਂ ਵੀ ਬਣਾਇਆ ਜਾ ਸਕਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ TCP ਟਨਲਿੰਗ ਆਯੋਗ ਹੋਵੇਗੀ। ਪਰ ਇਹ "
+"ਉਮੀਦ ਮੁਤਾਬਕ ਕੰਮ ਨਹੀਂ ਕਰੇਗਾ।"
+
+#: ../properties/nm-vpnc-dialog.glade.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-vpnc-dialog.glade.h:2
+msgid "<b>General</b>"
+msgstr "<b>ਆਮ</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:3
+#| msgid "<b>Connection Name</b>"
+msgid "<b>Optional</b>"
+msgstr "<b>ਚੋਣਵਾਂ</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:4
+msgid "Disable Dead Peer Detection"
+msgstr "ਡੈੱਡ ਪੀਅਰ ਖੋਜ ਆਯੋਗ"
+
+#: ../properties/nm-vpnc-dialog.glade.h:5
+#| msgid "_Domain:"
+msgid "Domain:"
+msgstr "ਡੋਮੇਨ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:6
+msgid "Encryption method:"
+msgstr "ਇੰਕ੍ਰਿਪਸ਼ਨ ਢੰਗ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:7
+#| msgid "G_roup Name:"
+msgid "G_roup name:"
+msgstr "ਗਰੁੱਪ ਨਾਂ(_r):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:8
+#| msgid "_Group Password:"
+msgid "Gro_up password:"
+msgstr "ਗਰੁੱਪ ਪਾਸਵਰਡ(_u):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:9
+msgid "NAT traversal:"
+msgstr "NAT ਟਰਾਂਸਵਰਸਲ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:10
+#| msgid "_Group Password:"
+msgid "Show passwords"
+msgstr "ਪਾਸਵਰਡ ਵੇਖੋ"
+
+#: ../properties/nm-vpnc-dialog.glade.h:11
+#| msgid "_Username:"
+msgid "User name:"
+msgstr "ਯੂਜ਼ਰ ਨਾਂ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:12
+msgid "_Gateway:"
+msgstr "ਗੇਟਵੇ(_G):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:13
+#| msgid "_Password:"
+msgid "_User password:"
+msgstr "ਯੂਜ਼ਰ ਪਾਸਵਰਡ(_U):"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "ਅਗਿਆਤ ਵਾਂਗ ਜੁੜੋ(_a)"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "ਉਪਭੋਗੀ ਵਾਂਗ ਜੁੜੋ(_u):"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "ਹੇਠ ਦਿੱਤਾ vpnc VPN ਕੁਨੈਕਸ਼ਨ ਬਣਾਇਆ ਗਿਆ ਹੈ:"
+
+#~ msgid "Name:  %s"
+#~ msgstr "ਨਾਂ:  %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "ਗੇਟਵੇ:  %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "ਗਰੁੱਪ ਨਾਂ:  %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "ਉਪਭੋਗੀ ਨਾਂ:  %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "ਡੋਮੇਨ:  %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "ਰੂਟ:  %s"
+
+#~ msgid "Cannot import settings"
+#~ msgstr "ਸੈਟਿੰਗ ਆਯਾਤ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ"
+
+#~ msgid "The VPN settings file '%s' does not contain valid data."
+#~ msgstr "VPN ਸੈਟਿੰਗ ਫਾਇਲ '%s' ਗਲਤ ਡਾਟਾ ਮਿਲਿਆ ਸੀ।"
+
+#~ msgid "Select file to import"
+#~ msgstr "ਆਯਾਤ ਕਰਨ ਲਈ ਫਾਇਲ ਚੁਣੋ"
+
+#~ msgid "Save as..."
+#~ msgstr "ਇੰਝ ਸੰਭਾਲੋ..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "\"%s\" ਨਾਂ ਨਾਲ ਫਾਇਲ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।"
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਆਪਣੇ ਵਲੋਂ ਸੰਭਾਲੀ ਜਾਣ ਵਾਲੀ ਨਾਲ ਬਦਲਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "ਸੰਰਚਨਾ ਨਿਰਯਾਤ ਕਰਨ ਲਈ ਫੇਲ੍ਹ"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "ਫਾਇਲ %s ਸੰਭਾਲਣ ਲਈ ਫੇਲ੍ਹ"
+
+#~ msgid "<b>Required Information</b>"
+#~ msgstr "<b>ਲੋੜੀਦੀ ਜਾਣਕਾਰੀ</b>"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>ਜਿਵੇਂ: 172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "O_ptional Information"
+#~ msgstr "ਚੋਣਵੀਂ ਜਾਣਕਾਰੀ(_p)"
+
+#~ msgid "Override _user name"
+#~ msgstr "ਉਪਭੋਗੀ ਨਾਂ ਅਣਡਿੱਠਾ(_u)"
+
+#~ msgid "Use _domain for authentication"
+#~ msgstr "ਪਰਮਾਣਕਿਤਾ ਲਈ ਡੋਮੇਨ ਵਰਤੋਂ(_d)"
+
+#~ msgid "_Import Saved Configuration..."
+#~ msgstr "ਸੰਭਾਲੀ ਸੰਰਚਨਾ ਆਯਾਤ(_I)..."
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "ਇਹ ਸਿਰਨਾਵਿਆਂ ਲਈ ਸਿਰਫ਼ VPN ਕੁਨੈਕਸ਼ਨ ਵਰਤੋਂ(_O)"
+
+#~ msgid ""
+#~ "The VPN login failed because the user name and password were not accepted."
+#~ msgstr "VPN ਲਾਗਇਨ ਫੇਲ੍ਹ ਹੋ ਗਿਆ ਹੈ, ਕਿਉਂਕਿ ਉਪਭੋਗੀ ਨਾਂ ਅਤੇ ਗੁਪਤ-ਕੋਡ ਸਵੀਕਾਰ ਨਹੀਂ ਕੀਤਾ।"
+
+#~ msgid "The VPN login failed because the VPN program could not be started."
+#~ msgstr "VPN ਲਾਗਇਨ ਫੇਲ੍ਹ ਹੋ ਗਿਆ ਹੈ, ਕਿਉਂਕਿ VPN ਪ੍ਰੋਗਰਾਮ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program could not connect to the VPN "
+#~ "server."
+#~ msgstr "VPN ਲਾਗਇਨ ਫੇਲ੍ਹ ਹੋ ਗਿਆ ਹੈ, ਕਿਉਂਕਿ VPN ਪ੍ਰੋਗਰਾਮ VPN ਸਰਵਰ ਨਾਲ ਜੁੜ ਨਹੀਂ ਸਕਿਆ।"
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN configuration options were invalid."
+#~ msgstr "VPN ਲਾਗਇਨ ਫੇਲ੍ਹ ਹੋ ਗਿਆ ਹੈ, ਕਿਉਂਕਿ VPN ਸੰਰਚਨਾ ਚੋਣਾਂ ਗਲਤ ਹਨ।"
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program received an invalid "
+#~ "configuration from the VPN server."
+#~ msgstr ""
+#~ "VPN ਲਾਗਇਨ ਫੇਲ੍ਹ ਹੋ ਗਿਆ ਹੈ, ਕਿਉਂਕਿ VPN ਪ੍ਰੋਗਰਾਮ ਨੇ VPN ਸਰਵਰ ਤੋਂ ਗਲਤ ਸੰਰਚਨਾ ਮਿਲੀ ਹੈ।"

@@ -1,0 +1,308 @@
+# Danish translation of NetworkManager-vpnc
+# Copyright (C) 2005-2009
+# This file is distributed under the same license as the NetworkManager-vpnc package.
+# David Zeuthen <davidz@redhat.com>, 2005.
+# Lasse Bang Mikkelsen <lbm@fatalerror.dk>, 2006, 07.
+# Mads Bille Lundby <lundbymads@gmail.com, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-vpnc\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-24 23:54+0100\n"
+"PO-Revision-Date: 2009-02-24 17:35+0100\n"
+"Last-Translator: Mads Lundby <lundbymads@gmail.com>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:103
+msgid "_Secondary Password:"
+msgstr "_Sekundær adgangskode:"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:159
+msgid "_Password:"
+msgstr "_Adgangskode:"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:240
+msgid "Sh_ow passwords"
+msgstr "_Vis adgangskoder"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:300
+msgid "_Remember passwords for this session"
+msgstr "_Husk adgangskoder for denne session"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:301
+msgid "_Save passwords in keyring"
+msgstr "_Gem adgangskoder i nøglering"
+
+#: ../auth-dialog/main.c:170
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"Du skal opnå godkendelse for at tilgå det virtuelle private netværk \"%s\"."
+
+#: ../auth-dialog/main.c:171
+msgid "Authenticate VPN"
+msgstr "VPN-godkendelse"
+
+#: ../auth-dialog/main.c:175
+msgid "_Group Password:"
+msgstr "_Gruppeadgangskode:"
+
+#: ../nm-vpnc.desktop.in.h:1
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "Tilføj, fjern og redigér VPN-forbindelser"
+
+#
+#: ../nm-vpnc.desktop.in.h:2
+msgid "VPN Connection Manager (vpnc)"
+msgstr "Håndtering af VPN-forbindelser (vpnc)"
+
+#: ../properties/nm-vpnc.c:53
+msgid "Cisco Compatible VPN (vpnc)"
+msgstr "Cisco-kompatibelt VPN (vpnc)"
+
+#: ../properties/nm-vpnc.c:54
+msgid ""
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"VPN gateways."
+msgstr ""
+"Kompatibel med forskellige Cisco, Juniper, Netscreen, og Sonicwall IPSec-"
+"baserede VPN-adgangspunkter."
+
+#: ../properties/nm-vpnc.c:339
+msgid "Saved"
+msgstr "Gemt"
+
+#: ../properties/nm-vpnc.c:346
+msgid "Always Ask"
+msgstr "Spørg altid"
+
+#: ../properties/nm-vpnc.c:353
+msgid "Not Required"
+msgstr "Ikke påkrævet"
+
+#: ../properties/nm-vpnc.c:412
+msgid "Secure (default)"
+msgstr "Sikker (standard)"
+
+#: ../properties/nm-vpnc.c:415
+msgid "Weak (use with caution)"
+msgstr "Svag (anvend med forsigtighed)"
+
+#: ../properties/nm-vpnc.c:423
+msgid "None (completely insecure)"
+msgstr "Ingen (fuldstændig usikker)"
+
+#: ../properties/nm-vpnc.c:471
+msgid "Cisco UDP (default)"
+msgstr "Cisco-UDP (standard)"
+
+#: ../properties/nm-vpnc.c:478
+msgid "NAT-T"
+msgstr "NAT-T"
+
+#: ../properties/nm-vpnc.c:485
+msgid "Disabled"
+msgstr "Deaktiveret"
+
+#: ../properties/nm-vpnc.c:1116
+msgid "TCP tunneling not supported"
+msgstr "TCP-tunnel er ikke understøttet"
+
+#: ../properties/nm-vpnc.c:1118
+#, c-format
+msgid ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+msgstr ""
+"VPN-opsætningsfilen \"%s\" angiver, at VPN-trafikken skal sendes gennem en "
+"TCP-tunnel, som i øjeblikket ikke er understøttet i vpnc-programmet.\n"
+"\n"
+"Forbindelsen kan stadig oprettes uden TCP-tunnel, men vil muligvis ikke "
+"fungere som forventet."
+
+#: ../properties/nm-vpnc-dialog.glade.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-vpnc-dialog.glade.h:2
+msgid "<b>General</b>"
+msgstr "<b>Generelt</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:3
+msgid "<b>Optional</b>"
+msgstr "<b>Valgfri</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:4
+msgid "Disable Dead Peer Detection"
+msgstr "Deaktivér genkendelse af døde ligemænd (peers)"
+
+#: ../properties/nm-vpnc-dialog.glade.h:5
+msgid "Domain:"
+msgstr "Domæne:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:6
+msgid "Encryption method:"
+msgstr "Krypteringsmetode:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:7
+msgid "G_roup name:"
+msgstr "G_ruppenavn:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:8
+msgid "Gro_up password:"
+msgstr "Gr_uppeadgangskode:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:9
+msgid "NAT traversal:"
+msgstr "NAT-krydsning:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:10
+msgid "Show passwords"
+msgstr "Vis adgangskoder"
+
+#: ../properties/nm-vpnc-dialog.glade.h:11
+msgid "User name:"
+msgstr "Brugernavn:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:12
+msgid "_Gateway:"
+msgstr "Ad_gangspunkt:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:13
+msgid "_User password:"
+msgstr "Br_ugeradgangskode:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "Tilslut _anonymt"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "Tilslut som _bruger:"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "Følgende vpnc VPN-forbindelse vil blive oprettet:"
+
+#~ msgid "Name:  %s"
+#~ msgstr "Navn:  %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "Ad_gangspunkt:  %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "Gruppenavn:  %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "Brugernavn:  %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "Domæne:  %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "Ruter:  %s"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "Forbindelsens detaljer kan ændres ved at bruge knappen \"Redigér\"."
+
+#~ msgid "Cannot import settings"
+#~ msgstr "Kan ikke importere opsætning"
+
+#~ msgid "The VPN settings file '%s' does not contain valid data."
+#~ msgstr "VPN-opsætningsfilen '%s' indeholder ikke gyldige data."
+
+#~ msgid "Select file to import"
+#~ msgstr "Vælg fil der skal importeres"
+
+#~ msgid "Save as..."
+#~ msgstr "Gem som..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "En fil med navnet \"%s\" eksisterer allerede."
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "Vil du erstatte den med den du gemmer?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "Kunne ikke eksportere konfiguration"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "Kunne ikke gemme fil %s"
+
+#~ msgid "<b>Connection Information</b>"
+#~ msgstr "<b>Information om forbindelse</b>"
+
+#~ msgid "<b>Connection Name</b>"
+#~ msgstr "<b>Navn på forbindelse</b>"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>eksempel: 172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "Connection Name"
+#~ msgstr "Navn på forbindelse"
+
+#~ msgid ""
+#~ "Name used to identify the connection to the private network, e.g. "
+#~ "\"Campus VPN\" or \"Corporate Network\""
+#~ msgstr ""
+#~ "Navn brugt til at identificere forbindelsen til det private netværk, f."
+#~ "eks. \"Universitets VPN\" eller \"Virksomhedens netværk\""
+
+#~ msgid "Override _user name"
+#~ msgstr "Overskriv br_ugernavn"
+
+#~ msgid ""
+#~ "Please enter the information provided by your system administrator below. "
+#~ "Do not enter your password here as you will be prompted when connecting."
+#~ msgstr ""
+#~ "Indtast oplysninger fra din systemadministrator nedenfor. Du skal ikke "
+#~ "indtaste din adgangskode her, da du bliver spurgt om den ved tilslutning."
+
+#~ msgid ""
+#~ "Please note that the file you import is not a Cisco VPN or VPNC "
+#~ "configuration file. Ask your adminstrator for the file."
+#~ msgstr ""
+#~ "Bemærk venligst at filen du importerer ikke er en Cisco VPN eller VPNC "
+#~ "konfigurationsfil. Spørg din administrator efter filen."
+
+#~ msgid "Use _domain for authentication"
+#~ msgstr "Brug _domæne til brugerverifikation"
+
+#~ msgid "_Import Saved Configuration..."
+#~ msgstr "_Importér gemt konfiguration..."
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "_Brug kun VPN-forbindelse til flg. adresser"
+
+#~ msgid ""
+#~ "The VPN login failed because the user name and password were not accepted."
+#~ msgstr "VPN-tjenesten fejlede fordi brugernavn og adgangskode blev afvist."
+
+#~ msgid "The VPN login failed because the VPN program could not be started."
+#~ msgstr "VPN-tjenesten fejlede fordi VPN-programmet ikke kunne startes."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program could not connect to the VPN "
+#~ "server."
+#~ msgstr ""
+#~ "VPN-tjenesten fejlede fordi VPN-programmet ikke kunne forbinde til VPN-"
+#~ "serveren."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN configuration options were invalid."
+#~ msgstr "VPN-tjenesten fejlede fordi VPN-konfigurationen var ugyldig."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program received an invalid "
+#~ "configuration from the VPN server."
+#~ msgstr ""
+#~ "VPN-tjenesten fejlede fordi VPN-programmet modtog en ugyldig "
+#~ "konfiguration fra VPN-serveren."
+
+#~ msgid "O_ptional Information"
+#~ msgstr "Yderligere oplysninger"

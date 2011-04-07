@@ -1,0 +1,181 @@
+# translation of network-manager-vpnc.po.master.ta.po to Tamil
+# Tamil translation of network-manager-vpnc.
+# Copyright (C) 2009 network-manager-vpnc's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-vpnc package.
+#
+# ifelix <ifelix25@gmail.com>, 2009.
+# I. Felix <ifelix@redhat.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: network-manager-vpnc.po.master.ta\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager&component=VPN: vpnc\n"
+"POT-Creation-Date: 2009-06-10 00:55+0000\n"
+"PO-Revision-Date: 2009-07-01 16:37+0530\n"
+"Last-Translator: I. Felix <ifelix@redhat.com>\n"
+"Language-Team: Tamil <fedora-trans-ta@redhat.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\\n\n"
+"\n"
+"\n"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:103
+msgid "_Secondary Password:"
+msgstr "இரண்டாவது கடவுச்சொல் (_S):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:159
+msgid "_Password:"
+msgstr "(_P) கடவுச்சொல்:"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:239
+msgid "Sh_ow passwords"
+msgstr "கடவுச்சொற்களைக் காட்டு (_o)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:299
+msgid "_Remember passwords for this session"
+msgstr "இந்த அமர்வுக்கு கடவுச்சொற்களை நினைவு கொள்ளவும் (_R)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:300
+msgid "_Save passwords in keyring"
+msgstr "கீரிங்கில் கடவுச்சொற்களை சேமிக்கவும் (_S)"
+
+#: ../auth-dialog/main.c:170
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "மெய்நிகர் தனிப்பட்ட பிணைய '%s'ஐ அணுக உங்களுக்கு அங்கீகாரம் தேவைப்படுகிறது."
+
+#: ../auth-dialog/main.c:171
+msgid "Authenticate VPN"
+msgstr "அங்கீகரிக்கப்பட்ட VPN"
+
+#: ../auth-dialog/main.c:175
+msgid "_Group Password:"
+msgstr "குழு கடவுச்சொல் (_G):"
+
+#: ../nm-vpnc.desktop.in.h:1
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "சேர், நீக்கு, மற்றும் VPN இணைப்புகளை திருத்தவும்"
+
+#: ../nm-vpnc.desktop.in.h:2
+msgid "VPN Connection Manager (vpnc)"
+msgstr "VPN இணைப்பு மேலாளர் (vpnc)"
+
+#: ../properties/nm-vpnc.c:53
+msgid "Cisco Compatible VPN (vpnc)"
+msgstr "Cisco ஏற்ற VPN (vpnc)"
+
+#: ../properties/nm-vpnc.c:54
+msgid ""
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"VPN gateways."
+msgstr "பல்வேறு Cisco, Juniper, Netscreen, மற்றுப் Sonicwall IPSec-அடிப்படையான VPN கேட்வேகளுடன் ஏற்றது."
+
+#: ../properties/nm-vpnc.c:339
+msgid "Saved"
+msgstr "சேமிக்கப்பட்டது"
+
+#: ../properties/nm-vpnc.c:346
+msgid "Always Ask"
+msgstr "எப்போதும் கேள்"
+
+#: ../properties/nm-vpnc.c:353
+msgid "Not Required"
+msgstr "தேவைப்படவில்லை"
+
+#: ../properties/nm-vpnc.c:412
+msgid "Secure (default)"
+msgstr "பாதுகாப்பு (முன்னிருப்பு)"
+
+#: ../properties/nm-vpnc.c:415
+msgid "Weak (use with caution)"
+msgstr "பலவீனம் (எச்சரிக்கையுடன் பயன்படுத்து)"
+
+#: ../properties/nm-vpnc.c:423
+msgid "None (completely insecure)"
+msgstr "ஒன்றுமில்லை (முற்றிலும் பாதுகாப்பில்லாத)"
+
+#: ../properties/nm-vpnc.c:471
+msgid "Cisco UDP (default)"
+msgstr "Cisco UDP (முன்னிருப்பு)"
+
+#: ../properties/nm-vpnc.c:478
+msgid "NAT-T"
+msgstr "NAT-T"
+
+#: ../properties/nm-vpnc.c:485
+msgid "Disabled"
+msgstr "இயலுமை நீக்கிய"
+
+#: ../properties/nm-vpnc.c:1110
+msgid "TCP tunneling not supported"
+msgstr "TCP டனலிங் துணைபுரியவில்லை"
+
+#: ../properties/nm-vpnc.c:1112
+#, c-format
+msgid ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+msgstr ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+
+#: ../properties/nm-vpnc-dialog.glade.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-vpnc-dialog.glade.h:2
+msgid "<b>General</b>"
+msgstr "<b>பொதுவான</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:3
+msgid "<b>Optional</b>"
+msgstr "<b>விருப்பத்திற்குரிய</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:4
+msgid "Disable Dead Peer Detection"
+msgstr "டெட் பீர் கண்டறிதல் செயலிழக்கப்பட்டது"
+
+#: ../properties/nm-vpnc-dialog.glade.h:5
+msgid "Domain:"
+msgstr "செயற்களம்:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:6
+msgid "Encryption method:"
+msgstr "மறைகுறியாக்க முறை:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:7
+msgid "G_roup name:"
+msgstr "குழுப் பெயர் (_r):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:8
+msgid "Gro_up password:"
+msgstr "குழு கடவுச்சொல் (_u):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:9
+msgid "NAT traversal:"
+msgstr "NAT ட்ராவர்சல்:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:10
+msgid "Show passwords"
+msgstr "கடவுச்சொற்களைக் காட்டு"
+
+#: ../properties/nm-vpnc-dialog.glade.h:11
+msgid "User name:"
+msgstr "பயனர் பெயர்:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:12
+msgid "_Gateway:"
+msgstr "கேட்வே (_G):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:13
+msgid "_User password:"
+msgstr "பயனர் கடவுச்சொல் (_U):"
+

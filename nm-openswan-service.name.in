@@ -1,0 +1,8 @@
+[VPN Connection]
+name=openswan
+service=org.freedesktop.NetworkManager.openswan
+program=@LIBEXECDIR@/nm-openswan-service
+
+[GNOME]
+auth-dialog=nm-openswan-auth-dialog
+properties=libnm-openswan-properties

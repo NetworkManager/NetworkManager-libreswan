@@ -1,0 +1,177 @@
+# translation of network-manager-vpnc.po.master.gu.po to Gujarati
+# Gujarati translation of network-manager-vpnc.
+# Copyright (C) 2009 network-manager-vpnc's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-vpnc package.
+#
+# Sweta Kothari <swkothar@redhat.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: network-manager-vpnc.po.master.gu\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager&component=VPN: vpnc\n"
+"POT-Creation-Date: 2009-04-23 13:25+0000\n"
+"PO-Revision-Date: 2009-05-29 11:46+0530\n"
+"Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
+"Language-Team: Gujarati\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:103
+msgid "_Secondary Password:"
+msgstr "ગૌણ પાસવર્ડ (_S):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:159
+msgid "_Password:"
+msgstr "પાસવર્ડ (_P):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:240
+msgid "Sh_ow passwords"
+msgstr "પાસવર્ડોને બતાવો (_o)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:300
+msgid "_Remember passwords for this session"
+msgstr "આ સત્ર માટે પાસવર્ડોને યાદ રાખો (_R)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:301
+msgid "_Save passwords in keyring"
+msgstr "કિરીંગમાં પાસવર્ડોને સંગ્રહો (_S)"
+
+#: ../auth-dialog/main.c:170
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "તમારે વર્ચ્યુઅલ ખાનગી નેટવર્ક '%s' ને પ્રવેશ મેળવવા સત્તાધિકરણની જરૂર પડશે."
+
+#: ../auth-dialog/main.c:171
+msgid "Authenticate VPN"
+msgstr "સત્તાધિકરણ VPN"
+
+#: ../auth-dialog/main.c:175
+msgid "_Group Password:"
+msgstr "જૂથ પાસવર્ડ (_G):"
+
+#: ../nm-vpnc.desktop.in.h:1
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "VPN જોડાણોને ઉમેરો, દૂર કરો, અને ફેરફાર કરો"
+
+#: ../nm-vpnc.desktop.in.h:2
+msgid "VPN Connection Manager (vpnc)"
+msgstr "VPN જોડાણ વ્યવસ્થાપક (vpnc)"
+
+#: ../properties/nm-vpnc.c:53
+msgid "Cisco Compatible VPN (vpnc)"
+msgstr "Cisco સુસંગત VPN (vpnc)"
+
+#: ../properties/nm-vpnc.c:54
+msgid ""
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"VPN gateways."
+msgstr "વિવિધ Cisco, Juniper, Netscreen, અને Sonicwall IPSec સાથે સુસંગત છે-આધારિત VPN ગેટવે."
+
+#: ../properties/nm-vpnc.c:339
+msgid "Saved"
+msgstr "સંગ્રહ થયેલ છે"
+
+#: ../properties/nm-vpnc.c:346
+msgid "Always Ask"
+msgstr "હંમેશા પૂછો"
+
+#: ../properties/nm-vpnc.c:353
+msgid "Not Required"
+msgstr "જરૂરી નથી"
+
+#: ../properties/nm-vpnc.c:412
+msgid "Secure (default)"
+msgstr "સુરક્ષિત (મૂળભૂત)"
+
+#: ../properties/nm-vpnc.c:415
+msgid "Weak (use with caution)"
+msgstr "નબળુ (સાવધાની સાથે વાપરો)"
+
+#: ../properties/nm-vpnc.c:423
+msgid "None (completely insecure)"
+msgstr "કંઇ નહિં (સંપૂર્ણ રીતે સુરક્ષિત નથી)"
+
+#: ../properties/nm-vpnc.c:471
+msgid "Cisco UDP (default)"
+msgstr "Cisco UDP (મૂળભૂત)"
+
+#: ../properties/nm-vpnc.c:478
+msgid "NAT-T"
+msgstr "NAT-T"
+
+#: ../properties/nm-vpnc.c:485
+msgid "Disabled"
+msgstr "નિષ્ક્રિય થયેલ"
+
+#: ../properties/nm-vpnc.c:1116
+msgid "TCP tunneling not supported"
+msgstr "TCP ટનલીંગ આધારભૂત નથી"
+
+#: ../properties/nm-vpnc.c:1118
+#, c-format
+msgid ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+msgstr ""
+"VPN સુયોજનો ફાઇલ '%s' એ સ્પષ્ટ કરે છે કે જે VPN ટ્રાફિક TCP મારફતે ટનલ થયેલ હોવો જોઇએ કે જે "
+"vpnc સોફ્ટવેરમાં હાલમાં આધારભૂત નથી.\n"
+"\n"
+"જોડાણ હજુ બનાવી શકાય છે, TCP ટનલિંગ નિષ્ક્રિય થયેલ સાથે, ગમે તે રીતે તે ઇચ્છિત રીતે કામ કરી શકશે નહિં."
+
+#: ../properties/nm-vpnc-dialog.glade.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-vpnc-dialog.glade.h:2
+msgid "<b>General</b>"
+msgstr "<b>સામાન્ય</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:3
+msgid "<b>Optional</b>"
+msgstr "<b>વૈકલ્પિક</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:4
+msgid "Disable Dead Peer Detection"
+msgstr "મૃત પીઅર શોધ ને નિષ્ક્રિય કરો"
+
+#: ../properties/nm-vpnc-dialog.glade.h:5
+msgid "Domain:"
+msgstr "ડોમેઇન:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:6
+msgid "Encryption method:"
+msgstr "એનક્રિપ્શન પદ્દતિ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:7
+msgid "G_roup name:"
+msgstr "જૂથ નામ (_r):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:8
+msgid "Gro_up password:"
+msgstr "જૂથ પાસવર્ડ (_u):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:9
+msgid "NAT traversal:"
+msgstr "NAT પ્રતિક્રમણ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:10
+msgid "Show passwords"
+msgstr "પાસવર્ડોને બતાવો"
+
+#: ../properties/nm-vpnc-dialog.glade.h:11
+msgid "User name:"
+msgstr "વપરાશકર્તા નામ:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:12
+msgid "_Gateway:"
+msgstr "ગેટવે (_G):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:13
+msgid "_User password:"
+msgstr "વપરાશકર્તા પાસવર્ડ (_U):"
+

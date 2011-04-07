@@ -1,0 +1,180 @@
+# translation of network-manager-vpnc.po.master.te.po to Telugu
+# Telugu translation of network-manager-vpnc.
+# Copyright (C) 2009 network-manager-vpnc's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-vpnc package.
+#
+# Krishna Babu K <kkrothap@redhat.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: network-manager-vpnc.po.master.te\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager&component=VPN: vpnc\n"
+"POT-Creation-Date: 2009-07-02 06:08+0000\n"
+"PO-Revision-Date: 2009-07-07 16:51+0530\n"
+"Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
+"Language-Team: Telugu <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:103
+msgid "_Secondary Password:"
+msgstr "రెండవ సంకేతపదము (_S):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:159
+msgid "_Password:"
+msgstr "సంకేతపదము (_P):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:239
+msgid "Sh_ow passwords"
+msgstr "సంకేతపదములను చూపుము (_o)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:299
+msgid "_Remember passwords for this session"
+msgstr "ఈ సెషన్‌కు సంకేతపదములను గుర్తుంచుకొనుము (_R)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:300
+msgid "_Save passwords in keyring"
+msgstr "సంకేతపదములను కీరింగ్ నందు దాయుము (_S)"
+
+#: ../auth-dialog/main.c:170
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "వర్చ్యువల్ వ్యక్తిగత నెట్వర్కు '%s'ను యాక్సిస్ చేయుటకు మీరు దృవీకరింపబడవలసి వుంది."
+
+#: ../auth-dialog/main.c:171
+msgid "Authenticate VPN"
+msgstr "VPN దృవీకరించుము"
+
+#: ../auth-dialog/main.c:175
+msgid "_Group Password:"
+msgstr "సమూహపు సంకేతపదము (_G):"
+
+#: ../nm-vpnc.desktop.in.h:1
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "VPN అనుసంధానములను జతచేయుము, తీసివేయుము, మరియు సరికూర్చుము"
+
+#: ../nm-vpnc.desktop.in.h:2
+msgid "VPN Connection Manager (vpnc)"
+msgstr "VPN అనుసంధానము నిర్వాహిక (vpnc)"
+
+#: ../properties/nm-vpnc.c:53
+msgid "Cisco Compatible VPN (vpnc)"
+msgstr "Cisco సారూప్య VPN (vpnc)"
+
+#: ../properties/nm-vpnc.c:54
+msgid ""
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"VPN gateways."
+msgstr ""
+"Cisco, Juniper, Netscreen, మరియు Sonicwall IPSec-ఆధారిత "
+"VPN గేట్‌వేలతో సారూప్యము."
+
+#: ../properties/nm-vpnc.c:339
+msgid "Saved"
+msgstr "దాయబడినది"
+
+#: ../properties/nm-vpnc.c:346
+msgid "Always Ask"
+msgstr "ఎల్లప్పుడు అడుగుము"
+
+#: ../properties/nm-vpnc.c:353
+msgid "Not Required"
+msgstr "అవసరము లేదు"
+
+#: ../properties/nm-vpnc.c:412
+msgid "Secure (default)"
+msgstr "సురక్షితమైన (అప్రమేయం)"
+
+#: ../properties/nm-vpnc.c:415
+msgid "Weak (use with caution)"
+msgstr "బలహీన (అప్రమత్తతో వుపయోగించుము)"
+
+#: ../properties/nm-vpnc.c:423
+msgid "None (completely insecure)"
+msgstr "ఏదీకాదు (పూర్తిగా భద్రతలేనిది)"
+
+#: ../properties/nm-vpnc.c:471
+msgid "Cisco UDP (default)"
+msgstr "Cisco UDP (అప్రమేయం)"
+
+#: ../properties/nm-vpnc.c:478
+msgid "NAT-T"
+msgstr "NAT-T"
+
+#: ../properties/nm-vpnc.c:485
+msgid "Disabled"
+msgstr "అచేతనమైన"
+
+#: ../properties/nm-vpnc.c:1110
+msgid "TCP tunneling not supported"
+msgstr "TCP టన్నెలింగ్ మద్దతీయుటలేదు"
+
+#: ../properties/nm-vpnc.c:1112
+#, c-format
+msgid ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+msgstr ""
+"VPN అమరికల దస్త్రము '%s' VPN రద్దీ TCP ద్వారా టన్నెల్ చేయబడవలెనని తెలుపుతోంది ఏదైతే "
+"ప్రస్తుతం vpnc సాఫ్టువేరునందు మద్దతీయబడుటలేదో.\n"
+"\n"
+"అనుసంధానము యిప్పుడుకూడా సృష్టించవచ్చును, TCP టన్నెలింగ్ అచేతనముచేసి, ఏమైనప్పటికి అది "
+"అనుకున్న రీతిలో పనిచేయకపోవచ్చును."
+
+#: ../properties/nm-vpnc-dialog.glade.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-vpnc-dialog.glade.h:2
+msgid "<b>General</b>"
+msgstr "<b>సాదారణ</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:3
+msgid "<b>Optional</b>"
+msgstr "<b>ఐచ్చిక</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:4
+msgid "Disable Dead Peer Detection"
+msgstr "చనిపోయిన పీర్ గుర్తింపును అచేతనముచేయుము"
+
+#: ../properties/nm-vpnc-dialog.glade.h:5
+msgid "Domain:"
+msgstr "డొమైన్:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:6
+msgid "Encryption method:"
+msgstr "ఎన్క్రిప్షన్ పద్దతి:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:7
+msgid "G_roup name:"
+msgstr "సమూహము నామము (_r):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:8
+msgid "Gro_up password:"
+msgstr "సమూహము సంకేతపదము (_u):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:9
+msgid "NAT traversal:"
+msgstr "NAT విహరణము:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:10
+msgid "Show passwords"
+msgstr "సంకేతపదములను చూపుము"
+
+#: ../properties/nm-vpnc-dialog.glade.h:11
+msgid "User name:"
+msgstr "వినియోగదారి నామము:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:12
+msgid "_Gateway:"
+msgstr "గేట్‌వే (_G):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:13
+msgid "_User password:"
+msgstr "వినియోగదారి సంకేతపదము (_U):"
+

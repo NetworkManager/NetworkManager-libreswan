@@ -1,0 +1,233 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Funda Wang <fundawang@linux.net.cn>, 2006.
+# Wei Mingzhi <whistler@openoffice.org>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-vpnc HEAD\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=NetworkManager&component=VPN: vpnc\n"
+"POT-Creation-Date: 2009-02-17 01:49+0000\n"
+"PO-Revision-Date: 2009-02-18 15:07+0800\n"
+"Last-Translator: Wei Mingzhi <whistler@openoffice.org>\n"
+"Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:103
+msgid "_Secondary Password:"
+msgstr "次要密码(_S):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:159
+msgid "_Password:"
+msgstr "密码(_P):"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:240
+msgid "Sh_ow passwords"
+msgstr "显示密码(_O)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:300
+msgid "_Remember passwords for this session"
+msgstr "本次会话记住密码(_R)"
+
+#: ../auth-dialog/gnome-two-password-dialog.c:301
+msgid "_Save passwords in keyring"
+msgstr "在密钥环中保存密码(_S)"
+
+#: ../auth-dialog/main.c:170
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "您需要进行身份验证才能访问“%s”。"
+
+#: ../auth-dialog/main.c:171
+msgid "Authenticate VPN"
+msgstr "认证 VPN"
+
+#: ../auth-dialog/main.c:175
+msgid "_Group Password:"
+msgstr "组密码(_G):"
+
+#: ../nm-vpnc.desktop.in.h:1
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "添加、删除及编辑 VPN 连接"
+
+#: ../nm-vpnc.desktop.in.h:2
+msgid "VPN Connection Manager (vpnc)"
+msgstr "VPN 连接管理器(vpnc)"
+
+#: ../properties/nm-vpnc.c:53
+msgid "Cisco Compatible VPN (vpnc)"
+msgstr "Cisco 兼容 VPN (vpnc)"
+
+#: ../properties/nm-vpnc.c:54
+msgid ""
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"VPN gateways."
+msgstr ""
+"与多种 Cisco, Juniper, Netscreen 以及 Sonicwall 的基于 IPSec 的 VPN 网关兼"
+"容。"
+
+#: ../properties/nm-vpnc.c:339
+msgid "Saved"
+msgstr "已保存"
+
+#: ../properties/nm-vpnc.c:346
+msgid "Always Ask"
+msgstr "总是提示"
+
+#: ../properties/nm-vpnc.c:353
+msgid "Not Required"
+msgstr "不需要"
+
+#: ../properties/nm-vpnc.c:412
+msgid "Secure (default)"
+msgstr "安全的 (默认)"
+
+#: ../properties/nm-vpnc.c:415
+msgid "Weak (use with caution)"
+msgstr "弱安全性 (谨慎使用)"
+
+#: ../properties/nm-vpnc.c:423
+msgid "None (completely insecure)"
+msgstr "无 (完全不安全)"
+
+#: ../properties/nm-vpnc.c:471
+msgid "Cisco UDP (default)"
+msgstr "Cisco UDP (默认)"
+
+#: ../properties/nm-vpnc.c:478
+msgid "NAT-T"
+msgstr "NAT-T"
+
+#: ../properties/nm-vpnc.c:485
+msgid "Disabled"
+msgstr "禁用"
+
+#: ../properties/nm-vpnc.c:1116
+msgid "TCP tunneling not supported"
+msgstr "不支持 TCP 隧道"
+
+#: ../properties/nm-vpnc.c:1118
+#, c-format
+msgid ""
+"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+"through TCP which is currently not supported in the vpnc software.\n"
+"\n"
+"The connection can still be created, with TCP tunneling disabled, however it "
+"may not work as expected."
+msgstr ""
+"VPN 设置文件 '%s' 指定 VPN 流量经由 TCP 隧道，当前 vpnc 软件不支持此特性。\n"
+"\n"
+"连接仍然可以建立，但 TCP 隧道将被禁用。连接可能无法正确工作。"
+
+#: ../properties/nm-vpnc-dialog.glade.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-vpnc-dialog.glade.h:2
+msgid "<b>General</b>"
+msgstr "<b>一般</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:3
+msgid "<b>Optional</b>"
+msgstr "<b>可选</b>"
+
+#: ../properties/nm-vpnc-dialog.glade.h:4
+msgid "Disable Dead Peer Detection"
+msgstr "禁用死端检测"
+
+#: ../properties/nm-vpnc-dialog.glade.h:5
+msgid "Domain:"
+msgstr "域:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:6
+msgid "Encryption method:"
+msgstr "加密方法:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:7
+msgid "G_roup name:"
+msgstr "组名称(_R):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:8
+msgid "Gro_up password:"
+msgstr "组密码(_U):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:9
+msgid "NAT traversal:"
+msgstr "NAT 遍历:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:10
+msgid "Show passwords"
+msgstr "显示密码"
+
+#: ../properties/nm-vpnc-dialog.glade.h:11
+msgid "User name:"
+msgstr "用户名:"
+
+#: ../properties/nm-vpnc-dialog.glade.h:12
+msgid "_Gateway:"
+msgstr "网关(_G):"
+
+#: ../properties/nm-vpnc-dialog.glade.h:13
+msgid "_User password:"
+msgstr "用户密码(_U):"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "匿名连接(_A)"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "以用户连接(_U)："
+
+#~ msgid "Name:  %s"
+#~ msgstr "名称：%s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "网关：%s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "组名称：%s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "用户名：%s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "域：%s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "路由：%s"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "连接细节可使用“编辑”按钮更改。"
+
+#~ msgid "Select file to import"
+#~ msgstr "选择要导入的文件"
+
+#~ msgid "Save as..."
+#~ msgstr "另存为..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "已经存在名为“%s”的文件。"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "保存文件 %s 失败"
+
+#~ msgid "<b>Required Information</b>"
+#~ msgstr "<b>所需信息</b>"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>如：172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "O_ptional Information"
+#~ msgstr "可选信息(_P)"
+
+#~ msgid "Override _user name"
+#~ msgstr "覆盖用户名(_U)"
+
+#~ msgid "_Import Saved Configuration..."
+#~ msgstr "导入已存的配置(_I)..."
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "仅对这些地址使用 VPN 连接(_O)"
