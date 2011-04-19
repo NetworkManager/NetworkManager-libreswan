@@ -37,8 +37,7 @@ gboolean keyring_helpers_lookup_secrets (const char *vpn_uuid,
 
 gboolean keyring_helpers_get_one_secret (const char *vpn_uuid,
                                          const char *which_secret,
-                                         char **password,
-                                         gboolean *is_session);
+                                         char **password);
 
 GnomeKeyringResult keyring_helpers_save_secret (const char *vpn_uuid,
                                                 const char *vpn_name,

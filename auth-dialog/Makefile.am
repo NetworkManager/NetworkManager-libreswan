@@ -6,7 +6,6 @@ nm_openswan_auth_dialog_CPPFLAGS = \
 	$(NM_CFLAGS) \
 	$(GTHREAD_CFLAGS) \
 	$(GTK_CFLAGS) \
-	$(GCONF_CFLAGS) \
 	$(GNOMEKEYRING_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DGLADEDIR=\""$(gladedir)"\" \
@@ -24,7 +23,6 @@ nm_openswan_auth_dialog_SOURCES = \
 
 nm_openswan_auth_dialog_LDADD = \
 	$(GTK_LIBS) \
-	$(GCONF_LIBS) \
 	$(top_builddir)/common-gnome/libnm-openswan-common-gnome.la
 
 CLEANFILES = *~

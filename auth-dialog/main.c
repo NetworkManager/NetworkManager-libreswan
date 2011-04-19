@@ -18,154 +18,96 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2004 - 2010 Red Hat, Inc.
+ * (C) Copyright 2004 - 2011 Red Hat, Inc.
  */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gnome-keyring.h>
 #include <gnome-keyring-memory.h>
-#include <gconf/gconf-client.h>
 
 #include <nm-setting-vpn.h>
 #include <nm-setting-connection.h>
+#include <nm-vpn-plugin-utils.h>
 
 #include "common-gnome/keyring-helpers.h"
 #include "src/nm-openswan-service.h"
 #include "gnome-two-password-dialog.h"
 
-#define KEYRING_UUID_TAG "connection-uuid"
-#define KEYRING_SN_TAG "setting-name"
-#define KEYRING_SK_TAG "setting-key"
-
-static char *
-find_connection_path (const char *vpn_uuid)
-{
-	char *key, *str, *connection_path = NULL;
-	GConfClient *gconf_client = NULL;
-	GSList *conf_list;
-	GSList *iter;
-
-	/* FIXME: This whole thing sucks: we should not go around poking gconf
-	   directly, but there's nothing that does it for us right now */
-
-	gconf_client = gconf_client_get_default ();
-
-	conf_list = gconf_client_all_dirs (gconf_client, "/system/networking/connections", NULL);
-	if (!conf_list)
-		return NULL;
-
-	for (iter = conf_list; iter; iter = iter->next) {
-		const char *path = (const char *) iter->data;
-
-		key = g_strdup_printf ("%s/%s/%s", 
-		                       path,
-		                       NM_SETTING_CONNECTION_SETTING_NAME,
-		                       NM_SETTING_CONNECTION_TYPE);
-		str = gconf_client_get_string (gconf_client, key, NULL);
-		g_free (key);
-
-		if (!str || strcmp (str, "vpn")) {
-			g_free (str);
-			continue;
-		}
-		g_free (str);
-
-		key = g_strdup_printf ("%s/%s/%s", 
-		                       path,
-		                       NM_SETTING_CONNECTION_SETTING_NAME,
-		                       NM_SETTING_CONNECTION_UUID);
-		str = gconf_client_get_string (gconf_client, key, NULL);
-		g_free (key);
-
-		if (!str || strcmp (str, vpn_uuid)) {
-			g_free (str);
-			continue;
-		}
-		g_free (str);
-
-		/* Woo, found the connection */
-		connection_path = g_strdup (path);
-		break;
-	}
-
-	g_slist_foreach (conf_list, (GFunc) g_free, NULL);
-	g_slist_free (conf_list);
-
-	g_object_unref (gconf_client);
-	return connection_path;
-}
-
 static gboolean
 get_secrets (const char *vpn_uuid,
              const char *vpn_name,
              gboolean retry,
-             char **upw,
-             const char *upw_type,
-             char **gpw,
-             const char *gpw_type)
+             gboolean allow_interaction,
+             const char *in_upw,
+             char **out_upw,
+             NMSettingSecretFlags upw_flags,
+             const char *in_gpw,
+             char **out_gpw,
+             NMSettingSecretFlags gpw_flags)
 {
 	VpnPasswordDialog *dialog;
-	gboolean is_session = TRUE;
-	gboolean found_upw = FALSE;
-	gboolean found_gpw = FALSE;
+	char *upw = NULL, *gpw = NULL;
 	char *prompt;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (vpn_uuid != NULL, FALSE);
 	g_return_val_if_fail (vpn_name != NULL, FALSE);
-	g_return_val_if_fail (upw != NULL, FALSE);
-	g_return_val_if_fail (*upw == NULL, FALSE);
-	g_return_val_if_fail (gpw != NULL, FALSE);
-	g_return_val_if_fail (*gpw == NULL, FALSE);
+	g_return_val_if_fail (out_upw != NULL, FALSE);
+	g_return_val_if_fail (*out_upw == NULL, FALSE);
+	g_return_val_if_fail (out_gpw != NULL, FALSE);
+	g_return_val_if_fail (*out_gpw == NULL, FALSE);
 
-	/* If a password type wasn't present in the VPN connection details, then
-	 * default to saving the password if it was found in the keyring.  But if
-	 * it wasn't found in the keyring, default to always asking for the password.
-	 */
-
-	found_upw = keyring_helpers_get_one_secret (vpn_uuid, OPENSWAN_USER_PASSWORD, upw, &is_session);
-	if (!upw_type)
-		upw_type = found_upw ? NM_OPENSWAN_PW_TYPE_SAVE : NM_OPENSWAN_PW_TYPE_ASK;
-	else if (!strcmp (upw_type, NM_OPENSWAN_PW_TYPE_UNUSED)) {
-		gnome_keyring_memory_free (*upw);
-		*upw = NULL;
+	if (   !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
+	    && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)) {
+		if (in_upw)
+			upw = gnome_keyring_memory_strdup (in_upw);
+		else
+			keyring_helpers_get_one_secret (vpn_uuid, OPENSWAN_USER_PASSWORD, &upw);
 	}
 
-	found_gpw = keyring_helpers_get_one_secret (vpn_uuid, OPENSWAN_GROUP_PASSWORD, gpw, &is_session);
-	if (!gpw_type)
-		gpw_type = found_gpw ? NM_OPENSWAN_PW_TYPE_SAVE : NM_OPENSWAN_PW_TYPE_ASK;
-	else if (!strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_UNUSED)) {
-		gnome_keyring_memory_free (*gpw);
-		*gpw = NULL;
+	if (   !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
+	    && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)) {
+		if (in_gpw)
+			gpw = gnome_keyring_memory_strdup (in_gpw);
+		else
+			keyring_helpers_get_one_secret (vpn_uuid, OPENSWAN_GROUP_PASSWORD, &gpw);
 	}
 
 	if (!retry) {
 		gboolean need_upw = TRUE, need_gpw = TRUE;
 
 		/* Don't ask if both passwords are either saved and present, or unused */
-		if (   (!strcmp (upw_type, NM_OPENSWAN_PW_TYPE_SAVE) && found_upw && *upw)
-		    || (!upw_type && found_upw && *upw)  /* treat unknown type as "save" */
-		    || !strcmp (upw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
+		if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
+			need_upw = FALSE;
+		else if (upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
 			need_upw = FALSE;
 
-		if (   (!strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_SAVE) && found_gpw && *gpw)
-		    || (!gpw_type && found_gpw && *gpw)  /* treat unknown type as "save" */
-		    || !strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
+		if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
+			need_gpw = FALSE;
+		else if (gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
 			need_gpw = FALSE;
 
 		if (!need_upw && !need_gpw)
 			return TRUE;
 	} else {
 		/* Don't ask if both passwords are unused */
-		if (   !strcmp (upw_type, NM_OPENSWAN_PW_TYPE_UNUSED)
-		    && !strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
+		if (   (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
+		    && (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
 			return TRUE;
+	}
+
+	/* If interaction isn't allowed, just return existing secrets */
+	if (allow_interaction == FALSE) {
+		*out_upw = upw;
+		*out_gpw = gpw;
+		return TRUE;
 	}
 
 	prompt = g_strdup_printf (_("You need to authenticate to access the Virtual Private Network '%s'."), vpn_name);
@@ -175,59 +117,63 @@ get_secrets (const char *vpn_uuid,
 	vpn_password_dialog_set_show_remember (dialog, FALSE);
 	vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
 
-	if (!strcmp (upw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
+	/* Don't show the user password entry if the user password isn't required,
+	 * or if we don't need new secrets and the user password is saved.
+	 */
+	if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
 		vpn_password_dialog_set_show_password (dialog, FALSE);
-	else if (!retry && found_upw && strcmp (upw_type, NM_OPENSWAN_PW_TYPE_ASK))
+	else if (!retry && upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
 		vpn_password_dialog_set_show_password (dialog, FALSE);
 
-	if (!strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
+	if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
 		vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
-	else if (!retry && found_gpw && strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_ASK))
+	else if (!retry && gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
 		vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
 
 	/* On reprompt the first entry of type 'ask' gets the focus */
 	if (retry) {
-		if (!strcmp (upw_type, NM_OPENSWAN_PW_TYPE_ASK))
+		if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
 			vpn_password_dialog_focus_password (dialog);
-		else if (!strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_ASK))
+		else if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
 			vpn_password_dialog_focus_password_secondary (dialog);
 	}
 
 	/* if retrying, pre-fill dialog with the password */
-	if (*upw) {
-		vpn_password_dialog_set_password (dialog, *upw);
-		gnome_keyring_memory_free (*upw);
-		*upw = NULL;
+	if (upw) {
+		vpn_password_dialog_set_password (dialog, upw);
+		memset (upw, 0, strlen (upw));
+		gnome_keyring_memory_free (upw);
 	}
-	if (*gpw) {
-		vpn_password_dialog_set_password_secondary (dialog, *gpw);
-		gnome_keyring_memory_free (*gpw);
-		*gpw = NULL;
+	if (gpw) {
+		vpn_password_dialog_set_password_secondary (dialog, gpw);
+		memset (gpw, 0, strlen (gpw));
+		gnome_keyring_memory_free (gpw);
 	}
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 
+	/* Show the dialog */
 	success = vpn_password_dialog_run_and_block (dialog);
 	if (success) {
-		*upw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password (dialog));
-		*gpw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password_secondary (dialog));
+		*out_upw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password (dialog));
+		*out_gpw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password_secondary (dialog));
 
-		if (!strcmp (upw_type, NM_OPENSWAN_PW_TYPE_SAVE)) {
-			if (*upw)
-				keyring_helpers_save_secret (vpn_uuid, vpn_name, NULL, OPENSWAN_USER_PASSWORD, *upw);
-		} else if (   !strcmp (upw_type, NM_OPENSWAN_PW_TYPE_ASK)
-		         || !strcmp (upw_type, NM_OPENSWAN_PW_TYPE_UNUSED)) {
-			/* Clear the password from the keyring */
-			keyring_helpers_delete_secret (vpn_uuid, OPENSWAN_USER_PASSWORD);
+		if (upw_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED) {
+		    if (*out_upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
+				keyring_helpers_save_secret (vpn_uuid, vpn_name, NULL, OPENSWAN_USER_PASSWORD, *out_upw);
+			else {
+				/* Clear the password from the keyring */
+				keyring_helpers_delete_secret (vpn_uuid, OPENSWAN_USER_PASSWORD);
+			}
 		}
 
-		if (!strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_SAVE)) {
-			if (*gpw)
-				keyring_helpers_save_secret (vpn_uuid, vpn_name, NULL, OPENSWAN_GROUP_PASSWORD, *gpw);
-		} else if (   !strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_ASK)
-		         || !strcmp (gpw_type, NM_OPENSWAN_PW_TYPE_UNUSED)) {
-			/* Clear the password from the keyring */
-			keyring_helpers_delete_secret (vpn_uuid, OPENSWAN_GROUP_PASSWORD);
+		if (gpw_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED) {
+		    if (*out_gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
+				keyring_helpers_save_secret (vpn_uuid, vpn_name, NULL, OPENSWAN_GROUP_PASSWORD, *out_gpw);
+			else {
+				/* Clear the password from the keyring */
+				keyring_helpers_delete_secret (vpn_uuid, OPENSWAN_GROUP_PASSWORD);
+			}
 		}
 	}
 
@@ -237,60 +183,72 @@ get_secrets (const char *vpn_uuid,
 	return success;
 }
 
-static gboolean
-get_connection_info (const char *vpn_uuid,
-                     char **out_name,
-                     char **out_upw_type,
-                     char **out_gpw_type)
+static void
+wait_for_quit (void)
 {
-	char *key;
-	char *connection_path = NULL;
-	GConfClient *gconf_client;
+	GString *str;
+	char c;
+	ssize_t n;
+	time_t start;
 
-	connection_path = find_connection_path (vpn_uuid);
-	if (!connection_path)
-		return FALSE;
+	str = g_string_sized_new (10);
+	start = time (NULL);
+	do {
+		errno = 0;
+		n = read (0, &c, 1);
+		if (n == 0 || (n < 0 && errno == EAGAIN))
+			g_usleep (G_USEC_PER_SEC / 10);
+		else if (n == 1) {
+			g_string_append_c (str, c);
+			if (strstr (str->str, "QUIT") || (str->len > 10))
+				break;
+		} else
+			break;
+	} while (time (NULL) < start + 20);
+	g_string_free (str, TRUE);
+}
 
-	gconf_client = gconf_client_get_default ();
-	key = g_strdup_printf ("%s/%s/%s", connection_path,
-	                       NM_SETTING_CONNECTION_SETTING_NAME,
-	                       NM_SETTING_CONNECTION_ID);
-	*out_name = gconf_client_get_string (gconf_client, key, NULL);
-	g_free (key);
+static NMSettingSecretFlags
+get_pw_flags (GHashTable *hash, const char *secret_name, const char *mode_name)
+{
+	const char *val;
+	NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
 
-	key = g_strdup_printf ("%s/%s/%s", connection_path,
-	                       NM_SETTING_VPN_SETTING_NAME,
-	                       NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	*out_upw_type = gconf_client_get_string (gconf_client, key, NULL);
-	g_free (key);
+	/* Try new flags value first */
+	if (nm_vpn_plugin_utils_get_secret_flags (hash, secret_name, &flags))
+		return flags;
 
-	key = g_strdup_printf ("%s/%s/%s", connection_path,
-	                       NM_SETTING_VPN_SETTING_NAME,
-	                       NM_OPENSWAN_PSK_INPUT_MODES);
-	*out_gpw_type = gconf_client_get_string (gconf_client, key, NULL);
-	g_free (key);
-	
-	g_free (connection_path);
-	g_object_unref (gconf_client);
-	return TRUE;
+	/* Otherwise try old "password type" value */
+	val = g_hash_table_lookup (hash, mode_name);
+	if (val) {
+		if (g_strcmp0 (val, NM_OPENSWAN_PW_TYPE_ASK) == 0)
+			return NM_SETTING_SECRET_FLAG_NOT_SAVED;
+		else if (g_strcmp0 (val, NM_OPENSWAN_PW_TYPE_UNUSED) == 0)
+			return NM_SETTING_SECRET_FLAG_NOT_REQUIRED;
+
+		/* NM_OPENSWAN_PW_TYPE_SAVE means FLAG_NONE */
+	}
+
+	return NM_SETTING_SECRET_FLAG_NONE;
 }
 
 int 
 main (int argc, char *argv[])
 {
-	gboolean retry = FALSE;
+	gboolean retry = FALSE, allow_interaction = FALSE;
 	char *vpn_name = NULL, *vpn_uuid = NULL, *vpn_service = NULL;
-	char *ignored;
+	GHashTable *data = NULL, *secrets = NULL;
 	char *password = NULL, *group_password = NULL;
-	char *upw_type = NULL, *gpw_type = NULL;
-	char buf[1];
+	NMSettingSecretFlags upw_flags = NM_SETTING_SECRET_FLAG_NONE;
+	NMSettingSecretFlags gpw_flags = NM_SETTING_SECRET_FLAG_NONE;
 	GError *error = NULL;
 	GOptionContext *context;
 	GOptionEntry entries[] = {
 			{ "reprompt", 'r', 0, G_OPTION_ARG_NONE, &retry, "Reprompt for passwords", NULL},
 			{ "uuid", 'u', 0, G_OPTION_ARG_STRING, &vpn_uuid, "UUID of VPN connection", NULL},
-			{ "name", 'n', 0, G_OPTION_ARG_STRING, &ignored, "Name of VPN connection", NULL},
+			{ "name", 'n', 0, G_OPTION_ARG_STRING, &vpn_name, "Name of VPN connection", NULL},
 			{ "service", 's', 0, G_OPTION_ARG_STRING, &vpn_service, "VPN service type", NULL},
+			{ "allow-interaction", 'i', 0, G_OPTION_ARG_NONE, &allow_interaction, "Allow user interaction", NULL},
 			{ NULL }
 		};
 
@@ -320,21 +278,23 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	if (!get_connection_info (vpn_uuid, &vpn_name, &upw_type, &gpw_type)) {
-		g_free (upw_type);
-		g_free (gpw_type);
-		fprintf (stderr, "This VPN connection '%s' (%s) could not be found in GConf.",
-		         vpn_name ? vpn_name : "(unknown)", vpn_uuid);
+	if (!nm_vpn_plugin_utils_read_vpn_details (0, &data, &secrets)) {
+		fprintf (stderr, "Failed to read '%s' (%s) data and secrets from stdin.\n",
+		         vpn_name, vpn_uuid);
 		return 1;
 	}
 
-	if (!get_secrets (vpn_uuid, vpn_name, retry, &password, upw_type, &group_password, gpw_type)) {
-		g_free (upw_type);
-		g_free (gpw_type);
+	upw_flags = get_pw_flags (data, NM_OPENSWAN_XAUTH_PASSWORD, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
+	gpw_flags = get_pw_flags (data, NM_OPENSWAN_PSK_VALUE, NM_OPENSWAN_PSK_INPUT_MODES);
+
+	if (!get_secrets (vpn_uuid, vpn_name, retry, allow_interaction,
+	                  g_hash_table_lookup (secrets, NM_OPENSWAN_XAUTH_PASSWORD),
+	                  &password,
+	                  upw_flags,
+	                  g_hash_table_lookup (secrets, NM_OPENSWAN_PSK_VALUE),
+	                  &group_password,
+	                  gpw_flags))
 		return 1;
-	}
-	g_free (upw_type);
-	g_free (gpw_type);
 
 	/* dump the passwords to stdout */
 	if (password)
@@ -355,10 +315,12 @@ main (int argc, char *argv[])
 	/* for good measure, flush stdout since Kansas is going Bye-Bye */
 	fflush (stdout);
 
-	/* wait for data on stdin  */
-	if (fread (buf, sizeof (char), sizeof (buf), stdin) < sizeof(buf) && ferror(stdin)) {
-		fprintf(stderr,"error occured when reading from stdin in main.c in auth-dialog");
-	}
+	/* Wait for quit signal */
+	wait_for_quit ();
 
+	if (data)
+		g_hash_table_unref (data);
+	if (secrets)
+		g_hash_table_unref (secrets);
 	return 0;
 }

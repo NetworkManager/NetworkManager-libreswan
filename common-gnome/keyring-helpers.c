@@ -102,17 +102,13 @@ keyring_helpers_lookup_secrets (const char *vpn_uuid,
 gboolean
 keyring_helpers_get_one_secret (const char *vpn_uuid,
                                 const char *which_secret,
-                                char **password,
-                                gboolean *is_session)
+                                char **password)
 {
 	g_return_val_if_fail (password != NULL, FALSE);
 	g_return_val_if_fail (*password == NULL, FALSE);
 
-	*password = find_one_password (vpn_uuid, which_secret, is_session);
-	if (!*password)
-		return FALSE;
-
-	return TRUE;
+	*password = find_one_password (vpn_uuid, which_secret, NULL);
+	return *password ? TRUE : FALSE;
 }
 
 GnomeKeyringResult
