@@ -62,25 +62,27 @@ typedef struct {
 
 
 static ValidProperty valid_properties[] = {
-	{ NM_OPENSWAN_RIGHT,               G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_LEFTID,                    G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_LEFTXAUTHUSER,            G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_DOMAIN,                G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_DHGROUP,               G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_PFSGROUP,       G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_DPDTIMEOUT,      G_TYPE_INT, 0, 86400 },
-	{ NM_OPENSWAN_IKE,            G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_ESP,            G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_LEFTID,                     G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_DOMAIN,                     G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_DHGROUP,                    G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
+	{ NM_OPENSWAN_IKE,                        G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_ESP,                        G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_OPENSWAN_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
-	{ NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES,   G_TYPE_NONE, 0, 0 },
-	{ NULL,                              G_TYPE_NONE, 0, 0 }
+	{ NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
+	{ NM_OPENSWAN_PSK_VALUE "-flags",         G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_XAUTH_PASSWORD "-flags",    G_TYPE_STRING, 0, 0 },
+	{ NULL,                                   G_TYPE_NONE, 0, 0 }
 };
 
 static ValidProperty valid_secrets[] = {
-	{ NM_OPENSWAN_PSK_VALUE,                G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_XAUTH_PASSWORD,        G_TYPE_STRING, 0, 0 },
-	{ NULL,                              G_TYPE_NONE, 0, 0 }
+	{ NM_OPENSWAN_PSK_VALUE,                  G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_XAUTH_PASSWORD,             G_TYPE_STRING, 0, 0 },
+	{ NULL,                                   G_TYPE_NONE, 0, 0 }
 };
 
 typedef struct ValidateInfo {
