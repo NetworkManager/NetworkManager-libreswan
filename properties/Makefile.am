@@ -7,17 +7,16 @@ libnm_openswan_properties_la_SOURCES = \
 	nm-openswan.c \
 	nm-openswan.h
 
-gladedir = $(datadir)/gnome-vpn-properties/openswan
-glade_DATA = nm-openswan-dialog.glade
+uidir = $(datadir)/gnome-vpn-properties/openswan
+ui_DATA = nm-openswan-dialog.ui
 
 libnm_openswan_properties_la_CPPFLAGS = \
-	$(GLADE_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GCONF_CFLAGS) \
 	$(GNOMEKEYRING_CFLAGS) \
 	$(NM_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
-	-DGLADEDIR=\""$(gladedir)"\" \
+	-DUIDIR=\""$(uidir)"\" \
 	-DG_DISABLE_DEPRECATED \
 	-DGDK_DISABLE_DEPRECATED \
 	-DGNOME_DISABLE_DEPRECATED \
@@ -25,7 +24,6 @@ libnm_openswan_properties_la_CPPFLAGS = \
 	-DVERSION=\"$(VERSION)\"
 
 libnm_openswan_properties_la_LIBADD = \
-	$(GLADE_LIBS) \
 	$(GTK_LIBS) \
 	$(GCONF_LIBS) \
 	$(NM_LIBS) \
@@ -35,6 +33,6 @@ libnm_openswan_properties_la_LIBADD = \
 libnm_openswan_properties_la_LDFLAGS = \
         -avoid-version
 
-CLEANFILES = *.bak *.gladep *~
+CLEANFILES = *.bak *~
 
-EXTRA_DIST = $(glade_DATA)
+EXTRA_DIST = $(ui_DATA)

@@ -33,7 +33,6 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <gnome-keyring.h>
 #include <gnome-keyring-memory.h>
 
@@ -79,7 +78,7 @@ G_DEFINE_TYPE_EXTENDED (OpenswanPluginUiWidget, openswan_plugin_ui_widget, G_TYP
 #define OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), OPENSWAN_TYPE_PLUGIN_UI_WIDGET, OpenswanPluginUiWidgetPrivate))
 
 typedef struct {
-	GladeXML *xml;
+	GtkBuilder *builder;
 	GtkWidget *widget;
 	GtkSizeGroup *group;
 	gint orig_dpd_timeout;
@@ -132,7 +131,7 @@ check_validity (OpenswanPluginUiWidget *self, GError **error)
 	GtkWidget *widget;
 	char *str;
 
-	widget = glade_xml_get_widget (priv->xml, "gateway_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "gateway_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (!str || !strlen (str) || strstr (str, " ") || strstr (str, "\t")) {
 		g_set_error (error,
@@ -142,7 +141,7 @@ check_validity (OpenswanPluginUiWidget *self, GError **error)
 		return FALSE;
 	}
 
-	widget = glade_xml_get_widget (priv->xml, "group_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (!str || !strlen (str)) {
 		g_set_error (error,
@@ -207,7 +206,7 @@ fill_vpn_passwords (OpenswanPluginUiWidget *self, NMConnection *connection)
 	}
 
 	/* User password */
-	widget = glade_xml_get_widget (priv->xml, "user_password_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_entry"));
 	if (!widget)
 		goto out;
 	if (password)
@@ -216,7 +215,7 @@ fill_vpn_passwords (OpenswanPluginUiWidget *self, NMConnection *connection)
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
 	/* Group password */
-	widget = glade_xml_get_widget (priv->xml, "group_password_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
 	if (!widget)
 		goto out;
 	if (group_password)
@@ -242,11 +241,11 @@ show_toggled_cb (GtkCheckButton *button, OpenswanPluginUiWidget *self)
 
 	visible = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
 
-	widget = glade_xml_get_widget (priv->xml, "user_password_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_entry"));
 	g_assert (widget);
 	gtk_entry_set_visibility (GTK_ENTRY (widget), visible);
 
-	widget = glade_xml_get_widget (priv->xml, "group_password_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
 	g_assert (widget);
 	gtk_entry_set_visibility (GTK_ENTRY (widget), visible);
 }
@@ -261,18 +260,18 @@ pw_type_changed_helper (OpenswanPluginUiWidget *self, GtkWidget *combo)
 	/* If the user chose "Not required", desensitize and clear the correct
 	 * password entry.
 	 */
-	widget = glade_xml_get_widget (priv->xml, "user_pass_type_combo");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_pass_type_combo"));
 	if (combo == widget)
 		entry = "user_password_entry";
 	else {
-		widget = glade_xml_get_widget (priv->xml, "group_pass_type_combo");
+		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_pass_type_combo"));
 		if (combo == widget)
 			entry = "group_password_entry";
 	}
 	if (!entry)
 		return;
 
-	widget = glade_xml_get_widget (priv->xml, entry);
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, entry));
 	g_assert (widget);
 
 	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combo))) {
@@ -328,7 +327,7 @@ init_one_pw_combo (OpenswanPluginUiWidget *self,
 	/* If there's already a password and the password type can't be found in
 	 * the VPN settings, default to saving it.  Otherwise, always ask for it.
 	 */
-	widget = glade_xml_get_widget (priv->xml, entry_name);
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, entry_name));
 	if (widget) {
 		const char *tmp;
 
@@ -364,7 +363,7 @@ init_one_pw_combo (OpenswanPluginUiWidget *self,
 			active = 2;
 	}
 
-	widget = glade_xml_get_widget (priv->xml, combo_name);
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, combo_name));
 	g_assert (widget);
 	gtk_combo_box_set_model (GTK_COMBO_BOX (widget), GTK_TREE_MODEL (store));
 	g_object_unref (store);
@@ -386,7 +385,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 
 	priv->group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-	widget = glade_xml_get_widget (priv->xml, "gateway_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "gateway_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -396,7 +395,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
-	widget = glade_xml_get_widget (priv->xml, "group_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -416,7 +415,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	init_one_pw_combo (self, s_vpn, "group_pass_type_combo",
 	                   NM_OPENSWAN_PSK_INPUT_MODES, "group_password_entry");
 
-	widget = glade_xml_get_widget (priv->xml, "user_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -427,7 +426,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
 	/* Phase 1 Algorithms: IKE*/
-	widget = glade_xml_get_widget (priv->xml, "phase1_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -438,7 +437,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
 	/* Phase 2 Algorithms: ESP*/
-	widget = glade_xml_get_widget (priv->xml, "phase2_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase2_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -448,7 +447,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
-	widget = glade_xml_get_widget (priv->xml, "domain_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "domain_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -458,7 +457,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
-	/*widget = glade_xml_get_widget (priv->xml, "disable_dpd_checkbutton");
+	/*widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "disable_dpd_checkbutton"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_DPDTIMEOUT);
@@ -476,7 +475,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	}
 	g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (stuff_changed_cb), self);*/
 
-	widget = glade_xml_get_widget (priv->xml, "show_passwords_checkbutton");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "show_passwords_checkbutton"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_signal_connect (G_OBJECT (widget), "toggled",
 	                  (GCallback) show_toggled_cb,
@@ -495,14 +494,14 @@ get_widget (NMVpnPluginUiWidgetInterface *iface)
 }
 
 static guint32
-handle_one_pw_type (NMSettingVPN *s_vpn, GladeXML *xml, const char *name, const char *key)
+handle_one_pw_type (NMSettingVPN *s_vpn, GtkBuilder *builder, const char *name, const char *key)
 {
 	NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
 	GtkWidget *widget;
 	guint32 pw_type;
 	const char *data_val = NULL;
 
-	widget = glade_xml_get_widget (xml, name);
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, name));
 
 	nm_setting_get_secret_flags (NM_SETTING (s_vpn), key, &flags, NULL);
 	flags &= ~(NM_SETTING_SECRET_FLAG_NOT_SAVED | NM_SETTING_SECRET_FLAG_NOT_REQUIRED);
@@ -548,42 +547,42 @@ update_connection (NMVpnPluginUiWidgetInterface *iface,
 	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_DBUS_SERVICE_OPENSWAN, NULL);
 
 	/* Gateway */
-	widget = glade_xml_get_widget (priv->xml, "gateway_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "gateway_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_RIGHT, str);
 
 	/* Group name */
-	widget = glade_xml_get_widget (priv->xml, "group_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_LEFTID, str);
 
 	/* User name*/
-	widget = glade_xml_get_widget (priv->xml, "user_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER, str);
 	
 	/* Phase 1 Algorithms: ike */
-	widget = glade_xml_get_widget (priv->xml, "phase1_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_IKE, str);
 
 	/* Phase 2 Algorithms: esp */
-	widget = glade_xml_get_widget (priv->xml, "phase2_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase2_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_ESP, str);
 
 	/* Domain entry */
-	widget = glade_xml_get_widget (priv->xml, "domain_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "domain_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_DOMAIN, str);
 
-	//widget = glade_xml_get_widget (priv->xml, "disable_dpd_checkbutton");
+	//widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "disable_dpd_checkbutton"));
 	//if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) {
 	//	nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_DPDTIMEOUT, "0");
 	//} else {
@@ -598,17 +597,17 @@ update_connection (NMVpnPluginUiWidgetInterface *iface,
 	//	}
 	//}
 
-	upw_type = handle_one_pw_type (s_vpn, priv->xml, "user_pass_type_combo", NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	gpw_type = handle_one_pw_type (s_vpn, priv->xml, "group_pass_type_combo", NM_OPENSWAN_PSK_INPUT_MODES);
+	upw_type = handle_one_pw_type (s_vpn, priv->builder, "user_pass_type_combo", NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
+	gpw_type = handle_one_pw_type (s_vpn, priv->builder, "group_pass_type_combo", NM_OPENSWAN_PSK_INPUT_MODES);
 
 	/* User password */
-	widget = glade_xml_get_widget (priv->xml, "user_password_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str) && (upw_type != PW_TYPE_UNUSED))
 		nm_setting_vpn_add_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD, str);
 
 	/* Group password */
-	widget = glade_xml_get_widget (priv->xml, "group_password_entry");
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str) && (gpw_type != PW_TYPE_UNUSED))
 		nm_setting_vpn_add_secret (s_vpn, NM_OPENSWAN_PSK_VALUE, str);
@@ -618,7 +617,7 @@ update_connection (NMVpnPluginUiWidgetInterface *iface,
 }
 
 static void
-save_one_password (GladeXML *xml,
+save_one_password (GtkBuilder *builder,
                    const char *keyring_tag,
                    const char *uuid,
                    const char *id,
@@ -631,10 +630,10 @@ save_one_password (GladeXML *xml,
 	const char *password;
 	gboolean saved = FALSE;
 
-	widget = glade_xml_get_widget (xml, combo);
+	widget = GTK_WIDGET (gtk_builder_get_object (builder, combo));
 	g_assert (widget);
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (widget)) == PW_TYPE_SAVE) {
-		widget = glade_xml_get_widget (xml, entry);
+		widget = GTK_WIDGET (gtk_builder_get_object (builder, entry));
 		g_assert (widget);
 		password = gtk_entry_get_text (GTK_ENTRY (widget));
 		if (password && strlen (password)) {
@@ -677,14 +676,14 @@ save_secrets (NMVpnPluginUiWidgetInterface *iface,
 
 	if (nm_setting_get_secret_flags (NM_SETTING (s_vpn), NM_OPENSWAN_XAUTH_PASSWORD, &secret_flags, NULL)) {
 		if (secret_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED) {
-			save_one_password (priv->xml, OPENSWAN_USER_PASSWORD, uuid, id,
+			save_one_password (priv->builder, OPENSWAN_USER_PASSWORD, uuid, id,
 			                   "user_password_entry", "user_pass_type_combo", "user password");
 		}
 	}
 
 	if (nm_setting_get_secret_flags (NM_SETTING (s_vpn), NM_OPENSWAN_PSK_VALUE, &secret_flags, NULL)) {
 		if (secret_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED) {
-			save_one_password (priv->xml, OPENSWAN_GROUP_PASSWORD, uuid, id,
+			save_one_password (priv->builder, OPENSWAN_GROUP_PASSWORD, uuid, id,
 			                   "group_password_entry", "group_pass_type_combo", "group password");
 		}
 	}
@@ -697,7 +696,6 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 {
 	NMVpnPluginUiWidgetInterface *object;
 	OpenswanPluginUiWidgetPrivate *priv;
-	char *glade_file;
 
 	if (error)
 		g_return_val_if_fail (*error == NULL, NULL);
@@ -710,18 +708,14 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 
 	priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (object);
 
-	glade_file = g_strdup_printf ("%s/%s", GLADEDIR, "nm-openswan-dialog.glade");
-	priv->xml = glade_xml_new (glade_file, "openswan-vbox", GETTEXT_PACKAGE);
-	if (priv->xml == NULL) {
-		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0,
-		             "could not load required resources at %s", glade_file);
-		g_free (glade_file);
+	priv->builder = gtk_builder_new ();
+	g_assert (priv->builder);
+	if (gtk_builder_add_from_file (priv->builder, UIDIR "/nm-openswan-dialog.ui", error) == 0) {
 		g_object_unref (object);
 		return NULL;
 	}
-	g_free (glade_file);
 
-	priv->widget = glade_xml_get_widget (priv->xml, "openswan-vbox");
+	priv->widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "openswan-vbox"));
 	if (!priv->widget) {
 		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0, "could not load UI widget");
 		g_object_unref (object);
@@ -749,8 +743,8 @@ dispose (GObject *object)
 	if (priv->widget)
 		g_object_unref (priv->widget);
 
-	if (priv->xml)
-		g_object_unref (priv->xml);
+	if (priv->builder)
+		g_object_unref (priv->builder);
 
 	G_OBJECT_CLASS (openswan_plugin_ui_widget_parent_class)->dispose (object);
 }

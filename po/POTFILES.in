@@ -4,7 +4,7 @@ auth-dialog/gnome-two-password-dialog.c
 auth-dialog/main.c
 nm-openswan.desktop.in
 properties/nm-openswan.c
-properties/nm-openswan-dialog.glade
+[type: gettext/glade]properties/nm-openswan-dialog.ui
 src/nm-openswan-service.c
 
 
