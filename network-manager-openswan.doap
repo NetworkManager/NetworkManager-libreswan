@@ -25,7 +25,6 @@
     <foaf:Person>
       <foaf:name>Avesh Agarwal</foaf:name>
       <foaf:mbox rdf:resource="mailto:avagarwa@redhat.com" />
-      <gnome:userid>avagarwa</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>
