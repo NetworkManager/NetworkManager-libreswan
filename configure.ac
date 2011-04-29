@@ -66,13 +66,8 @@ AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
 
 if test x"$with_gnome" != xno; then
-	PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.6)
-	AC_SUBST(GTK_CFLAGS)
-	AC_SUBST(GTK_LIBS)
-
+	PKG_CHECK_MODULES(GTK, gtk+-3.0)
 	PKG_CHECK_MODULES(GNOMEKEYRING, gnome-keyring-1)
-	AC_SUBST(GNOMEKEYRING_CFLAGS)
-	AC_SUBST(GNOMEKEYRING_LIBS)
 fi
 
 PKG_CHECK_MODULES(NM, NetworkManager >= 0.8 libnm-util libnm-glib libnm-glib-vpn)

@@ -110,9 +110,9 @@ dialog_show_callback (GtkWidget *widget, gpointer callback_data)
 	VpnPasswordDialog *dialog = VPN_PASSWORD_DIALOG (callback_data);
 	VpnPasswordDialogPrivate *priv = VPN_PASSWORD_DIALOG_GET_PRIVATE (dialog);
 
-	if (GTK_WIDGET_VISIBLE (priv->password_entry))
+	if (gtk_widget_get_visible (priv->password_entry))
 		gtk_widget_grab_focus (priv->password_entry);
-	else if (GTK_WIDGET_VISIBLE (priv->password_entry_secondary))
+	else if (gtk_widget_get_visible (priv->password_entry_secondary))
 		gtk_widget_grab_focus (priv->password_entry_secondary);
 }
 
@@ -191,6 +191,8 @@ vpn_password_dialog_new (const char *title,
 	GtkWidget *vbox;
 	GtkWidget *main_vbox;
 	GtkWidget *dialog_icon;
+	GtkWidget *content_area;
+	GtkWidget *action_area;
 
 	dialog = gtk_widget_new (VPN_TYPE_PASSWORD_DIALOG, NULL);
 	if (!dialog)
@@ -207,11 +209,13 @@ vpn_password_dialog_new (const char *title,
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	/* Setup the dialog */
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox), 2); /* 2 * 5 + 2 = 12 */
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 5);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->action_area), 6);
+	gtk_box_set_spacing (GTK_BOX (content_area), 2); /* 2 * 5 + 2 = 12 */
+	gtk_container_set_border_width (GTK_CONTAINER (action_area), 5);
+	gtk_box_set_spacing (GTK_BOX (action_area), 6);
 
  	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
@@ -293,8 +297,8 @@ vpn_password_dialog_new (const char *title,
 	gtk_box_pack_start (GTK_BOX (main_vbox), vbox, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->table_alignment, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), main_vbox, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show_all (GTK_DIALOG (dialog)->vbox);
+	gtk_box_pack_start (GTK_BOX (content_area), hbox, FALSE, FALSE, 0);
+	gtk_widget_show_all (content_area);
 
 	priv->remember_session_button = gtk_check_button_new_with_mnemonic (_("_Remember passwords for this session"));
 	priv->remember_forever_button = gtk_check_button_new_with_mnemonic (_("_Save passwords in keyring"));
