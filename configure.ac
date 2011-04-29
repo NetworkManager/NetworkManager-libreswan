@@ -66,7 +66,18 @@ AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
 
 if test x"$with_gnome" != xno; then
-	PKG_CHECK_MODULES(GTK, gtk+-3.0)
+	AC_ARG_WITH([gtkver],
+	            [AS_HELP_STRING([--with-gtkver], [The major version of GTK+ to build with])],
+	            [with_gtkver="$withval"],[with_gtkver=3])
+	case "${with_gtkver}" in
+	       2) PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.20)
+	          gtkver=2
+	          ;;
+	       *) PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.0.0)
+	          gtkver=3
+	          ;;
+	esac
+
 	PKG_CHECK_MODULES(GNOMEKEYRING, gnome-keyring-1)
 fi
 
