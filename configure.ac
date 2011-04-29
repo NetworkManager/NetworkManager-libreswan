@@ -81,6 +81,14 @@ if test x"$with_gnome" != xno; then
 	PKG_CHECK_MODULES(GNOMEKEYRING, gnome-keyring-1)
 fi
 
+dnl
+dnl Distribution version string
+dnl
+AC_ARG_WITH(dist-version, AS_HELP_STRING([--with-dist-version=<dist-version>], [Define the custom version (like distribution package name and revision)]), ac_distver=$withval, ac_distver="")
+if ! test x"$ac_distver" = x""; then
+  AC_DEFINE_UNQUOTED(DIST_VERSION, "$ac_distver", [Define the distribution version string])
+fi
+
 PKG_CHECK_MODULES(NM, NetworkManager >= 0.8 libnm-util libnm-glib libnm-glib-vpn)
 AC_SUBST(NM_CFLAGS)
 AC_SUBST(NM_LIBS)

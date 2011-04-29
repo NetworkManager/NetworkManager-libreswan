@@ -15,9 +15,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2010 Red Hat, Inc.
+ * Copyright (C) 2010 - 2011 Red Hat, Inc.
  */
 
+#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,11 +29,20 @@
 #include <sys/wait.h>
 #include <errno.h>
 
+#include <glib/gi18n.h>
+
 #include <nm-setting-vpn.h>
 #include "nm-openswan-service.h"
 #include "nm-utils.h"
 
 #include <sys/types.h>
+
+#if !defined(DIST_VERSION)
+# define DIST_VERSION VERSION
+#endif
+
+static gboolean debug = FALSE;
+GMainLoop *loop = NULL;
 
 G_DEFINE_TYPE (NMOPENSWANPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
 
@@ -385,6 +395,9 @@ write_config_option (int fd, const char *format, ...)
 	va_start (args, format);
 	string = g_strdup_vprintf (format, args);
 
+	if (debug)
+		g_print ("Config: %s", string);
+
 	if ( write (fd, string, strlen (string)) == -1) {
 	g_warning ("nm-openswan: error in write_config_option");
 	}
@@ -611,8 +624,7 @@ nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn,
 
 
 static gboolean
-nm_openswan_config_secret_write (NMSettingVPN *s_vpn,
-                      GError **error)
+nm_openswan_config_secret_write (NMSettingVPN *s_vpn, GError **error)
 {
 	WriteConfigInfo *info;
 	//const char *props_username;
@@ -672,12 +684,14 @@ real_connect (NMVPNPlugin   *plugin,
 	if (openswan_fd < 0)
 		goto out;
 
+	if (debug)
+		nm_connection_dump (connection);
+
 	if (!nm_openswan_config_write (openswan_fd, s_vpn, error)) {
 		goto out;
-	}
-	else {
+	} else {
 		/*no error*/
-		openswan_fd=-1;
+		openswan_fd = -1;
 	}
 
 	unlink("/etc/ipsec.d/ipsec-nm-conn1.secrets");  
@@ -825,6 +839,27 @@ nm_openswan_plugin_new (void)
 }
 
 static void
+signal_handler (int signo)
+{
+	if (signo == SIGINT || signo == SIGTERM)
+		g_main_loop_quit (loop);
+}
+
+static void
+setup_signals (void)
+{
+	struct sigaction action;
+	sigset_t mask;
+
+	sigemptyset (&mask);
+	action.sa_handler = signal_handler;
+	action.sa_mask = mask;
+	action.sa_flags = 0;
+	sigaction (SIGTERM,  &action, NULL);
+	sigaction (SIGINT,  &action, NULL);
+}
+
+static void
 quit_mainloop (NMOPENSWANPlugin *plugin, gpointer user_data)
 {
 	g_main_loop_quit ((GMainLoop *) user_data);
@@ -834,34 +869,50 @@ int
 main (int argc, char *argv[])
 {
 	NMOPENSWANPlugin *plugin;
-	GMainLoop *main_loop;
+	gboolean persist = FALSE;
+	GOptionContext *opt_ctx = NULL;
+
+	GOptionEntry options[] = {
+		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
+		{ "debug", 0, 0, G_OPTION_ARG_NONE, &debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
+		{NULL}
+	};
 
 	g_type_init ();
 
-#if 0
+	/* Parse options */
+	opt_ctx = g_option_context_new ("");
+	g_option_context_set_translation_domain (opt_ctx, "UTF-8");
+	g_option_context_set_ignore_unknown_options (opt_ctx, FALSE);
+	g_option_context_set_help_enabled (opt_ctx, TRUE);
+	g_option_context_add_main_entries (opt_ctx, options, NULL);
 
-	if (system ("/sbin/modprobe tun") == -1)
-		exit (EXIT_FAILURE);
-#endif
+	g_option_context_set_summary (opt_ctx,
+		_("nm-openswan-service provides integrated IPSec VPN capability to NetworkManager."));
+
+	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
+	g_option_context_free (opt_ctx);
+
+	if (getenv ("VPNC_DEBUG"))
+		debug = TRUE;
+
+	if (debug)
+		g_message ("nm-openswan-service (version " DIST_VERSION ") starting...");
 
 	plugin = nm_openswan_plugin_new ();
 	if (!plugin)
-		exit (EXIT_FAILURE);
+		exit (1);
 
-	main_loop = g_main_loop_new (NULL, FALSE);
+	loop = g_main_loop_new (NULL, FALSE);
 
-	if (   (argc != 2)
-	    || !argv[1]
-	    || strcmp (argv[1], "--persist")) {
-		g_signal_connect (plugin, "quit",
-					   G_CALLBACK (quit_mainloop),
-					   main_loop);
-	}
+	if (!persist)
+		g_signal_connect (plugin, "quit", G_CALLBACK (quit_mainloop), loop);
 
-	g_main_loop_run (main_loop);
+	setup_signals ();
+	g_main_loop_run (loop);
 
-	g_main_loop_unref (main_loop);
+	g_main_loop_unref (loop);
 	g_object_unref (plugin);
 
-	exit (EXIT_SUCCESS);
+	exit (0);
 }
