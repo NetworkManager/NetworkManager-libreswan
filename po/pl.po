@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-openswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 21:31+0200\n"
-"PO-Revision-Date: 2011-04-15 21:33+0200\n"
+"POT-Creation-Date: 2011-06-13 17:43+0200\n"
+"PO-Revision-Date: 2011-06-13 17:48+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -29,30 +29,30 @@ msgstr "Hasło _dodatkowe:"
 msgid "_Password:"
 msgstr "_Hasło:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:239
+#: ../auth-dialog/gnome-two-password-dialog.c:243
 msgid "Sh_ow passwords"
 msgstr "_Wyświetlanie haseł"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:299
+#: ../auth-dialog/gnome-two-password-dialog.c:303
 msgid "_Remember passwords for this session"
 msgstr "Zapamiętanie _hasła na czas tej sesji"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:300
+#: ../auth-dialog/gnome-two-password-dialog.c:304
 msgid "_Save passwords in keyring"
 msgstr "_Zapamiętanie hasła w bazie kluczy"
 
-#: ../auth-dialog/main.c:171
+#: ../auth-dialog/main.c:113
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Aby uzyskać dostęp do wirtualnej sieci prywatnej \"%s\", należy dokonać "
 "uwierzytelnienia."
 
-#: ../auth-dialog/main.c:172
+#: ../auth-dialog/main.c:114
 msgid "Authenticate VPN"
 msgstr "Uwierzytelnianie VPN"
 
-#: ../auth-dialog/main.c:176
+#: ../auth-dialog/main.c:118
 msgid "_Group Password:"
 msgstr "Hasło g_rupy:"
 
@@ -64,70 +64,86 @@ msgstr "Dodawanie, usuwanie i modyfikowanie połączeń VPN"
 msgid "IPsec Based VPN Connection Manager (openswan)"
 msgstr "Menedżer połączeń VPN opartych na IPsec (openswan)"
 
-#: ../properties/nm-openswan.c:51
+#: ../properties/nm-openswan.c:50
 msgid "IPsec based VPN"
 msgstr "VPN oparte na IPsec"
 
-#: ../properties/nm-openswan.c:52
+#: ../properties/nm-openswan.c:51
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN oparte na IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:349
+#: ../properties/nm-openswan.c:350
 msgid "Saved"
 msgstr "Zapisano"
 
-#: ../properties/nm-openswan.c:356
+#: ../properties/nm-openswan.c:357
 msgid "Always Ask"
 msgstr "Pytanie zawsze"
 
-#: ../properties/nm-openswan.c:363
+#: ../properties/nm-openswan.c:364
 msgid "Not Required"
 msgstr "Niewymagane"
 
-#: ../properties/nm-openswan-dialog.glade.h:1
+#: ../properties/nm-openswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.glade.h:2
+#: ../properties/nm-openswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Ogólne</b>"
 
-#: ../properties/nm-openswan-dialog.glade.h:3
+#: ../properties/nm-openswan-dialog.ui.h:3
 msgid "<b>Optional</b>"
 msgstr "<b>Opcjonalne</b>"
 
-#: ../properties/nm-openswan-dialog.glade.h:4
+#: ../properties/nm-openswan-dialog.ui.h:4
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../properties/nm-openswan-dialog.glade.h:5
+#: ../properties/nm-openswan-dialog.ui.h:5
 msgid "G_roup name:"
 msgstr "Nazwa g_rupy:"
 
-#: ../properties/nm-openswan-dialog.glade.h:6
+#: ../properties/nm-openswan-dialog.ui.h:6
 msgid "Gro_up password:"
 msgstr "_Hasło grupy:"
 
-#: ../properties/nm-openswan-dialog.glade.h:7
+#: ../properties/nm-openswan-dialog.ui.h:7
 msgid "Phase1 Algorithms:"
 msgstr "Algorytmy fazy pierwszej:"
 
-#: ../properties/nm-openswan-dialog.glade.h:8
+#: ../properties/nm-openswan-dialog.ui.h:8
 msgid "Phase2 Algorithms:"
 msgstr "Algorytmy fazy drugiej:"
 
-#: ../properties/nm-openswan-dialog.glade.h:9
+#: ../properties/nm-openswan-dialog.ui.h:9
 msgid "Show passwords"
 msgstr "Wyświetlanie haseł"
 
-#: ../properties/nm-openswan-dialog.glade.h:10
+#: ../properties/nm-openswan-dialog.ui.h:10
 msgid "User name:"
 msgstr "Nazwa użytkownika:"
 
-#: ../properties/nm-openswan-dialog.glade.h:11
+#: ../properties/nm-openswan-dialog.ui.h:11
 msgid "_Gateway:"
 msgstr "_Brama:"
 
-#: ../properties/nm-openswan-dialog.glade.h:12
+#: ../properties/nm-openswan-dialog.ui.h:12
 msgid "_User password:"
 msgstr "Hasło _użytkownika:"
+
+#: ../src/nm-openswan-service.c:876
+msgid "Don't quit when VPN connection terminates"
+msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
+
+#: ../src/nm-openswan-service.c:891
+msgid ""
+"nm-openswan-service provides integrated IPSec VPN capability to "
+"NetworkManager."
+msgstr ""
+"nm-openswan-service dostarcza zintegrowaną możliwość VPN IPSec dla usługi "
+"NetworkManager."
