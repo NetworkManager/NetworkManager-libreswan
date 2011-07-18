@@ -33,8 +33,6 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <gnome-keyring.h>
-#include <gnome-keyring-memory.h>
 
 #define NM_VPN_API_SUBJECT_TO_CHANGE
 
@@ -44,7 +42,6 @@
 #include <nm-setting-ip4-config.h>
 
 #include "src/nm-openswan-service.h"
-#include "common-gnome/keyring-helpers.h"
 #include "nm-openswan.h"
 
 #define OPENSWAN_PLUGIN_NAME    _("IPsec based VPN")
@@ -159,78 +156,6 @@ static void
 stuff_changed_cb (GtkWidget *widget, gpointer user_data)
 {
 	g_signal_emit_by_name (OPENSWAN_PLUGIN_UI_WIDGET (user_data), "changed");
-}
-
-static gboolean
-fill_vpn_passwords (OpenswanPluginUiWidget *self, NMConnection *connection)
-{
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	GtkWidget *widget;
-	gboolean success = FALSE;
-	char *password = NULL;
-	char *group_password = NULL;
-
-	/* Grab secrets from the connection or the keyring */
-	if (connection) {
-		NMSettingConnection *s_con;
-		NMSettingVPN *s_vpn;
-		NMSettingSecretFlags secret_flags = NM_SETTING_SECRET_FLAG_NONE;
-		const char *tmp;
-
-		s_con = NM_SETTING_CONNECTION (nm_connection_get_setting (connection, NM_TYPE_SETTING_CONNECTION));
-
-		s_vpn = (NMSettingVPN *) nm_connection_get_setting (connection, NM_TYPE_SETTING_VPN);
-		if (s_vpn) {
-			tmp = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD);
-			if (tmp)
-				password = gnome_keyring_memory_strdup (tmp);
-
-			tmp = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_PSK_VALUE);
-			if (tmp)
-				group_password = gnome_keyring_memory_strdup (tmp);
-		}
-
-		nm_setting_get_secret_flags (NM_SETTING (s_vpn), NM_OPENSWAN_XAUTH_PASSWORD, &secret_flags, NULL);
-		if (!password && (secret_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED)) {
-			keyring_helpers_get_one_secret (nm_setting_connection_get_uuid (s_con),
-				                            OPENSWAN_USER_PASSWORD,
-				                            &password);
-		}
-
-		secret_flags = NM_SETTING_SECRET_FLAG_NONE;
-		nm_setting_get_secret_flags (NM_SETTING (s_vpn), NM_OPENSWAN_PSK_VALUE, &secret_flags, NULL);
-		if (!group_password && (secret_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED)) {
-			keyring_helpers_get_one_secret (nm_setting_connection_get_uuid (s_con),
-			                                OPENSWAN_GROUP_PASSWORD,
-			                                &group_password);
-		}
-	}
-
-	/* User password */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_entry"));
-	if (!widget)
-		goto out;
-	if (password)
-		gtk_entry_set_text (GTK_ENTRY (widget), password);
-	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
-	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
-
-	/* Group password */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
-	if (!widget)
-		goto out;
-	if (group_password)
-		gtk_entry_set_text (GTK_ENTRY (widget), group_password);
-	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
-	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
-
-	success = TRUE;
-
-out:
-	gnome_keyring_memory_free (password);
-	gnome_keyring_memory_free (group_password);
-
-	return success;
 }
 
 static void
@@ -412,7 +337,26 @@ init_plugin_ui (OpenswanPluginUiWidget *self, NMConnection *connection, GError *
 	/* Fill the VPN passwords *before* initializing the PW type combos, since
 	 * knowing if there are passwords when initializing the combos is helpful.
 	 */
-	fill_vpn_passwords (self, connection);
+
+	/* User password */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_entry"));
+	g_assert (widget);
+	if (s_vpn) {
+		value = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD);
+		gtk_entry_set_text (GTK_ENTRY (widget), value ? value : "");
+	}
+	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
+
+	/* Group password */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
+	g_assert (widget);
+	if (s_vpn) {
+		value = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_PSK_VALUE);
+		gtk_entry_set_text (GTK_ENTRY (widget), value ? value : "");
+	}
+	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
 	init_one_pw_combo (self,
 	                   s_vpn,

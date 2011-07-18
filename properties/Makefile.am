@@ -12,7 +12,6 @@ ui_DATA = nm-openswan-dialog.ui
 
 libnm_openswan_properties_la_CPPFLAGS = \
 	$(GTK_CFLAGS) \
-	$(GNOMEKEYRING_CFLAGS) \
 	$(NM_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DUIDIR=\""$(uidir)"\" \
@@ -24,9 +23,7 @@ libnm_openswan_properties_la_CPPFLAGS = \
 
 libnm_openswan_properties_la_LIBADD = \
 	$(GTK_LIBS) \
-	$(NM_LIBS) \
-	$(GNOMEKEYRING_LIBS) \
-	$(top_builddir)/common-gnome/libnm-openswan-common-gnome.la
+	$(NM_LIBS)
 
 libnm_openswan_properties_la_LDFLAGS = \
         -avoid-version
