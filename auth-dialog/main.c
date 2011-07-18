@@ -126,13 +126,17 @@ get_secrets (const char *vpn_uuid,
 		/* Don't ask if both passwords are either saved and present, or unused */
 		if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
 			need_upw = FALSE;
-		else if (upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
+		else if (upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
+			*out_upw = upw;
 			need_upw = FALSE;
+		}
 
 		if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
 			need_gpw = FALSE;
-		else if (gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
+		else if (gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
+			*out_gpw = gpw;
 			need_gpw = FALSE;
+		}
 
 		if (!need_upw && !need_gpw)
 			return TRUE;
