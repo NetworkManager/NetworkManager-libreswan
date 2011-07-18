@@ -279,7 +279,7 @@ main (int argc, char *argv[])
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
 
 	if (!g_option_context_parse (context, &argc, &argv, &error)) {
-		g_warning ("Error parsing options: %s\n", error->message);
+		fprintf (stderr, "Error parsing options: %s\n", error->message);
 		g_error_free (error);
 		return 1;
 	}
