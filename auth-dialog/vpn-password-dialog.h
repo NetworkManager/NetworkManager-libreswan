@@ -1,28 +1,26 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-
-/* gnome-two-password-dialog.h - A use password prompting dialog widget
-                                 asking for two passwords. Based of
-                                 gnome-password-dialog.[ch] from libgnomeui
-
-   Copyright (C) 1999, 2000 Eazel, Inc.
-   Copyright (C) 2005, Red Hat, Inc.
-
-   The Gnome Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public License as
-   published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
-
-   The Gnome Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, write to the Free Software Foundation, Inc.,
-   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-   Authors: Ramiro Estrugo <ramiro@eazel.com>
-*/
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
+/* vpn-password-dialog.c - A use password prompting dialog widget.
+ *
+ * The Gnome Library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public License as
+ * published by the ree Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * The Gnome Library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Copyright (C) 1999, 2000 Eazel, Inc.
+ * Copyright (C) 2011 Red Hat, Inc.
+ *
+ * Authors: Ramiro Estrugo <ramiro@eazel.com>
+ *          Dan Williams <dcbw@redhat.com>
+ */
 
 #ifndef VPN_PASSWORD_DIALOG_H
 #define VPN_PASSWORD_DIALOG_H
@@ -48,12 +46,6 @@ struct VpnPasswordDialogClass {
 	GtkDialogClass parent_class;
 };
 
-typedef enum {
-	VPN_PASSWORD_REMEMBER_NOTHING,
-	VPN_PASSWORD_REMEMBER_SESSION,
-	VPN_PASSWORD_REMEMBER_FOREVER
-} VpnPasswordRemember;
-
 
 GType      vpn_password_dialog_get_type              (void);
 GtkWidget* vpn_password_dialog_new                   (const char *title,
@@ -76,13 +68,6 @@ void vpn_password_dialog_set_password_secondary       (VpnPasswordDialog *dialog
                                                        const char *password_secondary);
 void vpn_password_dialog_set_password_secondary_label (VpnPasswordDialog *dialog,
                                                        const char *label);
-
-void vpn_password_dialog_set_show_remember            (VpnPasswordDialog *dialog,
-                                                       gboolean show_remember);
-void vpn_password_dialog_set_remember                 (VpnPasswordDialog *dialog,
-                                                       VpnPasswordRemember remember);
-VpnPasswordRemember vpn_password_dialog_get_remember  (VpnPasswordDialog *dialog);
-
 /* Attribute accessors */
 const char *vpn_password_dialog_get_password                (VpnPasswordDialog *dialog);
 

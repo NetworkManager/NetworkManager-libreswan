@@ -4,7 +4,6 @@ libexec_PROGRAMS = nm-openswan-auth-dialog
 
 nm_openswan_auth_dialog_CPPFLAGS = \
 	$(NM_CFLAGS) \
-	$(GTHREAD_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(GNOMEKEYRING_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
@@ -17,12 +16,13 @@ nm_openswan_auth_dialog_CPPFLAGS = \
 
 nm_openswan_auth_dialog_SOURCES = \
 	main.c \
-	gnome-two-password-dialog.c \
-	gnome-two-password-dialog.h
+	vpn-password-dialog.c \
+	vpn-password-dialog.h
 
 nm_openswan_auth_dialog_LDADD = \
+	$(NM_LIBS) \
 	$(GTK_LIBS) \
-	$(top_builddir)/common-gnome/libnm-openswan-common-gnome.la
+	$(GNOMEKEYRING_LIBS)
 
 CLEANFILES = *~
 

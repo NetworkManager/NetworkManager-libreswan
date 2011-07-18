@@ -36,9 +36,41 @@
 #include <nm-setting-connection.h>
 #include <nm-vpn-plugin-utils.h>
 
-#include "common-gnome/keyring-helpers.h"
 #include "src/nm-openswan-service.h"
-#include "gnome-two-password-dialog.h"
+#include "vpn-password-dialog.h"
+
+#define KEYRING_UUID_TAG "connection-uuid"
+#define KEYRING_SN_TAG "setting-name"
+#define KEYRING_SK_TAG "setting-key"
+
+static char *
+keyring_lookup_secret (const char *uuid, const char *secret_name)
+{
+	GList *found_list = NULL;
+	GnomeKeyringResult ret;
+	GnomeKeyringFound *found;
+	char *secret = NULL;
+
+	ret = gnome_keyring_find_itemsv_sync (GNOME_KEYRING_ITEM_GENERIC_SECRET,
+	                                      &found_list,
+	                                      KEYRING_UUID_TAG,
+	                                      GNOME_KEYRING_ATTRIBUTE_TYPE_STRING,
+	                                      uuid,
+	                                      KEYRING_SN_TAG,
+	                                      GNOME_KEYRING_ATTRIBUTE_TYPE_STRING,
+	                                      NM_SETTING_VPN_SETTING_NAME,
+	                                      KEYRING_SK_TAG,
+	                                      GNOME_KEYRING_ATTRIBUTE_TYPE_STRING,
+	                                      secret_name,
+	                                      NULL);
+	if (ret == GNOME_KEYRING_RESULT_OK && found_list) {
+		found = g_list_nth_data (found_list, 0);
+		secret = gnome_keyring_memory_strdup (found->secret);
+	}
+
+	gnome_keyring_found_list_free (found_list);
+	return secret;
+}
 
 static gboolean
 get_secrets (const char *vpn_uuid,
@@ -69,7 +101,11 @@ get_secrets (const char *vpn_uuid,
 		if (in_upw)
 			upw = gnome_keyring_memory_strdup (in_upw);
 		else
-			keyring_helpers_get_one_secret (vpn_uuid, OPENSWAN_USER_PASSWORD, &upw);
+			upw = keyring_lookup_secret (vpn_uuid, NM_OPENSWAN_XAUTH_PASSWORD);
+
+		/* Try the old name */
+		if (upw == NULL)
+			upw = keyring_lookup_secret (vpn_uuid, "password");
 	}
 
 	if (   !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
@@ -77,7 +113,11 @@ get_secrets (const char *vpn_uuid,
 		if (in_gpw)
 			gpw = gnome_keyring_memory_strdup (in_gpw);
 		else
-			keyring_helpers_get_one_secret (vpn_uuid, OPENSWAN_GROUP_PASSWORD, &gpw);
+			gpw = keyring_lookup_secret (vpn_uuid, NM_OPENSWAN_PSK_VALUE);
+
+		/* Try the old name */
+		if (gpw == NULL)
+			gpw = keyring_lookup_secret (vpn_uuid, "group-password");
 	}
 
 	if (!retry) {
@@ -114,7 +154,6 @@ get_secrets (const char *vpn_uuid,
 	dialog = VPN_PASSWORD_DIALOG (vpn_password_dialog_new (_("Authenticate VPN"), prompt, NULL));
 	g_free (prompt);
 
-	vpn_password_dialog_set_show_remember (dialog, FALSE);
 	vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
 
 	/* Don't show the user password entry if the user password isn't required,
@@ -139,16 +178,13 @@ get_secrets (const char *vpn_uuid,
 	}
 
 	/* if retrying, pre-fill dialog with the password */
-	if (upw) {
+	if (upw)
 		vpn_password_dialog_set_password (dialog, upw);
-		memset (upw, 0, strlen (upw));
-		gnome_keyring_memory_free (upw);
-	}
-	if (gpw) {
+	gnome_keyring_memory_free (upw);
+
+	if (gpw)
 		vpn_password_dialog_set_password_secondary (dialog, gpw);
-		memset (gpw, 0, strlen (gpw));
-		gnome_keyring_memory_free (gpw);
-	}
+	gnome_keyring_memory_free (gpw);
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 
@@ -157,24 +193,6 @@ get_secrets (const char *vpn_uuid,
 	if (success) {
 		*out_upw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password (dialog));
 		*out_gpw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password_secondary (dialog));
-
-		if (upw_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED) {
-		    if (*out_upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
-				keyring_helpers_save_secret (vpn_uuid, vpn_name, NULL, OPENSWAN_USER_PASSWORD, *out_upw);
-			else {
-				/* Clear the password from the keyring */
-				keyring_helpers_delete_secret (vpn_uuid, OPENSWAN_USER_PASSWORD);
-			}
-		}
-
-		if (gpw_flags & NM_SETTING_SECRET_FLAG_AGENT_OWNED) {
-		    if (*out_gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
-				keyring_helpers_save_secret (vpn_uuid, vpn_name, NULL, OPENSWAN_GROUP_PASSWORD, *out_gpw);
-			else {
-				/* Clear the password from the keyring */
-				keyring_helpers_delete_secret (vpn_uuid, OPENSWAN_GROUP_PASSWORD);
-			}
-		}
 	}
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
@@ -303,14 +321,8 @@ main (int argc, char *argv[])
 		printf ("%s\n%s\n", NM_OPENSWAN_PSK_VALUE, group_password);
 	printf ("\n\n");
 
-	if (password) {
-		memset (password, 0, strlen (password));
-		gnome_keyring_memory_free (password);
-	}
-	if (group_password) {
-		memset (group_password, 0, strlen (group_password));
-		gnome_keyring_memory_free (group_password);
-	}
+	gnome_keyring_memory_free (password);
+	gnome_keyring_memory_free (group_password);
 
 	/* for good measure, flush stdout since Kansas is going Bye-Bye */
 	fflush (stdout);
