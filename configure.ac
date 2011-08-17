@@ -65,6 +65,14 @@ PKG_CHECK_MODULES(DBUS, dbus-glib-1 >= 0.74)
 AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
 
+PKG_CHECK_MODULES(NM,
+	NetworkManager >= 0.8.998
+	libnm-util >= 0.8.998
+	libnm-glib >= 0.8.998
+	libnm-glib-vpn >= 0.8.998)
+AC_SUBST(NM_CFLAGS)
+AC_SUBST(NM_LIBS)
+
 if test x"$with_gnome" != xno; then
 	AC_ARG_WITH([gtkver], AS_HELP_STRING([--with-gtkver], [The major version of GTK+ to build with]),
 	            with_gtkver="$withval",with_gtkver=0)
@@ -86,6 +94,8 @@ if test x"$with_gnome" != xno; then
 	AC_SUBST(GTK_LIBS)
 
 	PKG_CHECK_MODULES(GNOMEKEYRING, gnome-keyring-1)
+	AC_SUBST(GNOMEKEYRING_CFLAGS)
+	AC_SUBST(GNOMEKEYRING_LIBS)
 fi
 
 dnl
@@ -95,10 +105,6 @@ AC_ARG_WITH(dist-version, AS_HELP_STRING([--with-dist-version=<dist-version>], [
 if ! test x"$ac_distver" = x""; then
   AC_DEFINE_UNQUOTED(DIST_VERSION, "$ac_distver", [Define the distribution version string])
 fi
-
-PKG_CHECK_MODULES(NM, NetworkManager >= 0.8 libnm-util libnm-glib libnm-glib-vpn)
-AC_SUBST(NM_CFLAGS)
-AC_SUBST(NM_LIBS)
 
 NM_COMPILER_WARNINGS
 
