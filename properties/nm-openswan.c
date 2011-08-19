@@ -625,6 +625,9 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 
 	priv->builder = gtk_builder_new ();
 	g_assert (priv->builder);
+
+	gtk_builder_set_translation_domain (priv->builder, GETTEXT_PACKAGE);
+
 	if (gtk_builder_add_from_file (priv->builder, UIDIR "/nm-openswan-dialog.ui", error) == 0) {
 		g_object_unref (object);
 		return NULL;
