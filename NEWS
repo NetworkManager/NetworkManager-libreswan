@@ -1,0 +1,11 @@
+=======================================================
+network-manager-openswan-0.9.0
+Overview of changes since network-manager-openswan-0.8.x
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Updated for NM 0.9 simplified configuration and secrets handling
+* UI converted to use GtkBuilder and build with GTK+ 3.0
+* Updated translations
+* Add debug logging
