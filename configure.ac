@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager-openswan, 0.9.2.0, avagarwa@redhat.com, NetworkManager-openswan)
+AC_INIT(NetworkManager-openswan, 0.9.3.0, avagarwa@redhat.com, NetworkManager-openswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
@@ -66,10 +66,10 @@ AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
 
 PKG_CHECK_MODULES(NM,
-	NetworkManager >= 0.9.2
-	libnm-util >= 0.9.2
-	libnm-glib >= 0.9.2
-	libnm-glib-vpn >= 0.9.2)
+	NetworkManager >= 0.9.3
+	libnm-util >= 0.9.3
+	libnm-glib >= 0.9.3
+	libnm-glib-vpn >= 0.9.3)
 AC_SUBST(NM_CFLAGS)
 AC_SUBST(NM_LIBS)
 
