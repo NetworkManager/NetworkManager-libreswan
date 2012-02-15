@@ -6,3 +6,4 @@ program=@LIBEXECDIR@/nm-openswan-service
 [GNOME]
 auth-dialog=nm-openswan-auth-dialog
 properties=libnm-openswan-properties
+supports-external-ui-mode=true
