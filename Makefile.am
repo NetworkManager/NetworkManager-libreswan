@@ -29,6 +29,8 @@ endif
 nm-openswan-service.name: $(srcdir)/nm-openswan-service.name.in
 	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' $< >$@
 
+DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
+
 EXTRA_DIST = nm-openswan-service.name.in \
              $(dbusservice_DATA)  \
              $(desktopfile)  \
