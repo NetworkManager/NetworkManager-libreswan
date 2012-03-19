@@ -204,6 +204,7 @@ get_secrets (const char *vpn_uuid,
 
 		*out_upw = upw;
 		*out_gpw = gpw;
+		g_free (prompt);
 		return TRUE;
 	}
 
