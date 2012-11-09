@@ -900,7 +900,7 @@ main (int argc, char *argv[])
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);
 
-	if (getenv ("VPNC_DEBUG"))
+	if (getenv ("OPENSWAN_DEBUG"))
 		debug = TRUE;
 
 	if (debug)
