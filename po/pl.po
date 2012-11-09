@@ -145,8 +145,8 @@ msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
 #: ../src/nm-openswan-service.c:891
 msgid ""
-"nm-openswan-service provides integrated IPSec VPN capability to "
+"nm-openswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
 msgstr ""
-"nm-openswan-service dostarcza zintegrowaną możliwość VPN IPSec dla usługi "
+"nm-openswan-service dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
 "NetworkManager."
