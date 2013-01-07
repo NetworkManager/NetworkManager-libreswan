@@ -1,0 +1,149 @@
+# Serbian translation for network-manager-openswan.
+# Copyright (C) 2013 network-manager-openswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-openswan package.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: network-manager-openswan master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
+"=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-12-20 20:56+0000\n"
+"PO-Revision-Date: 2013-01-07 22:02+0200\n"
+"Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
+"Language-Team: Serbian <gnom@prevod.org>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Project-Style: gnome\n"
+
+#: ../auth-dialog/vpn-password-dialog.c:94
+msgid "_Secondary Password:"
+msgstr "_Sekundarna lozinka:"
+
+#: ../auth-dialog/vpn-password-dialog.c:150
+msgid "_Password:"
+msgstr "_Lozinka:"
+
+#: ../auth-dialog/vpn-password-dialog.c:236
+msgid "Sh_ow passwords"
+msgstr "Prikaži _lozinke"
+
+#: ../auth-dialog/main.c:178
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"Morate da potvrdite identitet da biste mogli da pristupite virtuelnoj "
+"privatnoj mreži „%s“."
+
+#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
+msgid "Authenticate VPN"
+msgstr "Potvrdi VPN"
+
+#: ../auth-dialog/main.c:190
+msgid "Password:"
+msgstr "Lozinka:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "Lozinka grupe:"
+
+#: ../auth-dialog/main.c:213
+msgid "_Group Password:"
+msgstr "Lozinka _grupe:"
+
+#: ../nm-openswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "Upravnik VPN veze zasnovan na IPsec-u (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "Dodajte, uklanjajte i uređujte VPN veze"
+
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "VPN zasnovan na IPsec-u"
+
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "VPN zasnovan na IPsec-u, IKEv1 i IKEv2"
+
+#: ../properties/nm-openswan.c:274
+msgid "Saved"
+msgstr "Sačuvano"
+
+#: ../properties/nm-openswan.c:281
+msgid "Always Ask"
+msgstr "Pitaj uvek"
+
+#: ../properties/nm-openswan.c:288
+msgid "Not Required"
+msgstr "Nije neophodno"
+
+#: ../properties/nm-openswan-dialog.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-openswan-dialog.ui.h:2
+msgid "<b>General</b>"
+msgstr "<b>Opšte</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "Prikaži lozinke"
+
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "_Lozinka grupe:"
+
+#: ../properties/nm-openswan-dialog.ui.h:5
+msgid "_Gateway:"
+msgstr "_Mrežni prolaz:"
+
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "_Naziv grupe:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
+msgid "_User password:"
+msgstr "Lozinka _korisnika:"
+
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Mogućnosti</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Korisničko ime:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Algoritmi faze 1:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmi faze 2:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Domen:"
+
+#: ../src/nm-openswan-service.c:876
+msgid "Don't quit when VPN connection terminates"
+msgstr "Ne prekida kada se završava VPN veza"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+"Uključuje opširno zapisivanje zarad ispravljanja grešaka (može da izloži "
+"lozinke)"
+
+#: ../src/nm-openswan-service.c:898
+msgid ""
+"nm-openswan-service provides integrated IPsec VPN capability to "
+"NetworkManager."
+msgstr ""
+"nm-opensvan-usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN "
+"mogućnost."
