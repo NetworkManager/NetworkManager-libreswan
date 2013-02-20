@@ -1,4 +1,17 @@
 =======================================================
+network-manager-openswan-0.9.8
+Overview of changes since network-manager-openswan-0.9.6
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Updated translations
+* Builds against the GNOME 3.8 versions of GLib and Gtk+
+* Fixed typos in several messages
+* nm-openswan-service now returns translated error messages
+
+
+=======================================================
 network-manager-openswan-0.9.6
 Overview of changes since network-manager-openswan-0.9.4
 =======================================================
