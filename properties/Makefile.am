@@ -11,6 +11,7 @@ uidir = $(datadir)/gnome-vpn-properties/openswan
 ui_DATA = nm-openswan-dialog.ui
 
 libnm_openswan_properties_la_CPPFLAGS = \
+	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(NM_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
