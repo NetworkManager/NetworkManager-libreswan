@@ -35,9 +35,9 @@
 #include <nm-setting-vpn.h>
 #include <nm-setting-connection.h>
 #include <nm-vpn-plugin-utils.h>
+#include <nm-vpn-password-dialog.h>
 
 #include "src/nm-openswan-service.h"
-#include "vpn-password-dialog.h"
 
 #define KEYRING_UUID_TAG "connection-uuid"
 #define KEYRING_SN_TAG "setting-name"
@@ -114,7 +114,7 @@ get_secrets (const char *vpn_uuid,
              char **out_gpw,
              NMSettingSecretFlags gpw_flags)
 {
-	VpnPasswordDialog *dialog;
+	NMAVpnPasswordDialog *dialog;
 	char *upw = NULL, *gpw = NULL;
 	char *prompt;
 	gboolean success = FALSE;
@@ -204,45 +204,45 @@ get_secrets (const char *vpn_uuid,
 		return TRUE;
 	}
 
-	dialog = VPN_PASSWORD_DIALOG (vpn_password_dialog_new (_("Authenticate VPN"), prompt, NULL));
+	dialog = NMA_VPN_PASSWORD_DIALOG (nma_vpn_password_dialog_new (_("Authenticate VPN"), prompt, NULL));
 
-	vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
+	nma_vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
 
 	/* Don't show the user password entry if the user password isn't required,
 	 * or if we don't need new secrets and the user password is saved.
 	 */
 	if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-		vpn_password_dialog_set_show_password (dialog, FALSE);
+		nma_vpn_password_dialog_set_show_password (dialog, FALSE);
 	else if (!retry && upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
-		vpn_password_dialog_set_show_password (dialog, FALSE);
+		nma_vpn_password_dialog_set_show_password (dialog, FALSE);
 
 	if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-		vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
+		nma_vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
 	else if (!retry && gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
-		vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
+		nma_vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
 
 	/* On reprompt the first entry of type 'ask' gets the focus */
 	if (retry) {
 		if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
-			vpn_password_dialog_focus_password (dialog);
+			nma_vpn_password_dialog_focus_password (dialog);
 		else if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
-			vpn_password_dialog_focus_password_secondary (dialog);
+			nma_vpn_password_dialog_focus_password_secondary (dialog);
 	}
 
 	/* if retrying, pre-fill dialog with the password */
 	if (upw)
-		vpn_password_dialog_set_password (dialog, upw);
+		nma_vpn_password_dialog_set_password (dialog, upw);
 
 	if (gpw)
-		vpn_password_dialog_set_password_secondary (dialog, gpw);
+		nma_vpn_password_dialog_set_password_secondary (dialog, gpw);
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 
 	/* Show the dialog */
-	success = vpn_password_dialog_run_and_block (dialog);
+	success = nma_vpn_password_dialog_run_and_block (dialog);
 	if (success) {
-		*out_upw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password (dialog));
-		*out_gpw = gnome_keyring_memory_strdup (vpn_password_dialog_get_password_secondary (dialog));
+		*out_upw = gnome_keyring_memory_strdup (nma_vpn_password_dialog_get_password (dialog));
+		*out_gpw = gnome_keyring_memory_strdup (nma_vpn_password_dialog_get_password_secondary (dialog));
 	}
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
