@@ -27,7 +27,9 @@ icondir = $(datadir)/icons/hicolor/48x48/apps
 endif
 
 nm-openswan-service.name: $(srcdir)/nm-openswan-service.name.in
-	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' $< >$@
+	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' \
+	    -e 's|[@]LIBDIR[@]|$(libdir)|g' \
+	    $< >$@
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
 
