@@ -1,11 +1,11 @@
-# Hungarian translation of NetworkManager-vpnc
+# Hungarian translation of network-manager-openswan
 # Copyright (C) 2006, 2007, 2008, Free Software Foundation, Inc.
-# This file is distributed under the same license as the NetworkManager-vpnc package.
+# This file is distributed under the same license as the network-manager-openswan package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2006, 2007, 2008, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager-vpnc HEAD\n"
+"Project-Id-Version: network-manager-openswan master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-21 01:08+0100\n"
 "PO-Revision-Date: 2013-03-21 01:07+0100\n"
