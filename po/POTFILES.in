@@ -1,6 +1,5 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-auth-dialog/vpn-password-dialog.c
 auth-dialog/main.c
 nm-openswan.desktop.in
 properties/nm-openswan.c
