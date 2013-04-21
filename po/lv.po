@@ -1,0 +1,134 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-04-12 12:47+0000\n"
+"PO-Revision-Date: 2013-04-21 23:41+0300\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+"Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+"X-Generator: Lokalize 1.4\n"
+
+#: ../auth-dialog/main.c:188
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"Jums ir jāautentificējas, lai piekļūtu virtuālajiem privātajiem tīkliem “%s”."
+
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
+msgid "Authenticate VPN"
+msgstr "Autentificēt VPN"
+
+#: ../auth-dialog/main.c:200
+msgid "Password:"
+msgstr "Parole:"
+
+#: ../auth-dialog/main.c:202
+msgid "Group Password:"
+msgstr "Grupas parole:"
+
+#: ../auth-dialog/main.c:223
+msgid "_Group Password:"
+msgstr "_Grupas parole:"
+
+#: ../nm-openswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "Uz IPsec balstīts VPN savienojumu pārvaldnieks (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "Pievienot, noņemt un rediģēt VPN savienojumus"
+
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "Uz IPsec balstīts VPN"
+
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "IPsec, IKEv1, IKEv2 balstīts VPN"
+
+#: ../properties/nm-openswan.c:274
+msgid "Saved"
+msgstr "Saglabāts"
+
+#: ../properties/nm-openswan.c:281
+msgid "Always Ask"
+msgstr "Vienmēr jautāt"
+
+#: ../properties/nm-openswan.c:288
+msgid "Not Required"
+msgstr "Nav nepieciešams"
+
+#: ../properties/nm-openswan-dialog.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-openswan-dialog.ui.h:2
+msgid "<b>General</b>"
+msgstr "<b>Vispārējs</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "Rādīt paroles"
+
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "Gr_upas parole:"
+
+#: ../properties/nm-openswan-dialog.ui.h:5
+msgid "_Gateway:"
+msgstr "_Vārteja:"
+
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "G_rupas nosaukums:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
+msgid "_User password:"
+msgstr "_Lietotāja parole:"
+
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Neobligāts</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Lietotājvārds:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Phase1 algoritms:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Phase2 algoritms:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Domēns:"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Don't quit when VPN connection terminates"
+msgstr "Neiziet, kad tiek pārtraukts VPN savienojums"
+
+#: ../src/nm-openswan-service.c:878
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Aktivēt detalizētu atkļūdošanas reģistrēšanu (var atklāt paroles)"
+
+#: ../src/nm-openswan-service.c:901
+msgid ""
+"nm-openswan-service provides integrated IPsec VPN capability to "
+"NetworkManager."
+msgstr ""
+"nm-openswan-service nodrošina NetworkManager integrētu IPsec VPN iespēju."
+
