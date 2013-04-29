@@ -1,0 +1,145 @@
+# Indonesian translation for network-manager-openswan.
+# Copyright (C) 2013 network-manager-openswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-openswan package.
+# Andika Triwidada <andika@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: network-manager-openswan nm-0-9-8\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-03-21 00:09+0000\n"
+"PO-Revision-Date: 2013-04-30 00:19+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"Language-Team: Indonesian <gnome@i15n.org>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: ../auth-dialog/vpn-password-dialog.c:94
+msgid "_Secondary Password:"
+msgstr "Sandi Sekunde_r:"
+
+#: ../auth-dialog/vpn-password-dialog.c:150
+msgid "_Password:"
+msgstr "_Sandi:"
+
+#: ../auth-dialog/vpn-password-dialog.c:236
+msgid "Sh_ow passwords"
+msgstr "T_ampilkan sandi"
+
+#: ../auth-dialog/main.c:178
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"Anda perlu mengotentikasi untuk mengakses Virtual Private Network '%s'."
+
+#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
+msgid "Authenticate VPN"
+msgstr "Otentikasikan VPN"
+
+#: ../auth-dialog/main.c:190
+msgid "Password:"
+msgstr "Sandi:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "Sandi Grup:"
+
+#: ../auth-dialog/main.c:213
+msgid "_Group Password:"
+msgstr "Sandi _Grup:"
+
+#: ../nm-openswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "Manajer Koneksi VPN Berbasis IPsec (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
+msgid "Add, Remove, and Edit VPN Connections"
+msgstr "Tambah, Hapus, dan Sunting Koneksi VPN"
+
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "VPN berbasis IPsec"
+
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "VPN berbasis IPsec, IKEv1, IKEv2"
+
+#: ../properties/nm-openswan.c:274
+msgid "Saved"
+msgstr "Disimpan"
+
+#: ../properties/nm-openswan.c:281
+msgid "Always Ask"
+msgstr "Selalu Tanyakan"
+
+#: ../properties/nm-openswan.c:288
+msgid "Not Required"
+msgstr "Tak Diperlukan"
+
+#: ../properties/nm-openswan-dialog.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-openswan-dialog.ui.h:2
+msgid "<b>General</b>"
+msgstr "<b>Umum</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "Tampilkan sandi"
+
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "Sandi gr_up:"
+
+#: ../properties/nm-openswan-dialog.ui.h:5
+msgid "_Gateway:"
+msgstr "_Gateway:"
+
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "Nama g_rup:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
+msgid "_User password:"
+msgstr "Sandi pengg_una:"
+
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Opsional</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Nama pengguna:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Algoritma Fase1:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Algoritma Fase2:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Domain:"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Don't quit when VPN connection terminates"
+msgstr "Jangan keluar ketika koneksi VPN berakhir"
+
+#: ../src/nm-openswan-service.c:878
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Fungsikan log awakutu cerewet (mungkin mengungkap sandi)"
+
+#: ../src/nm-openswan-service.c:901
+msgid ""
+"nm-openswan-service provides integrated IPsec VPN capability to "
+"NetworkManager."
+msgstr ""
+"nm-openswan-service menyediakan kapabilitas VPN IPsec terintegrasi ke "
+"NetworkManager."
