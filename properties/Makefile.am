@@ -17,8 +17,7 @@ libnm_openswan_properties_la_CPPFLAGS = \
 	-DUIDIR=\""$(uidir)"\" \
 	-DG_DISABLE_DEPRECATED \
 	-DGDK_DISABLE_DEPRECATED \
-	-DGNOME_DISABLE_DEPRECATED \
-	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
+	-DLOCALEDIR=\"$(datadir)/locale\" \
 	-DVERSION=\"$(VERSION)\"
 
 libnm_openswan_properties_la_LIBADD = \
