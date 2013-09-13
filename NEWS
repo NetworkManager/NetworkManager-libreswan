@@ -1,4 +1,16 @@
 =======================================================
+network-manager-openswan-0.9.8.4
+Overview of changes since network-manager-openswan-0.9.8
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Updated translations
+* Fixed paths in VPN service file
+* Fixed localization in non-UTF-8 locales
+
+
+=======================================================
 network-manager-openswan-0.9.8
 Overview of changes since network-manager-openswan-0.9.6
 =======================================================
