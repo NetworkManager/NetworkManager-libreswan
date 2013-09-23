@@ -3,191 +3,211 @@
 # Ilkka Tuohela <hile@iki.fi>, 2006-2008.
 #
 # Suomennos: http://gnome.fi/
+# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-29 20:22+0300\n"
-"PO-Revision-Date: 2008-11-29 20:25+0300\n"
-"Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
-"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-11 18:22+0000\n"
+"PO-Revision-Date: 2013-09-22 19:59+0300\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
+"Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:145
-msgid "_Secondary Password:"
-msgstr "_Toissijainen salasana:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:259
-msgid "_Username:"
-msgstr "_Käyttäjätunnus:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:261
-msgid "_Domain:"
-msgstr "_Toimialue:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:263
-msgid "_Password:"
-msgstr "_Salasana:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:352
-msgid "Connect _anonymously"
-msgstr "Yhdistä _anonyymisti"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:357
-msgid "Connect as _user:"
-msgstr "Yhdistä _käyttäjänä:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:466
-msgid "_Remember passwords for this session"
-msgstr "_Muista salasana istunnon ajan"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:468
-msgid "_Save passwords in keyring"
-msgstr "_Tallenna salasana avainrenkaaseen"
-
-#: ../auth-dialog/main.c:105
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Yhteydenotto VPN-verkkoon \"%s\" vaatii kirjautumista."
 
-#: ../auth-dialog/main.c:106
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "Todenna VPN-yhteyden avaus"
 
-#: ../auth-dialog/main.c:113
+#: ../auth-dialog/main.c:200
+#| msgid "_Password:"
+msgid "Password:"
+msgstr "Salasana:"
+
+#: ../auth-dialog/main.c:202
+#| msgid "_Group Password:"
+msgid "Group Password:"
+msgstr "Ryhmän salasana:"
+
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "_Ryhmän salasana:"
 
-#: ../nm-vpnc.desktop.in.h:1
+#: ../nm-openswan.desktop.in.h:1
+#| msgid "VPN Connection Manager (vpnc)"
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "Lisää, poista tai muokkaa VPN-yhteyksiä"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN-yhteysohjelmisto (vpnc)"
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "IPsec-pohjainen VPN"
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "Cisco-yhteensopiva VPN-asiakas (vpnc)"
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "IPsec-, IKEv1- ja IKEv2-pohjainen VPN"
 
-#: ../properties/nm-vpnc.c:54
-msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
-"VPN gateways."
-msgstr ""
-"Yhteensopiva useiden esimerkiksi Ciscon, Juniperin, Netscreenin ja "
-"Sonicwallin valmistamien IPSec-pohjaisten VPN-yhdyskäytävien kanssa."
-
-#: ../properties/nm-vpnc.c:325
+#: ../properties/nm-openswan.c:274
 msgid "Saved"
 msgstr "Tallennettu"
 
-#: ../properties/nm-vpnc.c:332
+#: ../properties/nm-openswan.c:281
 msgid "Always Ask"
 msgstr "Kysy aina"
 
-#: ../properties/nm-vpnc.c:339
+#: ../properties/nm-openswan.c:288
 msgid "Not Required"
 msgstr "Ei vaadittu"
 
-#: ../properties/nm-vpnc.c:398
-msgid "Secure (default)"
-msgstr "Turvallinen (oletus)"
-
-#: ../properties/nm-vpnc.c:401
-msgid "Weak (use with caution)"
-msgstr "Heikko (käytä varoen)"
-
-#: ../properties/nm-vpnc.c:409
-msgid "None (completely insecure)"
-msgstr "Ei salausta (täysin turvaton)"
-
-#: ../properties/nm-vpnc.c:450
-msgid "Cisco UDP (default)"
-msgstr "Cisco UDP (oletus)"
-
-#: ../properties/nm-vpnc.c:457
-msgid "NAT-T"
-msgstr "NAT-T"
-
-#: ../properties/nm-vpnc.c:464
-msgid "Disabled"
-msgstr "Ei käytössä"
-
-#: ../properties/nm-vpnc.c:1085
-msgid "TCP tunneling not supported"
-msgstr "TCP-tunnelointi ei ole tuettu"
-
-#: ../properties/nm-vpnc.c:1087
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"VPN-asetustiedosto \"%s\" määrittelee, että VPN-liikenne tulisi tunneloida "
-"TCP-yhteyden läpi, mutta vpnc ei vielä tue tätä ominaisuutta.\n"
-"\n"
-"Yhteys voidaan edelleen luoda ilman TCP-tunnelointia, mutta se ei ehkä toimi "
-"kuten oli tarkoitus."
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
+#: ../properties/nm-openswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
+#: ../properties/nm-openswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Yleisasetukset</b>"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>Lisäasetukset</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "Älä havaitse vastapaan katoamista"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "Toimialue:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "Salausmenetelmä:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "_Ryhmän nimi:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "_Ryhmän salasana:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "NAT-läpäisytapa:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
+#: ../properties/nm-openswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Näytä salasanat"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "Käyttäjätunnus:"
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "_Ryhmän salasana:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-openswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Yhdyskäytävä:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "_Ryhmän nimi:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "_Käyttäjän salasana:"
+
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Lisäasetukset</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Käyttäjätunnus:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Phase1-algoritmit:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Phase2-algoritmit:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Toimialue:"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Don't quit when VPN connection terminates"
+msgstr "Älä lopeta VPN-yhteyden päättyessä"
+
+#: ../src/nm-openswan-service.c:878
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-openswan-service.c:901
+msgid ""
+"nm-openswan-service provides integrated IPsec VPN capability to "
+"NetworkManager."
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Toissijainen salasana:"
+
+#~ msgid "_Username:"
+#~ msgstr "_Käyttäjätunnus:"
+
+#~ msgid "_Domain:"
+#~ msgstr "_Toimialue:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "Yhdistä _anonyymisti"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "Yhdistä _käyttäjänä:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_Muista salasana istunnon ajan"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Tallenna salasana avainrenkaaseen"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "Cisco-yhteensopiva VPN-asiakas (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "based VPN gateways."
+#~ msgstr ""
+#~ "Yhteensopiva useiden esimerkiksi Ciscon, Juniperin, Netscreenin ja "
+#~ "Sonicwallin valmistamien IPSec-pohjaisten VPN-yhdyskäytävien kanssa."
+
+#~ msgid "Secure (default)"
+#~ msgstr "Turvallinen (oletus)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "Heikko (käytä varoen)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "Ei salausta (täysin turvaton)"
+
+#~ msgid "Cisco UDP (default)"
+#~ msgstr "Cisco UDP (oletus)"
+
+#~ msgid "NAT-T"
+#~ msgstr "NAT-T"
+
+#~ msgid "Disabled"
+#~ msgstr "Ei käytössä"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP-tunnelointi ei ole tuettu"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "VPN-asetustiedosto \"%s\" määrittelee, että VPN-liikenne tulisi "
+#~ "tunneloida TCP-yhteyden läpi, mutta vpnc ei vielä tue tätä ominaisuutta.\n"
+#~ "\n"
+#~ "Yhteys voidaan edelleen luoda ilman TCP-tunnelointia, mutta se ei ehkä "
+#~ "toimi kuten oli tarkoitus."
+
+#~ msgid "Disable Dead Peer Detection"
+#~ msgstr "Älä havaitse vastapaan katoamista"
+
+#~ msgid "Encryption method:"
+#~ msgstr "Salausmenetelmä:"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "NAT-läpäisytapa:"
 
 #~ msgid "NAT-T (default)"
 #~ msgstr "NAT-T (oletus)"
