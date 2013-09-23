@@ -1,181 +1,202 @@
 # Galician translation of NetworkManager Applet
 # Copyright (C) -2008, The GNOME Foundation
 # This file is distributed under the same license as the NetworkManager Applet package.
-#
 # Ignacio Casal Quinteiro <icq@cvs.gnome.org>, 2007, 2008.
 # Mancomún - Centro de Referencia e Servizos de Software Libre <g11n@mancomun.org>, 2009.
+# Fran Dieguez <frandieguez@gnome.org>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-24 13:11+0100\n"
-"PO-Revision-Date: 2009-03-10 14:09+0100\n"
-"Last-Translator: Suso Baleato <suso.baleato@xunta.es>\n"
-"Language-Team: Galician <proxecto@trasno.net>\n"
+"POT-Creation-Date: 2013-09-23 02:40+0200\n"
+"PO-Revision-Date: 2013-09-23 02:41+0200\n"
+"Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
+"Language-Team: gnome-l10n-gl@gnome.org\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:103
-msgid "_Secondary Password:"
-msgstr "Contrasinal _secundario:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:159
-msgid "_Password:"
-msgstr "_Contrasinal:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:240
-msgid "Sh_ow passwords"
-msgstr "M_ostrar os contrasinais"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:300
-msgid "_Remember passwords for this session"
-msgstr "_Lembrar os contrasinais para esta sesión"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:301
-msgid "_Save passwords in keyring"
-msgstr "_Gardar os contrasinais no anel de chaves"
-
-#: ../auth-dialog/main.c:170
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Precisa autenticarse para acceder á rede privada virtual (VPN) '%s'."
 
-#: ../auth-dialog/main.c:171
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "Autenticar VPN"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:200
+msgid "Password:"
+msgstr "Contrasinal:"
+
+#: ../auth-dialog/main.c:202
+msgid "Group Password:"
+msgstr "Contrasinal de grupo:"
+
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "Contrasinal de _grupo:"
 
-#: ../nm-vpnc.desktop.in.h:1
+#: ../nm-openswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "Xestor de conexión VPN baseada en IPsec (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "Engadir, eliminar e editar conexións VPN"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "Xestor de conexión VPN (vpnc)"
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "VPN baseada en IPsec"
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "VPN compatíbel con Cisco (vpnc)"
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "VPN baseada en IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-vpnc.c:54
-msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
-"VPN gateways."
-msgstr "Compatíbel con diferentes pasarelas VPN baseadas en IPSec."
-
-#: ../properties/nm-vpnc.c:339
+#: ../properties/nm-openswan.c:274
 msgid "Saved"
 msgstr "Gardado"
 
-#: ../properties/nm-vpnc.c:346
+#: ../properties/nm-openswan.c:281
 msgid "Always Ask"
 msgstr "Preguntar sempre"
 
-#: ../properties/nm-vpnc.c:353
+#: ../properties/nm-openswan.c:288
 msgid "Not Required"
 msgstr "Non requirido"
 
-#: ../properties/nm-vpnc.c:412
-msgid "Secure (default)"
-msgstr "Segura (predeterminado)"
-
-#: ../properties/nm-vpnc.c:415
-msgid "Weak (use with caution)"
-msgstr "Débil (usar con coidado)"
-
-#: ../properties/nm-vpnc.c:423
-msgid "None (completely insecure)"
-msgstr "Ningunha (totalmente insegura)"
-
-#: ../properties/nm-vpnc.c:471
-msgid "Cisco UDP (default)"
-msgstr "UDP Cisco (predeterminado)"
-
-#: ../properties/nm-vpnc.c:478
-msgid "NAT-T"
-msgstr "NAT-T"
-
-#: ../properties/nm-vpnc.c:485
-msgid "Disabled"
-msgstr "Desactivado"
-
-#: ../properties/nm-vpnc.c:1116
-msgid "TCP tunneling not supported"
-msgstr "Non se soporta o túnel TCP"
-
-#: ../properties/nm-vpnc.c:1118
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"O ficheiro de configuración de VPN '%s' especifica que o tráfico de VPN "
-"debería conducirse mediante un túnel a través de TCP, o que actualmente non "
-"está soportado no software de vpnc.\n"
-"\n"
-"A conexión aínda se pode crear, co túnel TCP desactivado, mais podería non "
-"funcionar como se espera."
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
+#: ../properties/nm-openswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
+#: ../properties/nm-openswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Xeral</b>"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>Opcional</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "Desactivar a detección de peer morto"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "Dominio:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "Método de codificado:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "Nome de g_rupo:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "Contrasinal de gr_upo:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "Pasaxe NAT:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
+#: ../properties/nm-openswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Mostrar os contrasinais"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "Nome de usuario:"
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "Contrasinal de gr_upo:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-openswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Pasarela:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "Nome de g_rupo:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "Contrasinal de _usuario:"
+
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Opcional</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Nome de usuario:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Algoritmos de Phase1:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmos de Phase2:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Dominio:"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Don't quit when VPN connection terminates"
+msgstr "Non saír cando unha conexión VPN remata."
+
+#: ../src/nm-openswan-service.c:878
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+"Activar o modo detallado de rexistro de depuración (pode mostrar "
+"contrasinais en claro)."
+
+#: ../src/nm-openswan-service.c:901
+msgid ""
+"nm-openswan-service provides integrated IPsec VPN capability to "
+"NetworkManager."
+msgstr ""
+"nm-openswan-service fornece a capacidade de integrar VPN IPsec con "
+"NetworkManager."
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "Contrasinal _secundario:"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "M_ostrar os contrasinais"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_Lembrar os contrasinais para esta sesión"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Gardar os contrasinais no anel de chaves"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "VPN compatíbel con Cisco (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "based VPN gateways."
+#~ msgstr "Compatíbel con diferentes pasarelas VPN baseadas en IPSec."
+
+#~ msgid "Secure (default)"
+#~ msgstr "Segura (predeterminado)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "Débil (usar con coidado)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "Ningunha (totalmente insegura)"
+
+#~ msgid "Cisco UDP (default)"
+#~ msgstr "UDP Cisco (predeterminado)"
+
+#~ msgid "NAT-T"
+#~ msgstr "NAT-T"
+
+#~ msgid "Disabled"
+#~ msgstr "Desactivado"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "Non se soporta o túnel TCP"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "O ficheiro de configuración de VPN '%s' especifica que o tráfico de VPN "
+#~ "debería conducirse mediante un túnel a través de TCP, o que actualmente "
+#~ "non está soportado no software de vpnc.\n"
+#~ "\n"
+#~ "A conexión aínda se pode crear, co túnel TCP desactivado, mais podería "
+#~ "non funcionar como se espera."
+
+#~ msgid "Disable Dead Peer Detection"
+#~ msgstr "Desactivar a detección de peer morto"
+
+#~ msgid "Encryption method:"
+#~ msgstr "Método de codificado:"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "Pasaxe NAT:"
 
 #~ msgid "_Username:"
 #~ msgstr "Nome de _usuario:"
