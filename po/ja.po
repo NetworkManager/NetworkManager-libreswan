@@ -6,284 +6,265 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-23 00:35+0900\n"
-"PO-Revision-Date: 2007-07-23 01:45+0900\n"
-"Last-Translator: Satoru SATOH <ss@gnome.gr.jp>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-23 04:10+0000\n"
+"PO-Revision-Date: 2013-10-03 14:18+0900\n"
+"Last-Translator: Hajime Taira <htaira@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "第二パスワード(_S):"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "ユーザ名(_U):"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "ドメイン(_D)"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
-msgstr "パスワード(_P):"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "匿名で接続(_A)"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr "ユーザで接続(_U):"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr "このセッションのパスワードを記憶する(_R)"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "パスワードをキーリングに保存する(_S)"
-
-#: ../auth-dialog/main.c:161
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "仮想プライベートネットワーク '%s' にアクセスするには認証が必要です。"
 
-#: ../auth-dialog/main.c:162
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "VPN 認証"
 
-#: ../auth-dialog/main.c:169
+#: ../auth-dialog/main.c:200
+msgid "Password:"
+msgstr "パスワード:"
+
+#: ../auth-dialog/main.c:202
+msgid "Group Password:"
+msgstr "グループパスワード:"
+
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "グループパスワード(_G):"
 
-#: ../nm-vpnc.desktop.in.h:1
+#: ../nm-openswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "IPsec ベースの VPN 接続マネージャー (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "VPN 接続を追加、削除または編集"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN 接続マネージャ (vpnc)"
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "IPsec ベースの VPN"
 
-#: ../properties/nm-vpnc.c:91
-msgid "Compatible Cisco VPN client (vpnc)"
-msgstr "Cisco VPN 互換クライアント (vpnc)"
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "IPsec, IKEv1, IKEv2 ベースの VPN"
 
-#: ../properties/nm-vpnc.c:510
-msgid "The following vpnc VPN connection will be created:"
-msgstr "次の vpnc VPN 接続を作成します:"
+#: ../properties/nm-openswan.c:274
+msgid "Saved"
+msgstr "保存しました"
 
-#: ../properties/nm-vpnc.c:512
-#, c-format
-msgid "Name:  %s"
-msgstr "名前:  %s"
+#: ../properties/nm-openswan.c:281
+msgid "Always Ask"
+msgstr "毎回求める"
 
-#: ../properties/nm-vpnc.c:515
-#, c-format
-msgid "Gateway:  %s"
-msgstr "ゲートウェイ:  %s"
+#: ../properties/nm-openswan.c:288
+msgid "Not Required"
+msgstr "不要"
 
-#: ../properties/nm-vpnc.c:517
-#, c-format
-msgid "Group Name:  %s"
-msgstr "グループ名:  %s"
+#: ../properties/nm-openswan-dialog.ui.h:1
+msgid " "
+msgstr " "
 
-#: ../properties/nm-vpnc.c:521
-#, c-format
-msgid "Username:  %s"
-msgstr "ユーザ名:  %s"
+#: ../properties/nm-openswan-dialog.ui.h:2
+msgid "<b>General</b>"
+msgstr "<b>全般</b>"
 
-#: ../properties/nm-vpnc.c:526
-#, c-format
-msgid "Domain:  %s"
-msgstr "ドメイン:  %s"
+#: ../properties/nm-openswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "パスワードを表示する"
 
-#: ../properties/nm-vpnc.c:531
-#, c-format
-msgid "Routes:  %s"
-msgstr "ルート:  %s"
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "グループパスワード(_U):"
 
-#: ../properties/nm-vpnc.c:535
-#, c-format
-msgid "NAT-Keepalive packet interval:  %s"
-msgstr "NAT-Keepalive パケット間隔:  %s"
-
-#: ../properties/nm-vpnc.c:539
-msgid "Enable Single DES"
-msgstr "シングル DES を有効にする"
-
-#: ../properties/nm-vpnc.c:543
-msgid "Disable NAT Traversal"
-msgstr "NAT Traversal を無効にする"
-
-#: ../properties/nm-vpnc.c:547
-msgid "The connection details can be changed using the \"Edit\" button."
-msgstr "接続の詳細は\"編集\"ボタンで変更できます。"
-
-#: ../properties/nm-vpnc.c:625
-msgid "TCP tunneling not supported"
-msgstr "TCP トンネリングはサポートされていません"
-
-#: ../properties/nm-vpnc.c:627
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"VPn 設定ファイル '%s' は VPN 通信が TCP を介してトンネルされるように指定して"
-"いますが、今のところ vpnc はこの機能をサポートしていません。\n"
-"\n"
-"TCP トンネリングを無効にした上で接続を作成することはできますが期待どおりに動"
-"作しないかもしれません。"
-
-#: ../properties/nm-vpnc.c:648
-msgid "Cannot import settings"
-msgstr "設定をインポートできません"
-
-#: ../properties/nm-vpnc.c:650
-#, c-format
-msgid "The VPN settings file '%s' does not contain valid data."
-msgstr "VPN 設定ファイル '%s' には適切なデータが含まれていません。"
-
-#: ../properties/nm-vpnc.c:667
-msgid "Select file to import"
-msgstr "インポートするファイルを選択"
-
-#. printf ("in impl_export\n");
-#: ../properties/nm-vpnc.c:840
-msgid "Save as..."
-msgstr "別名で保存..."
-
-#: ../properties/nm-vpnc.c:870
-#, c-format
-msgid "A file named \"%s\" already exists."
-msgstr "ファイル \"%s\" は既にあります。"
-
-#: ../properties/nm-vpnc.c:873
-msgid "Do you want to replace it with the one you are saving?"
-msgstr "保存しようとしているファイルで上書きしますか?"
-
-#: ../properties/nm-vpnc.c:887
-msgid "Failed to export configuration"
-msgstr "設定のエクスポートに失敗"
-
-#: ../properties/nm-vpnc.c:889
-#, c-format
-msgid "Failed to save file %s"
-msgstr "ファイル %s の保存に失敗"
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-msgstr "<i>例: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "Connection na_me:"
-msgstr "接続名(_M):"
-
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "Disable NAT _traversal"
-msgstr "NAT Traversal を無効にする(_T)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Enable _weak single DES encryption"
-msgstr "弱いシングル DES 暗号を有効にする(_W)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "G_roup name:"
-msgstr "グループ名(_R):"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Import _Saved Configuration..."
-msgstr "保存設定をインポート(_S)..."
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "Interval:"
-msgstr "間隔:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid ""
-"Name used to identify the connection to the private network, e.g. \"Campus "
-"VPN\" or \"Corporate Network\""
-msgstr "例えば \"キャンパス VPN\" や \"社内ネットワーク\" などといった"
-"プライベートネットワークの接続を識別するための名前です。"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "Optional"
-msgstr "オプション"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Override _user name"
-msgstr "ユーザ名を上書き指定(_U)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid ""
-"Please enter the information provided by your system administrator below. Do "
-"not enter your password here as you will be prompted when connecting."
-msgstr ""
-"システム管理者が提供した情報を下に入力してください。接続時にきかれるまではパ"
-"スワードは入力しないでください。"
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
-msgid ""
-"Please note that the file you import is not a Cisco VPN or VPNC "
-"configuration file. Ask your adminstrator for the file."
-msgstr "インポートしたファイルは Cisco VPN と VPNC の設定ファイルの"
-"いずれでもありません。管理者に尋ねてみて下さい。"
-
-#: ../properties/nm-vpnc-dialog.glade.h:13
-msgid "Required"
-msgstr "必須"
-
-#: ../properties/nm-vpnc-dialog.glade.h:14
-msgid "Use NAT _keepalive packets"
-msgstr "NAT Keepalive パケットを使用(_K)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:15
-msgid "Use _domain for authentication"
-msgstr "認証にドメインを使用(_D)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:16
+#: ../properties/nm-openswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "ゲートウェイ(_G):"
 
-#: ../properties/nm-vpnc-dialog.glade.h:17
-msgid "_Only use VPN connection for these addresses"
-msgstr "これらのアドレスについてのみ VPN 接続を利用(_O)"
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "グループ名(_R):"
 
-#: ../src/nm-vpnc-service.c:119
-msgid ""
-"The VPN login failed because the user name and password were not accepted."
-msgstr "VPN ログインに失敗。ユーザ名、パスワードが間違っています。"
+#: ../properties/nm-openswan-dialog.ui.h:7
+msgid "_User password:"
+msgstr "ユーザーパスワード(_U):"
 
-#: ../src/nm-vpnc-service.c:121
-msgid "The VPN login failed because the VPN program could not be started."
-msgstr "VPN ログインに失敗。VPN プログラムを起動できませんでした。"
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>オプション</b>"
 
-#: ../src/nm-vpnc-service.c:123
-msgid ""
-"The VPN login failed because the VPN program could not connect to the VPN "
-"server."
-msgstr ""
-"VPN ログインに失敗。VPN プログラムは VPN サーバに接続できませんでした。"
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "ユーザー名:"
 
-#: ../src/nm-vpnc-service.c:125
-msgid ""
-"The VPN login failed because the VPN configuration options were invalid."
-msgstr "VPN ログインに失敗。VPN 設定オプションが間違っています。"
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "フェーズ1 アルゴリズム:"
 
-#: ../src/nm-vpnc-service.c:127
-msgid ""
-"The VPN login failed because the VPN program received an invalid "
-"configuration from the VPN server."
-msgstr ""
-"VPN ログインに失敗。VPN プログラムが VPN サーバから受け取った設定は適切なもの"
-"ではありません。"
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "フェーズ2 アルゴリズム:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "ドメイン:"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Don't quit when VPN connection terminates"
+msgstr "終了時に VPN 接続を切断しない"
+
+#: ../src/nm-openswan-service.c:878
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "詳細なデバッグログ機能を有効化する (パスワードが露出する可能性があります)"
+
+#: ../src/nm-openswan-service.c:901
+msgid "nm-openswan-service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "nm-openswan-service は NetworkManager に統合化された IPsec VPN 機能を提供します。"
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "第二パスワード(_S):"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "匿名で接続(_A)"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "ユーザで接続(_U):"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "このセッションのパスワードを記憶する(_R)"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "パスワードをキーリングに保存する(_S)"
+
+#~ msgid "Compatible Cisco VPN client (vpnc)"
+#~ msgstr "Cisco VPN 互換クライアント (vpnc)"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "次の vpnc VPN 接続を作成します:"
+
+#~ msgid "Name:  %s"
+#~ msgstr "名前:  %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "ゲートウェイ:  %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "グループ名:  %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "ユーザ名:  %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "ドメイン:  %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "ルート:  %s"
+
+#~ msgid "NAT-Keepalive packet interval:  %s"
+#~ msgstr "NAT-Keepalive パケット間隔:  %s"
+
+#~ msgid "Enable Single DES"
+#~ msgstr "シングル DES を有効にする"
+
+#~ msgid "Disable NAT Traversal"
+#~ msgstr "NAT Traversal を無効にする"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "接続の詳細は\"編集\"ボタンで変更できます。"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP トンネリングはサポートされていません"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however it may not work as expected."
+#~ msgstr ""
+#~ "VPn 設定ファイル '%s' は VPN 通信が TCP を介してトンネルされるように指定していますが、今のところ vpnc はこの機能をサポートしていません。\n"
+#~ "\n"
+#~ "TCP トンネリングを無効にした上で接続を作成することはできますが期待どおりに動作しないかもしれません。"
+
+#~ msgid "Cannot import settings"
+#~ msgstr "設定をインポートできません"
+
+#~ msgid "The VPN settings file '%s' does not contain valid data."
+#~ msgstr "VPN 設定ファイル '%s' には適切なデータが含まれていません。"
+
+#~ msgid "Select file to import"
+#~ msgstr "インポートするファイルを選択"
+
+#~ msgid "Save as..."
+#~ msgstr "別名で保存..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "ファイル \"%s\" は既にあります。"
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "保存しようとしているファイルで上書きしますか?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "設定のエクスポートに失敗"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "ファイル %s の保存に失敗"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>例: 172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "Connection na_me:"
+#~ msgstr "接続名(_M):"
+
+#~ msgid "Disable NAT _traversal"
+#~ msgstr "NAT Traversal を無効にする(_T)"
+
+#~ msgid "Enable _weak single DES encryption"
+#~ msgstr "弱いシングル DES 暗号を有効にする(_W)"
+
+#~ msgid "Import _Saved Configuration..."
+#~ msgstr "保存設定をインポート(_S)..."
+
+#~ msgid "Interval:"
+#~ msgstr "間隔:"
+
+#~ msgid "Name used to identify the connection to the private network, e.g. \"Campus VPN\" or \"Corporate Network\""
+#~ msgstr "例えば \"キャンパス VPN\" や \"社内ネットワーク\" などといったプライベートネットワークの接続を識別するための名前です。"
+
+#~ msgid "Override _user name"
+#~ msgstr "ユーザ名を上書き指定(_U)"
+
+#~ msgid "Please enter the information provided by your system administrator below. Do not enter your password here as you will be prompted when connecting."
+#~ msgstr "システム管理者が提供した情報を下に入力してください。接続時にきかれるまではパスワードは入力しないでください。"
+
+#~ msgid "Please note that the file you import is not a Cisco VPN or VPNC configuration file. Ask your adminstrator for the file."
+#~ msgstr "インポートしたファイルは Cisco VPN と VPNC の設定ファイルのいずれでもありません。管理者に尋ねてみて下さい。"
+
+#~ msgid "Use NAT _keepalive packets"
+#~ msgstr "NAT Keepalive パケットを使用(_K)"
+
+#~ msgid "Use _domain for authentication"
+#~ msgstr "認証にドメインを使用(_D)"
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "これらのアドレスについてのみ VPN 接続を利用(_O)"
+
+#~ msgid "The VPN login failed because the user name and password were not accepted."
+#~ msgstr "VPN ログインに失敗。ユーザ名、パスワードが間違っています。"
+
+#~ msgid "The VPN login failed because the VPN program could not be started."
+#~ msgstr "VPN ログインに失敗。VPN プログラムを起動できませんでした。"
+
+#~ msgid "The VPN login failed because the VPN program could not connect to the VPN server."
+#~ msgstr "VPN ログインに失敗。VPN プログラムは VPN サーバに接続できませんでした。"
+
+#~ msgid "The VPN login failed because the VPN configuration options were invalid."
+#~ msgstr "VPN ログインに失敗。VPN 設定オプションが間違っています。"
+
+#~ msgid "The VPN login failed because the VPN program received an invalid configuration from the VPN server."
+#~ msgstr "VPN ログインに失敗。VPN プログラムが VPN サーバから受け取った設定は適切なものではありません。"
 
 #~ msgid "<b>Required Information</b>"
 #~ msgstr "<b>必須情報</b>"
