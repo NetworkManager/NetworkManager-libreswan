@@ -577,7 +577,8 @@ nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn,
 
         write_config_option (fdtmp1, " nm_configured=yes\n");
         //write_config_option (fdtmp1, " leftupdown=%s\n", NM_OSW_UPDOWN_PATH);
-        write_config_option (fdtmp1, " auto=add\n");
+        //write_config_option (fdtmp1, " auto=add\n");
+        write_config_option (fdtmp1, " auto=add");
         //write_config_option (fdtmp1, " #connectionname=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_SETTING_VPN_SETTING_NAME));
         //write_config_option (fdtmp1, " #connectionname=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_SETTING_NAME));
 	}
