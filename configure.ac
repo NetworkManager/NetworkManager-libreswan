@@ -103,6 +103,7 @@ AC_CONFIG_FILES([
 Makefile
 src/Makefile
 auth-dialog/Makefile
+auth-dialog/nm-openswan-auth-dialog.desktop.in
 properties/Makefile
 po/Makefile.in
 ])
