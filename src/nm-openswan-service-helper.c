@@ -202,12 +202,13 @@ int
 main (int argc, char *argv[])
 {
 	DBusGConnection *connection;
-	char *tmp;
+	char *tmp=NULL;
 	GHashTable *config;
 	GValue *val;
 	GError *err = NULL;
-	//struct in_addr temp_addr;
+	struct in_addr temp_addr;
 	//long int mtu = 1412;
+	char nmask[16]="255.255.255.255";
 
 #if !GLIB_CHECK_VERSION (2, 35, 0)
 	g_type_init ();
@@ -237,13 +238,25 @@ main (int argc, char *argv[])
 	else
 		helper_failed (connection, "Openswan Pluto Right Peer (VPN Gateway)");
 
+
+	/*
+	 * Tunnel device
+	 * Indicate that openswan plugin doesn't use tun/tap device
+	 */
+	val = g_slice_new0 (GValue);
+	g_value_init (val, G_TYPE_STRING);
+	g_value_set_string (val, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
+
+#if 0
 	/* Tunnel device */
 	//val = str_to_gvalue (getenv ("TUNDEV"), FALSE);
-	val = str_to_gvalue ("tun0", FALSE);
+	//val = str_to_gvalue ("tun0", FALSE);
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
 	else
 		helper_failed (connection, "Tunnel Device");
+#endif
 
 	/* IP address */
 	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
@@ -258,9 +271,10 @@ main (int argc, char *argv[])
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else
 		helper_failed (connection, "IP4 PTP Address");
-#if 0
+//#if 0
 	/* Netmask */
-	tmp = getenv ("INTERNAL_IP4_NETMASK");
+	//tmp = getenv ("INTERNAL_IP4_NETMASK");
+	tmp = nmask;
 	if (tmp && inet_pton (AF_INET, tmp, &temp_addr) > 0) {
 		GValue *value;
 
@@ -270,7 +284,7 @@ main (int argc, char *argv[])
 
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, value);
 	}
-#endif
+//#endif
 
 	/* DNS */
 	val = addr_list_to_gvalue (getenv ("PLUTO_CISCO_DNS_INFO"));

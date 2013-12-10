@@ -54,6 +54,10 @@
 #define NM_OPENSWAN_PW_TYPE_ASK    "ask"
 #define NM_OPENSWAN_PW_TYPE_UNUSED "unused"
 
+#ifndef NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE
+#define NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE "_none_"
+#endif
+
 typedef struct {
 	NMVPNPlugin parent;
 } NMOPENSWANPlugin;
