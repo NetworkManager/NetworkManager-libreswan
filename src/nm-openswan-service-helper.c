@@ -207,7 +207,6 @@ main (int argc, char *argv[])
 	GValue *val;
 	GError *err = NULL;
 	struct in_addr temp_addr;
-	//long int mtu = 1412;
 	char nmask[16]="255.255.255.255";
 
 #if !GLIB_CHECK_VERSION (2, 35, 0)
@@ -291,12 +290,6 @@ main (int argc, char *argv[])
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
-#if 0
-	/* WINS servers */
-	val = addr_list_to_gvalue (getenv ("INTERNAL_IP4_NBNS"));
-	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_NBNS, val);
-#endif
 
 	/* Default domain */
 	val = str_to_gvalue (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
@@ -308,20 +301,6 @@ main (int argc, char *argv[])
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
-#if 0
-	/* MTU */
-	tmp = getenv ("INTERNAL_IP4_MTU");
-	if (tmp && strlen (tmp)) {
-		errno = 0;
-		mtu = strtol (tmp, NULL, 10);
-		if (errno || mtu < 0 || mtu > 20000) {
-			g_warning ("Ignoring invalid tunnel MTU '%s'", tmp);
-			mtu = 1412;
-		}
-	}
-	val = uint_to_gvalue ((guint32) mtu);
-	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_MTU, val);
-#endif
 
 	/* Send the config info to nm-openswan-service */
 	send_ip4_config (connection, config);

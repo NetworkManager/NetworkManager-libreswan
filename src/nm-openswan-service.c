@@ -308,11 +308,7 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 	g_ptr_array_add (openswan_argv, (gpointer) "--add");
 	g_ptr_array_add (openswan_argv, (gpointer) "--config");
 	g_ptr_array_add (openswan_argv, (gpointer) "-");
-	//g_ptr_array_add (openswan_argv, (gpointer) "--up");
-	//g_ptr_array_add (openswan_argv, (gpointer) "--name");
 	g_ptr_array_add (openswan_argv, (gpointer) "nm-conn1");
-	//g_ptr_array_add (openswan_argv, (gpointer) "--xauthpass");
-	//g_ptr_array_add (openswan_argv, (gpointer) nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
 	g_ptr_array_add (openswan_argv, NULL);
 
 	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
@@ -524,17 +520,11 @@ nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn,
 {
 	WriteConfigInfo *info;
 	const char *props_username;
-	//const char *props_natt_mode;
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
-	//const char *pw_type;
 	gint fdtmp1=-1;
-	//gint conf_fd=-1;
-	//gint secret_fd=-1;
 
-        //conf_fd = open ("/etc/ipsec.d/ipsec-nm-conn1.conf", O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
-        //secret_fd = open ("/etc/ipsec.d/ipsec-nm-conn1.secrets", O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
 
         fdtmp1 = openswan_fd;
         if(fdtmp1 != -1) {
@@ -576,49 +566,17 @@ nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn,
         }
 
         write_config_option (fdtmp1, " nm_configured=yes\n");
-        //write_config_option (fdtmp1, " leftupdown=%s\n", NM_OSW_UPDOWN_PATH);
-        //write_config_option (fdtmp1, " auto=add\n");
         write_config_option (fdtmp1, " auto=add");
-        //write_config_option (fdtmp1, " #connectionname=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_SETTING_VPN_SETTING_NAME));
-        //write_config_option (fdtmp1, " #connectionname=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_SETTING_NAME));
 	}
 
-	//default_username = nm_setting_vpn_get_user_name (s_vpn);
-
-	/* Fill username if it's not present */
-	/*props_username = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
-	if (   default_username
-	    && strlen (default_username)
-	    && (!props_username || !strlen (props_username))) {
-		write_config_option (openswan_fd,
-		                     NM_OPENSWAN_LEFTXAUTHUSER " %s\n",
-		                     default_username);
-	}*/
-	
 	info = g_malloc0 (sizeof (WriteConfigInfo));
-	//info->fd = openswan_fd;
-	//info->conf_fd = conf_fd;
 	info->conf_fd = openswan_fd;
-	//info->secret_fd = secret_fd;
 	info->s_vpn = s_vpn;
 
-	/* Check for ignored user password */
-	/*pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
-		info->upw_ignored = TRUE;*/
-
-	/* Check for ignored group password */
-	/*pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_PSK_INPUT_MODES);
-	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
-		info->gpw_ignored = TRUE;*/
-
 	nm_setting_vpn_foreach_data_item (s_vpn, write_one_property, info);
-	//nm_setting_vpn_foreach_secret (s_vpn, write_one_property, info);
 	*error = info->error;
-	//close(conf_fd);
 	close(openswan_fd);
 	sleep(3);
-	//close(secret_fd);
 	g_free (info);
 
 	return *error ? FALSE : TRUE;
@@ -807,8 +765,6 @@ real_disconnect (NMVPNPlugin   *plugin,
         }
         g_ptr_array_free (openswan_argv, TRUE);
 
-        //unlink("/etc/ipsec.d/ipsec-nm-conn1.conf");
-        //unlink("/etc/ipsec.d/ipsec-nm-conn1.secrets");
 
 	return TRUE;
 }
