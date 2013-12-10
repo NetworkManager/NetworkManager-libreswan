@@ -574,6 +574,10 @@ nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn,
         }
 
         write_config_option (fdtmp1, " nm_configured=yes\n");
+        write_config_option (fdtmp1, " rekey=yes\n");
+        write_config_option (fdtmp1, " salifetime=24h\n");
+        write_config_option (fdtmp1, " ikelifetime=24h\n");
+        write_config_option (fdtmp1, " keyingtries=1\n");
         write_config_option (fdtmp1, " auto=add");
 	}
 
