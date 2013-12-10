@@ -270,9 +270,8 @@ main (int argc, char *argv[])
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else
 		helper_failed (connection, "IP4 PTP Address");
-//#if 0
+
 	/* Netmask */
-	//tmp = getenv ("INTERNAL_IP4_NETMASK");
 	tmp = nmask;
 	if (tmp && inet_pton (AF_INET, tmp, &temp_addr) > 0) {
 		GValue *value;
@@ -283,7 +282,6 @@ main (int argc, char *argv[])
 
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, value);
 	}
-//#endif
 
 	/* DNS */
 	val = addr_list_to_gvalue (getenv ("PLUTO_CISCO_DNS_INFO"));
