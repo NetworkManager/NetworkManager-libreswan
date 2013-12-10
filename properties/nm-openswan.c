@@ -158,6 +158,36 @@ stuff_changed_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+setup_password_widget (OpenswanPluginUiWidget *self,
+                       const char *entry_name,
+                       NMSettingVPN *s_vpn,
+                       const char *secret_name,
+                       gboolean new_connection)
+{
+	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	NMSettingSecretFlags secret_flags = NM_SETTING_SECRET_FLAG_NONE;
+	GtkWidget *widget;
+	const char *value;
+
+	if (new_connection)
+		secret_flags = NM_SETTING_SECRET_FLAG_AGENT_OWNED;
+
+	widget = (GtkWidget *) gtk_builder_get_object (priv->builder, entry_name);
+	g_assert (widget);
+	gtk_size_group_add_widget (priv->group, widget);
+
+	if (s_vpn) {
+		value = nm_setting_vpn_get_secret (s_vpn, secret_name);
+		gtk_entry_set_text (GTK_ENTRY (widget), value ? value : "");
+		nm_setting_get_secret_flags (NM_SETTING (s_vpn), secret_name, &secret_flags, NULL);
+	}
+	secret_flags &= ~(NM_SETTING_SECRET_FLAG_NOT_SAVED | NM_SETTING_SECRET_FLAG_NOT_REQUIRED);
+	g_object_set_data (G_OBJECT (widget), "flags", GUINT_TO_POINTER (secret_flags));
+
+	g_signal_connect (widget, "changed", G_CALLBACK (stuff_changed_cb), self);
+}
+
+static void
 show_toggled_cb (GtkCheckButton *button, OpenswanPluginUiWidget *self)
 {
 	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
@@ -301,35 +331,6 @@ init_one_pw_combo (OpenswanPluginUiWidget *self,
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (pw_type_combo_changed_cb), self);
 }
 
-static void
-setup_password_widget (OpenswanPluginUiWidget *self,
-                       const char *entry_name,
-                       NMSettingVPN *s_vpn,
-                       const char *secret_name,
-                       gboolean new_connection)
-{
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	NMSettingSecretFlags secret_flags = NM_SETTING_SECRET_FLAG_NONE;
-	GtkWidget *widget;
-	const char *value;
-
-	if (new_connection)
-		secret_flags = NM_SETTING_SECRET_FLAG_AGENT_OWNED;
-
-	widget = (GtkWidget *) gtk_builder_get_object (priv->builder, entry_name);
-	g_assert (widget);
-	gtk_size_group_add_widget (priv->group, widget);
-
-	if (s_vpn) {
-		value = nm_setting_vpn_get_secret (s_vpn, secret_name);
-		gtk_entry_set_text (GTK_ENTRY (widget), value ? value : "");
-		nm_setting_get_secret_flags (NM_SETTING (s_vpn), secret_name, &secret_flags, NULL);
-	}
-	secret_flags &= ~(NM_SETTING_SECRET_FLAG_NOT_SAVED | NM_SETTING_SECRET_FLAG_NOT_REQUIRED);
-	g_object_set_data (G_OBJECT (widget), "flags", GUINT_TO_POINTER (secret_flags));
-
-	g_signal_connect (widget, "changed", G_CALLBACK (stuff_changed_cb), self);
-}
 
 static gboolean
 init_plugin_ui (OpenswanPluginUiWidget *self,
@@ -338,7 +339,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self,
                 GError **error)
 {
 	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn;
+	NMSettingVPN *s_vpn = NULL;
 	GtkWidget *widget;
 	const char *value = NULL;
 
@@ -434,24 +435,6 @@ init_plugin_ui (OpenswanPluginUiWidget *self,
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
-
-	/*widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "disable_dpd_checkbutton"));
-	g_return_val_if_fail (widget != NULL, FALSE);
-	if (s_vpn) {
-		value = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_DPDTIMEOUT);
-		if (value) {
-			long int tmp;
-
-			errno = 0;
-			tmp = strtol (value, NULL, 10);
-			if (tmp >= 0 && tmp <= G_MAXUINT32 && errno == 0)
-				priv->orig_dpd_timeout = (guint32) tmp;
-
-			if (priv->orig_dpd_timeout == 0)
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
-		}
-	}
-	g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (stuff_changed_cb), self);*/
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "show_passwords_checkbutton"));
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -562,21 +545,6 @@ update_connection (NMVpnPluginUiWidgetInterface *iface,
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_DOMAIN, str);
-
-	//widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "disable_dpd_checkbutton"));
-	//if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget))) {
-	//	nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_DPDTIMEOUT, "0");
-	//} else {
-		/* If DPD was disabled and now the user wishes to enable it, just
-		 * don't pass the DPD_IDLE_TIMEOUT option to openswan and thus use the
-		 * default DPD idle time.  Otherwise keep the original DPD idle timeout.
-		 */
-	//	if (priv->orig_dpd_timeout >= 10) {
-	//		char *tmp = g_strdup_printf ("%d", priv->orig_dpd_timeout);
-	//		nm_setting_vpn_add_data_item (s_vpn, NM_OPENSWAN_DPDTIMEOUT, tmp);
-	//		g_free (tmp);
-	//	}
-	//}
 
 	save_one_password (s_vpn,
 	                   priv->builder,
