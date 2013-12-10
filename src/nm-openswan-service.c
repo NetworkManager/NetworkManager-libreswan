@@ -208,30 +208,33 @@ nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 }
 
 static void
-openswan_watch_cb_auto (GPid pid, gint status, gpointer user_data)
+pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 {
         NMOPENSWANPlugin *plugin = NM_OPENSWAN_PLUGIN (user_data);
         NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin);
         guint error = 0;
 
+	if (debug)
+		g_message ("pluto_watch: current child pid = %d, pluto pid=%d", pid, priv->pid);
+
         if (WIFEXITED (status)) {
                 error = WEXITSTATUS (status);
                 if (error != 0)
-                        g_warning ("openswan: ipsec auto exited with error code %d", error);
+                        g_warning ("pluto_watch: pluto exited with error code %d", error);
         }
         else if (WIFSTOPPED (status))
-                g_warning ("openswan: ipsec auto stopped unexpectedly with signal %d", WSTOPSIG (status));
+                g_warning ("pluto_watch: pluto stopped unexpectedly with signal %d", WSTOPSIG (status));
         else if (WIFSIGNALED (status))
-                g_warning ("openswan: ipsec auto died with signal %d", WTERMSIG (status));
+                g_warning ("pluto_watch: pluto died with signal %d", WTERMSIG (status));
         else
-                g_warning ("openswan: ipsec auto died from an unknown cause");
+                g_warning ("pluto_watch: pluto died from an unknown cause");
 
         /* Reap child if needed. */
-        //waitpid (priv->pid_auto, NULL, WNOHANG);
-        //priv->pid_auto = 0;
+	waitpid (pid, NULL, WNOHANG);
 
-        waitpid (priv->pid, NULL, WNOHANG);
-        priv->pid = 0;
+	if (debug)
+		g_message ("pluto_watch: reaped child pid %d", pid);
+
 
 	/* Must be after data->state is set since signals use data->state */
 	switch (error) {
@@ -247,18 +250,29 @@ openswan_watch_cb_auto (GPid pid, gint status, gpointer user_data)
 		break;
 	}
 
-	nm_vpn_plugin_set_state (NM_VPN_PLUGIN (plugin), NM_VPN_SERVICE_STATE_STOPPED);
+	if(pid == priv->pid || error) {
+		priv->pid = 0;
+
+		if (debug)
+			g_message ("pluto_watch: nm pluto service is stopping");
+
+		nm_vpn_plugin_set_state (NM_VPN_PLUGIN (plugin), NM_VPN_SERVICE_STATE_STOPPED);
+	}
+
+	if (debug)
+		g_message ("pluto_watch: nm pluto service will continue after reaping a child");
+
+	/*closing pid*/
+	g_spawn_close_pid (pid);
 }
 
 
 static gint
-//nm_openswan_start_openswan_binary (NMSettingVPN *s_vpn, NMOPENSWANPlugin *plugin, GError **error)
 nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 {
 	GPid	pid, pid_auto;
 	const char **openswan_binary = NULL;
 	GPtrArray *openswan_argv;
-	GSource *openswan_watch;
 	gint	stdin_fd;
 
 	/* Find openswan ipsec */
@@ -294,11 +308,8 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 
 	g_message ("openswan: ipsec started with pid %d", pid);
 
-    NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->pid = pid;
-	openswan_watch = g_child_watch_source_new (pid);
-	g_source_set_callback (openswan_watch, (GSourceFunc) openswan_watch_cb_auto, plugin, NULL);
-	g_source_attach (openswan_watch, NULL);
-	g_source_unref (openswan_watch);
+	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->pid = pid;
+	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
 
 	sleep(2);
 
@@ -323,11 +334,7 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 
 	g_message ("openswan: ipsec auto started with pid %d", pid_auto);
 
-	/*NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->pid_auto = pid_auto;
-	openswan_watch = g_child_watch_source_new (pid_auto);
-	g_source_set_callback (openswan_watch, (GSourceFunc) openswan_watch_cb_auto, plugin, NULL);
-	g_source_attach (openswan_watch, NULL);
-	g_source_unref (openswan_watch);*/
+	g_child_watch_add (pid_auto, (GChildWatchFunc) pluto_watch_cb, plugin);
 
 	return stdin_fd;
 }
@@ -377,6 +384,7 @@ nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
 	g_ptr_array_free (openswan_argv, TRUE);
 
     sleep(3);
+	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
 
 	g_message ("openswan: ipsec auto connection started with pid %d", pid);
 
