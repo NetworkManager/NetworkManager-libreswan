@@ -462,7 +462,7 @@ save_one_password (NMSettingVPN *s_vpn,
                    const char *secret_key,
                    const char *type_key)
 {
-	NMSettingSecretFlags flags;
+	NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
 	const char *data_val = NULL, *password;
 	GtkWidget *entry, *combo;
 
@@ -577,6 +577,7 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 {
 	NMVpnPluginUiWidgetInterface *object;
 	OpenswanPluginUiWidgetPrivate *priv;
+	char *ui_file;
 	NMSettingVPN *s_vpn;
 	gboolean is_new = TRUE;
 
@@ -591,15 +592,23 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 
 	priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (object);
 
+	ui_file = g_strdup_printf ("%s/%s", UIDIR, "nm-openswan-dialog.ui");
 	priv->builder = gtk_builder_new ();
 	g_assert (priv->builder);
 
 	gtk_builder_set_translation_domain (priv->builder, GETTEXT_PACKAGE);
 
-	if (gtk_builder_add_from_file (priv->builder, UIDIR "/nm-openswan-dialog.ui", error) == 0) {
+	if (!gtk_builder_add_from_file (priv->builder, ui_file, error)) {
+		g_warning ("Couldn't load builder file: %s",
+		           error && *error ? (*error)->message : "(unknown)");
+		g_clear_error (error);
+		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0,
+		             "could not load required resources at %s", ui_file);
+		g_free (ui_file);
 		g_object_unref (object);
 		return NULL;
 	}
+	g_free (ui_file);
 
 	priv->widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "openswan-vbox"));
 	if (!priv->widget) {
