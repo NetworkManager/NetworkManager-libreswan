@@ -15,7 +15,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2010 - 2011 Red Hat, Inc.
+ * Copyright (C) 2010 - 2014 Red Hat, Inc.
  */
 
 #include <config.h>
@@ -31,6 +31,7 @@
 #include <locale.h>
 
 #include <glib/gi18n.h>
+#include <gio/gio.h>
 
 #include <nm-setting-vpn.h>
 #include "nm-openswan-service.h"
@@ -803,9 +804,18 @@ nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
 NMOPENSWANPlugin *
 nm_openswan_plugin_new (void)
 {
-	return (NMOPENSWANPlugin *) g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
-								   NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
-								   NULL);
+	NMOPENSWANPlugin *plugin;
+	GError *error = NULL;
+
+	plugin = g_initable_new (NM_TYPE_OPENSWAN_PLUGIN, NULL, &error,
+	                         NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
+	                         NULL);
+	if (!plugin) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	return plugin;
 }
 
 static void
