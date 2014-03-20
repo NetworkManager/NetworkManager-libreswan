@@ -3,53 +3,51 @@
 # This file is distributed under the same license as the network-manager-openswan package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2006, 2007, 2008, 2013.
+# Balázs Úr <urbalazs@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-openswan master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 01:08+0100\n"
-"PO-Revision-Date: 2013-03-21 01:07+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-03-05 18:28+0000\n"
+"PO-Revision-Date: 2014-03-20 18:07+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome@fsf.hu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../auth-dialog/vpn-password-dialog.c:94
-msgid "_Secondary Password:"
-msgstr "Jelszó _még egyszer:"
-
-#: ../auth-dialog/vpn-password-dialog.c:150
-msgid "_Password:"
-msgstr "_Jelszó:"
-
-#: ../auth-dialog/vpn-password-dialog.c:233
-msgid "Sh_ow passwords"
-msgstr "_Jelszavak megjelenítése"
-
-#: ../auth-dialog/main.c:174
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Azonosítania kell magát a(z) „%s” virtuális magánhálózat eléréséhez."
 
-#: ../auth-dialog/main.c:183 ../auth-dialog/main.c:207
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "VPN azonosítás"
 
-#: ../auth-dialog/main.c:186
+#: ../auth-dialog/main.c:200
 msgid "Password:"
 msgstr "Jelszó:"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:202
 msgid "Group Password:"
 msgstr "Csoportjelszó:"
 
-#: ../auth-dialog/main.c:209
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "_Csoportjelszó:"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Hálózat"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "VPN-azonosítás kérése"
 
 #: ../nm-openswan.desktop.in.h:1
 msgid "IPsec Based VPN Connection Manager (openswan)"
@@ -67,15 +65,15 @@ msgstr "IPsec alapú VPN"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 alapú VPN"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-openswan.c:304
 msgid "Saved"
 msgstr "Mentett"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-openswan.c:311
 msgid "Always Ask"
 msgstr "Kérdés mindig"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-openswan.c:318
 msgid "Not Required"
 msgstr "Nem szükséges"
 
@@ -127,23 +125,32 @@ msgstr "Phase2 algoritmusok:"
 msgid "Domain:"
 msgstr "Tartomány:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-openswan-service.c:846
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ne lépjen ki, ha a VPN-kapcsolat megszakad"
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-openswan-service.c:847
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Részletes hibakeresési naplózás engedélyezése (jelszavak is  a naplóba "
 "kerülhetnek)"
 
-#: ../src/nm-openswan-service.c:901
+#: ../src/nm-openswan-service.c:870
 msgid ""
 "nm-openswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
 msgstr ""
 "Az nm-openswan-service integrált IPsec VPN képességet biztosít a "
 "Hálózatkezelőnek."
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "Jelszó _még egyszer:"
+
+#~ msgid "_Password:"
+#~ msgstr "_Jelszó:"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "_Jelszavak megjelenítése"
 
 #~ msgid "_Remember passwords for this session"
 #~ msgstr "_Jelszavak megjegyzése erre a munkamenetre"
