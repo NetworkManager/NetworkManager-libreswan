@@ -1,14 +1,15 @@
 # Serbian translation for network-manager-openswan.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2014.
 # Copyright (C) 2013 network-manager-openswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-openswan package.
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-openswan master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
 "=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-20 20:56+0000\n"
-"PO-Revision-Date: 2013-01-07 22:02+0200\n"
+"POT-Creation-Date: 2014-03-05 18:28+0000\n"
+"PO-Revision-Date: 2014-03-24 21:47+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -19,40 +20,36 @@ msgstr ""
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
-#: ../auth-dialog/vpn-password-dialog.c:94
-msgid "_Secondary Password:"
-msgstr "_Sekundarna lozinka:"
-
-#: ../auth-dialog/vpn-password-dialog.c:150
-msgid "_Password:"
-msgstr "_Lozinka:"
-
-#: ../auth-dialog/vpn-password-dialog.c:236
-msgid "Sh_ow passwords"
-msgstr "Prikaži _lozinke"
-
-#: ../auth-dialog/main.c:178
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Morate da potvrdite identitet da biste mogli da pristupite virtuelnoj "
 "privatnoj mreži „%s“."
 
-#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "Potvrdi VPN"
 
-#: ../auth-dialog/main.c:190
+#: ../auth-dialog/main.c:200
 msgid "Password:"
 msgstr "Lozinka:"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:202
 msgid "Group Password:"
 msgstr "Lozinka grupe:"
 
-#: ../auth-dialog/main.c:213
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "Lozinka _grupe:"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Mreža"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "Zahtevaj VPN potvrđivanje identiteta"
 
 #: ../nm-openswan.desktop.in.h:1
 msgid "IPsec Based VPN Connection Manager (openswan)"
@@ -70,15 +67,15 @@ msgstr "VPN zasnovan na IPsec-u"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN zasnovan na IPsec-u, IKEv1 i IKEv2"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-openswan.c:304
 msgid "Saved"
 msgstr "Sačuvano"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-openswan.c:311
 msgid "Always Ask"
 msgstr "Pitaj uvek"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-openswan.c:318
 msgid "Not Required"
 msgstr "Nije neophodno"
 
@@ -130,20 +127,27 @@ msgstr "Algoritmi faze 2:"
 msgid "Domain:"
 msgstr "Domen:"
 
-#: ../src/nm-openswan-service.c:876
+#: ../src/nm-openswan-service.c:846
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ne prekida kada se završava VPN veza"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-openswan-service.c:847
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
-"Uključuje opširno zapisivanje zarad ispravljanja grešaka (može da izloži "
-"lozinke)"
+"Uključuje opširno zapisivanje zarad ispravljanja grešaka (može da izloži lozinke)"
 
-#: ../src/nm-openswan-service.c:898
+#: ../src/nm-openswan-service.c:870
 msgid ""
 "nm-openswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
 msgstr ""
-"nm-opensvan-usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN "
-"mogućnost."
+"nm-opensvan-usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost."
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Sekundarna lozinka:"
+
+#~ msgid "_Password:"
+#~ msgstr "_Lozinka:"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "Prikaži _lozinke"
