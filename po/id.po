@@ -1,56 +1,52 @@
 # Indonesian translation for network-manager-openswan.
 # Copyright (C) 2013 network-manager-openswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-openswan package.
-# Andika Triwidada <andika@gmail.com>, 2013.
+# Andika Triwidada <andika@gmail.com>, 2013, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-openswan nm-0-9-8\n"
+"Project-Id-Version: network-manager-openswan master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-21 00:09+0000\n"
-"PO-Revision-Date: 2013-04-30 00:19+0700\n"
+"POT-Creation-Date: 2014-03-05 18:28+0000\n"
+"PO-Revision-Date: 2014-03-30 10:33+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 
-#: ../auth-dialog/vpn-password-dialog.c:94
-msgid "_Secondary Password:"
-msgstr "Sandi Sekunde_r:"
-
-#: ../auth-dialog/vpn-password-dialog.c:150
-msgid "_Password:"
-msgstr "_Sandi:"
-
-#: ../auth-dialog/vpn-password-dialog.c:236
-msgid "Sh_ow passwords"
-msgstr "T_ampilkan sandi"
-
-#: ../auth-dialog/main.c:178
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Anda perlu mengotentikasi untuk mengakses Virtual Private Network '%s'."
 
-#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "Otentikasikan VPN"
 
-#: ../auth-dialog/main.c:190
+#: ../auth-dialog/main.c:200
 msgid "Password:"
 msgstr "Sandi:"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:202
 msgid "Group Password:"
 msgstr "Sandi Grup:"
 
-#: ../auth-dialog/main.c:213
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "Sandi _Grup:"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Jaringan"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "Minta otentikasi VPN"
 
 #: ../nm-openswan.desktop.in.h:1
 msgid "IPsec Based VPN Connection Manager (openswan)"
@@ -68,15 +64,15 @@ msgstr "VPN berbasis IPsec"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN berbasis IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-openswan.c:304
 msgid "Saved"
 msgstr "Disimpan"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-openswan.c:311
 msgid "Always Ask"
 msgstr "Selalu Tanyakan"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-openswan.c:318
 msgid "Not Required"
 msgstr "Tak Diperlukan"
 
@@ -128,15 +124,15 @@ msgstr "Algoritma Fase2:"
 msgid "Domain:"
 msgstr "Domain:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-openswan-service.c:846
 msgid "Don't quit when VPN connection terminates"
 msgstr "Jangan keluar ketika koneksi VPN berakhir"
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-openswan-service.c:847
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Fungsikan log awakutu cerewet (mungkin mengungkap sandi)"
 
-#: ../src/nm-openswan-service.c:901
+#: ../src/nm-openswan-service.c:870
 msgid ""
 "nm-openswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
