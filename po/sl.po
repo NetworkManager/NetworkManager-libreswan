@@ -2,15 +2,16 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the NetworkManager-vpnc package.
 #
-# Matic Å½gur <mr.zgur@gmail.com>, 2007.
+# Matic Žgur <mr.zgur@gmail.com>, 2007.
+# Matej Urbančič <mateju@svn.gnome.org>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-03 23:45+0000\n"
-"PO-Revision-Date: 2012-12-05 10:28+0100\n"
+"POT-Creation-Date: 2014-04-01 10:34+0000\n"
+"PO-Revision-Date: 2014-04-01 22:29+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -21,44 +22,36 @@ msgstr ""
 "%100==4 ? 2 : 3);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ../auth-dialog/vpn-password-dialog.c:94
-msgid "_Secondary Password:"
-msgstr "_Drugotno geslo:"
-
-#: ../auth-dialog/vpn-password-dialog.c:150
-msgid "_Password:"
-msgstr "_Geslo:"
-
-#: ../auth-dialog/vpn-password-dialog.c:236
-#| msgid "_Group Password:"
-msgid "Sh_ow passwords"
-msgstr "Pokaži gesla"
-
-#: ../auth-dialog/main.c:178
+#: ../auth-dialog/main.c:188
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Za dostop do navideznega zasebnega omrežja '%s' je zahtevana overitev."
 
-#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
+#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
 msgid "Authenticate VPN"
 msgstr "Overovi VPN"
 
-#: ../auth-dialog/main.c:190
-#| msgid "_Password:"
+#: ../auth-dialog/main.c:200
 msgid "Password:"
 msgstr "Geslo:"
 
-#: ../auth-dialog/main.c:192
-#| msgid "_Group Password:"
+#: ../auth-dialog/main.c:202
 msgid "Group Password:"
 msgstr "Geslo skupine:"
 
-#: ../auth-dialog/main.c:213
+#: ../auth-dialog/main.c:223
 msgid "_Group Password:"
 msgstr "_Geslo skupine:"
 
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Omrežje"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "Zahtevaj overitev VPN"
+
 #: ../nm-openswan.desktop.in.h:1
-#| msgid "VPN Connection Manager (vpnc)"
 msgid "IPsec Based VPN Connection Manager (openswan)"
 msgstr "Upravitelj povezav VPN na osnovi IPsev (openswan)"
 
@@ -74,15 +67,15 @@ msgstr "VPN s podporo IPsec"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "Omrežje VPN s podporo IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-openswan.c:304
 msgid "Saved"
 msgstr "Shranjeno"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-openswan.c:311
 msgid "Always Ask"
 msgstr "Vedno vprašaj"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-openswan.c:318
 msgid "Not Required"
 msgstr "Ni zahtevano"
 
@@ -95,12 +88,10 @@ msgid "<b>General</b>"
 msgstr "<b>Splošno</b>"
 
 #: ../properties/nm-openswan-dialog.ui.h:3
-#| msgid "_Group Password:"
 msgid "Show passwords"
 msgstr "Pokaži gesla"
 
 #: ../properties/nm-openswan-dialog.ui.h:4
-#| msgid "_Group Password:"
 msgid "Gro_up password:"
 msgstr "_Geslo skupine:"
 
@@ -109,22 +100,18 @@ msgid "_Gateway:"
 msgstr "_Prehod:"
 
 #: ../properties/nm-openswan-dialog.ui.h:6
-#| msgid "G_roup Name:"
 msgid "G_roup name:"
 msgstr "I_me skupine:"
 
 #: ../properties/nm-openswan-dialog.ui.h:7
-#| msgid "_Password:"
 msgid "_User password:"
 msgstr "_Uporabniško geslo:"
 
 #: ../properties/nm-openswan-dialog.ui.h:8
-#| msgid "<b>Connection Name</b>"
 msgid "<b>Optional</b>"
 msgstr "<b>Izbirno</b>"
 
 #: ../properties/nm-openswan-dialog.ui.h:9
-#| msgid "_Username:"
 msgid "User name:"
 msgstr "Uporabniško ime:"
 
@@ -137,19 +124,18 @@ msgid "Phase2 Algorithms:"
 msgstr "Algoritmi 2. koraka:"
 
 #: ../properties/nm-openswan-dialog.ui.h:12
-#| msgid "_Domain:"
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../src/nm-openswan-service.c:876
+#: ../src/nm-openswan-service.c:846
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ne končaj, ko se prekine povezava VPN"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-openswan-service.c:847
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Omogoči podrobno beleženje razhroščevanja (lahko razkrije gesla)"
 
-#: ../src/nm-openswan-service.c:898
+#: ../src/nm-openswan-service.c:870
 msgid ""
 "nm-openswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
@@ -157,144 +143,8 @@ msgstr ""
 "Storitev nm-openswan-service omogoča podporo IPsec VPN za program "
 "NetworkManager."
 
-#~ msgid "Connect _anonymously"
-#~ msgstr "Poveži _anonimno"
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Drugotno geslo:"
 
-#~ msgid "Connect as _user:"
-#~ msgstr "Poveži se kot _uporabnik:"
-
-#~ msgid "_Remember passwords for this session"
-#~ msgstr "_Zapomni si geslo za to sejo"
-
-#~ msgid "_Save passwords in keyring"
-#~ msgstr "_Shrani geslo v zbirko ključev"
-
-#~ msgid "Compatible Cisco VPN client (vpnc)"
-#~ msgstr "Z Cisco VPN združljiv odjemalec (vpnc)"
-
-#~ msgid "The following vpnc VPN connection will be created:"
-#~ msgstr "Ustvarjena bo naslednja povezava VPN vpnc:"
-
-#~ msgid "Name:  %s"
-#~ msgstr "Ime: %s"
-
-#~ msgid "Gateway:  %s"
-#~ msgstr "Prehod: %s"
-
-#~ msgid "Group Name:  %s"
-#~ msgstr "Ime skupine: %s"
-
-#~ msgid "Username:  %s"
-#~ msgstr "Uporabniško ime: %s"
-
-#~ msgid "Domain:  %s"
-#~ msgstr "Domena: %s"
-
-#~ msgid "Routes:  %s"
-#~ msgstr "Smeri: %s"
-
-#~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr ""
-#~ "Podrobnosti o povezavi so lahko spremenjene z uporabo gumba \"Uredi\"."
-
-#~ msgid "TCP tunneling not supported"
-#~ msgstr "TCP tuneliranje ni podprto"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-#~ "through TCP which is currently not supported in the vpnc software.\n"
-#~ "\n"
-#~ "The connection can still be created, with TCP tunneling disabled, however "
-#~ "it may not work as expected."
-#~ msgstr ""
-#~ "Datoteka z nastavitvami za VPN '%s' določa, da bi moral biti promet VPN "
-#~ "tuneliran skozi TCP, kar trenutno ni podprto v programski opremi vpnc.\n"
-#~ "\n"
-#~ "Povezava je lahko še vedno ustvarjena, z onemogočenim TCP tuneliranjem, "
-#~ "vendar lahko ne deluje po pričakovanjih."
-
-#~ msgid "Cannot import settings"
-#~ msgstr "Ni mogoče uvoziti nastavitev"
-
-#~ msgid "The VPN settings file '%s' does not contain valid data."
-#~ msgstr "Datoteka z nastavitvami za VPN '%s' ne vsebuje veljavnih podatkov."
-
-#~ msgid "Select file to import"
-#~ msgstr "Izberite datoteko za uvoz"
-
-#~ msgid "Save as..."
-#~ msgstr "Shrani kot ..."
-
-#~ msgid "A file named \"%s\" already exists."
-#~ msgstr "Datoteka z imenom \"%s\" že obstaja."
-
-#~ msgid "Do you want to replace it with the one you are saving?"
-#~ msgstr "Ali jo želite zamenjati s to, ki jo shranjujete?"
-
-#~ msgid "Failed to export configuration"
-#~ msgstr "Izvoz nastavitev ni uspel"
-
-#~ msgid "Failed to save file %s"
-#~ msgstr "Shranjevanje datoteke %s ni uspelo"
-
-#~ msgid "<b>Required Information</b>"
-#~ msgstr "<b>Zahtevane informacije</b>"
-
-#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-#~ msgstr "<i>primer: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#~ msgid "O_ptional Information"
-#~ msgstr "D_odatne informacije"
-
-#~ msgid "Override _user name"
-#~ msgstr "Povozi _uporabniško ime"
-
-#~ msgid ""
-#~ "Please enter the information provided by your system administrator below. "
-#~ "Do not enter your password here as you will be prompted when connecting."
-#~ msgstr ""
-#~ "Prosim, spodaj vnesite informacije, ki vam jih je priskrbel sistemski "
-#~ "administrator. Ne vnesite svojega gesla tukaj, saj boste ponovno vprašani "
-#~ "zanj med povezovanjem."
-
-#~ msgid "Use _domain for authentication"
-#~ msgstr "Uporabi _domeno za overovitev"
-
-#~ msgid "_Import Saved Configuration..."
-#~ msgstr "_Uvozi shranjene nastavitve ..."
-
-#~ msgid ""
-#~ "_Name used to identify the connection to the private network, e.g. "
-#~ "\"Campus VPN\" or \"Corporate Network\""
-#~ msgstr ""
-#~ "_Ime, uporabljeno za identificiranje povezave v zasebno omrežje, npr. "
-#~ "\"Campus VPN\" ali \"Corporate Network\""
-
-#~ msgid "_Only use VPN connection for these addresses"
-#~ msgstr "Uporabi povezavo VPN _samo za te naslove"
-
-#~ msgid ""
-#~ "The VPN login failed because the user name and password were not accepted."
-#~ msgstr ""
-#~ "Prijava v VPN ni uspela, ker uporabniško ime in geslo nista bila sprejeta."
-
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr "Prijava v VPN ni uspela, ker ni mogoče zagnati programa VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program could not connect to the VPN "
-#~ "server."
-#~ msgstr ""
-#~ "Prijava v VPN ni uspela, ker se program VPN ne more povezati s strežnikom "
-#~ "VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr "Prijava v VPN ni uspela, ker so nastavitve VPN neveljavne."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program received an invalid "
-#~ "configuration from the VPN server."
-#~ msgstr ""
-#~ "Prijava v VPN ni uspela, ker je program VPN prejel neveljavne nastavitve "
-#~ "iz strežnika VPN."
+#~ msgid "_Password:"
+#~ msgstr "_Geslo:"
