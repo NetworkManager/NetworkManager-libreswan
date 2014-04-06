@@ -7,10 +7,10 @@
   <name xml:lang="en">network-manager-openswan</name>
   <shortdesc xml:lang="en">OpenSWAN VPN client plugin for NetworkManager</shortdesc>
   <description>Provides easy connections to IPsec VPNs using NetworkManager and OpenSWAN.</description>
-  <homepage rdf:resource="http://live.gnome.org/NetworkManager" />
-  <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/network-manager-list" />
+  <homepage rdf:resource="https://wiki.gnome.org/Projects/NetworkManager" />
+  <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/networkmanager-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/NetworkManager-openswan/" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=NetworkManager" />
+  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=NetworkManager&amp;component=VPN:%20Openswan" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
 
