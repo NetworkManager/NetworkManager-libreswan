@@ -674,7 +674,7 @@ openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_cl
 static guint32
 get_capabilities (NMVpnPluginUiInterface *iface)
 {
-	return (NM_VPN_PLUGIN_UI_CAPABILITY_IMPORT | NM_VPN_PLUGIN_UI_CAPABILITY_EXPORT);
+	return NM_VPN_PLUGIN_UI_CAPABILITY_NONE;
 }
 
 static NMVpnPluginUiWidgetInterface *
