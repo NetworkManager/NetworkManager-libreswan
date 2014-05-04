@@ -1,179 +1,209 @@
-# translation of eu.po to Basque
+# Basque translation of network-manager-openswan.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008, 2009.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: eu\n"
+"Project-Id-Version: network-manager-openswan nm-0-9-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-20 14:15+0100\n"
-"PO-Revision-Date: 2009-03-20 14:15+0100\n"
-"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
-"Language-Team: Basque <itzulpena@euskalgnu.org>\n"
+"POT-Creation-Date: 2014-05-04 12:39+0200\n"
+"PO-Revision-Date: 2014-05-04 12:38+0200\n"
+"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
+"Language-Team: Basque <librezale@librezale.org>\n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:103
+#: ../auth-dialog/vpn-password-dialog.c:94
 msgid "_Secondary Password:"
 msgstr "_Bigarren pasahitza:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:159
+#: ../auth-dialog/vpn-password-dialog.c:150
 msgid "_Password:"
 msgstr "_Pasahitza:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:240
+#: ../auth-dialog/vpn-password-dialog.c:236
 msgid "Sh_ow passwords"
 msgstr "_Erakutsi pasahitzak"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:300
-msgid "_Remember passwords for this session"
-msgstr "_Gogoratu pasahitza saio honetan"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:301
-msgid "_Save passwords in keyring"
-msgstr "_Gorde pasahitza gako-sortan"
-
-#: ../auth-dialog/main.c:170
+#: ../auth-dialog/main.c:178
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Autentifikatu egin behar zara '%s' VPN-ra sarbidetzeko."
 
-#: ../auth-dialog/main.c:171
+#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
 msgid "Authenticate VPN"
 msgstr "Autentifikatu VPN"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:190
+msgid "Password:"
+msgstr "Pasahitza:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "Taldearen pasahitza:"
+
+#: ../auth-dialog/main.c:213
 msgid "_Group Password:"
 msgstr "_Taldearen pasahitza:"
 
-#: ../nm-vpnc.desktop.in.h:1
+#: ../nm-openswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (openswan)"
+msgstr "IPsec-en oinarritutako VPN konexioen kudeatzailea (openswan)"
+
+#: ../nm-openswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "Gehitu, kendu eta editatu VPN konexioak"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN konexioen kudeatzailea (vpnc)"
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "IPsec-en oinarritutako VPN-a"
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "VPN Cisco-rekin bateragarria (vpnc)"
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "IPsec, IKEv1, IKEv2 oinarritutako VPN-a"
 
-#: ../properties/nm-vpnc.c:54
-msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
-"VPN gateways."
-msgstr ""
-"Hainbat Cisco, Juniper, Netscreen eta Sonicwall IPSec-ean oinarritutako VPN "
-"atebideekin bateragarria."
-
-#: ../properties/nm-vpnc.c:339
+#: ../properties/nm-openswan.c:274
 msgid "Saved"
 msgstr "Gordeta"
 
-#: ../properties/nm-vpnc.c:346
+#: ../properties/nm-openswan.c:281
 msgid "Always Ask"
 msgstr "Galdetu beti"
 
-#: ../properties/nm-vpnc.c:353
+#: ../properties/nm-openswan.c:288
 msgid "Not Required"
 msgstr "Ez da beharrezkoa"
 
-#: ../properties/nm-vpnc.c:412
-msgid "Secure (default)"
-msgstr "Segurua (lehenetsia)"
-
-#: ../properties/nm-vpnc.c:415
-msgid "Weak (use with caution)"
-msgstr "Ahula (erabili kontu handiz)"
-
-#: ../properties/nm-vpnc.c:423
-msgid "None (completely insecure)"
-msgstr "Bat ere ez (erabat ez-segurua)"
-
-#: ../properties/nm-vpnc.c:471
-msgid "Cisco UDP (default)"
-msgstr "Cisco UDP (lehenetsia)"
-
-#: ../properties/nm-vpnc.c:478
-msgid "NAT-T"
-msgstr "NAT-T"
-
-#: ../properties/nm-vpnc.c:485
-msgid "Disabled"
-msgstr "Desgaituta"
-
-#: ../properties/nm-vpnc.c:1116
-msgid "TCP tunneling not supported"
-msgstr "TCP tunela ez dago onartuta"
-
-#: ../properties/nm-vpnc.c:1118
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"VPN-ren '%s' ezarpen-fitxategiak VPN-ren trafikoa TCP tunelaren bidez egin "
-"behar dela dio, baina oraingoz vpnc softwareak ez du onartzen.\n"
-"\n"
-"Konexioa oraindik ere sor daiteke, TCP tunela desgaituta edukiz, baina agian "
-"ez du uste bezala funtzionatuko."
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
+#: ../properties/nm-openswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
+#: ../properties/nm-openswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Orokorra</b>"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>Aukerakoa</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "Desgaitu hildako parekoen detekzioa"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "Domeinua:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "Enkripzio-metodoa:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "_Taldearen izena:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "_Taldearen pasahitza:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "Zeharretako NAT-a:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
+#: ../properties/nm-openswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Erakutsi pasahitzak"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "Erabiltzaile-izena:"
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "_Taldearen pasahitza:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-openswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Atebidea:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "_Taldearen izena:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "_Erabiltzailearen pasahitza:"
 
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Aukerakoa</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Erabiltzaile-izena:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "1. faseko algoritmoak:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "2. faseko algoritmoak:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Domeinua:"
+
+#: ../src/nm-openswan-service.c:877
+msgid "Don't quit when VPN connection terminates"
+msgstr "Ez irten VPNaren konexioa amaitzean"
+
+#: ../src/nm-openswan-service.c:878
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Gaitu arazketaren erregistro xehea (pasahitzak erakuts ditzake)"
+
+#: ../src/nm-openswan-service.c:901
+msgid ""
+"nm-openswan-service provides integrated IPsec VPN capability to "
+"NetworkManager."
+msgstr ""
+"'nm-openswan-service' zerbitzuak VPN IPsec gaitasuna erabiltzea baimentzen "
+"dio NetworkManager-i."
+
+#~ msgid "Network"
+#~ msgstr "Sarea"
+
+#~ msgid "Request VPN authentication"
+#~ msgstr "Eskatu VPNren autentifikazioa"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_Gogoratu pasahitza saio honetan"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Gorde pasahitza gako-sortan"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "VPN Cisco-rekin bateragarria (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "based VPN gateways."
+#~ msgstr ""
+#~ "Hainbat Cisco, Juniper, Netscreen eta Sonicwall IPSec-ean oinarritutako "
+#~ "VPN atebideekin bateragarria."
+
+#~ msgid "Secure (default)"
+#~ msgstr "Segurua (lehenetsia)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "Ahula (erabili kontu handiz)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "Bat ere ez (erabat ez-segurua)"
+
+#~ msgid "Cisco UDP (default)"
+#~ msgstr "Cisco UDP (lehenetsia)"
+
+#~ msgid "NAT-T"
+#~ msgstr "NAT-T"
+
+#~ msgid "Disabled"
+#~ msgstr "Desgaituta"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP tunela ez dago onartuta"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "VPN-ren '%s' ezarpen-fitxategiak VPN-ren trafikoa TCP tunelaren bidez "
+#~ "egin behar dela dio, baina oraingoz vpnc softwareak ez du onartzen.\n"
+#~ "\n"
+#~ "Konexioa oraindik ere sor daiteke, TCP tunela desgaituta edukiz, baina "
+#~ "agian ez du uste bezala funtzionatuko."
+
+#~ msgid "Disable Dead Peer Detection"
+#~ msgstr "Desgaitu hildako parekoen detekzioa"
+
+#~ msgid "Encryption method:"
+#~ msgstr "Enkripzio-metodoa:"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "Zeharretako NAT-a:"
