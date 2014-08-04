@@ -53,14 +53,6 @@ typedef struct {
 
 #define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginPrivate))
 
-static const char *openswan_binary_paths[] =
-{
-	"/usr/sbin/ipsec",
-	"/sbin/ipsec",
-	"/usr/local/sbin/ipsec",
-	NULL
-};
-
 #define NM_OPENSWAN_HELPER_PATH		LIBEXECDIR"/nm-openswan-service-helper"
 
 typedef struct {
@@ -203,6 +195,33 @@ nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 	return *error ? FALSE : TRUE;
 }
 
+/****************************************************************/
+
+static const char *ipsec_paths[] =
+{
+	"/usr/sbin/ipsec",
+	"/sbin/ipsec",
+	"/usr/local/sbin/ipsec",
+	NULL
+};
+
+static const char *
+find_ipsec (GError **error)
+{
+	guint i;
+
+	for (i = 0; i < G_N_ELEMENTS (ipsec_paths); i++) {
+		if (g_file_test (ipsec_paths[i], G_FILE_TEST_EXISTS))
+			return ipsec_paths[i];
+	}
+
+	g_set_error_literal (error,
+	                     NM_VPN_PLUGIN_ERROR,
+	                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+	                     "Could not find ipsec binary.");
+	return NULL;
+}
+
 static void
 pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 {
@@ -264,28 +283,16 @@ static gint
 nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 {
 	GPid pid, pid_auto;
-	const char **openswan_binary = NULL;
+	const char *ipsec_binary;
 	GPtrArray *openswan_argv;
 	gint stdin_fd;
 
-	/* Find openswan ipsec */
-	openswan_binary = openswan_binary_paths;
-	while (*openswan_binary != NULL) {
-		if (g_file_test (*openswan_binary, G_FILE_TEST_EXISTS))
-			break;
-		openswan_binary++;
-	}
-
-	if (!*openswan_binary) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		                     "Could not find openswan binary.");
+	ipsec_binary = find_ipsec (error);
+	if (!ipsec_binary)
 		return -1;
-	}
 
 	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
+	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
 	g_ptr_array_add (openswan_argv, (gpointer) "setup");
 	g_ptr_array_add (openswan_argv, (gpointer) "start");
 	g_ptr_array_add (openswan_argv, NULL);
@@ -306,7 +313,7 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 	sleep(2);
 
 	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
+	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
 	g_ptr_array_add (openswan_argv, (gpointer) "auto");
 	g_ptr_array_add (openswan_argv, (gpointer) "--add");
 	g_ptr_array_add (openswan_argv, (gpointer) "--config");
@@ -335,28 +342,16 @@ static gint
 nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
 {
 	GPid pid;
-	const char **openswan_binary = NULL;
+	const char *ipsec_binary;
 	GPtrArray *openswan_argv;
 	gint stdin_fd;
 
-	/* Find openswan ipsec */
-	openswan_binary = openswan_binary_paths;
-	while (*openswan_binary != NULL) {
-		if (g_file_test (*openswan_binary, G_FILE_TEST_EXISTS))
-			break;
-		openswan_binary++;
-	}
-
-	if (!*openswan_binary) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		                     "Could not find openswan binary.");
+	ipsec_binary = find_ipsec (error);
+	if (!ipsec_binary)
 		return -1;
-	}
 
 	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
+	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
 	g_ptr_array_add (openswan_argv, (gpointer) "auto");
 	g_ptr_array_add (openswan_argv, (gpointer) "--up");
 	g_ptr_array_add (openswan_argv, (gpointer) "nm-conn1");
@@ -721,27 +716,15 @@ static gboolean
 real_disconnect (NMVPNPlugin   *plugin,
 			  GError       **error)
 {
-	const char **openswan_binary = NULL;
+	const char *ipsec_binary;
 	GPtrArray *openswan_argv;
 
-	/* Find openswan */
-	openswan_binary = openswan_binary_paths;
-	while (*openswan_binary != NULL) {
-		if (g_file_test (*openswan_binary, G_FILE_TEST_EXISTS))
-			break;
-		openswan_binary++;
-	}
-
-	if (!*openswan_binary) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		                     "Could not find openswan binary.");
+	ipsec_binary = find_ipsec (error);
+	if (!ipsec_binary)
 		return -1;
-	}
 
 	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
+	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
 	g_ptr_array_add (openswan_argv, (gpointer) "setup");
 	g_ptr_array_add (openswan_argv, (gpointer) "stop");
 	g_ptr_array_add (openswan_argv, NULL);
