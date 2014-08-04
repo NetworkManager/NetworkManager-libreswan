@@ -49,7 +49,6 @@ G_DEFINE_TYPE (NMOPENSWANPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
 
 typedef struct {
 	GPid pid;
-	GPid pid_auto;
 } NMOPENSWANPluginPrivate;
 
 #define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginPrivate))
@@ -299,7 +298,7 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 	g_ptr_array_add (openswan_argv, NULL);
 
 	if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
-							 0, NULL, NULL, &pid, error)) {
+							 G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, &pid, error)) {
 		g_ptr_array_free (openswan_argv, TRUE);
 		g_warning ("pluto failed to start.  error: '%s'", (*error)->message);
 		return -1;
