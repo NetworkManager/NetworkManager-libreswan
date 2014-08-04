@@ -498,65 +498,63 @@ write_one_property (const char *key, const char *value, gpointer user_data)
 }
 
 static gboolean
-nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn, GError **error)
+nm_openswan_config_write (gint fd, NMSettingVPN *s_vpn, GError **error)
 {
 	WriteConfigInfo *info;
 	const char *props_username;
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
-	gint fdtmp1=-1;
 
-	fdtmp1 = openswan_fd;
-	if (fdtmp1 != -1) {
-		write_config_option (fdtmp1, "conn nm-conn1\n");
-		write_config_option (fdtmp1, " aggrmode=yes\n");
-		write_config_option (fdtmp1, " authby=secret\n");
-		write_config_option (fdtmp1, " left=%%defaultroute\n");
-		write_config_option (fdtmp1, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID));
-		write_config_option (fdtmp1, " leftxauthclient=yes\n");
-		write_config_option (fdtmp1, " leftmodecfgclient=yes\n");
+	g_assert (fd >= 0);
 
-		default_username = nm_setting_vpn_get_user_name (s_vpn);
-		props_username = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
-		if (   default_username && strlen (default_username)
-			&& (!props_username || !strlen (props_username)))
-			write_config_option (fdtmp1, " leftxauthusername=%s\n", default_username);
-		else
-			write_config_option (fdtmp1, " leftxauthusername=%s\n", props_username);
+	write_config_option (fd, "conn nm-conn1\n");
+	write_config_option (fd, " aggrmode=yes\n");
+	write_config_option (fd, " authby=secret\n");
+	write_config_option (fd, " left=%%defaultroute\n");
+	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID));
+	write_config_option (fd, " leftxauthclient=yes\n");
+	write_config_option (fd, " leftmodecfgclient=yes\n");
 
-		write_config_option (fdtmp1, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_RIGHT));
-		write_config_option (fdtmp1, " remote_peer_type=cisco\n");
-		write_config_option (fdtmp1, " rightxauthserver=yes\n");
-		write_config_option (fdtmp1, " rightmodecfgserver=yes\n");
+	default_username = nm_setting_vpn_get_user_name (s_vpn);
+	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
+	if (   default_username && strlen (default_username)
+		&& (!props_username || !strlen (props_username)))
+		write_config_option (fd, " leftxauthusername=%s\n", default_username);
+	else
+		write_config_option (fd, " leftxauthusername=%s\n", props_username);
 
-		phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_IKE);
-		if (!phase1_alg_str || !strlen (phase1_alg_str))
-			write_config_option (fdtmp1, " ike=aes-sha1\n");
-		else
-			write_config_option (fdtmp1, " ike=%s\n", phase1_alg_str);
+	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_RIGHT));
+	write_config_option (fd, " remote_peer_type=cisco\n");
+	write_config_option (fd, " rightxauthserver=yes\n");
+	write_config_option (fd, " rightmodecfgserver=yes\n");
 
-		phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_ESP);
-		if (!phase2_alg_str || !strlen (phase2_alg_str))
-			write_config_option (fdtmp1, " esp=aes-sha1;modp1024\n");
-		else
-			write_config_option (fdtmp1, " esp=%s\n", phase2_alg_str);
+	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_IKE);
+	if (!phase1_alg_str || !strlen (phase1_alg_str))
+		write_config_option (fd, " ike=aes-sha1\n");
+	else
+		write_config_option (fd, " ike=%s\n", phase1_alg_str);
 
-		write_config_option (fdtmp1, " nm_configured=yes\n");
-		write_config_option (fdtmp1, " rekey=yes\n");
-		write_config_option (fdtmp1, " salifetime=24h\n");
-		write_config_option (fdtmp1, " ikelifetime=24h\n");
-		write_config_option (fdtmp1, " keyingtries=1\n");
-		write_config_option (fdtmp1, " auto=add");
-	}
+	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_ESP);
+	if (!phase2_alg_str || !strlen (phase2_alg_str))
+		write_config_option (fd, " esp=aes-sha1;modp1024\n");
+	else
+		write_config_option (fd, " esp=%s\n", phase2_alg_str);
+
+	write_config_option (fd, " nm_configured=yes\n");
+	write_config_option (fd, " rekey=yes\n");
+	write_config_option (fd, " salifetime=24h\n");
+	write_config_option (fd, " ikelifetime=24h\n");
+	write_config_option (fd, " keyingtries=1\n");
+	write_config_option (fd, " auto=add");
 
 	info = g_malloc0 (sizeof (WriteConfigInfo));
-	info->conf_fd = openswan_fd;
+	info->conf_fd = fd;
 	info->s_vpn = s_vpn;
 
 	nm_setting_vpn_foreach_data_item (s_vpn, write_one_property, info);
 	*error = info->error;
-	close (openswan_fd);
+	close (fd);
 	sleep (3);
 	g_free (info);
 
