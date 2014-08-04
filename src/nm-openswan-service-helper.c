@@ -191,11 +191,13 @@ addr_list_to_gvalue (const char *str)
 /*
  * Environment variables passed back from 'openswan':
  *
- * PLUTO_PEER             	-- vpn gateway address
- * PLUTO_MY_SOURCEIP		-- address
- * PLUTO_CISCO_DNS_INFO         -- list of dns serverss
- * PLUTO_CISCO_DOMAIN_INFO      -- default domain name
- * PLUTO_PEER_BANNER           -- banner from server
+ * PLUTO_PEER                -- vpn gateway address
+ * PLUTO_MY_SOURCEIP         -- address
+ * PLUTO_CISCO_DNS_INFO/     -- list of dns servers
+ *    PLUTO_PEER_DNS_INFO
+ * PLUTO_CISCO_DOMAIN_INFO/  -- default domain name
+ *    PLUTO_PEER_DOMAIN_INFO
+ * PLUTO_PEER_BANNER         -- banner from server
  *
  */
 int 
@@ -217,7 +219,9 @@ main (int argc, char *argv[])
 	 * don't proceed unless its "connect".
 	 */
 	tmp = getenv ("openswan_reason");
-	if (tmp && strcmp (tmp, "connect") != 0)
+	if (!tmp)
+		tmp = getenv ("libreswan_reason");
+	if (g_strcmp0 (tmp, "connect") != 0)
 		exit (0);
 
 	
@@ -285,12 +289,20 @@ main (int argc, char *argv[])
 
 	/* DNS */
 	val = addr_list_to_gvalue (getenv ("PLUTO_CISCO_DNS_INFO"));
+	if (!val) {
+		/* libreswan value */
+		val = addr_list_to_gvalue (getenv ("PLUTO_PEER_DNS_INFO"));
+	}
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
 
 	/* Default domain */
 	val = str_to_gvalue (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
+	if (!val) {
+		/* libreswan value */
+		val = str_to_gvalue (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
+	}
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
 
