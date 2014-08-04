@@ -301,12 +301,12 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 	if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
 							 0, NULL, NULL, &pid, error)) {
 		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("openswan ipsec failed to start.  error: '%s'", (*error)->message);
+		g_warning ("pluto failed to start.  error: '%s'", (*error)->message);
 		return -1;
 	}
 	g_ptr_array_free (openswan_argv, TRUE);
 
-	g_message ("openswan: ipsec started with pid %d", pid);
+	g_message ("ipsec/pluto started with pid %d", pid);
 
 	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->pid = pid;
 	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
@@ -327,19 +327,18 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 							 NULL, NULL, error)) {
 
 		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("openswan: ipsec auto failed to start.  error: '%s'", (*error)->message);
+		g_warning ("ipsec auto add failed with error: '%s'", (*error)->message);
 		return -1;
 	}
 	g_ptr_array_free (openswan_argv, TRUE);
 
-	g_message ("openswan: ipsec auto started with pid %d", pid_auto);
+	if (debug)
+		g_message ("pluto auto started with pid %d", pid_auto);
 
 	g_child_watch_add (pid_auto, (GChildWatchFunc) pluto_watch_cb, plugin);
 
 	return stdin_fd;
 }
-
-
 
 static gint
 nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
@@ -378,15 +377,16 @@ nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
 							 NULL, NULL, error)) {
 
 		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("openswan: ipsec auto connection failed to start.  error: '%s'", (*error)->message);
+		g_warning ("ipsec/pluto auto connection failed to start.  error: '%s'", (*error)->message);
 		return -1;
 	}
 	g_ptr_array_free (openswan_argv, TRUE);
 
-    sleep(3);
+	if (debug)
+		g_message ("pluto up started with pid %d", pid);
+
 	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
 
-	g_message ("openswan: ipsec auto connection started with pid %d", pid);
 
 	return stdin_fd;
 }
@@ -404,7 +404,7 @@ write_config_option (int fd, const char *format, ...)
 		g_print ("Config: %s", string);
 
 	if ( write (fd, string, strlen (string)) == -1) {
-	g_warning ("nm-openswan: error in write_config_option");
+		g_warning ("nm-openswan: error in write_config_option");
 	}
 
 	g_free (string);
@@ -772,7 +772,7 @@ real_disconnect (NMVPNPlugin   *plugin,
         if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
                                                          0, NULL, NULL, NULL, error)) {
                 g_ptr_array_free (openswan_argv, TRUE);
-                g_warning ("Openswan (pluto) failed to stop.  error: '%s'", (*error)->message);
+                g_warning ("pluto failed to stop.  error: '%s'", (*error)->message);
                 return -1;
         }
         g_ptr_array_free (openswan_argv, TRUE);
@@ -872,11 +872,11 @@ main (int argc, char *argv[])
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);
 
-	if (getenv ("OPENSWAN_DEBUG"))
+	if (getenv ("OPENSWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
 		debug = TRUE;
 
 	if (debug)
-		g_message ("nm-openswan-service (version " DIST_VERSION ") starting...");
+		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
 	plugin = nm_openswan_plugin_new ();
 	if (!plugin)

@@ -237,7 +237,7 @@ main (int argc, char *argv[])
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
 	else
-		helper_failed (connection, "Openswan Pluto Right Peer (VPN Gateway)");
+		helper_failed (connection, "IPsec/Pluto Right Peer (VPN Gateway)");
 
 
 	/*
