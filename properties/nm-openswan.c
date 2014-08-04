@@ -78,7 +78,6 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget *widget;
 	GtkSizeGroup *group;
-	gint orig_dpd_timeout;
 } OpenswanPluginUiWidgetPrivate;
 
 
