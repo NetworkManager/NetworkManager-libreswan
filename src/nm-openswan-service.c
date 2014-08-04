@@ -176,11 +176,10 @@ nm_openswan_properties_validate (NMSettingVPN *s_vpn, GError **error)
 
 	nm_setting_vpn_foreach_data_item (s_vpn, validate_one_property, &info);
 	if (!info.have_items) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		             "%s",
-		             "No VPN configuration options.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
+		                     "No VPN configuration options.");
 		return FALSE;
 	}
 
@@ -194,11 +193,10 @@ nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 
 	nm_setting_vpn_foreach_secret (s_vpn, validate_one_property, &info);
 	if (!info.have_items) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		             "%s",
-		             "No VPN secrets!");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
+		                     "No VPN secrets!");
 		return FALSE;
 	}
 
@@ -279,11 +277,10 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 	}
 
 	if (!*openswan_binary) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "%s",
-		             "Could not find openswan binary.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		                     "Could not find openswan binary.");
 		return -1;
 	}
 
@@ -351,11 +348,10 @@ nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
 	}
 
 	if (!*openswan_binary) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "%s",
-		             "Could not find openswan binary.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		                     "Could not find openswan binary.");
 		return -1;
 	}
 
@@ -682,11 +678,10 @@ real_need_secrets (NMVPNPlugin *plugin,
 
 	s_vpn = NM_SETTING_VPN (nm_connection_get_setting (connection, NM_TYPE_SETTING_VPN));
 	if (!s_vpn) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
-		             "%s",
-		             "Could not process the request because the VPN connection settings were invalid.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
+		                     "Could not process the request because the VPN connection settings were invalid.");
 		return FALSE;
 	}
 
@@ -738,11 +733,10 @@ real_disconnect (NMVPNPlugin   *plugin,
 	}
 
 	if (!*openswan_binary) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "%s",
-		             "Could not find openswan binary.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		                     "Could not find openswan binary.");
 		return -1;
 	}
 
