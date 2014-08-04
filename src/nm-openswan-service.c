@@ -394,7 +394,6 @@ write_config_option (int fd, const char *format, ...)
 }
 
 typedef struct {
-	//int fd;
 	int conf_fd;
 	int secret_fd;
 	NMSettingVPN *s_vpn;
@@ -690,19 +689,6 @@ real_need_secrets (NMVPNPlugin *plugin,
 
 	return FALSE;
 }
-
-#if 0
-static gboolean
-ensure_killed (gpointer data)
-{
-	int pid = GPOINTER_TO_INT (data);
-
-	if (kill (pid, 0) == 0)
-		kill (pid, SIGKILL);
-
-	return FALSE;
-}
-#endif
 
 static gboolean
 real_disconnect (NMVPNPlugin   *plugin,

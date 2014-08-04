@@ -249,16 +249,6 @@ main (int argc, char *argv[])
 	g_value_set_string (val, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
 	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
 
-#if 0
-	/* Tunnel device */
-	//val = str_to_gvalue (getenv ("TUNDEV"), FALSE);
-	//val = str_to_gvalue ("tun0", FALSE);
-	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
-	else
-		helper_failed (connection, "Tunnel Device");
-#endif
-
 	/* IP address */
 	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
 	if (val)
