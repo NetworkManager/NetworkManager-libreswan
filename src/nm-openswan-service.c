@@ -411,7 +411,6 @@ write_one_property (const char *key, const char *value, gpointer user_data)
 	int i;
 	//const char *default_username;
 	//const char *props_username;
-	const char *leftid;
 
 	if (info->error)
 		return;
@@ -454,11 +453,6 @@ write_one_property (const char *key, const char *value, gpointer user_data)
 
 	if (type == G_TYPE_STRING) {
 		//write_config_option (info->fd, "%s %s\n", (char *) key, (char *) value);
-
-		if (!strcmp (key, NM_OPENSWAN_PSK_VALUE)) {
-			leftid=nm_setting_vpn_get_data_item (info->s_vpn, NM_OPENSWAN_LEFTID);
-			write_config_option (info->secret_fd, "@%s: PSK \"%s\"\n", leftid, (char *) value);
-		}
 
 		/*if (!strcmp (key, NM_OPENSWAN_XAUTH_PASSWORD)) {
 		default_username = nm_setting_vpn_get_user_name (info->s_vpn);
@@ -571,38 +565,36 @@ nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn, GError **error)
 }
 
 static gboolean
-nm_openswan_config_secret_write (NMSettingVPN *s_vpn, GError **error)
+nm_openswan_config_psk_write (NMSettingVPN *s_vpn, GError **error)
 {
-	WriteConfigInfo *info;
-	//const char *props_username;
-	//const char *default_username;
-	const char *pw_type;
-	//gint fdtmp1=-1;
-	//gint conf_fd=-1;
-	gint secret_fd=-1;
-
-	secret_fd = open ("/etc/ipsec.d/ipsec-nm-conn1.secrets", O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
-	
-	info = g_malloc0 (sizeof (WriteConfigInfo));
-	info->secret_fd = secret_fd;
-	info->s_vpn = s_vpn;
-
-	/* Check for ignored user password */
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
-		info->upw_ignored = TRUE;
+	const char *pw_type, *psk, *leftid;
+	int fd;
 
 	/* Check for ignored group password */
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_PSK_INPUT_MODES);
 	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
-		info->gpw_ignored = TRUE;
+		return TRUE;
 
-	nm_setting_vpn_foreach_secret (s_vpn, write_one_property, info);
-	*error = info->error;
-	close (secret_fd);
-	g_free (info);
+	psk = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_PSK_VALUE);
+	if (!psk)
+		return TRUE;
 
-	return *error ? FALSE : TRUE;
+	/* Write the PSK */
+	fd = open ("/etc/ipsec.d/ipsec-nm-conn1.secrets", O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
+	if (fd < 0) {
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		                     "Failed to open secrets file.");
+		return FALSE;
+	}
+
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID);
+	g_assert (leftid);
+	write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+
+	close (fd);
+	return TRUE;
 }
 
 static gboolean
@@ -623,7 +615,7 @@ real_connect (NMVPNPlugin   *plugin,
 	if (!nm_openswan_secrets_validate (s_vpn, error))
 		goto out;
 
-	if (!nm_openswan_config_secret_write (s_vpn, error))
+	if (!nm_openswan_config_psk_write (s_vpn, error))
 		goto out;
 
 	openswan_fd = nm_openswan_start_openswan_binary (NM_OPENSWAN_PLUGIN (plugin), error);
