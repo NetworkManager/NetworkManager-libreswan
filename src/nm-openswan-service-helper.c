@@ -208,8 +208,6 @@ main (int argc, char *argv[])
 	GHashTable *config;
 	GValue *val;
 	GError *err = NULL;
-	struct in_addr temp_addr;
-	char nmask[16]="255.255.255.255";
 
 #if !GLIB_CHECK_VERSION (2, 35, 0)
 	g_type_init ();
@@ -276,16 +274,10 @@ main (int argc, char *argv[])
 		helper_failed (connection, "IP4 PTP Address");
 
 	/* Netmask */
-	tmp = nmask;
-	if (tmp && inet_pton (AF_INET, tmp, &temp_addr) > 0) {
-		GValue *value;
-
-		value = g_slice_new0 (GValue);
-		g_value_init (value, G_TYPE_UINT);
-		g_value_set_uint (value, nm_utils_ip4_netmask_to_prefix (temp_addr.s_addr));
-
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, value);
-	}
+	val = g_slice_new0 (GValue);
+	g_value_init (val, G_TYPE_UINT);
+	g_value_set_uint (val, 32);
+	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
 
 	/* DNS */
 	val = addr_list_to_gvalue (getenv ("PLUTO_CISCO_DNS_INFO"));
