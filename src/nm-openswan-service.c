@@ -49,6 +49,7 @@ G_DEFINE_TYPE (NMOPENSWANPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
 
 typedef struct {
 	GPid pid;
+	char *secrets_path;
 } NMOPENSWANPluginPrivate;
 
 #define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginPrivate))
@@ -280,7 +281,9 @@ pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 }
 
 static gint
-nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
+nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin,
+                                   const char *con_name,
+                                   GError **error)
 {
 	GPid pid, pid_auto;
 	const char *ipsec_binary;
@@ -318,7 +321,7 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 	g_ptr_array_add (openswan_argv, (gpointer) "--add");
 	g_ptr_array_add (openswan_argv, (gpointer) "--config");
 	g_ptr_array_add (openswan_argv, (gpointer) "-");
-	g_ptr_array_add (openswan_argv, (gpointer) "nm-conn1");
+	g_ptr_array_add (openswan_argv, (gpointer) con_name);
 	g_ptr_array_add (openswan_argv, NULL);
 
 	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
@@ -339,7 +342,9 @@ nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
 }
 
 static gint
-nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
+nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin,
+                                       const char *con_name,
+                                       GError **error)
 {
 	GPid pid;
 	const char *ipsec_binary;
@@ -354,7 +359,7 @@ nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
 	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
 	g_ptr_array_add (openswan_argv, (gpointer) "auto");
 	g_ptr_array_add (openswan_argv, (gpointer) "--up");
-	g_ptr_array_add (openswan_argv, (gpointer) "nm-conn1");
+	g_ptr_array_add (openswan_argv, (gpointer) con_name);
 	g_ptr_array_add (openswan_argv, NULL);
 
 	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
@@ -394,7 +399,10 @@ write_config_option (int fd, const char *format, ...)
 }
 
 static gboolean
-nm_openswan_config_write (gint fd, NMSettingVPN *s_vpn, GError **error)
+nm_openswan_config_write (gint fd,
+                          const char *con_name,
+                          NMSettingVPN *s_vpn,
+                          GError **error)
 {
 	const char *props_username;
 	const char *default_username;
@@ -403,7 +411,7 @@ nm_openswan_config_write (gint fd, NMSettingVPN *s_vpn, GError **error)
 
 	g_assert (fd >= 0);
 
-	write_config_option (fd, "conn nm-conn1\n");
+	write_config_option (fd, "conn %s\n", con_name);
 	write_config_option (fd, " aggrmode=yes\n");
 	write_config_option (fd, " authby=secret\n");
 	write_config_option (fd, " left=%%defaultroute\n");
@@ -449,7 +457,9 @@ nm_openswan_config_write (gint fd, NMSettingVPN *s_vpn, GError **error)
 }
 
 static gboolean
-nm_openswan_config_psk_write (NMSettingVPN *s_vpn, GError **error)
+nm_openswan_config_psk_write (NMSettingVPN *s_vpn,
+                              const char *secrets_path,
+                              GError **error)
 {
 	const char *pw_type, *psk, *leftid;
 	int fd;
@@ -464,12 +474,14 @@ nm_openswan_config_psk_write (NMSettingVPN *s_vpn, GError **error)
 		return TRUE;
 
 	/* Write the PSK */
-	fd = open ("/etc/ipsec.d/ipsec-nm-conn1.secrets", O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
+	errno = 0;
+	fd = open (secrets_path, O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
 	if (fd < 0) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		                     "Failed to open secrets file.");
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "Failed to open secrets file: (%d) %s.",
+		             errno, g_strerror (errno));
 		return FALSE;
 	}
 
@@ -481,58 +493,70 @@ nm_openswan_config_psk_write (NMSettingVPN *s_vpn, GError **error)
 	return TRUE;
 }
 
+static void
+delete_secrets_file (NMOPENSWANPlugin *self)
+{
+	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+
+	if (priv->secrets_path) {
+		unlink (priv->secrets_path);
+		g_clear_pointer (&priv->secrets_path, g_free);
+	}
+}
+
+
 static gboolean
 real_connect (NMVPNPlugin   *plugin,
               NMConnection  *connection,
               GError       **error)
 {
+	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
+	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVPN *s_vpn;
-	gint openswan_fd = -1;
-	gboolean success = FALSE;
+	const char *con_name = nm_connection_get_uuid (connection);
+	gint fd = -1;
 
-	s_vpn = NM_SETTING_VPN (nm_connection_get_setting (connection, NM_TYPE_SETTING_VPN));
+	s_vpn = nm_connection_get_setting_vpn (connection);
 	g_assert (s_vpn);
 
 	if (!nm_openswan_properties_validate (s_vpn, error))
-		goto out;
+		return FALSE;
 
 	if (!nm_openswan_secrets_validate (s_vpn, error))
-		goto out;
+		return FALSE;
 
-	if (!nm_openswan_config_psk_write (s_vpn, error))
-		goto out;
+	/* Write the IPSec secret (group password) */
+	priv->secrets_path = g_strdup_printf (SYSCONFDIR "/ipsec.d/ipsec-%s.secrets", con_name);
+	if (!nm_openswan_config_psk_write (s_vpn, priv->secrets_path, error))
+		return FALSE;
 
-	openswan_fd = nm_openswan_start_openswan_binary (NM_OPENSWAN_PLUGIN (plugin), error);
-	if (openswan_fd < 0)
-		goto out;
+	fd = nm_openswan_start_openswan_binary (self, con_name, error);
+	if (fd < 0)
+		goto error;
 
 	if (debug)
 		nm_connection_dump (connection);
 
-	if (!nm_openswan_config_write (openswan_fd, s_vpn, error)) {
-		goto out;
-	} else {
-		/*no error*/
-		openswan_fd = -1;
-	}
+	/* Start the IPSec service */
+	if (!nm_openswan_config_write (fd, con_name, s_vpn, error))
+		goto error;
+	close (fd);
 
-	unlink("/etc/ipsec.d/ipsec-nm-conn1.secrets");  
+	/* Start the actual IPSec connection */
+	fd = nm_openswan_start_openswan_connection (self, con_name, error);
+	if (fd < 0)
+		goto error;
 
-	openswan_fd = nm_openswan_start_openswan_connection (NM_OPENSWAN_PLUGIN (plugin), error);
-	if (openswan_fd < 0)
-		goto out;
+	/* Write the user password */
+	write_config_option (fd, "%s", nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
+	close (fd);
+	return TRUE;
 
-	write_config_option (openswan_fd, "%s", nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
-	close(openswan_fd);
-	openswan_fd=-1;
-
-	success = TRUE;
-
-out:
-	if (openswan_fd >= 0)
-		close (openswan_fd);
-
-	return success;
+error:
+	if (fd >= 0)
+		close (fd);
+	delete_secrets_file (self);
+	return FALSE;
 }
 
 static gboolean
@@ -576,11 +600,12 @@ real_need_secrets (NMVPNPlugin *plugin,
 }
 
 static gboolean
-real_disconnect (NMVPNPlugin   *plugin,
-			  GError       **error)
+real_disconnect (NMVPNPlugin *plugin, GError **error)
 {
 	const char *ipsec_binary;
 	GPtrArray *openswan_argv;
+
+	delete_secrets_file (NM_OPENSWAN_PLUGIN (plugin));
 
 	ipsec_binary = find_ipsec (error);
 	if (!ipsec_binary)
@@ -609,6 +634,14 @@ nm_openswan_plugin_init (NMOPENSWANPlugin *plugin)
 }
 
 static void
+finalize (GObject *object)
+{
+	delete_secrets_file (NM_OPENSWAN_PLUGIN (object));
+
+	G_OBJECT_CLASS (nm_openswan_plugin_parent_class)->finalize (object);
+}
+
+static void
 nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (openswan_class);
@@ -617,7 +650,8 @@ nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
 	g_type_class_add_private (object_class, sizeof (NMOPENSWANPluginPrivate));
 
 	/* virtual methods */
-	parent_class->connect    = real_connect;
+	object_class->finalize = finalize;
+	parent_class->connect = real_connect;
 	parent_class->need_secrets = real_need_secrets;
 	parent_class->disconnect = real_disconnect;
 }
