@@ -22,9 +22,10 @@ nm_openswan_service_SOURCES = \
 				nm-openswan-service.h
 
 nm_openswan_service_LDADD = \
-				$(DBUS_LIBS) \
-				$(GLIB_LIBS) \
-				$(NM_LIBS)
+	$(DBUS_LIBS) \
+	$(GLIB_LIBS) \
+	$(NM_LIBS) \
+	-lutil
 
 nm_openswan_service_helper_SOURCES = \
 				nm-openswan-service-helper.c
