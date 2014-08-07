@@ -449,7 +449,7 @@ nm_openswan_config_write (gint fd,
 	write_config_option (fd, " salifetime=24h\n");
 	write_config_option (fd, " ikelifetime=24h\n");
 	write_config_option (fd, " keyingtries=1\n");
-	write_config_option (fd, " auto=add");
+	write_config_option (fd, " auto=add\n");
 
 	close (fd);
 	sleep (3);
