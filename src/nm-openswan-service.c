@@ -29,6 +29,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <locale.h>
+#include <stdarg.h>
 
 #include <glib/gi18n.h>
 
@@ -280,58 +281,90 @@ pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 	g_spawn_close_pid (pid);
 }
 
+static gboolean do_spawn (gboolean dont_reap_child,
+                          GPid *out_pid,
+                          int *out_stdin,
+                          GError **error,
+                          const char *progname,
+                          ...) G_GNUC_NULL_TERMINATED;
+
+static gboolean
+do_spawn (gboolean dont_reap_child,
+          GPid *out_pid,
+          int *out_stdin,
+          GError **error,
+          const char *progname,
+          ...)
+{
+	GError *local = NULL;
+	va_list ap;
+	GPtrArray *argv;
+	char *cmdline, *arg;
+	gboolean success;
+
+	argv = g_ptr_array_sized_new (10);
+	g_ptr_array_add (argv, (char *) progname);
+
+	va_start (ap, progname);
+	while ((arg = va_arg (ap, char *)))
+		g_ptr_array_add (argv, arg);
+	va_end (ap);
+	g_ptr_array_add (argv, NULL);
+
+	if (debug) {
+		cmdline = g_strjoinv (" ", (char **) argv->pdata);
+		g_message ("Spawning: %s", cmdline);
+		g_free (cmdline);
+	}
+
+	if (out_stdin) {
+		success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
+		                                    dont_reap_child ? G_SPAWN_DO_NOT_REAP_CHILD : 0,
+		                                    NULL, NULL, out_pid, out_stdin,
+		                                    NULL, NULL, &local);
+	} else {
+		success = g_spawn_async (NULL, (char **) argv->pdata, NULL,
+		                         dont_reap_child ? G_SPAWN_DO_NOT_REAP_CHILD : 0,
+		                         NULL, NULL, out_pid, &local);
+	}
+	if (!success) {
+		g_warning ("Spawn failed: (%s/%d) %s",
+		           g_quark_to_string (local->domain),
+		           local->code, local->message);
+		g_propagate_error (error, local);
+	}
+
+	g_ptr_array_free (argv, TRUE);
+	return success;
+}
+
 static gint
 nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin,
                                    const char *con_name,
                                    GError **error)
 {
-	GPid pid, pid_auto;
+	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin);
 	const char *ipsec_binary;
-	GPtrArray *openswan_argv;
-	gint stdin_fd;
+	gint stdin_fd = -1;
+	GPid pid_auto;
 
 	ipsec_binary = find_ipsec (error);
 	if (!ipsec_binary)
 		return -1;
 
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
-	g_ptr_array_add (openswan_argv, (gpointer) "setup");
-	g_ptr_array_add (openswan_argv, (gpointer) "start");
-	g_ptr_array_add (openswan_argv, NULL);
+	/* Start the IPSec service */
+	if (!do_spawn (TRUE, &priv->pid, NULL, error, ipsec_binary, "setup", "start", NULL))
+		return -1;
 
-	if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
-	                    G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, &pid, error)) {
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("pluto failed to start.  error: '%s'", (*error)->message);
+	g_message ("ipsec/pluto started with pid %d", priv->pid);
+	g_child_watch_add (priv->pid, (GChildWatchFunc) pluto_watch_cb, plugin);
+	sleep (2);
+
+	/* Start the helper we write the connection configuration to */
+	if (!do_spawn (TRUE, &pid_auto, &stdin_fd, error,
+	               ipsec_binary, "auto", "--add", "--config", "-", con_name, NULL)) {
 		return -1;
 	}
-	g_ptr_array_free (openswan_argv, TRUE);
-
-	g_message ("ipsec/pluto started with pid %d", pid);
-
-	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->pid = pid;
-	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
-
-	sleep(2);
-
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
-	g_ptr_array_add (openswan_argv, (gpointer) "auto");
-	g_ptr_array_add (openswan_argv, (gpointer) "--add");
-	g_ptr_array_add (openswan_argv, (gpointer) "--config");
-	g_ptr_array_add (openswan_argv, (gpointer) "-");
-	g_ptr_array_add (openswan_argv, (gpointer) con_name);
-	g_ptr_array_add (openswan_argv, NULL);
-
-	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
-	                               G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, &pid_auto, &stdin_fd,
-	                               NULL, NULL, error)) {
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("ipsec auto add failed with error: '%s'", (*error)->message);
-		return -1;
-	}
-	g_ptr_array_free (openswan_argv, TRUE);
 
 	if (debug)
 		g_message ("pluto auto started with pid %d", pid_auto);
@@ -348,28 +381,14 @@ nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin,
 {
 	GPid pid;
 	const char *ipsec_binary;
-	GPtrArray *openswan_argv;
-	gint stdin_fd;
+	gint stdin_fd = -1;
 
 	ipsec_binary = find_ipsec (error);
 	if (!ipsec_binary)
 		return -1;
 
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
-	g_ptr_array_add (openswan_argv, (gpointer) "auto");
-	g_ptr_array_add (openswan_argv, (gpointer) "--up");
-	g_ptr_array_add (openswan_argv, (gpointer) con_name);
-	g_ptr_array_add (openswan_argv, NULL);
-
-	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
-	                               G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, &pid, &stdin_fd,
-	                               NULL, NULL, error)) {
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("ipsec/pluto auto connection failed to start.  error: '%s'", (*error)->message);
+	if (!do_spawn (TRUE, &pid, &stdin_fd, error, ipsec_binary, "auto", "--up", con_name, NULL))
 		return -1;
-	}
-	g_ptr_array_free (openswan_argv, TRUE);
 
 	if (debug)
 		g_message ("pluto up started with pid %d", pid);
@@ -603,29 +622,14 @@ static gboolean
 real_disconnect (NMVPNPlugin *plugin, GError **error)
 {
 	const char *ipsec_binary;
-	GPtrArray *openswan_argv;
 
 	delete_secrets_file (NM_OPENSWAN_PLUGIN (plugin));
 
 	ipsec_binary = find_ipsec (error);
 	if (!ipsec_binary)
-		return -1;
+		return FALSE;
 
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) ipsec_binary);
-	g_ptr_array_add (openswan_argv, (gpointer) "setup");
-	g_ptr_array_add (openswan_argv, (gpointer) "stop");
-	g_ptr_array_add (openswan_argv, NULL);
-
-	if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
-	                    0, NULL, NULL, NULL, error)) {
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("pluto failed to stop.  error: '%s'", (*error)->message);
-		return -1;
-	}
-	g_ptr_array_free (openswan_argv, TRUE);
-
-	return TRUE;
+	return do_spawn (FALSE, NULL, NULL, error, ipsec_binary, "setup", "stop", NULL);
 }
 
 static void
