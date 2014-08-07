@@ -236,8 +236,10 @@ pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 
 	if (WIFEXITED (status)) {
 		error = WEXITSTATUS (status);
-		if (error != 0)
+		if (error != 0) {
 			g_warning ("pluto_watch: pluto exited with error code %d", error);
+			nm_vpn_plugin_failure (NM_VPN_PLUGIN (plugin), NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+		}
 	} else if (WIFSTOPPED (status))
 		g_warning ("pluto_watch: pluto stopped unexpectedly with signal %d", WSTOPSIG (status));
 	else if (WIFSIGNALED (status))
@@ -248,36 +250,15 @@ pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 	/* Reap child if needed. */
 	waitpid (pid, NULL, WNOHANG);
 
-	if (debug)
-		g_message ("pluto_watch: reaped child pid %d", pid);
-
-	/* Must be after data->state is set since signals use data->state */
-	switch (error) {
-	case 2:
-		/* Couldn't log in due to bad user/pass */
-		nm_vpn_plugin_failure (NM_VPN_PLUGIN (plugin), NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED);
-		break;
-	case 1:
-		/* Other error (couldn't bind to address, etc) */
-		nm_vpn_plugin_failure (NM_VPN_PLUGIN (plugin), NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
-		break;
-	default:
-		break;
-	}
-
-	if(pid == priv->pid || error) {
+	if (pid == priv->pid) {
 		priv->pid = 0;
-
 		if (debug)
 			g_message ("pluto_watch: nm pluto service is stopping");
-
-		nm_vpn_plugin_set_state (NM_VPN_PLUGIN (plugin), NM_VPN_SERVICE_STATE_STOPPED);
+	} else {
+		if (debug)
+			g_message ("pluto_watch: nm pluto service will continue after reaping a child");
 	}
 
-	if (debug)
-		g_message ("pluto_watch: nm pluto service will continue after reaping a child");
-
-	/*closing pid*/
 	g_spawn_close_pid (pid);
 }
 
