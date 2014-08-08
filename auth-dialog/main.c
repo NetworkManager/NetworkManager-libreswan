@@ -88,6 +88,33 @@ keyring_lookup_secret (const char *uuid, const char *secret_name)
 	return secret;
 }
 
+/*****************************************************************/
+
+typedef void (*NoSecretsRequiredFunc) (void);
+
+/* Returns TRUE on success, FALSE on cancel */
+typedef gboolean (*AskUserFunc) (const char *vpn_name,
+                                 const char *prompt,
+                                 gboolean retry,
+                                 gboolean need_password,
+                                 const char *existing_password,
+                                 char **out_new_password,
+                                 gboolean need_certpass,
+                                 const char *existing_certpass,
+                                 char **out_new_certpass);
+
+typedef void (*FinishFunc) (const char *vpn_name,
+                            const char *prompt,
+                            gboolean allow_interaction,
+                            gboolean retry,
+                            gboolean need_password,
+                            const char *password,
+                            gboolean need_certpass,
+                            const char *certpass);
+
+/*****************************************************************/
+/* External UI mode stuff */
+
 static void
 keyfile_add_entry_info (GKeyFile    *keyfile,
                         const gchar *key,
@@ -115,159 +142,122 @@ keyfile_print_stdout (GKeyFile *keyfile)
 	g_free (data);
 }
 
+static void
+eui_no_secrets_required (void)
+{
+	GKeyFile *keyfile;
+
+	keyfile = g_key_file_new ();
+	g_key_file_set_integer (keyfile, UI_KEYFILE_GROUP, "Version", 2);
+	keyfile_print_stdout (keyfile);
+	g_key_file_unref (keyfile);
+}
+
+static void
+eui_finish (const char *vpn_name,
+            const char *prompt,
+            gboolean allow_interaction,
+            gboolean retry,
+            gboolean need_password,
+            const char *existing_password,
+            gboolean need_group_password,
+            const char *existing_group_password)
+{
+	GKeyFile *keyfile;
+	char *title;
+	gboolean show;
+
+	keyfile = g_key_file_new ();
+
+	g_key_file_set_integer (keyfile, UI_KEYFILE_GROUP, "Version", 2);
+	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Description", prompt);
+
+	title = g_strdup_printf (_("Authenticate VPN %s"), vpn_name);
+	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Title", title);
+	g_free (title);
+
+	/* If we have an existing password, or we need the user to give us one,
+	 * then tell the external UI about the password.  An entry for the password
+	 * (possibly pre-populated with the existing password) is only shown to the
+	 * user when the password is needed or new secrets are required (retry).
+	 * If the password isn't required and there's no existing password, then
+	 * just ignore that password completely.
+	 */
+
+	if (need_password || existing_password || retry) {
+		show = (need_password && !existing_password) || retry;
+		keyfile_add_entry_info (keyfile,
+		                        NM_OPENSWAN_XAUTH_PASSWORD,
+		                        existing_password ? existing_password : "",
+		                        _("Password:"),
+		                        TRUE,
+		                        show && allow_interaction);
+	}
+
+	if (need_group_password || existing_group_password || retry) {
+		show = (need_group_password && !existing_group_password) || retry;
+		keyfile_add_entry_info (keyfile,
+		                        NM_OPENSWAN_PSK_VALUE,
+		                        existing_group_password ? existing_group_password : "",
+		                        _("Group Password:"),
+		                        TRUE,
+		                        show && allow_interaction);
+	}
+
+	keyfile_print_stdout (keyfile);
+	g_key_file_unref (keyfile);
+}
+
+/*****************************************************************/
+
+static void
+std_no_secrets_required (void)
+{
+	printf ("\n\n");
+}
+
 static gboolean
-get_secrets (const char *vpn_uuid,
-             const char *vpn_name,
-             gboolean retry,
-             gboolean allow_interaction,
-             gboolean external_ui_mode,
-             const char *in_upw,
-             char **out_upw,
-             NMSettingSecretFlags upw_flags,
-             const char *in_gpw,
-             char **out_gpw,
-             NMSettingSecretFlags gpw_flags)
+std_ask_user (const char *vpn_name,
+              const char *prompt,
+              gboolean retry,
+              gboolean need_password,
+              const char *existing_password,
+              char **out_new_password,
+              gboolean need_group_password,
+              const char *existing_group_password,
+              char **out_new_group_password)
 {
 	NMAVpnPasswordDialog *dialog;
-	char *upw = NULL, *gpw = NULL;
-	char *prompt;
 	gboolean success = FALSE;
-	gboolean need_upw = TRUE, need_gpw = TRUE;
 
-	g_return_val_if_fail (vpn_uuid != NULL, FALSE);
 	g_return_val_if_fail (vpn_name != NULL, FALSE);
-	g_return_val_if_fail (out_upw != NULL, FALSE);
-	g_return_val_if_fail (*out_upw == NULL, FALSE);
-	g_return_val_if_fail (out_gpw != NULL, FALSE);
-	g_return_val_if_fail (*out_gpw == NULL, FALSE);
-
-	if (   !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
-	    && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)) {
-		if (in_upw)
-			upw = g_strdup (in_upw);
-		else
-			upw = keyring_lookup_secret (vpn_uuid, NM_OPENSWAN_XAUTH_PASSWORD);
-
-		/* Try the old name */
-		if (upw == NULL)
-			upw = keyring_lookup_secret (vpn_uuid, "password");
-	}
-
-	if (   !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
-	    && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)) {
-		if (in_gpw)
-			gpw = g_strdup (in_gpw);
-		else
-			gpw = keyring_lookup_secret (vpn_uuid, NM_OPENSWAN_PSK_VALUE);
-
-		/* Try the old name */
-		if (gpw == NULL)
-			gpw = keyring_lookup_secret (vpn_uuid, "group-password");
-	}
-
-	if (!retry) {
-		/* Don't ask if both passwords are either saved and present, or unused */
-		if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-			need_upw = FALSE;
-		else if (upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
-			*out_upw = upw;
-			need_upw = FALSE;
-		}
-
-		if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-			need_gpw = FALSE;
-		else if (gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
-			*out_gpw = gpw;
-			need_gpw = FALSE;
-		}
-
-		if (!need_upw && !need_gpw)
-			return TRUE;
-	}
-
-	prompt = g_strdup_printf (_("You need to authenticate to access the Virtual Private Network '%s'."), vpn_name);
-
-	if (external_ui_mode) {
-		GKeyFile *keyfile;
-
-		keyfile = g_key_file_new ();
-
-		g_key_file_set_integer (keyfile, UI_KEYFILE_GROUP, "Version", 2);
-		g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Description", prompt);
-		g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Title", _("Authenticate VPN"));
-
-		if (need_upw)
-			keyfile_add_entry_info (keyfile, NM_OPENSWAN_XAUTH_PASSWORD, upw ? upw : "", _("Password:"), TRUE, allow_interaction);
-		if (need_gpw)
-			keyfile_add_entry_info (keyfile, NM_OPENSWAN_PSK_VALUE, gpw ? gpw : "", _("Group Password:"), TRUE, allow_interaction);
-
-		keyfile_print_stdout (keyfile);
-		g_key_file_unref (keyfile);
-
-		success = TRUE;
-		goto out;
-	} else if (allow_interaction == FALSE ||
-			   ((upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-				&& (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))) {
-		/* If interaction isn't allowed, just return existing secrets
-		 * Also, don't ask if both passwords are unused */
-
-		*out_upw = upw;
-		*out_gpw = gpw;
-		g_free (prompt);
-		return TRUE;
-	}
+	g_return_val_if_fail (prompt != NULL, FALSE);
+	g_return_val_if_fail (out_new_password != NULL, FALSE);
+	g_return_val_if_fail (out_new_group_password != NULL, FALSE);
 
 	dialog = NMA_VPN_PASSWORD_DIALOG (nma_vpn_password_dialog_new (_("Authenticate VPN"), prompt, NULL));
 
-	nma_vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
+	/* pre-fill dialog with existing passwords */
+	nma_vpn_password_dialog_set_show_password (dialog, need_password);
+	if (need_password)
+		nma_vpn_password_dialog_set_password (dialog, existing_password);
 
-	/* Don't show the user password entry if the user password isn't required,
-	 * or if we don't need new secrets and the user password is saved.
-	 */
-	if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-		nma_vpn_password_dialog_set_show_password (dialog, FALSE);
-	else if (!retry && upw && !(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
-		nma_vpn_password_dialog_set_show_password (dialog, FALSE);
-
-	if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED)
-		nma_vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
-	else if (!retry && gpw && !(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED))
-		nma_vpn_password_dialog_set_show_password_secondary (dialog, FALSE);
-
-	/* On reprompt the first entry of type 'ask' gets the focus */
-	if (retry) {
-		if (upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
-			nma_vpn_password_dialog_focus_password (dialog);
-		else if (gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)
-			nma_vpn_password_dialog_focus_password_secondary (dialog);
+	nma_vpn_password_dialog_set_show_password_secondary (dialog, need_group_password);
+	if (need_group_password) {
+		nma_vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
+		nma_vpn_password_dialog_set_password_secondary (dialog, existing_group_password);
 	}
-
-	/* if retrying, pre-fill dialog with the password */
-	if (upw)
-		nma_vpn_password_dialog_set_password (dialog, upw);
-
-	if (gpw)
-		nma_vpn_password_dialog_set_password_secondary (dialog, gpw);
 
 	gtk_widget_show (GTK_WIDGET (dialog));
-
-	/* Show the dialog */
-	success = nma_vpn_password_dialog_run_and_block (dialog);
-	if (success) {
-		*out_upw = g_strdup (nma_vpn_password_dialog_get_password (dialog));
-		*out_gpw = g_strdup (nma_vpn_password_dialog_get_password_secondary (dialog));
+	if (nma_vpn_password_dialog_run_and_block (dialog)) {
+		if (need_password)
+			*out_new_password = g_strdup (nma_vpn_password_dialog_get_password (dialog));
+		if (need_group_password)
+			*out_new_group_password = g_strdup (nma_vpn_password_dialog_get_password_secondary (dialog));
+		success = TRUE;
 	}
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-
- out:
-	g_free (prompt);
-
-	g_free (upw);
-	g_free (gpw);
-
 	return success;
 }
 
@@ -296,6 +286,32 @@ wait_for_quit (void)
 	g_string_free (str, TRUE);
 }
 
+static void
+std_finish (const char *vpn_name,
+            const char *prompt,
+            gboolean allow_interaction,
+            gboolean finish,
+            gboolean need_password,
+            const char *password,
+            gboolean need_group_password,
+            const char *group_password)
+{
+	/* Send the passwords back to our parent */
+	if (password)
+		printf ("%s\n%s\n", NM_OPENSWAN_XAUTH_PASSWORD, password);
+	if (group_password)
+		printf ("%s\n%s\n", NM_OPENSWAN_PSK_VALUE, group_password);
+	printf ("\n\n");
+
+	/* for good measure, flush stdout since Kansas is going Bye-Bye */
+	fflush (stdout);
+
+	/* Wait for quit signal */
+	wait_for_quit ();
+}
+
+/*****************************************************************/
+
 static NMSettingSecretFlags
 get_pw_flags (GHashTable *hash, const char *secret_name, const char *mode_name)
 {
@@ -320,16 +336,105 @@ get_pw_flags (GHashTable *hash, const char *secret_name, const char *mode_name)
 	return NM_SETTING_SECRET_FLAG_NONE;
 }
 
+static void
+get_existing_passwords (GHashTable *vpn_data,
+                        GHashTable *existing_secrets,
+                        const char *vpn_uuid,
+                        gboolean need_password,
+                        gboolean need_group_password,
+                        char **out_password,
+                        char **out_group_password)
+{
+	NMSettingSecretFlags upw_flags = NM_SETTING_SECRET_FLAG_NONE;
+	NMSettingSecretFlags gpw_flags = NM_SETTING_SECRET_FLAG_NONE;
+
+	g_return_if_fail (out_password != NULL);
+	g_return_if_fail (out_group_password != NULL);
+
+	if (need_password) {
+		upw_flags = get_pw_flags (existing_secrets, NM_OPENSWAN_XAUTH_PASSWORD, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
+		if (!(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
+			*out_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_OPENSWAN_XAUTH_PASSWORD));
+			if (!*out_password)
+				*out_password = keyring_lookup_secret (vpn_uuid, NM_OPENSWAN_XAUTH_PASSWORD);
+		}
+	}
+
+	if (need_group_password) {
+		gpw_flags = get_pw_flags (existing_secrets, NM_OPENSWAN_PSK_VALUE, NM_OPENSWAN_PSK_INPUT_MODES);
+		if (!(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
+			*out_group_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_OPENSWAN_PSK_VALUE));
+			if (!*out_group_password)
+				*out_group_password = keyring_lookup_secret (vpn_uuid, NM_OPENSWAN_PSK_VALUE);
+		}
+	}
+}
+
+#define VPN_MSG_TAG "x-vpn-message:"
+
+static char *
+get_passwords_required (GHashTable *data,
+                        char **hints,
+                        gboolean *out_need_password,
+                        gboolean *out_need_group_password)
+{
+	NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
+	char *prompt = NULL;
+	char **iter;
+
+	/* If hints are given, then always ask for what the hints require */
+	if (hints && g_strv_length (hints)) {
+		for (iter = hints; iter && *iter; iter++) {
+			if (!prompt && g_str_has_prefix (*iter, VPN_MSG_TAG))
+				prompt = g_strdup (*iter + strlen (VPN_MSG_TAG));
+			else if (strcmp (*iter, NM_OPENSWAN_XAUTH_PASSWORD) == 0)
+				*out_need_password = TRUE;
+			else if (strcmp (*iter, NM_OPENSWAN_PSK_VALUE) == 0)
+				*out_need_group_password = TRUE;
+		}
+		return prompt;
+	}
+
+	/* User password (XAuth password) */
+	flags = get_pw_flags (data, NM_OPENSWAN_XAUTH_PASSWORD, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
+	if (!(flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
+		*out_need_password = TRUE;
+
+	/* Group password (IPSec secret) */
+	flags = get_pw_flags (data, NM_OPENSWAN_PSK_VALUE, NM_OPENSWAN_PSK_INPUT_MODES);
+	if (!(flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
+		*out_need_group_password = TRUE;
+
+	return NULL;
+}
+
+static void
+free_secret (char *p)
+{
+	if (p) {
+		memset (p, 0, strlen (p));
+		g_free (p);
+	}
+}
+
 int 
 main (int argc, char *argv[])
 {
 	gboolean retry = FALSE, allow_interaction = FALSE, external_ui_mode = FALSE;
 	char *vpn_name = NULL, *vpn_uuid = NULL, *vpn_service = NULL;
 	GHashTable *data = NULL, *secrets = NULL;
-	char *password = NULL, *group_password = NULL;
-	NMSettingSecretFlags upw_flags = NM_SETTING_SECRET_FLAG_NONE;
-	NMSettingSecretFlags gpw_flags = NM_SETTING_SECRET_FLAG_NONE;
+	gboolean need_password = FALSE, need_group_password = FALSE;
+	char *existing_password = NULL, *existing_group_password = NULL;
+	char *new_password = NULL, *new_group_password = NULL;
 	GError *error = NULL;
+	char **hints = NULL;
+	char *prompt = NULL;
+	gboolean canceled = FALSE, ask_user = FALSE;
+
+	NoSecretsRequiredFunc no_secrets_required_func = NULL;
+	AskUserFunc ask_user_func = NULL;
+	FinishFunc finish_func = NULL;
+
 	GOptionContext *context;
 	GOptionEntry entries[] = {
 			{ "reprompt", 'r', 0, G_OPTION_ARG_NONE, &retry, "Reprompt for passwords", NULL},
@@ -338,6 +443,7 @@ main (int argc, char *argv[])
 			{ "service", 's', 0, G_OPTION_ARG_STRING, &vpn_service, "VPN service type", NULL},
 			{ "allow-interaction", 'i', 0, G_OPTION_ARG_NONE, &allow_interaction, "Allow user interaction", NULL},
 			{ "external-ui-mode", 0, 0, G_OPTION_ARG_NONE, &external_ui_mode, "External UI mode", NULL},
+			{ "hint", 't', 0, G_OPTION_ARG_STRING_ARRAY, &hints, "Hints from the VPN plugin", NULL},
 			{ NULL }
 		};
 
@@ -357,8 +463,8 @@ main (int argc, char *argv[])
 
 	g_option_context_free (context);
 
-	if (vpn_uuid == NULL || vpn_service == NULL) {
-		fprintf (stderr, "A connection UUID and VPN plugin service name are required.\n");
+	if (!vpn_uuid || !vpn_service || !vpn_name) {
+		fprintf (stderr, "A connection UUID, name, and VPN plugin service name are required.\n");
 		return 1;
 	}
 
@@ -373,40 +479,77 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	upw_flags = get_pw_flags (data, NM_OPENSWAN_XAUTH_PASSWORD, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	gpw_flags = get_pw_flags (data, NM_OPENSWAN_PSK_VALUE, NM_OPENSWAN_PSK_INPUT_MODES);
+	if (external_ui_mode) {
+		no_secrets_required_func = eui_no_secrets_required;
+		finish_func = eui_finish;
+	} else {
+		no_secrets_required_func = std_no_secrets_required;
+		ask_user_func = std_ask_user;
+		finish_func = std_finish;
+	}
 
-	if (!get_secrets (vpn_uuid, vpn_name, retry,
-	                  allow_interaction, external_ui_mode,
-	                  g_hash_table_lookup (secrets, NM_OPENSWAN_XAUTH_PASSWORD),
-	                  &password,
-	                  upw_flags,
-	                  g_hash_table_lookup (secrets, NM_OPENSWAN_PSK_VALUE),
-	                  &group_password,
-	                  gpw_flags))
-		return 1;
+	/* Determine which passwords are actually required, either from hints or
+	 * from looking at the VPN configuration.
+	 */
+	prompt = get_passwords_required (data, hints, &need_password, &need_group_password);
+	if (!prompt)
+		prompt = g_strdup_printf (_("You need to authenticate to access the Virtual Private Network '%s'."), vpn_name);
 
-	if (!external_ui_mode) {
-		/* dump the passwords to stdout */
-		if (password)
-			printf ("%s\n%s\n", NM_OPENSWAN_XAUTH_PASSWORD, password);
-		if (group_password)
-			printf ("%s\n%s\n", NM_OPENSWAN_PSK_VALUE, group_password);
-		printf ("\n\n");
+	/* Exit early if we don't need any passwords */
+	if (!need_password && !need_group_password)
+		no_secrets_required_func ();
+	else {
+		get_existing_passwords (data,
+		                        secrets,
+		                        vpn_uuid,
+		                        need_password,
+		                        need_group_password,
+		                        &existing_password,
+		                        &existing_group_password);
+		if (need_password && !existing_password)
+			ask_user = TRUE;
+		if (need_group_password && !existing_group_password)
+			ask_user = TRUE;
 
-		g_free (password);
-		g_free (group_password);
+		/* If interaction is allowed then ask the user, otherwise pass back
+		 * whatever existing secrets we can find.
+		 */
+		if (ask_user_func && allow_interaction && (ask_user || retry)) {
+			canceled = !ask_user_func (vpn_name,
+			                           prompt,
+			                           retry,
+			                           need_password,
+			                           existing_password,
+			                           &new_password,
+			                           need_group_password,
+			                           existing_group_password,
+			                           &new_group_password);
+		}
 
-		/* for good measure, flush stdout since Kansas is going Bye-Bye */
-		fflush (stdout);
+		if (!canceled) {
+			finish_func (vpn_name,
+			             prompt,
+			             allow_interaction,
+			             retry,
+			             need_password,
+			             new_password ? new_password : existing_password,
+			             need_group_password,
+			             new_group_password ? new_group_password : existing_group_password);
+		}
 
-		/* Wait for quit signal */
-		wait_for_quit ();
+		free_secret (existing_password);
+		free_secret (existing_group_password);
+		free_secret (new_password);
+		free_secret (new_group_password);
 	}
 
 	if (data)
 		g_hash_table_unref (data);
 	if (secrets)
 		g_hash_table_unref (secrets);
-	return 0;
+	if (hints)
+		g_strfreev (hints);
+	g_free (prompt);
+	return canceled ? 1 : 0;
 }
+

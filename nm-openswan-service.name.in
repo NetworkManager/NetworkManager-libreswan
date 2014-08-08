@@ -7,3 +7,4 @@ program=@LIBEXECDIR@/nm-openswan-service
 auth-dialog=@LIBEXECDIR@/nm-openswan-auth-dialog
 properties=@PLUGINDIR@/libnm-openswan-properties
 supports-external-ui-mode=true
+supports-hints=true
