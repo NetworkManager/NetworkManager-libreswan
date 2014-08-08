@@ -68,6 +68,9 @@ typedef struct {
 	const char *ipsec_path;
 	char *secrets_path;
 
+	gboolean interactive;
+	gboolean pending_auth;
+
 	GPid pid;
 	guint watch_id;
 	ConnectStep connect_step;
@@ -221,18 +224,15 @@ nm_openswan_properties_validate (NMSettingVPN *s_vpn, GError **error)
 static gboolean
 nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 {
-	ValidateInfo info = { &valid_secrets[0], error, FALSE };
+	GError *validate_error = NULL;
+	ValidateInfo info = { &valid_secrets[0], &validate_error, FALSE };
 
 	nm_setting_vpn_foreach_secret (s_vpn, validate_one_property, &info);
-	if (!info.have_items) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		                     "No VPN secrets!");
+	if (validate_error) {
+		g_propagate_error (error, validate_error);
 		return FALSE;
 	}
-
-	return *error ? FALSE : TRUE;
+	return TRUE;
 }
 
 /****************************************************************/
@@ -300,6 +300,7 @@ connect_cleanup (NMOPENSWANPlugin *self)
 	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 
 	priv->connect_step = CONNECT_STEP_FIRST;
+	priv->pending_auth = FALSE;
 
 	/* Don't remove the child watch since it needs to reap the child */
 	priv->watch_id = 0;
@@ -354,7 +355,10 @@ ipsec_stop (NMOPENSWANPlugin *self, GError **error)
 }
 
 static void
-connect_failed (NMOPENSWANPlugin *self, gboolean do_stop, GError *error)
+connect_failed (NMOPENSWANPlugin *self,
+                gboolean do_stop,
+                GError *error,
+                NMVPNConnectionStateReason reason)
 {
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
@@ -366,7 +370,7 @@ connect_failed (NMOPENSWANPlugin *self, gboolean do_stop, GError *error)
 	connect_cleanup (self);
 	if (do_stop)
 		ipsec_stop (self, NULL);
-	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
 }
 
 static void
@@ -408,7 +412,7 @@ pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 	}
 
 	if (ret != 0)
-		connect_failed (self, do_stop, error);
+		connect_failed (self, do_stop, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 	g_clear_error (&error);
 }
 
@@ -708,6 +712,47 @@ spawn_pty (int *out_stdout,
 #define PASSPHRASE_REQUEST "Enter passphrase: "
 
 static gboolean
+handle_auth (NMOPENSWANPlugin *self, const char **out_message, const char **out_hint)
+{
+	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	GError *error = NULL;
+	gsize bytes_written;
+
+	g_return_val_if_fail (out_message != NULL, FALSE);
+	g_return_val_if_fail (out_hint != NULL, FALSE);
+
+	if (priv->password) {
+		const char *p = priv->password;
+
+		do {
+			g_io_channel_write_chars (priv->channel, p, -1, &bytes_written, &error);
+			g_io_channel_flush (priv->channel, NULL);
+			if (error) {
+				g_warning ("Failed to write password to ipsec: '%s'", error->message);
+				g_clear_error (&error);
+				return FALSE;
+			}
+			p += bytes_written;
+		} while (*p);
+
+		g_io_channel_write_chars (priv->channel, "\n", -1, NULL, NULL);
+		g_io_channel_flush (priv->channel, NULL);
+
+		DEBUG ("PTY: password written");
+
+		/* Don't re-use the password */
+		memset (priv->password, 0, strlen (priv->password));
+		g_free (priv->password);
+		priv->password = NULL;
+	} else {
+		*out_hint = NM_OPENSWAN_XAUTH_PASSWORD;
+		*out_message = _("A password is required.");
+	}
+
+	return TRUE;
+}
+
+static gboolean
 io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 {
 	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
@@ -715,12 +760,12 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	char buf[256];
 	GIOStatus status;
 	gsize bytes_read = 0;
-	gboolean ret = G_SOURCE_CONTINUE;
+	gboolean success = FALSE;
+	NMVPNConnectionStateReason reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
 	const char *found;
 
 	if (condition & (G_IO_ERR | G_IO_HUP)) {
 		g_warning ("PTY spawn: pipe error!");
-		ret = G_SOURCE_REMOVE;
 		goto done;
 	}
 	g_assert (condition & G_IO_IN);
@@ -741,47 +786,44 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 
 	found = strstr (priv->io_buf->str, PASSPHRASE_REQUEST);
 	if (found) {
-		GError *error = NULL;
-		gsize bytes_written;
-		const char *password = priv->password;
+		const char *hints[2] = { NULL, NULL };
+		const char *message = NULL;
 
 		/* Erase everything up to and including the passphrase request */
 		g_string_erase (priv->io_buf, 0, (found + strlen (PASSPHRASE_REQUEST)) - priv->io_buf->str);
 
-		if (!password) {
-			/* FIXME: request new password interactively */
-			g_warning ("Password required but not provided!");
-			ret = G_SOURCE_REMOVE;
+		if (!handle_auth (self, &message, &hints[0])) {
+			g_warning ("Unhandled management socket request '%s'", buf);
+			reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
 			goto done;
 		}
 
-		do {
-			g_io_channel_write_chars (source, password, -1, &bytes_written, &error);
-			g_io_channel_flush (source, NULL);
-			if (error) {
-				g_warning ("Failed to write password to ipsec!");
-				ret = G_SOURCE_REMOVE;
+		if (message) {
+			/* Request new secrets if we need any */
+			priv->pending_auth = TRUE;
+			if (priv->interactive) {
+				DEBUG ("Requesting new secrets: '%s' (%s)", message, hints[0]);
+				nm_vpn_plugin_secrets_required (NM_VPN_PLUGIN (self), message, hints);
+			} else {
+				/* Interactive not allowed, can't ask for more secrets */
+				g_warning ("More secrets required but cannot ask interactively");
+				reason = NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED;
 				goto done;
 			}
-			password += bytes_written;
-		} while (*password);
-
-		g_io_channel_write_chars (source, "\n", -1, NULL, NULL);
-		g_io_channel_flush (source, NULL);
-
-		DEBUG ("PTY: password written");
+		}
 	}
+	success = TRUE;
 
 	/* Truncate large buffer if we haven't gotten the password request yet */
 	if (priv->io_buf->len > sizeof (buf) * 4)
 		g_string_erase (priv->io_buf, 0, sizeof (buf) * 3);
 
 done:
-	if (ret == G_SOURCE_REMOVE) {
+	if (!success) {
 		priv->io_id = 0;
-		connect_failed (self, TRUE, NULL);
+		connect_failed (self, TRUE, NULL, reason);
 	}
-	return ret;
+	return success ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
 }
 
 static gboolean
@@ -889,9 +931,10 @@ connect_step (NMOPENSWANPlugin *self, GError **error)
 }
 
 static gboolean
-real_connect (NMVPNPlugin   *plugin,
-              NMConnection  *connection,
-              GError       **error)
+_connect_common (NMVPNPlugin   *plugin,
+                 NMConnection  *connection,
+                 GHashTable    *details,
+                 GError       **error)
 {
 	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
 	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
@@ -926,7 +969,9 @@ real_connect (NMVPNPlugin   *plugin,
 
 	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
 
-	/* Write the IPSec secret (group password) */
+	/* Write the IPSec secret (group password); *SWAN always requires this and
+	 * doesn't ask for it interactively.
+	 */
 	priv->secrets_path = g_strdup_printf (SYSCONFDIR "/ipsec.d/ipsec-%s.secrets", con_name);
 	if (!nm_openswan_config_psk_write (s_vpn, priv->secrets_path, error))
 		return FALSE;
@@ -935,6 +980,27 @@ real_connect (NMVPNPlugin   *plugin,
 
 	/* Start the connection process */
 	return connect_step (self, error);
+}
+
+static gboolean
+real_connect (NMVPNPlugin   *plugin,
+              NMConnection  *connection,
+              GError       **error)
+{
+	return _connect_common (plugin, connection, NULL, error);
+}
+
+static gboolean
+real_connect_interactive (NMVPNPlugin   *plugin,
+                          NMConnection  *connection,
+                          GHashTable    *details,
+                          GError       **error)
+{
+	if (!_connect_common (plugin, connection, details, error))
+		return FALSE;
+
+	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->interactive = TRUE;
+	return TRUE;
 }
 
 static gboolean
@@ -949,7 +1015,7 @@ real_need_secrets (NMVPNPlugin *plugin,
 	g_return_val_if_fail (NM_IS_VPN_PLUGIN (plugin), FALSE);
 	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 
-	s_vpn = NM_SETTING_VPN (nm_connection_get_setting (connection, NM_TYPE_SETTING_VPN));
+	s_vpn = nm_connection_get_setting_vpn (connection);
 	if (!s_vpn) {
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
@@ -975,6 +1041,49 @@ real_need_secrets (NMVPNPlugin *plugin,
 	}
 
 	return FALSE;
+}
+
+static gboolean
+real_new_secrets (NMVPNPlugin *plugin,
+                  NMConnection *connection,
+                  GError **error)
+{
+	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
+	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMSettingVPN *s_vpn;
+	const char *message = NULL;
+	const char *hints[] = { NULL, NULL };
+
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	if (!s_vpn) {
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
+		                     _("Could not process the request because the VPN connection settings were invalid."));
+		return FALSE;
+	}
+
+	DEBUG ("VPN received new secrets; sending to ipsec");
+
+	g_free (priv->password);
+	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
+
+	g_warn_if_fail (priv->pending_auth);
+	if (!handle_auth (self, &message, &hints[0])) {
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_GENERAL,
+		                     _("Unhandled pending authentication."));
+		return FALSE;
+	}
+
+	/* Request new secrets if we need any */
+	if (message) {
+		DEBUG ("Requesting new secrets: '%s'", message);
+		nm_vpn_plugin_secrets_required (plugin, message, hints);
+	}
+
+	return TRUE;
 }
 
 static gboolean
@@ -1009,8 +1118,10 @@ nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
 	/* virtual methods */
 	object_class->finalize = finalize;
 	parent_class->connect = real_connect;
+	parent_class->connect_interactive = real_connect_interactive;
 	parent_class->need_secrets = real_need_secrets;
 	parent_class->disconnect = real_disconnect;
+	parent_class->new_secrets = real_new_secrets;
 }
 
 NMOPENSWANPlugin *
