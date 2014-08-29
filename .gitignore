@@ -35,4 +35,4 @@ nm-openswan-service.name
 nm-openswan.desktop
 src/nm-openswan-service
 src/nm-openswan-service-helper
-
+src/show-xfrm
