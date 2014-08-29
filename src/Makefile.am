@@ -4,6 +4,7 @@ AM_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(NM_CFLAGS) \
+	$(LIBNL_CFLAGS) \
 	-DG_DISABLE_DEPRECATED \
 	-DBINDIR=\"$(bindir)\" \
 	-DPREFIX=\""$(prefix)"\" \
@@ -31,8 +32,8 @@ nm_openswan_service_helper_SOURCES = \
 				nm-openswan-service-helper.c
 
 nm_openswan_service_helper_LDADD = \
-				$(DBUS_LIBS) \
-				$(GTHREAD_LIBS) \
-				$(NM_LIBS)
+	$(DBUS_LIBS) \
+	$(NM_LIBS) \
+	$(LIBNL_LIBS)
 
 CLEANFILES = *~
