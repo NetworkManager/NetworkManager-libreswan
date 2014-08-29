@@ -87,6 +87,11 @@ typedef struct {
 
 #define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginPrivate))
 
+/* NOTE: the helper is currently called explicitly by the ipsec up/down
+ * script /usr/libexec/ipsec/_updown.netkey when the configuration contains
+ * "nm_configured=yes".  Eventually we want to somehow pass the helper
+ * directly to pluto/whack with the --updown option.
+ */
 #define NM_OPENSWAN_HELPER_PATH		LIBEXECDIR"/nm-openswan-service-helper"
 
 #define DEBUG(...) \
