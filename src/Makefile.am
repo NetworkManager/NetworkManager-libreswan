@@ -18,8 +18,8 @@ AM_CPPFLAGS = \
 libexec_PROGRAMS = nm-openswan-service nm-openswan-service-helper
 
 nm_openswan_service_SOURCES = \
-				nm-openswan-service.c \
-				nm-openswan-service.h
+	nm-openswan-service.c \
+	nm-openswan-service.h
 
 nm_openswan_service_LDADD = \
 	$(DBUS_LIBS) \
@@ -28,11 +28,17 @@ nm_openswan_service_LDADD = \
 	-lutil
 
 nm_openswan_service_helper_SOURCES = \
-				nm-openswan-service-helper.c
+	nm-openswan-service-helper.c
 
 nm_openswan_service_helper_LDADD = \
 	$(DBUS_LIBS) \
 	$(NM_LIBS) \
 	$(LIBNL_LIBS)
+
+noinst_PROGRAMS = show-xfrm
+
+show_xfrm_SOURCES = show-xfrm.c
+
+show_xfrm_LDADD = $(LIBNL_LIBS) $(GLIB_LIBS)
 
 CLEANFILES = *~
