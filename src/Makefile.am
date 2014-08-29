@@ -1,5 +1,3 @@
-INCLUDES = -I${top_srcdir} 
-
 AM_CPPFLAGS = \
 	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
@@ -14,7 +12,8 @@ AM_CPPFLAGS = \
 	-DLIBEXECDIR=\""$(libexecdir)"\" \
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
 	-DDATADIR=\"$(datadir)\" \
-	-DNM_OPENSWAN_LOCALEDIR=\"$(datadir)/locale\"
+	-DNM_OPENSWAN_LOCALEDIR=\"$(datadir)/locale\" \
+	-I${top_srcdir}
 
 libexec_PROGRAMS = nm-openswan-service nm-openswan-service-helper
 
