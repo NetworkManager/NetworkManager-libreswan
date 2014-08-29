@@ -364,6 +364,10 @@ addr_list_to_gvalue (const char *str)
  *    PLUTO_PEER_DOMAIN_INFO
  * PLUTO_PEER_BANNER         -- banner from server
  *
+ * NOTE: this helper is currently called explicitly by the ipsec up/down
+ * script /usr/libexec/ipsec/_updown.netkey when the configuration contains
+ * "nm_configured=yes".  Eventually we want to somehow pass the helper
+ * directly to pluto/whack with the --updown option.
  */
 int 
 main (int argc, char *argv[])
