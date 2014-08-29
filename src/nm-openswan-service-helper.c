@@ -18,9 +18,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * (C) Copyright 2005 Red Hat, Inc.
- * (C) Copyright 2010 Red Hat, Inc.
+ * Copyright 2005 - 2014 Red Hat, Inc.
  */
+
+#define _GNU_SOURCE 1
 
 #include <glib.h>
 #include <stdlib.h>
@@ -30,6 +31,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
+
+#include <netlink/netlink.h>
+#include <netlink/msg.h>
+#include <linux/xfrm.h>
+
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
 #include <dbus/dbus-glib.h>
@@ -95,6 +101,154 @@ send_ip4_config (DBusGConnection *connection, GHashTable *config)
 	g_object_unref (proxy);
 }
 
+/********************************************************************/
+
+/* The various SWANs don't tell helper scripts whether upstream sent
+ * specific subnets to be routed over the VPN (eg, CISCO_SPLIT_INC).
+ * This is what we need to automatically determine 'never-default' behavior.
+ * Instead, we have to inspect the kernel's SAD (Security Assocation Database)
+ * for IPSec-secured routes pointing to the VPN gateway.
+ */
+
+typedef struct {
+	struct in_addr gw4;
+	gboolean have_routes4;
+} RoutesInfo;
+
+static int
+verify_source (struct nl_msg *msg, gpointer user_data)
+{
+	struct ucred *creds = nlmsg_get_creds (msg);
+
+	if (!creds || creds->pid || creds->uid || creds->gid) {
+		if (creds) {
+			g_warning ("netlink: received non-kernel message (pid %d uid %d gid %d)",
+			           creds->pid, creds->uid, creds->gid);
+		} else
+			g_warning ("netlink: received message without credentials");
+		return NL_STOP;
+	}
+
+	return NL_OK;
+}
+
+static struct nl_sock *
+setup_socket (void)
+{
+	struct nl_sock *sk;
+	int err;
+
+	sk = nl_socket_alloc ();
+	g_return_val_if_fail (sk, NULL);
+
+	/* Only ever accept messages from kernel */
+	err = nl_socket_modify_cb (sk, NL_CB_MSG_IN, NL_CB_CUSTOM, verify_source, NULL);
+	g_assert (!err);
+
+	err = nl_connect (sk, NETLINK_XFRM);
+	g_assert (!err);
+	err = nl_socket_set_passcred (sk, 1);
+	g_assert (!err);
+
+	return sk;
+}
+
+static int
+parse_reply (struct nl_msg *msg, void *arg)
+{
+	RoutesInfo *info = arg;
+	struct nlmsghdr *n = nlmsg_hdr (msg);
+	struct nlattr *tb[XFRMA_MAX + 1];
+	struct xfrm_userpolicy_info *xpinfo = NULL;
+
+	if (info->have_routes4) {
+		/* already found some routes */
+		return NL_SKIP;
+	}
+
+	if (n->nlmsg_type != XFRM_MSG_NEWPOLICY) {
+		g_warning ("msg type %d not NEWPOLICY", n->nlmsg_type);
+		return NL_SKIP;
+	}
+
+	/* Netlink message header is followed by 'struct xfrm_userpolicy_info' and
+	 * then the attributes.
+	 */
+
+	if (!nlmsg_valid_hdr (n, sizeof (struct xfrm_userpolicy_info))) {
+		g_warning ("msg too short");
+		return -NLE_MSG_TOOSHORT;
+	}
+
+	xpinfo = nlmsg_data (n);
+	if (nla_parse (tb, XFRMA_MAX,
+	               nlmsg_attrdata (n, sizeof (struct xfrm_userpolicy_info)),
+	               nlmsg_attrlen (n, sizeof (struct xfrm_userpolicy_info)),
+	               NULL) < 0) {
+		g_warning ("failed to parse attributes");
+		return NL_SKIP;
+	}
+
+	if (tb[XFRMA_TMPL]) {
+		int attrlen = nla_len (tb[XFRMA_TMPL]);
+		struct xfrm_user_tmpl *list = nla_data (tb[XFRMA_TMPL]);
+		int i;
+
+		/* We only look for subnet route associations, eg where
+		 * (sel->prefixlen_d > 0), and for those associations, we match
+		 * the xfrm_user_tmpl's destination address against the PLUTO_PEER.
+		 */
+		if (xpinfo->sel.family == AF_INET && xpinfo->sel.prefixlen_d > 0) {
+			for (i = 0; i < attrlen / sizeof (struct xfrm_user_tmpl); i++) {
+				struct xfrm_user_tmpl *tmpl = &list[i];
+
+				if (   tmpl->family == AF_INET
+				    && memcmp (&tmpl->id.daddr, &info->gw4, sizeof (struct in_addr)) == 0) {
+					info->have_routes4 = TRUE;
+					break;
+				}
+			}
+		}
+	}
+
+	return NL_OK;
+}
+
+static gboolean
+have_sad_routes (const char *gw_addr4)
+{
+	RoutesInfo info = { { 0 }, FALSE };
+	struct nl_sock *sk;
+	int err;
+
+	if (inet_pton (AF_INET, gw_addr4, &info.gw4) != 1)
+		return FALSE;
+
+	sk = setup_socket ();
+	if (!sk)
+		return FALSE;
+
+	err = nl_send_simple (sk, XFRM_MSG_GETPOLICY, NLM_F_DUMP, NULL, 0);
+	if (err < 0) {
+		g_warning ("Error sending: %d %s", err, nl_geterror (err));
+		goto done;
+	}
+
+	nl_socket_modify_cb (sk, NL_CB_VALID, NL_CB_CUSTOM, parse_reply, &info);
+
+	err = nl_recvmsgs_default (sk);
+	if (err < 0) {
+		g_warning ("Error parsing: %d %s", err, nl_geterror (err));
+		goto done;
+	}
+
+done:
+	nl_socket_free (sk);
+	return info.have_routes4;
+}
+
+/********************************************************************/
+
 static GValue *
 str_to_gvalue (const char *str, gboolean try_convert)
 {
@@ -132,6 +286,17 @@ uint_to_gvalue (guint32 num)
 	g_value_init (val, G_TYPE_UINT);
 	g_value_set_uint (val, num);
 
+	return val;
+}
+
+static GValue *
+bool_to_gvalue (gboolean b)
+{
+	GValue *val;
+
+	val = g_slice_new0 (GValue);
+	g_value_init (val, G_TYPE_BOOLEAN);
+	g_value_set_boolean (val, b);
 	return val;
 }
 
@@ -293,6 +458,8 @@ main (int argc, char *argv[])
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
+	if (have_sad_routes (getenv ("PLUTO_PEER")))
+		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, bool_to_gvalue (TRUE));
 
 	/* Send the config info to nm-openswan-service */
 	send_ip4_config (connection, config);
