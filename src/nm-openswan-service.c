@@ -393,114 +393,9 @@ write_config_option (int fd, const char *format, ...)
 	va_end (args);
 }
 
-typedef struct {
-	int conf_fd;
-	int secret_fd;
-	NMSettingVPN *s_vpn;
-	GError *error;
-	gboolean upw_ignored;
-	gboolean gpw_ignored;
-} WriteConfigInfo;
-
-static void
-write_one_property (const char *key, const char *value, gpointer user_data)
-{
-	WriteConfigInfo *info = (WriteConfigInfo *) user_data;
-	GType type = G_TYPE_INVALID;
-	int i;
-	//const char *default_username;
-	//const char *props_username;
-
-	if (info->error)
-		return;
-
-	/* Find the value in the table to get its type */
-	for (i = 0; valid_properties[i].name; i++) {
-		ValidProperty prop = valid_properties[i];
-
-		if (!strcmp (prop.name, (char *) key)) {
-			/* Property is ok */
-			type = prop.type;
-			break;
-		}
-	}
-
-	/* Try the valid secrets table */
-	for (i = 0; type == G_TYPE_INVALID && valid_secrets[i].name; i++) {
-		ValidProperty prop = valid_secrets[i];
-
-		if (!strcmp (prop.name, (char *) key)) {
-			/* Property is ok */
-			type = prop.type;
-			break;
-		}
-	}
-
-	if (type == G_TYPE_INVALID) {
-		g_set_error (&info->error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		             "Config option '%s' invalid or unknown.",
-		             (const char *) key);
-	}
-
-	/* Don't write ignored secrets */
-	if (!strcmp (key, NM_OPENSWAN_XAUTH_PASSWORD) && info->upw_ignored)
-		return;
-	if (!strcmp (key, NM_OPENSWAN_PSK_VALUE) && info->gpw_ignored)
-		return;
-
-	if (type == G_TYPE_STRING) {
-		//write_config_option (info->fd, "%s %s\n", (char *) key, (char *) value);
-
-		/*if (!strcmp (key, NM_OPENSWAN_XAUTH_PASSWORD)) {
-		default_username = nm_setting_vpn_get_user_name (info->s_vpn);
-		props_username = nm_setting_vpn_get_data_item (info->s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
-			if ( default_username && strlen (default_username)
-				&& (!props_username || !strlen (props_username))) {
-			write_config_option (info->secret_fd, "@%s : XAUTH \"%s\"\n",default_username, (char *) value);
-			} else {
-			write_config_option (info->secret_fd, "@%s : XAUTH \"%s\"\n", props_username, (char *) value);
-			}
-		}*/
-
-	} else if (type == G_TYPE_BOOLEAN) {
-		if (!strcmp (value, "yes")) {
-			//write_config_option (info->fd, "%s\n", (char *) key);
-		}
-	} else if (type == G_TYPE_INT) {
-		long int tmp_int;
-		char *tmp_str;
-
-		/* Convert -> int and back to string for security's sake since
-		 * strtol() ignores leading and trailing characters.
-		 */
-		errno = 0;
-		tmp_int = strtol (value, NULL, 10);
-		if (errno == 0) {
-			tmp_str = g_strdup_printf ("%ld", tmp_int);
-			//write_config_option (info->fd, "%s %s\n", (char *) key, tmp_str);
-			g_free (tmp_str);
-		} else {
-			g_set_error (&info->error,
-			             NM_VPN_PLUGIN_ERROR,
-			             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-			             "Config option '%s' not an integer.",
-			             (const char *) key);
-		}
-	} else if (type == G_TYPE_NONE) {
-		/* ignored */
-	} else {
-		/* Just ignore unknown properties */
-		g_warning ("Don't know how to write property '%s' with type %s",
-		           (char *) key, g_type_name (type));
-	}
-}
-
 static gboolean
 nm_openswan_config_write (gint fd, NMSettingVPN *s_vpn, GError **error)
 {
-	WriteConfigInfo *info;
 	const char *props_username;
 	const char *default_username;
 	const char *phase1_alg_str;
@@ -548,17 +443,9 @@ nm_openswan_config_write (gint fd, NMSettingVPN *s_vpn, GError **error)
 	write_config_option (fd, " keyingtries=1\n");
 	write_config_option (fd, " auto=add");
 
-	info = g_malloc0 (sizeof (WriteConfigInfo));
-	info->conf_fd = fd;
-	info->s_vpn = s_vpn;
-
-	nm_setting_vpn_foreach_data_item (s_vpn, write_one_property, info);
-	*error = info->error;
 	close (fd);
 	sleep (3);
-	g_free (info);
-
-	return *error ? FALSE : TRUE;
+	return TRUE;
 }
 
 static gboolean
