@@ -75,6 +75,7 @@ typedef struct {
 
 	GIOChannel *channel;
 	guint io_id;
+	GString *io_buf;
 	char *password;
 
 	Pipe out;
@@ -313,6 +314,11 @@ connect_cleanup (NMOPENSWANPlugin *self)
 		priv->io_id = 0;
 	}
 	g_clear_pointer (&priv->channel, g_io_channel_unref);
+
+	if (priv->io_buf) {
+		g_string_free (priv->io_buf, TRUE);
+		priv->io_buf = NULL;
+	}
 
 	pipe_cleanup (&priv->out);
 	pipe_cleanup (&priv->err);
@@ -655,12 +661,12 @@ spawn_pty (int *out_stdout,
 	}
 	g_ptr_array_free (argv, TRUE);
 
-	/* Close parent's side pipes */
+	/* Close child side's pipes */
 	close (stderr_pipe[1]);
 	close (stdout_pipe[1]);
 
 	if (child_pid < 0) {
-		/* Close parent's side pipes */
+		/* Close parent side's pipes */
 		close (stderr_pipe[0]);
 		close (stdout_pipe[0]);
 		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
@@ -669,7 +675,7 @@ spawn_pty (int *out_stdout,
 		return FALSE;
 	}
 
-	/*  Set pipes none blocking, so we can read big buffers
+	/*  Set pipes non-blocking, so we can read big buffers
 	 *  in the callback without having to use FIONREAD
 	 *  to make sure the callback doesn't block.
 	 */
@@ -699,6 +705,8 @@ spawn_pty (int *out_stdout,
 
 /****************************************************************/
 
+#define PASSPHRASE_REQUEST "Enter passphrase: "
+
 static gboolean
 io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 {
@@ -708,8 +716,9 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	GIOStatus status;
 	gsize bytes_read = 0;
 	gboolean ret = G_SOURCE_CONTINUE;
+	guint blank;
 
-	if (condition & G_IO_ERR) {
+	if (condition & (G_IO_ERR | G_IO_HUP)) {
 		g_warning ("PTY spawn: pipe error!");
 		ret = G_SOURCE_REMOVE;
 		goto done;
@@ -721,14 +730,32 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 		return G_SOURCE_CONTINUE;
 
 	buf[bytes_read] = 0;
-	g_strchug (buf);
-	if (buf[0])
-		DEBUG ("VPN request '%s'", buf);
+	if (!buf[0])
+		return G_SOURCE_CONTINUE;
 
-	if (strcmp (buf, "Enter passphrase: ") == 0) {
+	g_string_append (priv->io_buf, buf);
+	DEBUG ("VPN request '%s'", priv->io_buf->str);
+	if (priv->io_buf->len < strlen (PASSPHRASE_REQUEST))
+		return G_SOURCE_CONTINUE;
+
+	if (priv->io_buf->len > 1024) {
+		ret = G_SOURCE_REMOVE;
+		goto done;
+	}
+
+	/* Strip leading whitespace */
+	blank = 0;
+	while (g_ascii_isspace (priv->io_buf->str[blank]))
+		blank++;
+	if (blank)
+		g_string_erase (priv->io_buf, 0, blank);
+
+	if (strcmp (priv->io_buf->str, PASSPHRASE_REQUEST) == 0) {
 		GError *error = NULL;
 		gsize bytes_written;
 		const char *password = priv->password;
+
+		g_string_erase (priv->io_buf, 0, strlen (PASSPHRASE_REQUEST));
 
 		if (!password) {
 			/* FIXME: request new password interactively */
@@ -751,7 +778,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 		g_io_channel_write_chars (source, "\n", -1, NULL, NULL);
 		g_io_channel_flush (source, NULL);
 
-		DEBUG ("PTY: wrote '%s'", priv->password);
+		DEBUG ("PTY: password written");
 	}
 
 done:
@@ -770,7 +797,7 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	gsize bytes_read = 0;
 	char *nl;
 
-	if (condition & G_IO_ERR) {
+	if (condition & (G_IO_ERR | G_IO_HUP)) {
 		g_warning ("PTY(%s) pipe error!", pipe->detail);
 		return G_SOURCE_REMOVE;
 	}
@@ -844,6 +871,7 @@ connect_step (NMOPENSWANPlugin *self, GError **error)
 		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
 
 		/* Wait for the password request */
+		priv->io_buf = g_string_sized_new (128);
 		priv->channel = g_io_channel_unix_new (up_pty);
 		g_io_channel_set_encoding (priv->channel, NULL, NULL);
 		g_io_channel_set_buffered (priv->channel, FALSE);
