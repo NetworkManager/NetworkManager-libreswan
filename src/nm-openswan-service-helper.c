@@ -193,7 +193,7 @@ addr_list_to_gvalue (const char *str)
  *
  * PLUTO_PEER                -- vpn gateway address
  * PLUTO_MY_SOURCEIP         -- address
- * PLUTO_CISCO_DNS_INFO/     -- list of dns serverss
+ * PLUTO_CISCO_DNS_INFO/     -- list of dns servers
  *    PLUTO_PEER_DNS_INFO
  * PLUTO_CISCO_DOMAIN_INFO/  -- default domain name
  *    PLUTO_PEER_DOMAIN_INFO
