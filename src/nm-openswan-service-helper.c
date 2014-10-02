@@ -41,6 +41,7 @@
 #include <dbus/dbus-glib.h>
 #include <NetworkManager.h>
 
+#include <nm-vpn-plugin.h>
 #include "nm-openswan-service.h"
 #include "nm-utils.h"
 
