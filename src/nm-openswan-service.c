@@ -31,23 +31,33 @@
 #include <locale.h>
 #include <stdarg.h>
 #include <pty.h>
+#include <sys/types.h>
 
 #include <glib/gi18n.h>
 
+#include <nm-vpn-plugin.h>
 #include <nm-setting-vpn.h>
 #include "nm-openswan-service.h"
 #include "nm-utils.h"
-
-#include <sys/types.h>
 
 #if !defined(DIST_VERSION)
 # define DIST_VERSION VERSION
 #endif
 
+#define NM_TYPE_OPENSWAN_PLUGIN (nm_openswan_plugin_get_type ())
+#define NM_OPENSWAN_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPlugin))
+
+typedef NMVPNPlugin NMOpenSwanPlugin;
+typedef NMVPNPluginClass NMOpenSwanPluginClass;
+
+static GType nm_openswan_plugin_get_type (void);
+
+G_DEFINE_TYPE (NMOpenSwanPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
+
+/************************************************************/
+
 static gboolean debug = FALSE;
 GMainLoop *loop = NULL;
-
-G_DEFINE_TYPE (NMOPENSWANPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
 
 typedef enum {
     CONNECT_STEP_FIRST,
@@ -83,9 +93,9 @@ typedef struct {
 
 	Pipe out;
 	Pipe err;
-} NMOPENSWANPluginPrivate;
+} NMOpenSwanPluginPrivate;
 
-#define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginPrivate))
+#define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPluginPrivate))
 
 /* NOTE: the helper is currently called explicitly by the ipsec up/down
  * script /usr/libexec/ipsec/_updown.netkey when the configuration contains
@@ -242,7 +252,7 @@ nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 
 /****************************************************************/
 
-static gboolean connect_step (NMOPENSWANPlugin *self, GError **error);
+static gboolean connect_step (NMOpenSwanPlugin *self, GError **error);
 static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
 static const char *ipsec_paths[] =
@@ -300,9 +310,9 @@ pipe_cleanup (Pipe *pipe)
 }
 
 static void
-connect_cleanup (NMOPENSWANPlugin *self)
+connect_cleanup (NMOpenSwanPlugin *self)
 {
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 
 	priv->connect_step = CONNECT_STEP_FIRST;
 	priv->pending_auth = FALSE;
@@ -339,9 +349,9 @@ connect_cleanup (NMOPENSWANPlugin *self)
 }
 
 static void
-delete_secrets_file (NMOPENSWANPlugin *self)
+delete_secrets_file (NMOpenSwanPlugin *self)
 {
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 
 	if (priv->secrets_path) {
 		unlink (priv->secrets_path);
@@ -350,9 +360,9 @@ delete_secrets_file (NMOPENSWANPlugin *self)
 }
 
 static gboolean
-ipsec_stop (NMOPENSWANPlugin *self, GError **error)
+ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 {
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	const char *argv[4] = { priv->ipsec_path, "setup", "stop", NULL };
 
 	delete_secrets_file (self);
@@ -360,7 +370,7 @@ ipsec_stop (NMOPENSWANPlugin *self, GError **error)
 }
 
 static void
-connect_failed (NMOPENSWANPlugin *self,
+connect_failed (NMOpenSwanPlugin *self,
                 gboolean do_stop,
                 GError *error,
                 NMVPNConnectionStateReason reason)
@@ -381,8 +391,8 @@ connect_failed (NMOPENSWANPlugin *self,
 static void
 pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 {
-	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	guint ret = 1;
 	GError *error = NULL;
 	gboolean do_stop = FALSE;
@@ -717,9 +727,9 @@ spawn_pty (int *out_stdout,
 #define PASSPHRASE_REQUEST "Enter passphrase: "
 
 static gboolean
-handle_auth (NMOPENSWANPlugin *self, const char **out_message, const char **out_hint)
+handle_auth (NMOpenSwanPlugin *self, const char **out_message, const char **out_hint)
 {
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	GError *error = NULL;
 	gsize bytes_written;
 
@@ -760,8 +770,8 @@ handle_auth (NMOPENSWANPlugin *self, const char **out_message, const char **out_
 static gboolean
 io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 {
-	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	char buf[256];
 	GIOStatus status;
 	gsize bytes_read = 0;
@@ -869,9 +879,9 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 }
 
 static gboolean
-connect_step (NMOPENSWANPlugin *self, GError **error)
+connect_step (NMOpenSwanPlugin *self, GError **error)
 {
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
 
@@ -941,8 +951,8 @@ _connect_common (NMVPNPlugin   *plugin,
                  GHashTable    *details,
                  GError       **error)
 {
-	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVPN *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
 
@@ -1053,8 +1063,8 @@ real_new_secrets (NMVPNPlugin *plugin,
                   NMConnection *connection,
                   GError **error)
 {
-	NMOPENSWANPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
-	NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVPN *s_vpn;
 	const char *message = NULL;
 	const char *hints[] = { NULL, NULL };
@@ -1099,7 +1109,7 @@ real_disconnect (NMVPNPlugin *plugin, GError **error)
 }
 
 static void
-nm_openswan_plugin_init (NMOPENSWANPlugin *plugin)
+nm_openswan_plugin_init (NMOpenSwanPlugin *plugin)
 {
 }
 
@@ -1113,12 +1123,12 @@ finalize (GObject *object)
 }
 
 static void
-nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
+nm_openswan_plugin_class_init (NMOpenSwanPluginClass *openswan_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (openswan_class);
 	NMVPNPluginClass *parent_class = NM_VPN_PLUGIN_CLASS (openswan_class);
 
-	g_type_class_add_private (object_class, sizeof (NMOPENSWANPluginPrivate));
+	g_type_class_add_private (object_class, sizeof (NMOpenSwanPluginPrivate));
 
 	/* virtual methods */
 	object_class->finalize = finalize;
@@ -1127,14 +1137,6 @@ nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
 	parent_class->need_secrets = real_need_secrets;
 	parent_class->disconnect = real_disconnect;
 	parent_class->new_secrets = real_new_secrets;
-}
-
-NMOPENSWANPlugin *
-nm_openswan_plugin_new (void)
-{
-	return (NMOPENSWANPlugin *) g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
-	                                          NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
-	                                          NULL);
 }
 
 static void
@@ -1159,7 +1161,7 @@ setup_signals (void)
 }
 
 static void
-quit_mainloop (NMOPENSWANPlugin *plugin, gpointer user_data)
+quit_mainloop (NMOpenSwanPlugin *plugin, gpointer user_data)
 {
 	g_main_loop_quit ((GMainLoop *) user_data);
 }
@@ -1167,7 +1169,7 @@ quit_mainloop (NMOPENSWANPlugin *plugin, gpointer user_data)
 int
 main (int argc, char *argv[])
 {
-	NMOPENSWANPlugin *plugin;
+	NMOpenSwanPlugin *plugin;
 	gboolean persist = FALSE;
 	GOptionContext *opt_ctx = NULL;
 
@@ -1207,7 +1209,9 @@ main (int argc, char *argv[])
 	if (debug)
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
-	plugin = nm_openswan_plugin_new ();
+	plugin = g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
+	                       NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
+	                       NULL);
 	if (!plugin)
 		exit (1);
 

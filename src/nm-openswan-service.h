@@ -23,14 +23,6 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <nm-vpn-plugin.h>
-
-#define NM_TYPE_OPENSWAN_PLUGIN            (nm_openswan_plugin_get_type ())
-#define NM_OPENSWAN_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPlugin))
-#define NM_OPENSWAN_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginClass))
-#define NM_IS_OPENSWAN_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), NM_TYPE_OPENSWAN_PLUGIN))
-#define NM_IS_OPENSWAN_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), NM_TYPE_OPENSWAN_PLUGIN))
-#define NM_OPENSWAN_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginClass))
 
 #define NM_DBUS_SERVICE_OPENSWAN    "org.freedesktop.NetworkManager.openswan"
 #define NM_DBUS_INTERFACE_OPENSWAN  "org.freedesktop.NetworkManager.openswan"
@@ -57,17 +49,5 @@
 #ifndef NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE
 #define NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE "_none_"
 #endif
-
-typedef struct {
-	NMVPNPlugin parent;
-} NMOPENSWANPlugin;
-
-typedef struct {
-	NMVPNPluginClass parent;
-} NMOPENSWANPluginClass;
-
-GType nm_openswan_plugin_get_type (void);
-
-NMOPENSWANPlugin *nm_openswan_plugin_new (void);
 
 #endif /* NM_OPENSWAN_PLUGIN_H */
