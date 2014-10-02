@@ -1160,12 +1160,6 @@ setup_signals (void)
 	sigaction (SIGINT,  &action, NULL);
 }
 
-static void
-quit_mainloop (NMOpenSwanPlugin *plugin, gpointer user_data)
-{
-	g_main_loop_quit ((GMainLoop *) user_data);
-}
-
 int
 main (int argc, char *argv[])
 {
@@ -1218,7 +1212,7 @@ main (int argc, char *argv[])
 	loop = g_main_loop_new (NULL, FALSE);
 
 	if (!persist)
-		g_signal_connect (plugin, "quit", G_CALLBACK (quit_mainloop), loop);
+		g_signal_connect_swapped (plugin, "quit", G_CALLBACK (g_main_loop_quit), loop);
 
 	setup_signals ();
 	g_main_loop_run (loop);
