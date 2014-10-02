@@ -716,7 +716,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	GIOStatus status;
 	gsize bytes_read = 0;
 	gboolean ret = G_SOURCE_CONTINUE;
-	guint blank;
+	const char *found;
 
 	if (condition & (G_IO_ERR | G_IO_HUP)) {
 		g_warning ("PTY spawn: pipe error!");
@@ -734,28 +734,19 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 		return G_SOURCE_CONTINUE;
 
 	g_string_append (priv->io_buf, buf);
-	DEBUG ("VPN request '%s'", priv->io_buf->str);
 	if (priv->io_buf->len < strlen (PASSPHRASE_REQUEST))
 		return G_SOURCE_CONTINUE;
 
-	if (priv->io_buf->len > 1024) {
-		ret = G_SOURCE_REMOVE;
-		goto done;
-	}
+	DEBUG ("VPN request '%s'", priv->io_buf->str);
 
-	/* Strip leading whitespace */
-	blank = 0;
-	while (g_ascii_isspace (priv->io_buf->str[blank]))
-		blank++;
-	if (blank)
-		g_string_erase (priv->io_buf, 0, blank);
-
-	if (strcmp (priv->io_buf->str, PASSPHRASE_REQUEST) == 0) {
+	found = strstr (priv->io_buf->str, PASSPHRASE_REQUEST);
+	if (found) {
 		GError *error = NULL;
 		gsize bytes_written;
 		const char *password = priv->password;
 
-		g_string_erase (priv->io_buf, 0, strlen (PASSPHRASE_REQUEST));
+		/* Erase everything up to and including the passphrase request */
+		g_string_erase (priv->io_buf, 0, (found + strlen (PASSPHRASE_REQUEST)) - priv->io_buf->str);
 
 		if (!password) {
 			/* FIXME: request new password interactively */
@@ -780,6 +771,10 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 
 		DEBUG ("PTY: password written");
 	}
+
+	/* Truncate large buffer if we haven't gotten the password request yet */
+	if (priv->io_buf->len > sizeof (buf) * 4)
+		g_string_erase (priv->io_buf, 0, sizeof (buf) * 3);
 
 done:
 	if (ret == G_SOURCE_REMOVE) {
