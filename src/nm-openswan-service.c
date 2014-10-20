@@ -986,7 +986,7 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 
 	case CONNECT_STEP_CONFIG_ADD:
 		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
-		               "auto", "--add", "--config", "-", uuid, NULL))
+		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		nm_openswan_config_write (fd, priv->connection, error);
