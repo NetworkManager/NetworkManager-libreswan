@@ -61,6 +61,7 @@ GMainLoop *loop = NULL;
 
 typedef enum {
     CONNECT_STEP_FIRST,
+    CONNECT_STEP_STACK_INIT,
     CONNECT_STEP_IPSEC_START,
     CONNECT_STEP_CONFIG_ADD,
     CONNECT_STEP_CONNECT,
@@ -76,8 +77,10 @@ typedef struct {
 
 typedef struct {
 	const char *ipsec_path;
+	const char *pluto_path;
 	char *secrets_path;
 
+	gboolean libreswan;
 	gboolean interactive;
 	gboolean pending_auth;
 
@@ -301,6 +304,21 @@ find_helper_bin (const char *progname, GError **error)
 	return _find_helper (progname, paths, error);
 }
 
+static const char *
+find_helper_libexec (const char *progname, GError **error)
+{
+	static const char *paths[] = {
+		PREFIX "/libexec/ipsec/",
+		PREFIX "/lib/ipsec/",
+		"/usr/libexec/ipsec/",
+		"/usr/local/libexec/ipsec/"
+		"/usr/lib/ipsec/",
+		"/usr/local/lib/ipsec/",
+		NULL,
+	};
+
+	return _find_helper (progname, paths, error);
+}
 
 static void
 pipe_init (Pipe *pipe, int fd, const char *detail)
@@ -906,6 +924,7 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
+	gboolean success = FALSE;
 
 	g_warn_if_fail (priv->watch_id == 0);
 	priv->watch_id = 0;
@@ -922,12 +941,34 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		/* fall through */
 		priv->connect_step++;
 
+	case CONNECT_STEP_STACK_INIT:
+		if (priv->libreswan) {
+			const char *stackman_path;
+
+			stackman_path = find_helper_libexec ("_stackmanager", error);
+			if (!stackman_path)
+				return FALSE;
+
+			/* Ensure the right IPSec kernel stack is loaded */
+			success = do_spawn (&priv->pid, NULL, NULL, error, stackman_path, "start", NULL);
+			if (success)
+				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+			return success;
+		}
+		/* fall through */
+		priv->connect_step++;
+
 	case CONNECT_STEP_IPSEC_START:
 		/* Start the IPSec service */
-		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL))
-			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
-		return TRUE;
+		if (priv->libreswan) {
+			success = do_spawn (&priv->pid, NULL, NULL, error,
+			                    priv->pluto_path, "--config", SYSCONFDIR "/ipsec.conf",
+			                    NULL);
+		} else
+			success = do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
+		if (success)
+			priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+		return success;
 
 	case CONNECT_STEP_CONFIG_ADD:
 		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
@@ -968,6 +1009,20 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 }
 
 static gboolean
+is_libreswan (const char *path)
+{
+	const char *argv[] = { path, NULL };
+	gboolean libreswan = FALSE;
+	char *output = NULL;
+
+	if (g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, &output, NULL, NULL, NULL)) {
+		libreswan = output && strcasestr (output, " Libreswan ");
+		g_free (output);
+	}
+	return libreswan;
+}
+
+static gboolean
 _connect_common (NMVPNPlugin   *plugin,
                  NMConnection  *connection,
                  GHashTable    *details,
@@ -1003,6 +1058,13 @@ _connect_common (NMVPNPlugin   *plugin,
 	priv->ipsec_path = find_helper_bin ("ipsec", error);
 	if (!priv->ipsec_path)
 		return FALSE;
+
+	priv->libreswan = is_libreswan (priv->ipsec_path);
+	if (priv->libreswan) {
+		priv->pluto_path = find_helper_libexec ("pluto", error);
+		if (!priv->pluto_path)
+			return FALSE;
+	}
 
 	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
 
