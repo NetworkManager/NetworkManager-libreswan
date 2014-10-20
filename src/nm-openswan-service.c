@@ -29,40 +29,89 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <locale.h>
+#include <stdarg.h>
+#include <pty.h>
+#include <sys/types.h>
 
 #include <glib/gi18n.h>
 
+#include <nm-vpn-plugin.h>
 #include <nm-setting-vpn.h>
 #include "nm-openswan-service.h"
 #include "nm-utils.h"
-
-#include <sys/types.h>
 
 #if !defined(DIST_VERSION)
 # define DIST_VERSION VERSION
 #endif
 
+#define NM_TYPE_OPENSWAN_PLUGIN (nm_openswan_plugin_get_type ())
+#define NM_OPENSWAN_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPlugin))
+
+typedef NMVPNPlugin NMOpenSwanPlugin;
+typedef NMVPNPluginClass NMOpenSwanPluginClass;
+
+static GType nm_openswan_plugin_get_type (void);
+
+G_DEFINE_TYPE (NMOpenSwanPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
+
+/************************************************************/
+
 static gboolean debug = FALSE;
 GMainLoop *loop = NULL;
 
-G_DEFINE_TYPE (NMOPENSWANPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
+typedef enum {
+    CONNECT_STEP_FIRST,
+    CONNECT_STEP_IPSEC_START,
+    CONNECT_STEP_CONFIG_ADD,
+    CONNECT_STEP_CONNECT,
+    CONNECT_STEP_LAST
+} ConnectStep;
 
 typedef struct {
+	GIOChannel *channel;
+	guint id;
+	GString *str;
+	const char *detail;
+} Pipe;
+
+typedef struct {
+	const char *ipsec_path;
+	char *secrets_path;
+
+	gboolean interactive;
+	gboolean pending_auth;
+
 	GPid pid;
-	GPid pid_auto;
-} NMOPENSWANPluginPrivate;
+	guint watch_id;
+	ConnectStep connect_step;
+	NMConnection *connection;
 
-#define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOPENSWANPluginPrivate))
+	GIOChannel *channel;
+	guint io_id;
+	GString *io_buf;
+	char *password;
 
-static const char *openswan_binary_paths[] =
-{
-	"/usr/sbin/ipsec",
-	"/sbin/ipsec",
-	"/usr/local/sbin/ipsec",
-	NULL
-};
+	Pipe out;
+	Pipe err;
+} NMOpenSwanPluginPrivate;
 
+#define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPluginPrivate))
+
+/* NOTE: the helper is currently called explicitly by the ipsec up/down
+ * script /usr/libexec/ipsec/_updown.netkey when the configuration contains
+ * "nm_configured=yes".  Eventually we want to somehow pass the helper
+ * directly to pluto/whack with the --updown option.
+ */
 #define NM_OPENSWAN_HELPER_PATH		LIBEXECDIR"/nm-openswan-service-helper"
+
+#define DEBUG(...) \
+    G_STMT_START { \
+        if (debug) { \
+            g_message (__VA_ARGS__); \
+        } \
+    } G_STMT_END
+
+/****************************************************************/
 
 typedef struct {
 	const char *name;
@@ -70,7 +119,6 @@ typedef struct {
 	gint int_min;
 	gint int_max;
 } ValidProperty;
-
 
 static ValidProperty valid_properties[] = {
 	{ NM_OPENSWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
@@ -178,11 +226,10 @@ nm_openswan_properties_validate (NMSettingVPN *s_vpn, GError **error)
 
 	nm_setting_vpn_foreach_data_item (s_vpn, validate_one_property, &info);
 	if (!info.have_items) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		             "%s",
-		             "No VPN configuration options.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
+		                     "No VPN configuration options.");
 		return FALSE;
 	}
 
@@ -192,210 +239,266 @@ nm_openswan_properties_validate (NMSettingVPN *s_vpn, GError **error)
 static gboolean
 nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 {
-	ValidateInfo info = { &valid_secrets[0], error, FALSE };
+	GError *validate_error = NULL;
+	ValidateInfo info = { &valid_secrets[0], &validate_error, FALSE };
 
 	nm_setting_vpn_foreach_secret (s_vpn, validate_one_property, &info);
-	if (!info.have_items) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		             "%s",
-		             "No VPN secrets!");
+	if (validate_error) {
+		g_propagate_error (error, validate_error);
 		return FALSE;
 	}
+	return TRUE;
+}
 
-	return *error ? FALSE : TRUE;
+/****************************************************************/
+
+static gboolean connect_step (NMOpenSwanPlugin *self, GError **error);
+static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
+
+static const char *ipsec_paths[] =
+{
+	"/usr/sbin/ipsec",
+	"/sbin/ipsec",
+	"/usr/local/sbin/ipsec",
+	NULL
+};
+
+static const char *
+find_ipsec (GError **error)
+{
+	guint i;
+
+	for (i = 0; i < G_N_ELEMENTS (ipsec_paths); i++) {
+		if (g_file_test (ipsec_paths[i], G_FILE_TEST_EXISTS))
+			return ipsec_paths[i];
+	}
+
+	g_set_error_literal (error,
+	                     NM_VPN_PLUGIN_ERROR,
+	                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+	                     "Could not find ipsec binary.");
+	return NULL;
+}
+
+static void
+pipe_init (Pipe *pipe, int fd, const char *detail)
+{
+	g_assert (fd >= 0);
+	g_assert (detail);
+	g_assert (pipe);
+
+	pipe->detail = detail;
+	pipe->str = g_string_sized_new (256);
+	pipe->channel = g_io_channel_unix_new (fd);
+	g_io_channel_set_encoding (pipe->channel, NULL, NULL);
+	g_io_channel_set_buffered (pipe->channel, FALSE);
+	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR, pr_cb, pipe);
+}
+
+static void
+pipe_cleanup (Pipe *pipe)
+{
+	if (pipe->id) {
+		g_source_remove (pipe->id);
+		pipe->id = 0;
+	}
+	g_clear_pointer (&pipe->channel, g_io_channel_unref);
+	if (pipe->str) {
+		g_string_free (pipe->str, TRUE);
+		pipe->str = NULL;
+	}
+}
+
+static void
+connect_cleanup (NMOpenSwanPlugin *self)
+{
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+
+	priv->connect_step = CONNECT_STEP_FIRST;
+	priv->pending_auth = FALSE;
+
+	/* Don't remove the child watch since it needs to reap the child */
+	priv->watch_id = 0;
+
+	if (priv->pid) {
+		kill (priv->pid, SIGTERM);
+		priv->pid = 0;
+	}
+
+	if (priv->io_id) {
+		g_source_remove (priv->io_id);
+		priv->io_id = 0;
+	}
+	g_clear_pointer (&priv->channel, g_io_channel_unref);
+
+	if (priv->io_buf) {
+		g_string_free (priv->io_buf, TRUE);
+		priv->io_buf = NULL;
+	}
+
+	pipe_cleanup (&priv->out);
+	pipe_cleanup (&priv->err);
+
+	if (priv->password) {
+		memset (priv->password, 0, strlen (priv->password));
+		g_free (priv->password);
+		priv->password = NULL;
+	}
+
+	g_clear_object (&priv->connection);
+}
+
+static void
+delete_secrets_file (NMOpenSwanPlugin *self)
+{
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+
+	if (priv->secrets_path) {
+		unlink (priv->secrets_path);
+		g_clear_pointer (&priv->secrets_path, g_free);
+	}
+}
+
+static gboolean
+ipsec_stop (NMOpenSwanPlugin *self, GError **error)
+{
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	const char *argv[4] = { priv->ipsec_path, "setup", "stop", NULL };
+
+	delete_secrets_file (self);
+	return g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, NULL, NULL, NULL, error);
+}
+
+static void
+connect_failed (NMOpenSwanPlugin *self,
+                gboolean do_stop,
+                GError *error,
+                NMVPNConnectionStateReason reason)
+{
+	if (error) {
+		g_warning ("Connect failed: (%s/%d) %s",
+		           g_quark_to_string (error->domain),
+		           error->code,
+		           error->message);
+	}
+
+	connect_cleanup (self);
+	if (do_stop)
+		ipsec_stop (self, NULL);
+	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
 }
 
 static void
 pluto_watch_cb (GPid pid, gint status, gpointer user_data)
 {
-        NMOPENSWANPlugin *plugin = NM_OPENSWAN_PLUGIN (user_data);
-        NMOPENSWANPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin);
-        guint error = 0;
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	guint ret = 1;
+	GError *error = NULL;
+	gboolean do_stop = FALSE;
 
-	if (debug)
-		g_message ("pluto_watch: current child pid = %d, pluto pid=%d", pid, priv->pid);
+	if (priv->watch_id == 0 || priv->pid != pid) {
+		/* Reap old child */
+		waitpid (pid, NULL, WNOHANG);
+		return;
+	}
 
-        if (WIFEXITED (status)) {
-                error = WEXITSTATUS (status);
-                if (error != 0)
-                        g_warning ("pluto_watch: pluto exited with error code %d", error);
-        }
-        else if (WIFSTOPPED (status))
-                g_warning ("pluto_watch: pluto stopped unexpectedly with signal %d", WSTOPSIG (status));
-        else if (WIFSIGNALED (status))
-                g_warning ("pluto_watch: pluto died with signal %d", WTERMSIG (status));
-        else
-                g_warning ("pluto_watch: pluto died from an unknown cause");
+	priv->watch_id = 0;
+	priv->pid = 0;
 
-        /* Reap child if needed. */
+	DEBUG ("Spawn: child %d exited", pid);
+
+	if (WIFEXITED (status)) {
+		ret = WEXITSTATUS (status);
+		if (ret)
+			g_warning ("Spawn: child %d exited with error code %d", pid, ret);
+	} else
+		g_warning ("Spawn: child %d died unexpectedly", pid);
+
+	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
 
-	if (debug)
-		g_message ("pluto_watch: reaped child pid %d", pid);
-
-
-	/* Must be after data->state is set since signals use data->state */
-	switch (error) {
-	case 2:
-		/* Couldn't log in due to bad user/pass */
-		nm_vpn_plugin_failure (NM_VPN_PLUGIN (plugin), NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED);
-		break;
-	case 1:
-		/* Other error (couldn't bind to address, etc) */
-		nm_vpn_plugin_failure (NM_VPN_PLUGIN (plugin), NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
-		break;
-	default:
-		break;
+	if (ret == 0) {
+		/* Success; do the next connect step */
+		do_stop = TRUE;
+		priv->connect_step++;
+		if (!connect_step (self, &error))
+			ret = 1;
 	}
 
-	if(pid == priv->pid || error) {
-		priv->pid = 0;
-
-		if (debug)
-			g_message ("pluto_watch: nm pluto service is stopping");
-
-		nm_vpn_plugin_set_state (NM_VPN_PLUGIN (plugin), NM_VPN_SERVICE_STATE_STOPPED);
-	}
-
-	if (debug)
-		g_message ("pluto_watch: nm pluto service will continue after reaping a child");
-
-	/*closing pid*/
-	g_spawn_close_pid (pid);
+	if (ret != 0)
+		connect_failed (self, do_stop, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+	g_clear_error (&error);
 }
 
+static gboolean do_spawn (GPid *out_pid,
+                          int *out_stdin,
+                          int *out_stderr,
+                          GError **error,
+                          const char *progname,
+                          ...) G_GNUC_NULL_TERMINATED;
 
-static gint
-nm_openswan_start_openswan_binary (NMOPENSWANPlugin *plugin, GError **error)
+static gboolean
+do_spawn (GPid *out_pid,
+          int *out_stdin,
+          int *out_stderr,
+          GError **error,
+          const char *progname,
+          ...)
 {
-	GPid	pid, pid_auto;
-	const char **openswan_binary = NULL;
-	GPtrArray *openswan_argv;
-	gint	stdin_fd;
+	GError *local = NULL;
+	va_list ap;
+	GPtrArray *argv;
+	char *cmdline, *arg;
+	gboolean success;
+	GPid pid = 0;
 
-	/* Find openswan ipsec */
-	openswan_binary = openswan_binary_paths;
-	while (*openswan_binary != NULL) {
-		if (g_file_test (*openswan_binary, G_FILE_TEST_EXISTS))
-			break;
-		openswan_binary++;
+	argv = g_ptr_array_sized_new (10);
+	g_ptr_array_add (argv, (char *) progname);
+
+	va_start (ap, progname);
+	while ((arg = va_arg (ap, char *)))
+		g_ptr_array_add (argv, arg);
+	va_end (ap);
+	g_ptr_array_add (argv, NULL);
+
+	if (debug) {
+		cmdline = g_strjoinv (" ", (char **) argv->pdata);
+		g_message ("Spawn: %s", cmdline);
+		g_free (cmdline);
 	}
 
-	if (!*openswan_binary) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "%s",
-		             "Could not find openswan binary.");
-		return -1;
+	if (out_stdin || out_stderr) {
+		success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
+		                                    G_SPAWN_DO_NOT_REAP_CHILD,
+		                                    NULL, NULL, &pid, out_stdin,
+		                                    NULL, out_stderr, &local);
+	} else {
+		success = g_spawn_async (NULL, (char **) argv->pdata, NULL,
+		                         G_SPAWN_DO_NOT_REAP_CHILD,
+		                         NULL, NULL, &pid, &local);
+	}
+	if (success) {
+		DEBUG ("Spawn: child process %d", pid);
+	} else {
+		g_warning ("Spawn failed: (%s/%d) %s",
+		           g_quark_to_string (local->domain),
+		           local->code, local->message);
+		g_propagate_error (error, local);
 	}
 
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
-	g_ptr_array_add (openswan_argv, (gpointer) "setup");
-	g_ptr_array_add (openswan_argv, (gpointer) "start");
-	g_ptr_array_add (openswan_argv, NULL);
+	if (out_pid)
+		*out_pid = pid;
 
-	if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
-							 0, NULL, NULL, &pid, error)) {
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("openswan ipsec failed to start.  error: '%s'", (*error)->message);
-		return -1;
-	}
-	g_ptr_array_free (openswan_argv, TRUE);
-
-	g_message ("openswan: ipsec started with pid %d", pid);
-
-	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->pid = pid;
-	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
-
-	sleep(2);
-
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
-	g_ptr_array_add (openswan_argv, (gpointer) "auto");
-	g_ptr_array_add (openswan_argv, (gpointer) "--add");
-	g_ptr_array_add (openswan_argv, (gpointer) "--config");
-	g_ptr_array_add (openswan_argv, (gpointer) "-");
-	g_ptr_array_add (openswan_argv, (gpointer) "nm-conn1");
-	g_ptr_array_add (openswan_argv, NULL);
-
-	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
-							 G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, &pid_auto, &stdin_fd,
-							 NULL, NULL, error)) {
-
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("openswan: ipsec auto failed to start.  error: '%s'", (*error)->message);
-		return -1;
-	}
-	g_ptr_array_free (openswan_argv, TRUE);
-
-	g_message ("openswan: ipsec auto started with pid %d", pid_auto);
-
-	g_child_watch_add (pid_auto, (GChildWatchFunc) pluto_watch_cb, plugin);
-
-	return stdin_fd;
-}
-
-
-
-static gint
-nm_openswan_start_openswan_connection (NMOPENSWANPlugin *plugin, GError **error)
-{
-	GPid	pid;
-	const char **openswan_binary = NULL;
-	GPtrArray *openswan_argv;
-	gint	stdin_fd;
-
-	/* Find openswan ipsec */
-	openswan_binary = openswan_binary_paths;
-	while (*openswan_binary != NULL) {
-		if (g_file_test (*openswan_binary, G_FILE_TEST_EXISTS))
-			break;
-		openswan_binary++;
-	}
-
-	if (!*openswan_binary) {
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "%s",
-		             "Could not find openswan binary.");
-		return -1;
-	}
-
-	openswan_argv = g_ptr_array_new ();
-	g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
-	g_ptr_array_add (openswan_argv, (gpointer) "auto");
-	g_ptr_array_add (openswan_argv, (gpointer) "--up");
-	g_ptr_array_add (openswan_argv, (gpointer) "nm-conn1");
-	g_ptr_array_add (openswan_argv, NULL);
-
-	if (!g_spawn_async_with_pipes (NULL, (char **) openswan_argv->pdata, NULL,
-							 G_SPAWN_DO_NOT_REAP_CHILD, NULL, NULL, &pid, &stdin_fd,
-							 NULL, NULL, error)) {
-
-		g_ptr_array_free (openswan_argv, TRUE);
-		g_warning ("openswan: ipsec auto connection failed to start.  error: '%s'", (*error)->message);
-		return -1;
-	}
-	g_ptr_array_free (openswan_argv, TRUE);
-
-    sleep(3);
-	g_child_watch_add (pid, (GChildWatchFunc) pluto_watch_cb, plugin);
-
-	g_message ("openswan: ipsec auto connection started with pid %d", pid);
-
-	return stdin_fd;
+	g_ptr_array_free (argv, TRUE);
+	return success;
 }
 
 static inline void
 write_config_option (int fd, const char *format, ...)
 {
-	char * 	string;
-	va_list	args;
+	char *string;
+	va_list args;
 
 	va_start (args, format);
 	string = g_strdup_vprintf (format, args);
@@ -403,286 +506,516 @@ write_config_option (int fd, const char *format, ...)
 	if (debug)
 		g_print ("Config: %s", string);
 
-	if ( write (fd, string, strlen (string)) == -1) {
-	g_warning ("nm-openswan: error in write_config_option");
-	}
+	if ( write (fd, string, strlen (string)) == -1)
+		g_warning ("nm-openswan: error in write_config_option");
 
 	g_free (string);
 	va_end (args);
 }
 
-typedef struct {
-	//int fd;
-	int conf_fd;
-	int secret_fd;
-	NMSettingVPN *s_vpn;
-	GError *error;
-	gboolean upw_ignored;
-	gboolean gpw_ignored;
-} WriteConfigInfo;
-
 static void
-write_one_property (const char *key, const char *value, gpointer user_data)
+nm_openswan_config_write (gint fd, NMConnection *connection, GError **error)
 {
-	WriteConfigInfo *info = (WriteConfigInfo *) user_data;
-	GType type = G_TYPE_INVALID;
-	int i;
-	//const char *default_username;
-	//const char *props_username;
-	const char *leftid;
-
-	if (info->error)
-		return;
-
-	/* Find the value in the table to get its type */
-	for (i = 0; valid_properties[i].name; i++) {
-		ValidProperty prop = valid_properties[i];
-
-		if (!strcmp (prop.name, (char *) key)) {
-  			/* Property is ok */
-  			type = prop.type;
-			break;
-		}
-	}
-
-	/* Try the valid secrets table */
-	for (i = 0; type == G_TYPE_INVALID && valid_secrets[i].name; i++) {
-		ValidProperty prop = valid_secrets[i];
-
-		if (!strcmp (prop.name, (char *) key)) {
-  			/* Property is ok */
-  			type = prop.type;
-			break;
-		}
-	}
-
-	if (type == G_TYPE_INVALID) {
-		g_set_error (&info->error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-		             "Config option '%s' invalid or unknown.",
-		             (const char *) key);
-	}	
-
-	/* Don't write ignored secrets */
-	if (!strcmp (key, NM_OPENSWAN_XAUTH_PASSWORD) && info->upw_ignored)
-		return;
-	if (!strcmp (key, NM_OPENSWAN_PSK_VALUE) && info->gpw_ignored)
-		return;
-
-	if (type == G_TYPE_STRING) {
-		//write_config_option (info->fd, "%s %s\n", (char *) key, (char *) value);
-
-                if (!strcmp (key, NM_OPENSWAN_PSK_VALUE)) {
-		        leftid=nm_setting_vpn_get_data_item (info->s_vpn, NM_OPENSWAN_LEFTID);
-                write_config_option (info->secret_fd, "@%s: PSK \"%s\"\n", leftid, (char *) value);
-                }
-
-                /*if (!strcmp (key, NM_OPENSWAN_XAUTH_PASSWORD)) {
-                default_username = nm_setting_vpn_get_user_name (info->s_vpn);
-                props_username = nm_setting_vpn_get_data_item (info->s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
-                	if ( default_username && strlen (default_username)
-                        && (!props_username || !strlen (props_username))) {
-                	write_config_option (info->secret_fd, "@%s : XAUTH \"%s\"\n",default_username, (char *) value);
-                	} else {
-                	write_config_option (info->secret_fd, "@%s : XAUTH \"%s\"\n", props_username, (char *) value);
-                	}
-                }*/
-
-	} else if (type == G_TYPE_BOOLEAN) {
-		if (!strcmp (value, "yes")) {
-			//write_config_option (info->fd, "%s\n", (char *) key);
-		}
-	} else if (type == G_TYPE_INT) {
-		long int tmp_int;
-		char *tmp_str;
-
-		/* Convert -> int and back to string for security's sake since
-		 * strtol() ignores leading and trailing characters.
-		 */
-		errno = 0;
-		tmp_int = strtol (value, NULL, 10);
-		if (errno == 0) {
-			tmp_str = g_strdup_printf ("%ld", tmp_int);
-			//write_config_option (info->fd, "%s %s\n", (char *) key, tmp_str);
-			g_free (tmp_str);
-		} else {
-			g_set_error (&info->error,
-			             NM_VPN_PLUGIN_ERROR,
-			             NM_VPN_PLUGIN_ERROR_BAD_ARGUMENTS,
-			             "Config option '%s' not an integer.",
-			             (const char *) key);
-		}
-	} else if (type == G_TYPE_NONE) {
-		/* ignored */
-	} else {
-		/* Just ignore unknown properties */
-		g_warning ("Don't know how to write property '%s' with type %s",
-				  (char *) key, g_type_name (type));
-	}
-}
-
-static gboolean
-nm_openswan_config_write (gint openswan_fd, NMSettingVPN *s_vpn,
-                      GError **error)
-{
-	WriteConfigInfo *info;
+	NMSettingVPN *s_vpn = nm_connection_get_setting_vpn (connection);
+	const char *con_name = nm_connection_get_uuid (connection);
 	const char *props_username;
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
-	gint fdtmp1=-1;
 
+	g_assert (fd >= 0);
+	g_assert (s_vpn);
+	g_assert (con_name);
 
-        fdtmp1 = openswan_fd;
-        if(fdtmp1 != -1) {
-        write_config_option (fdtmp1, "conn nm-conn1\n");
-        write_config_option (fdtmp1, " aggrmode=yes\n");
-        write_config_option (fdtmp1, " authby=secret\n");
-        write_config_option (fdtmp1, " left=%%defaultroute\n");
-        write_config_option (fdtmp1, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID));
-        write_config_option (fdtmp1, " leftxauthclient=yes\n");
-        write_config_option (fdtmp1, " leftmodecfgclient=yes\n");
-                default_username = nm_setting_vpn_get_user_name (s_vpn);
-                props_username = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
-                if ( default_username && strlen (default_username)
-                        && (!props_username || !strlen (props_username))) {
-                write_config_option (fdtmp1, " leftxauthusername=%s\n", default_username);
-                } else {
-                write_config_option (fdtmp1, " leftxauthusername=%s\n", props_username);
-                }
+	write_config_option (fd, "conn %s\n", con_name);
+	write_config_option (fd, " aggrmode=yes\n");
+	write_config_option (fd, " authby=secret\n");
+	write_config_option (fd, " left=%%defaultroute\n");
+	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID));
+	write_config_option (fd, " leftxauthclient=yes\n");
+	write_config_option (fd, " leftmodecfgclient=yes\n");
 
-        write_config_option (fdtmp1, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_RIGHT));
-        write_config_option (fdtmp1, " remote_peer_type=cisco\n");
-        write_config_option (fdtmp1, " rightxauthserver=yes\n");
-        write_config_option (fdtmp1, " rightmodecfgserver=yes\n");
-      
-        phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_IKE);
-        if(!phase1_alg_str || !strlen (phase1_alg_str)) {       
-        write_config_option (fdtmp1, " ike=aes-sha1\n");
-        }
-        else {
-        write_config_option (fdtmp1, " ike=%s\n", phase1_alg_str);
-        }
+	default_username = nm_setting_vpn_get_user_name (s_vpn);
+	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
+	if (   default_username && strlen (default_username)
+		&& (!props_username || !strlen (props_username)))
+		write_config_option (fd, " leftxauthusername=%s\n", default_username);
+	else
+		write_config_option (fd, " leftxauthusername=%s\n", props_username);
 
-        phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_ESP);
-        if(!phase2_alg_str || !strlen (phase2_alg_str)) {       
-        write_config_option (fdtmp1, " esp=aes-sha1;modp1024\n");
-        }
-        else {
-        write_config_option (fdtmp1, " esp=%s\n", phase2_alg_str);
-        }
+	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_RIGHT));
+	write_config_option (fd, " remote_peer_type=cisco\n");
+	write_config_option (fd, " rightxauthserver=yes\n");
+	write_config_option (fd, " rightmodecfgserver=yes\n");
 
-        write_config_option (fdtmp1, " nm_configured=yes\n");
-        write_config_option (fdtmp1, " rekey=yes\n");
-        write_config_option (fdtmp1, " salifetime=24h\n");
-        write_config_option (fdtmp1, " ikelifetime=24h\n");
-        write_config_option (fdtmp1, " keyingtries=1\n");
-        write_config_option (fdtmp1, " auto=add");
-	}
+	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_IKE);
+	if (!phase1_alg_str || !strlen (phase1_alg_str))
+		write_config_option (fd, " ike=aes-sha1\n");
+	else
+		write_config_option (fd, " ike=%s\n", phase1_alg_str);
 
-	info = g_malloc0 (sizeof (WriteConfigInfo));
-	info->conf_fd = openswan_fd;
-	info->s_vpn = s_vpn;
+	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_ESP);
+	if (!phase2_alg_str || !strlen (phase2_alg_str))
+		write_config_option (fd, " esp=aes-sha1;modp1024\n");
+	else
+		write_config_option (fd, " esp=%s\n", phase2_alg_str);
 
-	nm_setting_vpn_foreach_data_item (s_vpn, write_one_property, info);
-	*error = info->error;
-	close(openswan_fd);
-	sleep(3);
-	g_free (info);
-
-	return *error ? FALSE : TRUE;
+	write_config_option (fd, " nm_configured=yes\n");
+	write_config_option (fd, " rekey=yes\n");
+	write_config_option (fd, " salifetime=24h\n");
+	write_config_option (fd, " ikelifetime=24h\n");
+	write_config_option (fd, " keyingtries=1\n");
+	write_config_option (fd, " auto=add\n");
 }
 
-
 static gboolean
-nm_openswan_config_secret_write (NMSettingVPN *s_vpn, GError **error)
+nm_openswan_config_psk_write (NMSettingVPN *s_vpn,
+                              const char *secrets_path,
+                              GError **error)
 {
-	WriteConfigInfo *info;
-	//const char *props_username;
-	//const char *default_username;
-	const char *pw_type;
-	//gint fdtmp1=-1;
-	//gint conf_fd=-1;
-	gint secret_fd=-1;
-
-        secret_fd = open ("/etc/ipsec.d/ipsec-nm-conn1.secrets", O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
-	
-	info = g_malloc0 (sizeof (WriteConfigInfo));
-	info->secret_fd = secret_fd;
-	info->s_vpn = s_vpn;
-
-	/* Check for ignored user password */
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
-		info->upw_ignored = TRUE;
+	const char *pw_type, *psk, *leftid;
+	int fd;
 
 	/* Check for ignored group password */
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_PSK_INPUT_MODES);
 	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
-		info->gpw_ignored = TRUE;
+		return TRUE;
 
-	nm_setting_vpn_foreach_secret (s_vpn, write_one_property, info);
-	*error = info->error;
-	close(secret_fd);
-	g_free (info);
+	psk = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_PSK_VALUE);
+	if (!psk)
+		return TRUE;
 
-	return *error ? FALSE : TRUE;
+	/* Write the PSK */
+	errno = 0;
+	fd = open (secrets_path, O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
+	if (fd < 0) {
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "Failed to open secrets file: (%d) %s.",
+		             errno, g_strerror (errno));
+		return FALSE;
+	}
+
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID);
+	g_assert (leftid);
+	write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+
+	close (fd);
+	return TRUE;
 }
 
+/****************************************************************/
+
+static gboolean spawn_pty (int *out_stdout,
+                           int *out_stderr,
+                           int *out_ptyin,
+                           GPid *out_pid,
+                           GError **error,
+                           const char *progname,
+                           ...) G_GNUC_NULL_TERMINATED;
+
+static gboolean
+spawn_pty (int *out_stdout,
+           int *out_stderr,
+           int *out_ptyin,
+           GPid *out_pid,
+           GError **error,
+           const char *progname,
+           ...)
+{
+	int pty_master_fd, md;
+	int stdout_pipe[2], stderr_pipe[2];
+	pid_t child_pid;
+	struct termios termios_flags;
+	va_list ap;
+	GPtrArray *argv;
+	char *cmdline, *arg;
+
+	argv = g_ptr_array_sized_new (10);
+	g_ptr_array_add (argv, (char *) progname);
+
+	va_start (ap, progname);
+	while ((arg = va_arg (ap, char *)))
+		g_ptr_array_add (argv, arg);
+	va_end (ap);
+	g_ptr_array_add (argv, NULL);
+
+	if (debug) {
+		cmdline = g_strjoinv (" ", (char **) argv->pdata);
+		g_message ("PTY spawn: %s", cmdline);
+		g_free (cmdline);
+	}
+
+	/* The pipes */
+	pipe (stderr_pipe);
+	pipe (stdout_pipe);
+
+	/* Fork the command */
+	child_pid = forkpty (&pty_master_fd, NULL, NULL, NULL);
+	if (child_pid == 0) {
+		/* in the child */
+
+		close (2);
+		dup (stderr_pipe[1]);
+		close (1);
+		dup (stdout_pipe[1]);
+
+		/* Close unnecessary pipes */
+		close (stderr_pipe[0]);
+		close (stdout_pipe[0]);
+
+		if ((md = fcntl (stdout_pipe[1], F_GETFL)) != -1)
+			fcntl (stdout_pipe[1], F_SETFL, O_SYNC | md);
+		if ((md = fcntl (stderr_pipe[1], F_GETFL)) != -1)
+			fcntl (stderr_pipe[1], F_SETFL, O_SYNC | md);
+
+		/* Ensure output is untranslated */
+		setenv ("LC_ALL", "C", 1);
+		setenv ("LANG", "C", 1);
+
+		execv (argv->pdata[0], (char * const*) argv->pdata);
+		g_error ("PTY spawn: cannot exec '%s'", (char *) argv->pdata[0]);
+		_exit (-1);
+	}
+	g_ptr_array_free (argv, TRUE);
+
+	/* Close child side's pipes */
+	close (stderr_pipe[1]);
+	close (stdout_pipe[1]);
+
+	if (child_pid < 0) {
+		/* Close parent side's pipes */
+		close (stderr_pipe[0]);
+		close (stdout_pipe[0]);
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn failed for '%s' (%d)",
+		             (char *) argv->pdata[0], child_pid);
+		return FALSE;
+	}
+
+	/*  Set pipes non-blocking, so we can read big buffers
+	 *  in the callback without having to use FIONREAD
+	 *  to make sure the callback doesn't block.
+	 */
+	if ((md = fcntl (stdout_pipe[0], F_GETFL)) != -1)
+		fcntl (stdout_pipe[0], F_SETFL, O_NONBLOCK | md);
+	if ((md = fcntl (stderr_pipe[0], F_GETFL)) != -1)
+		fcntl (stderr_pipe[0], F_SETFL, O_NONBLOCK | md);
+	if ((md = fcntl (pty_master_fd, F_GETFL)) != -1)
+		fcntl (pty_master_fd, F_SETFL, O_NONBLOCK | md);
+
+	tcgetattr (pty_master_fd, &termios_flags);
+	cfmakeraw (&termios_flags);
+	cfsetospeed (&termios_flags, __MAX_BAUD);
+	tcsetattr (pty_master_fd, TCSANOW, &termios_flags);
+
+	if (out_stdout)
+		*out_stdout = stdout_pipe[0];
+	if (out_stderr)
+		*out_stderr = stderr_pipe[0];
+	if (out_ptyin)
+		*out_ptyin = pty_master_fd;
+	if (out_pid)
+		*out_pid = child_pid;
+
+	return TRUE;
+}
+
+/****************************************************************/
+
+#define PASSPHRASE_REQUEST "Enter passphrase: "
+
+static gboolean
+handle_auth (NMOpenSwanPlugin *self, const char **out_message, const char **out_hint)
+{
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	GError *error = NULL;
+	gsize bytes_written;
+
+	g_return_val_if_fail (out_message != NULL, FALSE);
+	g_return_val_if_fail (out_hint != NULL, FALSE);
+
+	if (priv->password) {
+		const char *p = priv->password;
+
+		do {
+			g_io_channel_write_chars (priv->channel, p, -1, &bytes_written, &error);
+			g_io_channel_flush (priv->channel, NULL);
+			if (error) {
+				g_warning ("Failed to write password to ipsec: '%s'", error->message);
+				g_clear_error (&error);
+				return FALSE;
+			}
+			p += bytes_written;
+		} while (*p);
+
+		g_io_channel_write_chars (priv->channel, "\n", -1, NULL, NULL);
+		g_io_channel_flush (priv->channel, NULL);
+
+		DEBUG ("PTY: password written");
+
+		/* Don't re-use the password */
+		memset (priv->password, 0, strlen (priv->password));
+		g_free (priv->password);
+		priv->password = NULL;
+	} else {
+		*out_hint = NM_OPENSWAN_XAUTH_PASSWORD;
+		*out_message = _("A password is required.");
+	}
+
+	return TRUE;
+}
+
+static gboolean
+io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
+{
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	char buf[256];
+	GIOStatus status;
+	gsize bytes_read = 0;
+	gboolean success = FALSE;
+	NMVPNConnectionStateReason reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
+	const char *found;
+
+	if (condition & (G_IO_ERR | G_IO_HUP)) {
+		g_warning ("PTY spawn: pipe error!");
+		goto done;
+	}
+	g_assert (condition & G_IO_IN);
+
+	status = g_io_channel_read_chars (source, buf, sizeof (buf) - 1, &bytes_read, NULL);
+	if (status != G_IO_STATUS_NORMAL || bytes_read == 0)
+		return G_SOURCE_CONTINUE;
+
+	buf[bytes_read] = 0;
+	if (!buf[0])
+		return G_SOURCE_CONTINUE;
+
+	g_string_append (priv->io_buf, buf);
+	if (priv->io_buf->len < strlen (PASSPHRASE_REQUEST))
+		return G_SOURCE_CONTINUE;
+
+	DEBUG ("VPN request '%s'", priv->io_buf->str);
+
+	found = strstr (priv->io_buf->str, PASSPHRASE_REQUEST);
+	if (found) {
+		const char *hints[2] = { NULL, NULL };
+		const char *message = NULL;
+
+		/* Erase everything up to and including the passphrase request */
+		g_string_erase (priv->io_buf, 0, (found + strlen (PASSPHRASE_REQUEST)) - priv->io_buf->str);
+
+		if (!handle_auth (self, &message, &hints[0])) {
+			g_warning ("Unhandled management socket request '%s'", buf);
+			reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
+			goto done;
+		}
+
+		if (message) {
+			/* Request new secrets if we need any */
+			priv->pending_auth = TRUE;
+			if (priv->interactive) {
+				DEBUG ("Requesting new secrets: '%s' (%s)", message, hints[0]);
+				nm_vpn_plugin_secrets_required (NM_VPN_PLUGIN (self), message, hints);
+			} else {
+				/* Interactive not allowed, can't ask for more secrets */
+				g_warning ("More secrets required but cannot ask interactively");
+				reason = NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED;
+				goto done;
+			}
+		}
+	}
+	success = TRUE;
+
+	/* Truncate large buffer if we haven't gotten the password request yet */
+	if (priv->io_buf->len > sizeof (buf) * 4)
+		g_string_erase (priv->io_buf, 0, sizeof (buf) * 3);
+
+done:
+	if (!success) {
+		priv->io_id = 0;
+		connect_failed (self, TRUE, NULL, reason);
+	}
+	return success ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
+}
+
+static gboolean
+pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
+{
+	Pipe *pipe = user_data;
+	char buf[200];
+	gsize bytes_read = 0;
+	char *nl;
+
+	if (condition & (G_IO_ERR | G_IO_HUP)) {
+		g_warning ("PTY(%s) pipe error!", pipe->detail);
+		return G_SOURCE_REMOVE;
+	}
+	g_assert (condition & G_IO_IN);
+
+	while (   (g_io_channel_read_chars (source,
+	                                    buf,
+	                                    sizeof (buf) - 1,
+	                                    &bytes_read,
+	                                    NULL) == G_IO_STATUS_NORMAL)
+	       && bytes_read
+	       && pipe->str->len < 500)
+		g_string_append_len (pipe->str, buf, bytes_read);
+
+	/* Print each complete line and remove it from the buffer */
+	while (pipe->str->len) {
+		nl = strpbrk (pipe->str->str, "\n\r");
+		if (!nl)
+			break;
+		*nl = 0;  /* Don't print the linebreak */
+		if (pipe->str->str[0])
+			DEBUG ("PTY(%s): %s", pipe->detail, pipe->str->str);
+		g_string_erase (pipe->str, 0, (nl - pipe->str->str) + 1);
+	}
+
+	return G_SOURCE_CONTINUE;
+}
+
+static gboolean
+connect_step (NMOpenSwanPlugin *self, GError **error)
+{
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	const char *uuid;
+	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
+
+	g_warn_if_fail (priv->watch_id == 0);
+	priv->watch_id = 0;
+	g_warn_if_fail (priv->pid == 0);
+	priv->pid = 0;
+
+	DEBUG ("Connect: step %d", priv->connect_step);
+
+	uuid = nm_connection_get_uuid (priv->connection);
+	g_assert (uuid);
+
+	switch (priv->connect_step) {
+	case CONNECT_STEP_FIRST:
+		/* fall through */
+		priv->connect_step++;
+
+	case CONNECT_STEP_IPSEC_START:
+		/* Start the IPSec service */
+		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL))
+			return FALSE;
+		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+		return TRUE;
+
+	case CONNECT_STEP_CONFIG_ADD:
+		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
+		               "auto", "--add", "--config", "-", uuid, NULL))
+			return FALSE;
+		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+		nm_openswan_config_write (fd, priv->connection, error);
+		close (fd);
+		return TRUE;
+
+	case CONNECT_STEP_CONNECT:
+		if (!spawn_pty (&up_stdout, &up_stderr, &up_pty, &priv->pid, error,
+		                priv->ipsec_path, "auto", "--up", uuid, NULL))
+			return FALSE;
+		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+
+		/* Wait for the password request */
+		priv->io_buf = g_string_sized_new (128);
+		priv->channel = g_io_channel_unix_new (up_pty);
+		g_io_channel_set_encoding (priv->channel, NULL, NULL);
+		g_io_channel_set_buffered (priv->channel, FALSE);
+		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR, io_cb, self);
+
+		if (debug) {
+			pipe_init (&priv->out, up_stdout, "OUT");
+			pipe_init (&priv->err, up_stderr, "ERR");
+		}
+		return TRUE;
+
+	case CONNECT_STEP_LAST:
+		/* Everything successfully set up */
+		priv->pid = 0;
+		connect_cleanup (self);
+		return TRUE;
+	}
+
+	g_assert_not_reached ();
+}
+
+static gboolean
+_connect_common (NMVPNPlugin   *plugin,
+                 NMConnection  *connection,
+                 GHashTable    *details,
+                 GError       **error)
+{
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMSettingVPN *s_vpn;
+	const char *con_name = nm_connection_get_uuid (connection);
+
+	if (debug)
+		nm_connection_dump (connection);
+
+	ipsec_stop (self, NULL);
+
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	g_assert (s_vpn);
+
+	if (!nm_openswan_properties_validate (s_vpn, error))
+		return FALSE;
+
+	if (!nm_openswan_secrets_validate (s_vpn, error))
+		return FALSE;
+
+	if (priv->connect_step != CONNECT_STEP_FIRST) {
+		g_set_error_literal (error,
+			                 NM_VPN_PLUGIN_ERROR,
+			                 NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+			                 "Already connecting!");
+		return FALSE;
+	}
+
+	priv->ipsec_path = find_ipsec (error);
+	if (!priv->ipsec_path)
+		return FALSE;
+
+	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
+
+	/* Write the IPSec secret (group password); *SWAN always requires this and
+	 * doesn't ask for it interactively.
+	 */
+	priv->secrets_path = g_strdup_printf (SYSCONFDIR "/ipsec.d/ipsec-%s.secrets", con_name);
+	if (!nm_openswan_config_psk_write (s_vpn, priv->secrets_path, error))
+		return FALSE;
+
+	priv->connection = g_object_ref (connection);
+
+	/* Start the connection process */
+	return connect_step (self, error);
+}
 
 static gboolean
 real_connect (NMVPNPlugin   *plugin,
               NMConnection  *connection,
               GError       **error)
 {
-	NMSettingVPN *s_vpn;
-	gint openswan_fd = -1;
-	gboolean success = FALSE;
+	return _connect_common (plugin, connection, NULL, error);
+}
 
-	s_vpn = NM_SETTING_VPN (nm_connection_get_setting (connection, NM_TYPE_SETTING_VPN));
-	g_assert (s_vpn);
+static gboolean
+real_connect_interactive (NMVPNPlugin   *plugin,
+                          NMConnection  *connection,
+                          GHashTable    *details,
+                          GError       **error)
+{
+	if (!_connect_common (plugin, connection, details, error))
+		return FALSE;
 
-	if (!nm_openswan_properties_validate (s_vpn, error))
-		goto out;
-
-	if (!nm_openswan_secrets_validate (s_vpn, error))
-		goto out;
-
-	if (!nm_openswan_config_secret_write (s_vpn, error))
-		goto out;
-
-	openswan_fd = nm_openswan_start_openswan_binary (NM_OPENSWAN_PLUGIN (plugin), error);
-	if (openswan_fd < 0)
-		goto out;
-
-	if (debug)
-		nm_connection_dump (connection);
-
-	if (!nm_openswan_config_write (openswan_fd, s_vpn, error)) {
-		goto out;
-	} else {
-		/*no error*/
-		openswan_fd = -1;
-	}
-
-	unlink("/etc/ipsec.d/ipsec-nm-conn1.secrets");  
-
-	openswan_fd = nm_openswan_start_openswan_connection (NM_OPENSWAN_PLUGIN (plugin), error);
-	if (openswan_fd < 0)
-		goto out;
-
-    write_config_option (openswan_fd, "%s", nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
-	close(openswan_fd);
-	openswan_fd=-1;
-
-	success = TRUE;
-
-out:
-	if (openswan_fd >= 0)
-		close (openswan_fd);
-
-	return success;
+	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->interactive = TRUE;
+	return TRUE;
 }
 
 static gboolean
@@ -697,13 +1030,12 @@ real_need_secrets (NMVPNPlugin *plugin,
 	g_return_val_if_fail (NM_IS_VPN_PLUGIN (plugin), FALSE);
 	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 
-	s_vpn = NM_SETTING_VPN (nm_connection_get_setting (connection, NM_TYPE_SETTING_VPN));
+	s_vpn = nm_connection_get_setting_vpn (connection);
 	if (!s_vpn) {
-        g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
-		             "%s",
-		             "Could not process the request because the VPN connection settings were invalid.");
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
+		                     "Could not process the request because the VPN connection settings were invalid.");
 		return FALSE;
 	}
 
@@ -726,86 +1058,85 @@ real_need_secrets (NMVPNPlugin *plugin,
 	return FALSE;
 }
 
-#if 0
 static gboolean
-ensure_killed (gpointer data)
+real_new_secrets (NMVPNPlugin *plugin,
+                  NMConnection *connection,
+                  GError **error)
 {
-	int pid = GPOINTER_TO_INT (data);
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMSettingVPN *s_vpn;
+	const char *message = NULL;
+	const char *hints[] = { NULL, NULL };
 
-	if (kill (pid, 0) == 0)
-		kill (pid, SIGKILL);
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	if (!s_vpn) {
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
+		                     _("Could not process the request because the VPN connection settings were invalid."));
+		return FALSE;
+	}
 
-	return FALSE;
-}
-#endif
+	DEBUG ("VPN received new secrets; sending to ipsec");
 
-static gboolean
-real_disconnect (NMVPNPlugin   *plugin,
-			  GError       **error)
-{
-        const char **openswan_binary = NULL;
-        GPtrArray *openswan_argv;
+	g_free (priv->password);
+	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
 
-        /* Find openswan */
-        openswan_binary = openswan_binary_paths;
-        while (*openswan_binary != NULL) {
-                if (g_file_test (*openswan_binary, G_FILE_TEST_EXISTS))
-                        break;
-                openswan_binary++;
-        }
+	g_warn_if_fail (priv->pending_auth);
+	if (!handle_auth (self, &message, &hints[0])) {
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_GENERAL,
+		                     _("Unhandled pending authentication."));
+		return FALSE;
+	}
 
-        if (!*openswan_binary) {
-                g_set_error (error,
-                             NM_VPN_PLUGIN_ERROR,
-                             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-                             "%s",
-                             "Could not find openswan binary.");
-                return -1;
-        }
-
-        openswan_argv = g_ptr_array_new ();
-        g_ptr_array_add (openswan_argv, (gpointer) (*openswan_binary));
-        g_ptr_array_add (openswan_argv, (gpointer) "setup");
-        g_ptr_array_add (openswan_argv, (gpointer) "stop");
-        g_ptr_array_add (openswan_argv, NULL);
-
-        if (!g_spawn_async (NULL, (char **) openswan_argv->pdata, NULL,
-                                                         0, NULL, NULL, NULL, error)) {
-                g_ptr_array_free (openswan_argv, TRUE);
-                g_warning ("Openswan (pluto) failed to stop.  error: '%s'", (*error)->message);
-                return -1;
-        }
-        g_ptr_array_free (openswan_argv, TRUE);
-
+	/* Request new secrets if we need any */
+	if (message) {
+		DEBUG ("Requesting new secrets: '%s'", message);
+		nm_vpn_plugin_secrets_required (plugin, message, hints);
+	}
 
 	return TRUE;
 }
 
+static gboolean
+real_disconnect (NMVPNPlugin *plugin, GError **error)
+{
+	connect_cleanup (NM_OPENSWAN_PLUGIN (plugin));
+	return ipsec_stop (NM_OPENSWAN_PLUGIN (plugin), error);
+}
+
 static void
-nm_openswan_plugin_init (NMOPENSWANPlugin *plugin)
+nm_openswan_plugin_init (NMOpenSwanPlugin *plugin)
 {
 }
 
 static void
-nm_openswan_plugin_class_init (NMOPENSWANPluginClass *openswan_class)
+finalize (GObject *object)
+{
+	delete_secrets_file (NM_OPENSWAN_PLUGIN (object));
+	connect_cleanup (NM_OPENSWAN_PLUGIN (object));
+
+	G_OBJECT_CLASS (nm_openswan_plugin_parent_class)->finalize (object);
+}
+
+static void
+nm_openswan_plugin_class_init (NMOpenSwanPluginClass *openswan_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (openswan_class);
 	NMVPNPluginClass *parent_class = NM_VPN_PLUGIN_CLASS (openswan_class);
 
-	g_type_class_add_private (object_class, sizeof (NMOPENSWANPluginPrivate));
+	g_type_class_add_private (object_class, sizeof (NMOpenSwanPluginPrivate));
 
 	/* virtual methods */
-	parent_class->connect    = real_connect;
+	object_class->finalize = finalize;
+	parent_class->connect = real_connect;
+	parent_class->connect_interactive = real_connect_interactive;
 	parent_class->need_secrets = real_need_secrets;
 	parent_class->disconnect = real_disconnect;
-}
-
-NMOPENSWANPlugin *
-nm_openswan_plugin_new (void)
-{
-	return (NMOPENSWANPlugin *) g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
-								   NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
-								   NULL);
+	parent_class->new_secrets = real_new_secrets;
 }
 
 static void
@@ -830,7 +1161,7 @@ setup_signals (void)
 }
 
 static void
-quit_mainloop (NMOPENSWANPlugin *plugin, gpointer user_data)
+quit_mainloop (NMOpenSwanPlugin *plugin, gpointer user_data)
 {
 	g_main_loop_quit ((GMainLoop *) user_data);
 }
@@ -838,7 +1169,7 @@ quit_mainloop (NMOPENSWANPlugin *plugin, gpointer user_data)
 int
 main (int argc, char *argv[])
 {
-	NMOPENSWANPlugin *plugin;
+	NMOpenSwanPlugin *plugin;
 	gboolean persist = FALSE;
 	GOptionContext *opt_ctx = NULL;
 
@@ -872,13 +1203,15 @@ main (int argc, char *argv[])
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);
 
-	if (getenv ("OPENSWAN_DEBUG"))
+	if (getenv ("OPENSWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
 		debug = TRUE;
 
 	if (debug)
-		g_message ("nm-openswan-service (version " DIST_VERSION ") starting...");
+		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
-	plugin = nm_openswan_plugin_new ();
+	plugin = g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
+	                       NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
+	                       NULL);
 	if (!plugin)
 		exit (1);
 

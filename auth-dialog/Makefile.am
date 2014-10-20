@@ -1,8 +1,4 @@
-INCLUDES = -I${top_srcdir}
-
-libexec_PROGRAMS = nm-openswan-auth-dialog
-
-nm_openswan_auth_dialog_CPPFLAGS = \
+AM_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(NM_CFLAGS) \
 	$(GTK_CFLAGS) \
@@ -12,10 +8,12 @@ nm_openswan_auth_dialog_CPPFLAGS = \
 	-DBINDIR=\""$(bindir)"\" \
 	-DG_DISABLE_DEPRECATED \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
-	-DVERSION=\"$(VERSION)\"
+	-DVERSION=\"$(VERSION)\" \
+	-I${top_srcdir}
 
-nm_openswan_auth_dialog_SOURCES = \
-	main.c
+libexec_PROGRAMS = nm-openswan-auth-dialog
+
+nm_openswan_auth_dialog_SOURCES = main.c
 
 nm_openswan_auth_dialog_LDADD = \
 	$(NM_LIBS) \
