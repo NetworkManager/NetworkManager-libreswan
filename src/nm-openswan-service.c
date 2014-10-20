@@ -78,6 +78,7 @@ typedef struct {
 typedef struct {
 	const char *ipsec_path;
 	const char *pluto_path;
+	const char *whack_path;
 	char *secrets_path;
 
 	gboolean libreswan;
@@ -403,9 +404,22 @@ static gboolean
 ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 {
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
-	const char *argv[4] = { priv->ipsec_path, "setup", "stop", NULL };
+	const char *argv[4];
+	guint i = 0;
 
 	delete_secrets_file (self);
+
+	if (priv->libreswan) {
+		argv[i++] = priv->whack_path;
+		argv[i++] = "--shutdown";
+		argv[i++] = NULL;
+	} else {
+		argv[i++] = priv->ipsec_path;
+		argv[i++] = "setup";
+		argv[i++] = "stop";
+		argv[i++] = NULL;
+	}
+
 	return g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, NULL, NULL, NULL, error);
 }
 
@@ -1036,6 +1050,20 @@ _connect_common (NMVPNPlugin   *plugin,
 	if (debug)
 		nm_connection_dump (connection);
 
+	priv->ipsec_path = find_helper_bin ("ipsec", error);
+	if (!priv->ipsec_path)
+		return FALSE;
+
+	priv->libreswan = is_libreswan (priv->ipsec_path);
+	if (priv->libreswan) {
+		priv->pluto_path = find_helper_libexec ("pluto", error);
+		if (!priv->pluto_path)
+			return FALSE;
+		priv->whack_path = find_helper_libexec ("whack", error);
+		if (!priv->whack_path)
+			return FALSE;
+	}
+
 	ipsec_stop (self, NULL);
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
@@ -1053,17 +1081,6 @@ _connect_common (NMVPNPlugin   *plugin,
 			                 NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 			                 "Already connecting!");
 		return FALSE;
-	}
-
-	priv->ipsec_path = find_helper_bin ("ipsec", error);
-	if (!priv->ipsec_path)
-		return FALSE;
-
-	priv->libreswan = is_libreswan (priv->ipsec_path);
-	if (priv->libreswan) {
-		priv->pluto_path = find_helper_libexec ("pluto", error);
-		if (!priv->pluto_path)
-			return FALSE;
 	}
 
 	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
