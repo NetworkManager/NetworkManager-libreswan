@@ -255,30 +255,52 @@ nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 static gboolean connect_step (NMOpenSwanPlugin *self, GError **error);
 static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
-static const char *ipsec_paths[] =
+static const char *
+_find_helper (const char *progname, const char **paths, GError **error)
 {
-	"/usr/sbin/ipsec",
-	"/sbin/ipsec",
-	"/usr/local/sbin/ipsec",
-	NULL
-};
+	const char **iter = paths;
+	GString *tmp;
+	const char *ret = NULL;
+
+	if (error)
+		g_return_val_if_fail (*error == NULL, NULL);
+
+	tmp = g_string_sized_new (50);
+	for (iter = paths; iter && *iter; iter++) {
+		g_string_append_printf (tmp, "%s%s", *iter, progname);
+		if (g_file_test (tmp->str, G_FILE_TEST_EXISTS)) {
+			ret = g_intern_string (tmp->str);
+			break;
+		}
+		g_string_set_size (tmp, 0);
+	}
+	g_string_free (tmp, TRUE);
+
+	if (!ret) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "Could not find %s binary",
+		             progname);
+	}
+	return ret;
+}
 
 static const char *
-find_ipsec (GError **error)
+find_helper_bin (const char *progname, GError **error)
 {
-	guint i;
+	static const char *paths[] = {
+		PREFIX "/sbin/",
+		PREFIX "/bin/",
+		"/sbin/",
+		"/usr/sbin/",
+		"/usr/local/sbin/",
+		"/usr/bin/",
+		"/usr/local/bin/",
+		NULL,
+	};
 
-	for (i = 0; i < G_N_ELEMENTS (ipsec_paths); i++) {
-		if (g_file_test (ipsec_paths[i], G_FILE_TEST_EXISTS))
-			return ipsec_paths[i];
-	}
-
-	g_set_error_literal (error,
-	                     NM_VPN_PLUGIN_ERROR,
-	                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-	                     "Could not find ipsec binary.");
-	return NULL;
+	return _find_helper (progname, paths, error);
 }
+
 
 static void
 pipe_init (Pipe *pipe, int fd, const char *detail)
@@ -978,7 +1000,7 @@ _connect_common (NMVPNPlugin   *plugin,
 		return FALSE;
 	}
 
-	priv->ipsec_path = find_ipsec (error);
+	priv->ipsec_path = find_helper_bin ("ipsec", error);
 	if (!priv->ipsec_path)
 		return FALSE;
 
