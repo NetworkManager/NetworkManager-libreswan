@@ -64,6 +64,7 @@ typedef enum {
     CONNECT_STEP_STACK_INIT,
     CONNECT_STEP_IPSEC_START,
     CONNECT_STEP_CONFIG_ADD,
+    CONNECT_STEP_WAIT_READY,
     CONNECT_STEP_CONNECT,
     CONNECT_STEP_LAST
 } ConnectStep;
@@ -1003,6 +1004,12 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		nm_openswan_config_write (fd, priv->connection, priv->libreswan, error);
 		close (fd);
+		return TRUE;
+
+	case CONNECT_STEP_WAIT_READY:
+		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--ready", NULL))
+			return FALSE;
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
 	case CONNECT_STEP_CONNECT:
