@@ -9,28 +9,23 @@ msgstr ""
 "Project-Id-Version: network-manager-openswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-09 11:07+0000\n"
-"PO-Revision-Date: 2014-03-09 17:14+0100\n"
-"Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
+"POT-Creation-Date: 2014-10-30 11:07+0000\n"
+"PO-Revision-Date: 2014-10-30 20:50+0100\n"
+"Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.10\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr ""
-"È necessario autenticarsi per accedere alla Rete Privata Virtuale (VPN) «%s»."
+msgid "Authenticate VPN %s"
+msgstr "Autenticazione VPN %s"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Autenticazione VPN"
-
-#: ../auth-dialog/main.c:200
+#: ../auth-dialog/main.c:192
 msgid "Password:"
 msgstr "Password:"
 
@@ -38,9 +33,19 @@ msgstr "Password:"
 msgid "Group Password:"
 msgstr "Password di gruppo:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Autenticazione VPN"
+
+#: ../auth-dialog/main.c:247
 msgid "_Group Password:"
 msgstr "Password di _gruppo:"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"È necessario autenticarsi per accedere alla Rete Privata Virtuale (VPN) «%s»."
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
@@ -66,15 +71,15 @@ msgstr "VPN basata su IPsec"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN basta su IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:304
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Salvato"
 
-#: ../properties/nm-openswan.c:311
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Chiedi sempre"
 
-#: ../properties/nm-openswan.c:318
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Non richiesto"
 
@@ -126,15 +131,31 @@ msgstr "Algoritmi phase2:"
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: ../src/nm-openswan-service.c:846
+#: ../src/nm-openswan-service.c:764
+msgid "A password is required."
+msgstr "È richiesta una password."
+
+#: ../src/nm-openswan-service.c:1077
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Impossibile elaborare la richiesta poiché le impostazioni della connessione "
+"VPN non sono valide."
+
+#: ../src/nm-openswan-service.c:1091
+msgid "Unhandled pending authentication."
+msgstr "Autenticazione pendente non gestita."
+
+#: ../src/nm-openswan-service.c:1177
 msgid "Don't quit when VPN connection terminates"
 msgstr "Non esce quando la connessione VPN termina"
 
-#: ../src/nm-openswan-service.c:847
+#: ../src/nm-openswan-service.c:1178
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Abilita output di debug prolisso (potrebbe esporre le password)"
 
-#: ../src/nm-openswan-service.c:870
+#: ../src/nm-openswan-service.c:1201
 msgid ""
 "nm-openswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
