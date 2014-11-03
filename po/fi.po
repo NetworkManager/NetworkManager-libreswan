@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2008 Free Software Foundation, Inc.
 # Ilkka Tuohela <hile@iki.fi>, 2006-2008.
 #
-# Suomennos: http://gnome.fi/
+# Suomennos: https://l10n.gnome.org/teams/fi/
 # Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
 #
 msgid ""
