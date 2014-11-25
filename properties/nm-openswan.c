@@ -34,14 +34,12 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#define NM_VPN_API_SUBJECT_TO_CHANGE
-
 #include <nm-vpn-plugin-ui-interface.h>
 #include <nm-setting-vpn.h>
 #include <nm-setting-connection.h>
 #include <nm-setting-ip4-config.h>
 
-#include "src/nm-openswan-service.h"
+#include "nm-openswan-service.h"
 #include "nm-openswan.h"
 
 #define OPENSWAN_PLUGIN_NAME    _("IPsec based VPN")

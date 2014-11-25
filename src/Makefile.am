@@ -12,8 +12,7 @@ AM_CPPFLAGS = \
 	-DLIBEXECDIR=\""$(libexecdir)"\" \
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
 	-DDATADIR=\"$(datadir)\" \
-	-DNM_OPENSWAN_LOCALEDIR=\"$(datadir)/locale\" \
-	-I${top_srcdir}
+	-DNM_OPENSWAN_LOCALEDIR=\"$(datadir)/locale\"
 
 libexec_PROGRAMS = nm-openswan-service nm-openswan-service-helper
 

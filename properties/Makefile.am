@@ -5,13 +5,13 @@ AM_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(NM_CFLAGS) \
+	-I$(top_srcdir)/src \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DUIDIR=\""$(uidir)"\" \
 	-DG_DISABLE_DEPRECATED \
 	-DGDK_DISABLE_DEPRECATED \
 	-DLOCALEDIR=\"$(datadir)/locale\" \
-	-DVERSION=\"$(VERSION)\" \
-	-I${top_srcdir}
+	-DVERSION=\"$(VERSION)\"
 
 libnm_openswan_properties_la_SOURCES = \
 	nm-openswan.c \

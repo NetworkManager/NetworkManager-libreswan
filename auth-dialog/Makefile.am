@@ -8,8 +8,7 @@ AM_CPPFLAGS = \
 	-DBINDIR=\""$(bindir)"\" \
 	-DG_DISABLE_DEPRECATED \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
-	-DVERSION=\"$(VERSION)\" \
-	-I${top_srcdir}
+	-DVERSION=\"$(VERSION)\"
 
 libexec_PROGRAMS = nm-openswan-auth-dialog
 
