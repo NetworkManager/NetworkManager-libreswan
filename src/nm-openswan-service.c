@@ -411,7 +411,7 @@ connect_failed (NMOpenSwanPlugin *self,
 }
 
 static void
-pluto_watch_cb (GPid pid, gint status, gpointer user_data)
+child_watch_cb (GPid pid, gint status, gpointer user_data)
 {
 	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
@@ -926,14 +926,14 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		/* Start the IPSec service */
 		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL))
 			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
 	case CONNECT_STEP_CONFIG_ADD:
 		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--add", "--config", "-", uuid, NULL))
 			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		nm_openswan_config_write (fd, priv->connection, error);
 		close (fd);
 		return TRUE;
@@ -942,7 +942,7 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		if (!spawn_pty (&up_stdout, &up_stderr, &up_pty, &priv->pid, error,
 		                priv->ipsec_path, "auto", "--up", uuid, NULL))
 			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 
 		/* Wait for the password request */
 		priv->io_buf = g_string_sized_new (128);
