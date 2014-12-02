@@ -452,7 +452,7 @@ main (int argc, char *argv[])
 	gtk_init (&argc, &argv);
 	textdomain (GETTEXT_PACKAGE);
 
-	context = g_option_context_new ("- openswan auth dialog");
+	context = g_option_context_new ("- IPSec auth dialog");
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
 
 	if (!g_option_context_parse (context, &argc, &argv, &error)) {
