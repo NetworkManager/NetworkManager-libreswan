@@ -61,8 +61,10 @@ GMainLoop *loop = NULL;
 
 typedef enum {
     CONNECT_STEP_FIRST,
+    CONNECT_STEP_STACK_INIT,
     CONNECT_STEP_IPSEC_START,
     CONNECT_STEP_CONFIG_ADD,
+    CONNECT_STEP_WAIT_READY,
     CONNECT_STEP_CONNECT,
     CONNECT_STEP_LAST
 } ConnectStep;
@@ -76,8 +78,11 @@ typedef struct {
 
 typedef struct {
 	const char *ipsec_path;
+	const char *pluto_path;
+	const char *whack_path;
 	char *secrets_path;
 
+	gboolean libreswan;
 	gboolean interactive;
 	gboolean pending_auth;
 
@@ -255,29 +260,66 @@ nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
 static gboolean connect_step (NMOpenSwanPlugin *self, GError **error);
 static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
-static const char *ipsec_paths[] =
+static const char *
+_find_helper (const char *progname, const char **paths, GError **error)
 {
-	"/usr/sbin/ipsec",
-	"/sbin/ipsec",
-	"/usr/local/sbin/ipsec",
-	NULL
-};
+	const char **iter = paths;
+	GString *tmp;
+	const char *ret = NULL;
+
+	if (error)
+		g_return_val_if_fail (*error == NULL, NULL);
+
+	tmp = g_string_sized_new (50);
+	for (iter = paths; iter && *iter; iter++) {
+		g_string_append_printf (tmp, "%s%s", *iter, progname);
+		if (g_file_test (tmp->str, G_FILE_TEST_EXISTS)) {
+			ret = g_intern_string (tmp->str);
+			break;
+		}
+		g_string_set_size (tmp, 0);
+	}
+	g_string_free (tmp, TRUE);
+
+	if (!ret) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "Could not find %s binary",
+		             progname);
+	}
+	return ret;
+}
 
 static const char *
-find_ipsec (GError **error)
+find_helper_bin (const char *progname, GError **error)
 {
-	guint i;
+	static const char *paths[] = {
+		PREFIX "/sbin/",
+		PREFIX "/bin/",
+		"/sbin/",
+		"/usr/sbin/",
+		"/usr/local/sbin/",
+		"/usr/bin/",
+		"/usr/local/bin/",
+		NULL,
+	};
 
-	for (i = 0; i < G_N_ELEMENTS (ipsec_paths); i++) {
-		if (g_file_test (ipsec_paths[i], G_FILE_TEST_EXISTS))
-			return ipsec_paths[i];
-	}
+	return _find_helper (progname, paths, error);
+}
 
-	g_set_error_literal (error,
-	                     NM_VPN_PLUGIN_ERROR,
-	                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-	                     "Could not find ipsec binary.");
-	return NULL;
+static const char *
+find_helper_libexec (const char *progname, GError **error)
+{
+	static const char *paths[] = {
+		PREFIX "/libexec/ipsec/",
+		PREFIX "/lib/ipsec/",
+		"/usr/libexec/ipsec/",
+		"/usr/local/libexec/ipsec/"
+		"/usr/lib/ipsec/",
+		"/usr/local/lib/ipsec/",
+		NULL,
+	};
+
+	return _find_helper (progname, paths, error);
 }
 
 static void
@@ -363,9 +405,22 @@ static gboolean
 ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 {
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
-	const char *argv[4] = { priv->ipsec_path, "setup", "stop", NULL };
+	const char *argv[4];
+	guint i = 0;
 
 	delete_secrets_file (self);
+
+	if (priv->libreswan) {
+		argv[i++] = priv->whack_path;
+		argv[i++] = "--shutdown";
+		argv[i++] = NULL;
+	} else {
+		argv[i++] = priv->ipsec_path;
+		argv[i++] = "setup";
+		argv[i++] = "stop";
+		argv[i++] = NULL;
+	}
+
 	return g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, NULL, NULL, NULL, error);
 }
 
@@ -389,7 +444,7 @@ connect_failed (NMOpenSwanPlugin *self,
 }
 
 static void
-pluto_watch_cb (GPid pid, gint status, gpointer user_data)
+child_watch_cb (GPid pid, gint status, gpointer user_data)
 {
 	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
@@ -514,7 +569,10 @@ write_config_option (int fd, const char *format, ...)
 }
 
 static void
-nm_openswan_config_write (gint fd, NMConnection *connection, GError **error)
+nm_openswan_config_write (gint fd,
+                          NMConnection *connection,
+                          gboolean libreswan,
+                          GError **error)
 {
 	NMSettingVPN *s_vpn = nm_connection_get_setting_vpn (connection);
 	const char *con_name = nm_connection_get_uuid (connection);
@@ -565,7 +623,16 @@ nm_openswan_config_write (gint fd, NMConnection *connection, GError **error)
 	write_config_option (fd, " salifetime=24h\n");
 	write_config_option (fd, " ikelifetime=24h\n");
 	write_config_option (fd, " keyingtries=1\n");
-	write_config_option (fd, " auto=add\n");
+	write_config_option (fd, " auto=add");
+
+	/* openswan requires a terminating \n (otherwise it segfaults) while
+	 * libreswan fails parsing the configuration if you include the \n.
+	 * WTF?
+	 */
+	if (!libreswan)
+		(void) write (fd, "\n", 1);
+	if (debug)
+		g_print ("\n");
 }
 
 static gboolean
@@ -884,6 +951,7 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
+	gboolean success = FALSE;
 
 	g_warn_if_fail (priv->watch_id == 0);
 	priv->watch_id = 0;
@@ -900,27 +968,55 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		/* fall through */
 		priv->connect_step++;
 
+	case CONNECT_STEP_STACK_INIT:
+		if (priv->libreswan) {
+			const char *stackman_path;
+
+			stackman_path = find_helper_libexec ("_stackmanager", error);
+			if (!stackman_path)
+				return FALSE;
+
+			/* Ensure the right IPSec kernel stack is loaded */
+			success = do_spawn (&priv->pid, NULL, NULL, error, stackman_path, "start", NULL);
+			if (success)
+				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+			return success;
+		}
+		/* fall through */
+		priv->connect_step++;
+
 	case CONNECT_STEP_IPSEC_START:
 		/* Start the IPSec service */
-		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL))
-			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
-		return TRUE;
+		if (priv->libreswan) {
+			success = do_spawn (&priv->pid, NULL, NULL, error,
+			                    priv->pluto_path, "--config", SYSCONFDIR "/ipsec.conf",
+			                    NULL);
+		} else
+			success = do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
+		if (success)
+			priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+		return success;
 
 	case CONNECT_STEP_CONFIG_ADD:
 		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
-		               "auto", "--add", "--config", "-", uuid, NULL))
+		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
-		nm_openswan_config_write (fd, priv->connection, error);
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+		nm_openswan_config_write (fd, priv->connection, priv->libreswan, error);
 		close (fd);
+		return TRUE;
+
+	case CONNECT_STEP_WAIT_READY:
+		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--ready", NULL))
+			return FALSE;
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
 	case CONNECT_STEP_CONNECT:
 		if (!spawn_pty (&up_stdout, &up_stderr, &up_pty, &priv->pid, error,
 		                priv->ipsec_path, "auto", "--up", uuid, NULL))
 			return FALSE;
-		priv->watch_id = g_child_watch_add (priv->pid, pluto_watch_cb, self);
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 
 		/* Wait for the password request */
 		priv->io_buf = g_string_sized_new (128);
@@ -946,6 +1042,20 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 }
 
 static gboolean
+is_libreswan (const char *path)
+{
+	const char *argv[] = { path, NULL };
+	gboolean libreswan = FALSE;
+	char *output = NULL;
+
+	if (g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, &output, NULL, NULL, NULL)) {
+		libreswan = output && strcasestr (output, " Libreswan ");
+		g_free (output);
+	}
+	return libreswan;
+}
+
+static gboolean
 _connect_common (NMVPNPlugin   *plugin,
                  NMConnection  *connection,
                  GHashTable    *details,
@@ -958,6 +1068,20 @@ _connect_common (NMVPNPlugin   *plugin,
 
 	if (debug)
 		nm_connection_dump (connection);
+
+	priv->ipsec_path = find_helper_bin ("ipsec", error);
+	if (!priv->ipsec_path)
+		return FALSE;
+
+	priv->libreswan = is_libreswan (priv->ipsec_path);
+	if (priv->libreswan) {
+		priv->pluto_path = find_helper_libexec ("pluto", error);
+		if (!priv->pluto_path)
+			return FALSE;
+		priv->whack_path = find_helper_libexec ("whack", error);
+		if (!priv->whack_path)
+			return FALSE;
+	}
 
 	ipsec_stop (self, NULL);
 
@@ -977,10 +1101,6 @@ _connect_common (NMVPNPlugin   *plugin,
 			                 "Already connecting!");
 		return FALSE;
 	}
-
-	priv->ipsec_path = find_ipsec (error);
-	if (!priv->ipsec_path)
-		return FALSE;
 
 	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
 
@@ -1198,7 +1318,7 @@ main (int argc, char *argv[])
 	g_option_context_add_main_entries (opt_ctx, options, NULL);
 
 	g_option_context_set_summary (opt_ctx,
-		_("nm-openswan-service provides integrated IPsec VPN capability to NetworkManager."));
+		_("This service provides integrated IPsec VPN capability to NetworkManager."));
 
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);

@@ -55,7 +55,7 @@ helper_failed (DBusGConnection *connection, const char *reason)
 	DBusGProxy *proxy;
 	GError *err = NULL;
 
-	g_warning ("nm-openswan-service-helper did not receive a valid %s from openswan", reason);
+	g_warning ("This helper did not receive a valid %s from the IPSec daemon", reason);
 
 	proxy = dbus_g_proxy_new_for_name (connection,
 								NM_DBUS_SERVICE_OPENSWAN,
@@ -355,7 +355,7 @@ addr_list_to_gvalue (const char *str)
 }
 
 /*
- * Environment variables passed back from 'openswan':
+ * Environment variables passed to this helper:
  *
  * PLUTO_PEER                -- vpn gateway address
  * PLUTO_MY_SOURCEIP         -- address
@@ -383,7 +383,7 @@ main (int argc, char *argv[])
 	g_type_init ();
 #endif
 
-	/* openswan gives us a "reason" code.  If we are given one,
+	/* The IPSec service gives us a "reason" code.  If we are given one,
 	 * don't proceed unless its "connect".
 	 */
 	tmp = getenv ("openswan_reason");
@@ -412,7 +412,7 @@ main (int argc, char *argv[])
 
 	/*
 	 * Tunnel device
-	 * Indicate that openswan plugin doesn't use tun/tap device
+	 * Indicate that this plugin doesn't use tun/tap device
 	 */
 	val = g_slice_new0 (GValue);
 	g_value_init (val, G_TYPE_STRING);
@@ -426,7 +426,7 @@ main (int argc, char *argv[])
 	else
 		helper_failed (connection, "IP4 Address");
 
-	/* PTP address; for openswan PTP address == internal IP4 address */
+	/* PTP address; PTP address == internal IP4 address */
 	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
 	if (val)
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
@@ -466,7 +466,7 @@ main (int argc, char *argv[])
 	if (have_sad_routes (getenv ("PLUTO_PEER")))
 		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, bool_to_gvalue (TRUE));
 
-	/* Send the config info to nm-openswan-service */
+	/* Send the config info to the VPN plugin */
 	send_ip4_config (connection, config);
 
 	exit (0);
