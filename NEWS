@@ -1,4 +1,20 @@
 =======================================================
+network-manager-openswan-1.0
+Overview of changes since network-manager-openswan-0.9.8
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Added support for Libreswan (automatically determined at runtime)
+* Password handling is now more robust
+* Connection start/stop is now more robust
+* Default routing is now autodetected from pushed routes
+* Added support for interactive password requests
+* Updated translations
+* Fix erroneous import/export capability advertisement
+
+
+=======================================================
 network-manager-openswan-0.9.8
 Overview of changes since network-manager-openswan-0.9.6
 =======================================================
