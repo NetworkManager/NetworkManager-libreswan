@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-openswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-20 20:39+0200\n"
-"PO-Revision-Date: 2014-10-20 20:40+0200\n"
+"POT-Creation-Date: 2014-12-14 13:03+0100\n"
+"PO-Revision-Date: 2014-12-14 13:04+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -59,14 +59,6 @@ msgstr "Sieć"
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Żądanie uwierzytelnienia sieci VPN"
-
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Menedżer połączeń VPN opartych na IPsec (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Dodawanie, usuwanie i modyfikowanie połączeń VPN"
 
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
@@ -136,11 +128,11 @@ msgstr "Algorytmy fazy drugiej:"
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../src/nm-openswan-service.c:764
+#: ../src/nm-openswan-service.c:831
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-openswan-service.c:1077
+#: ../src/nm-openswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -148,22 +140,21 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-openswan-service.c:1091
+#: ../src/nm-openswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-openswan-service.c:1177
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-openswan-service.c:1178
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-openswan-service.c:1201
+#: ../src/nm-openswan-service.c:1321
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"nm-openswan-service dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
+"Ta usługa dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
 "NetworkManager."
