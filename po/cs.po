@@ -9,10 +9,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager-vpnc\n"
+"Project-Id-Version: network-manager-openswan nm-1.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-11-03 11:07+0000\n"
+"POT-Creation-Date: 2014-12-13 08:29+0000\n"
 "PO-Revision-Date: 2014-11-03 15:47+0100\n"
 "Last-Translator: Zdeněk Hataš <zdenek.hatas@gmail.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -25,7 +25,6 @@ msgstr ""
 
 #: ../auth-dialog/main.c:175
 #, c-format
-#| msgid "Authenticate VPN"
 msgid "Authenticate VPN %s"
 msgstr "Ověřit VPN %s"
 
@@ -57,14 +56,6 @@ msgstr "Síť"
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Požadovat ověření VPN"
-
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Správce spojení VPN pomocí IPsec (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Přidat, odstranit a upravit VPN připojení"
 
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
@@ -134,33 +125,32 @@ msgstr "Alogritmy Fáze2:"
 msgid "Domain:"
 msgstr "Doména:"
 
-#: ../src/nm-openswan-service.c:764
+#: ../src/nm-openswan-service.c:831
 msgid "A password is required."
 msgstr "Je požadováno heslo."
 
-#: ../src/nm-openswan-service.c:1077
+#: ../src/nm-openswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Nelze zpracovat požadavek, protože nastavení připojení VPN nejsou platná."
 
-#: ../src/nm-openswan-service.c:1091
+#: ../src/nm-openswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Neošetřené čekající ověření."
 
-#: ../src/nm-openswan-service.c:1177
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Neskončit, dokud se spojení VPN ukončuje"
 
-#: ../src/nm-openswan-service.c:1178
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Zapnout podrobnou evidenci ladění (může odhalit hesla)"
 
-#: ../src/nm-openswan-service.c:1201
+#: ../src/nm-openswan-service.c:1321
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"nm-openswan-service poskytuje integraci funkčnosti IPsec VPN do správce "
+"Tato služba poskytuje integraci funkčnosti IPsec VPN do správce "
 "NetworkManager."
