@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: network-manager-openswan master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-07 11:13+0000\n"
-"PO-Revision-Date: 2014-12-07 16:23+0100\n"
+"POT-Creation-Date: 2014-12-13 08:29+0000\n"
+"PO-Revision-Date: 2014-12-20 00:02+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -22,7 +22,6 @@ msgstr ""
 
 #: ../auth-dialog/main.c:175
 #, c-format
-#| msgid "Authenticate VPN"
 msgid "Authenticate VPN %s"
 msgstr "VPN-hitelesítés: %s"
 
@@ -54,14 +53,6 @@ msgstr "Hálózat"
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "VPN-azonosítás kérése"
-
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "IPsec alapú VPN kapcsolatkezelő (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "VPN kapcsolatok hozzáadása, szerkesztése és eltávolítása"
 
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
@@ -131,11 +122,11 @@ msgstr "Phase2 algoritmusok:"
 msgid "Domain:"
 msgstr "Tartomány:"
 
-#: ../src/nm-openswan-service.c:764
+#: ../src/nm-openswan-service.c:831
 msgid "A password is required."
 msgstr "Jelszó szükséges."
 
-#: ../src/nm-openswan-service.c:1077
+#: ../src/nm-openswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -143,27 +134,34 @@ msgstr ""
 "A kérés feldolgozása sikertelen, mivel a VPN-kapcsolat beállításai "
 "érvénytelenek."
 
-#: ../src/nm-openswan-service.c:1091
+#: ../src/nm-openswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Kezeletlen várakozó hitelesítés."
 
-#: ../src/nm-openswan-service.c:1177
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ne lépjen ki, ha a VPN-kapcsolat megszakad"
 
-#: ../src/nm-openswan-service.c:1178
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Részletes hibakeresési naplózás engedélyezése (jelszavak is  a naplóba "
 "kerülhetnek)"
 
-#: ../src/nm-openswan-service.c:1201
+#: ../src/nm-openswan-service.c:1321
+#| msgid ""
+#| "nm-openswan-service provides integrated IPsec VPN capability to "
+#| "NetworkManager."
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"Az nm-openswan-service integrált IPsec VPN képességet biztosít a "
-"Hálózatkezelőnek."
+"Ez a szolgáltatás integrált IPsec VPN képességet biztosít a Hálózatkezelőnek."
+
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "IPsec alapú VPN kapcsolatkezelő (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "VPN kapcsolatok hozzáadása, szerkesztése és eltávolítása"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "Jelszó _még egyszer:"
