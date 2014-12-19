@@ -5,30 +5,25 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-openswan master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-05 18:28+0000\n"
-"PO-Revision-Date: 2014-03-30 10:33+0700\n"
+"Project-Id-Version: network-manager-openswan nm-1-0\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=network-manager-"
+"openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-12-13 08:29+0000\n"
+"PO-Revision-Date: 2014-12-19 18:24+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.1\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr ""
-"Anda perlu mengotentikasi untuk mengakses Virtual Private Network '%s'."
+msgid "Authenticate VPN %s"
+msgstr "Otentikasikan VPN %s"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Otentikasikan VPN"
-
-#: ../auth-dialog/main.c:200
+#: ../auth-dialog/main.c:192
 msgid "Password:"
 msgstr "Sandi:"
 
@@ -36,9 +31,18 @@ msgstr "Sandi:"
 msgid "Group Password:"
 msgstr "Sandi Grup:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Otentikasikan VPN"
+
+#: ../auth-dialog/main.c:247
 msgid "_Group Password:"
 msgstr "Sandi _Grup:"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "Anda perlu mengotentikasi untuk mengakses Virtual Private Network '%s'."
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
@@ -48,14 +52,6 @@ msgstr "Jaringan"
 msgid "Request VPN authentication"
 msgstr "Minta otentikasi VPN"
 
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Manajer Koneksi VPN Berbasis IPsec (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Tambah, Hapus, dan Sunting Koneksi VPN"
-
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
 msgstr "VPN berbasis IPsec"
@@ -64,15 +60,15 @@ msgstr "VPN berbasis IPsec"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN berbasis IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:304
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Disimpan"
 
-#: ../properties/nm-openswan.c:311
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Selalu Tanyakan"
 
-#: ../properties/nm-openswan.c:318
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Tak Diperlukan"
 
@@ -124,18 +120,26 @@ msgstr "Algoritma Fase2:"
 msgid "Domain:"
 msgstr "Domain:"
 
-#: ../src/nm-openswan-service.c:846
+#: ../src/nm-openswan-service.c:831
+msgid "A password is required."
+msgstr "Diperlukan sebuah kata sandi."
+
+#: ../src/nm-openswan-service.c:1197
+msgid "Could not process the request because the VPN connection settings were invalid."
+msgstr "Tak dapat memroses permintaan karena pengaturan koneksi VPN tak valid."
+
+#: ../src/nm-openswan-service.c:1211
+msgid "Unhandled pending authentication."
+msgstr "Otentikasi tertunda yang tak tertangani."
+
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Jangan keluar ketika koneksi VPN berakhir"
 
-#: ../src/nm-openswan-service.c:847
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Fungsikan log awakutu cerewet (mungkin mengungkap sandi)"
 
-#: ../src/nm-openswan-service.c:870
-msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
-"nm-openswan-service menyediakan kapabilitas VPN IPsec terintegrasi ke "
-"NetworkManager."
+#: ../src/nm-openswan-service.c:1321
+msgid "This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Layanan ini menyediakan kapabilitas VPN IPsec terintegrasi ke NetworkManager."
