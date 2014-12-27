@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: network-manager-openswan master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
 "=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-28 11:06+0000\n"
-"PO-Revision-Date: 2014-10-28 21:48+0200\n"
+"POT-Creation-Date: 2014-12-27 11:15+0000\n"
+"PO-Revision-Date: 2014-12-27 15:57+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -22,7 +22,6 @@ msgstr ""
 
 #: ../auth-dialog/main.c:175
 #, c-format
-#| msgid "Authenticate VPN"
 msgid "Authenticate VPN %s"
 msgstr "Potvrdi VPN %s"
 
@@ -56,14 +55,6 @@ msgstr "Mreža"
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Zahtevaj VPN potvrđivanje identiteta"
-
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Upravnik VPN veze zasnovan na IPsec-u (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Dodajte, uklanjajte i uređujte VPN veze"
 
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
@@ -133,35 +124,42 @@ msgstr "Algoritmi faze 2:"
 msgid "Domain:"
 msgstr "Domen:"
 
-#: ../src/nm-openswan-service.c:764
+#: ../src/nm-openswan-service.c:831
 msgid "A password is required."
 msgstr "Potrebna je lozinka."
 
-#: ../src/nm-openswan-service.c:1077
+#: ../src/nm-openswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "Ne mogu da obradim zahtev zato što su podešavanja VPN veze neispravna."
 
-#: ../src/nm-openswan-service.c:1091
+#: ../src/nm-openswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Zakazano potvrđivanje identiteta nije ispravno."
 
-#: ../src/nm-openswan-service.c:1177
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ne prekida kada se završava VPN veza"
 
-#: ../src/nm-openswan-service.c:1178
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Uključuje opširno zapisivanje zarad ispravljanja grešaka (može da izloži lozinke)"
 
-#: ../src/nm-openswan-service.c:1201
+#: ../src/nm-openswan-service.c:1321
+#| msgid ""
+#| "nm-openswan-service provides integrated IPsec VPN capability to "
+#| "NetworkManager."
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
-"nm-opensvan-usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost."
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Ova usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost."
+
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "Upravnik VPN veze zasnovan na IPsec-u (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Dodajte, uklanjajte i uređujte VPN veze"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Sekundarna lozinka:"
