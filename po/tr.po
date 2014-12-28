@@ -1,0 +1,152 @@
+# Turkish translation for network-manager-openswan.
+# Copyright (C) 2014 network-manager-openswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-openswan package.
+# Necdet Yücel <necdetyucel@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: network-manager-openswan master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
+"=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-12-26 11:12+0000\n"
+"PO-Revision-Date: 2014-12-27 19:08+0000\n"
+"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1419707284.000000\n"
+
+#: ../auth-dialog/main.c:175
+#, c-format
+msgid "Authenticate VPN %s"
+msgstr "%s VPN Kimlik Doğrulaması"
+
+#: ../auth-dialog/main.c:192
+msgid "Password:"
+msgstr "Parola:"
+
+#: ../auth-dialog/main.c:202
+msgid "Group Password:"
+msgstr "Grup Parolası:"
+
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "VPN Kimlik Doğrulaması"
+
+#: ../auth-dialog/main.c:247
+msgid "_Group Password:"
+msgstr "_Grup Parolası:"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "'%s' Sanal Özel Ağına erişmek için kimlik kanıtlaması yapmanız gerekir."
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Ağ"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "VPN kimlik doğrulaması iste"
+
+#: ../properties/nm-openswan.c:47
+msgid "IPsec based VPN"
+msgstr "IPsec tabanlı VPN"
+
+#: ../properties/nm-openswan.c:48
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "IPsec, IKEv1, IKEv2 tabanlı VPN"
+
+#: ../properties/nm-openswan.c:303
+msgid "Saved"
+msgstr "Kaydedildi"
+
+#: ../properties/nm-openswan.c:310
+msgid "Always Ask"
+msgstr "Daima Sor"
+
+#: ../properties/nm-openswan.c:317
+msgid "Not Required"
+msgstr "Gerekli Değil"
+
+#: ../properties/nm-openswan-dialog.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../properties/nm-openswan-dialog.ui.h:2
+msgid "<b>General</b>"
+msgstr "<b>Genel</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "Parolaları göster"
+
+#: ../properties/nm-openswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "Gr_up parolası:"
+
+#: ../properties/nm-openswan-dialog.ui.h:5
+msgid "_Gateway:"
+msgstr "_Ağ geçidi:"
+
+#: ../properties/nm-openswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "G_rup ismi:"
+
+#: ../properties/nm-openswan-dialog.ui.h:7
+msgid "_User password:"
+msgstr "_Kullanıcı parolası:"
+
+#: ../properties/nm-openswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>İsteğe Bağlı</b>"
+
+#: ../properties/nm-openswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Kullanıcı adı:"
+
+#: ../properties/nm-openswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Faz1 Algoritması:"
+
+#: ../properties/nm-openswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Faz2 Algoritması:"
+
+#: ../properties/nm-openswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Alan:"
+
+#: ../src/nm-openswan-service.c:831
+msgid "A password is required."
+msgstr "Parola gerekli."
+
+#: ../src/nm-openswan-service.c:1197
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "VPN bağlantı ayarları geçersiz olduğundan istek işlenemedi."
+
+#: ../src/nm-openswan-service.c:1211
+msgid "Unhandled pending authentication."
+msgstr "İşlenmemiş bekleyen kimlik doğrulaması."
+
+#: ../src/nm-openswan-service.c:1297
+msgid "Don't quit when VPN connection terminates"
+msgstr "VPN bağlantısı sonlandığında çıkma"
+
+#: ../src/nm-openswan-service.c:1298
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+"Ayrıntılı hata ayıklama günlüklemesini etkinleştir (parolaları görünür "
+"yapabilir)"
+
+#: ../src/nm-openswan-service.c:1321
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Bu servis NetworkManager için tümleşik IPsec VPN yeterliliğini sağlar."
