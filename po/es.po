@@ -9,34 +9,31 @@
 # Jordi Jaen Pallares <jordi@suse.de>, 1999, 2000, 2001.
 # Pablo Iranzo Gómez <Pablo.Iranzo@uv.es>, 2000.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-05 18:28+0000\n"
-"PO-Revision-Date: 2014-03-10 18:21+0100\n"
+"POT-Creation-Date: 2014-12-13 11:12+0000\n"
+"PO-Revision-Date: 2015-01-12 19:07+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Debe autenticarse para acceder a la red privada virtual «%s»."
+#| msgid "Authenticate VPN"
+msgid "Authenticate VPN %s"
+msgstr "Autenticar VPN %s"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Autenticación VPN"
-
-#: ../auth-dialog/main.c:200
+#: ../auth-dialog/main.c:192
 msgid "Password:"
 msgstr "Contraseña:"
 
@@ -44,9 +41,18 @@ msgstr "Contraseña:"
 msgid "Group Password:"
 msgstr "Contraseña del grupo_"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Autenticación VPN"
+
+#: ../auth-dialog/main.c:247
 msgid "_Group Password:"
 msgstr "Contraseña del _grupo:"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "Debe autenticarse para acceder a la red privada virtual «%s»."
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
@@ -56,15 +62,6 @@ msgstr "Red"
 msgid "Request VPN authentication"
 msgstr "Solicitar autenticación VPN"
 
-# include/network/modem/dialogs.ycp:400
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Gestor de conexiones VPNbasado en IPSec (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Añadir, eliminar y editar conexiones VPN"
-
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
 msgstr "VPN basada en IPSec"
@@ -73,15 +70,15 @@ msgstr "VPN basada en IPSec"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN basada en IPSec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:304
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Guardado"
 
-#: ../properties/nm-openswan.c:311
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Preguntar siempre"
 
-#: ../properties/nm-openswan.c:318
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "No requerido"
 
@@ -136,19 +133,46 @@ msgstr "Algoritmos de fase 2:"
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: ../src/nm-openswan-service.c:846
+#: ../src/nm-openswan-service.c:831
+msgid "A password is required."
+msgstr "Se requiere una contraseña."
+
+#: ../src/nm-openswan-service.c:1197
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"No se pudo procesar la solicitud porque la configuración de la conexión VPN "
+"no es válida."
+
+#: ../src/nm-openswan-service.c:1211
+msgid "Unhandled pending authentication."
+msgstr "Autenticación pendiente no manejada."
+
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "No salir cuando termine la conexión VPN"
 
-#: ../src/nm-openswan-service.c:847
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Activar el registro detallado del depurado (puede mostrar contraseñas)"
 
-#: ../src/nm-openswan-service.c:870
+#: ../src/nm-openswan-service.c:1321
+#| msgid ""
+#| "nm-openswan-service provides integrated IPsec VPN capability to "
+#| "NetworkManager."
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Este servicio proporciona la capacidad de integrar VPN IPsec en "
 "NetworkManager."
-msgstr "nm-openswan-service integra VPN sobre IPsec en NetworkManager."
+
+# include/network/modem/dialogs.ycp:400
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "Gestor de conexiones VPNbasado en IPSec (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Añadir, eliminar y editar conexiones VPN"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "Contraseña _secundaria:"
