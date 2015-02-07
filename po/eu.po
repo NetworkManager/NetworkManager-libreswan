@@ -1,14 +1,16 @@
-# Basque translation of network-manager-openswan.
+# Basque translation for network-manager-openswan.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2014.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2014, 2015.
+# Edurne Labaka <elabaka@uzei.com>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-openswan master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-04 12:35+0200\n"
-"PO-Revision-Date: 2014-05-04 12:38+0200\n"
+"POT-Creation-Date: 2015-02-07 17:57+0100\n"
+"PO-Revision-Date: 2015-02-07 17:55+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
@@ -18,16 +20,12 @@ msgstr ""
 "X-Generator: Lokalize 1.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Autentifikatu egin behar zara '%s' VPN-ra sarbidetzeko."
+msgid "Authenticate VPN %s"
+msgstr "Autentifikatu %s VPN"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Autentifikatu VPN"
-
-#: ../auth-dialog/main.c:200
+#: ../auth-dialog/main.c:192
 msgid "Password:"
 msgstr "Pasahitza:"
 
@@ -35,9 +33,18 @@ msgstr "Pasahitza:"
 msgid "Group Password:"
 msgstr "Taldearen pasahitza:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Autentifikatu VPN"
+
+#: ../auth-dialog/main.c:247
 msgid "_Group Password:"
 msgstr "_Taldearen pasahitza:"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "Autentifikatu egin behar zara '%s' VPN-ra sarbidetzeko."
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
@@ -47,14 +54,6 @@ msgstr "Sarea"
 msgid "Request VPN authentication"
 msgstr "Eskatu VPNren autentifikazioa"
 
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "IPsec-en oinarritutako VPN konexioen kudeatzailea (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Gehitu, kendu eta editatu VPN konexioak"
-
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec-en oinarritutako VPN-a"
@@ -63,15 +62,15 @@ msgstr "IPsec-en oinarritutako VPN-a"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 oinarritutako VPN-a"
 
-#: ../properties/nm-openswan.c:304
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Gordeta"
 
-#: ../properties/nm-openswan.c:311
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Galdetu beti"
 
-#: ../properties/nm-openswan.c:318
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Ez da beharrezkoa"
 
@@ -123,27 +122,51 @@ msgstr "2. faseko algoritmoak:"
 msgid "Domain:"
 msgstr "Domeinua:"
 
-#: ../src/nm-openswan-service.c:846
+#: ../src/nm-openswan-service.c:831
+msgid "A password is required."
+msgstr "Pasahitza behar da."
+
+#: ../src/nm-openswan-service.c:1197
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Ezin izan da eskaera prozesatu VPN konexioaren ezarpenak baliogabekoak "
+"direlako."
+
+#: ../src/nm-openswan-service.c:1211
+msgid "Unhandled pending authentication."
+msgstr "Autentifikatzea falta dena kudeatu gabe."
+
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ez irten VPNaren konexioa amaitzean"
 
-#: ../src/nm-openswan-service.c:847
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Gaitu arazketaren erregistro xehea (pasahitzak erakuts ditzake)"
 
-#: ../src/nm-openswan-service.c:870
+#: ../src/nm-openswan-service.c:1321
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"'nm-openswan-service' zerbitzuak VPN IPsec gaitasuna "
-"erabiltzea baimentzen dio NetworkManager-i."
+"Zerbitzu honek VPN IPsec gaitasuna erabiltzea baimentzen dio NetworkManager-"
+"i."
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Bigarren pasahitza:"
 
+#~ msgid "_Password:"
+#~ msgstr "_Pasahitza:"
+
 #~ msgid "Sh_ow passwords"
 #~ msgstr "_Erakutsi pasahitzak"
+
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "IPsec-en oinarritutako VPN konexioen kudeatzailea (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Gehitu, kendu eta editatu VPN konexioak"
 
 #~ msgid "_Remember passwords for this session"
 #~ msgstr "_Gogoratu pasahitza saio honetan"
