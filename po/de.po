@@ -8,79 +8,72 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager HEAD\n"
+"Project-Id-Version: NetworkManager OpenSWAN\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-29 17:26+0000\n"
-"PO-Revision-Date: 2013-06-02 15:47+0200\n"
+"POT-Creation-Date: 2015-01-27 11:19+0000\n"
+"PO-Revision-Date: 2015-01-29 22:11+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: de <gnome-de@gnome.org>\n"
-"Language: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: ../auth-dialog/vpn-password-dialog.c:94
-msgid "_Secondary Password:"
-msgstr "_Zweitpasswort:"
+#: ../auth-dialog/main.c:175
+#, c-format
+msgid "Authenticate VPN %s"
+msgstr "VPN %s legitimieren"
 
-#: ../auth-dialog/vpn-password-dialog.c:150
-msgid "_Password:"
-msgstr "_Passwort:"
+#: ../auth-dialog/main.c:192
+msgid "Password:"
+msgstr "Passwort:"
 
-#: ../auth-dialog/vpn-password-dialog.c:236
-msgid "Sh_ow passwords"
-msgstr "Passwörter an_zeigen"
+#: ../auth-dialog/main.c:202
+msgid "Group Password:"
+msgstr "Gruppenpasswort:"
 
-#: ../auth-dialog/main.c:178
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "VPN legitimieren"
+
+#: ../auth-dialog/main.c:247
+msgid "_Group Password:"
+msgstr "_Gruppenpasswort:"
+
+#: ../auth-dialog/main.c:496
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Sie müssen sich legitimieren, um auf das Virtuelle private Netzwerk »%s« "
 "zugreifen zu können."
 
-#: ../auth-dialog/main.c:187 ../auth-dialog/main.c:211
-msgid "Authenticate VPN"
-msgstr "VPN legitimieren"
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Netzwerk"
 
-#: ../auth-dialog/main.c:190
-msgid "Password:"
-msgstr "Passwort:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Gruppenpasswort:"
-
-#: ../auth-dialog/main.c:213
-msgid "_Group Password:"
-msgstr "_Gruppenpasswort:"
-
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Auf IPsec basierender VPN-Verbindungsmanager (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "VPN-Verbindungen hinzufügen, entfernen und bearbeiten"
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "Legitimierung für VPN anfordern"
 
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
-msgstr "IPsec-basierendes VPN"
+msgstr "IPsec-basiertes VPN"
 
 #: ../properties/nm-openswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "IPsec, IKEv1, IKEv2-basierendes VPN"
+msgstr "IPsec, IKEv1, IKEv2-basiertes VPN"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Gespeichert"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Immer fragen"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Nicht notwendig"
 
@@ -132,20 +125,49 @@ msgstr "Phase2-Algorithmen:"
 msgid "Domain:"
 msgstr "Domäne:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-openswan-service.c:831
+msgid "A password is required."
+msgstr "Ein Passwort ist notwendig."
+
+#: ../src/nm-openswan-service.c:1197
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Die Anfrage konnte nicht verarbeitet werden, weil die VPN-"
+"Konfigurationseinstellungen ungültig waren."
+
+#: ../src/nm-openswan-service.c:1211
+msgid "Unhandled pending authentication."
+msgstr "Nicht verarbeitete, ausstehende Legitimierung."
+
+#: ../src/nm-openswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nicht bei Abbruch der VPN-Verbindung beenden"
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ausführliches Diagnoseprotokoll aktivieren (kann Passwörter enthalten)"
 
-#: ../src/nm-openswan-service.c:901
+#: ../src/nm-openswan-service.c:1321
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
-"nm-openswan-service bietet zugleich IPsec VPN-Fähigkeit für NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Dieser Dienst bietet ein integriertes IPsec-VPN für NetworkManager."
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Zweitpasswort:"
+
+#~ msgid "_Password:"
+#~ msgstr "_Passwort:"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "Passwörter an_zeigen"
+
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "Auf IPsec basierender VPN-Verbindungsmanager (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "VPN-Verbindungen hinzufügen, entfernen und bearbeiten"
 
 #~ msgid "_Remember passwords for this session"
 #~ msgstr "Passwo_rt für diese Sitzung behalten"
@@ -307,9 +329,6 @@ msgstr ""
 #~ "Beachten Sie bitte, dass die Datei, die Sie importieren, keine Cisco VPN "
 #~ "oder VPNC-Konfigurationsdatei ist. Wenden Sie sich an Ihren Administrator."
 
-#~ msgid "Use _domain for authentication"
-#~ msgstr "_Domäne zur Authentifikation verwenden"
-
 #~ msgid "_Import Saved Configuration..."
 #~ msgstr "Gespeicherte Konfiguration importieren …"
 
@@ -333,12 +352,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Die VPN-Anmeldung scheiterte, weil das VPN-Programm sich nicht mit dem "
 #~ "VPN-Server verbinden konnte."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr ""
-#~ "Die VPN-Anmeldung scheiterte, weil die VPN-Konfigurationsoptionen "
-#~ "ungültig waren."
 
 #~ msgid ""
 #~ "The VPN login failed because the VPN program received an invalid "
