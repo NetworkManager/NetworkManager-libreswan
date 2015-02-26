@@ -9,41 +9,44 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-05 18:28+0000\n"
-"PO-Revision-Date: 2014-04-24 15:57+0200\n"
+"POT-Creation-Date: 2014-12-13 11:12+0000\n"
+"PO-Revision-Date: 2015-02-25 15:19+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
+#, c-format
+msgid "Authenticate VPN %s"
+msgstr "Πιστοποίηση VPN %s"
+
+#: ../auth-dialog/main.c:192
+msgid "Password:"
+msgstr "Κωδικός πρόσβασης:"
+
+#: ../auth-dialog/main.c:202
+msgid "Group Password:"
+msgstr "Κωδικός πρόσβασης ομάδας:"
+
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Πιστοποίηση VPN"
+
+#: ../auth-dialog/main.c:247
+msgid "_Group Password:"
+msgstr "Κωδικός πρόσβασης ο_μάδας:"
+
+#: ../auth-dialog/main.c:496
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Χρειάζεστε πιστοποίηση για να αποκτήσετε πρόσβαση στο Ιδιωτικό Εικονικό "
 "Δίκτυο (VPN) '%s'."
-
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Πιστοποίηση VPN"
-
-#: ../auth-dialog/main.c:200
-#| msgid "_Password:"
-msgid "Password:"
-msgstr "Συνθηματικό:"
-
-#: ../auth-dialog/main.c:202
-#| msgid "_Group Password:"
-msgid "Group Password:"
-msgstr "Συνθηματικό ομάδας:"
-
-#: ../auth-dialog/main.c:223
-msgid "_Group Password:"
-msgstr "Συνθηματικό ο_μάδας:"
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
@@ -53,15 +56,6 @@ msgstr "Δίκτυο"
 msgid "Request VPN authentication"
 msgstr "Απαιτεί VPN πιστοποίηση"
 
-#: ../nm-openswan.desktop.in.h:1
-#| msgid "VPN Connection Manager (vpnc)"
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Διαχειριστής σύνδεσης IPsec βασισμένο στο VPN (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Προσθήκη, απομάκρυνση και επεξεργασία συνδέσεων VPN"
-
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec βασισμένο στο VPN"
@@ -70,15 +64,15 @@ msgstr "IPsec βασισμένο στο VPN"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 βασισμένο στο VPN"
 
-#: ../properties/nm-openswan.c:304
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Αποθηκευμένη"
 
-#: ../properties/nm-openswan.c:311
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Να γίνεται πάντα ερώτηση"
 
-#: ../properties/nm-openswan.c:318
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Δεν απαιτείται"
 
@@ -92,11 +86,11 @@ msgstr "<b>Γενικά</b>"
 
 #: ../properties/nm-openswan-dialog.ui.h:3
 msgid "Show passwords"
-msgstr "Εμφάνιση συνθηματικών"
+msgstr "Εμφάνιση κωδικών πρόσβασης"
 
 #: ../properties/nm-openswan-dialog.ui.h:4
 msgid "Gro_up password:"
-msgstr "Συνθηματικό ο_μάδας:"
+msgstr "Κωδικός πρόσβασης ο_μάδας:"
 
 #: ../properties/nm-openswan-dialog.ui.h:5
 msgid "_Gateway:"
@@ -108,7 +102,7 @@ msgstr "Όνομα ομά_δας:"
 
 #: ../properties/nm-openswan-dialog.ui.h:7
 msgid "_User password:"
-msgstr "_Συνθηματικό χρήστη:"
+msgstr "Κωδικός πρόσβασης χ_ρήστη:"
 
 #: ../properties/nm-openswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
@@ -130,23 +124,43 @@ msgstr "Αλγόριθμοι Phase2:"
 msgid "Domain:"
 msgstr "Τομέας:"
 
-#: ../src/nm-openswan-service.c:846
-msgid "Don't quit when VPN connection terminates"
-msgstr "Μην βγεις όταν τερματιστούν οι VPN συνδέσεις"
+#: ../src/nm-openswan-service.c:831
+msgid "A password is required."
+msgstr "Απαιτείται κωδικός πρόσβασης"
 
-#: ../src/nm-openswan-service.c:847
+#: ../src/nm-openswan-service.c:1197
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Αδύνατη η επεξεργασία του αιτήματος διότι οι ρυθμίσεις της σύνδεσης VPN ήταν "
+"άκυρες."
+
+#: ../src/nm-openswan-service.c:1211
+msgid "Unhandled pending authentication."
+msgstr "Ανεπίλυτη αναμονή πιστοποίησης."
+
+#: ../src/nm-openswan-service.c:1297
+msgid "Don't quit when VPN connection terminates"
+msgstr "Να μην γίνει έξοδος όταν η σύνδεση VPN τερματίζει"
+
+#: ../src/nm-openswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
-"Ενεργοποίηση καταγραφής εντοπισμού σφαλμάτων (μπορεί να εκθέσει τα "
-"συνθηματικά)"
+"Ενεργοποίηση καταγραφής εντοπισμού σφαλμάτων (μπορεί να εκθέσει τους "
+"κωδικούς πρόσβασης)"
 
-#: ../src/nm-openswan-service.c:870
+#: ../src/nm-openswan-service.c:1321
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
-"Το nm-openswan-service παρέχει ενσωματωμένες δυνατότητες IPsec VPN στον "
-"NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec VPN στον NetworkManager."
+
+#~| msgid "VPN Connection Manager (vpnc)"
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "Διαχειριστής σύνδεσης IPsec βασισμένο στο VPN (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Προσθήκη, απομάκρυνση και επεξεργασία συνδέσεων VPN"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Δευτερεύον συνθηματικό:"
