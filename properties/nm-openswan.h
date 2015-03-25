@@ -41,7 +41,7 @@ GType openswan_plugin_ui_error_get_type (void);
 #define OPENSWAN_PLUGIN_UI(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUi))
 #define OPENSWAN_PLUGIN_UI_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUiClass))
 #define OPENSWAN_IS_PLUGIN_UI(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OPENSWAN_TYPE_PLUGIN_UI))
-#define OPENSWAN_IS_PLUGIN_UI_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), OPENSWAN_TYPE_PLUGIN_UI))
+#define OPENSWAN_IS_PLUGIN_UI_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), OPENSWAN_TYPE_PLUGIN_UI))
 #define OPENSWAN_PLUGIN_UI_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUiClass))
 
 typedef struct _OpenswanPluginUi OpenswanPluginUi;
