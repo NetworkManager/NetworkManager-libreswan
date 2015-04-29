@@ -623,6 +623,8 @@ nm_openswan_config_write (gint fd,
 	write_config_option (fd, " salifetime=24h\n");
 	write_config_option (fd, " ikelifetime=24h\n");
 	write_config_option (fd, " keyingtries=1\n");
+	if (libreswan)
+		write_config_option (fd, " cisco-unity=yes\n");
 	write_config_option (fd, " auto=add");
 
 	/* openswan requires a terminating \n (otherwise it segfaults) while
