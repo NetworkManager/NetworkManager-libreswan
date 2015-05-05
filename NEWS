@@ -1,4 +1,16 @@
 =======================================================
+network-manager-openswan-1.0.2
+Overview of changes since network-manager-openswan-1.0
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Added Bosnian translation
+* Updated Greek, German, Basque, Serbian, Hungarian and Indonesian translations
+* Out-of-tree build fixes
+
+
+=======================================================
 network-manager-openswan-1.0
 Overview of changes since network-manager-openswan-0.9.8
 =======================================================
