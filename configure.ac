@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager-openswan, 1.0.0, avagarwa@redhat.com, NetworkManager-openswan)
+AC_INIT(NetworkManager-openswan, 1.0.2, avagarwa@redhat.com, NetworkManager-openswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
