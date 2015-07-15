@@ -44,12 +44,18 @@
 #define OPENSWAN_PLUGIN_NAME    _("IPsec based VPN")
 #define OPENSWAN_PLUGIN_DESC    _("IPsec, IKEv1, IKEv2 based VPN")
 
+#define OPENSWAN_PLUGIN_UI_ERROR                  NM_SETTING_VPN_ERROR
+#define OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY NM_SETTING_VPN_ERROR_INVALID_PROPERTY
+
 #else /* !NM_OPENSWAN_OLD */
 
 #include <NetworkManager.h>
 
 #define OPENSWAN_PLUGIN_NAME    _("openswan")
 #define OPENSWAN_PLUGIN_DESC    _("IPsec based VPN")
+
+#define OPENSWAN_PLUGIN_UI_ERROR                  NM_CONNECTION_ERROR
+#define OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY NM_CONNECTION_ERROR_INVALID_PROPERTY
 #endif
 
 #include "nm-openswan-service.h"
@@ -93,45 +99,6 @@ typedef struct {
 	GtkWidget *widget;
 	GtkSizeGroup *group;
 } OpenswanPluginUiWidgetPrivate;
-
-
-#define OPENSWAN_PLUGIN_UI_ERROR openswan_plugin_ui_error_quark ()
-
-static GQuark
-openswan_plugin_ui_error_quark (void)
-{
-	static GQuark error_quark = 0;
-
-	if (G_UNLIKELY (error_quark == 0))
-		error_quark = g_quark_from_static_string ("openswan-plugin-ui-error-quark");
-
-	return error_quark;
-}
-
-/* This should really be standard. */
-#define ENUM_ENTRY(NAME, DESC) { NAME, "" #NAME "", DESC }
-
-GType
-openswan_plugin_ui_error_get_type (void)
-{
-	static GType etype = 0;
-
-	if (etype == 0) {
-		static const GEnumValue values[] = {
-			/* Unknown error. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_UNKNOWN, "UnknownError"),
-			/* The specified property was invalid. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY, "InvalidProperty"),
-			/* The specified property was missing and is required. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_MISSING_PROPERTY, "MissingProperty"),
-			/* The connection was missing invalid. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_INVALID_CONNECTION, "InvalidConnection"),
-			{ 0, 0, 0 }
-		};
-		etype = g_enum_register_static ("OpenswanPluginUiError", values);
-	}
-	return etype;
-}
 
 
 static gboolean
