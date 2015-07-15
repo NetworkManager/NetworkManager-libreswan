@@ -34,17 +34,26 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#ifdef NM_OPENSWAN_OLD
+#define NM_VPN_LIBNM_COMPAT
 #include <nm-vpn-plugin-ui-interface.h>
 #include <nm-setting-vpn.h>
 #include <nm-setting-connection.h>
 #include <nm-setting-ip4-config.h>
 
-#include "nm-openswan-service.h"
-#include "nm-openswan.h"
-
 #define OPENSWAN_PLUGIN_NAME    _("IPsec based VPN")
 #define OPENSWAN_PLUGIN_DESC    _("IPsec, IKEv1, IKEv2 based VPN")
-#define OPENSWAN_PLUGIN_SERVICE NM_DBUS_SERVICE_OPENSWAN 
+
+#else /* !NM_OPENSWAN_OLD */
+
+#include <NetworkManager.h>
+
+#define OPENSWAN_PLUGIN_NAME    _("openswan")
+#define OPENSWAN_PLUGIN_DESC    _("IPsec based VPN")
+#endif
+
+#include "nm-openswan-service.h"
+#include "nm-openswan.h"
 
 #define ENC_TYPE_SECURE 0
 #define ENC_TYPE_WEAK   1
@@ -56,18 +65,25 @@
 
 /************** plugin class **************/
 
-static void openswan_plugin_ui_interface_init (NMVpnPluginUiInterface *iface_class);
+enum {
+	PROP_0,
+	PROP_NAME,
+	PROP_DESC,
+	PROP_SERVICE
+};
+
+static void openswan_plugin_ui_interface_init (NMVpnEditorPluginInterface *iface_class);
 
 G_DEFINE_TYPE_EXTENDED (OpenswanPluginUi, openswan_plugin_ui, G_TYPE_OBJECT, 0,
-                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_PLUGIN_UI_INTERFACE,
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR_PLUGIN,
                                                openswan_plugin_ui_interface_init))
 
 /************** UI widget class **************/
 
-static void openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_class);
+static void openswan_plugin_ui_widget_interface_init (NMVpnEditorInterface *iface_class);
 
 G_DEFINE_TYPE_EXTENDED (OpenswanPluginUiWidget, openswan_plugin_ui_widget, G_TYPE_OBJECT, 0,
-                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE,
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR,
                                                openswan_plugin_ui_widget_interface_init))
 
 #define OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), OPENSWAN_TYPE_PLUGIN_UI_WIDGET, OpenswanPluginUiWidgetPrivate))
@@ -157,7 +173,7 @@ stuff_changed_cb (GtkWidget *widget, gpointer user_data)
 static void
 setup_password_widget (OpenswanPluginUiWidget *self,
                        const char *entry_name,
-                       NMSettingVPN *s_vpn,
+                       NMSettingVpn *s_vpn,
                        const char *secret_name,
                        gboolean new_connection)
 {
@@ -248,7 +264,7 @@ pw_type_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 }
 
 static const char *
-secret_flags_to_pw_type (NMSettingVPN *s_vpn, const char *key)
+secret_flags_to_pw_type (NMSettingVpn *s_vpn, const char *key)
 {
 	NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
 
@@ -264,7 +280,7 @@ secret_flags_to_pw_type (NMSettingVPN *s_vpn, const char *key)
 
 static void
 init_one_pw_combo (OpenswanPluginUiWidget *self,
-                   NMSettingVPN *s_vpn,
+                   NMSettingVpn *s_vpn,
                    const char *combo_name,
                    const char *secret_key,
                    const char *type_key,
@@ -336,7 +352,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self,
                 GError **error)
 {
 	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn = NULL;
+	NMSettingVpn *s_vpn = NULL;
 	GtkWidget *widget;
 	const char *value = NULL;
 
@@ -443,7 +459,7 @@ init_plugin_ui (OpenswanPluginUiWidget *self,
 }
 
 static GObject *
-get_widget (NMVpnPluginUiWidgetInterface *iface)
+get_widget (NMVpnEditor *iface)
 {
 	OpenswanPluginUiWidget *self = OPENSWAN_PLUGIN_UI_WIDGET (iface);
 	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
@@ -452,7 +468,7 @@ get_widget (NMVpnPluginUiWidgetInterface *iface)
 }
 
 static void
-save_one_password (NMSettingVPN *s_vpn,
+save_one_password (NMSettingVpn *s_vpn,
                    GtkBuilder *builder,
                    const char *entry_name,
                    const char *combo_name,
@@ -491,13 +507,13 @@ save_one_password (NMSettingVPN *s_vpn,
 }
 
 static gboolean
-update_connection (NMVpnPluginUiWidgetInterface *iface,
+update_connection (NMVpnEditor *iface,
                    NMConnection *connection,
                    GError **error)
 {
 	OpenswanPluginUiWidget *self = OPENSWAN_PLUGIN_UI_WIDGET (iface);
 	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn;
+	NMSettingVpn *s_vpn;
 	GtkWidget *widget;
 	char *str;
 
@@ -569,19 +585,19 @@ is_new_func (const char *key, const char *value, gpointer user_data)
 	*is_new = FALSE;
 }
 
-static NMVpnPluginUiWidgetInterface *
+static NMVpnEditor *
 nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 {
-	NMVpnPluginUiWidgetInterface *object;
+	NMVpnEditor *object;
 	OpenswanPluginUiWidgetPrivate *priv;
 	char *ui_file;
-	NMSettingVPN *s_vpn;
+	NMSettingVpn *s_vpn;
 	gboolean is_new = TRUE;
 
 	if (error)
 		g_return_val_if_fail (*error == NULL, NULL);
 
-	object = NM_VPN_PLUGIN_UI_WIDGET_INTERFACE (g_object_new (OPENSWAN_TYPE_PLUGIN_UI_WIDGET, NULL));
+	object = g_object_new (OPENSWAN_TYPE_PLUGIN_UI_WIDGET, NULL);
 	if (!object) {
 		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0, "could not create openswan object");
 		return NULL;
@@ -661,7 +677,7 @@ openswan_plugin_ui_widget_init (OpenswanPluginUiWidget *plugin)
 }
 
 static void
-openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_class)
+openswan_plugin_ui_widget_interface_init (NMVpnEditorInterface *iface_class)
 {
 	/* interface implementation */
 	iface_class->get_widget = get_widget;
@@ -669,13 +685,13 @@ openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_cl
 }
 
 static guint32
-get_capabilities (NMVpnPluginUiInterface *iface)
+get_capabilities (NMVpnEditorPlugin *iface)
 {
-	return NM_VPN_PLUGIN_UI_CAPABILITY_NONE;
+	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_NONE;
 }
 
-static NMVpnPluginUiWidgetInterface *
-ui_factory (NMVpnPluginUiInterface *iface, NMConnection *connection, GError **error)
+static NMVpnEditor *
+get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
 {
 	return nm_vpn_plugin_ui_widget_interface_new (connection, error);
 }
@@ -685,14 +701,14 @@ get_property (GObject *object, guint prop_id,
               GValue *value, GParamSpec *pspec)
 {
 	switch (prop_id) {
-	case NM_VPN_PLUGIN_UI_INTERFACE_PROP_NAME:
+	case PROP_NAME:
 		g_value_set_string (value, OPENSWAN_PLUGIN_NAME);
 		break;
-	case NM_VPN_PLUGIN_UI_INTERFACE_PROP_DESC:
+	case PROP_DESC:
 		g_value_set_string (value, OPENSWAN_PLUGIN_DESC);
 		break;
-	case NM_VPN_PLUGIN_UI_INTERFACE_PROP_SERVICE:
-		g_value_set_string (value, OPENSWAN_PLUGIN_SERVICE);
+	case PROP_SERVICE:
+		g_value_set_string (value, NM_DBUS_SERVICE_OPENSWAN);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -708,16 +724,16 @@ openswan_plugin_ui_class_init (OpenswanPluginUiClass *req_class)
 	object_class->get_property = get_property;
 
 	g_object_class_override_property (object_class,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_PROP_NAME,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_NAME);
+	                                  PROP_NAME,
+	                                  NM_VPN_EDITOR_PLUGIN_NAME);
 
 	g_object_class_override_property (object_class,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_PROP_DESC,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_DESC);
+	                                  PROP_DESC,
+	                                  NM_VPN_EDITOR_PLUGIN_DESCRIPTION);
 
 	g_object_class_override_property (object_class,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_PROP_SERVICE,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_SERVICE);
+	                                  PROP_SERVICE,
+	                                  NM_VPN_EDITOR_PLUGIN_SERVICE);
 }
 
 static void
@@ -726,19 +742,19 @@ openswan_plugin_ui_init (OpenswanPluginUi *plugin)
 }
 
 static void
-openswan_plugin_ui_interface_init (NMVpnPluginUiInterface *iface_class)
+openswan_plugin_ui_interface_init (NMVpnEditorPluginInterface *iface_class)
 {
 	/* interface implementation */
-	iface_class->ui_factory = ui_factory;
+	iface_class->get_editor = get_editor;
 	iface_class->get_capabilities = get_capabilities;
 	iface_class->import_from_file = NULL;
 	iface_class->export_to_file = NULL;
-	iface_class->get_suggested_name = NULL;
+	iface_class->get_suggested_filename = NULL;
 }
 
 
-G_MODULE_EXPORT NMVpnPluginUiInterface *
-nm_vpn_plugin_ui_factory (GError **error)
+G_MODULE_EXPORT NMVpnEditorPlugin *
+nm_vpn_editor_plugin_factory (GError **error)
 {
 	if (error)
 		g_return_val_if_fail (*error == NULL, NULL);
@@ -746,6 +762,6 @@ nm_vpn_plugin_ui_factory (GError **error)
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
-	return NM_VPN_PLUGIN_UI_INTERFACE (g_object_new (OPENSWAN_TYPE_PLUGIN_UI, NULL));
+	return g_object_new (OPENSWAN_TYPE_PLUGIN_UI, NULL);
 }
 
