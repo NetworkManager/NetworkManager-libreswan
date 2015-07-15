@@ -26,17 +26,6 @@
 
 #include <glib-object.h>
 
-typedef enum
-{
-	OPENSWAN_PLUGIN_UI_ERROR_UNKNOWN = 0,
-	OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY,
-	OPENSWAN_PLUGIN_UI_ERROR_MISSING_PROPERTY,
-	OPENSWAN_PLUGIN_UI_ERROR_INVALID_CONNECTION
-} OpenswanPluginUiError;
-
-#define OPENSWAN_TYPE_PLUGIN_UI_ERROR (openswan_plugin_ui_error_get_type ()) 
-GType openswan_plugin_ui_error_get_type (void);
-
 #define OPENSWAN_TYPE_PLUGIN_UI            (openswan_plugin_ui_get_type ())
 #define OPENSWAN_PLUGIN_UI(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUi))
 #define OPENSWAN_PLUGIN_UI_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUiClass))
