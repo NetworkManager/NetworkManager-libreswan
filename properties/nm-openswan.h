@@ -26,46 +26,46 @@
 
 #include <glib-object.h>
 
-#define OPENSWAN_TYPE_PLUGIN_UI            (openswan_plugin_ui_get_type ())
-#define OPENSWAN_PLUGIN_UI(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUi))
-#define OPENSWAN_PLUGIN_UI_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUiClass))
-#define OPENSWAN_IS_PLUGIN_UI(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OPENSWAN_TYPE_PLUGIN_UI))
-#define OPENSWAN_IS_PLUGIN_UI_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), OPENSWAN_TYPE_PLUGIN_UI))
-#define OPENSWAN_PLUGIN_UI_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OPENSWAN_TYPE_PLUGIN_UI, OpenswanPluginUiClass))
+#define OPENSWAN_TYPE_EDITOR_PLUGIN            (openswan_editor_plugin_get_type ())
+#define OPENSWAN_EDITOR_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OPENSWAN_TYPE_EDITOR_PLUGIN, OpenswanEditorPlugin))
+#define OPENSWAN_EDITOR_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OPENSWAN_TYPE_EDITOR_PLUGIN, OpenswanEditorPluginClass))
+#define OPENSWAN_IS_EDITOR_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OPENSWAN_TYPE_EDITOR_PLUGIN))
+#define OPENSWAN_IS_EDITOR_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), OPENSWAN_TYPE_EDITOR_PLUGIN))
+#define OPENSWAN_EDITOR_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OPENSWAN_TYPE_EDITOR_PLUGIN, OpenswanEditorPluginClass))
 
-typedef struct _OpenswanPluginUi OpenswanPluginUi;
-typedef struct _OpenswanPluginUiClass OpenswanPluginUiClass;
+typedef struct _OpenswanEditorPlugin OpenswanEditorPlugin;
+typedef struct _OpenswanEditorPluginClass OpenswanEditorPluginClass;
 
-struct _OpenswanPluginUi {
+struct _OpenswanEditorPlugin {
 	GObject parent;
 };
 
-struct _OpenswanPluginUiClass {
+struct _OpenswanEditorPluginClass {
 	GObjectClass parent;
 };
 
-GType openswan_plugin_ui_get_type (void);
+GType openswan_editor_plugin_get_type (void);
 
 
-#define OPENSWAN_TYPE_PLUGIN_UI_WIDGET            (openswan_plugin_ui_widget_get_type ())
-#define OPENSWAN_PLUGIN_UI_WIDGET(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OPENSWAN_TYPE_PLUGIN_UI_WIDGET, OpenswanPluginUiWidget))
-#define OPENSWAN_PLUGIN_UI_WIDGET_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OPENSWAN_TYPE_PLUGIN_UI_WIDGET, OpenswanPluginUiWidgetClass))
-#define OPENSWAN_IS_PLUGIN_UI_WIDGET(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OPENSWAN_TYPE_PLUGIN_UI_WIDGET))
-#define OPENSWAN_IS_PLUGIN_UI_WIDGET_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), OPENSWAN_TYPE_PLUGIN_UI_WIDGET))
-#define OPENSWAN_PLUGIN_UI_WIDGET_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OPENSWAN_TYPE_PLUGIN_UI_WIDGET, OpenswanPluginUiWidgetClass))
+#define OPENSWAN_TYPE_EDITOR            (openswan_editor_get_type ())
+#define OPENSWAN_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OPENSWAN_TYPE_EDITOR, OpenswanEditor))
+#define OPENSWAN_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OPENSWAN_TYPE_EDITOR, OpenswanEditorClass))
+#define OPENSWAN_IS_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OPENSWAN_TYPE_EDITOR))
+#define OPENSWAN_IS_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), OPENSWAN_TYPE_EDITOR))
+#define OPENSWAN_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OPENSWAN_TYPE_EDITOR, OpenswanEditorClass))
 
-typedef struct _OpenswanPluginUiWidget OpenswanPluginUiWidget;
-typedef struct _OpenswanPluginUiWidgetClass OpenswanPluginUiWidgetClass;
+typedef struct _OpenswanEditor OpenswanEditor;
+typedef struct _OpenswanEditorClass OpenswanEditorClass;
 
-struct _OpenswanPluginUiWidget {
+struct _OpenswanEditor {
 	GObject parent;
 };
 
-struct _OpenswanPluginUiWidgetClass {
+struct _OpenswanEditorClass {
 	GObjectClass parent;
 };
 
-GType openswan_plugin_ui_widget_get_type (void);
+GType openswan_editor_get_type (void);
 
 #endif	/* _NM_OPENSWAN_H_ */
 
