@@ -14,12 +14,12 @@ common_CFLAGS = \
 
 libnm_vpn_plugin_openswan_la_CFLAGS = \
 	$(common_CFLAGS) \
-	$(NM_CFLAGS)
+	$(LIBNM_CFLAGS)
 
 libnm_openswan_properties_la_CFLAGS = \
 	-DNM_OPENSWAN_OLD \
 	$(common_CFLAGS) \
-	$(NM_CFLAGS)
+	$(LIBNM_GLIB_CFLAGS)
 
 libnm_vpn_plugin_openswan_la_SOURCES = \
 	nm-openswan.c \
@@ -34,7 +34,7 @@ libnm_vpn_plugin_openswan_la_LIBADD = \
 
 libnm_openswan_properties_la_LIBADD = \
 	$(GTK_LIBS) \
-	$(NM_LIBS)
+	$(LIBNM_GLIB_LIBS)
 
 libnm_vpn_plugin_openswan_la_LDFLAGS = \
         -avoid-version
