@@ -1,8 +1,8 @@
 AM_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
-	$(LIBNM_GLIB_CFLAGS) \
+	$(LIBNM_CFLAGS) \
+	$(LIBNMA_CFLAGS) \
 	$(GTK_CFLAGS) \
-	$(LIBNM_GTK_CFLAGS) \
 	$(LIBSECRET_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DBINDIR=\""$(bindir)"\" \
@@ -15,9 +15,9 @@ libexec_PROGRAMS = nm-openswan-auth-dialog
 nm_openswan_auth_dialog_SOURCES = main.c
 
 nm_openswan_auth_dialog_LDADD = \
-	$(LIBNM_GLIB_LIBS) \
+	$(LIBNM_LIBS) \
 	$(GTK_LIBS) \
-	$(LIBNM_GTK_LIBS) \
+	$(LIBNMA_LIBS) \
 	$(LIBSECRET_LIBS)
 
 @INTLTOOL_DESKTOP_RULE@
