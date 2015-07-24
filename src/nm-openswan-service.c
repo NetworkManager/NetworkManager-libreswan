@@ -35,8 +35,8 @@
 
 #include <glib/gi18n.h>
 
-#include <nm-vpn-plugin.h>
-#include <nm-setting-vpn.h>
+#include <NetworkManager.h>
+#include <nm-vpn-service-plugin.h>
 #include "nm-openswan-service.h"
 #include "nm-utils.h"
 
@@ -47,12 +47,12 @@
 #define NM_TYPE_OPENSWAN_PLUGIN (nm_openswan_plugin_get_type ())
 #define NM_OPENSWAN_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPlugin))
 
-typedef NMVPNPlugin NMOpenSwanPlugin;
-typedef NMVPNPluginClass NMOpenSwanPluginClass;
+typedef NMVpnServicePlugin NMOpenSwanPlugin;
+typedef NMVpnServicePluginClass NMOpenSwanPluginClass;
 
 static GType nm_openswan_plugin_get_type (void);
 
-G_DEFINE_TYPE (NMOpenSwanPlugin, nm_openswan_plugin, NM_TYPE_VPN_PLUGIN)
+G_DEFINE_TYPE (NMOpenSwanPlugin, nm_openswan_plugin, NM_TYPE_VPN_SERVICE_PLUGIN)
 
 /************************************************************/
 
@@ -228,7 +228,7 @@ validate_one_property (const char *key, const char *value, gpointer user_data)
 }
 
 static gboolean
-nm_openswan_properties_validate (NMSettingVPN *s_vpn, GError **error)
+nm_openswan_properties_validate (NMSettingVpn *s_vpn, GError **error)
 {
 	ValidateInfo info = { &valid_properties[0], error, FALSE };
 
@@ -245,7 +245,7 @@ nm_openswan_properties_validate (NMSettingVPN *s_vpn, GError **error)
 }
 
 static gboolean
-nm_openswan_secrets_validate (NMSettingVPN *s_vpn, GError **error)
+nm_openswan_secrets_validate (NMSettingVpn *s_vpn, GError **error)
 {
 	GError *validate_error = NULL;
 	ValidateInfo info = { &valid_secrets[0], &validate_error, FALSE };
@@ -436,7 +436,7 @@ static void
 connect_failed (NMOpenSwanPlugin *self,
                 gboolean do_stop,
                 GError *error,
-                NMVPNConnectionStateReason reason)
+                NMVpnConnectionStateReason reason)
 {
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
@@ -448,8 +448,8 @@ connect_failed (NMOpenSwanPlugin *self,
 	connect_cleanup (self);
 	if (do_stop)
 		ipsec_stop (self, NULL);
-	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
-	nm_vpn_plugin_set_state (NM_VPN_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
+	nm_vpn_service_plugin_failure (NM_VPN_SERVICE_PLUGIN (self), reason);
+	nm_vpn_service_plugin_set_state (NM_VPN_SERVICE_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
 }
 
 static gboolean
@@ -607,7 +607,7 @@ nm_openswan_config_write (gint fd,
                           gboolean libreswan,
                           GError **error)
 {
-	NMSettingVPN *s_vpn = nm_connection_get_setting_vpn (connection);
+	NMSettingVpn *s_vpn = nm_connection_get_setting_vpn (connection);
 	const char *con_name = nm_connection_get_uuid (connection);
 	const char *props_username;
 	const char *default_username;
@@ -671,7 +671,7 @@ nm_openswan_config_write (gint fd,
 }
 
 static gboolean
-nm_openswan_config_psk_write (NMSettingVPN *s_vpn,
+nm_openswan_config_psk_write (NMSettingVpn *s_vpn,
                               const char *secrets_path,
                               GError **error)
 {
@@ -879,7 +879,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	GIOStatus status;
 	gsize bytes_read = 0;
 	gboolean success = FALSE;
-	NMVPNConnectionStateReason reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
+	NMVpnConnectionStateReason reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
 	const char *found;
 
 	if (condition & (G_IO_ERR | G_IO_HUP)) {
@@ -921,7 +921,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 			priv->pending_auth = TRUE;
 			if (priv->interactive) {
 				DEBUG ("Requesting new secrets: '%s' (%s)", message, hints[0]);
-				nm_vpn_plugin_secrets_required (NM_VPN_PLUGIN (self), message, hints);
+				nm_vpn_service_plugin_secrets_required (NM_VPN_SERVICE_PLUGIN (self), message, hints);
 			} else {
 				/* Interactive not allowed, can't ask for more secrets */
 				g_warning ("More secrets required but cannot ask interactively");
@@ -1094,14 +1094,14 @@ is_libreswan (const char *path)
 }
 
 static gboolean
-_connect_common (NMVPNPlugin   *plugin,
+_connect_common (NMVpnServicePlugin   *plugin,
                  NMConnection  *connection,
-                 GHashTable    *details,
+                 GVariant      *details,
                  GError       **error)
 {
 	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn;
+	NMSettingVpn *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
 
 	if (debug)
@@ -1156,7 +1156,7 @@ _connect_common (NMVPNPlugin   *plugin,
 }
 
 static gboolean
-real_connect (NMVPNPlugin   *plugin,
+real_connect (NMVpnServicePlugin   *plugin,
               NMConnection  *connection,
               GError       **error)
 {
@@ -1164,9 +1164,9 @@ real_connect (NMVPNPlugin   *plugin,
 }
 
 static gboolean
-real_connect_interactive (NMVPNPlugin   *plugin,
+real_connect_interactive (NMVpnServicePlugin   *plugin,
                           NMConnection  *connection,
-                          GHashTable    *details,
+                          GVariant      *details,
                           GError       **error)
 {
 	if (!_connect_common (plugin, connection, details, error))
@@ -1177,22 +1177,22 @@ real_connect_interactive (NMVPNPlugin   *plugin,
 }
 
 static gboolean
-real_need_secrets (NMVPNPlugin *plugin,
+real_need_secrets (NMVpnServicePlugin *plugin,
                    NMConnection *connection,
-                   char **setting_name,
+                   const char **setting_name,
                    GError **error)
 {
-	NMSettingVPN *s_vpn;
+	NMSettingVpn *s_vpn;
 	const char *pw_type;
 
-	g_return_val_if_fail (NM_IS_VPN_PLUGIN (plugin), FALSE);
+	g_return_val_if_fail (NM_IS_VPN_SERVICE_PLUGIN (plugin), FALSE);
 	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
 	if (!s_vpn) {
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
+		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 		                     "Could not process the request because the VPN connection settings were invalid.");
 		return FALSE;
 	}
@@ -1217,13 +1217,13 @@ real_need_secrets (NMVPNPlugin *plugin,
 }
 
 static gboolean
-real_new_secrets (NMVPNPlugin *plugin,
+real_new_secrets (NMVpnServicePlugin *plugin,
                   NMConnection *connection,
                   GError **error)
 {
 	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn;
+	NMSettingVpn *s_vpn;
 	const char *message = NULL;
 	const char *hints[] = { NULL, NULL };
 
@@ -1231,7 +1231,7 @@ real_new_secrets (NMVPNPlugin *plugin,
 	if (!s_vpn) {
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_CONNECTION_INVALID,
+		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 		                     _("Could not process the request because the VPN connection settings were invalid."));
 		return FALSE;
 	}
@@ -1245,7 +1245,7 @@ real_new_secrets (NMVPNPlugin *plugin,
 	if (!handle_auth (self, &message, &hints[0])) {
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_GENERAL,
+		                     NM_VPN_PLUGIN_ERROR_FAILED,
 		                     _("Unhandled pending authentication."));
 		return FALSE;
 	}
@@ -1253,14 +1253,14 @@ real_new_secrets (NMVPNPlugin *plugin,
 	/* Request new secrets if we need any */
 	if (message) {
 		DEBUG ("Requesting new secrets: '%s'", message);
-		nm_vpn_plugin_secrets_required (plugin, message, hints);
+		nm_vpn_service_plugin_secrets_required (plugin, message, hints);
 	}
 
 	return TRUE;
 }
 
 static gboolean
-real_disconnect (NMVPNPlugin *plugin, GError **error)
+real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 {
 	connect_cleanup (NM_OPENSWAN_PLUGIN (plugin));
 	return ipsec_stop (NM_OPENSWAN_PLUGIN (plugin), error);
@@ -1284,7 +1284,7 @@ static void
 nm_openswan_plugin_class_init (NMOpenSwanPluginClass *openswan_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (openswan_class);
-	NMVPNPluginClass *parent_class = NM_VPN_PLUGIN_CLASS (openswan_class);
+	NMVpnServicePluginClass *parent_class = NM_VPN_SERVICE_PLUGIN_CLASS (openswan_class);
 
 	g_type_class_add_private (object_class, sizeof (NMOpenSwanPluginPrivate));
 
@@ -1330,6 +1330,7 @@ main (int argc, char *argv[])
 	NMOpenSwanPlugin *plugin;
 	gboolean persist = FALSE;
 	GOptionContext *opt_ctx = NULL;
+	GError *error = NULL;
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
@@ -1367,11 +1368,14 @@ main (int argc, char *argv[])
 	if (debug)
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
-	plugin = g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
-	                       NM_VPN_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
-	                       NULL);
-	if (!plugin)
+	plugin = g_initable_new (NM_TYPE_OPENSWAN_PLUGIN, NULL, &error,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
+	                         NULL);
+	if (!plugin) {
+                g_warning ("Failed to initialize a plugin instance: %s", error->message);
+                g_error_free (error);
 		exit (1);
+	}
 
 	loop = g_main_loop_new (NULL, FALSE);
 
