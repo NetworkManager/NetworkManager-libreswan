@@ -3,8 +3,11 @@ name=openswan
 service=org.freedesktop.NetworkManager.openswan
 program=@LIBEXECDIR@/nm-openswan-service
 
+[libnm]
+plugin=@PLUGINDIR@/libnm-openswan-properties
+
 [GNOME]
 auth-dialog=@LIBEXECDIR@/nm-openswan-auth-dialog
-properties=@PLUGINDIR@/libnm-openswan-properties
+properties=@PLUGINDIR@/libnm-openswan-properties-old
 supports-external-ui-mode=true
 supports-hints=true
