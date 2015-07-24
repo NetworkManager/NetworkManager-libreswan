@@ -1,5 +1,8 @@
 plugindir = $(libdir)/NetworkManager
-plugin_LTLIBRARIES = libnm-vpn-plugin-openswan.la libnm-openswan-properties.la
+plugin_LTLIBRARIES = libnm-vpn-plugin-openswan.la
+if WITH_LIBNM_GLIB
+plugin_LTLIBRARIES += libnm-openswan-properties.la
+endif
 
 common_CFLAGS = \
 	$(GLIB_CFLAGS) \

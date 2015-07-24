@@ -44,6 +44,8 @@ dnl GNOME support
 dnl
 AC_ARG_WITH(gnome, AS_HELP_STRING([--without-gnome], [Build NetworkManager-openswan without GNOME support, e.g. vpn service only]))
 AM_CONDITIONAL(WITH_GNOME, test x"$with_gnome" != xno)
+AC_ARG_WITH(libnm-glib, AS_HELP_STRING([--without-libnm-glib], [Build NetworkManager-openswan without libnm-glib comatibility]))
+AM_CONDITIONAL(WITH_LIBNM_GLIB, test x"$with_libnm_glib" != xno)
 
 dnl ensure that when the Automake generated makefile calls aclocal,
 dnl it honours the $ACLOCAL_FLAGS environment variable
@@ -67,20 +69,24 @@ PKG_CHECK_MODULES(DBUS, dbus-glib-1 >= 0.74)
 
 PKG_CHECK_MODULES(LIBNL, libnl-3.0 >= 3.2.8)
 
-PKG_CHECK_MODULES(LIBNM_GLIB,
-	NetworkManager >= 1.1.0
-	libnm-util >= 1.1.0
-	libnm-glib >= 1.1.0
-	libnm-glib-vpn >= 1.1.0)
-
 if test x"$with_gnome" != xno; then
 	PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.4)
 	GTK_CFLAGS="$GTK_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_4"
 
-	PKG_CHECK_MODULES(LIBNM_GTK, libnm-gtk >= 1.1.0)
 	PKG_CHECK_MODULES(LIBNMA, libnma >= 1.1.0)
-
 	PKG_CHECK_MODULES(LIBSECRET, libsecret-unstable)
+
+	if test x"$with_libnm_glib" != xno; then
+		PKG_CHECK_MODULES(LIBNM_GTK, libnm-gtk >= 1.1.0)
+		PKG_CHECK_MODULES(LIBNM_GLIB,
+			NetworkManager >= 1.1.0
+			libnm-util >= 1.1.0
+			libnm-glib >= 1.1.0
+			libnm-glib-vpn >= 1.1.0);
+
+		LIBNM_GLIB_CFLAGS="$LIBNM_GLIB_CFLAGS -DNM_VERSION_MIN_REQUIRED=NM_VERSION_1_1_0"
+		LIBNM_GLIB_CFLAGS="$LIBNM_GLIB_CFLAGS -DNM_VERSION_MAX_ALLOWED=NM_VERSION_1_1_0"
+	fi
 fi
 
 dnl
