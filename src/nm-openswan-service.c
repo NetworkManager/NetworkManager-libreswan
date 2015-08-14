@@ -1294,6 +1294,7 @@ main (int argc, char *argv[])
 	NMOpenSwanPlugin *plugin;
 	gboolean persist = FALSE;
 	GOptionContext *opt_ctx = NULL;
+	GError *error = NULL;
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
@@ -1331,11 +1332,14 @@ main (int argc, char *argv[])
 	if (debug)
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
-	plugin = g_object_new (NM_TYPE_OPENSWAN_PLUGIN,
-	                       NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
-	                       NULL);
-	if (!plugin)
+	plugin = g_initable_new (NM_TYPE_OPENSWAN_PLUGIN, NULL, &error,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
+	                         NULL);
+	if (!plugin) {
+                g_warning ("Failed to initialize a plugin instance: %s", error->message);
+                g_error_free (error);
 		exit (1);
+	}
 
 	loop = g_main_loop_new (NULL, FALSE);
 
