@@ -1,5 +1,8 @@
 plugindir = $(libdir)/NetworkManager
-plugin_LTLIBRARIES = libnm-openswan-properties.la libnm-openswan-properties-old.la
+plugin_LTLIBRARIES = libnm-openswan-properties.la
+if WITH_LIBNM_GLIB
+plugin_LTLIBRARIES += libnm-openswan-properties-old.la
+endif
 
 common_CFLAGS = \
 	$(GLIB_CFLAGS) \
