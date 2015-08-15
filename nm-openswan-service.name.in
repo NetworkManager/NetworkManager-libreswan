@@ -4,10 +4,10 @@ service=org.freedesktop.NetworkManager.openswan
 program=@LIBEXECDIR@/nm-openswan-service
 
 [libnm]
-plugin=@PLUGINDIR@/libnm-openswan-properties
+plugin=@PLUGINDIR@/libnm-vpn-plugin-openswan
 
 [GNOME]
 auth-dialog=@LIBEXECDIR@/nm-openswan-auth-dialog
-properties=@PLUGINDIR@/libnm-openswan-properties-old
+properties=@PLUGINDIR@/libnm-openswan-properties
 supports-external-ui-mode=true
 supports-hints=true
