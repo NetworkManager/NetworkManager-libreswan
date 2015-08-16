@@ -38,70 +38,44 @@
 #define _LINUX_IN6_H 1
 #include <linux/xfrm.h>
 
-#include <dbus/dbus.h>
-#include <dbus/dbus-glib-lowlevel.h>
-#include <dbus/dbus-glib.h>
 #include <NetworkManager.h>
 
 #include <nm-vpn-service-plugin.h>
 #include "nm-openswan-service.h"
 #include "nm-utils.h"
 
-/* These are here because nm-dbus-glib-types.h isn't exported */
-#define DBUS_TYPE_G_ARRAY_OF_UINT          (dbus_g_type_get_collection ("GArray", G_TYPE_UINT))
-#define DBUS_TYPE_G_ARRAY_OF_ARRAY_OF_UINT (dbus_g_type_get_collection ("GPtrArray", DBUS_TYPE_G_ARRAY_OF_UINT))
-
 static void
-helper_failed (DBusGConnection *connection, const char *reason)
+helper_failed (GDBusProxy *proxy, const char *reason)
 {
-	DBusGProxy *proxy;
 	GError *err = NULL;
 
 	g_warning ("This helper did not receive a valid %s from the IPSec daemon", reason);
 
-	proxy = dbus_g_proxy_new_for_name (connection,
-	                                   NM_DBUS_SERVICE_OPENSWAN,
-	                                   NM_VPN_DBUS_PLUGIN_PATH,
-	                                   NM_VPN_DBUS_PLUGIN_INTERFACE);
-
-	dbus_g_proxy_call (proxy, "SetFailure", &err,
-	                   G_TYPE_STRING, reason,
-	                   G_TYPE_INVALID,
-	                   G_TYPE_INVALID);
-
-	if (err) {
+	if (!g_dbus_proxy_call_sync (proxy, "SetFailure",
+	                             g_variant_new ("(s)", reason),
+	                             G_DBUS_CALL_FLAGS_NONE, -1,
+	                             NULL,
+	                             &err)) {
 		g_warning ("Could not send failure information: %s", err->message);
 		g_error_free (err);
 	}
-
-	g_object_unref (proxy);
 
 	exit (1);
 }
 
 static void
-send_ip4_config (DBusGConnection *connection, GHashTable *config)
+send_ip4_config (GDBusProxy *proxy, GVariant *config)
 {
-	DBusGProxy *proxy;
 	GError *err = NULL;
 
-	proxy = dbus_g_proxy_new_for_name (connection,
-	                                   NM_DBUS_SERVICE_OPENSWAN,
-	                                   NM_VPN_DBUS_PLUGIN_PATH,
-	                                   NM_VPN_DBUS_PLUGIN_INTERFACE);
-
-	dbus_g_proxy_call (proxy, "SetIp4Config", &err,
-	                   dbus_g_type_get_map ("GHashTable", G_TYPE_STRING, G_TYPE_VALUE),
-	                   config,
-	                   G_TYPE_INVALID,
-	                   G_TYPE_INVALID);
-
-	if (err) {
+	if (!g_dbus_proxy_call_sync (proxy, "SetIp4Config",
+	                             g_variant_new ("(*)", config),
+	                             G_DBUS_CALL_FLAGS_NONE, -1,
+	                             NULL,
+	                             &err)) {
 		g_warning ("Could not send IPv4 configuration: %s", err->message);
 		g_error_free (err);
 	}
-
-	g_object_unref (proxy);
 }
 
 /********************************************************************/
@@ -252,10 +226,9 @@ done:
 
 /********************************************************************/
 
-static GValue *
-str_to_gvalue (const char *str, gboolean try_convert)
+static GVariant *
+str_to_gvariant (const char *str, gboolean try_convert)
 {
-	GValue *val;
 
 	/* Empty */
 	if (!str || strlen (str) < 1)
@@ -270,41 +243,11 @@ str_to_gvalue (const char *str, gboolean try_convert)
 			return NULL;
 	}
 
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_STRING);
-	g_value_set_string (val, str);
-
-	return val;
+	return g_variant_new_string (str);
 }
 
-static GValue *
-uint_to_gvalue (guint32 num)
-{
-	GValue *val;
-
-	if (num == 0)
-		return NULL;
-
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_UINT);
-	g_value_set_uint (val, num);
-
-	return val;
-}
-
-static GValue *
-bool_to_gvalue (gboolean b)
-{
-	GValue *val;
-
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_BOOLEAN);
-	g_value_set_boolean (val, b);
-	return val;
-}
-
-static GValue *
-addr_to_gvalue (const char *str)
+static GVariant *
+addr4_to_gvariant (const char *str)
 {
 	struct in_addr	temp_addr;
 
@@ -315,16 +258,15 @@ addr_to_gvalue (const char *str)
 	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
 		return NULL;
 
-	return uint_to_gvalue (temp_addr.s_addr);
+	return g_variant_new_uint32 (temp_addr.s_addr);
 }
 
-static GValue *
-addr_list_to_gvalue (const char *str)
+static GVariant *
+addr4_list_to_gvariant (const char *str)
 {
-	GValue *val;
+	GVariantBuilder builder;
 	char **split;
 	int i;
-	GArray *array;
 
 	/* Empty */
 	if (!str || strlen (str) < 1)
@@ -334,26 +276,23 @@ addr_list_to_gvalue (const char *str)
 	if (g_strv_length (split) == 0)
 		return NULL;
 
-	array = g_array_sized_new (FALSE, TRUE, sizeof (guint32), g_strv_length (split));
+	g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
+
 	for (i = 0; split[i]; i++) {
 		struct in_addr addr;
 
 		if (inet_pton (AF_INET, split[i], &addr) > 0) {
-			g_array_append_val (array, addr.s_addr);
+			g_variant_builder_add_value (&builder, g_variant_new_uint32 (addr.s_addr));
 		} else {
 			g_strfreev (split);
-			g_array_free (array, TRUE);
+			g_variant_unref (g_variant_builder_end (&builder));
 			return NULL;
 		}
 	}
 
 	g_strfreev (split);
 
-	val = g_slice_new0 (GValue);
-	g_value_init (val, DBUS_TYPE_G_UINT_ARRAY);
-	g_value_set_boxed (val, array);
-
-	return val;
+	return g_variant_builder_end (&builder);
 }
 
 /*
@@ -375,10 +314,10 @@ addr_list_to_gvalue (const char *str)
 int 
 main (int argc, char *argv[])
 {
-	DBusGConnection *connection;
+	GDBusProxy *proxy;
 	char *tmp=NULL;
-	GHashTable *config;
-	GValue *val;
+	GVariantBuilder config;
+	GVariant *val;
 	GError *err = NULL;
 
 #if !GLIB_CHECK_VERSION (2, 35, 0)
@@ -395,81 +334,86 @@ main (int argc, char *argv[])
 		exit (0);
 
 	
-	connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, &err);
-	if (!connection) {
-		g_warning ("Could not get the system bus: %s", err->message);
+	proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
+	                                       G_DBUS_PROXY_FLAGS_NONE,
+	                                       NULL,
+	                                       NM_DBUS_SERVICE_OPENSWAN,
+	                                       NM_VPN_DBUS_PLUGIN_PATH,
+	                                       NM_VPN_DBUS_PLUGIN_INTERFACE,
+	                                       NULL, &err);
+	if (!proxy) {
+		g_warning ("Could not create a D-Bus proxy: %s", err->message);
+		g_error_free (err);
 		exit (1);
 	}
 
-	config = g_hash_table_new (g_str_hash, g_str_equal);
+	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
 
 	/* Right peer (or Gateway) */
-	val = addr_to_gvalue (getenv ("PLUTO_PEER"));
+	val = addr4_to_gvariant (getenv ("PLUTO_PEER"));
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
 	else
-		helper_failed (connection, "IPsec/Pluto Right Peer (VPN Gateway)");
+		helper_failed (proxy, "IPsec/Pluto Right Peer (VPN Gateway)");
 
 
 	/*
 	 * Tunnel device
 	 * Indicate that this plugin doesn't use tun/tap device
 	 */
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_STRING);
-	g_value_set_string (val, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
-	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
+	val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
 
 	/* IP address */
-	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
+	val = addr4_to_gvariant (getenv ("PLUTO_MY_SOURCEIP"));
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
 	else
-		helper_failed (connection, "IP4 Address");
+		helper_failed (proxy, "IP4 Address");
 
 	/* PTP address; PTP address == internal IP4 address */
-	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
+	val = addr4_to_gvariant (getenv ("PLUTO_MY_SOURCEIP"));
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else
-		helper_failed (connection, "IP4 PTP Address");
+		helper_failed (proxy, "IP4 PTP Address");
 
 	/* Netmask */
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_UINT);
-	g_value_set_uint (val, 32);
-	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
+	val = g_variant_new_uint32 (32);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
 
 	/* DNS */
-	val = addr_list_to_gvalue (getenv ("PLUTO_CISCO_DNS_INFO"));
+	val = addr4_list_to_gvariant (getenv ("PLUTO_CISCO_DNS_INFO"));
 	if (!val) {
 		/* libreswan value */
-		val = addr_list_to_gvalue (getenv ("PLUTO_PEER_DNS_INFO"));
+		val = addr4_list_to_gvariant (getenv ("PLUTO_PEER_DNS_INFO"));
 	}
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
 
 	/* Default domain */
-	val = str_to_gvalue (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
+	val = str_to_gvariant (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
 	if (!val) {
 		/* libreswan value */
-		val = str_to_gvalue (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
+		val = str_to_gvariant (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
 	}
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
 
 	/* Banner */
-	val = str_to_gvalue (getenv ("PLUTO_PEER_BANNER"), TRUE);
+	val = str_to_gvariant (getenv ("PLUTO_PEER_BANNER"), TRUE);
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
 	if (have_sad_routes (getenv ("PLUTO_PEER")))
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, bool_to_gvalue (TRUE));
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
 
 	/* Send the config info to the VPN plugin */
-	send_ip4_config (connection, config);
+	send_ip4_config (proxy, g_variant_builder_end (&config));
+
+	g_object_unref (proxy);
 
 	exit (0);
 }

@@ -1,5 +1,4 @@
 AM_CPPFLAGS = \
-	$(DBUS_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(LIBNM_CFLAGS) \
 	$(LIBNL_CFLAGS) \
@@ -21,7 +20,6 @@ nm_openswan_service_SOURCES = \
 	nm-openswan-service.h
 
 nm_openswan_service_LDADD = \
-	$(DBUS_LIBS) \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS) \
 	-lutil
@@ -30,7 +28,6 @@ nm_openswan_service_helper_SOURCES = \
 	nm-openswan-service-helper.c
 
 nm_openswan_service_helper_LDADD = \
-	$(DBUS_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNL_LIBS)
 
