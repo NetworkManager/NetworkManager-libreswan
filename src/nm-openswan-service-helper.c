@@ -78,7 +78,7 @@ helper_failed (DBusGConnection *connection, const char *reason)
 }
 
 static void
-send_ip4_config (DBusGConnection *connection, GHashTable *config)
+send_ip4_config (DBusGConnection *connection, GVariant *config)
 {
 	DBusGProxy *proxy;
 	GError *err = NULL;
@@ -250,10 +250,9 @@ done:
 
 /********************************************************************/
 
-static GValue *
-str_to_gvalue (const char *str, gboolean try_convert)
+static GVariant *
+str_to_gvariant (const char *str, gboolean try_convert)
 {
-	GValue *val;
 
 	/* Empty */
 	if (!str || strlen (str) < 1)
@@ -268,41 +267,11 @@ str_to_gvalue (const char *str, gboolean try_convert)
 			return NULL;
 	}
 
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_STRING);
-	g_value_set_string (val, str);
-
-	return val;
+	return g_variant_new_string (str);
 }
 
-static GValue *
-uint_to_gvalue (guint32 num)
-{
-	GValue *val;
-
-	if (num == 0)
-		return NULL;
-
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_UINT);
-	g_value_set_uint (val, num);
-
-	return val;
-}
-
-static GValue *
-bool_to_gvalue (gboolean b)
-{
-	GValue *val;
-
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_BOOLEAN);
-	g_value_set_boolean (val, b);
-	return val;
-}
-
-static GValue *
-addr_to_gvalue (const char *str)
+static GVariant *
+addr4_to_gvariant (const char *str)
 {
 	struct in_addr	temp_addr;
 
@@ -313,16 +282,15 @@ addr_to_gvalue (const char *str)
 	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
 		return NULL;
 
-	return uint_to_gvalue (temp_addr.s_addr);
+	return g_variant_new_uint32 (temp_addr.s_addr);
 }
 
-static GValue *
-addr_list_to_gvalue (const char *str)
+static GVariant *
+addr4_list_to_gvariant (const char *str)
 {
-	GValue *val;
+	GVariantBuilder builder;
 	char **split;
 	int i;
-	GArray *array;
 
 	/* Empty */
 	if (!str || strlen (str) < 1)
@@ -332,26 +300,23 @@ addr_list_to_gvalue (const char *str)
 	if (g_strv_length (split) == 0)
 		return NULL;
 
-	array = g_array_sized_new (FALSE, TRUE, sizeof (guint32), g_strv_length (split));
+	g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
+
 	for (i = 0; split[i]; i++) {
 		struct in_addr addr;
 
 		if (inet_pton (AF_INET, split[i], &addr) > 0) {
-			g_array_append_val (array, addr.s_addr);
+			g_variant_builder_add_value (&builder, g_variant_new_uint32 (addr.s_addr));
 		} else {
 			g_strfreev (split);
-			g_array_free (array, TRUE);
+			g_variant_unref (g_variant_builder_end (&builder));
 			return NULL;
 		}
 	}
 
 	g_strfreev (split);
 
-	val = g_slice_new0 (GValue);
-	g_value_init (val, DBUS_TYPE_G_UINT_ARRAY);
-	g_value_set_boxed (val, array);
-
-	return val;
+	return g_variant_builder_end (&builder);
 }
 
 /*
@@ -375,8 +340,8 @@ main (int argc, char *argv[])
 {
 	DBusGConnection *connection;
 	char *tmp=NULL;
-	GHashTable *config;
-	GValue *val;
+	GVariantBuilder config;
+	GVariant *val;
 	GError *err = NULL;
 
 #if !GLIB_CHECK_VERSION (2, 35, 0)
@@ -399,13 +364,13 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 
-	config = g_hash_table_new (g_str_hash, g_str_equal);
+	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
 
 	/* Right peer (or Gateway) */
-	val = addr_to_gvalue (getenv ("PLUTO_PEER"));
+	val = addr4_to_gvariant (getenv ("PLUTO_PEER"));
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
 	else
 		helper_failed (connection, "IPsec/Pluto Right Peer (VPN Gateway)");
 
@@ -414,60 +379,56 @@ main (int argc, char *argv[])
 	 * Tunnel device
 	 * Indicate that this plugin doesn't use tun/tap device
 	 */
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_STRING);
-	g_value_set_string (val, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
-	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
+	val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
 
 	/* IP address */
-	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
+	val = addr4_to_gvariant (getenv ("PLUTO_MY_SOURCEIP"));
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
 	else
 		helper_failed (connection, "IP4 Address");
 
 	/* PTP address; PTP address == internal IP4 address */
-	val = addr_to_gvalue (getenv ("PLUTO_MY_SOURCEIP"));
+	val = addr4_to_gvariant (getenv ("PLUTO_MY_SOURCEIP"));
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else
 		helper_failed (connection, "IP4 PTP Address");
 
 	/* Netmask */
-	val = g_slice_new0 (GValue);
-	g_value_init (val, G_TYPE_UINT);
-	g_value_set_uint (val, 32);
-	g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
+	val = g_variant_new_uint32 (32);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
 
 	/* DNS */
-	val = addr_list_to_gvalue (getenv ("PLUTO_CISCO_DNS_INFO"));
+	val = addr4_list_to_gvariant (getenv ("PLUTO_CISCO_DNS_INFO"));
 	if (!val) {
 		/* libreswan value */
-		val = addr_list_to_gvalue (getenv ("PLUTO_PEER_DNS_INFO"));
+		val = addr4_list_to_gvariant (getenv ("PLUTO_PEER_DNS_INFO"));
 	}
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
 
 	/* Default domain */
-	val = str_to_gvalue (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
+	val = str_to_gvariant (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
 	if (!val) {
 		/* libreswan value */
-		val = str_to_gvalue (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
+		val = str_to_gvariant (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
 	}
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
 
 	/* Banner */
-	val = str_to_gvalue (getenv ("PLUTO_PEER_BANNER"), TRUE);
+	val = str_to_gvariant (getenv ("PLUTO_PEER_BANNER"), TRUE);
 	if (val)
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
 	if (have_sad_routes (getenv ("PLUTO_PEER")))
-		g_hash_table_insert (config, NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, bool_to_gvalue (TRUE));
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
 
 	/* Send the config info to the VPN plugin */
-	send_ip4_config (connection, config);
+	send_ip4_config (connection, g_variant_builder_end (&config));
 
 	exit (0);
 }
