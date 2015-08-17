@@ -442,6 +442,7 @@ connect_failed (NMOpenSwanPlugin *self,
 	if (do_stop)
 		ipsec_stop (self, NULL);
 	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
+	nm_vpn_service_plugin_set_state (NM_VPN_SERVICE_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
 }
 
 static gboolean
