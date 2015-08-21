@@ -9,8 +9,13 @@ endif
 dbusservicedir = $(sysconfdir)/dbus-1/system.d
 dbusservice_DATA = nm-openswan-service.conf
 
-nmvpnservicedir = $(sysconfdir)/NetworkManager/VPN
+nmvpnservicedir = $(NM_VPN_SERVICE_DIR)
 nmvpnservice_DATA = nm-openswan-service.name
+
+if WITH_LIBNM_GLIB
+nmvpnoldservicedir = $(sysconfdir)/NetworkManager/VPN
+nmvpnoldservice_DATA = nm-openswan-service.name
+endif
 
 nm-openswan-service.name: $(srcdir)/nm-openswan-service.name.in
 	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' \
