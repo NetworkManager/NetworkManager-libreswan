@@ -4,7 +4,7 @@ service=org.freedesktop.NetworkManager.openswan
 program=@LIBEXECDIR@/nm-openswan-service
 
 [libnm]
-plugin=@PLUGINDIR@/libnm-vpn-plugin-openswan
+plugin=@PLUGINDIR@/libnm-vpn-plugin-openswan.so
 
 [GNOME]
 auth-dialog=@LIBEXECDIR@/nm-openswan-auth-dialog
