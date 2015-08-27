@@ -779,7 +779,6 @@ spawn_pty (int *out_stdout,
 		g_error ("PTY spawn: cannot exec '%s'", (char *) argv->pdata[0]);
 		_exit (-1);
 	}
-	g_ptr_array_free (argv, TRUE);
 
 	/* Close child side's pipes */
 	close (stderr_pipe[1]);
@@ -792,8 +791,10 @@ spawn_pty (int *out_stdout,
 		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn failed for '%s' (%d)",
 		             (char *) argv->pdata[0], child_pid);
+		g_ptr_array_free (argv, TRUE);
 		return FALSE;
 	}
+	g_ptr_array_free (argv, TRUE);
 
 	/*  Set pipes non-blocking, so we can read big buffers
 	 *  in the callback without having to use FIONREAD
