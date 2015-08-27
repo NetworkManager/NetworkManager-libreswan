@@ -137,6 +137,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_OPENSWAN_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
 	{ NM_OPENSWAN_IKE,                        G_TYPE_STRING, 0, 0 },
 	{ NM_OPENSWAN_ESP,                        G_TYPE_STRING, 0, 0 },
+	{ NM_OPENSWAN_VENDOR,                     G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_OPENSWAN_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
 	{ NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
@@ -655,7 +656,7 @@ nm_openswan_config_write (gint fd,
 	write_config_option (fd, " salifetime=24h\n");
 	write_config_option (fd, " ikelifetime=24h\n");
 	write_config_option (fd, " keyingtries=1\n");
-	if (libreswan)
+	if (libreswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_VENDOR), "Cisco") == 0)
 		write_config_option (fd, " cisco-unity=yes\n");
 	write_config_option (fd, " auto=add");
 
