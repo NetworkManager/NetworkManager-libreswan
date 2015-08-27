@@ -20,9 +20,11 @@
 #define _GNU_SOURCE 1
 #include <netlink/netlink.h>
 #include <netlink/msg.h>
-#include <linux/xfrm.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+
+#define _LINUX_IN6_H 1
+#include <linux/xfrm.h>
 
 #include <glib.h>
 
