@@ -88,6 +88,7 @@ typedef struct {
 
 	GPid pid;
 	guint watch_id;
+	guint retries;
 	ConnectStep connect_step;
 	NMConnection *connection;
 
@@ -441,6 +442,20 @@ connect_failed (NMOpenSwanPlugin *self,
 	if (do_stop)
 		ipsec_stop (self, NULL);
 	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
+	nm_vpn_service_plugin_set_state (NM_VPN_SERVICE_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
+}
+
+static gboolean
+retry_cb (gpointer user_data)
+{
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	GError *error = NULL;
+
+	if (!connect_step (self, &error))
+		connect_failed (self, TRUE, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+	g_clear_error (&error);
+
+	return FALSE;
 }
 
 static void
@@ -466,17 +481,25 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	if (WIFEXITED (status)) {
 		ret = WEXITSTATUS (status);
 		if (ret)
-			g_warning ("Spawn: child %d exited with error code %d", pid, ret);
+			g_message ("Spawn: child %d exited with error code %d", pid, ret);
 	} else
 		g_warning ("Spawn: child %d died unexpectedly", pid);
 
 	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
 
+	if (ret != 0 && priv->retries) {
+		priv->retries--;
+		g_message ("Spawn: %d more tries...", priv->retries);
+		g_timeout_add (100, retry_cb, self);
+		return;
+	}
+
 	if (ret == 0) {
 		/* Success; do the next connect step */
 		do_stop = TRUE;
 		priv->connect_step++;
+		priv->retries = 0;
 		if (!connect_step (self, &error))
 			ret = 1;
 	}
@@ -1009,6 +1032,8 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_WAIT_READY:
+		if (!priv->retries)
+			priv->retries = 30;
 		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--ready", NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
