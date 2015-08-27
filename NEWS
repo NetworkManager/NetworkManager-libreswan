@@ -1,4 +1,15 @@
 =======================================================
+network-manager-openswan-1.0.6
+Overview of changes since network-manager-openswan-1.0.2
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Libreswan startup robustness improvments
+* Build fixes
+
+
+=======================================================
 network-manager-openswan-1.0.2
 Overview of changes since network-manager-openswan-1.0
 =======================================================
