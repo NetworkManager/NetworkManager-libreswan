@@ -88,6 +88,7 @@ typedef struct {
 
 	GPid pid;
 	guint watch_id;
+	guint retry_id;
 	guint retries;
 	ConnectStep connect_step;
 	NMConnection *connection;
@@ -368,6 +369,11 @@ connect_cleanup (NMOpenSwanPlugin *self)
 		priv->pid = 0;
 	}
 
+	if (priv->watch_id) {
+		g_source_remove (priv->watch_id);
+		priv->watch_id = 0;
+	}
+
 	if (priv->io_id) {
 		g_source_remove (priv->io_id);
 		priv->io_id = 0;
@@ -449,7 +455,10 @@ static gboolean
 retry_cb (gpointer user_data)
 {
 	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	GError *error = NULL;
+
+	priv->retry_id = 0;
 
 	if (!connect_step (self, &error))
 		connect_failed (self, TRUE, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
@@ -491,7 +500,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	if (ret != 0 && priv->retries) {
 		priv->retries--;
 		g_message ("Spawn: %d more tries...", priv->retries);
-		g_timeout_add (100, retry_cb, self);
+		priv->retry_id = g_timeout_add (100, retry_cb, self);
 		return;
 	}
 
