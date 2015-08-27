@@ -34,6 +34,8 @@
 
 #include <netlink/netlink.h>
 #include <netlink/msg.h>
+
+#define _LINUX_IN6_H 1
 #include <linux/xfrm.h>
 
 #include <dbus/dbus.h>
