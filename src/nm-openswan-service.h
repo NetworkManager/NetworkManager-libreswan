@@ -41,6 +41,7 @@
 #define NM_OPENSWAN_DPDTIMEOUT "dpdtimeout"
 #define NM_OPENSWAN_IKE  "ike"
 #define NM_OPENSWAN_ESP  "esp"
+#define NM_OPENSWAN_VENDOR  "vendor"
 
 #define NM_OPENSWAN_PW_TYPE_SAVE   "save"
 #define NM_OPENSWAN_PW_TYPE_ASK    "ask"
