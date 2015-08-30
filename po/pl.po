@@ -5,14 +5,14 @@
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2008-2009.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2014.
-# Aviary.pl <gnomepl@aviary.pl>, 2008-2014.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2015.
+# Aviary.pl <gnomepl@aviary.pl>, 2008-2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-openswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-14 13:03+0100\n"
-"PO-Revision-Date: 2014-12-14 13:04+0100\n"
+"POT-Creation-Date: 2015-08-30 17:30+0200\n"
+"PO-Revision-Date: 2015-08-30 17:32+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -49,7 +49,7 @@ msgstr "Hasło g_rupy:"
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
-"Aby uzyskać dostęp do wirtualnej sieci prywatnej \"%s\", należy dokonać "
+"Aby uzyskać dostęp do wirtualnej sieci prywatnej „%s”, należy dokonać "
 "uwierzytelnienia."
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
@@ -60,23 +60,23 @@ msgstr "Sieć"
 msgid "Request VPN authentication"
 msgstr "Żądanie uwierzytelnienia sieci VPN"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-openswan.c:45
 msgid "IPsec based VPN"
 msgstr "VPN oparte na IPsec"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-openswan.c:46
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN oparte na IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:303
+#: ../properties/nm-openswan.c:301
 msgid "Saved"
 msgstr "Zapisano"
 
-#: ../properties/nm-openswan.c:310
+#: ../properties/nm-openswan.c:308
 msgid "Always Ask"
 msgstr "Pytanie zawsze"
 
-#: ../properties/nm-openswan.c:317
+#: ../properties/nm-openswan.c:315
 msgid "Not Required"
 msgstr "Niewymagane"
 
@@ -128,11 +128,11 @@ msgstr "Algorytmy fazy drugiej:"
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../src/nm-openswan-service.c:831
+#: ../src/nm-openswan-service.c:867
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-openswan-service.c:1197
+#: ../src/nm-openswan-service.c:1235
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -140,19 +140,19 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-openswan-service.c:1211
+#: ../src/nm-openswan-service.c:1249
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-openswan-service.c:1297
+#: ../src/nm-openswan-service.c:1335
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-openswan-service.c:1298
+#: ../src/nm-openswan-service.c:1336
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-openswan-service.c:1321
+#: ../src/nm-openswan-service.c:1359
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
