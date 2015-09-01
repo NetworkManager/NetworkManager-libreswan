@@ -34,17 +34,29 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#ifdef NM_OPENSWAN_OLD
+#define NM_VPN_LIBNM_COMPAT
 #include <nm-vpn-plugin-ui-interface.h>
 #include <nm-setting-vpn.h>
 #include <nm-setting-connection.h>
 #include <nm-setting-ip4-config.h>
+
+#define OPENSWAN_EDITOR_PLUGIN_ERROR                  NM_SETTING_VPN_ERROR
+#define OPENSWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_SETTING_VPN_ERROR_INVALID_PROPERTY
+
+#else /* !NM_OPENSWAN_OLD */
+
+#include <NetworkManager.h>
+
+#define OPENSWAN_EDITOR_PLUGIN_ERROR                  NM_CONNECTION_ERROR
+#define OPENSWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_CONNECTION_ERROR_INVALID_PROPERTY
+#endif
 
 #include "nm-openswan-service.h"
 #include "nm-openswan.h"
 
 #define OPENSWAN_PLUGIN_NAME    _("IPsec based VPN")
 #define OPENSWAN_PLUGIN_DESC    _("IPsec, IKEv1, IKEv2 based VPN")
-#define OPENSWAN_PLUGIN_SERVICE NM_DBUS_SERVICE_OPENSWAN 
 
 #define ENC_TYPE_SECURE 0
 #define ENC_TYPE_WEAK   1
@@ -56,72 +68,40 @@
 
 /************** plugin class **************/
 
-static void openswan_plugin_ui_interface_init (NMVpnPluginUiInterface *iface_class);
+enum {
+	PROP_0,
+	PROP_NAME,
+	PROP_DESC,
+	PROP_SERVICE
+};
 
-G_DEFINE_TYPE_EXTENDED (OpenswanPluginUi, openswan_plugin_ui, G_TYPE_OBJECT, 0,
-                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_PLUGIN_UI_INTERFACE,
-                                               openswan_plugin_ui_interface_init))
+static void openswan_editor_plugin_interface_init (NMVpnEditorPluginInterface *iface_class);
+
+G_DEFINE_TYPE_EXTENDED (OpenswanEditorPlugin, openswan_editor_plugin, G_TYPE_OBJECT, 0,
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR_PLUGIN,
+                                               openswan_editor_plugin_interface_init))
 
 /************** UI widget class **************/
 
-static void openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_class);
+static void openswan_editor_interface_init (NMVpnEditorInterface *iface_class);
 
-G_DEFINE_TYPE_EXTENDED (OpenswanPluginUiWidget, openswan_plugin_ui_widget, G_TYPE_OBJECT, 0,
-                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_PLUGIN_UI_WIDGET_INTERFACE,
-                                               openswan_plugin_ui_widget_interface_init))
+G_DEFINE_TYPE_EXTENDED (OpenswanEditor, openswan_editor, G_TYPE_OBJECT, 0,
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR,
+                                               openswan_editor_interface_init))
 
-#define OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), OPENSWAN_TYPE_PLUGIN_UI_WIDGET, OpenswanPluginUiWidgetPrivate))
+#define OPENSWAN_EDITOR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), OPENSWAN_TYPE_EDITOR, OpenswanEditorPrivate))
 
 typedef struct {
 	GtkBuilder *builder;
 	GtkWidget *widget;
 	GtkSizeGroup *group;
-} OpenswanPluginUiWidgetPrivate;
-
-
-#define OPENSWAN_PLUGIN_UI_ERROR openswan_plugin_ui_error_quark ()
-
-static GQuark
-openswan_plugin_ui_error_quark (void)
-{
-	static GQuark error_quark = 0;
-
-	if (G_UNLIKELY (error_quark == 0))
-		error_quark = g_quark_from_static_string ("openswan-plugin-ui-error-quark");
-
-	return error_quark;
-}
-
-/* This should really be standard. */
-#define ENUM_ENTRY(NAME, DESC) { NAME, "" #NAME "", DESC }
-
-GType
-openswan_plugin_ui_error_get_type (void)
-{
-	static GType etype = 0;
-
-	if (etype == 0) {
-		static const GEnumValue values[] = {
-			/* Unknown error. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_UNKNOWN, "UnknownError"),
-			/* The specified property was invalid. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY, "InvalidProperty"),
-			/* The specified property was missing and is required. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_MISSING_PROPERTY, "MissingProperty"),
-			/* The connection was missing invalid. */
-			ENUM_ENTRY (OPENSWAN_PLUGIN_UI_ERROR_INVALID_CONNECTION, "InvalidConnection"),
-			{ 0, 0, 0 }
-		};
-		etype = g_enum_register_static ("OpenswanPluginUiError", values);
-	}
-	return etype;
-}
+} OpenswanEditorPrivate;
 
 
 static gboolean
-check_validity (OpenswanPluginUiWidget *self, GError **error)
+check_validity (OpenswanEditor *self, GError **error)
 {
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
 	GtkWidget *widget;
 	char *str;
 
@@ -129,8 +109,8 @@ check_validity (OpenswanPluginUiWidget *self, GError **error)
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (!str || !strlen (str) || strstr (str, " ") || strstr (str, "\t")) {
 		g_set_error (error,
-		             OPENSWAN_PLUGIN_UI_ERROR,
-		             OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY,
+		             OPENSWAN_EDITOR_PLUGIN_ERROR,
+		             OPENSWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
 		             NM_OPENSWAN_RIGHT);
 		return FALSE;
 	}
@@ -139,8 +119,8 @@ check_validity (OpenswanPluginUiWidget *self, GError **error)
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (!str || !strlen (str)) {
 		g_set_error (error,
-		             OPENSWAN_PLUGIN_UI_ERROR,
-		             OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY,
+		             OPENSWAN_EDITOR_PLUGIN_ERROR,
+		             OPENSWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
 		             NM_OPENSWAN_LEFTID);
 		return FALSE;
 	}
@@ -151,17 +131,17 @@ check_validity (OpenswanPluginUiWidget *self, GError **error)
 static void
 stuff_changed_cb (GtkWidget *widget, gpointer user_data)
 {
-	g_signal_emit_by_name (OPENSWAN_PLUGIN_UI_WIDGET (user_data), "changed");
+	g_signal_emit_by_name (OPENSWAN_EDITOR (user_data), "changed");
 }
 
 static void
-setup_password_widget (OpenswanPluginUiWidget *self,
+setup_password_widget (OpenswanEditor *self,
                        const char *entry_name,
-                       NMSettingVPN *s_vpn,
+                       NMSettingVpn *s_vpn,
                        const char *secret_name,
                        gboolean new_connection)
 {
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
 	NMSettingSecretFlags secret_flags = NM_SETTING_SECRET_FLAG_NONE;
 	GtkWidget *widget;
 	const char *value;
@@ -185,9 +165,9 @@ setup_password_widget (OpenswanPluginUiWidget *self,
 }
 
 static void
-show_toggled_cb (GtkCheckButton *button, OpenswanPluginUiWidget *self)
+show_toggled_cb (GtkCheckButton *button, OpenswanEditor *self)
 {
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
 	GtkWidget *widget;
 	gboolean visible;
 
@@ -203,9 +183,9 @@ show_toggled_cb (GtkCheckButton *button, OpenswanPluginUiWidget *self)
 }
 
 static void
-pw_type_changed_helper (OpenswanPluginUiWidget *self, GtkWidget *combo)
+pw_type_changed_helper (OpenswanEditor *self, GtkWidget *combo)
 {
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
 	const char *entry = NULL;
 	GtkWidget *widget;
 
@@ -241,14 +221,14 @@ pw_type_changed_helper (OpenswanPluginUiWidget *self, GtkWidget *combo)
 static void
 pw_type_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 {
-	OpenswanPluginUiWidget *self = OPENSWAN_PLUGIN_UI_WIDGET (user_data);
+	OpenswanEditor *self = OPENSWAN_EDITOR (user_data);
 
 	pw_type_changed_helper (self, combo);
 	stuff_changed_cb (combo, self);
 }
 
 static const char *
-secret_flags_to_pw_type (NMSettingVPN *s_vpn, const char *key)
+secret_flags_to_pw_type (NMSettingVpn *s_vpn, const char *key)
 {
 	NMSettingSecretFlags flags = NM_SETTING_SECRET_FLAG_NONE;
 
@@ -263,14 +243,14 @@ secret_flags_to_pw_type (NMSettingVPN *s_vpn, const char *key)
 }
 
 static void
-init_one_pw_combo (OpenswanPluginUiWidget *self,
-                   NMSettingVPN *s_vpn,
+init_one_pw_combo (OpenswanEditor *self,
+                   NMSettingVpn *s_vpn,
                    const char *combo_name,
                    const char *secret_key,
                    const char *type_key,
                    const char *entry_name)
 {
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
 	int active = -1;
 	GtkWidget *widget;
 	GtkListStore *store;
@@ -330,13 +310,13 @@ init_one_pw_combo (OpenswanPluginUiWidget *self,
 
 
 static gboolean
-init_plugin_ui (OpenswanPluginUiWidget *self,
+init_editor_plugin (OpenswanEditor *self,
                 NMConnection *connection,
                 gboolean new_connection,
                 GError **error)
 {
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn = NULL;
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
+	NMSettingVpn *s_vpn = NULL;
 	GtkWidget *widget;
 	const char *value = NULL;
 
@@ -443,16 +423,16 @@ init_plugin_ui (OpenswanPluginUiWidget *self,
 }
 
 static GObject *
-get_widget (NMVpnPluginUiWidgetInterface *iface)
+get_widget (NMVpnEditor *iface)
 {
-	OpenswanPluginUiWidget *self = OPENSWAN_PLUGIN_UI_WIDGET (iface);
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
+	OpenswanEditor *self = OPENSWAN_EDITOR (iface);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
 
 	return G_OBJECT (priv->widget);
 }
 
 static void
-save_one_password (NMSettingVPN *s_vpn,
+save_one_password (NMSettingVpn *s_vpn,
                    GtkBuilder *builder,
                    const char *entry_name,
                    const char *combo_name,
@@ -491,13 +471,13 @@ save_one_password (NMSettingVPN *s_vpn,
 }
 
 static gboolean
-update_connection (NMVpnPluginUiWidgetInterface *iface,
+update_connection (NMVpnEditor *iface,
                    NMConnection *connection,
                    GError **error)
 {
-	OpenswanPluginUiWidget *self = OPENSWAN_PLUGIN_UI_WIDGET (iface);
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (self);
-	NMSettingVPN *s_vpn;
+	OpenswanEditor *self = OPENSWAN_EDITOR (iface);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (self);
+	NMSettingVpn *s_vpn;
 	GtkWidget *widget;
 	char *str;
 
@@ -569,25 +549,25 @@ is_new_func (const char *key, const char *value, gpointer user_data)
 	*is_new = FALSE;
 }
 
-static NMVpnPluginUiWidgetInterface *
-nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
+static NMVpnEditor *
+nm_vpn_editor_interface_new (NMConnection *connection, GError **error)
 {
-	NMVpnPluginUiWidgetInterface *object;
-	OpenswanPluginUiWidgetPrivate *priv;
+	NMVpnEditor *object;
+	OpenswanEditorPrivate *priv;
 	char *ui_file;
-	NMSettingVPN *s_vpn;
+	NMSettingVpn *s_vpn;
 	gboolean is_new = TRUE;
 
 	if (error)
 		g_return_val_if_fail (*error == NULL, NULL);
 
-	object = NM_VPN_PLUGIN_UI_WIDGET_INTERFACE (g_object_new (OPENSWAN_TYPE_PLUGIN_UI_WIDGET, NULL));
+	object = g_object_new (OPENSWAN_TYPE_EDITOR, NULL);
 	if (!object) {
-		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0, "could not create openswan object");
+		g_set_error (error, OPENSWAN_EDITOR_PLUGIN_ERROR, 0, "could not create openswan object");
 		return NULL;
 	}
 
-	priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (object);
+	priv = OPENSWAN_EDITOR_GET_PRIVATE (object);
 
 	ui_file = g_strdup_printf ("%s/%s", UIDIR, "nm-openswan-dialog.ui");
 	priv->builder = gtk_builder_new ();
@@ -599,7 +579,7 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 		g_warning ("Couldn't load builder file: %s",
 		           error && *error ? (*error)->message : "(unknown)");
 		g_clear_error (error);
-		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0,
+		g_set_error (error, OPENSWAN_EDITOR_PLUGIN_ERROR, 0,
 		             "could not load required resources at %s", ui_file);
 		g_free (ui_file);
 		g_object_unref (object);
@@ -609,7 +589,7 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 
 	priv->widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "openswan-vbox"));
 	if (!priv->widget) {
-		g_set_error (error, OPENSWAN_PLUGIN_UI_ERROR, 0, "could not load UI widget");
+		g_set_error (error, OPENSWAN_EDITOR_PLUGIN_ERROR, 0, "could not load UI widget");
 		g_object_unref (object);
 		return NULL;
 	}
@@ -619,7 +599,7 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 	if (s_vpn)
 		nm_setting_vpn_foreach_data_item (s_vpn, is_new_func, &is_new);
 
-	if (!init_plugin_ui (OPENSWAN_PLUGIN_UI_WIDGET (object), connection, is_new, error)) {
+	if (!init_editor_plugin (OPENSWAN_EDITOR (object), connection, is_new, error)) {
 		g_object_unref (object);
 		return NULL;
 	}
@@ -630,8 +610,8 @@ nm_vpn_plugin_ui_widget_interface_new (NMConnection *connection, GError **error)
 static void
 dispose (GObject *object)
 {
-	OpenswanPluginUiWidget *plugin = OPENSWAN_PLUGIN_UI_WIDGET (object);
-	OpenswanPluginUiWidgetPrivate *priv = OPENSWAN_PLUGIN_UI_WIDGET_GET_PRIVATE (plugin);
+	OpenswanEditor *plugin = OPENSWAN_EDITOR (object);
+	OpenswanEditorPrivate *priv = OPENSWAN_EDITOR_GET_PRIVATE (plugin);
 
 	if (priv->group)
 		g_object_unref (priv->group);
@@ -642,26 +622,26 @@ dispose (GObject *object)
 	if (priv->builder)
 		g_object_unref (priv->builder);
 
-	G_OBJECT_CLASS (openswan_plugin_ui_widget_parent_class)->dispose (object);
+	G_OBJECT_CLASS (openswan_editor_parent_class)->dispose (object);
 }
 
 static void
-openswan_plugin_ui_widget_class_init (OpenswanPluginUiWidgetClass *req_class)
+openswan_editor_class_init (OpenswanEditorClass *req_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (req_class);
 
-	g_type_class_add_private (req_class, sizeof (OpenswanPluginUiWidgetPrivate));
+	g_type_class_add_private (req_class, sizeof (OpenswanEditorPrivate));
 
 	object_class->dispose = dispose;
 }
 
 static void
-openswan_plugin_ui_widget_init (OpenswanPluginUiWidget *plugin)
+openswan_editor_init (OpenswanEditor *plugin)
 {
 }
 
 static void
-openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_class)
+openswan_editor_interface_init (NMVpnEditorInterface *iface_class)
 {
 	/* interface implementation */
 	iface_class->get_widget = get_widget;
@@ -669,15 +649,15 @@ openswan_plugin_ui_widget_interface_init (NMVpnPluginUiWidgetInterface *iface_cl
 }
 
 static guint32
-get_capabilities (NMVpnPluginUiInterface *iface)
+get_capabilities (NMVpnEditorPlugin *iface)
 {
-	return NM_VPN_PLUGIN_UI_CAPABILITY_NONE;
+	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_NONE;
 }
 
-static NMVpnPluginUiWidgetInterface *
-ui_factory (NMVpnPluginUiInterface *iface, NMConnection *connection, GError **error)
+static NMVpnEditor *
+get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
 {
-	return nm_vpn_plugin_ui_widget_interface_new (connection, error);
+	return nm_vpn_editor_interface_new (connection, error);
 }
 
 static void
@@ -685,14 +665,14 @@ get_property (GObject *object, guint prop_id,
               GValue *value, GParamSpec *pspec)
 {
 	switch (prop_id) {
-	case NM_VPN_PLUGIN_UI_INTERFACE_PROP_NAME:
+	case PROP_NAME:
 		g_value_set_string (value, OPENSWAN_PLUGIN_NAME);
 		break;
-	case NM_VPN_PLUGIN_UI_INTERFACE_PROP_DESC:
+	case PROP_DESC:
 		g_value_set_string (value, OPENSWAN_PLUGIN_DESC);
 		break;
-	case NM_VPN_PLUGIN_UI_INTERFACE_PROP_SERVICE:
-		g_value_set_string (value, OPENSWAN_PLUGIN_SERVICE);
+	case PROP_SERVICE:
+		g_value_set_string (value, NM_DBUS_SERVICE_OPENSWAN);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -701,44 +681,44 @@ get_property (GObject *object, guint prop_id,
 }
 
 static void
-openswan_plugin_ui_class_init (OpenswanPluginUiClass *req_class)
+openswan_editor_plugin_class_init (OpenswanEditorPluginClass *req_class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (req_class);
 
 	object_class->get_property = get_property;
 
 	g_object_class_override_property (object_class,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_PROP_NAME,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_NAME);
+	                                  PROP_NAME,
+	                                  NM_VPN_EDITOR_PLUGIN_NAME);
 
 	g_object_class_override_property (object_class,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_PROP_DESC,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_DESC);
+	                                  PROP_DESC,
+	                                  NM_VPN_EDITOR_PLUGIN_DESCRIPTION);
 
 	g_object_class_override_property (object_class,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_PROP_SERVICE,
-	                                  NM_VPN_PLUGIN_UI_INTERFACE_SERVICE);
+	                                  PROP_SERVICE,
+	                                  NM_VPN_EDITOR_PLUGIN_SERVICE);
 }
 
 static void
-openswan_plugin_ui_init (OpenswanPluginUi *plugin)
+openswan_editor_plugin_init (OpenswanEditorPlugin *plugin)
 {
 }
 
 static void
-openswan_plugin_ui_interface_init (NMVpnPluginUiInterface *iface_class)
+openswan_editor_plugin_interface_init (NMVpnEditorPluginInterface *iface_class)
 {
 	/* interface implementation */
-	iface_class->ui_factory = ui_factory;
+	iface_class->get_editor = get_editor;
 	iface_class->get_capabilities = get_capabilities;
 	iface_class->import_from_file = NULL;
 	iface_class->export_to_file = NULL;
-	iface_class->get_suggested_name = NULL;
+	iface_class->get_suggested_filename = NULL;
 }
 
 
-G_MODULE_EXPORT NMVpnPluginUiInterface *
-nm_vpn_plugin_ui_factory (GError **error)
+G_MODULE_EXPORT NMVpnEditorPlugin *
+nm_vpn_editor_plugin_factory (GError **error)
 {
 	if (error)
 		g_return_val_if_fail (*error == NULL, NULL);
@@ -746,6 +726,6 @@ nm_vpn_plugin_ui_factory (GError **error)
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
-	return NM_VPN_PLUGIN_UI_INTERFACE (g_object_new (OPENSWAN_TYPE_PLUGIN_UI, NULL));
+	return g_object_new (OPENSWAN_TYPE_EDITOR_PLUGIN, NULL);
 }
 
