@@ -61,6 +61,7 @@ GMainLoop *loop = NULL;
 
 typedef enum {
     CONNECT_STEP_FIRST,
+    CONNECT_STEP_CHECK_RUNNING,
     CONNECT_STEP_STACK_INIT,
     CONNECT_STEP_IPSEC_START,
     CONNECT_STEP_WAIT_READY,
@@ -85,6 +86,7 @@ typedef struct {
 	gboolean libreswan;
 	gboolean interactive;
 	gboolean pending_auth;
+	gboolean managed;
 
 	GPid pid;
 	guint watch_id;
@@ -394,8 +396,6 @@ connect_cleanup (NMOpenSwanPlugin *self)
 		g_free (priv->password);
 		priv->password = NULL;
 	}
-
-	g_clear_object (&priv->connection);
 }
 
 static void
@@ -413,12 +413,21 @@ static gboolean
 ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 {
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
-	const char *argv[4];
+	const char *argv[5];
 	guint i = 0;
+
+	if (!priv->connection)
+		return TRUE;
 
 	delete_secrets_file (self);
 
-	if (priv->libreswan) {
+	if (!priv->managed) {
+		argv[i++] = priv->ipsec_path;
+		argv[i++] = "auto";
+		argv[i++] = "--delete";
+		argv[i++] = nm_connection_get_uuid (priv->connection);
+		argv[i++] = NULL;
+	} else if (priv->libreswan) {
 		argv[i++] = priv->whack_path;
 		argv[i++] = "--shutdown";
 		argv[i++] = NULL;
@@ -438,6 +447,8 @@ connect_failed (NMOpenSwanPlugin *self,
                 GError *error,
                 NMVPNConnectionStateReason reason)
 {
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
 		           g_quark_to_string (error->domain),
@@ -445,11 +456,48 @@ connect_failed (NMOpenSwanPlugin *self,
 		           error->message);
 	}
 
-	connect_cleanup (self);
 	if (do_stop)
 		ipsec_stop (self, NULL);
+	connect_cleanup (self);
+	g_clear_object (&priv->connection);
 	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
 	nm_vpn_plugin_set_state (NM_VPN_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
+}
+
+static void
+check_running_cb (GPid pid, gint status, gpointer user_data)
+{
+	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	guint ret = 1;
+	GError *error = NULL;
+
+	if (priv->watch_id == 0 || priv->pid != pid) {
+		/* Reap old child */
+		waitpid (pid, NULL, WNOHANG);
+		return;
+	}
+
+	priv->watch_id = 0;
+	priv->pid = 0;
+
+	if (WIFEXITED (status))
+		ret = WEXITSTATUS (status);
+
+	DEBUG ("Spawn: child %d exited with status %d", pid, ret);
+
+	/* Reap child */
+	waitpid (pid, NULL, WNOHANG);
+
+	if (ret)
+		priv->connect_step++;
+	else
+		priv->connect_step = CONNECT_STEP_WAIT_READY;
+
+	if (!connect_step (self, &error))
+		connect_failed (self, TRUE, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+
+	g_clear_error (&error);
 }
 
 static gboolean
@@ -1004,6 +1052,12 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		/* fall through */
 		priv->connect_step++;
 
+	case CONNECT_STEP_CHECK_RUNNING:
+		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--status", NULL))
+			return FALSE;
+		priv->watch_id = g_child_watch_add (priv->pid, check_running_cb, self);
+		return TRUE;
+
 	case CONNECT_STEP_STACK_INIT:
 		if (priv->libreswan) {
 			const char *stackman_path;
@@ -1029,8 +1083,10 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 			                    NULL);
 		} else
 			success = do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
-		if (success)
+		if (success) {
+			priv->managed = TRUE;
 			priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+		}
 		return success;
 
 	case CONNECT_STEP_WAIT_READY:
@@ -1262,8 +1318,14 @@ real_new_secrets (NMVPNPlugin *plugin,
 static gboolean
 real_disconnect (NMVPNPlugin *plugin, GError **error)
 {
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin);
+	gboolean ret;
+
+	ret = ipsec_stop (NM_OPENSWAN_PLUGIN (plugin), error);
 	connect_cleanup (NM_OPENSWAN_PLUGIN (plugin));
-	return ipsec_stop (NM_OPENSWAN_PLUGIN (plugin), error);
+	g_clear_object (&priv->connection);
+
+	return ret;
 }
 
 static void
@@ -1274,8 +1336,11 @@ nm_openswan_plugin_init (NMOpenSwanPlugin *plugin)
 static void
 finalize (GObject *object)
 {
+	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (object);
+
 	delete_secrets_file (NM_OPENSWAN_PLUGIN (object));
 	connect_cleanup (NM_OPENSWAN_PLUGIN (object));
+	g_clear_object (&priv->connection);
 
 	G_OBJECT_CLASS (nm_openswan_plugin_parent_class)->finalize (object);
 }
