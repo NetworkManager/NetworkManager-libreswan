@@ -3,37 +3,32 @@
 # This file is distributed under the same license as the NetworkManager package.
 # Žygimantas Beručka <zygis@gnome.org>, 2008.
 # Gintautas Miliauskas <gintautas@miliauskas.lt>, 2009.
-# Aurimas Černius <aurisc4@gmail.com>, 2014.
+# Aurimas Černius <aurisc4@gmail.com>, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-05 18:28+0000\n"
-"PO-Revision-Date: 2014-03-06 22:45+0200\n"
+"POT-Creation-Date: 2015-09-27 23:51+0000\n"
+"PO-Revision-Date: 2015-09-28 13:49+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
-"Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
+"Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr ""
-"Norint gauti prieigą prie Virtualiojo Privačiojo Tinklo „%s“, reikia "
-"nustatyti jūsų tapatybę."
+#| msgid "Authenticate VPN"
+msgid "Authenticate VPN %s"
+msgstr "Patvirtinti tapatybę VPN %s"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Nustatyti tapatybę VPN"
-
-#: ../auth-dialog/main.c:200
+#: ../auth-dialog/main.c:192
 msgid "Password:"
 msgstr "Slaptažodis:"
 
@@ -41,9 +36,20 @@ msgstr "Slaptažodis:"
 msgid "Group Password:"
 msgstr "Grupės slaptažodis:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Nustatyti tapatybę VPN"
+
+#: ../auth-dialog/main.c:247
 msgid "_Group Password:"
 msgstr "_Grupės slaptažodis:"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"Norint gauti prieigą prie Virtualiojo Privačiojo Tinklo „%s“, reikia "
+"nustatyti jūsų tapatybę."
 
 #: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
@@ -53,14 +59,6 @@ msgstr "Tinklas"
 msgid "Request VPN authentication"
 msgstr "Prašyti VPN tapatybės patvirtinimo"
 
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "IPsec pagrindo VPN ryšių valdyklė (openswan)"
-
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Pridėti, šalinti ir taisyti VPN ryšius"
-
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec pagrindo VPN"
@@ -69,15 +67,15 @@ msgstr "IPsec pagrindo VPN"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 pagrindo VPN"
 
-#: ../properties/nm-openswan.c:304
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Įrašyta"
 
-#: ../properties/nm-openswan.c:311
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Visada klausti"
 
-#: ../properties/nm-openswan.c:318
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Nereikia"
 
@@ -129,18 +127,39 @@ msgstr "Antros fazės algoritmai:"
 msgid "Domain:"
 msgstr "Sritis:"
 
-#: ../src/nm-openswan-service.c:846
+#: ../src/nm-openswan-service.c:915
+msgid "A password is required."
+msgstr "Būtinas slaptažodis"
+
+#: ../src/nm-openswan-service.c:1291
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Nepavyko apdoroti užklausos, kadangi VPN ryšio nustatymai yra netinkami."
+
+#: ../src/nm-openswan-service.c:1305
+msgid "Unhandled pending authentication."
+msgstr "Neapdorotas vykdomas tapatybės patvirtinimas."
+
+#: ../src/nm-openswan-service.c:1400
 msgid "Don't quit when VPN connection terminates"
 msgstr "Neišeiti, kai nutrūksta VPN ryšys"
 
-#: ../src/nm-openswan-service.c:847
+#: ../src/nm-openswan-service.c:1401
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Įjungti išsamų derinimo žurnalą (gali parodyti slaptažodžius)"
 
-#: ../src/nm-openswan-service.c:870
+#: ../src/nm-openswan-service.c:1424
+#| msgid ""
+#| "nm-openswan-service provides integrated IPsec VPN capability to "
+#| "NetworkManager."
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
-"nm-openswan-service sutekia NetworkManager integruotą IPsec VPN galimybę."
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Ši tarnyba sutekia NetworkManager integruotą IPsec VPN galimybę."
 
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "IPsec pagrindo VPN ryšių valdyklė (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Pridėti, šalinti ir taisyti VPN ryšius"
