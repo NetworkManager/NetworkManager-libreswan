@@ -461,7 +461,6 @@ connect_failed (NMOpenSwanPlugin *self,
 	connect_cleanup (self);
 	g_clear_object (&priv->connection);
 	nm_vpn_service_plugin_failure (NM_VPN_SERVICE_PLUGIN (self), reason);
-	nm_vpn_service_plugin_set_state (NM_VPN_SERVICE_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
 }
 
 static void
