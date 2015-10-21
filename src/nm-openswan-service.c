@@ -420,6 +420,7 @@ ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 		return TRUE;
 
 	delete_secrets_file (self);
+	connect_cleanup (self);
 
 	if (!priv->managed) {
 		argv[i++] = priv->ipsec_path;
@@ -458,7 +459,6 @@ connect_failed (NMOpenSwanPlugin *self,
 
 	if (do_stop)
 		ipsec_stop (self, NULL);
-	connect_cleanup (self);
 	g_clear_object (&priv->connection);
 	nm_vpn_service_plugin_failure (NM_VPN_SERVICE_PLUGIN (self), reason);
 }
@@ -1321,7 +1321,6 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 	gboolean ret;
 
 	ret = ipsec_stop (NM_OPENSWAN_PLUGIN (plugin), error);
-	connect_cleanup (NM_OPENSWAN_PLUGIN (plugin));
 	g_clear_object (&priv->connection);
 
 	return ret;
