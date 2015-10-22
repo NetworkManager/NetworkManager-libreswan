@@ -1116,7 +1116,7 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		priv->channel = g_io_channel_unix_new (up_pty);
 		g_io_channel_set_encoding (priv->channel, NULL, NULL);
 		g_io_channel_set_buffered (priv->channel, FALSE);
-		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR, io_cb, self);
+		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
 
 		if (debug) {
 			pipe_init (&priv->out, up_stdout, "OUT");
