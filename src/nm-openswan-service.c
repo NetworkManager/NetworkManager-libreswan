@@ -444,7 +444,6 @@ ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 
 static void
 connect_failed (NMOpenSwanPlugin *self,
-                gboolean do_stop,
                 GError *error,
                 NMVPNConnectionStateReason reason)
 {
@@ -457,8 +456,7 @@ connect_failed (NMOpenSwanPlugin *self,
 		           error->message);
 	}
 
-	if (do_stop)
-		ipsec_stop (self, NULL);
+	ipsec_stop (self, NULL);
 	g_clear_object (&priv->connection);
 	nm_vpn_plugin_failure (NM_VPN_PLUGIN (self), reason);
 	nm_vpn_plugin_set_state (NM_VPN_PLUGIN (self), NM_VPN_SERVICE_STATE_STOPPED);
@@ -495,7 +493,7 @@ check_running_cb (GPid pid, gint status, gpointer user_data)
 		priv->connect_step = CONNECT_STEP_WAIT_READY;
 
 	if (!connect_step (self, &error))
-		connect_failed (self, TRUE, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+		connect_failed (self, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 
 	g_clear_error (&error);
 }
@@ -510,7 +508,7 @@ retry_cb (gpointer user_data)
 	priv->retry_id = 0;
 
 	if (!connect_step (self, &error))
-		connect_failed (self, TRUE, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+		connect_failed (self, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 	g_clear_error (&error);
 
 	return FALSE;
@@ -523,7 +521,6 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
 	guint ret = 1;
 	GError *error = NULL;
-	gboolean do_stop = FALSE;
 
 	if (priv->watch_id == 0 || priv->pid != pid) {
 		/* Reap old child */
@@ -555,7 +552,6 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 
 	if (ret == 0) {
 		/* Success; do the next connect step */
-		do_stop = TRUE;
 		priv->connect_step++;
 		priv->retries = 0;
 		if (!connect_step (self, &error))
@@ -563,7 +559,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	}
 
 	if (ret != 0)
-		connect_failed (self, do_stop, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+		connect_failed (self, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 	g_clear_error (&error);
 }
 
@@ -987,7 +983,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 done:
 	if (!success) {
 		priv->io_id = 0;
-		connect_failed (self, TRUE, NULL, reason);
+		connect_failed (self, NULL, reason);
 	}
 	return success ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
 }
