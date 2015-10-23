@@ -6,9 +6,7 @@ AM_CPPFLAGS = \
 	$(LIBSECRET_CFLAGS) \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DBINDIR=\""$(bindir)"\" \
-	-DG_DISABLE_DEPRECATED \
-	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
-	-DVERSION=\"$(VERSION)\"
+	-DGNOMELOCALEDIR=\"$(datadir)/locale\"
 
 libexec_PROGRAMS = nm-openswan-auth-dialog
 
