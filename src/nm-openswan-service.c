@@ -339,7 +339,7 @@ pipe_init (Pipe *pipe, int fd, const char *detail)
 	pipe->channel = g_io_channel_unix_new (fd);
 	g_io_channel_set_encoding (pipe->channel, NULL, NULL);
 	g_io_channel_set_buffered (pipe->channel, FALSE);
-	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR, pr_cb, pipe);
+	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, pr_cb, pipe);
 }
 
 static void
@@ -926,7 +926,13 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	NMVPNConnectionStateReason reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
 	const char *found;
 
-	if (condition & (G_IO_ERR | G_IO_HUP)) {
+	if (condition & G_IO_HUP) {
+		DEBUG ("PTY disconnected");
+		priv->io_id = 0;
+		return G_SOURCE_REMOVE;
+	}
+
+	if (condition & G_IO_ERR) {
 		g_warning ("PTY spawn: pipe error!");
 		goto done;
 	}
@@ -997,7 +1003,7 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	char *nl;
 
 	if (condition & (G_IO_ERR | G_IO_HUP)) {
-		g_warning ("PTY(%s) pipe error!", pipe->detail);
+		DEBUG ("PTY(%s) pipe error!", pipe->detail);
 		return G_SOURCE_REMOVE;
 	}
 	g_assert (condition & G_IO_IN);
