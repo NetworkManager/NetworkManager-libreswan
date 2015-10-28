@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<node name="/">
+  <interface name="org.freedesktop.NetworkManager.libreswan.helper">
+    <method name="Callback">
+      <arg name="environment" type="a{ss}" direction="in"/>
+    </method>
+  </interface>
+</node>
