@@ -643,6 +643,7 @@ nm_libreswan_config_write (NMLibreswanPlugin *self,
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+	char *bus_name;
 
 	g_assert (fd >= 0);
 	g_assert (s_vpn);
@@ -655,7 +656,10 @@ nm_libreswan_config_write (NMLibreswanPlugin *self,
 	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID));
 	write_config_option (fd, " leftxauthclient=yes\n");
 	write_config_option (fd, " leftmodecfgclient=yes\n");
-	write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH "\"\n");
+
+	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
+	write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"\n", bus_name);
+	g_free (bus_name);
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
 	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
@@ -1819,10 +1823,12 @@ main (int argc, char *argv[])
 	GOptionContext *opt_ctx = NULL;
 	GDBusConnection *connection;
 	GError *error = NULL;
+	const gchar *bus_name = NM_DBUS_SERVICE_LIBRESWAN;
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
 		{ "debug", 0, 0, G_OPTION_ARG_NONE, &debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
+		{ "bus-name", 0, 0, G_OPTION_ARG_STRING, &bus_name, N_("DBus name to use for this instance"), NULL },
 		{NULL}
 	};
 
@@ -1857,7 +1863,7 @@ main (int argc, char *argv[])
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
 	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_LIBRESWAN,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, bus_name,
 	                         NULL);
 	if (!plugin) {
 		g_warning ("Failed to initialize a plugin instance: %s", error->message);
