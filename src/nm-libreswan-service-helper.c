@@ -35,6 +35,27 @@ main (int argc, char *argv[])
 	GError *err = NULL;
 	gchar **environ;
 	gchar **p;
+	const char *bus_name;
+
+	switch (argc) {
+	case 1:
+		bus_name = NM_DBUS_SERVICE_LIBRESWAN;
+		break;
+	case 3:
+		if (strcmp (argv[1], "--bus-name") == 0) {
+			bus_name = argv[2];
+			break;
+		}
+		/* fallthrough */
+	default:
+		g_warning ("Usage: %s [--bus-name <name>]", argv[0]);
+		exit (1);
+	}
+
+	if (!g_dbus_is_name (bus_name)) {
+		g_warning ("Not a valid bus name: '%s'\n", bus_name);
+		exit (1);
+	}
 
 #if !GLIB_CHECK_VERSION (2, 35, 0)
 	g_type_init ();
@@ -42,7 +63,7 @@ main (int argc, char *argv[])
 
 	proxy = nmdbus_libreswan_helper_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
 	                                                        G_DBUS_PROXY_FLAGS_NONE,
-	                                                        NM_DBUS_SERVICE_LIBRESWAN,
+	                                                        bus_name,
 	                                                        NM_DBUS_PATH_LIBRESWAN_HELPER,
 	                                                        NULL, &err);
 	if (!proxy) {
