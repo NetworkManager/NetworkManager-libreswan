@@ -28,13 +28,13 @@ m4/intltool.m4
 m4/libtool.m4
 m4/lt*.m4
 
-auth-dialog/nm-openswan-auth-dialog
-auth-dialog/nm-openswan-auth-dialog.desktop
-auth-dialog/nm-openswan-auth-dialog.desktop.in
-nm-openswan-service.name
-nm-openswan.desktop
-src/nm-openswan-service
-src/nm-openswan-service-helper
+auth-dialog/nm-libreswan-auth-dialog
+auth-dialog/nm-libreswan-auth-dialog.desktop
+auth-dialog/nm-libreswan-auth-dialog.desktop.in
+nm-libreswan-service.name
+nm-libreswan.desktop
+src/nm-libreswan-service
+src/nm-libreswan-service-helper
 src/show-xfrm
 
-/NetworkManager-openswan*.tar*
+/NetworkManager-libreswan*.tar*

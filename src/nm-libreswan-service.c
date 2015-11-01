@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
-/* NetworkManager-openswan -- Network Manager Openswan plugin
+/* NetworkManager-libreswan -- Network Manager Libreswan plugin
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,22 +37,22 @@
 
 #include <NetworkManager.h>
 #include <nm-vpn-service-plugin.h>
-#include "nm-openswan-service.h"
+#include "nm-libreswan-service.h"
 #include "nm-utils.h"
 
 #if !defined(DIST_VERSION)
 # define DIST_VERSION VERSION
 #endif
 
-#define NM_TYPE_OPENSWAN_PLUGIN (nm_openswan_plugin_get_type ())
-#define NM_OPENSWAN_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPlugin))
+#define NM_TYPE_LIBRESWAN_PLUGIN (nm_libreswan_plugin_get_type ())
+#define NM_LIBRESWAN_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPlugin))
 
-typedef NMVpnServicePlugin NMOpenSwanPlugin;
-typedef NMVpnServicePluginClass NMOpenSwanPluginClass;
+typedef NMVpnServicePlugin NMLibreswanPlugin;
+typedef NMVpnServicePluginClass NMLibreswanPluginClass;
 
-static GType nm_openswan_plugin_get_type (void);
+static GType nm_libreswan_plugin_get_type (void);
 
-G_DEFINE_TYPE (NMOpenSwanPlugin, nm_openswan_plugin, NM_TYPE_VPN_SERVICE_PLUGIN)
+G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGIN)
 
 /************************************************************/
 
@@ -83,7 +83,7 @@ typedef struct {
 	const char *whack_path;
 	char *secrets_path;
 
-	gboolean libreswan;
+	gboolean openswan;
 	gboolean interactive;
 	gboolean pending_auth;
 	gboolean managed;
@@ -102,16 +102,16 @@ typedef struct {
 
 	Pipe out;
 	Pipe err;
-} NMOpenSwanPluginPrivate;
+} NMLibreswanPluginPrivate;
 
-#define NM_OPENSWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_OPENSWAN_PLUGIN, NMOpenSwanPluginPrivate))
+#define NM_LIBRESWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPluginPrivate))
 
 /* NOTE: the helper is currently called explicitly by the ipsec up/down
  * script /usr/libexec/ipsec/_updown.netkey when the configuration contains
  * "nm_configured=yes".  Eventually we want to somehow pass the helper
  * directly to pluto/whack with the --updown option.
  */
-#define NM_OPENSWAN_HELPER_PATH		LIBEXECDIR"/nm-openswan-service-helper"
+#define NM_LIBRESWAN_HELPER_PATH		LIBEXECDIR"/nm-libreswan-service-helper"
 
 #define DEBUG(...) \
     G_STMT_START { \
@@ -130,27 +130,27 @@ typedef struct {
 } ValidProperty;
 
 static ValidProperty valid_properties[] = {
-	{ NM_OPENSWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_LEFTID,                     G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_DOMAIN,                     G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_DHGROUP,                    G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
-	{ NM_OPENSWAN_IKE,                        G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_ESP,                        G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_VENDOR,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_LEFTID,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_DOMAIN,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_DHGROUP,                    G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
+	{ NM_LIBRESWAN_IKE,                        G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_ESP,                        G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_VENDOR,                     G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
-	{ NM_OPENSWAN_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
-	{ NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
-	{ NM_OPENSWAN_PSK_VALUE "-flags",         G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_XAUTH_PASSWORD "-flags",    G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
+	{ NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
+	{ NM_LIBRESWAN_PSK_VALUE "-flags",         G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_XAUTH_PASSWORD "-flags",    G_TYPE_STRING, 0, 0 },
 	{ NULL,                                   G_TYPE_NONE, 0, 0 }
 };
 
 static ValidProperty valid_secrets[] = {
-	{ NM_OPENSWAN_PSK_VALUE,                  G_TYPE_STRING, 0, 0 },
-	{ NM_OPENSWAN_XAUTH_PASSWORD,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_PSK_VALUE,                  G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_XAUTH_PASSWORD,             G_TYPE_STRING, 0, 0 },
 	{ NULL,                                   G_TYPE_NONE, 0, 0 }
 };
 
@@ -230,7 +230,7 @@ validate_one_property (const char *key, const char *value, gpointer user_data)
 }
 
 static gboolean
-nm_openswan_properties_validate (NMSettingVpn *s_vpn, GError **error)
+nm_libreswan_properties_validate (NMSettingVpn *s_vpn, GError **error)
 {
 	ValidateInfo info = { &valid_properties[0], error, FALSE };
 
@@ -247,7 +247,7 @@ nm_openswan_properties_validate (NMSettingVpn *s_vpn, GError **error)
 }
 
 static gboolean
-nm_openswan_secrets_validate (NMSettingVpn *s_vpn, GError **error)
+nm_libreswan_secrets_validate (NMSettingVpn *s_vpn, GError **error)
 {
 	GError *validate_error = NULL;
 	ValidateInfo info = { &valid_secrets[0], &validate_error, FALSE };
@@ -262,7 +262,7 @@ nm_openswan_secrets_validate (NMSettingVpn *s_vpn, GError **error)
 
 /****************************************************************/
 
-static gboolean connect_step (NMOpenSwanPlugin *self, GError **error);
+static gboolean connect_step (NMLibreswanPlugin *self, GError **error);
 static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
 static const char *
@@ -357,9 +357,9 @@ pipe_cleanup (Pipe *pipe)
 }
 
 static void
-connect_cleanup (NMOpenSwanPlugin *self)
+connect_cleanup (NMLibreswanPlugin *self)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 
 	priv->connect_step = CONNECT_STEP_FIRST;
 	priv->pending_auth = FALSE;
@@ -399,9 +399,9 @@ connect_cleanup (NMOpenSwanPlugin *self)
 }
 
 static void
-delete_secrets_file (NMOpenSwanPlugin *self)
+delete_secrets_file (NMLibreswanPlugin *self)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 
 	if (priv->secrets_path) {
 		unlink (priv->secrets_path);
@@ -410,9 +410,9 @@ delete_secrets_file (NMOpenSwanPlugin *self)
 }
 
 static gboolean
-ipsec_stop (NMOpenSwanPlugin *self, GError **error)
+ipsec_stop (NMLibreswanPlugin *self, GError **error)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	const char *argv[5];
 	guint i = 0;
 
@@ -428,14 +428,14 @@ ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 		argv[i++] = "--delete";
 		argv[i++] = nm_connection_get_uuid (priv->connection);
 		argv[i++] = NULL;
-	} else if (priv->libreswan) {
-		argv[i++] = priv->whack_path;
-		argv[i++] = "--shutdown";
-		argv[i++] = NULL;
-	} else {
+	} else if (priv->openswan) {
 		argv[i++] = priv->ipsec_path;
 		argv[i++] = "setup";
 		argv[i++] = "stop";
+		argv[i++] = NULL;
+	} else {
+		argv[i++] = priv->whack_path;
+		argv[i++] = "--shutdown";
 		argv[i++] = NULL;
 	}
 
@@ -443,11 +443,11 @@ ipsec_stop (NMOpenSwanPlugin *self, GError **error)
 }
 
 static void
-connect_failed (NMOpenSwanPlugin *self,
+connect_failed (NMLibreswanPlugin *self,
                 GError *error,
                 NMVpnConnectionStateReason reason)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
@@ -464,8 +464,8 @@ connect_failed (NMOpenSwanPlugin *self,
 static void
 check_running_cb (GPid pid, gint status, gpointer user_data)
 {
-	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (user_data);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	guint ret = 1;
 	GError *error = NULL;
 
@@ -500,8 +500,8 @@ check_running_cb (GPid pid, gint status, gpointer user_data)
 static gboolean
 retry_cb (gpointer user_data)
 {
-	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (user_data);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	GError *error = NULL;
 
 	priv->retry_id = 0;
@@ -516,8 +516,8 @@ retry_cb (gpointer user_data)
 static void
 child_watch_cb (GPid pid, gint status, gpointer user_data)
 {
-	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (user_data);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	guint ret = 1;
 	GError *error = NULL;
 
@@ -638,18 +638,19 @@ write_config_option (int fd, const char *format, ...)
 		g_print ("Config: %s", string);
 
 	if ( write (fd, string, strlen (string)) == -1)
-		g_warning ("nm-openswan: error in write_config_option");
+		g_warning ("nm-libreswan: error in write_config_option");
 
 	g_free (string);
 	va_end (args);
 }
 
 static void
-nm_openswan_config_write (gint fd,
-                          NMConnection *connection,
-                          gboolean libreswan,
-                          GError **error)
+nm_libreswan_config_write (NMLibreswanPlugin *self,
+                           gint fd,
+                           NMConnection *connection,
+                           GError **error)
 {
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVpn *s_vpn = nm_connection_get_setting_vpn (connection);
 	const char *con_name = nm_connection_get_uuid (connection);
 	const char *props_username;
@@ -665,30 +666,30 @@ nm_openswan_config_write (gint fd,
 	write_config_option (fd, " aggrmode=yes\n");
 	write_config_option (fd, " authby=secret\n");
 	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID));
+	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID));
 	write_config_option (fd, " leftxauthclient=yes\n");
 	write_config_option (fd, " leftmodecfgclient=yes\n");
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
-	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTXAUTHUSER);
+	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
 	if (   default_username && strlen (default_username)
 		&& (!props_username || !strlen (props_username)))
 		write_config_option (fd, " leftxauthusername=%s\n", default_username);
 	else
 		write_config_option (fd, " leftxauthusername=%s\n", props_username);
 
-	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_RIGHT));
+	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
 	write_config_option (fd, " remote_peer_type=cisco\n");
 	write_config_option (fd, " rightxauthserver=yes\n");
 	write_config_option (fd, " rightmodecfgserver=yes\n");
 
-	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_IKE);
+	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
 		write_config_option (fd, " ike=aes-sha1\n");
 	else
 		write_config_option (fd, " ike=%s\n", phase1_alg_str);
 
-	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_ESP);
+	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
 	if (!phase2_alg_str || !strlen (phase2_alg_str))
 		write_config_option (fd, " esp=aes-sha1;modp1024\n");
 	else
@@ -699,7 +700,7 @@ nm_openswan_config_write (gint fd,
 	write_config_option (fd, " salifetime=24h\n");
 	write_config_option (fd, " ikelifetime=24h\n");
 	write_config_option (fd, " keyingtries=1\n");
-	if (libreswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_VENDOR), "Cisco") == 0)
+	if (!priv->openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
 		write_config_option (fd, " cisco-unity=yes\n");
 	write_config_option (fd, " auto=add");
 
@@ -707,26 +708,26 @@ nm_openswan_config_write (gint fd,
 	 * libreswan fails parsing the configuration if you include the \n.
 	 * WTF?
 	 */
-	if (!libreswan)
+	if (priv->openswan)
 		(void) write (fd, "\n", 1);
 	if (debug)
 		g_print ("\n");
 }
 
 static gboolean
-nm_openswan_config_psk_write (NMSettingVpn *s_vpn,
-                              const char *secrets_path,
-                              GError **error)
+nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
+                               const char *secrets_path,
+                               GError **error)
 {
 	const char *pw_type, *psk, *leftid;
 	int fd;
 
 	/* Check for ignored group password */
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_PSK_INPUT_MODES);
-	if (pw_type && !strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED))
+	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
+	if (pw_type && !strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED))
 		return TRUE;
 
-	psk = nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_PSK_VALUE);
+	psk = nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_PSK_VALUE);
 	if (!psk)
 		return TRUE;
 
@@ -742,7 +743,7 @@ nm_openswan_config_psk_write (NMSettingVpn *s_vpn,
 		return FALSE;
 	}
 
-	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID);
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 	g_assert (leftid);
 	write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
 
@@ -873,9 +874,9 @@ spawn_pty (int *out_stdout,
 #define PASSPHRASE_REQUEST "Enter passphrase: "
 
 static gboolean
-handle_auth (NMOpenSwanPlugin *self, const char **out_message, const char **out_hint)
+handle_auth (NMLibreswanPlugin *self, const char **out_message, const char **out_hint)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	GError *error = NULL;
 	gsize bytes_written;
 
@@ -906,7 +907,7 @@ handle_auth (NMOpenSwanPlugin *self, const char **out_message, const char **out_
 		g_free (priv->password);
 		priv->password = NULL;
 	} else {
-		*out_hint = NM_OPENSWAN_XAUTH_PASSWORD;
+		*out_hint = NM_LIBRESWAN_XAUTH_PASSWORD;
 		*out_message = _("A password is required.");
 	}
 
@@ -916,8 +917,8 @@ handle_auth (NMOpenSwanPlugin *self, const char **out_message, const char **out_
 static gboolean
 io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 {
-	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (user_data);
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (user_data);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	char buf[256];
 	GIOStatus status;
 	gsize bytes_read = 0;
@@ -1031,9 +1032,9 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 }
 
 static gboolean
-connect_step (NMOpenSwanPlugin *self, GError **error)
+connect_step (NMLibreswanPlugin *self, GError **error)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
 	gboolean success = FALSE;
@@ -1060,14 +1061,14 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_STACK_INIT:
-		if (priv->libreswan) {
+		if (!priv->openswan) {
 			const char *stackman_path;
 
 			stackman_path = find_helper_libexec ("_stackmanager", error);
 			if (!stackman_path)
 				return FALSE;
 
-			/* Ensure the right IPSec kernel stack is loaded */
+			/* Ensure the right IPsec kernel stack is loaded */
 			success = do_spawn (&priv->pid, NULL, NULL, error, stackman_path, "start", NULL);
 			if (success)
 				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
@@ -1077,13 +1078,14 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		priv->connect_step++;
 
 	case CONNECT_STEP_IPSEC_START:
-		/* Start the IPSec service */
-		if (priv->libreswan) {
+		/* Start the IPsec service */
+		if (priv->openswan)
+			success = do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
+		else {
 			success = do_spawn (&priv->pid, NULL, NULL, error,
 			                    priv->pluto_path, "--config", SYSCONFDIR "/ipsec.conf",
 			                    NULL);
-		} else
-			success = do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
+		}
 		if (success) {
 			priv->managed = TRUE;
 			priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
@@ -1103,7 +1105,7 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
-		nm_openswan_config_write (fd, priv->connection, priv->libreswan, error);
+		nm_libreswan_config_write (self, fd, priv->connection, error);
 		close (fd);
 		return TRUE;
 
@@ -1137,17 +1139,17 @@ connect_step (NMOpenSwanPlugin *self, GError **error)
 }
 
 static gboolean
-is_libreswan (const char *path)
+is_openswan (const char *path)
 {
 	const char *argv[] = { path, NULL };
-	gboolean libreswan = FALSE;
+	gboolean openswan = FALSE;
 	char *output = NULL;
 
 	if (g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, &output, NULL, NULL, NULL)) {
-		libreswan = output && strcasestr (output, " Libreswan ");
+		openswan = output && strcasestr (output, " Openswan ");
 		g_free (output);
 	}
-	return libreswan;
+	return openswan;
 }
 
 static gboolean
@@ -1156,8 +1158,8 @@ _connect_common (NMVpnServicePlugin   *plugin,
                  GVariant      *details,
                  GError       **error)
 {
-	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (plugin);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVpn *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
 
@@ -1168,8 +1170,8 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	if (!priv->ipsec_path)
 		return FALSE;
 
-	priv->libreswan = is_libreswan (priv->ipsec_path);
-	if (priv->libreswan) {
+	priv->openswan = is_openswan (priv->ipsec_path);
+	if (!priv->openswan) {
 		priv->pluto_path = find_helper_libexec ("pluto", error);
 		if (!priv->pluto_path)
 			return FALSE;
@@ -1183,10 +1185,10 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	s_vpn = nm_connection_get_setting_vpn (connection);
 	g_assert (s_vpn);
 
-	if (!nm_openswan_properties_validate (s_vpn, error))
+	if (!nm_libreswan_properties_validate (s_vpn, error))
 		return FALSE;
 
-	if (!nm_openswan_secrets_validate (s_vpn, error))
+	if (!nm_libreswan_secrets_validate (s_vpn, error))
 		return FALSE;
 
 	if (priv->connect_step != CONNECT_STEP_FIRST) {
@@ -1197,13 +1199,13 @@ _connect_common (NMVpnServicePlugin   *plugin,
 		return FALSE;
 	}
 
-	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
+	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
 
-	/* Write the IPSec secret (group password); *SWAN always requires this and
+	/* Write the IPsec secret (group password); *SWAN always requires this and
 	 * doesn't ask for it interactively.
 	 */
 	priv->secrets_path = g_strdup_printf (SYSCONFDIR "/ipsec.d/ipsec-%s.secrets", con_name);
-	if (!nm_openswan_config_psk_write (s_vpn, priv->secrets_path, error))
+	if (!nm_libreswan_config_psk_write (s_vpn, priv->secrets_path, error))
 		return FALSE;
 
 	priv->connection = g_object_ref (connection);
@@ -1229,7 +1231,7 @@ real_connect_interactive (NMVpnServicePlugin   *plugin,
 	if (!_connect_common (plugin, connection, details, error))
 		return FALSE;
 
-	NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin)->interactive = TRUE;
+	NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin)->interactive = TRUE;
 	return TRUE;
 }
 
@@ -1254,17 +1256,17 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 		return FALSE;
 	}
 
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_PSK_INPUT_MODES);
-	if (!pw_type || strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED)) {
-		if (!nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_PSK_VALUE)) {
+	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
+	if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
+		if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_PSK_VALUE)) {
 			*setting_name = NM_SETTING_VPN_SETTING_NAME;
 			return TRUE;
 		}
 	}
 
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD_INPUT_MODES);
-	if (!pw_type || strcmp (pw_type, NM_OPENSWAN_PW_TYPE_UNUSED)) {
-		if (!nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD)) {
+	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
+	if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
+		if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD)) {
 			*setting_name = NM_SETTING_VPN_SETTING_NAME;
 			return TRUE;
 		}
@@ -1278,8 +1280,8 @@ real_new_secrets (NMVpnServicePlugin *plugin,
                   NMConnection *connection,
                   GError **error)
 {
-	NMOpenSwanPlugin *self = NM_OPENSWAN_PLUGIN (plugin);
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (self);
+	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (plugin);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVpn *s_vpn;
 	const char *message = NULL;
 	const char *hints[] = { NULL, NULL };
@@ -1296,7 +1298,7 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 	DEBUG ("VPN received new secrets; sending to ipsec");
 
 	g_free (priv->password);
-	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_OPENSWAN_XAUTH_PASSWORD));
+	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
 
 	g_warn_if_fail (priv->pending_auth);
 	if (!handle_auth (self, &message, &hints[0])) {
@@ -1319,39 +1321,39 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 static gboolean
 real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (plugin);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
 	gboolean ret;
 
-	ret = ipsec_stop (NM_OPENSWAN_PLUGIN (plugin), error);
+	ret = ipsec_stop (NM_LIBRESWAN_PLUGIN (plugin), error);
 	g_clear_object (&priv->connection);
 
 	return ret;
 }
 
 static void
-nm_openswan_plugin_init (NMOpenSwanPlugin *plugin)
+nm_libreswan_plugin_init (NMLibreswanPlugin *plugin)
 {
 }
 
 static void
 finalize (GObject *object)
 {
-	NMOpenSwanPluginPrivate *priv = NM_OPENSWAN_PLUGIN_GET_PRIVATE (object);
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (object);
 
-	delete_secrets_file (NM_OPENSWAN_PLUGIN (object));
-	connect_cleanup (NM_OPENSWAN_PLUGIN (object));
+	delete_secrets_file (NM_LIBRESWAN_PLUGIN (object));
+	connect_cleanup (NM_LIBRESWAN_PLUGIN (object));
 	g_clear_object (&priv->connection);
 
-	G_OBJECT_CLASS (nm_openswan_plugin_parent_class)->finalize (object);
+	G_OBJECT_CLASS (nm_libreswan_plugin_parent_class)->finalize (object);
 }
 
 static void
-nm_openswan_plugin_class_init (NMOpenSwanPluginClass *openswan_class)
+nm_libreswan_plugin_class_init (NMLibreswanPluginClass *libreswan_class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (openswan_class);
-	NMVpnServicePluginClass *parent_class = NM_VPN_SERVICE_PLUGIN_CLASS (openswan_class);
+	GObjectClass *object_class = G_OBJECT_CLASS (libreswan_class);
+	NMVpnServicePluginClass *parent_class = NM_VPN_SERVICE_PLUGIN_CLASS (libreswan_class);
 
-	g_type_class_add_private (object_class, sizeof (NMOpenSwanPluginPrivate));
+	g_type_class_add_private (object_class, sizeof (NMLibreswanPluginPrivate));
 
 	/* virtual methods */
 	object_class->finalize = finalize;
@@ -1384,7 +1386,7 @@ setup_signals (void)
 }
 
 static void
-quit_mainloop (NMOpenSwanPlugin *plugin, gpointer user_data)
+quit_mainloop (NMLibreswanPlugin *plugin, gpointer user_data)
 {
 	g_main_loop_quit ((GMainLoop *) user_data);
 }
@@ -1392,7 +1394,7 @@ quit_mainloop (NMOpenSwanPlugin *plugin, gpointer user_data)
 int
 main (int argc, char *argv[])
 {
-	NMOpenSwanPlugin *plugin;
+	NMLibreswanPlugin *plugin;
 	gboolean persist = FALSE;
 	GOptionContext *opt_ctx = NULL;
 	GError *error = NULL;
@@ -1410,7 +1412,7 @@ main (int argc, char *argv[])
 	/* locale will be set according to environment LC_* variables */
 	setlocale (LC_ALL, "");
 
-	bindtextdomain (GETTEXT_PACKAGE, NM_OPENSWAN_LOCALEDIR);
+	bindtextdomain (GETTEXT_PACKAGE, NM_LIBRESWAN_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
@@ -1427,14 +1429,14 @@ main (int argc, char *argv[])
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);
 
-	if (getenv ("OPENSWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
+	if (getenv ("LIBRESWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
 		debug = TRUE;
 
 	if (debug)
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
-	plugin = g_initable_new (NM_TYPE_OPENSWAN_PLUGIN, NULL, &error,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_OPENSWAN,
+	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_LIBRESWAN,
 	                         NULL);
 	if (!plugin) {
                 g_warning ("Failed to initialize a plugin instance: %s", error->message);

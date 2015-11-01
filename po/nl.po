@@ -81,10 +81,10 @@ msgstr "Cisco-compatibele VPN-cliënt (vpnc)"
 
 #: ../properties/nm-vpnc.c:54
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
-"Geschikt voor verschillende Cisco, Juniper, Netscreen en Sonicwall IPSec-"
+"Geschikt voor verschillende Cisco, Juniper, Netscreen en Sonicwall IPsec-"
 "gebaseerde VPN-gateways."
 
 #: ../properties/nm-vpnc.c:282

@@ -40,98 +40,98 @@ msgstr "Contrasinal de grupo:"
 msgid "_Group Password:"
 msgstr "Contrasinal de _grupo:"
 
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "Xestor de conexión VPN baseada en IPsec (openswan)"
+#: ../nm-libreswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (libreswan)"
+msgstr "Xestor de conexión VPN baseada en IPsec (libreswan)"
 
-#: ../nm-openswan.desktop.in.h:2
+#: ../nm-libreswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "Engadir, eliminar e editar conexións VPN"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "VPN baseada en IPsec"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN baseada en IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-libreswan.c:274
 msgid "Saved"
 msgstr "Gardado"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-libreswan.c:281
 msgid "Always Ask"
 msgstr "Preguntar sempre"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-libreswan.c:288
 msgid "Not Required"
 msgstr "Non requirido"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Xeral</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Mostrar os contrasinais"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "Contrasinal de gr_upo:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Pasarela:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Nome de g_rupo:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "Contrasinal de _usuario:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Opcional</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Nome de usuario:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Algoritmos de Phase1:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "Algoritmos de Phase2:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-libreswan-service.c:877
 msgid "Don't quit when VPN connection terminates"
 msgstr "Non saír cando unha conexión VPN remata."
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-libreswan-service.c:878
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Activar o modo detallado de rexistro de depuración (pode mostrar "
 "contrasinais en claro)."
 
-#: ../src/nm-openswan-service.c:901
+#: ../src/nm-libreswan-service.c:901
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
+"nm-libreswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
 msgstr ""
-"nm-openswan-service fornece a capacidade de integrar VPN IPsec con "
+"nm-libreswan-service fornece a capacidade de integrar VPN IPsec con "
 "NetworkManager."
 
 #~ msgid "_Secondary Password:"
@@ -150,9 +150,9 @@ msgstr ""
 #~ msgstr "VPN compatíbel con Cisco (vpnc)"
 
 #~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
 #~ "based VPN gateways."
-#~ msgstr "Compatíbel con diferentes pasarelas VPN baseadas en IPSec."
+#~ msgstr "Compatíbel con diferentes pasarelas VPN baseadas en IPsec."
 
 #~ msgid "Secure (default)"
 #~ msgstr "Segura (predeterminado)"

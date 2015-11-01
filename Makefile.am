@@ -7,24 +7,24 @@ SUBDIRS += auth-dialog properties po
 endif
 
 dbusservicedir = $(sysconfdir)/dbus-1/system.d
-dbusservice_DATA = nm-openswan-service.conf
+dbusservice_DATA = nm-libreswan-service.conf
 
 nmvpnservicedir = $(NM_VPN_SERVICE_DIR)
-nmvpnservice_DATA = nm-openswan-service.name
+nmvpnservice_DATA = nm-libreswan-service.name
 
 if WITH_LIBNM_GLIB
 nmvpnoldservicedir = $(sysconfdir)/NetworkManager/VPN
-nmvpnoldservice_DATA = nm-openswan-service.name
+nmvpnoldservice_DATA = nm-libreswan-service.name
 endif
 
-nm-openswan-service.name: $(srcdir)/nm-openswan-service.name.in
+nm-libreswan-service.name: $(srcdir)/nm-libreswan-service.name.in
 	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' \
 	    -e 's|[@]PLUGINDIR[@]|$(libdir)/NetworkManager|g' \
 	    $< >$@
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
 
-EXTRA_DIST = nm-openswan-service.name.in \
+EXTRA_DIST = nm-libreswan-service.name.in \
              $(dbusservice_DATA)  \
              intltool-extract.in  \
              intltool-merge.in    \

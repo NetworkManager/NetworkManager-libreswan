@@ -64,10 +64,10 @@ msgstr "Cisco ସୁସଙ୍ଗତ VPN (vpnc)"
 
 #: ../properties/nm-vpnc.c:54
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
-"ଭିନ୍ନ ପ୍ରକାରର Cisco, Juniper, Netscreen, ଏବଂ Sonicwall IPSec-ଆଧାରିତ "
+"ଭିନ୍ନ ପ୍ରକାରର Cisco, Juniper, Netscreen, ଏବଂ Sonicwall IPsec-ଆଧାରିତ "
 "VPN ସହିତ ସୁସଂଗତ।"
 
 #: ../properties/nm-vpnc.c:339

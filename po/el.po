@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-12-13 11:12+0000\n"
 "PO-Revision-Date: 2015-02-25 15:19+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
@@ -48,87 +48,87 @@ msgstr ""
 "Χρειάζεστε πιστοποίηση για να αποκτήσετε πρόσβαση στο Ιδιωτικό Εικονικό "
 "Δίκτυο (VPN) '%s'."
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
 msgstr "Δίκτυο"
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Απαιτεί VPN πιστοποίηση"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec βασισμένο στο VPN"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 βασισμένο στο VPN"
 
-#: ../properties/nm-openswan.c:303
+#: ../properties/nm-libreswan.c:303
 msgid "Saved"
 msgstr "Αποθηκευμένη"
 
-#: ../properties/nm-openswan.c:310
+#: ../properties/nm-libreswan.c:310
 msgid "Always Ask"
 msgstr "Να γίνεται πάντα ερώτηση"
 
-#: ../properties/nm-openswan.c:317
+#: ../properties/nm-libreswan.c:317
 msgid "Not Required"
 msgstr "Δεν απαιτείται"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Γενικά</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Εμφάνιση κωδικών πρόσβασης"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "Κωδικός πρόσβασης ο_μάδας:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Πύλη:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Όνομα ομά_δας:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "Κωδικός πρόσβασης χ_ρήστη:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Προαιρετικά</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Όνομα χρήστη:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Αλγόριθμοι Phase1:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "Αλγόριθμοι Phase2:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Τομέας:"
 
-#: ../src/nm-openswan-service.c:831
+#: ../src/nm-libreswan-service.c:831
 msgid "A password is required."
 msgstr "Απαιτείται κωδικός πρόσβασης"
 
-#: ../src/nm-openswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -136,28 +136,28 @@ msgstr ""
 "Αδύνατη η επεξεργασία του αιτήματος διότι οι ρυθμίσεις της σύνδεσης VPN ήταν "
 "άκυρες."
 
-#: ../src/nm-openswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Ανεπίλυτη αναμονή πιστοποίησης."
 
-#: ../src/nm-openswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Να μην γίνει έξοδος όταν η σύνδεση VPN τερματίζει"
 
-#: ../src/nm-openswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Ενεργοποίηση καταγραφής εντοπισμού σφαλμάτων (μπορεί να εκθέσει τους "
 "κωδικούς πρόσβασης)"
 
-#: ../src/nm-openswan-service.c:1321
+#: ../src/nm-libreswan-service.c:1321
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec VPN στον NetworkManager."
 
 #~| msgid "VPN Connection Manager (vpnc)"
-#~ msgid "IPsec Based VPN Connection Manager (openswan)"
-#~ msgstr "Διαχειριστής σύνδεσης IPsec βασισμένο στο VPN (openswan)"
+#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
+#~ msgstr "Διαχειριστής σύνδεσης IPsec βασισμένο στο VPN (libreswan)"
 
 #~ msgid "Add, Remove, and Edit VPN Connections"
 #~ msgstr "Προσθήκη, απομάκρυνση και επεξεργασία συνδέσεων VPN"
@@ -178,10 +178,10 @@ msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec
 #~ msgstr "Συμβατός με Cisco πελάτης VPN (vpnc)"
 
 #~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
 #~ "based VPN gateways."
 #~ msgstr ""
-#~ "Συμβατός με διάφορες βασισμένες στο IPSec πύλες VPN των Cisco, Juniper, "
+#~ "Συμβατός με διάφορες βασισμένες στο IPsec πύλες VPN των Cisco, Juniper, "
 #~ "Netscreen και Sonicwall."
 
 #~ msgid "Secure (default)"

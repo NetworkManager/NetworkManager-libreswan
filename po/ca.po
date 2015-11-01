@@ -64,11 +64,11 @@ msgstr "VPN compatible amb Cisco (vpnc)"
 
 #: ../properties/nm-vpnc.c:54
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
 "Compatible amb diverses passarel·les VPN Cisco, Juniper, Netscreen i "
-"Sonicwall basades en IPSec."
+"Sonicwall basades en IPsec."
 
 #: ../properties/nm-vpnc.c:339
 msgid "Saved"

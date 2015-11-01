@@ -9,32 +9,32 @@ AM_CPPFLAGS = \
 	-DLIBEXECDIR=\""$(libexecdir)"\" \
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
 	-DDATADIR=\"$(datadir)\" \
-	-DNM_OPENSWAN_LOCALEDIR=\"$(datadir)/locale\"
+	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\"
 
-libexec_PROGRAMS = nm-openswan-service nm-openswan-service-helper
+libexec_PROGRAMS = nm-libreswan-service nm-libreswan-service-helper
 
-nm_openswan_service_SOURCES = \
-	nm-openswan-service.c \
-	nm-openswan-service.h
+nm_libreswan_service_SOURCES = \
+	nm-libreswan-service.c \
+	nm-libreswan-service.h
 
-nm_openswan_service_LDADD = \
+nm_libreswan_service_LDADD = \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS) \
 	-lutil
 
-nm_openswan_service_helper_SOURCES = \
-	nm-openswan-service-helper.c
+nm_libreswan_service_helper_SOURCES = \
+	nm-libreswan-service-helper.c
 
-nm_openswan_service_helper_LDADD = \
+nm_libreswan_service_helper_LDADD = \
 	$(LIBNM_LIBS) \
 	$(LIBNL_LIBS)
 
 install-exec-hook:
-	$(LN_S) -f $(DESTDIR)$(libexecdir)/nm-openswan-service-helper \
-		$(DESTDIR)$(libexecdir)/nm-libreswan-service-helper
+	$(LN_S) -f nm-libreswan-service-helper \
+		$(DESTDIR)$(libexecdir)/nm-openswan-service-helper
 
 uninstall-hook:
-	rm -f $(DESTDIR)$(libexecdir)/nm-libreswan-service-helper
+	rm -f $(DESTDIR)$(libexecdir)/nm-openswan-service-helper
 
 noinst_PROGRAMS = show-xfrm
 

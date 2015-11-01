@@ -1,7 +1,7 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
 auth-dialog/main.c
-auth-dialog/nm-openswan-auth-dialog.desktop.in.in
-properties/nm-openswan.c
-[type: gettext/glade]properties/nm-openswan-dialog.ui
-src/nm-openswan-service.c
+auth-dialog/nm-libreswan-auth-dialog.desktop.in.in
+properties/nm-libreswan.c
+[type: gettext/glade]properties/nm-libreswan-dialog.ui
+src/nm-libreswan-service.c

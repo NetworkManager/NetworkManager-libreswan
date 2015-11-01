@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
-/* nm-openswan-service-helper - openswan integration with NetworkManager
+/* nm-libreswan-service-helper - libreswan integration with NetworkManager
  *
  * Dan Williams <dcbw@redhat.com>
  * Avesh Agarwal <avagarwa@redhat.com>
@@ -41,7 +41,7 @@
 #include <NetworkManager.h>
 
 #include <nm-vpn-service-plugin.h>
-#include "nm-openswan-service.h"
+#include "nm-libreswan-service.h"
 #include "nm-utils.h"
 
 static void
@@ -49,7 +49,7 @@ helper_failed (GDBusProxy *proxy, const char *reason)
 {
 	GError *err = NULL;
 
-	g_warning ("This helper did not receive a valid %s from the IPSec daemon", reason);
+	g_warning ("This helper did not receive a valid %s from the IPsec daemon", reason);
 
 	if (!g_dbus_proxy_call_sync (proxy, "SetFailure",
 	                             g_variant_new ("(s)", reason),
@@ -84,7 +84,7 @@ send_ip4_config (GDBusProxy *proxy, GVariant *config)
  * specific subnets to be routed over the VPN (eg, CISCO_SPLIT_INC).
  * This is what we need to automatically determine 'never-default' behavior.
  * Instead, we have to inspect the kernel's SAD (Security Assocation Database)
- * for IPSec-secured routes pointing to the VPN gateway.
+ * for IPsec-secured routes pointing to the VPN gateway.
  */
 
 typedef struct {
@@ -324,12 +324,12 @@ main (int argc, char *argv[])
 	g_type_init ();
 #endif
 
-	/* The IPSec service gives us a "reason" code.  If we are given one,
+	/* The IPsec service gives us a "reason" code.  If we are given one,
 	 * don't proceed unless its "connect".
 	 */
-	tmp = getenv ("openswan_reason");
+	tmp = getenv ("libreswan_reason");
 	if (!tmp)
-		tmp = getenv ("libreswan_reason");
+		tmp = getenv ("openswan_reason");
 	if (g_strcmp0 (tmp, "connect") != 0)
 		exit (0);
 
@@ -337,7 +337,7 @@ main (int argc, char *argv[])
 	proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
 	                                       G_DBUS_PROXY_FLAGS_NONE,
 	                                       NULL,
-	                                       NM_DBUS_SERVICE_OPENSWAN,
+	                                       NM_DBUS_SERVICE_LIBRESWAN,
 	                                       NM_VPN_DBUS_PLUGIN_PATH,
 	                                       NM_VPN_DBUS_PLUGIN_INTERFACE,
 	                                       NULL, &err);
@@ -384,20 +384,20 @@ main (int argc, char *argv[])
 	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
 
 	/* DNS */
-	val = addr4_list_to_gvariant (getenv ("PLUTO_CISCO_DNS_INFO"));
+	val = addr4_list_to_gvariant (getenv ("PLUTO_PEER_DNS_INFO"));
 	if (!val) {
-		/* libreswan value */
-		val = addr4_list_to_gvariant (getenv ("PLUTO_PEER_DNS_INFO"));
+		/* openswan value */
+		val = addr4_list_to_gvariant (getenv ("PLUTO_CISCO_DNS_INFO"));
 	}
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
 
 	/* Default domain */
-	val = str_to_gvariant (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
+	val = str_to_gvariant (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
 	if (!val) {
-		/* libreswan value */
-		val = str_to_gvariant (getenv ("PLUTO_PEER_DOMAIN_INFO"), TRUE);
+		/* openswan value */
+		val = str_to_gvariant (getenv ("PLUTO_CISCO_DOMAIN_INFO"), TRUE);
 	}
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);

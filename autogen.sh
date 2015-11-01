@@ -4,7 +4,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 REQUIRED_AUTOMAKE_VERSION=1.7
-PKG_NAME=NetworkManager-openswan
+PKG_NAME=NetworkManager-libreswan
 
 (test -f $srcdir/configure.ac \
   && test -f $srcdir/auth-dialog/main.c) || {

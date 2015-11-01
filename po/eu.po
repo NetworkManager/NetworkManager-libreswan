@@ -1,4 +1,4 @@
-# Basque translation for network-manager-openswan.
+# Basque translation for network-manager-libreswan.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -7,7 +7,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-openswan master\n"
+"Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-07 17:57+0100\n"
 "PO-Revision-Date: 2015-02-07 17:55+0100\n"
@@ -46,87 +46,87 @@ msgstr "_Taldearen pasahitza:"
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Autentifikatu egin behar zara '%s' VPN-ra sarbidetzeko."
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
 msgstr "Sarea"
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Eskatu VPNren autentifikazioa"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec-en oinarritutako VPN-a"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 oinarritutako VPN-a"
 
-#: ../properties/nm-openswan.c:303
+#: ../properties/nm-libreswan.c:303
 msgid "Saved"
 msgstr "Gordeta"
 
-#: ../properties/nm-openswan.c:310
+#: ../properties/nm-libreswan.c:310
 msgid "Always Ask"
 msgstr "Galdetu beti"
 
-#: ../properties/nm-openswan.c:317
+#: ../properties/nm-libreswan.c:317
 msgid "Not Required"
 msgstr "Ez da beharrezkoa"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Orokorra</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Erakutsi pasahitzak"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "_Taldearen pasahitza:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Atebidea:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "_Taldearen izena:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "_Erabiltzailearen pasahitza:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Aukerakoa</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Erabiltzaile-izena:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "1. faseko algoritmoak:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "2. faseko algoritmoak:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Domeinua:"
 
-#: ../src/nm-openswan-service.c:831
+#: ../src/nm-libreswan-service.c:831
 msgid "A password is required."
 msgstr "Pasahitza behar da."
 
-#: ../src/nm-openswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -134,19 +134,19 @@ msgstr ""
 "Ezin izan da eskaera prozesatu VPN konexioaren ezarpenak baliogabekoak "
 "direlako."
 
-#: ../src/nm-openswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Autentifikatzea falta dena kudeatu gabe."
 
-#: ../src/nm-openswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ez irten VPNaren konexioa amaitzean"
 
-#: ../src/nm-openswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Gaitu arazketaren erregistro xehea (pasahitzak erakuts ditzake)"
 
-#: ../src/nm-openswan-service.c:1321
+#: ../src/nm-libreswan-service.c:1321
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -162,8 +162,8 @@ msgstr ""
 #~ msgid "Sh_ow passwords"
 #~ msgstr "_Erakutsi pasahitzak"
 
-#~ msgid "IPsec Based VPN Connection Manager (openswan)"
-#~ msgstr "IPsec-en oinarritutako VPN konexioen kudeatzailea (openswan)"
+#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
+#~ msgstr "IPsec-en oinarritutako VPN konexioen kudeatzailea (libreswan)"
 
 #~ msgid "Add, Remove, and Edit VPN Connections"
 #~ msgstr "Gehitu, kendu eta editatu VPN konexioak"
@@ -178,10 +178,10 @@ msgstr ""
 #~ msgstr "VPN Cisco-rekin bateragarria (vpnc)"
 
 #~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
 #~ "based VPN gateways."
 #~ msgstr ""
-#~ "Hainbat Cisco, Juniper, Netscreen eta Sonicwall IPSec-ean oinarritutako "
+#~ "Hainbat Cisco, Juniper, Netscreen eta Sonicwall IPsec-ean oinarritutako "
 #~ "VPN atebideekin bateragarria."
 
 #~ msgid "Secure (default)"

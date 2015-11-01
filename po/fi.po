@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-vpnc\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2013-09-11 18:22+0000\n"
 "PO-Revision-Date: 2013-09-22 19:59+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
@@ -44,94 +44,94 @@ msgstr "Ryhmän salasana:"
 msgid "_Group Password:"
 msgstr "_Ryhmän salasana:"
 
-#: ../nm-openswan.desktop.in.h:1
+#: ../nm-libreswan.desktop.in.h:1
 #| msgid "VPN Connection Manager (vpnc)"
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (openswan)"
+msgid "IPsec Based VPN Connection Manager (libreswan)"
+msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (libreswan)"
 
-#: ../nm-openswan.desktop.in.h:2
+#: ../nm-libreswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "Lisää, poista tai muokkaa VPN-yhteyksiä"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec-pohjainen VPN"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec-, IKEv1- ja IKEv2-pohjainen VPN"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-libreswan.c:274
 msgid "Saved"
 msgstr "Tallennettu"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-libreswan.c:281
 msgid "Always Ask"
 msgstr "Kysy aina"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-libreswan.c:288
 msgid "Not Required"
 msgstr "Ei vaadittu"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Yleisasetukset</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Näytä salasanat"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "_Ryhmän salasana:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Yhdyskäytävä:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "_Ryhmän nimi:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "_Käyttäjän salasana:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Lisäasetukset</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Käyttäjätunnus:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Phase1-algoritmit:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "Phase2-algoritmit:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Toimialue:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-libreswan-service.c:877
 msgid "Don't quit when VPN connection terminates"
 msgstr "Älä lopeta VPN-yhteyden päättyessä"
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-libreswan-service.c:878
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 
-#: ../src/nm-openswan-service.c:901
+#: ../src/nm-libreswan-service.c:901
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
+"nm-libreswan-service provides integrated IPsec VPN capability to "
 "NetworkManager."
 msgstr ""
 
@@ -160,11 +160,11 @@ msgstr ""
 #~ msgstr "Cisco-yhteensopiva VPN-asiakas (vpnc)"
 
 #~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
 #~ "based VPN gateways."
 #~ msgstr ""
 #~ "Yhteensopiva useiden esimerkiksi Ciscon, Juniperin, Netscreenin ja "
-#~ "Sonicwallin valmistamien IPSec-pohjaisten VPN-yhdyskäytävien kanssa."
+#~ "Sonicwallin valmistamien IPsec-pohjaisten VPN-yhdyskäytävien kanssa."
 
 #~ msgid "Secure (default)"
 #~ msgstr "Turvallinen (oletus)"
