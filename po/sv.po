@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-10-26 13:50+0000\n"
 "PO-Revision-Date: 2015-10-26 18:54+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
@@ -46,87 +46,87 @@ msgstr "_Grupplösenord:"
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Du måste autentisera för att komma åt VPN-nätverket ”%s”."
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
 msgstr "Nätverk"
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Begär VPN-autentisering"
 
-#: ../properties/nm-openswan.c:58
+#: ../properties/nm-libreswan.c:58
 msgid "IPsec based VPN"
 msgstr "IPsec-baserad VPN"
 
-#: ../properties/nm-openswan.c:59
+#: ../properties/nm-libreswan.c:59
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec-,IKEv1-, IKEv2-baserad VPN"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-libreswan.c:281
 msgid "Saved"
 msgstr "Sparad"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-libreswan.c:288
 msgid "Always Ask"
 msgstr "Fråga alltid"
 
-#: ../properties/nm-openswan.c:295
+#: ../properties/nm-libreswan.c:295
 msgid "Not Required"
 msgstr "Krävs inte"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Allmänt</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Visa lösenord"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "Gr_upplösenord:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Gateway:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "G_ruppnamn:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "Användarlös_enord:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Valfri</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Användarnamn:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Phase1-algoritmer:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "Phase2-algoritmer"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Domän:"
 
-#: ../src/nm-openswan-service.c:910
+#: ../src/nm-libreswan-service.c:910
 msgid "A password is required."
 msgstr "Ett lösenord krävs."
 
-#: ../src/nm-openswan-service.c:1286
+#: ../src/nm-libreswan-service.c:1286
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -134,19 +134,19 @@ msgstr ""
 "Kunde inte bearbeta begäran eftersom VPN-anslutningsalternativen var "
 "ogiltiga."
 
-#: ../src/nm-openswan-service.c:1300
+#: ../src/nm-libreswan-service.c:1300
 msgid "Unhandled pending authentication."
 msgstr "Ohanterad väntande autentisering."
 
-#: ../src/nm-openswan-service.c:1395
+#: ../src/nm-libreswan-service.c:1395
 msgid "Don't quit when VPN connection terminates"
 msgstr "Avsluta inte när VPN-anslutningen avslutar"
 
-#: ../src/nm-openswan-service.c:1396
+#: ../src/nm-libreswan-service.c:1396
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Aktivera utförlig loggning (kan avslöja lösenord)"
 
-#: ../src/nm-openswan-service.c:1419
+#: ../src/nm-libreswan-service.c:1419
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -175,10 +175,10 @@ msgstr ""
 #~ msgstr "Cisco-kompatibel VPN (vpnc)"
 
 #~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-"
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
 #~ "based VPN gateways."
 #~ msgstr ""
-#~ "Kompatibel med olika Cisco, Juniper, Netscreen och Sonicwall IPSec-"
+#~ "Kompatibel med olika Cisco, Juniper, Netscreen och Sonicwall IPsec-"
 #~ "baserade VPN-gateway."
 
 #~ msgid "Secure (default)"

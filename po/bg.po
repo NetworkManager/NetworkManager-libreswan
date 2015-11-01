@@ -75,10 +75,10 @@ msgstr "ВЧМ съвместима със Cisco (vpnc)"
 
 #: ../properties/nm-vpnc.c:52
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
-"Съвместима с шлюзове предоставящи ВЧМ чрез IPSec на Cisco, Juniper, "
+"Съвместима с шлюзове предоставящи ВЧМ чрез IPsec на Cisco, Juniper, "
 "Netscreen и Sonicwall."
 
 #: ../properties/nm-vpnc.c:204

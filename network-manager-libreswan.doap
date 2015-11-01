@@ -4,13 +4,13 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">network-manager-openswan</name>
-  <shortdesc xml:lang="en">OpenSWAN VPN client plugin for NetworkManager</shortdesc>
-  <description>Provides easy connections to IPsec VPNs using NetworkManager and OpenSWAN.</description>
+  <name xml:lang="en">network-manager-libreswan</name>
+  <shortdesc xml:lang="en">Libreswan VPN client plugin for NetworkManager</shortdesc>
+  <description>Provides easy connections to IPsec VPNs using NetworkManager and Libreswan.</description>
   <homepage rdf:resource="https://wiki.gnome.org/Projects/NetworkManager" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/networkmanager-list" />
-  <download-page rdf:resource="http://download.gnome.org/sources/NetworkManager-openswan/" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=NetworkManager&amp;component=VPN:%20Openswan" />
+  <download-page rdf:resource="http://download.gnome.org/sources/NetworkManager-libreswan/" />
+  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=NetworkManager&amp;component=VPN:%20Libreswan" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
 

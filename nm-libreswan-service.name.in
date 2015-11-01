@@ -1,0 +1,14 @@
+[VPN Connection]
+name=libreswan
+service=org.freedesktop.NetworkManager.libreswan
+aliases=org.freedesktop.NetworkManager.openswan
+program=@LIBEXECDIR@/nm-libreswan-service
+
+[libnm]
+plugin=@PLUGINDIR@/libnm-vpn-plugin-libreswan.so
+
+[GNOME]
+auth-dialog=@LIBEXECDIR@/nm-libreswan-auth-dialog
+properties=@PLUGINDIR@/libnm-libreswan-properties
+supports-external-ui-mode=true
+supports-hints=true

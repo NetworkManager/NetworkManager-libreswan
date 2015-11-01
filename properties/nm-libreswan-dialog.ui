@@ -24,7 +24,7 @@
       </row>
     </data>
   </object>
-  <object class="GtkVBox" id="openswan-vbox">
+  <object class="GtkVBox" id="libreswan-vbox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>

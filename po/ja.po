@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2013-09-23 04:10+0000\n"
 "PO-Revision-Date: 2013-10-03 14:18+0900\n"
 "Last-Translator: Hajime Taira <htaira@redhat.com>\n"
@@ -37,93 +37,93 @@ msgstr "グループパスワード:"
 msgid "_Group Password:"
 msgstr "グループパスワード(_G):"
 
-#: ../nm-openswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "IPsec ベースの VPN 接続マネージャー (openswan)"
+#: ../nm-libreswan.desktop.in.h:1
+msgid "IPsec Based VPN Connection Manager (libreswan)"
+msgstr "IPsec ベースの VPN 接続マネージャー (libreswan)"
 
-#: ../nm-openswan.desktop.in.h:2
+#: ../nm-libreswan.desktop.in.h:2
 msgid "Add, Remove, and Edit VPN Connections"
 msgstr "VPN 接続を追加、削除または編集"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec ベースの VPN"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 ベースの VPN"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-libreswan.c:274
 msgid "Saved"
 msgstr "保存しました"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-libreswan.c:281
 msgid "Always Ask"
 msgstr "毎回求める"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-libreswan.c:288
 msgid "Not Required"
 msgstr "不要"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>全般</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "パスワードを表示する"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "グループパスワード(_U):"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "ゲートウェイ(_G):"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "グループ名(_R):"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "ユーザーパスワード(_U):"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>オプション</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "ユーザー名:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "フェーズ1 アルゴリズム:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "フェーズ2 アルゴリズム:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "ドメイン:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-libreswan-service.c:877
 msgid "Don't quit when VPN connection terminates"
 msgstr "終了時に VPN 接続を切断しない"
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-libreswan-service.c:878
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "詳細なデバッグログ機能を有効化する (パスワードが露出する可能性があります)"
 
-#: ../src/nm-openswan-service.c:901
-msgid "nm-openswan-service provides integrated IPsec VPN capability to NetworkManager."
-msgstr "nm-openswan-service は NetworkManager に統合化された IPsec VPN 機能を提供します。"
+#: ../src/nm-libreswan-service.c:901
+msgid "nm-libreswan-service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "nm-libreswan-service は NetworkManager に統合化された IPsec VPN 機能を提供します。"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "第二パスワード(_S):"

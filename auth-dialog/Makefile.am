@@ -8,11 +8,11 @@ AM_CPPFLAGS = \
 	-DBINDIR=\""$(bindir)"\" \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\"
 
-libexec_PROGRAMS = nm-openswan-auth-dialog
+libexec_PROGRAMS = nm-libreswan-auth-dialog
 
-nm_openswan_auth_dialog_SOURCES = main.c
+nm_libreswan_auth_dialog_SOURCES = main.c
 
-nm_openswan_auth_dialog_LDADD = \
+nm_libreswan_auth_dialog_LDADD = \
 	$(LIBNM_LIBS) \
 	$(GTK_LIBS) \
 	$(LIBNMA_LIBS) \
@@ -20,8 +20,8 @@ nm_openswan_auth_dialog_LDADD = \
 
 @INTLTOOL_DESKTOP_RULE@
 desktopdir = $(datadir)/applications
-desktop_in_in_files = nm-openswan-auth-dialog.desktop.in.in
-desktop_in_files = nm-openswan-auth-dialog.desktop.in
+desktop_in_in_files = nm-libreswan-auth-dialog.desktop.in.in
+desktop_in_files = nm-libreswan-auth-dialog.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 EXTRA_DIST = \

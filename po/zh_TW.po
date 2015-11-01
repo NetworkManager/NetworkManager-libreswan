@@ -60,10 +60,10 @@ msgstr "Cisco 相容 VPN (vpnc)"
 
 #: ../properties/nm-vpnc.c:54
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
-"相容於各式 Cisco、Juniper、Netscreen和 Sonicwall 基於 IPSec 的 VPN 通訊閘。"
+"相容於各式 Cisco、Juniper、Netscreen和 Sonicwall 基於 IPsec 的 VPN 通訊閘。"
 
 #: ../properties/nm-vpnc.c:339
 msgid "Saved"

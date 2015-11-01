@@ -81,7 +81,7 @@ msgstr "عميل متوافق مع VPN سيسكو (vpnc) "
 
 #: ../properties/nm-vpnc.c:52
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
 

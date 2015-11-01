@@ -1,7 +1,7 @@
 [Desktop Entry]
 _Name=Network
 _Comment=Request VPN authentication
-Exec=@LIBEXECDIR@/nm-openswan-auth-dialog
+Exec=@LIBEXECDIR@/nm-libreswan-auth-dialog
 Terminal=false
 Type=Application
 NoDisplay=true

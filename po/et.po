@@ -66,8 +66,8 @@ msgid "Cisco Compatible VPN (vpnc)"
 msgstr "Cisco VPN kliendiga ühilduv (vpnc)"
 
 #: ../properties/nm-vpnc.c:54
-msgid "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based VPN gateways."
-msgstr "Ühilduv erinevate Cisco, Juniper, Netscreen, ja Sonicwall IPSec seadmetel baseeruvate VPN võrgulüüsidega."
+msgid "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based VPN gateways."
+msgstr "Ühilduv erinevate Cisco, Juniper, Netscreen, ja Sonicwall IPsec seadmetel baseeruvate VPN võrgulüüsidega."
 
 #: ../properties/nm-vpnc.c:339
 msgid "Saved"

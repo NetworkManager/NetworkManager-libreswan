@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-02-26 23:32+0000\n"
 "PO-Revision-Date: 2015-02-05 00:27+0000\n"
 "Last-Translator: Dženana <dkapetanov1@etf.unsa.ba>\n"
@@ -46,106 +46,106 @@ msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Trebate provjeriti atutentičnost za pristup virtuelnoj privatnoj mreži '%s'."
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
 msgstr "Mreža"
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Zatraži VPN autentifikaciju"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "IPsec VPN koji se temelji"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec, IKEv1, IKEv2 baziran VPN"
 
-#: ../properties/nm-openswan.c:303
+#: ../properties/nm-libreswan.c:303
 msgid "Saved"
 msgstr "Snimljeno"
 
-#: ../properties/nm-openswan.c:310
+#: ../properties/nm-libreswan.c:310
 msgid "Always Ask"
 msgstr "Uvijek pitaj"
 
-#: ../properties/nm-openswan.c:317
+#: ../properties/nm-libreswan.c:317
 msgid "Not Required"
 msgstr "Nije potrebno"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Opšte</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Prikaži lozinke"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "Lozinka gru_pe:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Mrežni izlaz:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Ime g_rupe:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "_Korisnička šifra:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Opciono</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Korisničko ime:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Faza1Algoritmi;:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "Faza2Algoritmi;:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../src/nm-openswan-service.c:831
+#: ../src/nm-libreswan-service.c:831
 msgid "A password is required."
 msgstr "Lozinka je potrebna."
 
-#: ../src/nm-openswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Ne mogu obraditi zahtjev zato što postavke VPN konekcije su bile neispravne."
 
-#: ../src/nm-openswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Neobrađena autentifikacija na čekanju."
 
-#: ../src/nm-openswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Ne izlazi kada se VPN konekcija prekida"
 
-#: ../src/nm-openswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Omogući detaljno praćenje grešaka (može otkriti lozinke)"
 
-#: ../src/nm-openswan-service.c:1321
+#: ../src/nm-libreswan-service.c:1321
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ova usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost."

@@ -65,10 +65,10 @@ msgstr "Cisco సారూప్య VPN (vpnc)"
 
 #: ../properties/nm-vpnc.c:54
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
-"Cisco, Juniper, Netscreen, మరియు Sonicwall IPSec-ఆధారిత "
+"Cisco, Juniper, Netscreen, మరియు Sonicwall IPsec-ఆధారిత "
 "VPN గేట్‌వేలతో సారూప్యము."
 
 #: ../properties/nm-vpnc.c:339

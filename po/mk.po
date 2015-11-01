@@ -79,10 +79,10 @@ msgstr "VPN компатибилен со Cisco (vpnc)"
 
 #: ../properties/nm-vpnc.c:52
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPSec-based "
+"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
 "VPN gateways."
 msgstr ""
-"Компатибилност со разни Cisco, Juniper, Netscreen и Sonicwall IPSec VPN "
+"Компатибилност со разни Cisco, Juniper, Netscreen и Sonicwall IPsec VPN "
 "премини."
 
 #: ../properties/nm-vpnc.c:194

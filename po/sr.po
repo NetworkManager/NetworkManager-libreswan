@@ -1,13 +1,13 @@
-# Serbian translation for network-manager-openswan.
+# Serbian translation for network-manager-libreswan.
 # Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2014.
-# Copyright (C) 2013 network-manager-openswan's COPYRIGHT HOLDER
-# This file is distributed under the same license as the network-manager-openswan package.
+# Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the network-manager-libreswan package.
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-openswan master\n"
+"Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
-"=network-manager-openswan&keywords=I18N+L10N&component=general\n"
+"=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-12-27 11:15+0000\n"
 "PO-Revision-Date: 2014-12-27 15:57+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
@@ -48,115 +48,115 @@ msgstr ""
 "Морате да потврдите идентитет да бисте могли да приступите виртуелној "
 "приватној мрежи „%s“."
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
 msgid "Network"
 msgstr "Мрежа"
 
-#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
 msgid "Request VPN authentication"
 msgstr "Захтевај ВПН потврђивање идентитета"
 
-#: ../properties/nm-openswan.c:47
+#: ../properties/nm-libreswan.c:47
 msgid "IPsec based VPN"
 msgstr "ВПН заснован на ИПсец-у"
 
-#: ../properties/nm-openswan.c:48
+#: ../properties/nm-libreswan.c:48
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "ВПН заснован на ИПсец-у, ИКЕв1 и ИКЕв2"
 
-#: ../properties/nm-openswan.c:303
+#: ../properties/nm-libreswan.c:303
 msgid "Saved"
 msgstr "Сачувано"
 
-#: ../properties/nm-openswan.c:310
+#: ../properties/nm-libreswan.c:310
 msgid "Always Ask"
 msgstr "Питај увек"
 
-#: ../properties/nm-openswan.c:317
+#: ../properties/nm-libreswan.c:317
 msgid "Not Required"
 msgstr "Није неопходно"
 
-#: ../properties/nm-openswan-dialog.ui.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-openswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Опште</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:3
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Прикажи лозинке"
 
-#: ../properties/nm-openswan-dialog.ui.h:4
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "Gro_up password:"
 msgstr "_Лозинка групе:"
 
-#: ../properties/nm-openswan-dialog.ui.h:5
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Мрежни пролаз:"
 
-#: ../properties/nm-openswan-dialog.ui.h:6
+#: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "_Назив групе:"
 
-#: ../properties/nm-openswan-dialog.ui.h:7
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "Лозинка _корисника:"
 
-#: ../properties/nm-openswan-dialog.ui.h:8
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "<b>Optional</b>"
 msgstr "<b>Могућности</b>"
 
-#: ../properties/nm-openswan-dialog.ui.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Корисничко име:"
 
-#: ../properties/nm-openswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Алгоритми фазе 1:"
 
-#: ../properties/nm-openswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Phase2 Algorithms:"
 msgstr "Алгоритми фазе 2:"
 
-#: ../properties/nm-openswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "Domain:"
 msgstr "Домен:"
 
-#: ../src/nm-openswan-service.c:831
+#: ../src/nm-libreswan-service.c:831
 msgid "A password is required."
 msgstr "Потребна је лозинка."
 
-#: ../src/nm-openswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1197
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "Не могу да обрадим захтев зато што су подешавања ВПН везе неисправна."
 
-#: ../src/nm-openswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1211
 msgid "Unhandled pending authentication."
 msgstr "Заказано потврђивање идентитета није исправно."
 
-#: ../src/nm-openswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1297
 msgid "Don't quit when VPN connection terminates"
 msgstr "Не прекида када се завршава ВПН веза"
 
-#: ../src/nm-openswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1298
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Укључује опширно записивање зарад исправљања грешака (може да изложи лозинке)"
 
-#: ../src/nm-openswan-service.c:1321
+#: ../src/nm-libreswan-service.c:1321
 #| msgid ""
-#| "nm-openswan-service provides integrated IPsec VPN capability to "
+#| "nm-libreswan-service provides integrated IPsec VPN capability to "
 #| "NetworkManager."
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ова услуга обезбеђује Управнику мреже обједињену ИПсец ВПН могућност."
 
-#~ msgid "IPsec Based VPN Connection Manager (openswan)"
-#~ msgstr "Управник ВПН везе заснован на ИПсец-у (openswan)"
+#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
+#~ msgstr "Управник ВПН везе заснован на ИПсец-у (libreswan)"
 
 #~ msgid "Add, Remove, and Edit VPN Connections"
 #~ msgstr "Додајте, уклањајте и уређујте ВПН везе"

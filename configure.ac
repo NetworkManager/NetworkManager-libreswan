@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager-openswan, 1.1.0, avagarwa@redhat.com, NetworkManager-openswan)
+AC_INIT(NetworkManager-libreswan, 1.1.0, avagarwa@redhat.com, NetworkManager-libreswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-xz])
 AM_MAINTAINER_MODE
 
@@ -42,9 +42,9 @@ AC_CHECK_FUNCS(select socket uname)
 dnl
 dnl GNOME support
 dnl
-AC_ARG_WITH(gnome, AS_HELP_STRING([--without-gnome], [Build NetworkManager-openswan without GNOME support, e.g. vpn service only]))
+AC_ARG_WITH(gnome, AS_HELP_STRING([--without-gnome], [Build NetworkManager-libreswan without GNOME support, e.g. vpn service only]))
 AM_CONDITIONAL(WITH_GNOME, test x"$with_gnome" != xno)
-AC_ARG_WITH(libnm-glib, AS_HELP_STRING([--without-libnm-glib], [Build NetworkManager-openswan without libnm-glib comatibility]))
+AC_ARG_WITH(libnm-glib, AS_HELP_STRING([--without-libnm-glib], [Build NetworkManager-libreswan without libnm-glib comatibility]))
 AM_CONDITIONAL(WITH_LIBNM_GLIB, test x"$with_libnm_glib" != xno)
 
 dnl ensure that when the Automake generated makefile calls aclocal,
@@ -55,7 +55,7 @@ if test -n "$ac_macro_dir"; then
 fi
 AC_SUBST([ACLOCAL_AMFLAGS])
 
-GETTEXT_PACKAGE=NetworkManager-openswan
+GETTEXT_PACKAGE=NetworkManager-libreswan
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package])
 
@@ -108,7 +108,7 @@ AC_CONFIG_FILES([
 Makefile
 src/Makefile
 auth-dialog/Makefile
-auth-dialog/nm-openswan-auth-dialog.desktop.in
+auth-dialog/nm-libreswan-auth-dialog.desktop.in
 properties/Makefile
 po/Makefile.in
 ])
