@@ -112,7 +112,7 @@ typedef struct {
 	ConnectStep connect_step;
 	NMConnection *connection;
 	NMDBusLibreswanHelper *dbus_skeleton;
-	GSList *routes;
+	GPtrArray *routes;
 
 	GIOChannel *channel;
 	guint io_id;
@@ -133,6 +133,14 @@ typedef struct {
             g_message (__VA_ARGS__); \
         } \
     } G_STMT_END
+
+/****************************************************************/
+
+guint32
+nm_utils_ip4_prefix_to_netmask (guint32 prefix)
+{
+	return prefix < 32 ? ~htonl(0xFFFFFFFF >> prefix) : 0xFFFFFFFF;
+}
 
 /****************************************************************/
 
@@ -1131,6 +1139,42 @@ fail:
 	return NULL;
 }
 
+static void
+_take_route (GPtrArray *routes, GVariant *new, gboolean alive)
+{
+	guint32 network, network2, netmask;
+	guint32 plen, plen2;
+	guint i;
+
+	if (!new)
+		return;
+
+	g_variant_get_child (new, 0, "u", &network);
+	g_variant_get_child (new, 1, "u", &plen);
+
+	netmask = nm_utils_ip4_prefix_to_netmask (plen);
+
+	for (i = 0; i < routes->len; i++) {
+		GVariant *r = routes->pdata[i];
+
+		g_variant_get_child (r, 0, "u", &network2);
+		g_variant_get_child (r, 1, "u", &plen2);
+
+		if (   plen2 == plen
+		    && ((network ^ network2) & netmask) == 0) {
+			g_ptr_array_remove_index (routes, i);
+			break;
+		}
+	}
+
+	if (alive) {
+		/* On new or update, we always add the new route to the end.
+		 * For update, we basically move the route to the end. */
+		g_ptr_array_add (routes, g_variant_ref_sink (new));
+	} else
+		g_variant_unref (new);
+}
+
 static gboolean
 handle_callback (NMDBusLibreswanHelper *object,
                  GDBusMethodInvocation *invocation,
@@ -1140,15 +1184,17 @@ handle_callback (NMDBusLibreswanHelper *object,
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (user_data);
 	GVariantBuilder config;
 	GVariantBuilder builder;
-	GSList *iter;
 	GVariant *val;
 	gboolean success = FALSE;
+	guint i;
+	const char *verb;
 
 	g_message ("Configuration from the helper received.");
 
-	if (g_strcmp0 (lookup_string (env, "PLUTO_VERB"), "up-client") != 0) {
-		nmdbus_libreswan_helper_complete_callback (object, invocation);
-		return TRUE;
+	verb = lookup_string (env, "PLUTO_VERB");
+	if (!verb) {
+		g_warning ("PLUTO_VERB missing");
+		goto out;
 	}
 
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
@@ -1221,16 +1267,15 @@ handle_callback (NMDBusLibreswanHelper *object,
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
 
 	/* This route */
-	/* TODO: We just cumulate the routes on up-client. We probably should add and remove them
-	 * on route-client and unroute-client verbs. */
-	val = route_to_gvariant (env);
-	if (val)
-		priv->routes = g_slist_append (priv->routes, g_variant_ref_sink (val));
+	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
+		_take_route (priv->routes, route_to_gvariant (env), TRUE);
+	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
+		_take_route (priv->routes, route_to_gvariant (env), FALSE);
 
 	/* Routes */
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
-	for (iter = priv->routes; iter; iter = g_slist_next (iter))
-		g_variant_builder_add_value (&builder, (GVariant *) iter->data);
+	for (i = 0; i < priv->routes->len; i++)
+		g_variant_builder_add_value (&builder, (GVariant *) priv->routes->pdata[i]);
 	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
 	                       g_variant_builder_end (&builder));
 
@@ -1708,8 +1753,7 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
 	gboolean ret;
 
-	g_slist_free_full (priv->routes, (GDestroyNotify) g_variant_unref);
-	priv->routes = NULL;
+	g_ptr_array_set_size (priv->routes, 0);
 
 	if (!priv->connection)
 		return TRUE;
@@ -1755,6 +1799,9 @@ dispose (GObject *object)
 static void
 nm_libreswan_plugin_init (NMLibreswanPlugin *plugin)
 {
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
+
+	priv->routes = g_ptr_array_new_with_free_func ((GDestroyNotify) g_variant_unref);
 }
 
 static void
@@ -1765,6 +1812,8 @@ finalize (GObject *object)
 	delete_secrets_file (NM_LIBRESWAN_PLUGIN (object));
 	connect_cleanup (NM_LIBRESWAN_PLUGIN (object));
 	g_clear_object (&priv->connection);
+
+	g_ptr_array_unref (priv->routes);
 
 	G_OBJECT_CLASS (nm_libreswan_plugin_parent_class)->finalize (object);
 }
