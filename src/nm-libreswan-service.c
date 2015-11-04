@@ -520,6 +520,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	guint ret = 1;
 	GError *error = NULL;
+	gboolean success;
 
 	if (priv->watch_id == 0 || priv->pid != pid) {
 		/* Reap old child */
@@ -542,23 +543,26 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
 
-	if (ret != 0 && priv->retries) {
+	if (priv->connect_step == CONNECT_STEP_WAIT_READY)
+		success = (ret != 1);
+	else
+		success = (ret == 0);
+
+	if (success) {
+		/* Success; do the next connect step */
+		priv->connect_step++;
+		priv->retries = 0;
+		success = connect_step (self, &error);
+	} else if (priv->retries) {
 		priv->retries--;
 		g_message ("Spawn: %d more tries...", priv->retries);
 		priv->retry_id = g_timeout_add (100, retry_cb, self);
 		return;
 	}
 
-	if (ret == 0) {
-		/* Success; do the next connect step */
-		priv->connect_step++;
-		priv->retries = 0;
-		if (!connect_step (self, &error))
-			ret = 1;
-	}
-
-	if (ret != 0)
+	if (!success)
 		connect_failed (self, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+
 	g_clear_error (&error);
 }
 
