@@ -1008,6 +1008,7 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 
 	if (condition & (G_IO_ERR | G_IO_HUP)) {
 		DEBUG ("PTY(%s) pipe error!", pipe->detail);
+		pipe->id = 0;
 		return G_SOURCE_REMOVE;
 	}
 	g_assert (condition & G_IO_IN);
