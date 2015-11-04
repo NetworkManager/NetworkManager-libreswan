@@ -409,46 +409,11 @@ delete_secrets_file (NMLibreswanPlugin *self)
 	}
 }
 
-static gboolean
-ipsec_stop (NMLibreswanPlugin *self, GError **error)
-{
-	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-	const char *argv[5];
-	guint i = 0;
-
-	if (!priv->connection)
-		return TRUE;
-
-	delete_secrets_file (self);
-	connect_cleanup (self);
-
-	if (!priv->managed) {
-		argv[i++] = priv->ipsec_path;
-		argv[i++] = "auto";
-		argv[i++] = "--delete";
-		argv[i++] = nm_connection_get_uuid (priv->connection);
-		argv[i++] = NULL;
-	} else if (priv->openswan) {
-		argv[i++] = priv->ipsec_path;
-		argv[i++] = "setup";
-		argv[i++] = "stop";
-		argv[i++] = NULL;
-	} else {
-		argv[i++] = priv->whack_path;
-		argv[i++] = "--shutdown";
-		argv[i++] = NULL;
-	}
-
-	return g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, NULL, NULL, NULL, error);
-}
-
 static void
 connect_failed (NMLibreswanPlugin *self,
                 GError *error,
                 NMVpnConnectionStateReason reason)
 {
-	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
 		           g_quark_to_string (error->domain),
@@ -456,8 +421,6 @@ connect_failed (NMLibreswanPlugin *self,
 		           error->message);
 	}
 
-	ipsec_stop (self, NULL);
-	g_clear_object (&priv->connection);
 	nm_vpn_service_plugin_failure (NM_VPN_SERVICE_PLUGIN (self), reason);
 }
 
@@ -542,6 +505,11 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 
 	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
+
+	if (priv->connect_step == CONNECT_STEP_FIRST) {
+		nm_vpn_service_plugin_disconnect (self, NULL);
+		return;
+	}
 
 	if (priv->connect_step == CONNECT_STEP_WAIT_READY)
 		success = (ret != 1);
@@ -1186,8 +1154,6 @@ _connect_common (NMVpnServicePlugin   *plugin,
 			return FALSE;
 	}
 
-	ipsec_stop (self, NULL);
-
 	s_vpn = nm_connection_get_setting_vpn (connection);
 	g_assert (s_vpn);
 
@@ -1330,7 +1296,27 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
 	gboolean ret;
 
-	ret = ipsec_stop (NM_LIBRESWAN_PLUGIN (plugin), error);
+	if (!priv->connection)
+		return TRUE;
+
+	connect_cleanup (plugin);
+	delete_secrets_file (plugin);
+
+	if (!priv->managed) {
+                const char *uuid = nm_connection_get_uuid (priv->connection);
+		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		                priv->ipsec_path, "auto", "--delete", uuid, NULL);
+	} else if (priv->openswan) {
+		ret = do_spawn (&priv->pid, NULL, NULL, error,
+                                priv->ipsec_path, "setup", "stop", NULL);
+	} else {
+		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		                priv->whack_path, "--shutdown", NULL);
+	}
+
+	if (ret)
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, plugin);
+
 	g_clear_object (&priv->connection);
 
 	return ret;
