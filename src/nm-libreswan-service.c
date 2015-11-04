@@ -1047,7 +1047,6 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	DEBUG ("Connect: step %d", priv->connect_step);
 
 	uuid = nm_connection_get_uuid (priv->connection);
-	g_assert (uuid);
 
 	switch (priv->connect_step) {
 	case CONNECT_STEP_FIRST:
@@ -1101,6 +1100,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_CONFIG_ADD:
+		g_assert (uuid);
 		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
@@ -1110,6 +1110,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_CONNECT:
+		g_assert (uuid);
 		if (!spawn_pty (&up_stdout, &up_stderr, &up_pty, &priv->pid, error,
 		                priv->ipsec_path, "auto", "--up", uuid, NULL))
 			return FALSE;
