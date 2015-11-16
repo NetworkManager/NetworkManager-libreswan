@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-30 17:30+0200\n"
-"PO-Revision-Date: 2015-08-30 17:32+0200\n"
+"POT-Creation-Date: 2015-11-16 18:44+0100\n"
+"PO-Revision-Date: 2015-11-16 18:45+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -24,28 +24,28 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:174
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "Uwierzytelnianie VPN %s"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:191
 msgid "Password:"
 msgstr "Hasło:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:201
 msgid "Group Password:"
 msgstr "Hasło grupy:"
 
-#: ../auth-dialog/main.c:238
+#: ../auth-dialog/main.c:237
 msgid "Authenticate VPN"
 msgstr "Uwierzytelnianie VPN"
 
-#: ../auth-dialog/main.c:247
+#: ../auth-dialog/main.c:246
 msgid "_Group Password:"
 msgstr "Hasło g_rupy:"
 
-#: ../auth-dialog/main.c:496
+#: ../auth-dialog/main.c:495
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
@@ -60,23 +60,23 @@ msgstr "Sieć"
 msgid "Request VPN authentication"
 msgstr "Żądanie uwierzytelnienia sieci VPN"
 
-#: ../properties/nm-libreswan.c:45
+#: ../properties/nm-libreswan.c:58
 msgid "IPsec based VPN"
 msgstr "VPN oparte na IPsec"
 
-#: ../properties/nm-libreswan.c:46
+#: ../properties/nm-libreswan.c:59
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN oparte na IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-libreswan.c:301
+#: ../properties/nm-libreswan.c:281
 msgid "Saved"
 msgstr "Zapisano"
 
-#: ../properties/nm-libreswan.c:308
+#: ../properties/nm-libreswan.c:288
 msgid "Always Ask"
 msgstr "Pytanie zawsze"
 
-#: ../properties/nm-libreswan.c:315
+#: ../properties/nm-libreswan.c:295
 msgid "Not Required"
 msgstr "Niewymagane"
 
@@ -128,11 +128,11 @@ msgstr "Algorytmy fazy drugiej:"
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../src/nm-libreswan-service.c:867
+#: ../src/nm-libreswan-service.c:1340
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1235
+#: ../src/nm-libreswan-service.c:1723
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -140,19 +140,23 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1249
+#: ../src/nm-libreswan-service.c:1737
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:1335
+#: ../src/nm-libreswan-service.c:1878
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:1336
+#: ../src/nm-libreswan-service.c:1879
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:1359
+#: ../src/nm-libreswan-service.c:1880
+msgid "D-Bus name to use for this instance"
+msgstr "Nazwa D-Bus dla tego wystąpienia"
+
+#: ../src/nm-libreswan-service.c:1903
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
