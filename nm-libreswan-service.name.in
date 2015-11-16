@@ -3,6 +3,7 @@ name=libreswan
 service=org.freedesktop.NetworkManager.libreswan
 aliases=org.freedesktop.NetworkManager.openswan
 program=@LIBEXECDIR@/nm-libreswan-service
+supports-multiple-connections=true
 
 [libnm]
 plugin=@PLUGINDIR@/libnm-vpn-plugin-libreswan.so

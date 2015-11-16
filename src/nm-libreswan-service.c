@@ -1,6 +1,10 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /* NetworkManager-libreswan -- Network Manager Libreswan plugin
  *
+ * Dan Williams <dcbw@redhat.com>
+ * Avesh Agarwal <avagarwa@redhat.com>
+ * Lubomir Rintel <lkundrak@v3.sk>
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -15,8 +19,19 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2010 - 2011 Red Hat, Inc.
+ * Copyright (C) 2010 - 2015 Red Hat, Inc.
  */
+
+#define _GNU_SOURCE 1
+
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <netlink/netlink.h>
+#include <netlink/msg.h>
+
+#define _LINUX_IN6_H 1
+#include <linux/xfrm.h>
 
 #include <config.h>
 #include <stdio.h>
@@ -37,6 +52,8 @@
 
 #include <NetworkManager.h>
 #include <nm-vpn-service-plugin.h>
+
+#include "nm-libreswan-helper-service-dbus.h"
 #include "nm-libreswan-service.h"
 #include "nm-utils.h"
 
@@ -94,6 +111,8 @@ typedef struct {
 	guint retries;
 	ConnectStep connect_step;
 	NMConnection *connection;
+	NMDBusLibreswanHelper *dbus_skeleton;
+	GPtrArray *routes;
 
 	GIOChannel *channel;
 	guint io_id;
@@ -106,12 +125,7 @@ typedef struct {
 
 #define NM_LIBRESWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPluginPrivate))
 
-/* NOTE: the helper is currently called explicitly by the ipsec up/down
- * script /usr/libexec/ipsec/_updown.netkey when the configuration contains
- * "nm_configured=yes".  Eventually we want to somehow pass the helper
- * directly to pluto/whack with the --updown option.
- */
-#define NM_LIBRESWAN_HELPER_PATH		LIBEXECDIR"/nm-libreswan-service-helper"
+#define NM_LIBRESWAN_HELPER_PATH	LIBEXECDIR"/nm-libreswan-service-helper"
 
 #define DEBUG(...) \
     G_STMT_START { \
@@ -119,6 +133,14 @@ typedef struct {
             g_message (__VA_ARGS__); \
         } \
     } G_STMT_END
+
+/****************************************************************/
+
+guint32
+nm_utils_ip4_prefix_to_netmask (guint32 prefix)
+{
+	return prefix < 32 ? ~htonl(0xFFFFFFFF >> prefix) : 0xFFFFFFFF;
+}
 
 /****************************************************************/
 
@@ -409,46 +431,11 @@ delete_secrets_file (NMLibreswanPlugin *self)
 	}
 }
 
-static gboolean
-ipsec_stop (NMLibreswanPlugin *self, GError **error)
-{
-	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-	const char *argv[5];
-	guint i = 0;
-
-	if (!priv->connection)
-		return TRUE;
-
-	delete_secrets_file (self);
-	connect_cleanup (self);
-
-	if (!priv->managed) {
-		argv[i++] = priv->ipsec_path;
-		argv[i++] = "auto";
-		argv[i++] = "--delete";
-		argv[i++] = nm_connection_get_uuid (priv->connection);
-		argv[i++] = NULL;
-	} else if (priv->openswan) {
-		argv[i++] = priv->ipsec_path;
-		argv[i++] = "setup";
-		argv[i++] = "stop";
-		argv[i++] = NULL;
-	} else {
-		argv[i++] = priv->whack_path;
-		argv[i++] = "--shutdown";
-		argv[i++] = NULL;
-	}
-
-	return g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, NULL, NULL, NULL, error);
-}
-
 static void
 connect_failed (NMLibreswanPlugin *self,
                 GError *error,
                 NMVpnConnectionStateReason reason)
 {
-	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
 		           g_quark_to_string (error->domain),
@@ -456,8 +443,6 @@ connect_failed (NMLibreswanPlugin *self,
 		           error->message);
 	}
 
-	ipsec_stop (self, NULL);
-	g_clear_object (&priv->connection);
 	nm_vpn_service_plugin_failure (NM_VPN_SERVICE_PLUGIN (self), reason);
 }
 
@@ -520,6 +505,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	guint ret = 1;
 	GError *error = NULL;
+	gboolean success;
 
 	if (priv->watch_id == 0 || priv->pid != pid) {
 		/* Reap old child */
@@ -542,23 +528,31 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
 
-	if (ret != 0 && priv->retries) {
+	if (priv->connect_step == CONNECT_STEP_FIRST) {
+		nm_vpn_service_plugin_disconnect (self, NULL);
+		return;
+	}
+
+	if (priv->connect_step == CONNECT_STEP_WAIT_READY)
+		success = (ret != 1);
+	else
+		success = (ret == 0);
+
+	if (success) {
+		/* Success; do the next connect step */
+		priv->connect_step++;
+		priv->retries = 0;
+		success = connect_step (self, &error);
+	} else if (priv->retries) {
 		priv->retries--;
 		g_message ("Spawn: %d more tries...", priv->retries);
 		priv->retry_id = g_timeout_add (100, retry_cb, self);
 		return;
 	}
 
-	if (ret == 0) {
-		/* Success; do the next connect step */
-		priv->connect_step++;
-		priv->retries = 0;
-		if (!connect_step (self, &error))
-			ret = 1;
-	}
-
-	if (ret != 0)
+	if (!success)
 		connect_failed (self, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+
 	g_clear_error (&error);
 }
 
@@ -657,6 +651,7 @@ nm_libreswan_config_write (NMLibreswanPlugin *self,
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+	char *bus_name;
 
 	g_assert (fd >= 0);
 	g_assert (s_vpn);
@@ -669,6 +664,10 @@ nm_libreswan_config_write (NMLibreswanPlugin *self,
 	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID));
 	write_config_option (fd, " leftxauthclient=yes\n");
 	write_config_option (fd, " leftmodecfgclient=yes\n");
+
+	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
+	write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"\n", bus_name);
+	g_free (bus_name);
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
 	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
@@ -695,7 +694,6 @@ nm_libreswan_config_write (NMLibreswanPlugin *self,
 	else
 		write_config_option (fd, " esp=%s\n", phase2_alg_str);
 
-	write_config_option (fd, " nm_configured=yes\n");
 	write_config_option (fd, " rekey=yes\n");
 	write_config_option (fd, " salifetime=24h\n");
 	write_config_option (fd, " ikelifetime=24h\n");
@@ -871,6 +869,437 @@ spawn_pty (int *out_stdout,
 
 /****************************************************************/
 
+/* The various SWANs don't tell helper scripts whether upstream sent
+ * specific subnets to be routed over the VPN (eg, CISCO_SPLIT_INC).
+ * This is what we need to automatically determine 'never-default' behavior.
+ * Instead, we have to inspect the kernel's SAD (Security Assocation Database)
+ * for IPSec-secured routes pointing to the VPN gateway.
+ */
+
+typedef struct {
+	struct in_addr gw4;
+	gboolean have_routes4;
+} RoutesInfo;
+
+static int
+verify_source (struct nl_msg *msg, gpointer user_data)
+{
+	struct ucred *creds = nlmsg_get_creds (msg);
+
+	if (!creds || creds->pid || creds->uid || creds->gid) {
+		if (creds) {
+			g_warning ("netlink: received non-kernel message (pid %d uid %d gid %d)",
+			           creds->pid, creds->uid, creds->gid);
+		} else
+			g_warning ("netlink: received message without credentials");
+		return NL_STOP;
+	}
+
+	return NL_OK;
+}
+
+static struct nl_sock *
+setup_socket (void)
+{
+	struct nl_sock *sk;
+	int err;
+
+	sk = nl_socket_alloc ();
+	g_return_val_if_fail (sk, NULL);
+
+	/* Only ever accept messages from kernel */
+	err = nl_socket_modify_cb (sk, NL_CB_MSG_IN, NL_CB_CUSTOM, verify_source, NULL);
+	g_assert (!err);
+
+	err = nl_connect (sk, NETLINK_XFRM);
+	g_assert (!err);
+	err = nl_socket_set_passcred (sk, 1);
+	g_assert (!err);
+
+	return sk;
+}
+
+static int
+parse_reply (struct nl_msg *msg, void *arg)
+{
+	RoutesInfo *info = arg;
+	struct nlmsghdr *n = nlmsg_hdr (msg);
+	struct nlattr *tb[XFRMA_MAX + 1];
+	struct xfrm_userpolicy_info *xpinfo = NULL;
+
+	if (info->have_routes4) {
+		/* already found some routes */
+		return NL_SKIP;
+	}
+
+	if (n->nlmsg_type != XFRM_MSG_NEWPOLICY) {
+		g_warning ("msg type %d not NEWPOLICY", n->nlmsg_type);
+		return NL_SKIP;
+	}
+
+	/* Netlink message header is followed by 'struct xfrm_userpolicy_info' and
+	 * then the attributes.
+	 */
+
+	if (!nlmsg_valid_hdr (n, sizeof (struct xfrm_userpolicy_info))) {
+		g_warning ("msg too short");
+		return -NLE_MSG_TOOSHORT;
+	}
+
+	xpinfo = nlmsg_data (n);
+	if (nla_parse (tb, XFRMA_MAX,
+	               nlmsg_attrdata (n, sizeof (struct xfrm_userpolicy_info)),
+	               nlmsg_attrlen (n, sizeof (struct xfrm_userpolicy_info)),
+	               NULL) < 0) {
+		g_warning ("failed to parse attributes");
+		return NL_SKIP;
+	}
+
+	if (tb[XFRMA_TMPL]) {
+		int attrlen = nla_len (tb[XFRMA_TMPL]);
+		struct xfrm_user_tmpl *list = nla_data (tb[XFRMA_TMPL]);
+		int i;
+
+		/* We only look for subnet route associations, eg where
+		 * (sel->prefixlen_d > 0), and for those associations, we match
+		 * the xfrm_user_tmpl's destination address against the PLUTO_PEER.
+		 */
+		if (xpinfo->sel.family == AF_INET && xpinfo->sel.prefixlen_d > 0) {
+			for (i = 0; i < attrlen / sizeof (struct xfrm_user_tmpl); i++) {
+				struct xfrm_user_tmpl *tmpl = &list[i];
+
+				if (   tmpl->family == AF_INET
+				    && memcmp (&tmpl->id.daddr, &info->gw4, sizeof (struct in_addr)) == 0) {
+					info->have_routes4 = TRUE;
+					break;
+				}
+			}
+		}
+	}
+
+	return NL_OK;
+}
+
+static gboolean
+have_sad_routes (const char *gw_addr4)
+{
+	RoutesInfo info = { { 0 }, FALSE };
+	struct nl_sock *sk;
+	int err;
+
+	if (inet_pton (AF_INET, gw_addr4, &info.gw4) != 1)
+		return FALSE;
+
+	sk = setup_socket ();
+	if (!sk)
+		return FALSE;
+
+	err = nl_send_simple (sk, XFRM_MSG_GETPOLICY, NLM_F_DUMP, NULL, 0);
+	if (err < 0) {
+		g_warning ("Error sending: %d %s", err, nl_geterror (err));
+		goto done;
+	}
+
+	nl_socket_modify_cb (sk, NL_CB_VALID, NL_CB_CUSTOM, parse_reply, &info);
+
+	err = nl_recvmsgs_default (sk);
+	if (err < 0) {
+		g_warning ("Error parsing: %d %s", err, nl_geterror (err));
+		goto done;
+	}
+
+done:
+	nl_socket_free (sk);
+	return info.have_routes4;
+}
+
+/****************************************************************/
+
+static GVariant *
+str_to_gvariant (const char *str, gboolean try_convert)
+{
+
+	/* Empty */
+	if (!str || strlen (str) < 1)
+		return NULL;
+
+	if (!g_utf8_validate (str, -1, NULL)) {
+		if (try_convert && !(str = g_convert (str, -1, "ISO-8859-1", "UTF-8", NULL, NULL, NULL)))
+			str = g_convert (str, -1, "C", "UTF-8", NULL, NULL, NULL);
+
+		if (!str)
+			/* Invalid */
+			return NULL;
+	}
+
+	return g_variant_new_string (str);
+}
+
+static GVariant *
+addr4_to_gvariant (const char *str)
+{
+	struct in_addr	temp_addr;
+
+	/* Empty */
+	if (!str || strlen (str) < 1)
+		return NULL;
+
+	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
+		return NULL;
+
+	return g_variant_new_uint32 (temp_addr.s_addr);
+}
+
+static GVariant *
+netmask4_to_gvariant (const char *str)
+{
+	struct in_addr	temp_addr;
+
+	/* Empty */
+	if (!str || strlen (str) < 1)
+		return NULL;
+
+	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
+		return NULL;
+
+	return g_variant_new_uint32 (nm_utils_ip4_netmask_to_prefix (temp_addr.s_addr));
+}
+
+static GVariant *
+addr4_list_to_gvariant (const char *str)
+{
+	GVariantBuilder builder;
+	char **split;
+	int i;
+
+	/* Empty */
+	if (!str || strlen (str) < 1)
+		return NULL;
+
+	split = g_strsplit (str, " ", -1);
+	if (g_strv_length (split) == 0)
+		return NULL;
+
+	g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
+
+	for (i = 0; split[i]; i++) {
+		struct in_addr addr;
+
+		if (inet_pton (AF_INET, split[i], &addr) > 0) {
+			g_variant_builder_add_value (&builder, g_variant_new_uint32 (addr.s_addr));
+		} else {
+			g_strfreev (split);
+			g_variant_unref (g_variant_builder_end (&builder));
+			return NULL;
+		}
+	}
+
+	g_strfreev (split);
+
+	return g_variant_builder_end (&builder);
+}
+
+static const gchar *
+lookup_string (GVariant *dict, const gchar *key)
+{
+	const gchar *value = NULL;
+
+	g_variant_lookup (dict, key, "&s", &value);
+	return value;
+}
+
+static GVariant *
+route_to_gvariant (GVariant *env)
+{
+	GVariantBuilder builder;
+
+	if (!lookup_string (env, "PLUTO_PEER_CLIENT"))
+		return NULL;
+
+	g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+
+#define _try_add(builder, variant) \
+	G_STMT_START { \
+		GVariant *_v = (variant); \
+		\
+		if (!_v) \
+			goto fail; \
+		g_variant_builder_add_value ((builder), _v); \
+	} G_STMT_END
+	_try_add (&builder, addr4_to_gvariant (lookup_string (env, "PLUTO_PEER_CLIENT_NET")));
+	_try_add (&builder, netmask4_to_gvariant (lookup_string (env, "PLUTO_PEER_CLIENT_MASK")));
+	_try_add (&builder, addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP")));
+	_try_add (&builder, g_variant_new_uint32 (0));
+	_try_add (&builder, addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP")));
+#undef _try_add
+
+	return g_variant_builder_end (&builder);
+fail:
+	g_variant_builder_clear (&builder);
+	return NULL;
+}
+
+static void
+_take_route (GPtrArray *routes, GVariant *new, gboolean alive)
+{
+	guint32 network, network2, netmask;
+	guint32 plen, plen2;
+	guint i;
+
+	if (!new)
+		return;
+
+	g_variant_get_child (new, 0, "u", &network);
+	g_variant_get_child (new, 1, "u", &plen);
+
+	netmask = nm_utils_ip4_prefix_to_netmask (plen);
+
+	for (i = 0; i < routes->len; i++) {
+		GVariant *r = routes->pdata[i];
+
+		g_variant_get_child (r, 0, "u", &network2);
+		g_variant_get_child (r, 1, "u", &plen2);
+
+		if (   plen2 == plen
+		    && ((network ^ network2) & netmask) == 0) {
+			g_ptr_array_remove_index (routes, i);
+			break;
+		}
+	}
+
+	if (alive) {
+		/* On new or update, we always add the new route to the end.
+		 * For update, we basically move the route to the end. */
+		g_ptr_array_add (routes, g_variant_ref_sink (new));
+	} else
+		g_variant_unref (new);
+}
+
+static gboolean
+handle_callback (NMDBusLibreswanHelper *object,
+                 GDBusMethodInvocation *invocation,
+                 GVariant *env,
+                 gpointer user_data)
+{
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (user_data);
+	GVariantBuilder config;
+	GVariantBuilder builder;
+	GVariant *val;
+	gboolean success = FALSE;
+	guint i;
+	const char *verb;
+
+	g_message ("Configuration from the helper received.");
+
+	verb = lookup_string (env, "PLUTO_VERB");
+	if (!verb) {
+		g_warning ("PLUTO_VERB missing");
+		goto out;
+	}
+
+	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
+
+	/* Right peer (or Gateway) */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
+	else {
+		g_warning ("IPsec/Pluto Right Peer (VPN Gateway)");
+		goto out;
+	}
+
+	/*
+	 * Tunnel device
+	 * Indicate that this plugin doesn't use tun/tap device
+	 */
+	val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
+
+	/* IP address */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
+	else {
+		g_warning ("IP4 Address");
+		goto out;
+	}
+
+	/* PTP address; PTP address == internal IP4 address */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
+	else {
+		g_warning ("IP4 PTP Address");
+		goto out;
+	}
+
+	/* Netmask */
+	val = g_variant_new_uint32 (32);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
+
+	/* DNS */
+	val = addr4_list_to_gvariant (lookup_string (env, "PLUTO_CISCO_DNS_INFO"));
+	if (!val) {
+		/* libreswan value */
+		val = addr4_list_to_gvariant (lookup_string (env, "PLUTO_PEER_DNS_INFO"));
+	}
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
+
+
+	/* Default domain */
+	val = str_to_gvariant (lookup_string (env, "PLUTO_CISCO_DOMAIN_INFO"), TRUE);
+	if (!val) {
+		/* libreswan value */
+		val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_DOMAIN_INFO"), TRUE);
+	}
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
+
+	/* Banner */
+	val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_BANNER"), TRUE);
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
+
+
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
+
+	/* This route */
+	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
+		_take_route (priv->routes, route_to_gvariant (env), TRUE);
+	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
+		_take_route (priv->routes, route_to_gvariant (env), FALSE);
+
+	/* Routes */
+	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
+	for (i = 0; i < priv->routes->len; i++)
+		g_variant_builder_add_value (&builder, (GVariant *) priv->routes->pdata[i]);
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
+	                       g_variant_builder_end (&builder));
+
+	/* :( */
+	if (have_sad_routes (lookup_string (env, "PLUTO_PEER")))
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
+
+	success = TRUE;
+
+out:
+	if (success) {
+		nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
+		                                      g_variant_builder_end (&config));
+	} else {
+		connect_failed (NM_LIBRESWAN_PLUGIN (user_data), NULL,
+		                NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+	}
+
+	nmdbus_libreswan_helper_complete_callback (object, invocation);
+	return success;
+}
+
+/****************************************************************/
+
 #define PASSPHRASE_REQUEST "Enter passphrase: "
 
 static gboolean
@@ -1004,6 +1433,7 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 
 	if (condition & (G_IO_ERR | G_IO_HUP)) {
 		DEBUG ("PTY(%s) pipe error!", pipe->detail);
+		pipe->id = 0;
 		return G_SOURCE_REMOVE;
 	}
 	g_assert (condition & G_IO_IN);
@@ -1047,7 +1477,6 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	DEBUG ("Connect: step %d", priv->connect_step);
 
 	uuid = nm_connection_get_uuid (priv->connection);
-	g_assert (uuid);
 
 	switch (priv->connect_step) {
 	case CONNECT_STEP_FIRST:
@@ -1101,6 +1530,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_CONFIG_ADD:
+		g_assert (uuid);
 		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
@@ -1110,6 +1540,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_CONNECT:
+		g_assert (uuid);
 		if (!spawn_pty (&up_stdout, &up_stderr, &up_pty, &priv->pid, error,
 		                priv->ipsec_path, "auto", "--up", uuid, NULL))
 			return FALSE;
@@ -1179,8 +1610,6 @@ _connect_common (NMVpnServicePlugin   *plugin,
 		if (!priv->whack_path)
 			return FALSE;
 	}
-
-	ipsec_stop (self, NULL);
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
 	g_assert (s_vpn);
@@ -1324,15 +1753,55 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
 	gboolean ret;
 
-	ret = ipsec_stop (NM_LIBRESWAN_PLUGIN (plugin), error);
+	g_ptr_array_set_size (priv->routes, 0);
+
+	if (!priv->connection)
+		return TRUE;
+
+	connect_cleanup (plugin);
+	delete_secrets_file (plugin);
+
+	if (!priv->managed) {
+                const char *uuid = nm_connection_get_uuid (priv->connection);
+		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		                priv->ipsec_path, "auto", "--delete", uuid, NULL);
+	} else if (priv->openswan) {
+		ret = do_spawn (&priv->pid, NULL, NULL, error,
+                                priv->ipsec_path, "setup", "stop", NULL);
+	} else {
+		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		                priv->whack_path, "--shutdown", NULL);
+	}
+
+	if (ret)
+		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, plugin);
+
 	g_clear_object (&priv->connection);
 
 	return ret;
 }
 
 static void
+dispose (GObject *object)
+{
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (object);
+	GDBusInterfaceSkeleton *skeleton = G_DBUS_INTERFACE_SKELETON (priv->dbus_skeleton);
+
+	if (skeleton) {
+		if (g_dbus_interface_skeleton_get_object_path (skeleton))
+			g_dbus_interface_skeleton_unexport (skeleton);
+		g_signal_handlers_disconnect_by_func (skeleton, handle_callback, object);
+	}
+
+	G_OBJECT_CLASS (nm_libreswan_plugin_parent_class)->dispose (object);
+}
+
+static void
 nm_libreswan_plugin_init (NMLibreswanPlugin *plugin)
 {
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
+
+	priv->routes = g_ptr_array_new_with_free_func ((GDestroyNotify) g_variant_unref);
 }
 
 static void
@@ -1343,6 +1812,8 @@ finalize (GObject *object)
 	delete_secrets_file (NM_LIBRESWAN_PLUGIN (object));
 	connect_cleanup (NM_LIBRESWAN_PLUGIN (object));
 	g_clear_object (&priv->connection);
+
+	g_ptr_array_unref (priv->routes);
 
 	G_OBJECT_CLASS (nm_libreswan_plugin_parent_class)->finalize (object);
 }
@@ -1356,6 +1827,7 @@ nm_libreswan_plugin_class_init (NMLibreswanPluginClass *libreswan_class)
 	g_type_class_add_private (object_class, sizeof (NMLibreswanPluginPrivate));
 
 	/* virtual methods */
+	object_class->dispose = dispose;
 	object_class->finalize = finalize;
 	parent_class->connect = real_connect;
 	parent_class->connect_interactive = real_connect_interactive;
@@ -1395,13 +1867,17 @@ int
 main (int argc, char *argv[])
 {
 	NMLibreswanPlugin *plugin;
+	NMLibreswanPluginPrivate *priv;
 	gboolean persist = FALSE;
 	GOptionContext *opt_ctx = NULL;
+	GDBusConnection *connection;
 	GError *error = NULL;
+	const gchar *bus_name = NM_DBUS_SERVICE_LIBRESWAN;
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
 		{ "debug", 0, 0, G_OPTION_ARG_NONE, &debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
+		{ "bus-name", 0, 0, G_OPTION_ARG_STRING, &bus_name, N_("DBus name to use for this instance"), NULL },
 		{NULL}
 	};
 
@@ -1436,13 +1912,32 @@ main (int argc, char *argv[])
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
 	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, NM_DBUS_SERVICE_LIBRESWAN,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, bus_name,
 	                         NULL);
 	if (!plugin) {
-                g_warning ("Failed to initialize a plugin instance: %s", error->message);
-                g_error_free (error);
+		g_warning ("Failed to initialize a plugin instance: %s", error->message);
+		g_error_free (error);
 		exit (1);
 	}
+
+	connection = nm_vpn_service_plugin_get_connection (NM_VPN_SERVICE_PLUGIN (plugin)),
+	priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
+	priv->dbus_skeleton = nmdbus_libreswan_helper_skeleton_new ();
+	if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (priv->dbus_skeleton),
+	                                       connection,
+	                                       NM_DBUS_PATH_LIBRESWAN_HELPER,
+	                                       &error)) {
+		g_warning ("Failed to export helper interface: %s", error->message);
+		g_error_free (error);
+		g_clear_object (&plugin);
+		exit (1);
+	}
+
+	g_dbus_connection_register_object (connection, NM_VPN_DBUS_PLUGIN_PATH,
+	                                   nmdbus_libreswan_helper_interface_info (),
+	                                   NULL, NULL, NULL, NULL);
+
+	g_signal_connect (priv->dbus_skeleton, "handle-callback", G_CALLBACK (handle_callback), plugin);
 
 	loop = g_main_loop_new (NULL, FALSE);
 
