@@ -50,13 +50,6 @@ nm_libreswan_service_helper_LDADD = \
 	$(LIBNM_LIBS) \
 	libnm-libreswan-helper-service-dbus.la
 
-install-exec-hook:
-	$(LN_S) -f nm-libreswan-service-helper \
-		$(DESTDIR)$(libexecdir)/nm-openswan-service-helper
-
-uninstall-hook:
-	rm -f $(DESTDIR)$(libexecdir)/nm-openswan-service-helper
-
 noinst_PROGRAMS = show-xfrm
 
 show_xfrm_SOURCES = show-xfrm.c
