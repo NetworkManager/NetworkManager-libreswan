@@ -65,4 +65,6 @@ show_xfrm_LDADD = $(LIBNL_LIBS) $(GLIB_LIBS)
 
 BUILT_SOURCES = nm-libreswan-helper-service-dbus.h nm-libreswan-helper-service-dbus.c
 
-CLEANFILES = *~
+CLEANFILES = *~ $(BUILT_SOURCES)
+
+EXTRA_DIST = nm-libreswan-helper-service.xml
