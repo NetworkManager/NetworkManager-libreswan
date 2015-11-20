@@ -1,6 +1,6 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager-libreswan,
+AC_INIT(NetworkManager-openswan,
         1.0.9,
         https://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager,
         NetworkManager-libreswan)
