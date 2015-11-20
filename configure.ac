@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 AC_INIT(NetworkManager-openswan,
         1.0.9,
         https://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager,
-        NetworkManager-libreswan)
+        NetworkManager-openswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-bzip2])
 AM_MAINTAINER_MODE
 
