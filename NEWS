@@ -1,4 +1,17 @@
 =======================================================
+NetworkManager-openswan-1.0.8
+Overview of changes since NetworkManager-openswan-1.0.6
+=======================================================
+
+This is a new stable release of NetworkManager-openswan.  Notable changes include:
+
+* Fixed interaction with standalone pluto daemon instance
+* Many fixes in error handling paths
+* Add vendor property to help with interoperability testing
+* Updated Portuguese, Swedish nad Lithuanian translations
+
+
+=======================================================
 network-manager-openswan-1.0.6
 Overview of changes since network-manager-openswan-1.0.2
 =======================================================
