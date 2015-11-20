@@ -1,6 +1,9 @@
 AC_PREREQ(2.52)
 
-AC_INIT(NetworkManager-libreswan, 1.1.0, avagarwa@redhat.com, NetworkManager-libreswan)
+AC_INIT(NetworkManager-libreswan,
+        1.1.0,
+        https://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager,
+        NetworkManager-libreswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-xz])
 AM_MAINTAINER_MODE
 
