@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-13 11:12+0000\n"
-"PO-Revision-Date: 2015-01-12 19:07+0100\n"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2015-12-01 01:53+0000\n"
+"PO-Revision-Date: 2015-12-02 16:06+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -27,29 +27,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:174
 #, c-format
-#| msgid "Authenticate VPN"
 msgid "Authenticate VPN %s"
 msgstr "Autenticar VPN %s"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:191
 msgid "Password:"
 msgstr "Contraseña:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:201
 msgid "Group Password:"
 msgstr "Contraseña del grupo_"
 
-#: ../auth-dialog/main.c:238
+#: ../auth-dialog/main.c:237
 msgid "Authenticate VPN"
 msgstr "Autenticación VPN"
 
-#: ../auth-dialog/main.c:247
+#: ../auth-dialog/main.c:246
 msgid "_Group Password:"
 msgstr "Contraseña del _grupo:"
 
-#: ../auth-dialog/main.c:496
+#: ../auth-dialog/main.c:495
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Debe autenticarse para acceder a la red privada virtual «%s»."
@@ -62,23 +61,23 @@ msgstr "Red"
 msgid "Request VPN authentication"
 msgstr "Solicitar autenticación VPN"
 
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan.c:58
 msgid "IPsec based VPN"
 msgstr "VPN basada en IPsec"
 
-#: ../properties/nm-libreswan.c:48
+#: ../properties/nm-libreswan.c:59
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN basada en IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-libreswan.c:303
+#: ../properties/nm-libreswan.c:281
 msgid "Saved"
 msgstr "Guardado"
 
-#: ../properties/nm-libreswan.c:310
+#: ../properties/nm-libreswan.c:288
 msgid "Always Ask"
 msgstr "Preguntar siempre"
 
-#: ../properties/nm-libreswan.c:317
+#: ../properties/nm-libreswan.c:295
 msgid "Not Required"
 msgstr "No requerido"
 
@@ -133,11 +132,11 @@ msgstr "Algoritmos de fase 2:"
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: ../src/nm-libreswan-service.c:831
+#: ../src/nm-libreswan-service.c:1340
 msgid "A password is required."
 msgstr "Se requiere una contraseña."
 
-#: ../src/nm-libreswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1723
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -145,22 +144,23 @@ msgstr ""
 "No se pudo procesar la solicitud porque la configuración de la conexión VPN "
 "no es válida."
 
-#: ../src/nm-libreswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1737
 msgid "Unhandled pending authentication."
 msgstr "Autenticación pendiente no manejada."
 
-#: ../src/nm-libreswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1878
 msgid "Don't quit when VPN connection terminates"
 msgstr "No salir cuando termine la conexión VPN"
 
-#: ../src/nm-libreswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1879
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Activar el registro detallado del depurado (puede mostrar contraseñas)"
 
-#: ../src/nm-libreswan-service.c:1321
-#| msgid ""
-#| "nm-libreswan-service provides integrated IPsec VPN capability to "
-#| "NetworkManager."
+#: ../src/nm-libreswan-service.c:1880
+msgid "D-Bus name to use for this instance"
+msgstr "Nombre D-Bus que usar para esta instancia"
+
+#: ../src/nm-libreswan-service.c:1903
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
