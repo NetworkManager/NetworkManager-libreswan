@@ -43,11 +43,18 @@ nm_libreswan_config_write (gint fd,
                            gboolean openswan)
 {
 	NMSettingVpn *s_vpn = nm_connection_get_setting_vpn (connection);
-	const char *con_name = nm_connection_get_uuid (connection);
+	const char *con_name;
 	const char *props_username;
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+
+	/* We abuse the presence of bus name to decide if we're exporting
+	 * the connection or actually configuring Pluto. */
+	if (bus_name)
+		con_name = nm_connection_get_uuid (connection);
+	else
+		con_name = nm_connection_get_id (connection);
 
 	g_assert (fd >= 0);
 	g_assert (s_vpn);
