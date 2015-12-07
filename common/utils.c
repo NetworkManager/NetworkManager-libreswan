@@ -66,11 +66,10 @@ nm_libreswan_config_write (gint fd,
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
 	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
-	if (   default_username && strlen (default_username)
-		&& (!props_username || !strlen (props_username)))
-		write_config_option (fd, " leftxauthusername=%s\n", default_username);
-	else
+	if (props_username && strlen (props_username))
 		write_config_option (fd, " leftxauthusername=%s\n", props_username);
+	else if (default_username && strlen (default_username))
+		write_config_option (fd, " leftxauthusername=%s\n", default_username);
 
 	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
 	write_config_option (fd, " remote_peer_type=cisco\n");
