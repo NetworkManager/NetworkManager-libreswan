@@ -29,12 +29,55 @@
 #ifdef NM_LIBRESWAN_OLD
 #define NM_VPN_LIBNM_COMPAT
 #include <nm-connection.h>
+#define nm_simple_connection_new nm_connection_new
 #endif
 
 #include "nm-libreswan-service.h"
 #include "utils.h"
 
 gboolean debug = FALSE;
+
+NMConnection *
+nm_libreswan_config_read (gint fd)
+{
+	NMConnection *connection;
+	NMSettingConnection *s_con;
+	NMSettingVpn *s_vpn;
+	GIOChannel *chan;
+	gchar *str;
+
+	connection = nm_simple_connection_new ();
+	s_con = NM_SETTING_CONNECTION (nm_setting_connection_new ());
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_connection_add_setting (connection, NM_SETTING (s_con));
+	nm_connection_add_setting (connection, NM_SETTING (s_vpn));
+	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN, NULL);
+
+	chan = g_io_channel_unix_new (fd);
+	while (g_io_channel_read_line (chan, &str, NULL, NULL, NULL) == G_IO_STATUS_NORMAL) {
+		g_strstrip (str);
+		if (g_str_has_prefix (str, "conn "))
+			g_object_set (s_con, NM_SETTING_CONNECTION_ID, &str[5], NULL);
+		else if (g_str_has_prefix (str, "leftid=@"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, &str[8]);
+		else if (g_str_has_prefix (str, "leftxauthusername="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, &str[18]);
+		else if (g_str_has_prefix (str, "right="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHT, &str[6]);
+		else if (g_str_has_prefix (str, "ike=") && strcmp (str, "ike=aes-sha1"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKE, &str[4]);
+		else if (g_str_has_prefix (str, "esp=") && strcmp (str, "esp=aes-sha1;modp1024"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, &str[4]);
+		else if (g_str_has_prefix (str, "cisco-unity=yes"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_VENDOR, "Cisco");
+		else if (debug)
+			g_print ("Ignored line: '%s'", str);
+		g_free (str);
+	}
+	g_io_channel_unref (chan);
+
+	return connection;
+}
 
 void
 nm_libreswan_config_write (gint fd,

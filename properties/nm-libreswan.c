@@ -657,6 +657,27 @@ libreswan_editor_interface_init (NMVpnEditorInterface *iface_class)
 	iface_class->update_connection = update_connection;
 }
 
+static NMConnection *
+import_from_file (NMVpnEditorPlugin *self,
+                  const char *path,
+                  GError **error)
+{
+	NMConnection *connection;
+	int fd;
+
+	fd = g_open (path, O_RDONLY, 0777);
+	if (fd == -1) {
+		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0,
+		             _("Can't open file '%s': %s"), path, g_strerror (errno));
+		return FALSE;
+	}
+
+	connection = nm_libreswan_config_read (fd);
+	g_close (fd, NULL);
+
+	return connection;
+}
+
 static gboolean
 export_to_file (NMVpnEditorPlugin *self,
                 const char *path,
@@ -685,7 +706,7 @@ export_to_file (NMVpnEditorPlugin *self,
 static guint32
 get_capabilities (NMVpnEditorPlugin *iface)
 {
-	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT;
+	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT | NM_VPN_EDITOR_PLUGIN_CAPABILITY_IMPORT;
 }
 
 static NMVpnEditor *
@@ -746,7 +767,7 @@ libreswan_editor_plugin_interface_init (NMVpnEditorPluginInterface *iface_class)
 	iface_class->get_editor = get_editor;
 	iface_class->get_capabilities = get_capabilities;
 
-	iface_class->import_from_file = NULL;
+	iface_class->import_from_file = import_from_file;
 	iface_class->export_to_file = export_to_file;
 
 	iface_class->get_suggested_filename = NULL;

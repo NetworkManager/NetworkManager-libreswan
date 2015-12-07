@@ -42,6 +42,9 @@ write_config_option (int fd, const char *format, ...)
 	va_end (args);
 }
 
+NMConnection *
+nm_libreswan_config_read (gint fd);
+
 void
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
