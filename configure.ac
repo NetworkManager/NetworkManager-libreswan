@@ -109,6 +109,7 @@ NM_COMPILER_WARNINGS
 
 AC_CONFIG_FILES([
 Makefile
+common/Makefile
 src/Makefile
 auth-dialog/Makefile
 auth-dialog/nm-libreswan-auth-dialog.desktop.in

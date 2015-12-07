@@ -32,6 +32,8 @@
 #define NM_DBUS_PATH_LIBRESWAN        "/org/freedesktop/NetworkManager/libreswan"
 #define NM_DBUS_PATH_LIBRESWAN_HELPER "/org/freedesktop/NetworkManager/libreswan/helper"
 
+#define NM_LIBRESWAN_HELPER_PATH      LIBEXECDIR"/nm-libreswan-service-helper"
+
 #define NM_LIBRESWAN_RIGHT  "right"
 #define NM_LIBRESWAN_LEFTID "leftid"
 #define NM_LIBRESWAN_PSK_VALUE "pskvalue"

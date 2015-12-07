@@ -9,7 +9,8 @@ AM_CPPFLAGS = \
 	-DLIBEXECDIR=\""$(libexecdir)"\" \
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
 	-DDATADIR=\"$(datadir)\" \
-	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\"
+	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
+	-I$(top_srcdir)/common/
 
 libexec_PROGRAMS = nm-libreswan-service nm-libreswan-service-helper
 
@@ -40,6 +41,7 @@ nm_libreswan_service_LDADD = \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNL_LIBS) \
+	$(top_builddir)/common/libnm-libreswan-common.la \
 	libnm-libreswan-helper-service-dbus.la \
 	-lutil
 
