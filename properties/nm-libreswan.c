@@ -30,7 +30,9 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <glib/gi18n-lib.h>
+#include <glib/gstdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
 
@@ -54,6 +56,7 @@
 
 #include "nm-libreswan-service.h"
 #include "nm-libreswan.h"
+#include "utils.h"
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")
 #define LIBRESWAN_PLUGIN_DESC    _("IPsec, IKEv1, IKEv2 based VPN")
@@ -95,6 +98,7 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget *widget;
 	GtkSizeGroup *group;
+	gboolean openswan;
 } LibreswanEditorPrivate;
 
 
@@ -419,6 +423,11 @@ init_editor_plugin (LibreswanEditor *self,
 	                  (GCallback) show_toggled_cb,
 	                  self);
 
+	if (s_vpn) {
+		const char *type = nm_setting_vpn_get_service_type (s_vpn);
+		priv->openswan = (g_strcmp0 (type, NM_VPN_SERVICE_TYPE_OPENSWAN) == 0);
+	}
+
 	return TRUE;
 }
 
@@ -648,10 +657,35 @@ libreswan_editor_interface_init (NMVpnEditorInterface *iface_class)
 	iface_class->update_connection = update_connection;
 }
 
+static gboolean
+export_to_file (NMVpnEditorPlugin *self,
+                const char *path,
+                NMConnection *connection,
+                GError **error)
+{
+	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+	int fd;
+
+	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
+	if (fd == -1) {
+		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0,
+		             _("Can't open file '%s': %s"), path, g_strerror (errno));
+		return FALSE;
+	}
+
+	nm_libreswan_config_write (fd, connection, NULL, priv->openswan);
+
+	if (!g_close (fd, error))
+		return FALSE;
+
+	return TRUE;
+
+}
+
 static guint32
 get_capabilities (NMVpnEditorPlugin *iface)
 {
-	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_NONE;
+	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT;
 }
 
 static NMVpnEditor *
@@ -711,8 +745,10 @@ libreswan_editor_plugin_interface_init (NMVpnEditorPluginInterface *iface_class)
 	/* interface implementation */
 	iface_class->get_editor = get_editor;
 	iface_class->get_capabilities = get_capabilities;
+
 	iface_class->import_from_file = NULL;
-	iface_class->export_to_file = NULL;
+	iface_class->export_to_file = export_to_file;
+
 	iface_class->get_suggested_filename = NULL;
 }
 
