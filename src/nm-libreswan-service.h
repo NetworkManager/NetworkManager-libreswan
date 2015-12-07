@@ -24,6 +24,8 @@
 #include <glib.h>
 #include <glib-object.h>
 
+#define NM_VPN_SERVICE_TYPE_LIBRESWAN "org.freedesktop.NetworkManager.libreswan"
+
 #define NM_DBUS_SERVICE_LIBRESWAN     "org.freedesktop.NetworkManager.libreswan"
 #define NM_DBUS_INTERFACE_LIBRESWAN   "org.freedesktop.NetworkManager.libreswan"
 #define NM_DBUS_PATH_LIBRESWAN        "/org/freedesktop/NetworkManager/libreswan"

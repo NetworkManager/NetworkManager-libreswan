@@ -485,7 +485,7 @@ update_connection (NMVpnEditor *iface,
 		return FALSE;
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
-	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_DBUS_SERVICE_LIBRESWAN, NULL);
+	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN, NULL);
 
 	/* Gateway */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "gateway_entry"));
@@ -672,7 +672,7 @@ get_property (GObject *object, guint prop_id,
 		g_value_set_string (value, LIBRESWAN_PLUGIN_DESC);
 		break;
 	case PROP_SERVICE:
-		g_value_set_string (value, NM_DBUS_SERVICE_LIBRESWAN);
+		g_value_set_string (value, NM_VPN_SERVICE_TYPE_LIBRESWAN);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
