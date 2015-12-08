@@ -5,15 +5,15 @@
 # Jakub Friedl <jfriedl@suse.cz>, 2006.
 # Jiří Eischmann <jiri@eischmann.cz>, 2008.
 # Marek Černocký <marek@manet.cz>, 2013.
-# Zdeněk Hataš <zdenek.hatas@gmail.com>, 2009 - 2014.
+# Zdeněk Hataš <zdenek.hatas@gmail.com>, 2009 - 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-13 11:12+0000\n"
-"PO-Revision-Date: 2014-11-03 15:47+0100\n"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2015-12-01 13:50+0000\n"
+"PO-Revision-Date: 2015-12-01 17:01+0100\n"
 "Last-Translator: Zdeněk Hataš <zdenek.hatas@gmail.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -21,30 +21,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.5\n"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:174
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "Ověřit VPN %s"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:191
 msgid "Password:"
 msgstr "Heslo:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:201
 msgid "Group Password:"
 msgstr "Heslo skupiny:"
 
-#: ../auth-dialog/main.c:238
+#: ../auth-dialog/main.c:237
 msgid "Authenticate VPN"
 msgstr "Ověřování VPN"
 
-#: ../auth-dialog/main.c:247
+#: ../auth-dialog/main.c:246
 msgid "_Group Password:"
 msgstr "Heslo _skupiny:"
 
-#: ../auth-dialog/main.c:496
+#: ../auth-dialog/main.c:495
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Pro přístup do VPN „%s“ se musí provést ověření."
@@ -57,23 +57,23 @@ msgstr "Síť"
 msgid "Request VPN authentication"
 msgstr "Požadovat ověření VPN"
 
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan.c:58
 msgid "IPsec based VPN"
 msgstr "VPN pomocí IPsec"
 
-#: ../properties/nm-libreswan.c:48
+#: ../properties/nm-libreswan.c:59
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN pomocí IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-libreswan.c:303
+#: ../properties/nm-libreswan.c:281
 msgid "Saved"
 msgstr "Uloženo"
 
-#: ../properties/nm-libreswan.c:310
+#: ../properties/nm-libreswan.c:288
 msgid "Always Ask"
 msgstr "Vždy se ptát"
 
-#: ../properties/nm-libreswan.c:317
+#: ../properties/nm-libreswan.c:295
 msgid "Not Required"
 msgstr "Není vyžadováno"
 
@@ -125,32 +125,32 @@ msgstr "Alogritmy Fáze2:"
 msgid "Domain:"
 msgstr "Doména:"
 
-#: ../src/nm-libreswan-service.c:831
+#: ../src/nm-libreswan-service.c:1340
 msgid "A password is required."
 msgstr "Je požadováno heslo."
 
-#: ../src/nm-libreswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1723
 msgid ""
-"Could not process the request because the VPN connection settings were "
-"invalid."
-msgstr ""
-"Nelze zpracovat požadavek, protože nastavení připojení VPN nejsou platná."
+"Could not process the request because the VPN connection settings were invalid."
+msgstr "Nelze zpracovat požadavek, protože nastavení připojení VPN nejsou platná."
 
-#: ../src/nm-libreswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1737
 msgid "Unhandled pending authentication."
 msgstr "Neošetřené čekající ověření."
 
-#: ../src/nm-libreswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1878
 msgid "Don't quit when VPN connection terminates"
 msgstr "Neskončit, dokud se spojení VPN ukončuje"
 
-#: ../src/nm-libreswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1879
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Zapnout podrobnou evidenci ladění (může odhalit hesla)"
 
-#: ../src/nm-libreswan-service.c:1321
-msgid ""
-"This service provides integrated IPsec VPN capability to NetworkManager."
+#: ../src/nm-libreswan-service.c:1880
+msgid "D-Bus name to use for this instance"
+msgstr "Název použitý pro tuto instanci v D-Bus"
+
+#: ../src/nm-libreswan-service.c:1903
+msgid "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"Tato služba poskytuje integraci funkčnosti IPsec VPN do správce "
-"NetworkManager."
+"Tato služba poskytuje integraci funkčnosti IPsec VPN do správce NetworkManager."
