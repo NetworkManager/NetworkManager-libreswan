@@ -8,6 +8,7 @@ common_CFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/common \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DUIDIR=\""$(uidir)"\" \
 	-DLOCALEDIR=\"$(datadir)/locale\"
@@ -30,11 +31,13 @@ libnm_libreswan_properties_la_SOURCES = \
 
 libnm_vpn_plugin_libreswan_la_LIBADD = \
 	$(GTK_LIBS) \
-	$(LIBNM_LIBS)
+	$(LIBNM_LIBS) \
+	$(top_builddir)/common/libnm-libreswan-common.la
 
 libnm_libreswan_properties_la_LIBADD = \
 	$(GTK_LIBS) \
-	$(LIBNM_GLIB_LIBS)
+	$(LIBNM_GLIB_LIBS) \
+	$(top_builddir)/common/libnm-vpn-plugin-libreswan-common.la
 
 libnm_vpn_plugin_libreswan_la_LDFLAGS = \
         -avoid-version

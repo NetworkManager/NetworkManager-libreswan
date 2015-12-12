@@ -24,10 +24,15 @@
 #include <glib.h>
 #include <glib-object.h>
 
+#define NM_VPN_SERVICE_TYPE_LIBRESWAN "org.freedesktop.NetworkManager.libreswan"
+#define NM_VPN_SERVICE_TYPE_OPENSWAN  "org.freedesktop.NetworkManager.openswan"
+
 #define NM_DBUS_SERVICE_LIBRESWAN     "org.freedesktop.NetworkManager.libreswan"
 #define NM_DBUS_INTERFACE_LIBRESWAN   "org.freedesktop.NetworkManager.libreswan"
 #define NM_DBUS_PATH_LIBRESWAN        "/org/freedesktop/NetworkManager/libreswan"
 #define NM_DBUS_PATH_LIBRESWAN_HELPER "/org/freedesktop/NetworkManager/libreswan/helper"
+
+#define NM_LIBRESWAN_HELPER_PATH      LIBEXECDIR"/nm-libreswan-service-helper"
 
 #define NM_LIBRESWAN_RIGHT  "right"
 #define NM_LIBRESWAN_LEFTID "leftid"

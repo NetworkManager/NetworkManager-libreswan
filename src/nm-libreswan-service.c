@@ -56,6 +56,7 @@
 #include "nm-libreswan-helper-service-dbus.h"
 #include "nm-libreswan-service.h"
 #include "nm-utils.h"
+#include "utils.h"
 
 #if !defined(DIST_VERSION)
 # define DIST_VERSION VERSION
@@ -73,7 +74,6 @@ G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGI
 
 /************************************************************/
 
-static gboolean debug = FALSE;
 GMainLoop *loop = NULL;
 
 typedef enum {
@@ -124,8 +124,6 @@ typedef struct {
 } NMLibreswanPluginPrivate;
 
 #define NM_LIBRESWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPluginPrivate))
-
-#define NM_LIBRESWAN_HELPER_PATH	LIBEXECDIR"/nm-libreswan-service-helper"
 
 #define DEBUG(...) \
     G_STMT_START { \
@@ -617,99 +615,6 @@ do_spawn (GPid *out_pid,
 
 	g_ptr_array_free (argv, TRUE);
 	return success;
-}
-
-static inline void
-write_config_option (int fd, const char *format, ...)
-{
-	char *string;
-	va_list args;
-
-	va_start (args, format);
-	string = g_strdup_vprintf (format, args);
-
-	if (debug)
-		g_print ("Config: %s", string);
-
-	if ( write (fd, string, strlen (string)) == -1)
-		g_warning ("nm-libreswan: error in write_config_option");
-
-	g_free (string);
-	va_end (args);
-}
-
-static void
-nm_libreswan_config_write (NMLibreswanPlugin *self,
-                           gint fd,
-                           NMConnection *connection,
-                           GError **error)
-{
-	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-	NMSettingVpn *s_vpn = nm_connection_get_setting_vpn (connection);
-	const char *con_name = nm_connection_get_uuid (connection);
-	const char *props_username;
-	const char *default_username;
-	const char *phase1_alg_str;
-	const char *phase2_alg_str;
-	char *bus_name;
-
-	g_assert (fd >= 0);
-	g_assert (s_vpn);
-	g_assert (con_name);
-
-	write_config_option (fd, "conn %s\n", con_name);
-	write_config_option (fd, " aggrmode=yes\n");
-	write_config_option (fd, " authby=secret\n");
-	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID));
-	write_config_option (fd, " leftxauthclient=yes\n");
-	write_config_option (fd, " leftmodecfgclient=yes\n");
-
-	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
-	write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"\n", bus_name);
-	g_free (bus_name);
-
-	default_username = nm_setting_vpn_get_user_name (s_vpn);
-	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
-	if (   default_username && strlen (default_username)
-		&& (!props_username || !strlen (props_username)))
-		write_config_option (fd, " leftxauthusername=%s\n", default_username);
-	else
-		write_config_option (fd, " leftxauthusername=%s\n", props_username);
-
-	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
-	write_config_option (fd, " remote_peer_type=cisco\n");
-	write_config_option (fd, " rightxauthserver=yes\n");
-	write_config_option (fd, " rightmodecfgserver=yes\n");
-
-	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
-	if (!phase1_alg_str || !strlen (phase1_alg_str))
-		write_config_option (fd, " ike=aes-sha1\n");
-	else
-		write_config_option (fd, " ike=%s\n", phase1_alg_str);
-
-	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
-	if (!phase2_alg_str || !strlen (phase2_alg_str))
-		write_config_option (fd, " esp=aes-sha1;modp1024\n");
-	else
-		write_config_option (fd, " esp=%s\n", phase2_alg_str);
-
-	write_config_option (fd, " rekey=yes\n");
-	write_config_option (fd, " salifetime=24h\n");
-	write_config_option (fd, " ikelifetime=24h\n");
-	write_config_option (fd, " keyingtries=1\n");
-	if (!priv->openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
-		write_config_option (fd, " cisco-unity=yes\n");
-	write_config_option (fd, " auto=add");
-
-	/* openswan requires a terminating \n (otherwise it segfaults) while
-	 * libreswan fails parsing the configuration if you include the \n.
-	 * WTF?
-	 */
-	if (priv->openswan)
-		(void) write (fd, "\n", 1);
-	if (debug)
-		g_print ("\n");
 }
 
 static gboolean
@@ -1468,6 +1373,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
 	gboolean success = FALSE;
+	char *bus_name;
 
 	g_warn_if_fail (priv->watch_id == 0);
 	priv->watch_id = 0;
@@ -1535,7 +1441,9 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
-		nm_libreswan_config_write (self, fd, priv->connection, error);
+		g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
+		nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan);
+		g_free (bus_name);
 		close (fd);
 		return TRUE;
 

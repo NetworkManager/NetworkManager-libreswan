@@ -467,8 +467,9 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	if (strcmp (vpn_service, NM_DBUS_SERVICE_LIBRESWAN) != 0) {
-		fprintf (stderr, "This dialog only works with the '%s' service\n", NM_DBUS_SERVICE_LIBRESWAN);
+	if (   strcmp (vpn_service, NM_VPN_SERVICE_TYPE_LIBRESWAN) != 0
+	    && strcmp (vpn_service, NM_VPN_SERVICE_TYPE_OPENSWAN) != 0) {
+		fprintf (stderr, "This dialog only works with the '%s' service\n", NM_VPN_SERVICE_TYPE_LIBRESWAN);
 		return 1;
 	}
 
