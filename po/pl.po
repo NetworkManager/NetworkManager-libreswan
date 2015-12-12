@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-16 18:44+0100\n"
-"PO-Revision-Date: 2015-11-16 18:45+0100\n"
+"POT-Creation-Date: 2015-12-12 17:34+0100\n"
+"PO-Revision-Date: 2015-12-12 17:35+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -45,7 +45,7 @@ msgstr "Uwierzytelnianie VPN"
 msgid "_Group Password:"
 msgstr "Hasło g_rupy:"
 
-#: ../auth-dialog/main.c:495
+#: ../auth-dialog/main.c:496
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
@@ -60,25 +60,30 @@ msgstr "Sieć"
 msgid "Request VPN authentication"
 msgstr "Żądanie uwierzytelnienia sieci VPN"
 
-#: ../properties/nm-libreswan.c:58
+#: ../properties/nm-libreswan.c:61
 msgid "IPsec based VPN"
 msgstr "VPN oparte na IPsec"
 
-#: ../properties/nm-libreswan.c:59
+#: ../properties/nm-libreswan.c:62
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN oparte na IPsec, IKEv1, IKEv2"
 
-#: ../properties/nm-libreswan.c:281
+#: ../properties/nm-libreswan.c:285
 msgid "Saved"
 msgstr "Zapisano"
 
-#: ../properties/nm-libreswan.c:288
+#: ../properties/nm-libreswan.c:292
 msgid "Always Ask"
 msgstr "Pytanie zawsze"
 
-#: ../properties/nm-libreswan.c:295
+#: ../properties/nm-libreswan.c:299
 msgid "Not Required"
 msgstr "Niewymagane"
+
+#: ../properties/nm-libreswan.c:671 ../properties/nm-libreswan.c:693
+#, c-format
+msgid "Can't open file '%s': %s"
+msgstr "Nie można otworzyć pliku „%s”: %s"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
@@ -128,11 +133,11 @@ msgstr "Algorytmy fazy drugiej:"
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../src/nm-libreswan-service.c:1340
+#: ../src/nm-libreswan-service.c:1245
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1723
+#: ../src/nm-libreswan-service.c:1631
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -140,23 +145,23 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1737
+#: ../src/nm-libreswan-service.c:1645
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:1878
+#: ../src/nm-libreswan-service.c:1786
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:1879
+#: ../src/nm-libreswan-service.c:1787
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:1880
+#: ../src/nm-libreswan-service.c:1788
 msgid "D-Bus name to use for this instance"
 msgstr "Nazwa D-Bus dla tego wystąpienia"
 
-#: ../src/nm-libreswan-service.c:1903
+#: ../src/nm-libreswan-service.c:1811
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
