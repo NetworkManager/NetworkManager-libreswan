@@ -3,15 +3,15 @@
 # Ilkka Tuohela <hile@iki.fi>, 2006-2008.
 #
 # Suomennos: https://l10n.gnome.org/teams/fi/
-# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
+# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-vpnc\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-openswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-11 18:22+0000\n"
-"PO-Revision-Date: 2013-09-22 19:59+0300\n"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2015-12-20 13:59+0000\n"
+"PO-Revision-Date: 2015-12-20 18:02+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -19,39 +19,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
-#: ../auth-dialog/main.c:188
+#: ../auth-dialog/main.c:175
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Yhteydenotto VPN-verkkoon \"%s\" vaatii kirjautumista."
+#| msgid "Authenticate VPN"
+msgid "Authenticate VPN %s"
+msgstr "Todenna VPN-yhteyden %s avaus"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Todenna VPN-yhteyden avaus"
-
-#: ../auth-dialog/main.c:200
-#| msgid "_Password:"
+#: ../auth-dialog/main.c:192
 msgid "Password:"
 msgstr "Salasana:"
 
 #: ../auth-dialog/main.c:202
-#| msgid "_Group Password:"
 msgid "Group Password:"
 msgstr "Ryhmän salasana:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:238
+msgid "Authenticate VPN"
+msgstr "Todenna VPN-yhteyden avaus"
+
+#: ../auth-dialog/main.c:247
 msgid "_Group Password:"
 msgstr "_Ryhmän salasana:"
 
-#: ../nm-openswan.desktop.in.h:1
-#| msgid "VPN Connection Manager (vpnc)"
-msgid "IPsec Based VPN Connection Manager (openswan)"
-msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (openswan)"
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr "Yhteydenotto VPN-verkkoon \"%s\" vaatii tunnistautumista."
 
-#: ../nm-openswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Lisää, poista tai muokkaa VPN-yhteyksiä"
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Verkko"
+
+#: ../auth-dialog/nm-openswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "Vaadi VPN-tunnistautuminen"
 
 #: ../properties/nm-openswan.c:47
 msgid "IPsec based VPN"
@@ -61,15 +64,15 @@ msgstr "IPsec-pohjainen VPN"
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "IPsec-, IKEv1- ja IKEv2-pohjainen VPN"
 
-#: ../properties/nm-openswan.c:274
+#: ../properties/nm-openswan.c:303
 msgid "Saved"
 msgstr "Tallennettu"
 
-#: ../properties/nm-openswan.c:281
+#: ../properties/nm-openswan.c:310
 msgid "Always Ask"
 msgstr "Kysy aina"
 
-#: ../properties/nm-openswan.c:288
+#: ../properties/nm-openswan.c:317
 msgid "Not Required"
 msgstr "Ei vaadittu"
 
@@ -121,19 +124,41 @@ msgstr "Phase2-algoritmit:"
 msgid "Domain:"
 msgstr "Toimialue:"
 
-#: ../src/nm-openswan-service.c:877
+#: ../src/nm-openswan-service.c:911
+msgid "A password is required."
+msgstr "Salasana vaaditaan."
+
+#: ../src/nm-openswan-service.c:1293
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Pyyntöä ei voitu käsitellä, koska VPN-yhteyden asetukset ovat virheelliset."
+
+#: ../src/nm-openswan-service.c:1307
+msgid "Unhandled pending authentication."
+msgstr ""
+
+#: ../src/nm-openswan-service.c:1401
 msgid "Don't quit when VPN connection terminates"
 msgstr "Älä lopeta VPN-yhteyden päättyessä"
 
-#: ../src/nm-openswan-service.c:878
+#: ../src/nm-openswan-service.c:1402
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 
-#: ../src/nm-openswan-service.c:901
+#: ../src/nm-openswan-service.c:1425
 msgid ""
-"nm-openswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
+"This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
+"Tämä palvelu tarjoaa integroidun IPsec VPN -toiminnon NetworkManageriin."
+
+#~| msgid "VPN Connection Manager (vpnc)"
+#~ msgid "IPsec Based VPN Connection Manager (openswan)"
+#~ msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (openswan)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Lisää, poista tai muokkaa VPN-yhteyksiä"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Toissijainen salasana:"
