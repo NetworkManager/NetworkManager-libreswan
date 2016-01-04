@@ -1,15 +1,15 @@
 # Serbian translation for network-manager-libreswan.
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2014.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2016.
 # Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2014.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
-"=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-27 11:15+0000\n"
-"PO-Revision-Date: 2014-12-27 15:57+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=Network"
+"Manager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2016-01-04 01:57+0000\n"
+"PO-Revision-Date: 2016-01-04 11:40+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -20,24 +20,24 @@ msgstr ""
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:174
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "Potvrdi VPN %s"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:191
 msgid "Password:"
 msgstr "Lozinka:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:201
 msgid "Group Password:"
 msgstr "Lozinka grupe:"
 
-#: ../auth-dialog/main.c:238
+#: ../auth-dialog/main.c:237
 msgid "Authenticate VPN"
 msgstr "Potvrdi VPN"
 
-#: ../auth-dialog/main.c:247
+#: ../auth-dialog/main.c:246
 msgid "_Group Password:"
 msgstr "Lozinka _grupe:"
 
@@ -56,25 +56,30 @@ msgstr "Mreža"
 msgid "Request VPN authentication"
 msgstr "Zahtevaj VPN potvrđivanje identiteta"
 
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan.c:61
 msgid "IPsec based VPN"
 msgstr "VPN zasnovan na IPsec-u"
 
-#: ../properties/nm-libreswan.c:48
+#: ../properties/nm-libreswan.c:62
 msgid "IPsec, IKEv1, IKEv2 based VPN"
 msgstr "VPN zasnovan na IPsec-u, IKEv1 i IKEv2"
 
-#: ../properties/nm-libreswan.c:303
+#: ../properties/nm-libreswan.c:285
 msgid "Saved"
 msgstr "Sačuvano"
 
-#: ../properties/nm-libreswan.c:310
+#: ../properties/nm-libreswan.c:292
 msgid "Always Ask"
 msgstr "Pitaj uvek"
 
-#: ../properties/nm-libreswan.c:317
+#: ../properties/nm-libreswan.c:299
 msgid "Not Required"
 msgstr "Nije neophodno"
+
+#: ../properties/nm-libreswan.c:671 ../properties/nm-libreswan.c:693
+#, c-format
+msgid "Can't open file '%s': %s"
+msgstr "Ne mogu da otvorim datoteku „%s“: %s"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
@@ -124,33 +129,33 @@ msgstr "Algoritmi faze 2:"
 msgid "Domain:"
 msgstr "Domen:"
 
-#: ../src/nm-libreswan-service.c:831
+#: ../src/nm-libreswan-service.c:1245
 msgid "A password is required."
 msgstr "Potrebna je lozinka."
 
-#: ../src/nm-libreswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1631
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "Ne mogu da obradim zahtev zato što su podešavanja VPN veze neispravna."
 
-#: ../src/nm-libreswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1645
 msgid "Unhandled pending authentication."
 msgstr "Zakazano potvrđivanje identiteta nije ispravno."
 
-#: ../src/nm-libreswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1786
 msgid "Don't quit when VPN connection terminates"
-msgstr "Ne prekida kada se završava VPN veza"
+msgstr "Ne prekida kada se završi VPN veza"
 
-#: ../src/nm-libreswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1787
 msgid "Enable verbose debug logging (may expose passwords)"
-msgstr ""
-"Uključuje opširno zapisivanje zarad ispravljanja grešaka (može da izloži lozinke)"
+msgstr "Uključuje opširno zapisivanje pročišćavanja (može da izloži lozinke)"
 
-#: ../src/nm-libreswan-service.c:1321
-#| msgid ""
-#| "nm-libreswan-service provides integrated IPsec VPN capability to "
-#| "NetworkManager."
+#: ../src/nm-libreswan-service.c:1788
+msgid "D-Bus name to use for this instance"
+msgstr "Naziv D-sabirnice koji se koristi za ovaj primerak"
+
+#: ../src/nm-libreswan-service.c:1811
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ova usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost."
