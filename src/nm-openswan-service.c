@@ -372,9 +372,9 @@ connect_cleanup (NMOpenSwanPlugin *self)
 		priv->pid = 0;
 	}
 
-	if (priv->watch_id) {
-		g_source_remove (priv->watch_id);
-		priv->watch_id = 0;
+	if (priv->retry_id) {
+		g_source_remove (priv->retry_id);
+		priv->retry_id = 0;
 	}
 
 	if (priv->io_id) {
