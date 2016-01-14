@@ -4,180 +4,238 @@
 #   NetworkManager-vpnc package.
 # Gil Forcada <gilforcada@guifi.net>, 2006.
 # David Planella <david.planella@gmail.com>, 2009
+# Walter Garcia-Fontes <walter.garcia@upf.edu>, 2016
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-26 21:13+0100\n"
-"PO-Revision-Date: 2009-01-18 16:32+0100\n"
-"Last-Translator: David Planella <david.planella@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2016-01-10 01:54+0000\n"
+"PO-Revision-Date: 2016-01-10 14:04+0100\n"
+"Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:103
-msgid "_Secondary Password:"
-msgstr "Contrasenya _secundària:"
+#: ../auth-dialog/main.c:174
+#, c-format
+msgid "Authenticate VPN %s"
+msgstr "Autentica la VPN %s"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:159
-msgid "_Password:"
-msgstr "_Contrasenya:"
+#: ../auth-dialog/main.c:191
+msgid "Password:"
+msgstr "Contrasenya:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:240
-msgid "Sh_ow passwords"
-msgstr "_Mostra les contrasenyes"
+#: ../auth-dialog/main.c:201
+msgid "Group Password:"
+msgstr "Contrasenya de grup:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:300
-msgid "_Remember passwords for this session"
-msgstr "_Recorda les contrasenyes per aquesta sessió"
+#: ../auth-dialog/main.c:237
+msgid "Authenticate VPN"
+msgstr "Autentica la VPN"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:301
-msgid "_Save passwords in keyring"
-msgstr "_Desa les contrasenyes a l'anell de claus"
+#: ../auth-dialog/main.c:246
+msgid "_Group Password:"
+msgstr "Contrasenya de _grup:"
 
-#: ../auth-dialog/main.c:170
+#: ../auth-dialog/main.c:496
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Us heu d'autenticar per poder accedir a la xarxa privada virtual «%s»."
 
-#: ../auth-dialog/main.c:171
-msgid "Authenticate VPN"
-msgstr "Autentica la VPN"
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Xarxa"
 
-#: ../auth-dialog/main.c:175
-msgid "_Group Password:"
-msgstr "Contrasenya de _grup:"
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr "Demana l'autenticació de la VPN"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Afegiu, suprimiu, i editeu connexions VPN"
+#: ../properties/nm-libreswan.c:61
+msgid "IPsec based VPN"
+msgstr "VPN basada en IPsec"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "Gestor de connexions VPN (vpnc)"
+#: ../properties/nm-libreswan.c:62
+msgid "IPsec, IKEv1, IKEv2 based VPN"
+msgstr "VPN basada en IPsec, IKEv1 i IKEv2"
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "VPN compatible amb Cisco (vpnc)"
-
-#: ../properties/nm-vpnc.c:54
-msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
-"VPN gateways."
-msgstr ""
-"Compatible amb diverses passarel·les VPN Cisco, Juniper, Netscreen i "
-"Sonicwall basades en IPsec."
-
-#: ../properties/nm-vpnc.c:339
+#: ../properties/nm-libreswan.c:285
 msgid "Saved"
 msgstr "Desat"
 
-#: ../properties/nm-vpnc.c:346
+#: ../properties/nm-libreswan.c:292
 msgid "Always Ask"
 msgstr "Demana-ho sempre"
 
-#: ../properties/nm-vpnc.c:353
+#: ../properties/nm-libreswan.c:299
 msgid "Not Required"
 msgstr "No necessària"
 
-#: ../properties/nm-vpnc.c:412
-msgid "Secure (default)"
-msgstr "Segura (predeterminat)"
-
-#: ../properties/nm-vpnc.c:415
-msgid "Weak (use with caution)"
-msgstr "Dèbil (utilitzeu amb compte)"
-
-#: ../properties/nm-vpnc.c:423
-msgid "None (completely insecure)"
-msgstr "Cap (completament insegura)"
-
-#: ../properties/nm-vpnc.c:471
-msgid "Cisco UDP (default)"
-msgstr "Cisco UDP (predeterminat)"
-
-#: ../properties/nm-vpnc.c:478
-msgid "NAT-T"
-msgstr "NAT-T"
-
-#: ../properties/nm-vpnc.c:485
-msgid "Disabled"
-msgstr "Inhabilitat"
-
-#: ../properties/nm-vpnc.c:1104
-msgid "TCP tunneling not supported"
-msgstr "No estan implementats els túnels TCP"
-
-#: ../properties/nm-vpnc.c:1106
+#: ../properties/nm-libreswan.c:671 ../properties/nm-libreswan.c:693
 #, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"El fitxer de paràmetres de la VPN «%s» especifica que el tràfic VPN s'hauria "
-"de posar en un túnel TCP, que de moment encara no està implementat a "
-"l'aplicació vpnc.\n"
-"\n"
-"Tot i això es pot crear la connexió, amb el túnel a través de TCP "
-"inhabilitat, tanmateix segurament no funcionarà com s'espera."
+msgid "Can't open file '%s': %s"
+msgstr "No s'ha pogut obrir el fitxer «%s» %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:1
+#: ../properties/nm-libreswan-dialog.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>General</b>"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>Opcional</b>"
-
-# FIXME això queda molt macabre (dpm)
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "Inhabilita la detecció de l'homòleg mort"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "Domini:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "Mètode d'encriptació:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "Nom del g_rup:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "Contrasenya del _grup:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "Travessament del NAT:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Mostra les contrasenyes"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "Nom d'usuari:"
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "Gro_up password:"
+msgstr "Contrasenya del _grup:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_Gateway:"
 msgstr "_Passarel·la:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "Nom del g_rup:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "_User password:"
 msgstr "_Contrasenya d'usuari:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "<b>Optional</b>"
+msgstr "<b>Opcional</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "User name:"
+msgstr "Nom d'usuari:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Algoritmes Phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmes Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "Domain:"
+msgstr "Domini:"
+
+#: ../src/nm-libreswan-service.c:1245
+msgid "A password is required."
+msgstr "Cal una contrasenya."
+
+#: ../src/nm-libreswan-service.c:1631
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"No s'ha pogut processar la sol·licitud perquè la configuració de la connexió "
+"VPN no era vàlida."
+
+#: ../src/nm-libreswan-service.c:1645
+msgid "Unhandled pending authentication."
+msgstr "Autenticació pendent no gestionada"
+
+#: ../src/nm-libreswan-service.c:1786
+msgid "Don't quit when VPN connection terminates"
+msgstr "No surtis quan s'acabi la connexió VPN"
+
+#: ../src/nm-libreswan-service.c:1787
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+"Habilita el registre de depuració amb missatges (pot exposar les "
+"contrasenyes)"
+
+#: ../src/nm-libreswan-service.c:1788
+msgid "D-Bus name to use for this instance"
+msgstr "Nom D-BUS a usar per a aquesta instància"
+
+#: ../src/nm-libreswan-service.c:1811
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Aquest servei proveeix funcionalitat IPsec VPN integrada per al "
+"NetworkManager."
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "Contrasenya _secundària:"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "_Mostra les contrasenyes"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_Recorda les contrasenyes per aquesta sessió"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Desa les contrasenyes a l'anell de claus"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Afegiu, suprimiu, i editeu connexions VPN"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "Gestor de connexions VPN (vpnc)"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "VPN compatible amb Cisco (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
+#~ "based VPN gateways."
+#~ msgstr ""
+#~ "Compatible amb diverses passarel·les VPN Cisco, Juniper, Netscreen i "
+#~ "Sonicwall basades en IPsec."
+
+#~ msgid "Secure (default)"
+#~ msgstr "Segura (predeterminat)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "Dèbil (utilitzeu amb compte)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "Cap (completament insegura)"
+
+#~ msgid "Cisco UDP (default)"
+#~ msgstr "Cisco UDP (predeterminat)"
+
+#~ msgid "NAT-T"
+#~ msgstr "NAT-T"
+
+#~ msgid "Disabled"
+#~ msgstr "Inhabilitat"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "No estan implementats els túnels TCP"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "El fitxer de paràmetres de la VPN «%s» especifica que el tràfic VPN "
+#~ "s'hauria de posar en un túnel TCP, que de moment encara no està "
+#~ "implementat a l'aplicació vpnc.\n"
+#~ "\n"
+#~ "Tot i això es pot crear la connexió, amb el túnel a través de TCP "
+#~ "inhabilitat, tanmateix segurament no funcionarà com s'espera."
+
+# FIXME això queda molt macabre (dpm)
+#~ msgid "Disable Dead Peer Detection"
+#~ msgstr "Inhabilita la detecció de l'homòleg mort"
+
+#~ msgid "Encryption method:"
+#~ msgstr "Mètode d'encriptació:"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "Travessament del NAT:"
 
 #~ msgid "Connect _anonymously"
 #~ msgstr "Connecta _anònimament"
@@ -296,9 +354,6 @@ msgstr "_Contrasenya d'usuari:"
 #~ msgid "Use NAT _keepalive packets"
 #~ msgstr "Utilitza els paquets NAT _keepalive"
 
-#~ msgid "Use _domain for authentication"
-#~ msgstr "Utilitzeu el _domini per l'autenticació"
-
 #~ msgid "_Only use VPN connection for these addresses"
 #~ msgstr "_Fes servir només la connexió VPN per aquestes adreces"
 
@@ -325,12 +380,6 @@ msgstr "_Contrasenya d'usuari:"
 #~ msgstr ""
 #~ "No s'ha pogut connectar a la VPN perquè l'aplicació VPN no s'ha pogut "
 #~ "connectar al servidor VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr ""
-#~ "No s'ha pogut connectar a la VPN perquè les opcions de configuració de la "
-#~ "VPN eren errònies."
 
 #~ msgid ""
 #~ "The VPN login failed because the VPN program received an invalid "
