@@ -1,7 +1,7 @@
 AC_PREREQ(2.52)
 
 AC_INIT(NetworkManager-libreswan,
-        1.1.0,
+        1.1.90,
         https://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager,
         NetworkManager-libreswan)
 AM_INIT_AUTOMAKE([subdir-objects no-dist-gzip dist-xz])
