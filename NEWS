@@ -1,4 +1,24 @@
 =======================================================
+NetworkManager-libreswan-1.2
+Overview of changes since network-manager-openswan-1.0.0
+=======================================================
+
+This is a new stable release of network-manager-openswan.  Notable changes include:
+
+* Plugin renamed to NetworkManager-libreswan from NetworkManager-openswan
+* Ported to libnm, libnma and GDBus
+* Added connection import/export support
+* Translation updates
+
+The following features were backported to NetworkManager-openswan 1.0.x
+releases from 1.0.0 to 1.0.8 are also present in
+NetworkManager-libreswan-1.2:
+
+* Libreswan startup robustness improvments
+* Various build fixes
+
+
+=======================================================
 network-manager-openswan-1.0
 Overview of changes since network-manager-openswan-0.9.8
 =======================================================
