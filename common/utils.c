@@ -91,6 +91,7 @@ nm_libreswan_config_write (gint fd,
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+	const char *leftid;
 
 	/* We abuse the presence of bus name to decide if we're exporting
 	 * the connection or actually configuring Pluto. */
@@ -103,11 +104,15 @@ nm_libreswan_config_write (gint fd,
 	g_assert (s_vpn);
 	g_assert (con_name);
 
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
+
 	write_config_option (fd, "conn %s\n", con_name);
-	write_config_option (fd, " aggrmode=yes\n");
+	if (leftid) {
+		write_config_option (fd, " aggrmode=yes\n");
+		write_config_option (fd, " leftid=@%s\n", leftid);
+	}
 	write_config_option (fd, " authby=secret\n");
 	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID));
 	write_config_option (fd, " leftxauthclient=yes\n");
 	write_config_option (fd, " leftmodecfgclient=yes\n");
 

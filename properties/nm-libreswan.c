@@ -119,16 +119,6 @@ check_validity (LibreswanEditor *self, GError **error)
 		return FALSE;
 	}
 
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
-	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (!str || !strlen (str)) {
-		g_set_error (error,
-		             LIBRESWAN_EDITOR_PLUGIN_ERROR,
-		             LIBRESWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
-		             NM_LIBRESWAN_LEFTID);
-		return FALSE;
-	}
-
 	return TRUE;
 }
 

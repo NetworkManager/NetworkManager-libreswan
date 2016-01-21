@@ -622,7 +622,7 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
                                const char *secrets_path,
                                GError **error)
 {
-	const char *pw_type, *psk, *leftid;
+	const char *pw_type, *psk, *leftid, *right;
 	int fd;
 
 	/* Check for ignored group password */
@@ -647,8 +647,13 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 	}
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
-	g_assert (leftid);
-	write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+	if (leftid) {
+		write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+	} else {
+		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
+		g_assert (right);
+		write_config_option (fd, "%s %%any: PSK \"%s\"\n", right, psk);
+	}
 
 	close (fd);
 	return TRUE;
