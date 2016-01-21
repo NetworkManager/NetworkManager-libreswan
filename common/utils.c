@@ -130,6 +130,7 @@ nm_libreswan_config_write (gint fd,
 	write_config_option (fd, " remote_peer_type=cisco\n");
 	write_config_option (fd, " rightxauthserver=yes\n");
 	write_config_option (fd, " rightmodecfgserver=yes\n");
+	write_config_option (fd, " modecfgpull=yes\n");
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
