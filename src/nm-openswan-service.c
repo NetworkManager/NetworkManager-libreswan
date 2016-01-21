@@ -661,16 +661,20 @@ nm_openswan_config_write (gint fd,
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+	const char *leftid;
 
 	g_assert (fd >= 0);
 	g_assert (s_vpn);
 	g_assert (con_name);
 
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID);
 	write_config_option (fd, "conn %s\n", con_name);
-	write_config_option (fd, " aggrmode=yes\n");
+	if (leftid) {
+		write_config_option (fd, " aggrmode=yes\n");
+		write_config_option (fd, " leftid=@%s\n", leftid);
+	}
 	write_config_option (fd, " authby=secret\n");
 	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID));
 	write_config_option (fd, " leftxauthclient=yes\n");
 	write_config_option (fd, " leftmodecfgclient=yes\n");
 
@@ -723,7 +727,7 @@ nm_openswan_config_psk_write (NMSettingVPN *s_vpn,
                               const char *secrets_path,
                               GError **error)
 {
-	const char *pw_type, *psk, *leftid;
+	const char *pw_type, *psk, *leftid, *right;
 	int fd;
 
 	/* Check for ignored group password */
@@ -748,8 +752,13 @@ nm_openswan_config_psk_write (NMSettingVPN *s_vpn,
 	}
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_LEFTID);
-	g_assert (leftid);
-	write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+	if (leftid) {
+		write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+	} else {
+		right = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_RIGHT);
+		g_assert (right);
+		write_config_option (fd, "%s %%any: PSK \"%s\"\n", right, psk);
+	}
 
 	close (fd);
 	return TRUE;

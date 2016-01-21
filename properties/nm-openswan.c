@@ -137,16 +137,6 @@ check_validity (OpenswanPluginUiWidget *self, GError **error)
 		return FALSE;
 	}
 
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
-	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (!str || !strlen (str)) {
-		g_set_error (error,
-		             OPENSWAN_PLUGIN_UI_ERROR,
-		             OPENSWAN_PLUGIN_UI_ERROR_INVALID_PROPERTY,
-		             NM_OPENSWAN_LEFTID);
-		return FALSE;
-	}
-
 	return TRUE;
 }
 
