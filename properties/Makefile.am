@@ -15,12 +15,14 @@ common_CFLAGS = \
 
 libnm_vpn_plugin_libreswan_la_CFLAGS = \
 	$(common_CFLAGS) \
-	$(LIBNM_CFLAGS)
+	$(LIBNM_CFLAGS) \
+	$(LIBNMA_CFLAGS)
 
 libnm_libreswan_properties_la_CFLAGS = \
 	-DNM_LIBRESWAN_OLD \
 	$(common_CFLAGS) \
-	$(LIBNM_GLIB_CFLAGS)
+	$(LIBNM_GLIB_CFLAGS) \
+	$(LIBNM_GTK_CFLAGS)
 
 libnm_vpn_plugin_libreswan_la_SOURCES = \
 	nm-libreswan.c \
@@ -32,11 +34,13 @@ libnm_libreswan_properties_la_SOURCES = \
 libnm_vpn_plugin_libreswan_la_LIBADD = \
 	$(GTK_LIBS) \
 	$(LIBNM_LIBS) \
+	$(LIBNMA_LIBS) \
 	$(top_builddir)/common/libnm-libreswan-common.la
 
 libnm_libreswan_properties_la_LIBADD = \
 	$(GTK_LIBS) \
 	$(LIBNM_GLIB_LIBS) \
+	$(LIBNM_GTK_LIBS) \
 	$(top_builddir)/common/libnm-vpn-plugin-libreswan-common.la
 
 libnm_vpn_plugin_libreswan_la_LDFLAGS = \
