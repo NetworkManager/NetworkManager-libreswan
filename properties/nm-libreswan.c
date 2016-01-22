@@ -315,9 +315,9 @@ init_one_pw_combo (LibreswanEditor *self,
 
 static gboolean
 init_editor_plugin (LibreswanEditor *self,
-                NMConnection *connection,
-                gboolean new_connection,
-                GError **error)
+                    NMConnection *connection,
+                    gboolean new_connection,
+                    GError **error)
 {
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	NMSettingVpn *s_vpn = NULL;
@@ -559,7 +559,7 @@ is_new_func (const char *key, const char *value, gpointer user_data)
 }
 
 static NMVpnEditor *
-nm_vpn_editor_interface_new (NMConnection *connection, GError **error)
+nm_vpn_editor_new (NMConnection *connection, GError **error)
 {
 	NMVpnEditor *object;
 	LibreswanEditorPrivate *priv;
@@ -712,7 +712,7 @@ get_capabilities (NMVpnEditorPlugin *iface)
 static NMVpnEditor *
 get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
 {
-	return nm_vpn_editor_interface_new (connection, error);
+	return nm_vpn_editor_new (connection, error);
 }
 
 static void
