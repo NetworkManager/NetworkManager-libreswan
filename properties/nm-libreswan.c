@@ -167,9 +167,40 @@ show_toggled_cb (GtkCheckButton *button, LibreswanEditor *self)
 	g_assert (widget);
 	gtk_entry_set_visibility (GTK_ENTRY (widget), visible);
 
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "secret_entry"));
 	g_assert (widget);
 	gtk_entry_set_visibility (GTK_ENTRY (widget), visible);
+}
+
+static void
+ikev2_toggled_cb (GtkSwitch *swtch, gboolean state, LibreswanEditor *self)
+{
+	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+	GtkWidget *widget;
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_label"));
+	g_assert (widget);
+	gtk_widget_set_sensitive (widget, !state);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
+	g_assert (widget);
+	gtk_widget_set_sensitive (widget, !state);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_label"));
+	g_assert (widget);
+	gtk_widget_set_sensitive (widget, !state);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
+	g_assert (widget);
+	gtk_widget_set_sensitive (widget, !state);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_label"));
+	g_assert (widget);
+	gtk_widget_set_sensitive (widget, !state);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_password_entry"));
+	g_assert (widget);
+	gtk_widget_set_sensitive (widget, !state);
 }
 
 static void
@@ -276,7 +307,7 @@ init_editor_plugin (LibreswanEditor *self,
 	                       NM_LIBRESWAN_XAUTH_PASSWORD,
 	                       new_connection);
 	setup_password_widget (self,
-	                       "group_password_entry",
+	                       "secret_entry",
 	                       s_vpn,
 	                       NM_LIBRESWAN_PSK_VALUE,
 	                       new_connection);
@@ -290,7 +321,7 @@ init_editor_plugin (LibreswanEditor *self,
 	                    s_vpn,
 	                    NM_LIBRESWAN_PSK_VALUE,
 	                    NM_LIBRESWAN_PSK_INPUT_MODES,
-	                    "group_password_entry");
+	                    "secret_entry");
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -339,6 +370,17 @@ init_editor_plugin (LibreswanEditor *self,
 	g_signal_connect (G_OBJECT (widget), "toggled",
 	                  (GCallback) show_toggled_cb,
 	                  self);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "ikev2_switch"));
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_signal_connect (G_OBJECT (widget), "state-set",
+	                  (GCallback) ikev2_toggled_cb,
+	                  self);
+	if (s_vpn) {
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKEV2);
+		gtk_switch_set_state (GTK_SWITCH (widget), g_strcmp0 (value, "yes") == 0);
+	}
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
 	if (s_vpn) {
 		const char *type = nm_setting_vpn_get_service_type (s_vpn);
@@ -448,6 +490,11 @@ update_connection (NMVpnEditor *iface,
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_DOMAIN, str);
 
+	/* IKEv2 */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "ikev2_switch"));
+	if (gtk_switch_get_state (GTK_SWITCH (widget)))
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKEV2, "yes");
+
 	save_one_password (s_vpn,
 	                   priv->builder,
 	                   "user_password_entry",
@@ -455,7 +502,7 @@ update_connection (NMVpnEditor *iface,
 	                   NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
 	save_one_password (s_vpn,
 	                   priv->builder,
-	                   "group_password_entry",
+	                   "secret_entry",
 	                   NM_LIBRESWAN_PSK_VALUE,
 	                   NM_LIBRESWAN_PSK_INPUT_MODES);
 
@@ -542,7 +589,7 @@ dispose (GObject *object)
 	g_signal_handlers_disconnect_by_func (G_OBJECT (widget),
 	                                      (GCallback) password_storage_changed_cb,
 	                                      plugin);
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_password_entry"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "secret_entry"));
 	g_signal_handlers_disconnect_by_func (G_OBJECT (widget),
 	                                      (GCallback) password_storage_changed_cb,
 	                                      plugin);

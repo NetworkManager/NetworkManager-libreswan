@@ -52,21 +52,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="show_passwords_checkbutton">
-                <property name="label" translatable="yes">Show passwords</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="xalign">0</property>
-                <property name="draw_indicator">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkEntry" id="secret_entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -174,6 +159,46 @@
               <packing>
                 <property name="left_attach">1</property>
                 <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="ikev2_switch">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="halign">start</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="show_passwords_checkbutton">
+                <property name="label" translatable="yes">Show passwords</property>
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="halign">start</property>
+                <property name="xalign">0</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label6">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">IKEv_2:</property>
+                <property name="use_underline">True</property>
+                <property name="xalign">0</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">5</property>
               </packing>
             </child>
             <child>
