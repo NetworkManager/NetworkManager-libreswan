@@ -62,7 +62,7 @@
 #include "utils.h"
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")
-#define LIBRESWAN_PLUGIN_DESC    _("IPsec, IKEv1, IKEv2 based VPN")
+#define LIBRESWAN_PLUGIN_DESC    _("IPsec based VPN using IKEv1")
 
 #define ENC_TYPE_SECURE 0
 #define ENC_TYPE_WEAK   1
