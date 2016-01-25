@@ -36,6 +36,7 @@
 
 #define NM_LIBRESWAN_RIGHT  "right"
 #define NM_LIBRESWAN_LEFTID "leftid"
+#define NM_LIBRESWAN_IKEV2 "ikev2"
 #define NM_LIBRESWAN_PSK_VALUE "pskvalue"
 #define NM_LIBRESWAN_PSK_INPUT_MODES "pskinputmodes"
 #define NM_LIBRESWAN_LEFTXAUTHUSER "leftxauthusername"

@@ -70,6 +70,8 @@ nm_libreswan_config_read (gint fd)
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, &str[4]);
 		else if (g_str_has_prefix (str, "cisco-unity=yes"))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_VENDOR, "Cisco");
+		else if (g_str_has_prefix (str, "ikev2="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKEV2, &str[6]);
 		else if (debug)
 			g_print ("Ignored line: '%s'", str);
 		g_free (str);
@@ -92,6 +94,10 @@ nm_libreswan_config_write (gint fd,
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
 	const char *leftid;
+	const char *ikev2;
+
+	g_assert (fd >= 0);
+	g_assert (s_vpn);
 
 	/* We abuse the presence of bus name to decide if we're exporting
 	 * the connection or actually configuring Pluto. */
@@ -99,14 +105,10 @@ nm_libreswan_config_write (gint fd,
 		con_name = nm_connection_get_uuid (connection);
 	else
 		con_name = nm_connection_get_id (connection);
-
-	g_assert (fd >= 0);
-	g_assert (s_vpn);
 	g_assert (con_name);
+	write_config_option (fd, "conn %s\n", con_name);
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
-
-	write_config_option (fd, "conn %s\n", con_name);
 	if (leftid) {
 		write_config_option (fd, " aggrmode=yes\n");
 		write_config_option (fd, " leftid=@%s\n", leftid);
@@ -144,6 +146,10 @@ nm_libreswan_config_write (gint fd,
 		write_config_option (fd, " esp=aes-sha1;modp1024\n");
 	else
 		write_config_option (fd, " esp=%s\n", phase2_alg_str);
+
+	ikev2 = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKEV2);
+	if (ikev2)
+		write_config_option (fd, " ikev2=%s\n", default_username);
 
 	write_config_option (fd, " rekey=yes\n");
 	write_config_option (fd, " salifetime=24h\n");
