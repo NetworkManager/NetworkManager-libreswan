@@ -691,6 +691,7 @@ nm_openswan_config_write (gint fd,
 	write_config_option (fd, " rightxauthserver=yes\n");
 	write_config_option (fd, " rightmodecfgserver=yes\n");
 	write_config_option (fd, " modecfgpull=yes\n");
+	write_config_option (fd, " rightsubnet=0.0.0.0/0\n");
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_OPENSWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
