@@ -91,6 +91,7 @@ nm_libreswan_config_write (gint fd,
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+	const char *leftid;
 
 	/* We abuse the presence of bus name to decide if we're exporting
 	 * the connection or actually configuring Pluto. */
@@ -103,11 +104,15 @@ nm_libreswan_config_write (gint fd,
 	g_assert (s_vpn);
 	g_assert (con_name);
 
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
+
 	write_config_option (fd, "conn %s\n", con_name);
-	write_config_option (fd, " aggrmode=yes\n");
+	if (leftid) {
+		write_config_option (fd, " aggrmode=yes\n");
+		write_config_option (fd, " leftid=@%s\n", leftid);
+	}
 	write_config_option (fd, " authby=secret\n");
 	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftid=@%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID));
 	write_config_option (fd, " leftxauthclient=yes\n");
 	write_config_option (fd, " leftmodecfgclient=yes\n");
 
@@ -125,6 +130,8 @@ nm_libreswan_config_write (gint fd,
 	write_config_option (fd, " remote_peer_type=cisco\n");
 	write_config_option (fd, " rightxauthserver=yes\n");
 	write_config_option (fd, " rightmodecfgserver=yes\n");
+	write_config_option (fd, " modecfgpull=yes\n");
+	write_config_option (fd, " rightsubnet=0.0.0.0/0\n");
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
@@ -150,7 +157,7 @@ nm_libreswan_config_write (gint fd,
 	 * libreswan fails parsing the configuration if you include the \n.
 	 * WTF?
 	 */
-	if (openswan)
+	if (openswan || !bus_name)
 		(void) write (fd, "\n", 1);
 	if (debug)
 		g_print ("\n");
