@@ -150,7 +150,7 @@ nm_libreswan_config_write (gint fd,
 	 * libreswan fails parsing the configuration if you include the \n.
 	 * WTF?
 	 */
-	if (openswan)
+	if (openswan || !bus_name)
 		(void) write (fd, "\n", 1);
 	if (debug)
 		g_print ("\n");
