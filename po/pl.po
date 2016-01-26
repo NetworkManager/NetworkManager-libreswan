@@ -5,14 +5,14 @@
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2008-2009.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2015.
-# Aviary.pl <gnomepl@aviary.pl>, 2008-2015.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2016.
+# Aviary.pl <gnomepl@aviary.pl>, 2008-2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-12 17:34+0100\n"
-"PO-Revision-Date: 2015-12-12 17:35+0100\n"
+"POT-Creation-Date: 2016-01-26 22:18+0100\n"
+"PO-Revision-Date: 2016-01-26 22:19+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -60,84 +60,72 @@ msgstr "Sieć"
 msgid "Request VPN authentication"
 msgstr "Żądanie uwierzytelnienia sieci VPN"
 
-#: ../properties/nm-libreswan.c:61
+#: ../properties/nm-libreswan.c:64
 msgid "IPsec based VPN"
 msgstr "VPN oparte na IPsec"
 
-#: ../properties/nm-libreswan.c:62
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "VPN oparte na IPsec, IKEv1, IKEv2"
+#: ../properties/nm-libreswan.c:65
+msgid "IPsec based VPN using IKEv1"
+msgstr "VPN oparte na IPsec, używające IKEv1"
 
-#: ../properties/nm-libreswan.c:285
-msgid "Saved"
-msgstr "Zapisano"
-
-#: ../properties/nm-libreswan.c:292
-msgid "Always Ask"
-msgstr "Pytanie zawsze"
-
-#: ../properties/nm-libreswan.c:299
-msgid "Not Required"
-msgstr "Niewymagane"
-
-#: ../properties/nm-libreswan.c:671 ../properties/nm-libreswan.c:693
+#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "Nie można otworzyć pliku „%s”: %s"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Ogólne</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "_Gateway:"
+msgstr "_Brama:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Wyświetlanie haseł"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "_Hasło grupy:"
+msgid "_Secret:"
+msgstr "_Hasło:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Brama:"
+msgid "_User password:"
+msgstr "Hasło _użytkownika:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Nazwa g_rupy:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "Hasło _użytkownika:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>Opcjonalne</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Nazwa użytkownika:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Algorytmy fazy drugiej:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Domena:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Algorytmy fazy pierwszej:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Algorytmy fazy drugiej:"
+msgid "Ad_vanced"
+msgstr "Zaa_wansowane"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Domena:"
+msgid " "
+msgstr " "
 
-#: ../src/nm-libreswan-service.c:1245
+#: ../src/nm-libreswan-service.c:1250
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1631
+#: ../src/nm-libreswan-service.c:1636
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -145,23 +133,23 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1645
+#: ../src/nm-libreswan-service.c:1650
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:1786
+#: ../src/nm-libreswan-service.c:1791
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:1787
+#: ../src/nm-libreswan-service.c:1792
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:1788
+#: ../src/nm-libreswan-service.c:1793
 msgid "D-Bus name to use for this instance"
 msgstr "Nazwa D-Bus dla tego wystąpienia"
 
-#: ../src/nm-libreswan-service.c:1811
+#: ../src/nm-libreswan-service.c:1816
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
