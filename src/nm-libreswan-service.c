@@ -1826,6 +1826,7 @@ main (int argc, char *argv[])
 
 	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
 	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, bus_name,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER, !debug,
 	                         NULL);
 	if (!plugin) {
 		g_warning ("Failed to initialize a plugin instance: %s", error->message);
