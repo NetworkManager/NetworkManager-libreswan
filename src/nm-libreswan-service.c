@@ -1018,37 +1018,6 @@ lookup_string (GVariant *dict, const gchar *key)
 	return value;
 }
 
-static GVariant *
-route_to_gvariant (GVariant *env)
-{
-	GVariantBuilder builder;
-
-	if (!lookup_string (env, "PLUTO_PEER_CLIENT"))
-		return NULL;
-
-	g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-
-#define _try_add(builder, variant) \
-	G_STMT_START { \
-		GVariant *_v = (variant); \
-		\
-		if (!_v) \
-			goto fail; \
-		g_variant_builder_add_value ((builder), _v); \
-	} G_STMT_END
-	_try_add (&builder, addr4_to_gvariant (lookup_string (env, "PLUTO_PEER_CLIENT_NET")));
-	_try_add (&builder, netmask4_to_gvariant (lookup_string (env, "PLUTO_PEER_CLIENT_MASK")));
-	_try_add (&builder, addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP")));
-	_try_add (&builder, g_variant_new_uint32 (0));
-	_try_add (&builder, addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP")));
-#undef _try_add
-
-	return g_variant_builder_end (&builder);
-fail:
-	g_variant_builder_clear (&builder);
-	return NULL;
-}
-
 static void
 _take_route (GPtrArray *routes, GVariant *new, gboolean alive)
 {
@@ -1083,6 +1052,50 @@ _take_route (GPtrArray *routes, GVariant *new, gboolean alive)
 		g_ptr_array_add (routes, g_variant_ref_sink (new));
 	} else
 		g_variant_unref (new);
+}
+
+static void
+handle_route (GPtrArray *routes, GVariant *env, gboolean alive)
+{
+	GVariantBuilder builder;
+	const gchar *net, *mask, *next_hop, *my_sourceip;
+
+	if (!lookup_string (env, "PLUTO_PEER_CLIENT"))
+		return;
+
+	net = lookup_string (env, "PLUTO_PEER_CLIENT_NET");
+	mask = lookup_string (env, "PLUTO_PEER_CLIENT_MASK");
+	next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
+	my_sourceip = lookup_string (env, "PLUTO_MY_SOURCEIP");
+
+	if (!net || !mask || !next_hop || !my_sourceip)
+		return;
+
+	if (g_strcmp0 (net, "0.0.0.0") == 0 && g_strcmp0 (mask, "0")) {
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant ("0.0.0.0"));
+		g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
+		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
+		_take_route (routes, g_variant_builder_end (&builder), alive);
+
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant ("128.0.0.0"));
+		g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
+		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
+		_take_route (routes, g_variant_builder_end (&builder), alive);
+	} else {
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (net));
+		g_variant_builder_add_value (&builder, netmask4_to_gvariant (mask));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
+		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
+		_take_route (routes, g_variant_builder_end (&builder), alive);
+	}
 }
 
 static gboolean
@@ -1178,9 +1191,9 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 	/* This route */
 	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
-		_take_route (priv->routes, route_to_gvariant (env), TRUE);
+		handle_route (priv->routes, env, TRUE);
 	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
-		_take_route (priv->routes, route_to_gvariant (env), FALSE);
+		handle_route (priv->routes, env, FALSE);
 
 	/* Routes */
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
