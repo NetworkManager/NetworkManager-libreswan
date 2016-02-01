@@ -109,6 +109,7 @@ typedef struct {
 	guint watch_id;
 	guint retry_id;
 	guint retries;
+	guint quit_blockers;
 	ConnectStep connect_step;
 	NMConnection *connection;
 	NMDBusLibreswanHelper *dbus_skeleton;
@@ -278,6 +279,25 @@ nm_libreswan_secrets_validate (NMSettingVpn *s_vpn, GError **error)
 		return FALSE;
 	}
 	return TRUE;
+}
+
+/****************************************************************/
+
+static void
+block_quit (NMLibreswanPlugin *self)
+{
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
+	priv->quit_blockers++;
+	DEBUG ("Block quit: %d blockers", priv->quit_blockers);
+}
+
+static void
+unblock_quit (NMLibreswanPlugin *self)
+{
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
+	if (--priv->quit_blockers == 0)
+		g_main_loop_quit (loop);
+	DEBUG ("Unblock quit: %d blockers", priv->quit_blockers);
 }
 
 /****************************************************************/
@@ -465,6 +485,7 @@ check_running_cb (GPid pid, gint status, gpointer user_data)
 		ret = WEXITSTATUS (status);
 
 	DEBUG ("Spawn: child %d exited with status %d", pid, ret);
+	unblock_quit (self);
 
 	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
@@ -515,6 +536,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	priv->pid = 0;
 
 	DEBUG ("Spawn: child %d exited", pid);
+	unblock_quit (self);
 
 	if (WIFEXITED (status)) {
 		ret = WEXITSTATUS (status);
@@ -554,7 +576,8 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	g_clear_error (&error);
 }
 
-static gboolean do_spawn (GPid *out_pid,
+static gboolean do_spawn (NMLibreswanPlugin *self,
+                          GPid *out_pid,
                           int *out_stdin,
                           int *out_stderr,
                           GError **error,
@@ -562,7 +585,8 @@ static gboolean do_spawn (GPid *out_pid,
                           ...) G_GNUC_NULL_TERMINATED;
 
 static gboolean
-do_spawn (GPid *out_pid,
+do_spawn (NMLibreswanPlugin *self,
+          GPid *out_pid,
           int *out_stdin,
           int *out_stderr,
           GError **error,
@@ -614,6 +638,8 @@ do_spawn (GPid *out_pid,
 		*out_pid = pid;
 
 	g_ptr_array_free (argv, TRUE);
+	if (success)
+		block_quit (self);
 	return success;
 }
 
@@ -661,7 +687,8 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 
 /****************************************************************/
 
-static gboolean spawn_pty (int *out_stdout,
+static gboolean spawn_pty (NMLibreswanPlugin *self,
+                           int *out_stdout,
                            int *out_stderr,
                            int *out_ptyin,
                            GPid *out_pid,
@@ -670,7 +697,8 @@ static gboolean spawn_pty (int *out_stdout,
                            ...) G_GNUC_NULL_TERMINATED;
 
 static gboolean
-spawn_pty (int *out_stdout,
+spawn_pty (NMLibreswanPlugin *self,
+           int *out_stdout,
            int *out_stderr,
            int *out_ptyin,
            GPid *out_pid,
@@ -774,6 +802,7 @@ spawn_pty (int *out_stdout,
 	if (out_pid)
 		*out_pid = child_pid;
 
+	block_quit (self);
 	return TRUE;
 }
 
@@ -1408,7 +1437,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		priv->connect_step++;
 
 	case CONNECT_STEP_CHECK_RUNNING:
-		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--status", NULL))
+		if (!do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--status", NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, check_running_cb, self);
 		return TRUE;
@@ -1422,7 +1451,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 				return FALSE;
 
 			/* Ensure the right IPsec kernel stack is loaded */
-			success = do_spawn (&priv->pid, NULL, NULL, error, stackman_path, "start", NULL);
+			success = do_spawn (self, &priv->pid, NULL, NULL, error, stackman_path, "start", NULL);
 			if (success)
 				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 			return success;
@@ -1433,9 +1462,9 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_IPSEC_START:
 		/* Start the IPsec service */
 		if (priv->openswan)
-			success = do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
+			success = do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
 		else {
-			success = do_spawn (&priv->pid, NULL, NULL, error,
+			success = do_spawn (self, &priv->pid, NULL, NULL, error,
 			                    priv->pluto_path, "--config", SYSCONFDIR "/ipsec.conf",
 			                    NULL);
 		}
@@ -1448,14 +1477,14 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_WAIT_READY:
 		if (!priv->retries)
 			priv->retries = 30;
-		if (!do_spawn (&priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--ready", NULL))
+		if (!do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--ready", NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
 	case CONNECT_STEP_CONFIG_ADD:
 		g_assert (uuid);
-		if (!do_spawn (&priv->pid, &fd, NULL, error, priv->ipsec_path,
+		if (!do_spawn (self, &priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
@@ -1467,7 +1496,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 
 	case CONNECT_STEP_CONNECT:
 		g_assert (uuid);
-		if (!spawn_pty (&up_stdout, &up_stderr, &up_pty, &priv->pid, error,
+		if (!spawn_pty (self, &up_stdout, &up_stderr, &up_pty, &priv->pid, error,
 		                priv->ipsec_path, "auto", "--up", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
@@ -1689,13 +1718,13 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 
 	if (!priv->managed) {
                 const char *uuid = nm_connection_get_uuid (priv->connection);
-		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		ret = do_spawn (plugin, &priv->pid, NULL, NULL, error,
 		                priv->ipsec_path, "auto", "--delete", uuid, NULL);
 	} else if (priv->openswan) {
-		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		ret = do_spawn (plugin, &priv->pid, NULL, NULL, error,
                                 priv->ipsec_path, "setup", "stop", NULL);
 	} else {
-		ret = do_spawn (&priv->pid, NULL, NULL, error,
+		ret = do_spawn (plugin, &priv->pid, NULL, NULL, error,
 		                priv->whack_path, "--shutdown", NULL);
 	}
 
@@ -1786,7 +1815,8 @@ setup_signals (void)
 static void
 quit_mainloop (NMLibreswanPlugin *plugin, gpointer user_data)
 {
-	g_main_loop_quit ((GMainLoop *) user_data);
+	g_signal_handlers_disconnect_by_func (plugin, quit_mainloop, user_data);
+	unblock_quit (plugin);
 }
 
 int
@@ -1868,8 +1898,9 @@ main (int argc, char *argv[])
 
 	loop = g_main_loop_new (NULL, FALSE);
 
+	block_quit (plugin);
 	if (!persist)
-		g_signal_connect (plugin, "quit", G_CALLBACK (quit_mainloop), loop);
+		g_signal_connect (plugin, "quit", G_CALLBACK (quit_mainloop), NULL);
 
 	setup_signals ();
 	g_main_loop_run (loop);
