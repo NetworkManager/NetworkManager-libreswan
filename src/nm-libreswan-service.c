@@ -706,14 +706,83 @@ spawn_pty (NMLibreswanPlugin *self,
            const char *progname,
            ...)
 {
-	int pty_master_fd, md;
+	int pty_master_fd = 0;
 	int stdout_pipe[2], stderr_pipe[2];
 	pid_t child_pid;
 	struct termios termios_flags;
 	va_list ap;
 	GPtrArray *argv;
 	char *cmdline, *arg;
+	int ret;
 
+	/* The pipes */
+	pipe (stderr_pipe);
+	pipe (stdout_pipe);
+
+	/* Set the parent pipes non-blocking, so we can read big buffers
+	 * in the callback without having to use FIONREAD
+	 * to make sure the callback doesn't block.
+	 */
+	ret = fcntl (stdout_pipe[0], F_GETFL);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_GETFL on stdout failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+	ret = fcntl (stdout_pipe[0], F_SETFL, O_NONBLOCK | ret);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_SETFL on stdout failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+	ret = fcntl (stderr_pipe[0], F_GETFL);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_GETFL on stderr failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+	ret = fcntl (stderr_pipe[0], F_SETFL, O_NONBLOCK | ret);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_SETFL on stderr failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+
+	/* Disable buffering of child writes */
+	ret = fcntl (stdout_pipe[1], F_GETFL);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_GETFL on child stdout failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+	ret = fcntl (stdout_pipe[1], F_SETFL, O_SYNC | ret);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_SETFL on child stdout failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+	ret = fcntl (stderr_pipe[1], F_GETFL);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_GETFL on child stderr failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+	ret = fcntl (stderr_pipe[1], F_SETFL, O_SYNC | ret);
+	if (ret == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: F_SETFL on child stderr failed (%d): %s",
+		             errno, g_strerror (errno));
+		goto badpipes;
+	}
+
+	/* The command line arguments */
 	argv = g_ptr_array_sized_new (10);
 	g_ptr_array_add (argv, (char *) progname);
 
@@ -729,10 +798,6 @@ spawn_pty (NMLibreswanPlugin *self,
 		g_free (cmdline);
 	}
 
-	/* The pipes */
-	pipe (stderr_pipe);
-	pipe (stdout_pipe);
-
 	/* Fork the command */
 	child_pid = forkpty (&pty_master_fd, NULL, NULL, NULL);
 	if (child_pid == 0) {
@@ -746,11 +811,6 @@ spawn_pty (NMLibreswanPlugin *self,
 		/* Close unnecessary pipes */
 		close (stderr_pipe[0]);
 		close (stdout_pipe[0]);
-
-		if ((md = fcntl (stdout_pipe[1], F_GETFL)) != -1)
-			fcntl (stdout_pipe[1], F_SETFL, O_SYNC | md);
-		if ((md = fcntl (stderr_pipe[1], F_GETFL)) != -1)
-			fcntl (stderr_pipe[1], F_SETFL, O_SYNC | md);
 
 		/* Ensure output is untranslated */
 		setenv ("LC_ALL", "C", 1);
@@ -777,17 +837,6 @@ spawn_pty (NMLibreswanPlugin *self,
 	}
 	g_ptr_array_free (argv, TRUE);
 
-	/*  Set pipes non-blocking, so we can read big buffers
-	 *  in the callback without having to use FIONREAD
-	 *  to make sure the callback doesn't block.
-	 */
-	if ((md = fcntl (stdout_pipe[0], F_GETFL)) != -1)
-		fcntl (stdout_pipe[0], F_SETFL, O_NONBLOCK | md);
-	if ((md = fcntl (stderr_pipe[0], F_GETFL)) != -1)
-		fcntl (stderr_pipe[0], F_SETFL, O_NONBLOCK | md);
-	if ((md = fcntl (pty_master_fd, F_GETFL)) != -1)
-		fcntl (pty_master_fd, F_SETFL, O_NONBLOCK | md);
-
 	tcgetattr (pty_master_fd, &termios_flags);
 	cfmakeraw (&termios_flags);
 	cfsetospeed (&termios_flags, __MAX_BAUD);
@@ -804,6 +853,13 @@ spawn_pty (NMLibreswanPlugin *self,
 
 	block_quit (self);
 	return TRUE;
+
+badpipes:
+	close (stderr_pipe[0]);
+	close (stdout_pipe[0]);
+	close (stderr_pipe[1]);
+	close (stdout_pipe[1]);
+	return FALSE;
 }
 
 /****************************************************************/
