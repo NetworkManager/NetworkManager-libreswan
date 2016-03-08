@@ -358,7 +358,7 @@ find_helper_libexec (const char *progname, GError **error)
 		PREFIX "/libexec/ipsec/",
 		PREFIX "/lib/ipsec/",
 		"/usr/libexec/ipsec/",
-		"/usr/local/libexec/ipsec/"
+		"/usr/local/libexec/ipsec/",
 		"/usr/lib/ipsec/",
 		"/usr/local/lib/ipsec/",
 		NULL,
