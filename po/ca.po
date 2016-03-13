@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the
 #   NetworkManager-vpnc package.
 # Gil Forcada <gilforcada@guifi.net>, 2006.
-# David Planella <david.planella@gmail.com>, 2009
-# Walter Garcia-Fontes <walter.garcia@upf.edu>, 2016
+# David Planella <david.planella@gmail.com>, 2009.
+# Walter Garcia-Fontes <walter.garcia@upf.edu>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-01-10 01:54+0000\n"
-"PO-Revision-Date: 2016-01-10 14:04+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-13 22:52+0100\n"
+"PO-Revision-Date: 2016-03-12 09:02+0100\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -54,84 +53,72 @@ msgstr "Xarxa"
 msgid "Request VPN authentication"
 msgstr "Demana l'autenticació de la VPN"
 
-#: ../properties/nm-libreswan.c:61
+#: ../properties/nm-libreswan.c:64
 msgid "IPsec based VPN"
 msgstr "VPN basada en IPsec"
 
-#: ../properties/nm-libreswan.c:62
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "VPN basada en IPsec, IKEv1 i IKEv2"
+#: ../properties/nm-libreswan.c:65
+msgid "IPsec based VPN using IKEv1"
+msgstr "VPN basada en IPsec usant IKEv1"
 
-#: ../properties/nm-libreswan.c:285
-msgid "Saved"
-msgstr "Desat"
-
-#: ../properties/nm-libreswan.c:292
-msgid "Always Ask"
-msgstr "Demana-ho sempre"
-
-#: ../properties/nm-libreswan.c:299
-msgid "Not Required"
-msgstr "No necessària"
-
-#: ../properties/nm-libreswan.c:671 ../properties/nm-libreswan.c:693
+#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "No s'ha pogut obrir el fitxer «%s» %s"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>General</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "_Gateway:"
+msgstr "_Passarel·la:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Mostra les contrasenyes"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "Contrasenya del _grup:"
+msgid "_Secret:"
+msgstr "_Secret:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Passarel·la:"
+msgid "_User password:"
+msgstr "_Contrasenya d'usuari:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Nom del g_rup:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "_Contrasenya d'usuari:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>Opcional</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Nom d'usuari:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmes Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Domini:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Algoritmes Phase1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Algoritmes Phase2:"
+msgid "Ad_vanced"
+msgstr "A_vançat"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Domini:"
+msgid " "
+msgstr " "
 
-#: ../src/nm-libreswan-service.c:1245
+#: ../src/nm-libreswan-service.c:1348
 msgid "A password is required."
 msgstr "Cal una contrasenya."
 
-#: ../src/nm-libreswan-service.c:1631
+#: ../src/nm-libreswan-service.c:1734
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -139,30 +126,48 @@ msgstr ""
 "No s'ha pogut processar la sol·licitud perquè la configuració de la connexió "
 "VPN no era vàlida."
 
-#: ../src/nm-libreswan-service.c:1645
+#: ../src/nm-libreswan-service.c:1748
 msgid "Unhandled pending authentication."
 msgstr "Autenticació pendent no gestionada"
 
-#: ../src/nm-libreswan-service.c:1786
+#: ../src/nm-libreswan-service.c:1890
 msgid "Don't quit when VPN connection terminates"
 msgstr "No surtis quan s'acabi la connexió VPN"
 
-#: ../src/nm-libreswan-service.c:1787
+#: ../src/nm-libreswan-service.c:1891
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Habilita el registre de depuració amb missatges (pot exposar les "
 "contrasenyes)"
 
-#: ../src/nm-libreswan-service.c:1788
+#: ../src/nm-libreswan-service.c:1892
 msgid "D-Bus name to use for this instance"
 msgstr "Nom D-BUS a usar per a aquesta instància"
 
-#: ../src/nm-libreswan-service.c:1811
+#: ../src/nm-libreswan-service.c:1915
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Aquest servei proveeix funcionalitat IPsec VPN integrada per al "
 "NetworkManager."
+
+#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
+#~ msgstr "VPN basada en IPsec, IKEv1 i IKEv2"
+
+#~ msgid "Saved"
+#~ msgstr "Desat"
+
+#~ msgid "Always Ask"
+#~ msgstr "Demana-ho sempre"
+
+#~ msgid "Not Required"
+#~ msgstr "No necessària"
+
+#~ msgid "Gro_up password:"
+#~ msgstr "Contrasenya del _grup:"
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>Opcional</b>"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "Contrasenya _secundària:"
