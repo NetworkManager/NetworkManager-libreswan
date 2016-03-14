@@ -8,36 +8,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-13 11:12+0000\n"
-"PO-Revision-Date: 2015-02-25 15:19+0200\n"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2016-03-10 02:03+0000\n"
+"PO-Revision-Date: 2016-03-10 14:30+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:174
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "Πιστοποίηση VPN %s"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:191
 msgid "Password:"
 msgstr "Κωδικός πρόσβασης:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:201
 msgid "Group Password:"
 msgstr "Κωδικός πρόσβασης ομάδας:"
 
-#: ../auth-dialog/main.c:238
+#: ../auth-dialog/main.c:237
 msgid "Authenticate VPN"
 msgstr "Πιστοποίηση VPN"
 
-#: ../auth-dialog/main.c:247
+#: ../auth-dialog/main.c:246
 msgid "_Group Password:"
 msgstr "Κωδικός πρόσβασης ο_μάδας:"
 
@@ -56,79 +56,72 @@ msgstr "Δίκτυο"
 msgid "Request VPN authentication"
 msgstr "Απαιτεί VPN πιστοποίηση"
 
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan.c:64
 msgid "IPsec based VPN"
 msgstr "IPsec βασισμένο στο VPN"
 
-#: ../properties/nm-libreswan.c:48
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "IPsec, IKEv1, IKEv2 βασισμένο στο VPN"
+#: ../properties/nm-libreswan.c:65
+msgid "IPsec based VPN using IKEv1"
+msgstr "IPsec βασισμένο στο VPN χρησιμοποιώντας IKEv1"
 
-#: ../properties/nm-libreswan.c:303
-msgid "Saved"
-msgstr "Αποθηκευμένη"
-
-#: ../properties/nm-libreswan.c:310
-msgid "Always Ask"
-msgstr "Να γίνεται πάντα ερώτηση"
-
-#: ../properties/nm-libreswan.c:317
-msgid "Not Required"
-msgstr "Δεν απαιτείται"
+#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
+#, c-format
+msgid "Can't open file '%s': %s"
+msgstr "Αδυναμία ανοίγματος αρχείου '%s': %s"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Γενικά</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "_Gateway:"
+msgstr "_Πύλη:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Εμφάνιση κωδικών πρόσβασης"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "Κωδικός πρόσβασης ο_μάδας:"
+msgid "_Secret:"
+msgstr "_Απόρρητο:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Πύλη:"
+msgid "_User password:"
+msgstr "Κωδικός πρόσβασης χ_ρήστη:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Όνομα ομά_δας:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "Κωδικός πρόσβασης χ_ρήστη:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>Προαιρετικά</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Όνομα χρήστη:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Αλγόριθμοι Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Τομέας:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Αλγόριθμοι Phase1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Αλγόριθμοι Phase2:"
+msgid "Ad_vanced"
+msgstr "Για προ_χωρημένους"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Τομέας:"
+msgid " "
+msgstr " "
 
-#: ../src/nm-libreswan-service.c:831
+#: ../src/nm-libreswan-service.c:1348
 msgid "A password is required."
 msgstr "Απαιτείται κωδικός πρόσβασης"
 
-#: ../src/nm-libreswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1734
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -136,24 +129,46 @@ msgstr ""
 "Αδύνατη η επεξεργασία του αιτήματος διότι οι ρυθμίσεις της σύνδεσης VPN ήταν "
 "άκυρες."
 
-#: ../src/nm-libreswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1748
 msgid "Unhandled pending authentication."
 msgstr "Ανεπίλυτη αναμονή πιστοποίησης."
 
-#: ../src/nm-libreswan-service.c:1297
+#: ../src/nm-libreswan-service.c:1890
 msgid "Don't quit when VPN connection terminates"
 msgstr "Να μην γίνει έξοδος όταν η σύνδεση VPN τερματίζει"
 
-#: ../src/nm-libreswan-service.c:1298
+#: ../src/nm-libreswan-service.c:1891
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Ενεργοποίηση καταγραφής εντοπισμού σφαλμάτων (μπορεί να εκθέσει τους "
 "κωδικούς πρόσβασης)"
 
-#: ../src/nm-libreswan-service.c:1321
+#: ../src/nm-libreswan-service.c:1892
+msgid "D-Bus name to use for this instance"
+msgstr "Ονομασία D-Bus που θα χρησιμοποιηθεί για αυτή τη συνεδρία"
+
+#: ../src/nm-libreswan-service.c:1915
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec VPN στον NetworkManager."
+
+#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
+#~ msgstr "IPsec, IKEv1, IKEv2 βασισμένο στο VPN"
+
+#~ msgid "Saved"
+#~ msgstr "Αποθηκευμένη"
+
+#~ msgid "Always Ask"
+#~ msgstr "Να γίνεται πάντα ερώτηση"
+
+#~ msgid "Not Required"
+#~ msgstr "Δεν απαιτείται"
+
+#~ msgid "Gro_up password:"
+#~ msgstr "Κωδικός πρόσβασης ο_μάδας:"
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>Προαιρετικά</b>"
 
 #~| msgid "VPN Connection Manager (vpnc)"
 #~ msgid "IPsec Based VPN Connection Manager (libreswan)"
