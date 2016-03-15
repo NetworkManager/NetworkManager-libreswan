@@ -80,6 +80,7 @@ typedef enum {
     CONNECT_STEP_FIRST,
     CONNECT_STEP_CHECK_RUNNING,
     CONNECT_STEP_STACK_INIT,
+    CONNECT_STEP_CHECK_NSS,
     CONNECT_STEP_IPSEC_START,
     CONNECT_STEP_WAIT_READY,
     CONNECT_STEP_CONFIG_ADD,
@@ -553,10 +554,17 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 		return;
 	}
 
+	/* Ready step can return a failure even if libreswan is ready,
+	 * but failed to listen to some interfaces due to a bug in older
+	 * libreswan versions. */
 	if (priv->connect_step == CONNECT_STEP_WAIT_READY)
 		success = (ret != 1);
 	else
 		success = (ret == 0);
+
+	/* Ignore failures here, maybe the libreswan daemon is too old. */
+	if (priv->connect_step == CONNECT_STEP_CHECK_NSS)
+		success = TRUE;
 
 	if (success) {
 		/* Success; do the next connect step */
@@ -1508,6 +1516,18 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 
 			/* Ensure the right IPsec kernel stack is loaded */
 			success = do_spawn (self, &priv->pid, NULL, NULL, error, stackman_path, "start", NULL);
+			if (success)
+				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
+			return success;
+		}
+		/* fall through */
+		priv->connect_step++;
+
+	case CONNECT_STEP_CHECK_NSS:
+		/* Start the IPsec service */
+		if (!priv->openswan) {
+			success = do_spawn (self, &priv->pid, NULL, NULL, error,
+			                    priv->ipsec_path, "--checknss", NULL);
 			if (success)
 				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 			return success;
