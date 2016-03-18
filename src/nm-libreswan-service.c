@@ -513,6 +513,7 @@ retry_cb (gpointer user_data)
 
 	if (!connect_step (self, &error))
 		connect_failed (self, error, NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
+	priv->retries--;
 	g_clear_error (&error);
 
 	return FALSE;
@@ -572,7 +573,6 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 		priv->retries = 0;
 		success = connect_step (self, &error);
 	} else if (priv->retries) {
-		priv->retries--;
 		g_message ("Spawn: %d more tries...", priv->retries);
 		priv->retry_id = g_timeout_add (100, retry_cb, self);
 		return;
