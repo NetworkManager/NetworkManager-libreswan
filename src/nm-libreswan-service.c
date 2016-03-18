@@ -724,8 +724,20 @@ spawn_pty (NMLibreswanPlugin *self,
 	int ret;
 
 	/* The pipes */
-	pipe (stderr_pipe);
-	pipe (stdout_pipe);
+	if (pipe (stdout_pipe) == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: failed to create a stdout pipe (%d): %s",
+		             errno, g_strerror (errno));
+		return FALSE;
+	}
+	if (pipe (stderr_pipe) == -1) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "PTY spawn: failed to create a stderr pipe (%d): %s",
+		             errno, g_strerror (errno));
+		close (stdout_pipe[0]);
+		close (stdout_pipe[1]);
+		return FALSE;
+	}
 
 	/* Set the parent pipes non-blocking, so we can read big buffers
 	 * in the callback without having to use FIONREAD
@@ -811,10 +823,14 @@ spawn_pty (NMLibreswanPlugin *self,
 	if (child_pid == 0) {
 		/* in the child */
 
-		close (2);
-		dup (stderr_pipe[1]);
-		close (1);
-		dup (stdout_pipe[1]);
+		if (dup2 (stdout_pipe[1], 1) == -1) {
+			g_error ("PTY spawn: cannot dup stdout (%d): %s.", errno, g_strerror (errno));
+			_exit (-1);
+		}
+		if (dup2 (stderr_pipe[1], 2) == -1) {
+			g_error ("PTY spawn: cannot dup stderr (%d): %s.", errno, g_strerror (errno));
+			_exit (-1);
+		}
 
 		/* Close unnecessary pipes */
 		close (stderr_pipe[0]);
@@ -825,7 +841,11 @@ spawn_pty (NMLibreswanPlugin *self,
 		setenv ("LANG", "C", 1);
 
 		execv (argv->pdata[0], (char * const*) argv->pdata);
-		g_error ("PTY spawn: cannot exec '%s'", (char *) argv->pdata[0]);
+
+		/* This is probably a rather futile attempt to produce an error message
+		 * as it goes to the piped stderr. */
+		g_error ("PTY spawn: cannot exec '%s' (%d): %s", (char *) argv->pdata[0],
+		         errno, g_strerror (errno));
 		_exit (-1);
 	}
 
