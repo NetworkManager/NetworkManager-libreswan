@@ -528,6 +528,9 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	GError *error = NULL;
 	gboolean success;
 
+	DEBUG ("Spawn: child %d exited", pid);
+	unblock_quit (self);
+
 	if (priv->watch_id == 0 || priv->pid != pid) {
 		/* Reap old child */
 		waitpid (pid, NULL, WNOHANG);
@@ -536,9 +539,6 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 
 	priv->watch_id = 0;
 	priv->pid = 0;
-
-	DEBUG ("Spawn: child %d exited", pid);
-	unblock_quit (self);
 
 	if (WIFEXITED (status)) {
 		ret = WEXITSTATUS (status);
@@ -828,6 +828,8 @@ spawn_pty (NMLibreswanPlugin *self,
 		g_error ("PTY spawn: cannot exec '%s'", (char *) argv->pdata[0]);
 		_exit (-1);
 	}
+
+	DEBUG ("PTY spawn: child process %d", child_pid);
 
 	/* Close child side's pipes */
 	close (stderr_pipe[1]);
