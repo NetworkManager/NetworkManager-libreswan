@@ -1,0 +1,237 @@
+# Occitan translation of NetworkManager-vpnc.
+# Copyright (C) 2007-2009 Free Software Foundation, Inc.
+# This file is distributed under the same license as the NetworkManager package.
+# Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-vpnc\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=Network"
+"Manager&keywords=I18N+L10N&component=VPN: Openswan\n"
+"POT-Creation-Date: 2016-03-13 14:03+0000\n"
+"PO-Revision-Date: 2016-03-21 18:22+0200\n"
+"Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
+"Language-Team: Tot En Òc\n"
+"Language: oc\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../auth-dialog/main.c:174
+#, c-format
+#| msgid "Authenticate VPN"
+msgid "Authenticate VPN %s"
+msgstr "Autentificar lo VPN %s"
+
+#: ../auth-dialog/main.c:191
+#| msgid "_Password:"
+msgid "Password:"
+msgstr "Se_nhal :"
+
+#: ../auth-dialog/main.c:201
+#| msgid "_Group Password:"
+msgid "Group Password:"
+msgstr "Senhal del _grop :"
+
+#: ../auth-dialog/main.c:237
+msgid "Authenticate VPN"
+msgstr "Autentificar lo VPN"
+
+#: ../auth-dialog/main.c:246
+msgid "_Group Password:"
+msgstr "Senhal del _grop :"
+
+#: ../auth-dialog/main.c:496
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgstr ""
+"Vos cal vos autentificar per accedir a la ret privada virtuala « %s »."
+
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
+msgid "Network"
+msgstr "Ret"
+
+#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
+msgid "Request VPN authentication"
+msgstr ""
+
+#: ../properties/nm-libreswan.c:64
+msgid "IPsec based VPN"
+msgstr ""
+
+#: ../properties/nm-libreswan.c:65
+msgid "IPsec based VPN using IKEv1"
+msgstr ""
+
+#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
+#, c-format
+msgid "Can't open file '%s': %s"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "<b>General</b>"
+msgstr "<b>General</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "_Gateway:"
+msgstr "_Palanca :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "Afichar los senhals"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Secret:"
+msgstr "_Secret :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "_User password:"
+msgstr "Senhal _utilizaire :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "Nom de g_rop :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Nom d'utilizaire :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Domeni :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Ad_vanced"
+msgstr "A_vançat"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid " "
+msgstr " "
+
+#: ../src/nm-libreswan-service.c:1348
+msgid "A password is required."
+msgstr "Un senhal es requesit."
+
+#: ../src/nm-libreswan-service.c:1734
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1748
+msgid "Unhandled pending authentication."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1890
+msgid "Don't quit when VPN connection terminates"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1891
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1892
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1915
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "Senhal _segondari :"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "Afichar les _senhals"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_Conservar los senhals per aquesta session"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Enregistrar los senhals dins lo trossèl"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Apond, suprimís e modifica de connexions VPN"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "Gestionari de connexions VPN (vpnc)"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "VPN compatible Cisco (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
+#~ "based VPN gateways."
+#~ msgstr ""
+#~ "Compatible amb fòrça palancas VPN basadas sus IPsec de Cisco, "
+#~ "Juniper, Netscreen e Sonicwall."
+
+#~ msgid "Saved"
+#~ msgstr "Enregistrat"
+
+#~ msgid "Always Ask"
+#~ msgstr "Toujours demander"
+
+#~ msgid "Not Required"
+#~ msgstr "Pas necessari"
+
+#~ msgid "Secure (default)"
+#~ msgstr "Securizat (per defaut)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "Faible (d'utilizar amb precaucion)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "Aucun (completament non securizat)"
+
+#~ msgid "Cisco UDP (default)"
+#~ msgstr "UDP Cisco (per defaut)"
+
+#~ msgid "NAT-T"
+#~ msgstr "NAT-T"
+
+#~ msgid "Disabled"
+#~ msgstr "Desactivat"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "Utilizacion d'un tunnel TCP pas pres en carga"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "Lo fichièr de configuracion VPN « %s » indica que lo trafic VPN deuriá "
+#~ "transiter per un tunnel TCP, mas aquò es pas pres en carga "
+#~ "actualament per lo logicial vpnc.\n"
+#~ "\n"
+#~ "La connexion serà pasmens creada sens tunnel TCP ; per aquesta rason, la "
+#~ "connexion poiriá ne pas foncionar coma previst."
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>Facultatiu</b>"
+
+#~ msgid "Disable Dead Peer Detection"
+#~ msgstr "Desactivar la deteccion dels pars blocats"
+
+#~ msgid "Encryption method:"
+#~ msgstr "Metòde de chiframent :"
+
+#~ msgid "Gro_up password:"
+#~ msgstr "Senhal del _grop :"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "Traversada del NAT :"
