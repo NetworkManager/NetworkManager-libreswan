@@ -62,7 +62,7 @@ main (int argc, char *argv[])
 #endif
 
 	proxy = nmdbus_libreswan_helper_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
-	                                                        G_DBUS_PROXY_FLAGS_NONE,
+	                                                        G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES,
 	                                                        bus_name,
 	                                                        NM_DBUS_PATH_LIBRESWAN_HELPER,
 	                                                        NULL, &err);
