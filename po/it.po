@@ -1,16 +1,16 @@
-# Italian translation of NetworkManager-VPNC.
-# Copyright (C) 2006, 2007, 2008, 2009, 2012, 2013, 2014, 2015 the NetworkManager-VPNC'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the NetworkManager-VPNC package.
+# Italian translation of NetworkManager-libreswan.
+# Copyright (C) 2006, 2007, 2008, 2009, 2012, 2013, 2014, 2015, 2016 the NetworkManager-libreswan'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the NetworkManager-libreswan package.
 # Francesco Marletta <francesco.marletta@tiscali.it>, 2006, 2007, 2008, 2009.
-# Milo Casagrande <milo@milo.name>, 2012, 2013, 2014, 2015.
+# Milo Casagrande <milo@milo.name>, 2012, 2013, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2015-12-17 01:54+0000\n"
-"PO-Revision-Date: 2015-12-17 09:45+0100\n"
+"POT-Creation-Date: 2016-03-22 02:16+0000\n"
+"PO-Revision-Date: 2016-03-22 15:13+0100\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../auth-dialog/main.c:174
 #, c-format
@@ -55,84 +55,72 @@ msgstr "Rete"
 msgid "Request VPN authentication"
 msgstr "Richiede autenticazione VPN"
 
-#: ../properties/nm-libreswan.c:61
+#: ../properties/nm-libreswan.c:64
 msgid "IPsec based VPN"
 msgstr "VPN basata su IPsec"
 
-#: ../properties/nm-libreswan.c:62
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "VPN basta su IPsec, IKEv1, IKEv2"
+#: ../properties/nm-libreswan.c:65
+msgid "IPsec based VPN using IKEv1"
+msgstr "VPN basata su IPsec con IKEv1"
 
-#: ../properties/nm-libreswan.c:285
-msgid "Saved"
-msgstr "Salvato"
-
-#: ../properties/nm-libreswan.c:292
-msgid "Always Ask"
-msgstr "Chiedi sempre"
-
-#: ../properties/nm-libreswan.c:299
-msgid "Not Required"
-msgstr "Non richiesto"
-
-#: ../properties/nm-libreswan.c:671 ../properties/nm-libreswan.c:693
+#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "Impossibile aprire il file «%s»: %s"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>Generale</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "_Gateway:"
+msgstr "_Gateway:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Mostra le password"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "Password di gr_uppo:"
+msgid "_Secret:"
+msgstr "_Segreto:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Gateway:"
+msgid "_User password:"
+msgstr "Password _utente:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "Nome g_ruppo:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "Password _utente:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>Opzionale</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Nome utente:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmi phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Dominio:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Algoritmi phase1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Algoritmi phase2:"
+msgid "Ad_vanced"
+msgstr "A_vanzate"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Dominio:"
+msgid " "
+msgstr " "
 
-#: ../src/nm-libreswan-service.c:1245
+#: ../src/nm-libreswan-service.c:1378
 msgid "A password is required."
 msgstr "È richiesta una password."
 
-#: ../src/nm-libreswan-service.c:1631
+#: ../src/nm-libreswan-service.c:1776
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -140,23 +128,23 @@ msgstr ""
 "Impossibile elaborare la richiesta poiché le impostazioni della connessione "
 "VPN non sono valide."
 
-#: ../src/nm-libreswan-service.c:1645
+#: ../src/nm-libreswan-service.c:1790
 msgid "Unhandled pending authentication."
 msgstr "Autenticazione pendente non gestita."
 
-#: ../src/nm-libreswan-service.c:1786
+#: ../src/nm-libreswan-service.c:1932
 msgid "Don't quit when VPN connection terminates"
 msgstr "Non esce quando la connessione VPN termina"
 
-#: ../src/nm-libreswan-service.c:1787
+#: ../src/nm-libreswan-service.c:1933
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Abilita output di debug prolisso (potrebbe esporre le password)"
 
-#: ../src/nm-libreswan-service.c:1788
+#: ../src/nm-libreswan-service.c:1934
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus da usare per questa istanza"
 
-#: ../src/nm-libreswan-service.c:1811
+#: ../src/nm-libreswan-service.c:1957
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
