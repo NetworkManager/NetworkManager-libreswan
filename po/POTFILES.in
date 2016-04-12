@@ -1,7 +1,8 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
+appdata/network-manager-libreswan.appdata.xml.in
 auth-dialog/main.c
 auth-dialog/nm-libreswan-auth-dialog.desktop.in.in
 properties/nm-libreswan.c
-[type: gettext/glade]properties/nm-libreswan-dialog.ui
 src/nm-libreswan-service.c
+[type: gettext/glade]properties/nm-libreswan-dialog.ui

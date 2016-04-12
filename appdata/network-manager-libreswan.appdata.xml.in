@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright Lubomir Rintel 2016 -->
+<component type="addon">
+  <id>network-manager-libreswan</id>
+  <project_license>GPL-2.0+</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <extends>nm-connection-editor.desktop</extends>
+  <extends>gnome-control-center.desktop</extends>
+  <_name>IPsec VPN client</_name>
+  <_summary>Libreswan based client for IKEv1 based IPsec virtual private networks</_summary>
+
+  <keywords>
+    <keyword>network</keyword>
+    <keyword>manager</keyword>
+    <keyword>NetworkManager</keyword>
+    <keyword>connection</keyword>
+    <keyword>VPN</keyword>
+    <keyword>Libreswan</keyword>
+    <keyword>IPsec</keyword>
+    <keyword>IKEv1</keyword>
+  </keywords>
+
+  <description>
+    <_p>Support for configuring IKEv1 based IPsec virtual private network connections.</_p>
+    <_p>Compatible with Libreswan and Cisco IPsec VPN servers.</_p>
+  </description>
+
+  <screenshots>
+    <screenshot type="default">
+      <image width="624" height="618">https://git.gnome.org/browse/network-manager-libreswan/plain/appdata/libreswan.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://wiki.gnome.org/Projects/NetworkManager/VPN</url>
+  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager</url>
+  <update_contact>networkmanager-maint@gnome.bugs</update_contact>
+  <translation type="gettext">NetworkManager-libreswan</translation>
+  <_developer_name>The NetworkManager Developers</_developer_name>
+</component>
