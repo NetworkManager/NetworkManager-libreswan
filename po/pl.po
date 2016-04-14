@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 22:18+0100\n"
-"PO-Revision-Date: 2016-01-26 22:19+0100\n"
+"POT-Creation-Date: 2016-04-14 15:50+0200\n"
+"PO-Revision-Date: 2016-04-14 15:51+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -23,6 +23,32 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
+
+#: ../appdata/network-manager-libreswan.appdata.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "Klient VPN IPsec"
+
+#: ../appdata/network-manager-libreswan.appdata.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+"Klient oparty na bibliotece libreswan dla wirtualnych sieci prywatnych IPsec "
+"opartych na IKEv1"
+
+#: ../appdata/network-manager-libreswan.appdata.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Obsługa konfigurowania połączeń wirtualnych sieci prywatnych IPsec opartych "
+"na IKEv1."
+
+#: ../appdata/network-manager-libreswan.appdata.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Zgodne z biblioteką libreswan i serwerami VPN IPsec firmy Cisco."
+
+#: ../appdata/network-manager-libreswan.appdata.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "Programiści projektu NetworkManager"
 
 #: ../auth-dialog/main.c:174
 #, c-format
@@ -73,6 +99,41 @@ msgstr "VPN oparte na IPsec, używające IKEv1"
 msgid "Can't open file '%s': %s"
 msgstr "Nie można otworzyć pliku „%s”: %s"
 
+#: ../src/nm-libreswan-service.c:1378
+msgid "A password is required."
+msgstr "Wymagane jest hasło."
+
+#: ../src/nm-libreswan-service.c:1776
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
+"nieprawidłowe."
+
+#: ../src/nm-libreswan-service.c:1790
+msgid "Unhandled pending authentication."
+msgstr "Nieobsłużone oczekujące uwierzytelnienie."
+
+#: ../src/nm-libreswan-service.c:1932
+msgid "Don't quit when VPN connection terminates"
+msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
+
+#: ../src/nm-libreswan-service.c:1933
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
+
+#: ../src/nm-libreswan-service.c:1934
+msgid "D-Bus name to use for this instance"
+msgstr "Nazwa D-Bus dla tego wystąpienia"
+
+#: ../src/nm-libreswan-service.c:1957
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Ta usługa dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
+"NetworkManager."
+
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "<b>General</b>"
 msgstr "<b>Ogólne</b>"
@@ -120,38 +181,3 @@ msgstr "Zaa_wansowane"
 #: ../properties/nm-libreswan-dialog.ui.h:12
 msgid " "
 msgstr " "
-
-#: ../src/nm-libreswan-service.c:1250
-msgid "A password is required."
-msgstr "Wymagane jest hasło."
-
-#: ../src/nm-libreswan-service.c:1636
-msgid ""
-"Could not process the request because the VPN connection settings were "
-"invalid."
-msgstr ""
-"Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
-"nieprawidłowe."
-
-#: ../src/nm-libreswan-service.c:1650
-msgid "Unhandled pending authentication."
-msgstr "Nieobsłużone oczekujące uwierzytelnienie."
-
-#: ../src/nm-libreswan-service.c:1791
-msgid "Don't quit when VPN connection terminates"
-msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
-
-#: ../src/nm-libreswan-service.c:1792
-msgid "Enable verbose debug logging (may expose passwords)"
-msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
-
-#: ../src/nm-libreswan-service.c:1793
-msgid "D-Bus name to use for this instance"
-msgstr "Nazwa D-Bus dla tego wystąpienia"
-
-#: ../src/nm-libreswan-service.c:1816
-msgid ""
-"This service provides integrated IPsec VPN capability to NetworkManager."
-msgstr ""
-"Ta usługa dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
-"NetworkManager."
