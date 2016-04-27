@@ -116,7 +116,6 @@ Makefile
 common/Makefile
 src/Makefile
 auth-dialog/Makefile
-auth-dialog/nm-libreswan-auth-dialog.desktop.in
 properties/Makefile
 po/Makefile.in
 ])
