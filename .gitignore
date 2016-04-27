@@ -30,10 +30,7 @@ m4/lt*.m4
 appdata/network-manager-libreswan.appdata.xml
 
 auth-dialog/nm-libreswan-auth-dialog
-auth-dialog/nm-libreswan-auth-dialog.desktop
-auth-dialog/nm-libreswan-auth-dialog.desktop.in
 nm-libreswan-service.name
-nm-libreswan.desktop
 src/nm-libreswan-service
 src/nm-libreswan-service-helper
 src/show-xfrm
