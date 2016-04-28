@@ -1,6 +1,6 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-appdata/network-manager-libreswan.appdata.xml.in
+appdata/network-manager-libreswan.metainfo.xml.in
 auth-dialog/main.c
 properties/nm-libreswan.c
 src/nm-libreswan-service.c

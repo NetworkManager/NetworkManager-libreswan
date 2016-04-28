@@ -29,7 +29,7 @@ endif
 
 appdatadir = $(datadir)/appdata
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
-appdata_in_files = appdata/network-manager-libreswan.appdata.xml.in
+appdata_in_files = appdata/network-manager-libreswan.metainfo.xml.in
 @INTLTOOL_XML_RULE@
 
 nm-libreswan-service.name: $(srcdir)/nm-libreswan-service.name.in
