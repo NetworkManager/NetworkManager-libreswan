@@ -453,7 +453,7 @@ delete_secrets_file (NMLibreswanPlugin *self)
 static void
 connect_failed (NMLibreswanPlugin *self,
                 GError *error,
-                NMVpnConnectionStateReason reason)
+                NMVpnPluginFailure reason)
 {
 	if (error) {
 		g_warning ("Connect failed: (%s/%d) %s",
@@ -1390,7 +1390,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	GIOStatus status;
 	gsize bytes_read = 0;
 	gboolean success = FALSE;
-	NMVpnConnectionStateReason reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
+	NMVpnPluginFailure reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
 	const char *found;
 
 	if (condition & G_IO_HUP) {
