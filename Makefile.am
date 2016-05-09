@@ -45,8 +45,7 @@ EXTRA_DIST = nm-libreswan-service.name.in \
              $(appdata_DATA)      \
              intltool-extract.in  \
              intltool-merge.in    \
-             intltool-update.in   \
-             nm-test-helpers.h
+             intltool-update.in
 
 CLEANFILES = $(nmvpnservice_DATA) \
              $(appdata_DATA)
