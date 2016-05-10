@@ -34,7 +34,8 @@ libnm_vpn_plugin_libreswan_la_LIBADD = \
     $(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la
 
 libnm_vpn_plugin_libreswan_la_LDFLAGS = \
-        -avoid-version
+    -avoid-version \
+    -Wl,--version-script="$(srcdir)/libnm-vpn-plugin-libreswan.ver"
 
 ###############################################################################
 
@@ -55,7 +56,8 @@ libnm_libreswan_properties_la_LIBADD = \
     $(top_builddir)/shared/libnm-libreswan-shared.la
 
 libnm_libreswan_properties_la_LDFLAGS = \
-    $(libnm_vpn_plugin_libreswan_la_LDFLAGS)
+    -avoid-version \
+    -Wl,--version-script="$(srcdir)/libnm-libreswan-properties.ver"
 
 ###############################################################################
 
@@ -64,4 +66,7 @@ ui_DATA = nm-libreswan-dialog.ui
 
 CLEANFILES = *.bak *~
 
-EXTRA_DIST = $(ui_DATA)
+EXTRA_DIST = \
+    $(ui_DATA) \
+    libnm-libreswan-properties.ver \
+    libnm-vpn-plugin-libreswan.ver
