@@ -1,25 +1,29 @@
-AM_CPPFLAGS = \
-	$(GLIB_CFLAGS) \
-	$(LIBNM_CFLAGS) \
-	$(LIBNL_CFLAGS) \
-	-DBINDIR=\"$(bindir)\" \
-	-DPREFIX=\""$(prefix)"\" \
-	-DSYSCONFDIR=\""$(sysconfdir)"\" \
-	-DLIBDIR=\""$(libdir)"\" \
-	-DLIBEXECDIR=\""$(libexecdir)"\" \
-	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
-	-DDATADIR=\"$(datadir)\" \
-	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
-	-I"$(top_srcdir)/shared/"
+libexec_PROGRAMS = \
+    nm-libreswan-service \
+    nm-libreswan-service-helper
 
-libexec_PROGRAMS = nm-libreswan-service nm-libreswan-service-helper
+AM_CPPFLAGS = \
+    $(GLIB_CFLAGS) \
+    $(LIBNM_CFLAGS) \
+    $(LIBNL_CFLAGS) \
+    -DBINDIR=\"$(bindir)\" \
+    -DPREFIX=\""$(prefix)"\" \
+    -DSYSCONFDIR=\""$(sysconfdir)"\" \
+    -DLIBDIR=\""$(libdir)"\" \
+    -DLIBEXECDIR=\""$(libexecdir)"\" \
+    -DLOCALSTATEDIR=\""$(localstatedir)"\" \
+    -DDATADIR=\"$(datadir)\" \
+    -DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
+    -I"$(top_srcdir)/shared/"
+
+###############################################################################
 
 # D-Bus stuff
 noinst_LTLIBRARIES = libnm-libreswan-helper-service-dbus.la
 
-nodist_libnm_libreswan_helper_service_dbus_la_SOURCES =		\
-	nm-libreswan-helper-service-dbus.c			\
-	nm-libreswan-helper-service-dbus.h
+nodist_libnm_libreswan_helper_service_dbus_la_SOURCES = \
+    nm-libreswan-helper-service-dbus.c \
+    nm-libreswan-helper-service-dbus.h
 
 libnm_libreswan_helper_service_dbus_la_CPPFLAGS = $(filter-out -DGLIB_VERSION_MAX_ALLOWED%,$(AM_CPPFLAGS))
 
@@ -33,29 +37,39 @@ nm-libreswan-helper-service-dbus.h: $(top_srcdir)/src/nm-libreswan-helper-servic
 nm-libreswan-helper-service-dbus.c:
 	@true
 
+###############################################################################
+
 nm_libreswan_service_SOURCES = \
-	nm-libreswan-service.c
+    nm-libreswan-service.c
 
 nm_libreswan_service_LDADD = \
-	$(GLIB_LIBS) \
-	$(LIBNM_LIBS) \
-	$(LIBNL_LIBS) \
-	$(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
-	libnm-libreswan-helper-service-dbus.la \
-	-lutil
+    $(GLIB_LIBS) \
+    $(LIBNM_LIBS) \
+    $(LIBNL_LIBS) \
+    $(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
+    libnm-libreswan-helper-service-dbus.la \
+    -lutil
+
+###############################################################################
 
 nm_libreswan_service_helper_SOURCES = \
-	nm-libreswan-service-helper.c
+    nm-libreswan-service-helper.c
 
 nm_libreswan_service_helper_LDADD = \
-	$(LIBNM_LIBS) \
-	libnm-libreswan-helper-service-dbus.la
+    $(LIBNM_LIBS) \
+    libnm-libreswan-helper-service-dbus.la
+
+###############################################################################
 
 noinst_PROGRAMS = show-xfrm
 
 show_xfrm_SOURCES = show-xfrm.c
 
-show_xfrm_LDADD = $(LIBNL_LIBS) $(GLIB_LIBS)
+show_xfrm_LDADD = \
+    $(LIBNL_LIBS) \
+    $(GLIB_LIBS)
+
+###############################################################################
 
 BUILT_SOURCES = nm-libreswan-helper-service-dbus.h nm-libreswan-helper-service-dbus.c
 
