@@ -28,7 +28,10 @@ uninstall-hook:
 endif
 
 appdatadir = $(datadir)/appdata
+appdata_files = $(appdata_in_files:.xml.in=.xml)
+if WITH_GNOME
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+endif
 appdata_in_files = appdata/network-manager-libreswan.metainfo.xml.in
 @INTLTOOL_XML_RULE@
 
@@ -42,13 +45,13 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
 EXTRA_DIST = nm-libreswan-service.name.in \
              $(dbusservice_DATA)  \
              $(appdata_in_files)  \
-             $(appdata_DATA)      \
+             $(appdata_files)      \
              intltool-extract.in  \
              intltool-merge.in    \
              intltool-update.in
 
 CLEANFILES = $(nmvpnservice_DATA) \
-             $(appdata_DATA)
+             $(appdata_files)
 
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
