@@ -24,12 +24,13 @@
 #include <unistd.h>
 #include <string.h>
 #include <glib.h>
-#include <NetworkManager.h>
 
 #ifdef NM_VPN_OLD
 #define NM_VPN_LIBNM_COMPAT
 #include <nm-connection.h>
 #define nm_simple_connection_new nm_connection_new
+#else
+#include <NetworkManager.h>
 #endif
 
 #include "nm-service-defines.h"

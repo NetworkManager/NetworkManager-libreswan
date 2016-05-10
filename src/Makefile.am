@@ -10,8 +10,7 @@ AM_CPPFLAGS = \
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
 	-DDATADIR=\"$(datadir)\" \
 	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
-	-I"$(top_srcdir)/shared/" \
-	-I$(top_srcdir)/common/
+	-I"$(top_srcdir)/shared/"
 
 libexec_PROGRAMS = nm-libreswan-service nm-libreswan-service-helper
 
@@ -41,7 +40,7 @@ nm_libreswan_service_LDADD = \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNL_LIBS) \
-	$(top_builddir)/common/libnm-libreswan-common.la \
+	$(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
 	libnm-libreswan-helper-service-dbus.la \
 	-lutil
 

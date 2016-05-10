@@ -113,7 +113,6 @@ NM_COMPILER_WARNINGS
 
 AC_CONFIG_FILES([
 Makefile
-common/Makefile
 src/Makefile
 auth-dialog/Makefile
 properties/Makefile
