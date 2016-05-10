@@ -36,7 +36,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#ifdef NM_LIBRESWAN_OLD
+#ifdef NM_VPN_OLD
 #define NM_VPN_LIBNM_COMPAT
 
 #include <nm-vpn-plugin-ui-interface.h>
@@ -48,7 +48,7 @@
 #define LIBRESWAN_EDITOR_PLUGIN_ERROR                  NM_SETTING_VPN_ERROR
 #define LIBRESWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_SETTING_VPN_ERROR_INVALID_PROPERTY
 
-#else /* !NM_LIBRESWAN_OLD */
+#else /* !NM_VPN_OLD */
 
 #include <NetworkManager.h>
 #include <nma-ui-utils.h>

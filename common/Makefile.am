@@ -19,6 +19,6 @@ libnm_libreswan_common_la_CPPFLAGS = \
 	$(common_CPPFLAGS)
 
 libnm_vpn_plugin_libreswan_common_la_CPPFLAGS = \
-	-DNM_LIBRESWAN_OLD \
+	-DNM_VPN_OLD \
 	$(LIBNM_GLIB_CFLAGS) \
 	$(common_CPPFLAGS)

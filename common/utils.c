@@ -26,7 +26,7 @@
 #include <glib.h>
 #include <NetworkManager.h>
 
-#ifdef NM_LIBRESWAN_OLD
+#ifdef NM_VPN_OLD
 #define NM_VPN_LIBNM_COMPAT
 #include <nm-connection.h>
 #define nm_simple_connection_new nm_connection_new

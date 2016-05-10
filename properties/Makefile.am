@@ -19,7 +19,7 @@ libnm_vpn_plugin_libreswan_la_CFLAGS = \
 	$(LIBNMA_CFLAGS)
 
 libnm_libreswan_properties_la_CFLAGS = \
-	-DNM_LIBRESWAN_OLD \
+	-DNM_VPN_OLD \
 	$(common_CFLAGS) \
 	$(LIBNM_GLIB_CFLAGS) \
 	$(LIBNM_GTK_CFLAGS)
