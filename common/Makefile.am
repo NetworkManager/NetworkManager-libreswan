@@ -12,7 +12,7 @@ libnm_vpn_plugin_libreswan_common_la_SOURCES = \
 
 common_CPPFLAGS = \
 	-DLIBEXECDIR=\""$(libexecdir)"\" \
-	-I$(top_srcdir)/src/
+	-I"$(top_srcdir)/shared/"
 
 libnm_libreswan_common_la_CPPFLAGS = \
 	$(LIBNM_CFLAGS) \

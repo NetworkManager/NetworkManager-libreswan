@@ -54,7 +54,7 @@
 #include <nm-vpn-service-plugin.h>
 
 #include "nm-libreswan-helper-service-dbus.h"
-#include "nm-libreswan-service.h"
+#include "nm-service-defines.h"
 #include "nm-utils.h"
 #include "utils.h"
 

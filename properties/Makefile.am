@@ -7,7 +7,7 @@ endif
 common_CFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GTK_CFLAGS) \
-	-I$(top_srcdir)/src \
+	-I"$(top_srcdir)/shared/" \
 	-I$(top_srcdir)/common \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DUIDIR=\""$(uidir)"\" \

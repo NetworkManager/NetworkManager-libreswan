@@ -25,9 +25,9 @@
 #include <string.h>
 
 #include "nm-libreswan-helper-service-dbus.h"
-#include "nm-libreswan-service.h"
+#include "nm-service-defines.h"
 
-int 
+int
 main (int argc, char *argv[])
 {
 	NMDBusLibreswanHelper *proxy;

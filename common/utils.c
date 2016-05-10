@@ -32,7 +32,7 @@
 #define nm_simple_connection_new nm_connection_new
 #endif
 
-#include "nm-libreswan-service.h"
+#include "nm-service-defines.h"
 #include "utils.h"
 
 gboolean debug = FALSE;

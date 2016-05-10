@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
 	-DDATADIR=\"$(datadir)\" \
 	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
+	-I"$(top_srcdir)/shared/" \
 	-I$(top_srcdir)/common/
 
 libexec_PROGRAMS = nm-libreswan-service nm-libreswan-service-helper
@@ -34,8 +35,7 @@ nm-libreswan-helper-service-dbus.c:
 	@true
 
 nm_libreswan_service_SOURCES = \
-	nm-libreswan-service.c \
-	nm-libreswan-service.h
+	nm-libreswan-service.c
 
 nm_libreswan_service_LDADD = \
 	$(GLIB_LIBS) \

@@ -57,7 +57,7 @@
 #define LIBRESWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_CONNECTION_ERROR_INVALID_PROPERTY
 #endif
 
-#include "nm-libreswan-service.h"
+#include "nm-service-defines.h"
 #include "nm-libreswan.h"
 #include "utils.h"
 
