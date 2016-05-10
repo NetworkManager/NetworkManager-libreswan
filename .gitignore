@@ -28,6 +28,7 @@ m4/intltool.m4
 m4/libtool.m4
 m4/lt*.m4
 appdata/network-manager-libreswan.metainfo.xml
+/cscope.*
 
 auth-dialog/nm-libreswan-auth-dialog
 nm-libreswan-service.name
