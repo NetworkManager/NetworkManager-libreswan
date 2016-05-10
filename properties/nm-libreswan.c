@@ -76,7 +76,6 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget *widget;
 	GtkSizeGroup *group;
-	gboolean openswan;
 } LibreswanEditorPrivate;
 
 
@@ -314,11 +313,6 @@ init_editor_plugin (LibreswanEditor *self,
 	g_signal_connect (G_OBJECT (widget), "toggled",
 	                  (GCallback) show_toggled_cb,
 	                  self);
-
-	if (s_vpn) {
-		const char *type = nm_setting_vpn_get_service_type (s_vpn);
-		priv->openswan = (g_strcmp0 (type, NM_VPN_SERVICE_TYPE_OPENSWAN) == 0);
-	}
 
 	return TRUE;
 }
@@ -584,7 +578,8 @@ export_to_file (NMVpnEditorPlugin *self,
                 NMConnection *connection,
                 GError **error)
 {
-	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+	NMSettingVpn *s_vpn;
+	gboolean openswan = FALSE;
 	int fd;
 
 	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
@@ -594,7 +589,11 @@ export_to_file (NMVpnEditorPlugin *self,
 		return FALSE;
 	}
 
-	nm_libreswan_config_write (fd, connection, NULL, priv->openswan);
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	if (s_vpn)
+		openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
+
+	nm_libreswan_config_write (fd, connection, NULL, openswan);
 
 	if (!g_close (fd, error))
 		return FALSE;
