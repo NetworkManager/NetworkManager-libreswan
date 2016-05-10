@@ -22,43 +22,18 @@
  *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "nm-default.h"
+
+#include "nm-libreswan.h"
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <string.h>
-#include <gtk/gtk.h>
 
-#ifdef NM_VPN_OLD
-#define NM_VPN_LIBNM_COMPAT
-
-#include <nm-vpn-plugin-ui-interface.h>
-#include <nm-setting-vpn.h>
-#include <nm-setting-connection.h>
-#include <nm-setting-ip4-config.h>
-#include <nm-ui-utils.h>
-
-#define NMV_EDITOR_PLUGIN_ERROR                  NM_SETTING_VPN_ERROR
-#define NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_SETTING_VPN_ERROR_INVALID_PROPERTY
-
-#else /* !NM_VPN_OLD */
-
-#include <NetworkManager.h>
-#include <nma-ui-utils.h>
-
-#define NMV_EDITOR_PLUGIN_ERROR                  NM_CONNECTION_ERROR
-#define NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_CONNECTION_ERROR_INVALID_PROPERTY
-#endif
-
-#include "nm-service-defines.h"
-#include "nm-libreswan.h"
 #include "utils.h"
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")

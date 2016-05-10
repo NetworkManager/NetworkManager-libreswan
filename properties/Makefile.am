@@ -19,6 +19,7 @@ common_CFLAGS = \
 ###############################################################################
 
 libnm_vpn_plugin_libreswan_la_CFLAGS = \
+    -DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB \
     $(common_CFLAGS) \
     $(LIBNM_CFLAGS) \
     $(LIBNMA_CFLAGS)
@@ -39,6 +40,7 @@ libnm_vpn_plugin_libreswan_la_LDFLAGS = \
 
 libnm_libreswan_properties_la_CFLAGS = \
     -DNM_VPN_OLD \
+    -DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB \
     $(common_CFLAGS) \
     $(LIBNM_GLIB_CFLAGS) \
     $(LIBNM_GTK_CFLAGS)

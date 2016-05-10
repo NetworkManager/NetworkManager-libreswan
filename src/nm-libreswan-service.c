@@ -22,6 +22,8 @@
  * Copyright (C) 2010 - 2015 Red Hat, Inc.
  */
 
+#include "nm-default.h"
+
 #define _GNU_SOURCE 1
 
 #include <netinet/in.h>
@@ -48,14 +50,7 @@
 #include <pty.h>
 #include <sys/types.h>
 
-#include <glib/gi18n.h>
-
-#include <NetworkManager.h>
-#include <nm-vpn-service-plugin.h>
-
 #include "nm-libreswan-helper-service-dbus.h"
-#include "nm-service-defines.h"
-#include "nm-utils.h"
 #include "utils.h"
 
 #if !defined(DIST_VERSION)

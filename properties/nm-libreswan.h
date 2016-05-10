@@ -24,8 +24,6 @@
 #ifndef _NM_LIBRESWAN_H_
 #define _NM_LIBRESWAN_H_
 
-#include <glib-object.h>
-
 #define LIBRESWAN_TYPE_EDITOR_PLUGIN            (libreswan_editor_plugin_get_type ())
 #define LIBRESWAN_EDITOR_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPlugin))
 #define LIBRESWAN_EDITOR_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPluginClass))
