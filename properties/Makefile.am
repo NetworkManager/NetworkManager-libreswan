@@ -9,8 +9,8 @@ plugin_sources = \
     nm-libreswan-editor-plugin.h
 
 editor_sources = \
-    nm-libreswan.c \
-    nm-libreswan.h
+    nm-libreswan-editor.c \
+    nm-libreswan-editor.h
 
 uidir = $(datadir)/gnome-vpn-properties/libreswan
 ui_DATA = nm-libreswan-dialog.ui

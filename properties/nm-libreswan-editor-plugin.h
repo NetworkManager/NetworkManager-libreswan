@@ -1,7 +1,5 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /***************************************************************************
- * nm-libreswan.h : GNOME UI dialogs for configuring libreswan VPN connections
- *
  * Copyright (C) 2008 Dan Williams, <dcbw@redhat.com>
  * Copyright (C) 2010 Avesh Agarwal, <avagarwa@redhat.com>
  *

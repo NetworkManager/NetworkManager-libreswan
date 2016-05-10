@@ -19,8 +19,8 @@
  *
  **************************************************************************/
 
-#ifndef _NM_LIBRESWAN_H_
-#define _NM_LIBRESWAN_H_
+#ifndef __NM_LIBRESWAN_EDITOR_H__
+#define __NM_LIBRESWAN_EDITOR_H__
 
 #define LIBRESWAN_TYPE_EDITOR            (libreswan_editor_get_type ())
 #define LIBRESWAN_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditor))
@@ -44,5 +44,5 @@ GType libreswan_editor_get_type (void);
 
 NMVpnEditor *nm_vpn_editor_new (NMConnection *connection, GError **error);
 
-#endif /* _NM_LIBRESWAN_H_ */
+#endif /* __NM_LIBRESWAN_EDITOR_H__ */
 

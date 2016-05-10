@@ -22,7 +22,7 @@
 
 #include "nm-default.h"
 
-#include "nm-libreswan.h"
+#include "nm-libreswan-editor.h"
 
 #include <netinet/in.h>
 #include <arpa/inet.h>

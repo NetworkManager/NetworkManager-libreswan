@@ -1,7 +1,5 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /***************************************************************************
- * nm-libreswan.c : GNOME UI dialogs for configuring libreswan VPN connections
- *
  * Copyright (C) 2005 David Zeuthen, <davidz@redhat.com>
  * Copyright (C) 2005 - 2008 Dan Williams, <dcbw@redhat.com>
  * Copyright (C) 2010 Avesh Agarwal <avagarwa@redhat.com>
@@ -36,7 +34,7 @@
 
 #include "utils.h"
 
-#include "nm-libreswan.h"
+#include "nm-libreswan-editor.h"
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")
 #define LIBRESWAN_PLUGIN_DESC    _("IPsec based VPN using IKEv1")
