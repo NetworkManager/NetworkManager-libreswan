@@ -16,6 +16,7 @@ missing
 mkinstalldirs
 POTFILES
 *.pot
+.dirstamp
 stamp-*
 .deps
 .libs
