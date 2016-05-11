@@ -1,4 +1,16 @@
 =======================================================
+NetworkManager-libreswan-1.2.2
+Overview of changes since NetworkManager-libreswan-1.2
+=======================================================
+
+This is a new stable release of NetworkManager-libreswan.  Notable changes include:
+
+* Drop an unused .desktop file
+* Use a proper name for the AppStream metadata
+* Updated Czech, Italian, Hungarian and German translations
+
+
+=======================================================
 NetworkManager-libreswan-1.2
 Overview of changes since network-manager-openswan-1.0.0
 =======================================================
