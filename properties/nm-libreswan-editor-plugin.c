@@ -72,7 +72,7 @@ import_from_file (NMVpnEditorPlugin *self,
 	if (fd == -1) {
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
 		             _("Can't open file '%s': %s"), path, g_strerror (errno));
-		return FALSE;
+		return NULL;
 	}
 
 	connection = nm_libreswan_config_read (fd);
