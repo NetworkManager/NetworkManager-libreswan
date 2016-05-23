@@ -20,20 +20,20 @@
  * Copyright 2015 Red Hat, Inc.
  */
 
-#include <glib.h>
+#include "nm-default.h"
+
 #include <stdlib.h>
 #include <string.h>
 
 #include "nm-libreswan-helper-service-dbus.h"
-#include "nm-libreswan-service.h"
 
-int 
+int
 main (int argc, char *argv[])
 {
 	NMDBusLibreswanHelper *proxy;
 	GVariantBuilder environment;
 	GError *err = NULL;
-	gchar **environ;
+	gchar **env;
 	gchar **p;
 	const char *bus_name;
 
@@ -73,13 +73,13 @@ main (int argc, char *argv[])
 	}
 
 	g_variant_builder_init (&environment, G_VARIANT_TYPE ("a{ss}"));
-	environ = g_listenv ();
-	for (p = environ; *p; p++) {
+	env = g_listenv ();
+	for (p = env; *p; p++) {
 		if (strncmp ("PLUTO_", *p, 6))
 			continue;
 		g_variant_builder_add (&environment, "{ss}", *p, g_getenv (*p));
 	}
-	g_strfreev (environ);
+	g_strfreev (env);
 
 	if (!nmdbus_libreswan_helper_call_callback_sync (proxy,
 	                                                 g_variant_builder_end (&environment),

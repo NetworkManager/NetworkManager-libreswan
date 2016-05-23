@@ -2,6 +2,9 @@
 # Please keep this file sorted alphabetically.
 appdata/network-manager-libreswan.metainfo.xml.in
 auth-dialog/main.c
-properties/nm-libreswan.c
+properties/nm-libreswan-editor-plugin.c
+properties/nm-libreswan-editor.c
 src/nm-libreswan-service.c
+shared/nm-utils/nm-shared-utils.c
+shared/nm-vpn/nm-vpn-plugin-utils.c
 [type: gettext/glade]properties/nm-libreswan-dialog.ui

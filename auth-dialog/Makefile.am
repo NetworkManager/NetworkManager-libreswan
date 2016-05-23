@@ -4,6 +4,7 @@ AM_CPPFLAGS = \
 	$(LIBNMA_CFLAGS) \
 	$(GTK_CFLAGS) \
 	$(LIBSECRET_CFLAGS) \
+	-I"$(top_srcdir)/shared/" \
 	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DBINDIR=\""$(bindir)"\" \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\"

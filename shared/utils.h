@@ -21,6 +21,9 @@
  * Copyright (C) 2010 - 2015 Red Hat, Inc.
  */
 
+#ifndef __UTILS_H__
+#define __UTILS_H__
+
 extern gboolean debug;
 
 static inline void
@@ -50,3 +53,5 @@ nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
                            const char *bus_name,
                            gboolean openswan);
+
+#endif /* __UTILS_H__ */
