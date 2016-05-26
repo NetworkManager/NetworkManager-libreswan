@@ -24,15 +24,20 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include <errno.h>
+
 extern gboolean debug;
 
-__attribute__((__format__ (__printf__, 3, 4)))
-static inline void
-write_config_option_newline (int fd, gboolean new_line, const char *format, ...)
+__attribute__((__format__ (__printf__, 4, 5)))
+static inline gboolean
+write_config_option_newline (int fd, gboolean new_line, GError **error, const char *format, ...)
 {
 	gs_free char *string = NULL;
+	const char *p;
 	va_list args;
 	gsize l;
+	int errsv;
+	gssize w;
 
 	va_start (args, format);
 	string = g_strdup_vprintf (format, args);
@@ -52,15 +57,37 @@ write_config_option_newline (int fd, gboolean new_line, const char *format, ...)
 		l++;
 	}
 
-	if (write (fd, string, l) <= 0)
-		g_warning ("nm-libreswan: error in write_config_option");
+	p = string;
+	while (true) {
+		w = write (fd, p, l);
+		if (w == l)
+			return TRUE;
+		if (w > 0) {
+			g_assert (w < l);
+			p += w;
+			l -= w;
+			continue;
+		}
+		if (w == 0) {
+			errno = EIO;
+			break;
+		}
+		errsv = errno;
+		if (errsv == EINTR)
+			continue;
+		break;
+	}
+	g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR,
+	             _("Error writing config: %s"), g_strerror (errsv));
+	return FALSE;
 }
-#define write_config_option(fd, ...) write_config_option_newline((fd), TRUE, __VA_ARGS__)
+#define write_config_option(fd, error, ...) write_config_option_newline((fd), TRUE, error, __VA_ARGS__)
 
-void
+gboolean
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
                            const char *bus_name,
-                           gboolean openswan);
+                           gboolean openswan,
+                           GError **error);
 
 #endif /* __UTILS_H__ */

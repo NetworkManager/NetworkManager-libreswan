@@ -49,6 +49,7 @@
 #include <stdarg.h>
 #include <pty.h>
 #include <sys/types.h>
+#include <glib/gstdio.h>
 
 #include "nm-libreswan-helper-service-dbus.h"
 #include "utils.h"
@@ -654,6 +655,7 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 	const char *pw_type, *psk, *leftid, *right;
 	int fd;
 	int errsv;
+	gboolean success;
 
 	/* Check for ignored group password */
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
@@ -693,15 +695,18 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 	if (leftid) {
-		write_config_option (fd, "@%s: PSK \"%s\"", leftid, psk);
+		success = write_config_option (fd, error, "@%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
 		g_assert (right);
-		write_config_option (fd, "%s %%any: PSK \"%s\"", right, psk);
+		success = write_config_option (fd, error, "%s %%any: PSK \"%s\"", right, psk);
 	}
 
-	close (fd);
-	return TRUE;
+	if (!success) {
+		g_close (fd, NULL);
+		return FALSE;
+	}
+	return g_close (fd, error);
 }
 
 /****************************************************************/
@@ -1598,10 +1603,13 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
-		nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan);
+		if (!nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan, error)) {
+			g_close (fd, NULL);
+			g_free (bus_name);
+			return FALSE;
+		}
 		g_free (bus_name);
-		close (fd);
-		return TRUE;
+		return g_close (fd, error);
 
 	case CONNECT_STEP_CONNECT:
 		g_assert (uuid);

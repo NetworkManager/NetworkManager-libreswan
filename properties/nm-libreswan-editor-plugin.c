@@ -140,11 +140,12 @@ export_to_file (NMVpnEditorPlugin *self,
 	NMSettingVpn *s_vpn;
 	gboolean openswan = FALSE;
 	int fd, errsv;
+	gs_free_error GError *local = NULL;
 
 	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
 	if (fd == -1) {
 		errsv = errno;
-		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
 		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
 		return FALSE;
 	}
@@ -153,7 +154,12 @@ export_to_file (NMVpnEditorPlugin *self,
 	if (s_vpn)
 		openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
 
-	nm_libreswan_config_write (fd, connection, NULL, openswan);
+	if (!nm_libreswan_config_write (fd, connection, NULL, openswan, &local)) {
+		g_close (fd, NULL);
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
+		             _("Error writing to file '%s': %s"), path, local->message);
+		return FALSE;
+	}
 
 	if (!g_close (fd, error))
 		return FALSE;
