@@ -704,11 +704,11 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 	if (leftid) {
-		success = write_config_option (fd, _debug_write_option, error, "@%s: PSK \"%s\"", leftid, psk);
+		success = write_config_option (fd, NULL, error, "@%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
 		g_assert (right);
-		success = write_config_option (fd, _debug_write_option, error, "%s %%any: PSK \"%s\"", right, psk);
+		success = write_config_option (fd, NULL, error, "%s %%any: PSK \"%s\"", right, psk);
 	}
 
 	if (!success) {
