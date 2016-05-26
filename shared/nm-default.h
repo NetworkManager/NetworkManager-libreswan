@@ -74,6 +74,7 @@
 #include <nm-utils.h>
 #include <nm-vpn-plugin-ui-interface.h>
 
+#define nm_simple_connection_new                    nm_connection_new
 #define NMV_EDITOR_PLUGIN_ERROR                     NM_SETTING_VPN_ERROR
 #define NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY    NM_SETTING_VPN_ERROR_INVALID_PROPERTY
 
