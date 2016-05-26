@@ -26,24 +26,36 @@
 
 extern gboolean debug;
 
+__attribute__((__format__ (__printf__, 3, 4)))
 static inline void
-write_config_option (int fd, const char *format, ...)
+write_config_option_newline (int fd, gboolean new_line, const char *format, ...)
 {
-	char *string;
+	gs_free char *string = NULL;
 	va_list args;
+	gsize l;
 
 	va_start (args, format);
 	string = g_strdup_vprintf (format, args);
+	va_end (args);
 
 	if (debug)
-		g_print ("Config: %s", string);
+		g_print ("Config: %s\n", string);
 
-	if (write (fd, string, strlen (string)) == -1)
+	l = strlen (string);
+	if (new_line) {
+		gs_free char *s = string;
+
+		string = g_new (char, l + 1 + 1);
+		memcpy (string, s, l);
+		string[l] = '\n';
+		string[l + 1] = '\0';
+		l++;
+	}
+
+	if (write (fd, string, l) <= 0)
 		g_warning ("nm-libreswan: error in write_config_option");
-
-	g_free (string);
-	va_end (args);
 }
+#define write_config_option(fd, ...) write_config_option_newline((fd), TRUE, __VA_ARGS__)
 
 void
 nm_libreswan_config_write (gint fd,

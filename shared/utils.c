@@ -57,59 +57,56 @@ nm_libreswan_config_write (gint fd,
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 
-	write_config_option (fd, "conn %s\n", con_name);
+	write_config_option (fd, "conn %s", con_name);
 	if (leftid) {
-		write_config_option (fd, " aggrmode=yes\n");
-		write_config_option (fd, " leftid=@%s\n", leftid);
+		write_config_option (fd, " aggrmode=yes");
+		write_config_option (fd, " leftid=@%s", leftid);
 	}
-	write_config_option (fd, " authby=secret\n");
-	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftxauthclient=yes\n");
-	write_config_option (fd, " leftmodecfgclient=yes\n");
+	write_config_option (fd, " authby=secret");
+	write_config_option (fd, " left=%%defaultroute");
+	write_config_option (fd, " leftxauthclient=yes");
+	write_config_option (fd, " leftmodecfgclient=yes");
 
 	if (bus_name)
-		write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"\n", bus_name);
+		write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"", bus_name);
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
 	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
 	if (props_username && strlen (props_username))
-		write_config_option (fd, " leftxauthusername=%s\n", props_username);
+		write_config_option (fd, " leftxauthusername=%s", props_username);
 	else if (default_username && strlen (default_username))
-		write_config_option (fd, " leftxauthusername=%s\n", default_username);
+		write_config_option (fd, " leftxauthusername=%s", default_username);
 
-	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
-	write_config_option (fd, " remote_peer_type=cisco\n");
-	write_config_option (fd, " rightxauthserver=yes\n");
-	write_config_option (fd, " rightmodecfgserver=yes\n");
-	write_config_option (fd, " modecfgpull=yes\n");
-	write_config_option (fd, " rightsubnet=0.0.0.0/0\n");
+	write_config_option (fd, " right=%s", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
+	write_config_option (fd, " remote_peer_type=cisco");
+	write_config_option (fd, " rightxauthserver=yes");
+	write_config_option (fd, " rightmodecfgserver=yes");
+	write_config_option (fd, " modecfgpull=yes");
+	write_config_option (fd, " rightsubnet=0.0.0.0/0");
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
-		write_config_option (fd, " ike=aes-sha1\n");
+		write_config_option (fd, " ike=aes-sha1");
 	else
-		write_config_option (fd, " ike=%s\n", phase1_alg_str);
+		write_config_option (fd, " ike=%s", phase1_alg_str);
 
 	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
 	if (!phase2_alg_str || !strlen (phase2_alg_str))
-		write_config_option (fd, " esp=aes-sha1;modp1024\n");
+		write_config_option (fd, " esp=aes-sha1;modp1024");
 	else
-		write_config_option (fd, " esp=%s\n", phase2_alg_str);
+		write_config_option (fd, " esp=%s", phase2_alg_str);
 
-	write_config_option (fd, " rekey=yes\n");
-	write_config_option (fd, " salifetime=24h\n");
-	write_config_option (fd, " ikelifetime=24h\n");
-	write_config_option (fd, " keyingtries=1\n");
+	write_config_option (fd, " rekey=yes");
+	write_config_option (fd, " salifetime=24h");
+	write_config_option (fd, " ikelifetime=24h");
+	write_config_option (fd, " keyingtries=1");
 	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
-		write_config_option (fd, " cisco-unity=yes\n");
-	write_config_option (fd, " auto=add");
+		write_config_option (fd, " cisco-unity=yes");
 
 	/* openswan requires a terminating \n (otherwise it segfaults) while
 	 * libreswan fails parsing the configuration if you include the \n.
 	 * WTF?
 	 */
-	if (openswan || !bus_name)
-		(void) write (fd, "\n", 1);
-	if (debug)
-		g_print ("\n");
+	write_config_option_newline (fd, (openswan || !bus_name), " auto=add");
+
 }

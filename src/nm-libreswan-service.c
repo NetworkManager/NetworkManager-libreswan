@@ -693,11 +693,11 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 	if (leftid) {
-		write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+		write_config_option (fd, "@%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
 		g_assert (right);
-		write_config_option (fd, "%s %%any: PSK \"%s\"\n", right, psk);
+		write_config_option (fd, "%s %%any: PSK \"%s\"", right, psk);
 	}
 
 	close (fd);
