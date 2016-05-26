@@ -1635,7 +1635,11 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		 */
 		trailing_newline = priv->openswan;
 
-		ifupdown_script = g_strdup_printf ("\"%s --bus-name %s\"", NM_LIBRESWAN_HELPER_PATH, bus_name);
+		ifupdown_script = g_strdup_printf ("\"%s %d %ld %s\"",
+		                                   NM_LIBRESWAN_HELPER_PATH,
+		                                   LOG_DEBUG,
+		                                   (long) getpid (),
+		                                   bus_name);
 
 		if (!nm_libreswan_config_write (fd,
 		                                priv->connection,

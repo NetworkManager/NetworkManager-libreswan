@@ -56,6 +56,7 @@ nm_libreswan_service_helper_SOURCES = \
 
 nm_libreswan_service_helper_LDADD = \
     $(LIBNM_LIBS) \
+    $(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
     libnm-libreswan-helper-service-dbus.la
 
 ###############################################################################
