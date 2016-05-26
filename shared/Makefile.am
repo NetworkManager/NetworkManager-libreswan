@@ -49,7 +49,8 @@ libnm_vpn_editor_utils_shared_la_CPPFLAGS = \
 
 libnm_vpn_editor_utils_shared_la_SOURCES = \
     nm-vpn/nm-vpn-plugin-utils.c \
-    nm-vpn/nm-vpn-plugin-utils.h
+    nm-vpn/nm-vpn-plugin-utils.h \
+    nm-vpn/nm-vpn-plugin-macros.h
 
 libnm_vpn_editor_utils_shared_la_LIBADD = \
     $(LIBNM_LIBS) \
