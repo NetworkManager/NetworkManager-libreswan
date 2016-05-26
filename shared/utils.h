@@ -38,8 +38,10 @@ gboolean write_config_option_newline (int fd,
 gboolean
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
-                           const char *bus_name,
+                           const char *con_name,
+                           const char *leftupdown_script,
                            gboolean openswan,
+                           gboolean trailing_newline,
                            NMDebugWriteFcn debug_write_fcn,
                            GError **error);
 

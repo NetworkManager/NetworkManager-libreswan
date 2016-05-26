@@ -154,7 +154,14 @@ export_to_file (NMVpnEditorPlugin *self,
 	if (s_vpn)
 		openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
 
-	if (!nm_libreswan_config_write (fd, connection, NULL, openswan, NULL, &local)) {
+	if (!nm_libreswan_config_write (fd,
+	                                connection,
+	                                nm_connection_get_id (connection),
+	                                NULL,
+	                                openswan,
+	                                TRUE,
+	                                NULL,
+	                                &local)) {
 		g_close (fd, NULL);
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
 		             _("Error writing to file '%s': %s"), path, local->message);

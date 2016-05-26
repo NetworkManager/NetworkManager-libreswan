@@ -89,31 +89,27 @@ write_config_option_newline (int fd,
 gboolean
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
-                           const char *bus_name,
+                           const char *con_name,
+                           const char *leftupdown_script,
                            gboolean openswan,
+                           gboolean trailing_newline,
                            NMDebugWriteFcn debug_write_fcn,
                            GError **error)
 {
-	NMSettingVpn *s_vpn = nm_connection_get_setting_vpn (connection);
-	const char *con_name;
+	NMSettingVpn *s_vpn;
 	const char *props_username;
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
 	const char *leftid;
 
+	g_return_val_if_fail (fd > 0, FALSE);
+	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 	g_return_val_if_fail (!error || !*error, FALSE);
+	g_return_val_if_fail (con_name && *con_name, FALSE);
 
-	/* We abuse the presence of bus name to decide if we're exporting
-	 * the connection or actually configuring Pluto. */
-	if (bus_name)
-		con_name = nm_connection_get_uuid (connection);
-	else
-		con_name = nm_connection_get_id (connection);
-
-	g_assert (fd >= 0);
-	g_assert (s_vpn);
-	g_assert (con_name);
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn), FALSE);
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 
@@ -134,8 +130,8 @@ nm_libreswan_config_write (gint fd,
 	WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthclient=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=yes");
 
-	if (bus_name)
-		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"", bus_name);
+	if (leftupdown_script)
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=%s", leftupdown_script);
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
 	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
@@ -167,14 +163,11 @@ nm_libreswan_config_write (gint fd,
 	WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
 	WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
 	WRITE_CHECK (fd, debug_write_fcn, error, " keyingtries=1");
+
 	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
 		WRITE_CHECK (fd, debug_write_fcn, error, " cisco-unity=yes");
 
-	/* openswan requires a terminating \n (otherwise it segfaults) while
-	 * libreswan fails parsing the configuration if you include the \n.
-	 * WTF?
-	 */
-	WRITE_CHECK_NEWLINE (fd, (openswan || !bus_name), debug_write_fcn, error, " auto=add");
+	WRITE_CHECK_NEWLINE (fd, trailing_newline, debug_write_fcn, error, " auto=add");
 
 	return TRUE;
 }

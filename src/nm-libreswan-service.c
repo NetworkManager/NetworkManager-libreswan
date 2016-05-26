@@ -1544,7 +1544,6 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
 	gboolean success = FALSE;
-	char *bus_name;
 
 	g_warn_if_fail (priv->watch_id == 0);
 	priv->watch_id = 0;
@@ -1554,6 +1553,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	_LOGD ("Connect: step %d", priv->connect_step);
 
 	uuid = nm_connection_get_uuid (priv->connection);
+	g_return_val_if_fail (uuid && *uuid, FALSE);
 
 	switch (priv->connect_step) {
 	case CONNECT_STEP_FIRST:
@@ -1618,21 +1618,38 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
-	case CONNECT_STEP_CONFIG_ADD:
-		g_assert (uuid);
+	case CONNECT_STEP_CONFIG_ADD: {
+		gboolean trailing_newline;
+		gs_free char *bus_name = NULL;
+		gs_free char *ifupdown_script = NULL;
+
 		if (!do_spawn (self, &priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
-		if (!nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan, _debug_write_option, error)) {
+
+		/* openswan requires a terminating \n (otherwise it segfaults) while
+		 * libreswan fails parsing the configuration if you include the \n.
+		 * WTF?
+		 */
+		trailing_newline = priv->openswan;
+
+		ifupdown_script = g_strdup_printf ("\"%s --bus-name %s\"", NM_LIBRESWAN_HELPER_PATH, bus_name);
+
+		if (!nm_libreswan_config_write (fd,
+		                                priv->connection,
+		                                uuid,
+		                                ifupdown_script,
+		                                priv->openswan,
+		                                trailing_newline,
+		                                _debug_write_option,
+		                                error)) {
 			g_close (fd, NULL);
-			g_free (bus_name);
 			return FALSE;
 		}
-		g_free (bus_name);
 		return g_close (fd, error);
-
+	}
 	case CONNECT_STEP_CONNECT:
 		g_assert (uuid);
 		if (!spawn_pty (self, &up_stdout, &up_stderr, &up_pty, &priv->pid, error,
