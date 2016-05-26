@@ -70,8 +70,10 @@ G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGI
 
 /************************************************************/
 
-GMainLoop *loop = NULL;
-static gboolean debug;
+static struct {
+	gboolean debug;
+	GMainLoop *loop;
+} gl/*obal*/;
 
 typedef enum {
     CONNECT_STEP_FIRST,
@@ -126,7 +128,7 @@ typedef struct {
 
 #define DEBUG(...) \
     G_STMT_START { \
-        if (debug) { \
+        if (gl.debug) { \
             g_message (__VA_ARGS__); \
         } \
     } G_STMT_END
@@ -302,7 +304,7 @@ unblock_quit (NMLibreswanPlugin *self)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	if (--priv->quit_blockers == 0)
-		g_main_loop_quit (loop);
+		g_main_loop_quit (gl.loop);
 	DEBUG ("Unblock quit: %d blockers", priv->quit_blockers);
 }
 
@@ -622,7 +624,7 @@ do_spawn (NMLibreswanPlugin *self,
 	va_end (ap);
 	g_ptr_array_add (argv, NULL);
 
-	if (debug) {
+	if (gl.debug) {
 		cmdline = g_strjoinv (" ", (char **) argv->pdata);
 		g_message ("Spawn: %s", cmdline);
 		g_free (cmdline);
@@ -837,7 +839,7 @@ spawn_pty (NMLibreswanPlugin *self,
 	va_end (ap);
 	g_ptr_array_add (argv, NULL);
 
-	if (debug) {
+	if (gl.debug) {
 		cmdline = g_strjoinv (" ", (char **) argv->pdata);
 		g_message ("PTY spawn: %s", cmdline);
 		g_free (cmdline);
@@ -1634,7 +1636,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		g_io_channel_set_buffered (priv->channel, FALSE);
 		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
 
-		if (debug) {
+		if (gl.debug) {
 			pipe_init (&priv->out, up_stdout, "OUT");
 			pipe_init (&priv->err, up_stderr, "ERR");
 		}
@@ -1675,7 +1677,7 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	NMSettingVpn *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
 
-	if (debug)
+	if (gl.debug)
 		nm_connection_dump (connection);
 
 	priv->ipsec_path = find_helper_bin ("ipsec", error);
@@ -1921,7 +1923,7 @@ static void
 signal_handler (int signo)
 {
 	if (signo == SIGINT || signo == SIGTERM)
-		g_main_loop_quit (loop);
+		g_main_loop_quit (gl.loop);
 }
 
 static void
@@ -1958,7 +1960,7 @@ main (int argc, char *argv[])
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
-		{ "debug", 0, 0, G_OPTION_ARG_NONE, &debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
+		{ "debug", 0, 0, G_OPTION_ARG_NONE, &gl.debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
 		{ "bus-name", 0, 0, G_OPTION_ARG_STRING, &bus_name, N_("D-Bus name to use for this instance"), NULL },
 		{NULL}
 	};
@@ -1988,14 +1990,14 @@ main (int argc, char *argv[])
 	g_option_context_free (opt_ctx);
 
 	if (getenv ("LIBRESWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
-		debug = TRUE;
+		gl.debug = TRUE;
 
-	if (debug)
+	if (gl.debug)
 		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
 	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
 	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, bus_name,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER, !debug,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER, !gl.debug,
 	                         NULL);
 	if (!plugin) {
 		g_warning ("Failed to initialize a plugin instance: %s", error->message);
@@ -2022,16 +2024,16 @@ main (int argc, char *argv[])
 
 	g_signal_connect (priv->dbus_skeleton, "handle-callback", G_CALLBACK (handle_callback), plugin);
 
-	loop = g_main_loop_new (NULL, FALSE);
+	gl.loop = g_main_loop_new (NULL, FALSE);
 
 	block_quit (plugin);
 	if (!persist)
 		g_signal_connect (plugin, "quit", G_CALLBACK (quit_mainloop), NULL);
 
 	setup_signals ();
-	g_main_loop_run (loop);
+	g_main_loop_run (gl.loop);
 
-	g_main_loop_unref (loop);
+	g_clear_pointer (&gl.loop, g_main_loop_unref);
 	g_object_unref (plugin);
 
 	exit (0);
