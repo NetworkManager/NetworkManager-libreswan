@@ -69,8 +69,9 @@ import_from_file (NMVpnEditorPlugin *self,
 	NMSettingConnection *s_con;
 	NMSettingVpn *s_vpn;
 	GIOChannel *chan;
-	gchar *str;
+	char *str_tmp;
 	int fd, errsv;
+	gboolean has_conn = FALSE;
 
 	fd = g_open (path, O_RDONLY, 0777);
 	if (fd == -1) {
@@ -88,10 +89,18 @@ import_from_file (NMVpnEditorPlugin *self,
 	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN, NULL);
 
 	chan = g_io_channel_unix_new (fd);
-	while (g_io_channel_read_line (chan, &str, NULL, NULL, NULL) == G_IO_STATUS_NORMAL) {
+	while (g_io_channel_read_line (chan, &str_tmp, NULL, NULL, NULL) == G_IO_STATUS_NORMAL) {
+		gs_free char *str = str_tmp;
+
 		g_strstrip (str);
-		if (g_str_has_prefix (str, "conn "))
+		if (g_str_has_prefix (str, "conn ")) {
+			if (has_conn) {
+				/* only accept the frist connection section */
+				break;
+			}
+			has_conn = TRUE;
 			g_object_set (s_con, NM_SETTING_CONNECTION_ID, &str[5], NULL);
+		}
 		else if (g_str_has_prefix (str, "leftid=@"))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, &str[8]);
 		else if (g_str_has_prefix (str, "leftxauthusername="))
@@ -107,11 +116,17 @@ import_from_file (NMVpnEditorPlugin *self,
 		else {
 			/* unknown tokens are silently ignored. */
 		}
-		g_free (str);
 	}
 	g_io_channel_unref (chan);
 
 	g_close (fd, NULL);
+
+	if (!has_conn) {
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FILE_NOT_VPN,
+		             _("Missing \"conn\" section in \"%s\""), path);
+		g_object_unref (connection);
+		return NULL;
+	}
 
 	return connection;
 }
