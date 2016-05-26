@@ -71,6 +71,7 @@ G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGI
 /************************************************************/
 
 GMainLoop *loop = NULL;
+static gboolean debug;
 
 typedef enum {
     CONNECT_STEP_FIRST,
@@ -129,6 +130,14 @@ typedef struct {
             g_message (__VA_ARGS__); \
         } \
     } G_STMT_END
+
+/****************************************************************/
+
+static void
+_debug_write_option (const char *setting)
+{
+	g_print ("Config %s\n", setting);
+}
 
 /****************************************************************/
 
@@ -695,11 +704,11 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 	if (leftid) {
-		success = write_config_option (fd, error, "@%s: PSK \"%s\"", leftid, psk);
+		success = write_config_option (fd, _debug_write_option, error, "@%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
 		g_assert (right);
-		success = write_config_option (fd, error, "%s %%any: PSK \"%s\"", right, psk);
+		success = write_config_option (fd, _debug_write_option, error, "%s %%any: PSK \"%s\"", right, psk);
 	}
 
 	if (!success) {
@@ -1603,7 +1612,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
-		if (!nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan, error)) {
+		if (!nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan, _debug_write_option, error)) {
 			g_close (fd, NULL);
 			g_free (bus_name);
 			return FALSE;

@@ -26,11 +26,11 @@
 
 #include <errno.h>
 
-extern gboolean debug;
+typedef void (*NMDebugWriteFcn) (const char *setting);
 
-__attribute__((__format__ (__printf__, 4, 5)))
+__attribute__((__format__ (__printf__, 5, 6)))
 static inline gboolean
-write_config_option_newline (int fd, gboolean new_line, GError **error, const char *format, ...)
+write_config_option_newline (int fd, gboolean new_line, NMDebugWriteFcn debug_write_fcn, GError **error, const char *format, ...)
 {
 	gs_free char *string = NULL;
 	const char *p;
@@ -43,8 +43,8 @@ write_config_option_newline (int fd, gboolean new_line, GError **error, const ch
 	string = g_strdup_vprintf (format, args);
 	va_end (args);
 
-	if (debug)
-		g_print ("Config: %s\n", string);
+	if (debug_write_fcn)
+		debug_write_fcn (string);
 
 	l = strlen (string);
 	if (new_line) {
@@ -81,13 +81,14 @@ write_config_option_newline (int fd, gboolean new_line, GError **error, const ch
 	             _("Error writing config: %s"), g_strerror (errsv));
 	return FALSE;
 }
-#define write_config_option(fd, error, ...) write_config_option_newline((fd), TRUE, error, __VA_ARGS__)
+#define write_config_option(fd, debug_write_fcn, error, ...) write_config_option_newline((fd), TRUE, debug_write_fcn, error, __VA_ARGS__)
 
 gboolean
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
                            const char *bus_name,
                            gboolean openswan,
+                           NMDebugWriteFcn debug_write_fcn,
                            GError **error);
 
 #endif /* __UTILS_H__ */
