@@ -70,12 +70,13 @@ import_from_file (NMVpnEditorPlugin *self,
 	NMSettingVpn *s_vpn;
 	GIOChannel *chan;
 	gchar *str;
-	int fd;
+	int fd, errsv;
 
 	fd = g_open (path, O_RDONLY, 0777);
 	if (fd == -1) {
+		errsv = errno;
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errno));
+		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
 		return NULL;
 	}
 
@@ -123,12 +124,13 @@ export_to_file (NMVpnEditorPlugin *self,
 {
 	NMSettingVpn *s_vpn;
 	gboolean openswan = FALSE;
-	int fd;
+	int fd, errsv;
 
 	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
 	if (fd == -1) {
+		errsv = errno;
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errno));
+		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
 		return FALSE;
 	}
 
