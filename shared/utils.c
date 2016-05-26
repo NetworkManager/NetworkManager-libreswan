@@ -27,6 +27,64 @@
 
 #include <unistd.h>
 #include <string.h>
+#include <errno.h>
+
+gboolean
+write_config_option_newline (int fd,
+                             gboolean new_line,
+                             NMDebugWriteFcn debug_write_fcn,
+                             GError **error,
+                             const char *format, ...)
+{
+	gs_free char *string = NULL;
+	const char *p;
+	va_list args;
+	gsize l;
+	int errsv;
+	gssize w;
+
+	va_start (args, format);
+	string = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	if (debug_write_fcn)
+		debug_write_fcn (string);
+
+	l = strlen (string);
+	if (new_line) {
+		gs_free char *s = string;
+
+		string = g_new (char, l + 1 + 1);
+		memcpy (string, s, l);
+		string[l] = '\n';
+		string[l + 1] = '\0';
+		l++;
+	}
+
+	p = string;
+	while (true) {
+		w = write (fd, p, l);
+		if (w == l)
+			return TRUE;
+		if (w > 0) {
+			g_assert (w < l);
+			p += w;
+			l -= w;
+			continue;
+		}
+		if (w == 0) {
+			errno = EIO;
+			break;
+		}
+		errsv = errno;
+		if (errsv == EINTR)
+			continue;
+		break;
+	}
+	g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR,
+	             _("Error writing config: %s"), g_strerror (errsv));
+	return FALSE;
+}
 
 gboolean
 nm_libreswan_config_write (gint fd,
