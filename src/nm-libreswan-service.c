@@ -1574,7 +1574,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 			success = do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
 		else {
 			success = do_spawn (self, &priv->pid, NULL, NULL, error,
-			                    priv->pluto_path, "--config", SYSCONFDIR "/ipsec.conf",
+			                    priv->pluto_path, "--config", NM_IPSEC_CONF,
 			                    NULL);
 		}
 		if (success) {
@@ -1697,7 +1697,7 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	/* Write the IPsec secret (group password); *SWAN always requires this and
 	 * doesn't ask for it interactively.
 	 */
-	priv->secrets_path = g_strdup_printf (SYSCONFDIR "/ipsec.d/ipsec-%s.secrets", con_name);
+	priv->secrets_path = g_strdup_printf (NM_IPSEC_SECRETS_DIR"/ipsec-%s.secrets", con_name);
 	if (!nm_libreswan_config_psk_write (s_vpn, priv->secrets_path, error))
 		return FALSE;
 

@@ -8,7 +8,6 @@ AM_CPPFLAGS = \
     $(LIBNL_CFLAGS) \
     -DBINDIR=\"$(bindir)\" \
     -DPREFIX=\""$(prefix)"\" \
-    -DSYSCONFDIR=\""$(sysconfdir)"\" \
     -DLIBDIR=\""$(libdir)"\" \
     -DLIBEXECDIR=\""$(libexecdir)"\" \
     -DLOCALSTATEDIR=\""$(localstatedir)"\" \
