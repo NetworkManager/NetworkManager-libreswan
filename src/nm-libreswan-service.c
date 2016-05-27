@@ -653,6 +653,7 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 {
 	const char *pw_type, *psk, *leftid, *right;
 	int fd;
+	int errsv;
 
 	/* Check for ignored group password */
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
@@ -667,11 +668,26 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 	errno = 0;
 	fd = open (secrets_path, O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
 	if (fd < 0) {
+		errsv = errno;
+
+		if (errsv == ENOENT) {
+			gs_free char *dirname = g_path_get_dirname (secrets_path);
+
+			if (!g_file_test (dirname, G_FILE_TEST_IS_DIR)) {
+				g_set_error (error,
+				             NM_VPN_PLUGIN_ERROR,
+				             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+				             "Failed to open secrets file: no directory %s",
+				             dirname);
+				return FALSE;
+			}
+		}
+
 		g_set_error (error,
 		             NM_VPN_PLUGIN_ERROR,
 		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "Failed to open secrets file: (%d) %s.",
-		             errno, g_strerror (errno));
+		             errsv, g_strerror (errsv));
 		return FALSE;
 	}
 
