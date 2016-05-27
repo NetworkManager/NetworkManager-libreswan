@@ -168,6 +168,77 @@ nm_utils_ip4_prefix_to_netmask (guint32 prefix)
 
 /****************************************************************/
 
+static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
+
+static void
+pipe_cleanup (Pipe *pipe)
+{
+	if (pipe->id) {
+		g_source_remove (pipe->id);
+		pipe->id = 0;
+	}
+	g_clear_pointer (&pipe->channel, g_io_channel_unref);
+	if (pipe->str) {
+		g_string_free (pipe->str, TRUE);
+		pipe->str = NULL;
+	}
+}
+
+static void
+pipe_init (Pipe *pipe, int fd, const char *detail)
+{
+	g_assert (fd >= 0);
+	g_assert (detail);
+	g_assert (pipe);
+
+	pipe->detail = detail;
+	pipe->str = g_string_sized_new (256);
+	pipe->channel = g_io_channel_unix_new (fd);
+	g_io_channel_set_encoding (pipe->channel, NULL, NULL);
+	g_io_channel_set_buffered (pipe->channel, FALSE);
+	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, pr_cb, pipe);
+}
+
+static gboolean
+pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
+{
+	Pipe *pipe = user_data;
+	char buf[200];
+	gsize bytes_read = 0;
+	char *nl;
+
+	if (condition & (G_IO_ERR | G_IO_HUP)) {
+		_LOGD ("PTY(%s) pipe error!", pipe->detail);
+		pipe->id = 0;
+		return G_SOURCE_REMOVE;
+	}
+	g_assert (condition & G_IO_IN);
+
+	while (   (g_io_channel_read_chars (source,
+	                                    buf,
+	                                    sizeof (buf) - 1,
+	                                    &bytes_read,
+	                                    NULL) == G_IO_STATUS_NORMAL)
+	       && bytes_read
+	       && pipe->str->len < 500)
+		g_string_append_len (pipe->str, buf, bytes_read);
+
+	/* Print each complete line and remove it from the buffer */
+	while (pipe->str->len) {
+		nl = strpbrk (pipe->str->str, "\n\r");
+		if (!nl)
+			break;
+		*nl = 0;  /* Don't print the linebreak */
+		if (pipe->str->str[0])
+			_LOGD ("PTY(%s): %s", pipe->detail, pipe->str->str);
+		g_string_erase (pipe->str, 0, (nl - pipe->str->str) + 1);
+	}
+
+	return G_SOURCE_CONTINUE;
+}
+
+/****************************************************************/
+
 typedef struct {
 	const char *name;
 	GType type;
@@ -328,7 +399,6 @@ unblock_quit (NMLibreswanPlugin *self)
 /****************************************************************/
 
 static gboolean connect_step (NMLibreswanPlugin *self, GError **error);
-static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
 static const char *
 _find_helper (const char *progname, const char **paths, GError **error)
@@ -390,35 +460,6 @@ find_helper_libexec (const char *progname, GError **error)
 	};
 
 	return _find_helper (progname, paths, error);
-}
-
-static void
-pipe_init (Pipe *pipe, int fd, const char *detail)
-{
-	g_assert (fd >= 0);
-	g_assert (detail);
-	g_assert (pipe);
-
-	pipe->detail = detail;
-	pipe->str = g_string_sized_new (256);
-	pipe->channel = g_io_channel_unix_new (fd);
-	g_io_channel_set_encoding (pipe->channel, NULL, NULL);
-	g_io_channel_set_buffered (pipe->channel, FALSE);
-	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, pr_cb, pipe);
-}
-
-static void
-pipe_cleanup (Pipe *pipe)
-{
-	if (pipe->id) {
-		g_source_remove (pipe->id);
-		pipe->id = 0;
-	}
-	g_clear_pointer (&pipe->channel, g_io_channel_unref);
-	if (pipe->str) {
-		g_string_free (pipe->str, TRUE);
-		pipe->str = NULL;
-	}
 }
 
 static void
@@ -1489,44 +1530,6 @@ done:
 		connect_failed (self, NULL, reason);
 	}
 	return success ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
-}
-
-static gboolean
-pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
-{
-	Pipe *pipe = user_data;
-	char buf[200];
-	gsize bytes_read = 0;
-	char *nl;
-
-	if (condition & (G_IO_ERR | G_IO_HUP)) {
-		_LOGD ("PTY(%s) pipe error!", pipe->detail);
-		pipe->id = 0;
-		return G_SOURCE_REMOVE;
-	}
-	g_assert (condition & G_IO_IN);
-
-	while (   (g_io_channel_read_chars (source,
-	                                    buf,
-	                                    sizeof (buf) - 1,
-	                                    &bytes_read,
-	                                    NULL) == G_IO_STATUS_NORMAL)
-	       && bytes_read
-	       && pipe->str->len < 500)
-		g_string_append_len (pipe->str, buf, bytes_read);
-
-	/* Print each complete line and remove it from the buffer */
-	while (pipe->str->len) {
-		nl = strpbrk (pipe->str->str, "\n\r");
-		if (!nl)
-			break;
-		*nl = 0;  /* Don't print the linebreak */
-		if (pipe->str->str[0])
-			_LOGD ("PTY(%s): %s", pipe->detail, pipe->str->str);
-		g_string_erase (pipe->str, 0, (nl - pipe->str->str) + 1);
-	}
-
-	return G_SOURCE_CONTINUE;
 }
 
 static gboolean
