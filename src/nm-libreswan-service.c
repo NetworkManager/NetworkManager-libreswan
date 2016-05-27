@@ -608,14 +608,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	g_clear_error (&error);
 }
 
-static gboolean do_spawn (NMLibreswanPlugin *self,
-                          GPid *out_pid,
-                          int *out_stdin,
-                          int *out_stderr,
-                          GError **error,
-                          const char *progname,
-                          ...) G_GNUC_NULL_TERMINATED;
-
+G_GNUC_NULL_TERMINATED
 static gboolean
 do_spawn (NMLibreswanPlugin *self,
           GPid *out_pid,
@@ -628,7 +621,7 @@ do_spawn (NMLibreswanPlugin *self,
 	GError *local = NULL;
 	va_list ap;
 	GPtrArray *argv;
-	gs_free char *cmdline = NULL;
+	char *cmdline = NULL;
 	char *arg;
 	gboolean success;
 	GPid pid = 0;
@@ -642,26 +635,25 @@ do_spawn (NMLibreswanPlugin *self,
 	va_end (ap);
 	g_ptr_array_add (argv, NULL);
 
-	_LOGI ("Spawn: %s", (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
+	_LOGD ("spawn: %s", (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
+	g_clear_pointer (&cmdline, g_free);
 
-	if (out_stdin || out_stderr) {
-		success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
-		                                    G_SPAWN_DO_NOT_REAP_CHILD,
-		                                    NULL, NULL, &pid, out_stdin,
-		                                    NULL, out_stderr, &local);
-	} else {
-		success = g_spawn_async (NULL, (char **) argv->pdata, NULL,
-		                         G_SPAWN_DO_NOT_REAP_CHILD,
-		                         NULL, NULL, &pid, &local);
-	}
+	success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
+	                                    G_SPAWN_DO_NOT_REAP_CHILD,
+	                                    NULL, NULL, &pid, out_stdin,
+	                                    NULL, out_stderr, &local);
+
 	if (success) {
-		_LOGD ("Spawn: child process %d", pid);
+		_LOGI ("spawn: success: %ld (%s)",
+		       (long) pid,
+		       (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 	} else {
-		_LOGW ("Spawn failed: (%s/%d) %s",
-		       g_quark_to_string (local->domain),
-		       local->code, local->message);
+		_LOGW ("spawn: failed: %s (%s)",
+		       local->message,
+		       (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 		g_propagate_error (error, local);
 	}
+	g_clear_pointer (&cmdline, g_free);
 
 	if (out_pid)
 		*out_pid = pid;
