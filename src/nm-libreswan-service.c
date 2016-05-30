@@ -1663,10 +1663,8 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		g_io_channel_set_buffered (priv->channel, FALSE);
 		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
 
-		if (_LOGD_enabled ()) {
-			pipe_init (&priv->out, up_stdout, "OUT");
-			pipe_init (&priv->err, up_stderr, "ERR");
-		}
+		pipe_init (&priv->out, up_stdout, "OUT");
+		pipe_init (&priv->err, up_stderr, "ERR");
 		return TRUE;
 
 	case CONNECT_STEP_LAST:
