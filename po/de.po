@@ -11,27 +11,27 @@ msgstr ""
 "Project-Id-Version: NetworkManager Libreswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-04-14 10:38+0000\n"
-"PO-Revision-Date: 2016-04-20 14:25+0200\n"
-"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
+"POT-Creation-Date: 2016-05-30 17:17+0000\n"
+"PO-Revision-Date: 2016-06-04 13:15+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: de <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: ../appdata/network-manager-libreswan.appdata.xml.in.h:1
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
 msgstr "IPsec-VPN-Client"
 
-#: ../appdata/network-manager-libreswan.appdata.xml.in.h:2
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
 msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
 msgstr ""
 "Auf Libreswan basierender Client für IKEv1 basierte IPsec virtuelle private "
 "Netze"
 
-#: ../appdata/network-manager-libreswan.appdata.xml.in.h:3
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
 msgid ""
 "Support for configuring IKEv1 based IPsec virtual private network "
 "connections."
@@ -39,68 +39,61 @@ msgstr ""
 "Unterstützung für die Konfiguration von IKEv1 basierten IPsec virtuellen "
 "privaten Netz-Verbindungen."
 
-#: ../appdata/network-manager-libreswan.appdata.xml.in.h:4
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
 msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
 msgstr "Kompatibel mit Libreswan- und Cisco IPsec-VPN-Servern."
 
-#: ../appdata/network-manager-libreswan.appdata.xml.in.h:5
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
 msgid "The NetworkManager Developers"
 msgstr "Die Entwickler von NetworkManager"
 
-#: ../auth-dialog/main.c:174
+#: ../auth-dialog/main.c:165
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "VPN %s legitimieren"
 
-#: ../auth-dialog/main.c:191
+#: ../auth-dialog/main.c:182
 msgid "Password:"
 msgstr "Passwort:"
 
-#: ../auth-dialog/main.c:201
+#: ../auth-dialog/main.c:192
 msgid "Group Password:"
 msgstr "Gruppenpasswort:"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "VPN legitimieren"
 
-#: ../auth-dialog/main.c:246
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_Gruppenpasswort:"
 
-#: ../auth-dialog/main.c:496
+#: ../auth-dialog/main.c:487
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr ""
 "Sie müssen sich legitimieren, um auf das Virtuelle private Netzwerk »%s« "
 "zugreifen zu können."
 
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
-msgid "Network"
-msgstr "Netzwerk"
-
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
-msgid "Request VPN authentication"
-msgstr "Legitimierung für VPN anfordern"
-
-#: ../properties/nm-libreswan.c:64
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "IPsec-basiertes VPN"
 
-#: ../properties/nm-libreswan.c:65
+#: ../properties/nm-libreswan-editor-plugin.c:44
 msgid "IPsec based VPN using IKEv1"
 msgstr "IPsec-basiertes VPN mit IKEv1"
 
-#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
+#: ../properties/nm-libreswan-editor-plugin.c:74
+#: ../properties/nm-libreswan-editor-plugin.c:97
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "Datei »%s« kann nicht geöffnet werden: %s"
 
-#: ../src/nm-libreswan-service.c:1378
+#: ../src/nm-libreswan-service.c:1373
 msgid "A password is required."
 msgstr "Ein Passwort ist notwendig."
 
-#: ../src/nm-libreswan-service.c:1776
+#: ../src/nm-libreswan-service.c:1771
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -108,26 +101,85 @@ msgstr ""
 "Die Anfrage konnte nicht verarbeitet werden, weil die VPN-"
 "Konfigurationseinstellungen ungültig waren."
 
-#: ../src/nm-libreswan-service.c:1790
+#: ../src/nm-libreswan-service.c:1785
 msgid "Unhandled pending authentication."
 msgstr "Nicht verarbeitete, ausstehende Legitimierung."
 
-#: ../src/nm-libreswan-service.c:1932
+#: ../src/nm-libreswan-service.c:1927
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nicht bei Abbruch der VPN-Verbindung beenden"
 
-#: ../src/nm-libreswan-service.c:1933
+#: ../src/nm-libreswan-service.c:1928
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ausführliches Diagnoseprotokoll aktivieren (kann Passwörter enthalten)"
 
-#: ../src/nm-libreswan-service.c:1934
+#: ../src/nm-libreswan-service.c:1929
 msgid "D-Bus name to use for this instance"
 msgstr "Für diese Instanz zu verwendender D-Bus-Name"
 
-#: ../src/nm-libreswan-service.c:1957
+#: ../src/nm-libreswan-service.c:1952
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Dieser Dienst bietet ein integriertes IPsec-VPN für NetworkManager."
+
+#: ../shared/nm-utils/nm-shared-utils.c:185
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "Objektklasse »%s« hat keine Eigenschaft namens »%s«"
+
+#: ../shared/nm-utils/nm-shared-utils.c:192
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "Eigenschaft »%s« von Objektklasse »%s« ist nicht schreibbar"
+
+#: ../shared/nm-utils/nm-shared-utils.c:199
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"Konstruktor-Eigenschaft »%s« für Objekt »%s« kann nicht nach der "
+"Konstruktion gesetzt werden"
+
+#: ../shared/nm-utils/nm-shared-utils.c:207
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+"»%s::%s« ist ein ungültiger Eigenschaftsname. »%s« ist kein GObject-Untertyp"
+
+#: ../shared/nm-utils/nm-shared-utils.c:216
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+"Eigenschaft »%s« des Typs »%s« von Wert des Typs »%s« kann nicht gesetzt "
+"werden"
+
+#: ../shared/nm-utils/nm-shared-utils.c:227
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"Wert »%s« des Typs »%s« ist ungültig oder nicht im Wertebereich für "
+"Eigenschaft »%s« des Typs »%s«"
+
+#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "Fehlende Plugin-Datei »%s«"
+
+#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "Editor-Plugin kann nicht geladen werden: %s"
+
+#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "Factory %s kann nicht aus Plugin geladen werden: %s"
+
+#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "Unbekannter Fehler beim Erstellen der Editor-Instanz"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "<b>General</b>"
@@ -176,6 +228,12 @@ msgstr "Er_weitert"
 #: ../properties/nm-libreswan-dialog.ui.h:12
 msgid " "
 msgstr " "
+
+#~ msgid "Network"
+#~ msgstr "Netzwerk"
+
+#~ msgid "Request VPN authentication"
+#~ msgstr "Legitimierung für VPN anfordern"
 
 #~ msgid "IPsec, IKEv1, IKEv2 based VPN"
 #~ msgstr "IPsec, IKEv1, IKEv2-basiertes VPN"
