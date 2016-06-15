@@ -13,6 +13,7 @@ are copied as-is from NetworkManager
 2) the files
     shared/nm-vpn/nm-vpn-plugin-utils.c
     shared/nm-vpn/nm-vpn-plugin-utils.h
+    shared/nm-vpn/nm-vpn-plugin-macros.h
 are copied as-is from nm-openvpn
   https://git.gnome.org/browse/network-manager-openvpn/tree/shared?id=3d0ac3ca94b4bf24f77306cef5a95172ddaf5fc4
 

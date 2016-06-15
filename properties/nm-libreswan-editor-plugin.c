@@ -66,17 +66,67 @@ import_from_file (NMVpnEditorPlugin *self,
                   GError **error)
 {
 	NMConnection *connection;
-	int fd;
+	NMSettingConnection *s_con;
+	NMSettingVpn *s_vpn;
+	GIOChannel *chan;
+	char *str_tmp;
+	int fd, errsv;
+	gboolean has_conn = FALSE;
 
 	fd = g_open (path, O_RDONLY, 0777);
 	if (fd == -1) {
+		errsv = errno;
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errno));
+		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
 		return NULL;
 	}
 
-	connection = nm_libreswan_config_read (fd);
+	connection = nm_simple_connection_new ();
+	s_con = NM_SETTING_CONNECTION (nm_setting_connection_new ());
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_connection_add_setting (connection, NM_SETTING (s_con));
+	nm_connection_add_setting (connection, NM_SETTING (s_vpn));
+	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN, NULL);
+
+	chan = g_io_channel_unix_new (fd);
+	while (g_io_channel_read_line (chan, &str_tmp, NULL, NULL, NULL) == G_IO_STATUS_NORMAL) {
+		gs_free char *str = str_tmp;
+
+		g_strstrip (str);
+		if (g_str_has_prefix (str, "conn ")) {
+			if (has_conn) {
+				/* only accept the frist connection section */
+				break;
+			}
+			has_conn = TRUE;
+			g_object_set (s_con, NM_SETTING_CONNECTION_ID, &str[5], NULL);
+		}
+		else if (g_str_has_prefix (str, "leftid=@"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, &str[8]);
+		else if (g_str_has_prefix (str, "leftxauthusername="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, &str[18]);
+		else if (g_str_has_prefix (str, "right="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHT, &str[6]);
+		else if (g_str_has_prefix (str, "ike=") && strcmp (str, "ike=aes-sha1"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKE, &str[4]);
+		else if (g_str_has_prefix (str, "esp=") && strcmp (str, "esp=aes-sha1;modp1024"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, &str[4]);
+		else if (g_str_has_prefix (str, "cisco-unity=yes"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_VENDOR, "Cisco");
+		else {
+			/* unknown tokens are silently ignored. */
+		}
+	}
+	g_io_channel_unref (chan);
+
 	g_close (fd, NULL);
+
+	if (!has_conn) {
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FILE_NOT_VPN,
+		             _("Missing \"conn\" section in \"%s\""), path);
+		g_object_unref (connection);
+		return NULL;
+	}
 
 	return connection;
 }
@@ -89,12 +139,14 @@ export_to_file (NMVpnEditorPlugin *self,
 {
 	NMSettingVpn *s_vpn;
 	gboolean openswan = FALSE;
-	int fd;
+	int fd, errsv;
+	gs_free_error GError *local = NULL;
 
 	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
 	if (fd == -1) {
-		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errno));
+		errsv = errno;
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
+		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
 		return FALSE;
 	}
 
@@ -102,7 +154,19 @@ export_to_file (NMVpnEditorPlugin *self,
 	if (s_vpn)
 		openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
 
-	nm_libreswan_config_write (fd, connection, NULL, openswan);
+	if (!nm_libreswan_config_write (fd,
+	                                connection,
+	                                nm_connection_get_id (connection),
+	                                NULL,
+	                                openswan,
+	                                TRUE,
+	                                NULL,
+	                                &local)) {
+		g_close (fd, NULL);
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
+		             _("Error writing to file '%s': %s"), path, local->message);
+		return FALSE;
+	}
 
 	if (!g_close (fd, error))
 		return FALSE;

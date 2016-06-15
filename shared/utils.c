@@ -21,145 +21,153 @@
  * Copyright (C) 2010 - 2015 Red Hat, Inc.
  */
 
-#include <unistd.h>
-#include <string.h>
-#include <glib.h>
+#include "nm-default.h"
 
-#ifdef NM_VPN_OLD
-#define NM_VPN_LIBNM_COMPAT
-#include <nm-connection.h>
-#define nm_simple_connection_new nm_connection_new
-#else
-#include <NetworkManager.h>
-#endif
-
-#include "nm-service-defines.h"
 #include "utils.h"
 
-gboolean debug = FALSE;
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
 
-NMConnection *
-nm_libreswan_config_read (gint fd)
+gboolean
+write_config_option_newline (int fd,
+                             gboolean new_line,
+                             NMDebugWriteFcn debug_write_fcn,
+                             GError **error,
+                             const char *format, ...)
 {
-	NMConnection *connection;
-	NMSettingConnection *s_con;
-	NMSettingVpn *s_vpn;
-	GIOChannel *chan;
-	gchar *str;
+	gs_free char *string = NULL;
+	const char *p;
+	va_list args;
+	gsize l;
+	int errsv;
+	gssize w;
 
-	connection = nm_simple_connection_new ();
-	s_con = NM_SETTING_CONNECTION (nm_setting_connection_new ());
-	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
-	nm_connection_add_setting (connection, NM_SETTING (s_con));
-	nm_connection_add_setting (connection, NM_SETTING (s_vpn));
-	g_object_set (s_vpn, NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN, NULL);
+	va_start (args, format);
+	string = g_strdup_vprintf (format, args);
+	va_end (args);
 
-	chan = g_io_channel_unix_new (fd);
-	while (g_io_channel_read_line (chan, &str, NULL, NULL, NULL) == G_IO_STATUS_NORMAL) {
-		g_strstrip (str);
-		if (g_str_has_prefix (str, "conn "))
-			g_object_set (s_con, NM_SETTING_CONNECTION_ID, &str[5], NULL);
-		else if (g_str_has_prefix (str, "leftid=@"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, &str[8]);
-		else if (g_str_has_prefix (str, "leftxauthusername="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, &str[18]);
-		else if (g_str_has_prefix (str, "right="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHT, &str[6]);
-		else if (g_str_has_prefix (str, "ike=") && strcmp (str, "ike=aes-sha1"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKE, &str[4]);
-		else if (g_str_has_prefix (str, "esp=") && strcmp (str, "esp=aes-sha1;modp1024"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, &str[4]);
-		else if (g_str_has_prefix (str, "cisco-unity=yes"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_VENDOR, "Cisco");
-		else if (debug)
-			g_print ("Ignored line: '%s'", str);
-		g_free (str);
+	if (debug_write_fcn)
+		debug_write_fcn (string);
+
+	l = strlen (string);
+	if (new_line) {
+		gs_free char *s = string;
+
+		string = g_new (char, l + 1 + 1);
+		memcpy (string, s, l);
+		string[l] = '\n';
+		string[l + 1] = '\0';
+		l++;
 	}
-	g_io_channel_unref (chan);
 
-	return connection;
+	p = string;
+	while (true) {
+		w = write (fd, p, l);
+		if (w == l)
+			return TRUE;
+		if (w > 0) {
+			g_assert (w < l);
+			p += w;
+			l -= w;
+			continue;
+		}
+		if (w == 0) {
+			errno = EIO;
+			break;
+		}
+		errsv = errno;
+		if (errsv == EINTR)
+			continue;
+		break;
+	}
+	g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR,
+	             _("Error writing config: %s"), g_strerror (errsv));
+	return FALSE;
 }
 
-void
+gboolean
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
-                           const char *bus_name,
-                           gboolean openswan)
+                           const char *con_name,
+                           const char *leftupdown_script,
+                           gboolean openswan,
+                           gboolean trailing_newline,
+                           NMDebugWriteFcn debug_write_fcn,
+                           GError **error)
 {
-	NMSettingVpn *s_vpn = nm_connection_get_setting_vpn (connection);
-	const char *con_name;
+	NMSettingVpn *s_vpn;
 	const char *props_username;
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
 	const char *leftid;
 
-	/* We abuse the presence of bus name to decide if we're exporting
-	 * the connection or actually configuring Pluto. */
-	if (bus_name)
-		con_name = nm_connection_get_uuid (connection);
-	else
-		con_name = nm_connection_get_id (connection);
+	g_return_val_if_fail (fd > 0, FALSE);
+	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
+	g_return_val_if_fail (!error || !*error, FALSE);
+	g_return_val_if_fail (con_name && *con_name, FALSE);
 
-	g_assert (fd >= 0);
-	g_assert (s_vpn);
-	g_assert (con_name);
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn), FALSE);
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 
-	write_config_option (fd, "conn %s\n", con_name);
-	if (leftid) {
-		write_config_option (fd, " aggrmode=yes\n");
-		write_config_option (fd, " leftid=@%s\n", leftid);
-	}
-	write_config_option (fd, " authby=secret\n");
-	write_config_option (fd, " left=%%defaultroute\n");
-	write_config_option (fd, " leftxauthclient=yes\n");
-	write_config_option (fd, " leftmodecfgclient=yes\n");
+#define WRITE_CHECK_NEWLINE(fd, new_line, debug_write_fcn, error, ...) \
+	G_STMT_START { \
+		if (!write_config_option_newline ((fd), (new_line), debug_write_fcn, (error), __VA_ARGS__)) \
+			return FALSE; \
+	} G_STMT_END
+#define WRITE_CHECK(fd, debug_write_fcn, error, ...) WRITE_CHECK_NEWLINE (fd, TRUE, debug_write_fcn, error, __VA_ARGS__)
 
-	if (bus_name)
-		write_config_option (fd, " leftupdown=\"" NM_LIBRESWAN_HELPER_PATH " --bus-name %s\"\n", bus_name);
+	WRITE_CHECK (fd, debug_write_fcn, error, "conn %s", con_name);
+	if (leftid) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " aggrmode=yes");
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftid=@%s", leftid);
+	}
+	WRITE_CHECK (fd, debug_write_fcn, error, " authby=secret");
+	WRITE_CHECK (fd, debug_write_fcn, error, " left=%%defaultroute");
+	WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthclient=yes");
+	WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=yes");
+
+	if (leftupdown_script)
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=%s", leftupdown_script);
 
 	default_username = nm_setting_vpn_get_user_name (s_vpn);
 	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
 	if (props_username && strlen (props_username))
-		write_config_option (fd, " leftxauthusername=%s\n", props_username);
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", props_username);
 	else if (default_username && strlen (default_username))
-		write_config_option (fd, " leftxauthusername=%s\n", default_username);
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", default_username);
 
-	write_config_option (fd, " right=%s\n", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
-	write_config_option (fd, " remote_peer_type=cisco\n");
-	write_config_option (fd, " rightxauthserver=yes\n");
-	write_config_option (fd, " rightmodecfgserver=yes\n");
-	write_config_option (fd, " modecfgpull=yes\n");
-	write_config_option (fd, " rightsubnet=0.0.0.0/0\n");
+	WRITE_CHECK (fd, debug_write_fcn, error, " right=%s", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
+	WRITE_CHECK (fd, debug_write_fcn, error, " remote_peer_type=cisco");
+	WRITE_CHECK (fd, debug_write_fcn, error, " rightxauthserver=yes");
+	WRITE_CHECK (fd, debug_write_fcn, error, " rightmodecfgserver=yes");
+	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
+	WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
-		write_config_option (fd, " ike=aes-sha1\n");
+		WRITE_CHECK (fd, debug_write_fcn, error, " ike=aes-sha1");
 	else
-		write_config_option (fd, " ike=%s\n", phase1_alg_str);
+		WRITE_CHECK (fd, debug_write_fcn, error, " ike=%s", phase1_alg_str);
 
 	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
 	if (!phase2_alg_str || !strlen (phase2_alg_str))
-		write_config_option (fd, " esp=aes-sha1;modp1024\n");
+		WRITE_CHECK (fd, debug_write_fcn, error, " esp=aes-sha1;modp1024");
 	else
-		write_config_option (fd, " esp=%s\n", phase2_alg_str);
+		WRITE_CHECK (fd, debug_write_fcn, error, " esp=%s", phase2_alg_str);
 
-	write_config_option (fd, " rekey=yes\n");
-	write_config_option (fd, " salifetime=24h\n");
-	write_config_option (fd, " ikelifetime=24h\n");
-	write_config_option (fd, " keyingtries=1\n");
+	WRITE_CHECK (fd, debug_write_fcn, error, " rekey=yes");
+	WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
+	WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
+	WRITE_CHECK (fd, debug_write_fcn, error, " keyingtries=1");
+
 	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
-		write_config_option (fd, " cisco-unity=yes\n");
-	write_config_option (fd, " auto=add");
+		WRITE_CHECK (fd, debug_write_fcn, error, " cisco-unity=yes");
 
-	/* openswan requires a terminating \n (otherwise it segfaults) while
-	 * libreswan fails parsing the configuration if you include the \n.
-	 * WTF?
-	 */
-	if (openswan || !bus_name)
-		(void) write (fd, "\n", 1);
-	if (debug)
-		g_print ("\n");
+	WRITE_CHECK_NEWLINE (fd, trailing_newline, debug_write_fcn, error, " auto=add");
+
+	return TRUE;
 }

@@ -49,9 +49,12 @@
 #include <stdarg.h>
 #include <pty.h>
 #include <sys/types.h>
+#include <glib/gstdio.h>
 
 #include "nm-libreswan-helper-service-dbus.h"
 #include "utils.h"
+#include "nm-utils/nm-shared-utils.h"
+#include "nm-vpn/nm-vpn-plugin-macros.h"
 
 #if !defined(DIST_VERSION)
 # define DIST_VERSION VERSION
@@ -69,7 +72,11 @@ G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGI
 
 /************************************************************/
 
-GMainLoop *loop = NULL;
+static struct {
+	gboolean debug;
+	int log_level;
+	GMainLoop *loop;
+} gl/*obal*/;
 
 typedef enum {
     CONNECT_STEP_FIRST,
@@ -122,12 +129,34 @@ typedef struct {
 
 #define NM_LIBRESWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPluginPrivate))
 
-#define DEBUG(...) \
+/****************************************************************/
+
+#define _NMLOG(level, ...) \
     G_STMT_START { \
-        if (debug) { \
-            g_message (__VA_ARGS__); \
-        } \
+         if (gl.log_level >= (level)) { \
+              g_print ("nm-libreswan[%ld] %-7s " _NM_UTILS_MACRO_FIRST (__VA_ARGS__) "\n", \
+                       (long) getpid (), \
+                       nm_utils_syslog_to_str (level) \
+                       _NM_UTILS_MACRO_REST (__VA_ARGS__)); \
+         } \
     } G_STMT_END
+
+static gboolean
+_LOGD_enabled (void)
+{
+    return gl.log_level >= LOG_INFO;
+}
+
+#define _LOGD(...) _NMLOG(LOG_INFO,    __VA_ARGS__)
+#define _LOGI(...) _NMLOG(LOG_NOTICE,  __VA_ARGS__)
+#define _LOGW(...) _NMLOG(LOG_WARNING, __VA_ARGS__)
+#define _LOGE(...) _NMLOG(LOG_EMERG, __VA_ARGS__)
+
+static void
+_debug_write_option (const char *setting)
+{
+	_LOGD ("Config %s", setting);
+}
 
 /****************************************************************/
 
@@ -135,6 +164,77 @@ guint32
 nm_utils_ip4_prefix_to_netmask (guint32 prefix)
 {
 	return prefix < 32 ? ~htonl(0xFFFFFFFF >> prefix) : 0xFFFFFFFF;
+}
+
+/****************************************************************/
+
+static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
+
+static void
+pipe_cleanup (Pipe *pipe)
+{
+	if (pipe->id) {
+		g_source_remove (pipe->id);
+		pipe->id = 0;
+	}
+	g_clear_pointer (&pipe->channel, g_io_channel_unref);
+	if (pipe->str) {
+		g_string_free (pipe->str, TRUE);
+		pipe->str = NULL;
+	}
+}
+
+static void
+pipe_init (Pipe *pipe, int fd, const char *detail)
+{
+	g_assert (fd >= 0);
+	g_assert (detail);
+	g_assert (pipe);
+
+	pipe->detail = detail;
+	pipe->str = g_string_sized_new (256);
+	pipe->channel = g_io_channel_unix_new (fd);
+	g_io_channel_set_encoding (pipe->channel, NULL, NULL);
+	g_io_channel_set_buffered (pipe->channel, FALSE);
+	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, pr_cb, pipe);
+}
+
+static gboolean
+pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
+{
+	Pipe *pipe = user_data;
+	char buf[200];
+	gsize bytes_read = 0;
+	char *nl;
+
+	if (condition & (G_IO_ERR | G_IO_HUP)) {
+		_LOGD ("PTY(%s) pipe error!", pipe->detail);
+		pipe->id = 0;
+		return G_SOURCE_REMOVE;
+	}
+	g_assert (condition & G_IO_IN);
+
+	while (   (g_io_channel_read_chars (source,
+	                                    buf,
+	                                    sizeof (buf) - 1,
+	                                    &bytes_read,
+	                                    NULL) == G_IO_STATUS_NORMAL)
+	       && bytes_read
+	       && pipe->str->len < 500)
+		g_string_append_len (pipe->str, buf, bytes_read);
+
+	/* Print each complete line and remove it from the buffer */
+	while (pipe->str->len) {
+		nl = strpbrk (pipe->str->str, "\n\r");
+		if (!nl)
+			break;
+		*nl = 0;  /* Don't print the linebreak */
+		if (pipe->str->str[0])
+			_LOGD ("PTY(%s): %s", pipe->detail, pipe->str->str);
+		g_string_erase (pipe->str, 0, (nl - pipe->str->str) + 1);
+	}
+
+	return G_SOURCE_CONTINUE;
 }
 
 /****************************************************************/
@@ -284,7 +384,7 @@ block_quit (NMLibreswanPlugin *self)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	priv->quit_blockers++;
-	DEBUG ("Block quit: %d blockers", priv->quit_blockers);
+	_LOGD ("Block quit: %d blockers", priv->quit_blockers);
 }
 
 static void
@@ -292,14 +392,13 @@ unblock_quit (NMLibreswanPlugin *self)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	if (--priv->quit_blockers == 0)
-		g_main_loop_quit (loop);
-	DEBUG ("Unblock quit: %d blockers", priv->quit_blockers);
+		g_main_loop_quit (gl.loop);
+	_LOGD ("Unblock quit: %d blockers", priv->quit_blockers);
 }
 
 /****************************************************************/
 
 static gboolean connect_step (NMLibreswanPlugin *self, GError **error);
-static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
 static const char *
 _find_helper (const char *progname, const char **paths, GError **error)
@@ -364,35 +463,6 @@ find_helper_libexec (const char *progname, GError **error)
 }
 
 static void
-pipe_init (Pipe *pipe, int fd, const char *detail)
-{
-	g_assert (fd >= 0);
-	g_assert (detail);
-	g_assert (pipe);
-
-	pipe->detail = detail;
-	pipe->str = g_string_sized_new (256);
-	pipe->channel = g_io_channel_unix_new (fd);
-	g_io_channel_set_encoding (pipe->channel, NULL, NULL);
-	g_io_channel_set_buffered (pipe->channel, FALSE);
-	pipe->id = g_io_add_watch (pipe->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, pr_cb, pipe);
-}
-
-static void
-pipe_cleanup (Pipe *pipe)
-{
-	if (pipe->id) {
-		g_source_remove (pipe->id);
-		pipe->id = 0;
-	}
-	g_clear_pointer (&pipe->channel, g_io_channel_unref);
-	if (pipe->str) {
-		g_string_free (pipe->str, TRUE);
-		pipe->str = NULL;
-	}
-}
-
-static void
 connect_cleanup (NMLibreswanPlugin *self)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
@@ -451,10 +521,10 @@ connect_failed (NMLibreswanPlugin *self,
                 NMVpnPluginFailure reason)
 {
 	if (error) {
-		g_warning ("Connect failed: (%s/%d) %s",
-		           g_quark_to_string (error->domain),
-		           error->code,
-		           error->message);
+		_LOGW ("Connect failed: (%s/%d) %s",
+		       g_quark_to_string (error->domain),
+		       error->code,
+		       error->message);
 	}
 
 	nm_vpn_service_plugin_failure (NM_VPN_SERVICE_PLUGIN (self), reason);
@@ -480,7 +550,7 @@ check_running_cb (GPid pid, gint status, gpointer user_data)
 	if (WIFEXITED (status))
 		ret = WEXITSTATUS (status);
 
-	DEBUG ("Spawn: child %d exited with status %d", pid, ret);
+	_LOGD ("Spawn: child %d exited with status %d", pid, ret);
 	unblock_quit (self);
 
 	/* Reap child */
@@ -523,7 +593,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	GError *error = NULL;
 	gboolean success;
 
-	DEBUG ("Spawn: child %d exited", pid);
+	_LOGD ("Spawn: child %d exited", pid);
 	unblock_quit (self);
 
 	if (priv->watch_id == 0 || priv->pid != pid) {
@@ -538,9 +608,9 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	if (WIFEXITED (status)) {
 		ret = WEXITSTATUS (status);
 		if (ret)
-			g_message ("Spawn: child %d exited with error code %d", pid, ret);
+			_LOGI ("Spawn: child %d exited with error code %d", pid, ret);
 	} else
-		g_warning ("Spawn: child %d died unexpectedly", pid);
+		_LOGW ("Spawn: child %d died unexpectedly", pid);
 
 	/* Reap child */
 	waitpid (pid, NULL, WNOHANG);
@@ -568,7 +638,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 		priv->retries = 0;
 		success = connect_step (self, &error);
 	} else if (priv->retries) {
-		g_message ("Spawn: %d more tries...", priv->retries);
+		_LOGI ("Spawn: %d more tries...", priv->retries);
 		priv->retry_id = g_timeout_add (100, retry_cb, self);
 		return;
 	}
@@ -579,14 +649,7 @@ child_watch_cb (GPid pid, gint status, gpointer user_data)
 	g_clear_error (&error);
 }
 
-static gboolean do_spawn (NMLibreswanPlugin *self,
-                          GPid *out_pid,
-                          int *out_stdin,
-                          int *out_stderr,
-                          GError **error,
-                          const char *progname,
-                          ...) G_GNUC_NULL_TERMINATED;
-
+G_GNUC_NULL_TERMINATED
 static gboolean
 do_spawn (NMLibreswanPlugin *self,
           GPid *out_pid,
@@ -599,7 +662,8 @@ do_spawn (NMLibreswanPlugin *self,
 	GError *local = NULL;
 	va_list ap;
 	GPtrArray *argv;
-	char *cmdline, *arg;
+	char *cmdline = NULL;
+	char *arg;
 	gboolean success;
 	GPid pid = 0;
 
@@ -612,30 +676,25 @@ do_spawn (NMLibreswanPlugin *self,
 	va_end (ap);
 	g_ptr_array_add (argv, NULL);
 
-	if (debug) {
-		cmdline = g_strjoinv (" ", (char **) argv->pdata);
-		g_message ("Spawn: %s", cmdline);
-		g_free (cmdline);
-	}
+	_LOGD ("spawn: %s", (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
+	g_clear_pointer (&cmdline, g_free);
 
-	if (out_stdin || out_stderr) {
-		success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
-		                                    G_SPAWN_DO_NOT_REAP_CHILD,
-		                                    NULL, NULL, &pid, out_stdin,
-		                                    NULL, out_stderr, &local);
-	} else {
-		success = g_spawn_async (NULL, (char **) argv->pdata, NULL,
-		                         G_SPAWN_DO_NOT_REAP_CHILD,
-		                         NULL, NULL, &pid, &local);
-	}
+	success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
+	                                    G_SPAWN_DO_NOT_REAP_CHILD,
+	                                    NULL, NULL, &pid, out_stdin,
+	                                    NULL, out_stderr, &local);
+
 	if (success) {
-		DEBUG ("Spawn: child process %d", pid);
+		_LOGI ("spawn: success: %ld (%s)",
+		       (long) pid,
+		       (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 	} else {
-		g_warning ("Spawn failed: (%s/%d) %s",
-		           g_quark_to_string (local->domain),
-		           local->code, local->message);
+		_LOGW ("spawn: failed: %s (%s)",
+		       local->message,
+		       (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 		g_propagate_error (error, local);
 	}
+	g_clear_pointer (&cmdline, g_free);
 
 	if (out_pid)
 		*out_pid = pid;
@@ -653,6 +712,8 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 {
 	const char *pw_type, *psk, *leftid, *right;
 	int fd;
+	int errsv;
+	gboolean success;
 
 	/* Check for ignored group password */
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
@@ -667,25 +728,43 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 	errno = 0;
 	fd = open (secrets_path, O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
 	if (fd < 0) {
+		errsv = errno;
+
+		if (errsv == ENOENT) {
+			gs_free char *dirname = g_path_get_dirname (secrets_path);
+
+			if (!g_file_test (dirname, G_FILE_TEST_IS_DIR)) {
+				g_set_error (error,
+				             NM_VPN_PLUGIN_ERROR,
+				             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+				             "Failed to open secrets file: no directory %s",
+				             dirname);
+				return FALSE;
+			}
+		}
+
 		g_set_error (error,
 		             NM_VPN_PLUGIN_ERROR,
 		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "Failed to open secrets file: (%d) %s.",
-		             errno, g_strerror (errno));
+		             errsv, g_strerror (errsv));
 		return FALSE;
 	}
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 	if (leftid) {
-		write_config_option (fd, "@%s: PSK \"%s\"\n", leftid, psk);
+		success = write_config_option (fd, NULL, error, "@%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
 		g_assert (right);
-		write_config_option (fd, "%s %%any: PSK \"%s\"\n", right, psk);
+		success = write_config_option (fd, NULL, error, "%s %%any: PSK \"%s\"", right, psk);
 	}
 
-	close (fd);
-	return TRUE;
+	if (!success) {
+		g_close (fd, NULL);
+		return FALSE;
+	}
+	return g_close (fd, error);
 }
 
 /****************************************************************/
@@ -715,7 +794,8 @@ spawn_pty (NMLibreswanPlugin *self,
 	struct termios termios_flags;
 	va_list ap;
 	GPtrArray *argv;
-	char *cmdline, *arg;
+	gs_free char *cmdline = NULL;
+	char *arg;
 	int ret;
 
 	/* The pipes */
@@ -807,11 +887,7 @@ spawn_pty (NMLibreswanPlugin *self,
 	va_end (ap);
 	g_ptr_array_add (argv, NULL);
 
-	if (debug) {
-		cmdline = g_strjoinv (" ", (char **) argv->pdata);
-		g_message ("PTY spawn: %s", cmdline);
-		g_free (cmdline);
-	}
+	_LOGI ("PTY spawn: %s", (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 
 	/* Fork the command */
 	child_pid = forkpty (&pty_master_fd, NULL, NULL, NULL);
@@ -819,11 +895,11 @@ spawn_pty (NMLibreswanPlugin *self,
 		/* in the child */
 
 		if (dup2 (stdout_pipe[1], 1) == -1) {
-			g_error ("PTY spawn: cannot dup stdout (%d): %s.", errno, g_strerror (errno));
+			_LOGE ("PTY spawn: cannot dup stdout (%d): %s.", errno, g_strerror (errno));
 			_exit (-1);
 		}
 		if (dup2 (stderr_pipe[1], 2) == -1) {
-			g_error ("PTY spawn: cannot dup stderr (%d): %s.", errno, g_strerror (errno));
+			_LOGE ("PTY spawn: cannot dup stderr (%d): %s.", errno, g_strerror (errno));
 			_exit (-1);
 		}
 
@@ -839,12 +915,12 @@ spawn_pty (NMLibreswanPlugin *self,
 
 		/* This is probably a rather futile attempt to produce an error message
 		 * as it goes to the piped stderr. */
-		g_error ("PTY spawn: cannot exec '%s' (%d): %s", (char *) argv->pdata[0],
+		_LOGE ("PTY spawn: cannot exec '%s' (%d): %s", (char *) argv->pdata[0],
 		         errno, g_strerror (errno));
 		_exit (-1);
 	}
 
-	DEBUG ("PTY spawn: child process %d", child_pid);
+	_LOGD ("PTY spawn: child process %d", child_pid);
 
 	/* Close child side's pipes */
 	close (stderr_pipe[1]);
@@ -908,10 +984,10 @@ verify_source (struct nl_msg *msg, gpointer user_data)
 
 	if (!creds || creds->pid || creds->uid || creds->gid) {
 		if (creds) {
-			g_warning ("netlink: received non-kernel message (pid %d uid %d gid %d)",
-			           creds->pid, creds->uid, creds->gid);
+			_LOGW ("netlink: received non-kernel message (pid %d uid %d gid %d)",
+			       creds->pid, creds->uid, creds->gid);
 		} else
-			g_warning ("netlink: received message without credentials");
+			_LOGW ("netlink: received message without credentials");
 		return NL_STOP;
 	}
 
@@ -953,7 +1029,7 @@ parse_reply (struct nl_msg *msg, void *arg)
 	}
 
 	if (n->nlmsg_type != XFRM_MSG_NEWPOLICY) {
-		g_warning ("msg type %d not NEWPOLICY", n->nlmsg_type);
+		_LOGW ("msg type %d not NEWPOLICY", n->nlmsg_type);
 		return NL_SKIP;
 	}
 
@@ -962,7 +1038,7 @@ parse_reply (struct nl_msg *msg, void *arg)
 	 */
 
 	if (!nlmsg_valid_hdr (n, sizeof (struct xfrm_userpolicy_info))) {
-		g_warning ("msg too short");
+		_LOGW ("msg too short");
 		return -NLE_MSG_TOOSHORT;
 	}
 
@@ -971,7 +1047,7 @@ parse_reply (struct nl_msg *msg, void *arg)
 	               nlmsg_attrdata (n, sizeof (struct xfrm_userpolicy_info)),
 	               nlmsg_attrlen (n, sizeof (struct xfrm_userpolicy_info)),
 	               NULL) < 0) {
-		g_warning ("failed to parse attributes");
+		_LOGW ("failed to parse attributes");
 		return NL_SKIP;
 	}
 
@@ -1016,7 +1092,7 @@ have_sad_routes (const char *gw_addr4)
 
 	err = nl_send_simple (sk, XFRM_MSG_GETPOLICY, NLM_F_DUMP, NULL, 0);
 	if (err < 0) {
-		g_warning ("Error sending: %d %s", err, nl_geterror (err));
+		_LOGW ("Error sending: %d %s", err, nl_geterror (err));
 		goto done;
 	}
 
@@ -1024,7 +1100,7 @@ have_sad_routes (const char *gw_addr4)
 
 	err = nl_recvmsgs_default (sk);
 	if (err < 0) {
-		g_warning ("Error parsing: %d %s", err, nl_geterror (err));
+		_LOGW ("Error parsing: %d %s", err, nl_geterror (err));
 		goto done;
 	}
 
@@ -1222,11 +1298,11 @@ handle_callback (NMDBusLibreswanHelper *object,
 	guint i;
 	const char *verb;
 
-	g_message ("Configuration from the helper received.");
+	_LOGI ("Configuration from the helper received.");
 
 	verb = lookup_string (env, "PLUTO_VERB");
 	if (!verb) {
-		g_warning ("PLUTO_VERB missing");
+		_LOGW ("PLUTO_VERB missing");
 		goto out;
 	}
 
@@ -1237,7 +1313,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
 	else {
-		g_warning ("IPsec/Pluto Right Peer (VPN Gateway)");
+		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway)");
 		goto out;
 	}
 
@@ -1253,7 +1329,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
 	else {
-		g_warning ("IP4 Address");
+		_LOGW ("IP4 Address");
 		goto out;
 	}
 
@@ -1262,7 +1338,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else {
-		g_warning ("IP4 PTP Address");
+		_LOGW ("IP4 PTP Address");
 		goto out;
 	}
 
@@ -1352,7 +1428,7 @@ handle_auth (NMLibreswanPlugin *self, const char **out_message, const char **out
 			g_io_channel_write_chars (priv->channel, p, -1, &bytes_written, &error);
 			g_io_channel_flush (priv->channel, NULL);
 			if (error) {
-				g_warning ("Failed to write password to ipsec: '%s'", error->message);
+				_LOGW ("Failed to write password to ipsec: '%s'", error->message);
 				g_clear_error (&error);
 				return FALSE;
 			}
@@ -1362,7 +1438,7 @@ handle_auth (NMLibreswanPlugin *self, const char **out_message, const char **out
 		g_io_channel_write_chars (priv->channel, "\n", -1, NULL, NULL);
 		g_io_channel_flush (priv->channel, NULL);
 
-		DEBUG ("PTY: password written");
+		_LOGD ("PTY: password written");
 
 		/* Don't re-use the password */
 		memset (priv->password, 0, strlen (priv->password));
@@ -1389,13 +1465,13 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	const char *found;
 
 	if (condition & G_IO_HUP) {
-		DEBUG ("PTY disconnected");
+		_LOGD ("PTY disconnected");
 		priv->io_id = 0;
 		return G_SOURCE_REMOVE;
 	}
 
 	if (condition & G_IO_ERR) {
-		g_warning ("PTY spawn: pipe error!");
+		_LOGW ("PTY spawn: pipe error!");
 		goto done;
 	}
 	g_assert (condition & G_IO_IN);
@@ -1412,7 +1488,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	if (priv->io_buf->len < strlen (PASSPHRASE_REQUEST))
 		return G_SOURCE_CONTINUE;
 
-	DEBUG ("VPN request '%s'", priv->io_buf->str);
+	_LOGD ("VPN request '%s'", priv->io_buf->str);
 
 	found = strstr (priv->io_buf->str, PASSPHRASE_REQUEST);
 	if (found) {
@@ -1423,7 +1499,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 		g_string_erase (priv->io_buf, 0, (found + strlen (PASSPHRASE_REQUEST)) - priv->io_buf->str);
 
 		if (!handle_auth (self, &message, &hints[0])) {
-			g_warning ("Unhandled management socket request '%s'", buf);
+			_LOGW ("Unhandled management socket request '%s'", buf);
 			reason = NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED;
 			goto done;
 		}
@@ -1432,11 +1508,11 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 			/* Request new secrets if we need any */
 			priv->pending_auth = TRUE;
 			if (priv->interactive) {
-				DEBUG ("Requesting new secrets: '%s' (%s)", message, hints[0]);
+				_LOGD ("Requesting new secrets: '%s' (%s)", message, hints[0]);
 				nm_vpn_service_plugin_secrets_required (NM_VPN_SERVICE_PLUGIN (self), message, hints);
 			} else {
 				/* Interactive not allowed, can't ask for more secrets */
-				g_warning ("More secrets required but cannot ask interactively");
+				_LOGW ("More secrets required but cannot ask interactively");
 				reason = NM_VPN_PLUGIN_FAILURE_LOGIN_FAILED;
 				goto done;
 			}
@@ -1457,60 +1533,22 @@ done:
 }
 
 static gboolean
-pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
-{
-	Pipe *pipe = user_data;
-	char buf[200];
-	gsize bytes_read = 0;
-	char *nl;
-
-	if (condition & (G_IO_ERR | G_IO_HUP)) {
-		DEBUG ("PTY(%s) pipe error!", pipe->detail);
-		pipe->id = 0;
-		return G_SOURCE_REMOVE;
-	}
-	g_assert (condition & G_IO_IN);
-
-	while (   (g_io_channel_read_chars (source,
-	                                    buf,
-	                                    sizeof (buf) - 1,
-	                                    &bytes_read,
-	                                    NULL) == G_IO_STATUS_NORMAL)
-	       && bytes_read
-	       && pipe->str->len < 500)
-		g_string_append_len (pipe->str, buf, bytes_read);
-
-	/* Print each complete line and remove it from the buffer */
-	while (pipe->str->len) {
-		nl = strpbrk (pipe->str->str, "\n\r");
-		if (!nl)
-			break;
-		*nl = 0;  /* Don't print the linebreak */
-		if (pipe->str->str[0])
-			DEBUG ("PTY(%s): %s", pipe->detail, pipe->str->str);
-		g_string_erase (pipe->str, 0, (nl - pipe->str->str) + 1);
-	}
-
-	return G_SOURCE_CONTINUE;
-}
-
-static gboolean
 connect_step (NMLibreswanPlugin *self, GError **error)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	const char *uuid;
 	int fd = -1, up_stdout = -1, up_stderr = -1, up_pty = -1;
 	gboolean success = FALSE;
-	char *bus_name;
 
 	g_warn_if_fail (priv->watch_id == 0);
 	priv->watch_id = 0;
 	g_warn_if_fail (priv->pid == 0);
 	priv->pid = 0;
 
-	DEBUG ("Connect: step %d", priv->connect_step);
+	_LOGD ("Connect: step %d", priv->connect_step);
 
 	uuid = nm_connection_get_uuid (priv->connection);
+	g_return_val_if_fail (uuid && *uuid, FALSE);
 
 	switch (priv->connect_step) {
 	case CONNECT_STEP_FIRST:
@@ -1558,7 +1596,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 			success = do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
 		else {
 			success = do_spawn (self, &priv->pid, NULL, NULL, error,
-			                    priv->pluto_path, "--config", SYSCONFDIR "/ipsec.conf",
+			                    priv->pluto_path, "--config", NM_IPSEC_CONF,
 			                    NULL);
 		}
 		if (success) {
@@ -1575,18 +1613,42 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
-	case CONNECT_STEP_CONFIG_ADD:
-		g_assert (uuid);
+	case CONNECT_STEP_CONFIG_ADD: {
+		gboolean trailing_newline;
+		gs_free char *bus_name = NULL;
+		gs_free char *ifupdown_script = NULL;
+
 		if (!do_spawn (self, &priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
-		nm_libreswan_config_write (fd, priv->connection, bus_name, priv->openswan);
-		g_free (bus_name);
-		close (fd);
-		return TRUE;
 
+		/* openswan requires a terminating \n (otherwise it segfaults) while
+		 * libreswan fails parsing the configuration if you include the \n.
+		 * WTF?
+		 */
+		trailing_newline = priv->openswan;
+
+		ifupdown_script = g_strdup_printf ("\"%s %d %ld %s\"",
+		                                   NM_LIBRESWAN_HELPER_PATH,
+		                                   LOG_DEBUG,
+		                                   (long) getpid (),
+		                                   bus_name);
+
+		if (!nm_libreswan_config_write (fd,
+		                                priv->connection,
+		                                uuid,
+		                                ifupdown_script,
+		                                priv->openswan,
+		                                trailing_newline,
+		                                _debug_write_option,
+		                                error)) {
+			g_close (fd, NULL);
+			return FALSE;
+		}
+		return g_close (fd, error);
+	}
 	case CONNECT_STEP_CONNECT:
 		g_assert (uuid);
 		if (!spawn_pty (self, &up_stdout, &up_stderr, &up_pty, &priv->pid, error,
@@ -1601,10 +1663,8 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		g_io_channel_set_buffered (priv->channel, FALSE);
 		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
 
-		if (debug) {
-			pipe_init (&priv->out, up_stdout, "OUT");
-			pipe_init (&priv->err, up_stderr, "ERR");
-		}
+		pipe_init (&priv->out, up_stdout, "OUT");
+		pipe_init (&priv->err, up_stderr, "ERR");
 		return TRUE;
 
 	case CONNECT_STEP_LAST:
@@ -1642,8 +1702,10 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	NMSettingVpn *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
 
-	if (debug)
+	if (_LOGD_enabled ()) {
+		_LOGD ("connection:");
 		nm_connection_dump (connection);
+	}
 
 	priv->ipsec_path = find_helper_bin ("ipsec", error);
 	if (!priv->ipsec_path)
@@ -1681,7 +1743,7 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	/* Write the IPsec secret (group password); *SWAN always requires this and
 	 * doesn't ask for it interactively.
 	 */
-	priv->secrets_path = g_strdup_printf (SYSCONFDIR "/ipsec.d/ipsec-%s.secrets", con_name);
+	priv->secrets_path = g_strdup_printf (NM_IPSEC_SECRETS_DIR"/ipsec-%s.secrets", con_name);
 	if (!nm_libreswan_config_psk_write (s_vpn, priv->secrets_path, error))
 		return FALSE;
 
@@ -1772,7 +1834,7 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 		return FALSE;
 	}
 
-	DEBUG ("VPN received new secrets; sending to ipsec");
+	_LOGD ("VPN received new secrets; sending to ipsec");
 
 	g_free (priv->password);
 	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
@@ -1788,7 +1850,7 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 
 	/* Request new secrets if we need any */
 	if (message) {
-		DEBUG ("Requesting new secrets: '%s'", message);
+		_LOGD ("Requesting new secrets: '%s'", message);
 		nm_vpn_service_plugin_secrets_required (plugin, message, hints);
 	}
 
@@ -1888,7 +1950,7 @@ static void
 signal_handler (int signo)
 {
 	if (signo == SIGINT || signo == SIGTERM)
-		g_main_loop_quit (loop);
+		g_main_loop_quit (gl.loop);
 }
 
 static void
@@ -1925,7 +1987,7 @@ main (int argc, char *argv[])
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don't quit when VPN connection terminates"), NULL },
-		{ "debug", 0, 0, G_OPTION_ARG_NONE, &debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
+		{ "debug", 0, 0, G_OPTION_ARG_NONE, &gl.debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
 		{ "bus-name", 0, 0, G_OPTION_ARG_STRING, &bus_name, N_("D-Bus name to use for this instance"), NULL },
 		{NULL}
 	};
@@ -1949,23 +2011,26 @@ main (int argc, char *argv[])
 	g_option_context_add_main_entries (opt_ctx, options, NULL);
 
 	g_option_context_set_summary (opt_ctx,
-		_("This service provides integrated IPsec VPN capability to NetworkManager."));
+	    _("This service provides integrated IPsec VPN capability to NetworkManager."));
 
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);
 
 	if (getenv ("LIBRESWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
-		debug = TRUE;
+		gl.debug = TRUE;
 
-	if (debug)
-		g_message ("%s (version " DIST_VERSION ") starting...", argv[0]);
+	gl.log_level = _nm_utils_ascii_str_to_int64 (getenv ("NM_VPN_LOG_LEVEL"),
+	                                             10, 0, LOG_DEBUG,
+	                                             gl.debug ? LOG_INFO : LOG_NOTICE);
+
+	_LOGD ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
 	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
 	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, bus_name,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER, !debug,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER, !gl.debug,
 	                         NULL);
 	if (!plugin) {
-		g_warning ("Failed to initialize a plugin instance: %s", error->message);
+		_LOGW ("Failed to initialize a plugin instance: %s", error->message);
 		g_error_free (error);
 		exit (1);
 	}
@@ -1977,7 +2042,7 @@ main (int argc, char *argv[])
 	                                       connection,
 	                                       NM_DBUS_PATH_LIBRESWAN_HELPER,
 	                                       &error)) {
-		g_warning ("Failed to export helper interface: %s", error->message);
+		_LOGW ("Failed to export helper interface: %s", error->message);
 		g_error_free (error);
 		g_clear_object (&plugin);
 		exit (1);
@@ -1989,16 +2054,16 @@ main (int argc, char *argv[])
 
 	g_signal_connect (priv->dbus_skeleton, "handle-callback", G_CALLBACK (handle_callback), plugin);
 
-	loop = g_main_loop_new (NULL, FALSE);
+	gl.loop = g_main_loop_new (NULL, FALSE);
 
 	block_quit (plugin);
 	if (!persist)
 		g_signal_connect (plugin, "quit", G_CALLBACK (quit_mainloop), NULL);
 
 	setup_signals ();
-	g_main_loop_run (loop);
+	g_main_loop_run (gl.loop);
 
-	g_main_loop_unref (loop);
+	g_clear_pointer (&gl.loop, g_main_loop_unref);
 	g_object_unref (plugin);
 
 	exit (0);
