@@ -36,12 +36,12 @@ libnm_vpn_plugin_libreswan_la_CFLAGS = \
     $(LIBNM_CFLAGS)
 
 libnm_vpn_plugin_libreswan_la_SOURCES = \
+    $(top_srcdir)/shared/nm-utils/nm-vpn-plugin-utils.c \
+    $(top_srcdir)/shared/nm-utils/nm-vpn-plugin-utils.h \
     $(plugin_sources)
 
 libnm_vpn_plugin_libreswan_la_LIBADD = \
-    $(LIBNM_LIBS) \
-    $(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
-    $(top_builddir)/shared/libnm-vpn-editor-utils-shared.la
+    $(LIBNM_LIBS)
 
 libnm_vpn_plugin_libreswan_la_LDFLAGS = \
     -avoid-version \
@@ -85,8 +85,7 @@ libnm_libreswan_properties_la_SOURCES = \
 libnm_libreswan_properties_la_LIBADD = \
     $(GTK_LIBS) \
     $(LIBNM_GLIB_LIBS) \
-    $(LIBNM_GTK_LIBS) \
-    $(top_builddir)/shared/libnm-libreswan-shared.la
+    $(LIBNM_GTK_LIBS)
 
 libnm_libreswan_properties_la_LDFLAGS = \
     -avoid-version \

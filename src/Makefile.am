@@ -15,6 +15,14 @@ AM_CPPFLAGS = \
     -DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
     -I"$(top_srcdir)/shared/"
 
+shared_sources = \
+    $(top_srcdir)/shared/nm-utils/nm-shared-utils.c \
+    $(top_srcdir)/shared/nm-utils/nm-shared-utils.h \
+    $(top_srcdir)/shared/utils.c \
+    $(top_srcdir)/shared/utils.h \
+    $(top_srcdir)/shared/nm-service-defines.h \
+    $(NULL)
+
 ###############################################################################
 
 # D-Bus stuff
@@ -39,24 +47,24 @@ nm-libreswan-helper-service-dbus.c:
 ###############################################################################
 
 nm_libreswan_service_SOURCES = \
+    $(shared_sources) \
     nm-libreswan-service.c
 
 nm_libreswan_service_LDADD = \
     $(GLIB_LIBS) \
     $(LIBNM_LIBS) \
     $(LIBNL_LIBS) \
-    $(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
     libnm-libreswan-helper-service-dbus.la \
     -lutil
 
 ###############################################################################
 
 nm_libreswan_service_helper_SOURCES = \
+    $(shared_sources) \
     nm-libreswan-service-helper.c
 
 nm_libreswan_service_helper_LDADD = \
     $(LIBNM_LIBS) \
-    $(top_builddir)/shared/libnm-vpn-plugin-libreswan-shared.la \
     libnm-libreswan-helper-service-dbus.la
 
 ###############################################################################
