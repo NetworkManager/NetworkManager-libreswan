@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-23 18:37+0200\n"
-"PO-Revision-Date: 2016-05-23 18:38+0200\n"
+"POT-Creation-Date: 2016-06-16 14:05+0200\n"
+"PO-Revision-Date: 2016-06-16 14:07+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -86,17 +86,27 @@ msgstr "VPN oparte na IPsec"
 msgid "IPsec based VPN using IKEv1"
 msgstr "VPN oparte na IPsec, używające IKEv1"
 
-#: ../properties/nm-libreswan-editor-plugin.c:74
-#: ../properties/nm-libreswan-editor-plugin.c:97
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "Nie można otworzyć pliku „%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1373
+#: ../properties/nm-libreswan-editor-plugin.c:126
+#, c-format
+msgid "Missing \"conn\" section in \"%s\""
+msgstr "Brak sekcji „conn” w „%s”"
+
+#: ../properties/nm-libreswan-editor-plugin.c:167
+#, c-format
+msgid "Error writing to file '%s': %s"
+msgstr "Błąd podczas zapisywania do pliku „%s”: %s"
+
+#: ../src/nm-libreswan-service.c:1449
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1771
+#: ../src/nm-libreswan-service.c:1833
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -104,28 +114,33 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1785
+#: ../src/nm-libreswan-service.c:1847
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:1927
+#: ../src/nm-libreswan-service.c:1989
 msgid "Don't quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:1928
+#: ../src/nm-libreswan-service.c:1990
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:1929
+#: ../src/nm-libreswan-service.c:1991
 msgid "D-Bus name to use for this instance"
 msgstr "Nazwa D-Bus dla tego wystąpienia"
 
-#: ../src/nm-libreswan-service.c:1952
+#: ../src/nm-libreswan-service.c:2014
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Ta usługa dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
 "NetworkManager."
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Błąd podczas zapisywania konfiguracji: %s"
 
 #: ../shared/nm-utils/nm-shared-utils.c:185
 #, c-format
@@ -166,22 +181,22 @@ msgstr ""
 "wartość „%s” typu „%s” jest nieprawidłowa lub spoza zakresu dla właściwości "
 "„%s” typu „%s”"
 
-#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "brak pliku wtyczki „%s”"
 
-#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "nie można wczytać wtyczki edytora: %s"
 
-#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "nie można wczytać generatora %s z wtyczki: %s"
 
-#: ../shared/nm-vpn/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
 msgid "unknown error creating editor instance"
 msgstr "nieznany błąd podczas tworzenia wystąpienia edytora"
 
