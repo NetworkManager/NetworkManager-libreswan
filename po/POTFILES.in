@@ -7,5 +7,5 @@ properties/nm-libreswan-editor.c
 src/nm-libreswan-service.c
 shared/utils.c
 shared/nm-utils/nm-shared-utils.c
-shared/nm-vpn/nm-vpn-plugin-utils.c
+shared/nm-utils/nm-vpn-plugin-utils.c
 [type: gettext/glade]properties/nm-libreswan-dialog.ui

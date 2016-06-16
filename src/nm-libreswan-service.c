@@ -54,7 +54,7 @@
 #include "nm-libreswan-helper-service-dbus.h"
 #include "utils.h"
 #include "nm-utils/nm-shared-utils.h"
-#include "nm-vpn/nm-vpn-plugin-macros.h"
+#include "nm-utils/nm-vpn-plugin-macros.h"
 
 #if !defined(DIST_VERSION)
 # define DIST_VERSION VERSION

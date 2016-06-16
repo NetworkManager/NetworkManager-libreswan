@@ -37,7 +37,7 @@
 #ifdef NM_VPN_OLD
 #include "nm-libreswan-editor.h"
 #else
-#include "nm-vpn/nm-vpn-plugin-utils.h"
+#include "nm-utils/nm-vpn-plugin-utils.h"
 #endif
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")

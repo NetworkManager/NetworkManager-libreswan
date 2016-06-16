@@ -48,9 +48,9 @@ libnm_vpn_editor_utils_shared_la_CPPFLAGS = \
     -I$(top_srcdir)/shared
 
 libnm_vpn_editor_utils_shared_la_SOURCES = \
-    nm-vpn/nm-vpn-plugin-utils.c \
-    nm-vpn/nm-vpn-plugin-utils.h \
-    nm-vpn/nm-vpn-plugin-macros.h
+    nm-utils/nm-vpn-plugin-utils.c \
+    nm-utils/nm-vpn-plugin-utils.h \
+    nm-utils/nm-vpn-plugin-macros.h
 
 libnm_vpn_editor_utils_shared_la_LIBADD = \
     $(LIBNM_LIBS) \
@@ -59,6 +59,7 @@ libnm_vpn_editor_utils_shared_la_LIBADD = \
 ###############################################################################
 
 EXTRA_DIST = \
+    README \
     nm-utils/gsystem-local-alloc.h \
     nm-utils/nm-glib.h \
     nm-utils/nm-macros-internal.h \
