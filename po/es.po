@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-05-23 07:09+0000\n"
-"PO-Revision-Date: 2016-05-26 13:19+0200\n"
+"POT-Creation-Date: 2016-06-15 11:58+0000\n"
+"PO-Revision-Date: 2016-06-20 16:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -86,17 +86,28 @@ msgstr "VPN basada en IPsec"
 msgid "IPsec based VPN using IKEv1"
 msgstr "VPN basada en IPsec usando IKEv1"
 
-#: ../properties/nm-libreswan-editor-plugin.c:74
-#: ../properties/nm-libreswan-editor-plugin.c:97
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "No se puede abrir el archivo «%s»: %s"
 
-#: ../src/nm-libreswan-service.c:1373
+#: ../properties/nm-libreswan-editor-plugin.c:126
+#, c-format
+msgid "Missing \"conn\" section in \"%s\""
+msgstr "Falta la sección «conn» en «%s»"
+
+#: ../properties/nm-libreswan-editor-plugin.c:167
+#, c-format
+#| msgid "Can't open file '%s': %s"
+msgid "Error writing to file '%s': %s"
+msgstr "Error al escribir en el archivo «%s»: %s"
+
+#: ../src/nm-libreswan-service.c:1449
 msgid "A password is required."
 msgstr "Se requiere una contraseña."
 
-#: ../src/nm-libreswan-service.c:1771
+#: ../src/nm-libreswan-service.c:1833
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -104,28 +115,33 @@ msgstr ""
 "No se pudo procesar la solicitud porque la configuración de la conexión VPN "
 "no es válida."
 
-#: ../src/nm-libreswan-service.c:1785
+#: ../src/nm-libreswan-service.c:1847
 msgid "Unhandled pending authentication."
 msgstr "Autenticación pendiente no manejada."
 
-#: ../src/nm-libreswan-service.c:1927
+#: ../src/nm-libreswan-service.c:1989
 msgid "Don't quit when VPN connection terminates"
 msgstr "No salir cuando termine la conexión VPN"
 
-#: ../src/nm-libreswan-service.c:1928
+#: ../src/nm-libreswan-service.c:1990
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Activar el registro detallado del depurado (puede mostrar contraseñas)"
 
-#: ../src/nm-libreswan-service.c:1929
+#: ../src/nm-libreswan-service.c:1991
 msgid "D-Bus name to use for this instance"
 msgstr "Nombre D-Bus que usar para esta instancia"
 
-#: ../src/nm-libreswan-service.c:1952
+#: ../src/nm-libreswan-service.c:2014
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Este servicio proporciona la capacidad de integrar VPN IPsec en "
 "NetworkManager."
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Error al escribir la configuración: %s"
 
 #: ../shared/nm-utils/nm-shared-utils.c:185
 #, c-format
