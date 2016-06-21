@@ -36,6 +36,8 @@ libnm_vpn_plugin_libreswan_la_CFLAGS = \
     $(LIBNM_CFLAGS)
 
 libnm_vpn_plugin_libreswan_la_SOURCES = \
+    $(top_srcdir)/shared/utils.c \
+    $(top_srcdir)/shared/utils.h \
     $(top_srcdir)/shared/nm-utils/nm-vpn-plugin-utils.c \
     $(top_srcdir)/shared/nm-utils/nm-vpn-plugin-utils.h \
     $(plugin_sources)
@@ -79,6 +81,8 @@ libnm_libreswan_properties_la_CFLAGS = \
     $(LIBNM_GTK_CFLAGS)
 
 libnm_libreswan_properties_la_SOURCES = \
+    $(top_srcdir)/shared/utils.c \
+    $(top_srcdir)/shared/utils.h \
     $(plugin_sources) \
     $(editor_sources)
 
