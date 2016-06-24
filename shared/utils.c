@@ -73,7 +73,7 @@ write_config_option_newline (int fd,
 			continue;
 		}
 		if (w == 0) {
-			errno = EIO;
+			errsv = EIO;
 			break;
 		}
 		errsv = errno;
