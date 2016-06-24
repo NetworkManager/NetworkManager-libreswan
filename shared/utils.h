@@ -21,32 +21,28 @@
  * Copyright (C) 2010 - 2015 Red Hat, Inc.
  */
 
-extern gboolean debug;
+#ifndef __UTILS_H__
+#define __UTILS_H__
 
-static inline void
-write_config_option (int fd, const char *format, ...)
-{
-	char *string;
-	va_list args;
+typedef void (*NMDebugWriteFcn) (const char *setting);
 
-	va_start (args, format);
-	string = g_strdup_vprintf (format, args);
+__attribute__((__format__ (__printf__, 5, 6)))
+gboolean write_config_option_newline (int fd,
+                                      gboolean new_line,
+                                      NMDebugWriteFcn debug_write_fcn,
+                                      GError **error,
+                                      const char *format, ...);
 
-	if (debug)
-		g_print ("Config: %s", string);
+#define write_config_option(fd, debug_write_fcn, error, ...) write_config_option_newline((fd), TRUE, debug_write_fcn, error, __VA_ARGS__)
 
-	if (write (fd, string, strlen (string)) == -1)
-		g_warning ("nm-libreswan: error in write_config_option");
-
-	g_free (string);
-	va_end (args);
-}
-
-NMConnection *
-nm_libreswan_config_read (gint fd);
-
-void
+gboolean
 nm_libreswan_config_write (gint fd,
                            NMConnection *connection,
-                           const char *bus_name,
-                           gboolean openswan);
+                           const char *con_name,
+                           const char *leftupdown_script,
+                           gboolean openswan,
+                           gboolean trailing_newline,
+                           NMDebugWriteFcn debug_write_fcn,
+                           GError **error);
+
+#endif /* __UTILS_H__ */

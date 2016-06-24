@@ -1,7 +1,5 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /***************************************************************************
- * nm-libreswan.c : GNOME UI dialogs for configuring libreswan VPN connections
- *
  * Copyright (C) 2005 David Zeuthen, <davidz@redhat.com>
  * Copyright (C) 2005 - 2008 Dan Williams, <dcbw@redhat.com>
  * Copyright (C) 2010 Avesh Agarwal <avagarwa@redhat.com>
@@ -22,47 +20,17 @@
  *
  **************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "nm-default.h"
+
+#include "nm-libreswan-editor.h"
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <string.h>
-#include <gtk/gtk.h>
-
-#ifdef NM_LIBRESWAN_OLD
-#define NM_VPN_LIBNM_COMPAT
-
-#include <nm-vpn-plugin-ui-interface.h>
-#include <nm-setting-vpn.h>
-#include <nm-setting-connection.h>
-#include <nm-setting-ip4-config.h>
-#include <nm-ui-utils.h>
-
-#define LIBRESWAN_EDITOR_PLUGIN_ERROR                  NM_SETTING_VPN_ERROR
-#define LIBRESWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_SETTING_VPN_ERROR_INVALID_PROPERTY
-
-#else /* !NM_LIBRESWAN_OLD */
-
-#include <NetworkManager.h>
-#include <nma-ui-utils.h>
-
-#define LIBRESWAN_EDITOR_PLUGIN_ERROR                  NM_CONNECTION_ERROR
-#define LIBRESWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY NM_CONNECTION_ERROR_INVALID_PROPERTY
-#endif
-
-#include "nm-libreswan-service.h"
-#include "nm-libreswan.h"
-#include "utils.h"
-
-#define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")
-#define LIBRESWAN_PLUGIN_DESC    _("IPsec based VPN using IKEv1")
 
 #define ENC_TYPE_SECURE 0
 #define ENC_TYPE_WEAK   1
@@ -72,22 +40,7 @@
 #define PW_TYPE_ASK    1
 #define PW_TYPE_UNUSED 2
 
-/************** plugin class **************/
-
-enum {
-	PROP_0,
-	PROP_NAME,
-	PROP_DESC,
-	PROP_SERVICE
-};
-
-static void libreswan_editor_plugin_interface_init (NMVpnEditorPluginInterface *iface_class);
-
-G_DEFINE_TYPE_EXTENDED (LibreswanEditorPlugin, libreswan_editor_plugin, G_TYPE_OBJECT, 0,
-                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR_PLUGIN,
-                                               libreswan_editor_plugin_interface_init))
-
-/************** UI widget class **************/
+/*****************************************************************************/
 
 static void libreswan_editor_interface_init (NMVpnEditorInterface *iface_class);
 
@@ -101,7 +54,6 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget *widget;
 	GtkSizeGroup *group;
-	gboolean openswan;
 } LibreswanEditorPrivate;
 
 
@@ -116,8 +68,8 @@ check_validity (LibreswanEditor *self, GError **error)
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (!str || !strlen (str) || strstr (str, " ") || strstr (str, "\t")) {
 		g_set_error (error,
-		             LIBRESWAN_EDITOR_PLUGIN_ERROR,
-		             LIBRESWAN_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
+		             NMV_EDITOR_PLUGIN_ERROR,
+		             NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
 		             NM_LIBRESWAN_RIGHT);
 		return FALSE;
 	}
@@ -340,11 +292,6 @@ init_editor_plugin (LibreswanEditor *self,
 	                  (GCallback) show_toggled_cb,
 	                  self);
 
-	if (s_vpn) {
-		const char *type = nm_setting_vpn_get_service_type (s_vpn);
-		priv->openswan = (g_strcmp0 (type, NM_VPN_SERVICE_TYPE_OPENSWAN) == 0);
-	}
-
 	return TRUE;
 }
 
@@ -429,7 +376,7 @@ update_connection (NMVpnEditor *iface,
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, str);
-	
+
 	/* Phase 1 Algorithms: ike */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
@@ -472,7 +419,7 @@ is_new_func (const char *key, const char *value, gpointer user_data)
 	*is_new = FALSE;
 }
 
-static NMVpnEditor *
+NMVpnEditor *
 nm_vpn_editor_new (NMConnection *connection, GError **error)
 {
 	NMVpnEditor *object;
@@ -486,7 +433,7 @@ nm_vpn_editor_new (NMConnection *connection, GError **error)
 
 	object = g_object_new (LIBRESWAN_TYPE_EDITOR, NULL);
 	if (!object) {
-		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0, "could not create libreswan object");
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0, "could not create libreswan object");
 		return NULL;
 	}
 
@@ -502,7 +449,7 @@ nm_vpn_editor_new (NMConnection *connection, GError **error)
 		g_warning ("Couldn't load builder file: %s",
 		           error && *error ? (*error)->message : "(unknown)");
 		g_clear_error (error);
-		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0,
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
 		             "could not load required resources at %s", ui_file);
 		g_free (ui_file);
 		g_object_unref (object);
@@ -512,7 +459,7 @@ nm_vpn_editor_new (NMConnection *connection, GError **error)
 
 	priv->widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-vbox"));
 	if (!priv->widget) {
-		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0, "could not load UI widget");
+		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0, "could not load UI widget");
 		g_object_unref (object);
 		return NULL;
 	}
@@ -582,132 +529,20 @@ libreswan_editor_interface_init (NMVpnEditorInterface *iface_class)
 	iface_class->update_connection = update_connection;
 }
 
-static NMConnection *
-import_from_file (NMVpnEditorPlugin *self,
-                  const char *path,
-                  GError **error)
+/*****************************************************************************/
+
+#ifndef NM_VPN_OLD
+
+#include "nm-libreswan-editor-plugin.h"
+
+G_MODULE_EXPORT NMVpnEditor *
+nm_vpn_editor_factory_libreswan (NMVpnEditorPlugin *editor_plugin,
+                                 NMConnection *connection,
+                                 GError **error)
 {
-	NMConnection *connection;
-	int fd;
+	g_return_val_if_fail (!error || !*error, NULL);
 
-	fd = g_open (path, O_RDONLY, 0777);
-	if (fd == -1) {
-		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errno));
-		return FALSE;
-	}
-
-	connection = nm_libreswan_config_read (fd);
-	g_close (fd, NULL);
-
-	return connection;
-}
-
-static gboolean
-export_to_file (NMVpnEditorPlugin *self,
-                const char *path,
-                NMConnection *connection,
-                GError **error)
-{
-	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
-	int fd;
-
-	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
-	if (fd == -1) {
-		g_set_error (error, LIBRESWAN_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errno));
-		return FALSE;
-	}
-
-	nm_libreswan_config_write (fd, connection, NULL, priv->openswan);
-
-	if (!g_close (fd, error))
-		return FALSE;
-
-	return TRUE;
-
-}
-
-static guint32
-get_capabilities (NMVpnEditorPlugin *iface)
-{
-	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT | NM_VPN_EDITOR_PLUGIN_CAPABILITY_IMPORT;
-}
-
-static NMVpnEditor *
-get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
-{
 	return nm_vpn_editor_new (connection, error);
 }
-
-static void
-get_property (GObject *object, guint prop_id,
-              GValue *value, GParamSpec *pspec)
-{
-	switch (prop_id) {
-	case PROP_NAME:
-		g_value_set_string (value, LIBRESWAN_PLUGIN_NAME);
-		break;
-	case PROP_DESC:
-		g_value_set_string (value, LIBRESWAN_PLUGIN_DESC);
-		break;
-	case PROP_SERVICE:
-		g_value_set_string (value, NM_VPN_SERVICE_TYPE_LIBRESWAN);
-		break;
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
-	}
-}
-
-static void
-libreswan_editor_plugin_class_init (LibreswanEditorPluginClass *req_class)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (req_class);
-
-	object_class->get_property = get_property;
-
-	g_object_class_override_property (object_class,
-	                                  PROP_NAME,
-	                                  NM_VPN_EDITOR_PLUGIN_NAME);
-
-	g_object_class_override_property (object_class,
-	                                  PROP_DESC,
-	                                  NM_VPN_EDITOR_PLUGIN_DESCRIPTION);
-
-	g_object_class_override_property (object_class,
-	                                  PROP_SERVICE,
-	                                  NM_VPN_EDITOR_PLUGIN_SERVICE);
-}
-
-static void
-libreswan_editor_plugin_init (LibreswanEditorPlugin *plugin)
-{
-}
-
-static void
-libreswan_editor_plugin_interface_init (NMVpnEditorPluginInterface *iface_class)
-{
-	/* interface implementation */
-	iface_class->get_editor = get_editor;
-	iface_class->get_capabilities = get_capabilities;
-
-	iface_class->import_from_file = import_from_file;
-	iface_class->export_to_file = export_to_file;
-
-	iface_class->get_suggested_filename = NULL;
-}
-
-
-G_MODULE_EXPORT NMVpnEditorPlugin *
-nm_vpn_editor_plugin_factory (GError **error)
-{
-	if (error)
-		g_return_val_if_fail (*error == NULL, NULL);
-
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-
-	return g_object_new (LIBRESWAN_TYPE_EDITOR_PLUGIN, NULL);
-}
+#endif
 

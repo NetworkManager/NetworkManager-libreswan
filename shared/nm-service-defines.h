@@ -18,8 +18,8 @@
  * (C) Copyright 2010 Red Hat, Inc.
  */
 
-#ifndef NM_LIBRESWAN_PLUGIN_H
-#define NM_LIBRESWAN_PLUGIN_H
+#ifndef __NM_SERVICE_DEFINES_H__
+#define __NM_SERVICE_DEFINES_H__
 
 #include <glib.h>
 #include <glib-object.h>
@@ -57,4 +57,4 @@
 #define NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE "_none_"
 #endif
 
-#endif /* NM_LIBRESWAN_PLUGIN_H */
+#endif /* __NM_SERVICE_DEFINES_H__ */

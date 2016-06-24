@@ -16,6 +16,7 @@
  * Copyright 2014 Red Hat, Inc.
  */
 
+#include "nm-default.h"
 
 #define _GNU_SOURCE 1
 #include <netlink/netlink.h>
@@ -25,8 +26,6 @@
 
 #define _LINUX_IN6_H 1
 #include <linux/xfrm.h>
-
-#include <glib.h>
 
 static int
 verify_source (struct nl_msg *msg, gpointer user_data)

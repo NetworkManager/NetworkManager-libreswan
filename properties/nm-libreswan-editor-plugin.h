@@ -1,7 +1,5 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*- */
 /***************************************************************************
- * nm-libreswan.h : GNOME UI dialogs for configuring libreswan VPN connections
- *
  * Copyright (C) 2008 Dan Williams, <dcbw@redhat.com>
  * Copyright (C) 2010 Avesh Agarwal, <avagarwa@redhat.com>
  *
@@ -21,10 +19,8 @@
  *
  **************************************************************************/
 
-#ifndef _NM_LIBRESWAN_H_
-#define _NM_LIBRESWAN_H_
-
-#include <glib-object.h>
+#ifndef __NM_LIBRESWAN_EDITOR_PLUGIN_H__
+#define __NM_LIBRESWAN_EDITOR_PLUGIN_H__
 
 #define LIBRESWAN_TYPE_EDITOR_PLUGIN            (libreswan_editor_plugin_get_type ())
 #define LIBRESWAN_EDITOR_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPlugin))
@@ -46,26 +42,14 @@ struct _LibreswanEditorPluginClass {
 
 GType libreswan_editor_plugin_get_type (void);
 
+typedef NMVpnEditor *(*NMVpnEditorFactory) (NMVpnEditorPlugin *editor_plugin,
+                                            NMConnection *connection,
+                                            GError **error);
 
-#define LIBRESWAN_TYPE_EDITOR            (libreswan_editor_get_type ())
-#define LIBRESWAN_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditor))
-#define LIBRESWAN_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), LIBRESWAN_TYPE_EDITOR, LibreswanEditorClass))
-#define LIBRESWAN_IS_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LIBRESWAN_TYPE_EDITOR))
-#define LIBRESWAN_IS_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), LIBRESWAN_TYPE_EDITOR))
-#define LIBRESWAN_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditorClass))
+NMVpnEditor *
+nm_vpn_editor_factory_libreswan (NMVpnEditorPlugin *editor_plugin,
+                                 NMConnection *connection,
+                                 GError **error);
 
-typedef struct _LibreswanEditor LibreswanEditor;
-typedef struct _LibreswanEditorClass LibreswanEditorClass;
-
-struct _LibreswanEditor {
-	GObject parent;
-};
-
-struct _LibreswanEditorClass {
-	GObjectClass parent;
-};
-
-GType libreswan_editor_get_type (void);
-
-#endif	/* _NM_LIBRESWAN_H_ */
+#endif /* __NM_LIBRESWAN_EDITOR_PLUGIN_H__ */
 

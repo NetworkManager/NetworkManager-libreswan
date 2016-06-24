@@ -9,7 +9,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-libreswan nm-1-2\n"
+"Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
 "POT-Creation-Date: 2016-04-14 10:29+0000\n"
