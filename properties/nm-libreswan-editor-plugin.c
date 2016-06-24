@@ -142,7 +142,7 @@ export_to_file (NMVpnEditorPlugin *self,
 	int fd, errsv;
 	gs_free_error GError *local = NULL;
 
-	fd = g_open (path, O_WRONLY | O_CREAT, 0777);
+	fd = g_open (path, O_WRONLY | O_CREAT, 0666);
 	if (fd == -1) {
 		errsv = errno;
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
