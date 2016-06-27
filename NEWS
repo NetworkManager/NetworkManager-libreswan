@@ -1,3 +1,22 @@
+========================================================
+NetworkManager-libreswan-1.2.4
+Overview of changes since NetworkManager-libreswan-1.2.2
+========================================================
+
+This is a new stable release of NetworkManager-libreswan.  Notable changes include:
+
+* Fix connection import to only accept files with a [conn] section
+* Prefer building against stable libsecret API
+* Split libnm-vpn-plugin-libreswan.so into a GTK-free core plugin
+  usable by nmcli and a UI plugin for nm-applet and gnome components.
+* Add configure option to set system-paths for building in non-standard prefix.
+* Support NM_VPN_PLUGIN_DEBUG environment variable to control debug
+  logging from NetworkManager.
+* Updated Czech, German, Spanish, Indonesian, Polish, Brazilian Portuguese
+  translations
+* Various cleanups
+
+
 =======================================================
 NetworkManager-libreswan-1.2.2
 Overview of changes since NetworkManager-libreswan-1.2
