@@ -10,7 +10,7 @@ This is a new stable release of NetworkManager-libreswan.  Notable changes inclu
 * Split libnm-vpn-plugin-libreswan.so into a GTK-free core plugin
   usable by nmcli and a UI plugin for nm-applet and gnome components.
 * Add configure option to set system-paths for building in non-standard prefix.
-* Support NM_VPN_PLUGIN_DEBUG environment variable to control debug
+* Support NM_VPN_LOG_LEVEL environment variable to control debug
   logging from NetworkManager.
 * Updated Czech, German, Spanish, Indonesian, Polish, Brazilian Portuguese
   translations
