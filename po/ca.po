@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-13 22:52+0100\n"
-"PO-Revision-Date: 2016-03-12 09:02+0100\n"
+"POT-Creation-Date: 2016-09-07 21:02+0200\n"
+"PO-Revision-Date: 2016-09-06 17:55+0200\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -19,52 +19,183 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../auth-dialog/main.c:174
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "Client IPsec VPN"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+"Client basat en el Libreswan per a xarxes privades virtuals IPsec basades en "
+"IKEv1"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Suport per configurar connexions de xarxes privades virtuals IPsec basades "
+"en IKEv1"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Compatible amb servidors VPN Libreswan i Cisco IPsec."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "Els desenvolupadors del NetworkManager"
+
+#: ../auth-dialog/main.c:165
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "Autentica la VPN %s"
 
-#: ../auth-dialog/main.c:191
+#: ../auth-dialog/main.c:182
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: ../auth-dialog/main.c:201
+#: ../auth-dialog/main.c:192
 msgid "Group Password:"
 msgstr "Contrasenya de grup:"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "Autentica la VPN"
 
-#: ../auth-dialog/main.c:246
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "Contrasenya de _grup:"
 
-#: ../auth-dialog/main.c:496
+#: ../auth-dialog/main.c:487
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "Us heu d'autenticar per poder accedir a la xarxa privada virtual «%s»."
 
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
-msgid "Network"
-msgstr "Xarxa"
-
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
-msgid "Request VPN authentication"
-msgstr "Demana l'autenticació de la VPN"
-
-#: ../properties/nm-libreswan.c:64
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "VPN basada en IPsec"
 
-#: ../properties/nm-libreswan.c:65
+#: ../properties/nm-libreswan-editor-plugin.c:44
 msgid "IPsec based VPN using IKEv1"
 msgstr "VPN basada en IPsec usant IKEv1"
 
-#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
 msgid "Can't open file '%s': %s"
 msgstr "No s'ha pogut obrir el fitxer «%s» %s"
+
+#: ../properties/nm-libreswan-editor-plugin.c:126
+#, c-format
+msgid "Missing \"conn\" section in \"%s\""
+msgstr "Secció absent «conn» a «%s»"
+
+#: ../properties/nm-libreswan-editor-plugin.c:167
+#, c-format
+msgid "Error writing to file '%s': %s"
+msgstr "S'ha produït un error mentre s'escrivia el fitxer «%s»: %s"
+
+#: ../src/nm-libreswan-service.c:1449
+msgid "A password is required."
+msgstr "Cal una contrasenya."
+
+#: ../src/nm-libreswan-service.c:1833
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"No s'ha pogut processar la sol·licitud perquè la configuració de la connexió "
+"VPN no era vàlida."
+
+#: ../src/nm-libreswan-service.c:1847
+msgid "Unhandled pending authentication."
+msgstr "Autenticació pendent no gestionada"
+
+#: ../src/nm-libreswan-service.c:1989
+msgid "Don't quit when VPN connection terminates"
+msgstr "No surtis quan s'acabi la connexió VPN"
+
+#: ../src/nm-libreswan-service.c:1990
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+"Habilita el registre de depuració amb missatges (pot exposar les "
+"contrasenyes)"
+
+#: ../src/nm-libreswan-service.c:1991
+msgid "D-Bus name to use for this instance"
+msgstr "Nom D-BUS a usar per a aquesta instància"
+
+#: ../src/nm-libreswan-service.c:2014
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Aquest servei proveeix funcionalitat IPsec VPN integrada per al "
+"NetworkManager."
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr "S'ha produït un error quan s'escrivia la configuració: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:185
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "l'objecte de classe «%s» no té una propietat anomenada «%s»"
+
+#: ../shared/nm-utils/nm-shared-utils.c:192
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "la propietat «%s» de l'objecte classe «%s» no es pot escriure"
+
+#: ../shared/nm-utils/nm-shared-utils.c:199
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"la propietat «%s» de construcció per a l'objecte «%s» no es pot establir "
+"després de la construcció"
+
+#: ../shared/nm-utils/nm-shared-utils.c:207
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+"«%s::%s» no és un nom de propietat vàlid; «%s» no és un subtipus GObject"
+
+#: ../shared/nm-utils/nm-shared-utils.c:216
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+"no s'ha pogut establir la propietat «%s» del tipus «%s» a partir del valor "
+"de tipus «%s»"
+
+#: ../shared/nm-utils/nm-shared-utils.c:227
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"el valor «%s» de tipus «%s» no és vàlid o està fora de rang per a la "
+"propietat «%s» de tipus «%s»"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "fitxer «%s» de connector absent"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "no s'ha pogut carregar el connector d'editor: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "no es pot carregar la fàbrica %s des del connector: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr ""
+"s'ha produït un error desconegut quan es creava la instància de l'editor"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "<b>General</b>"
@@ -114,42 +245,11 @@ msgstr "A_vançat"
 msgid " "
 msgstr " "
 
-#: ../src/nm-libreswan-service.c:1348
-msgid "A password is required."
-msgstr "Cal una contrasenya."
+#~ msgid "Network"
+#~ msgstr "Xarxa"
 
-#: ../src/nm-libreswan-service.c:1734
-msgid ""
-"Could not process the request because the VPN connection settings were "
-"invalid."
-msgstr ""
-"No s'ha pogut processar la sol·licitud perquè la configuració de la connexió "
-"VPN no era vàlida."
-
-#: ../src/nm-libreswan-service.c:1748
-msgid "Unhandled pending authentication."
-msgstr "Autenticació pendent no gestionada"
-
-#: ../src/nm-libreswan-service.c:1890
-msgid "Don't quit when VPN connection terminates"
-msgstr "No surtis quan s'acabi la connexió VPN"
-
-#: ../src/nm-libreswan-service.c:1891
-msgid "Enable verbose debug logging (may expose passwords)"
-msgstr ""
-"Habilita el registre de depuració amb missatges (pot exposar les "
-"contrasenyes)"
-
-#: ../src/nm-libreswan-service.c:1892
-msgid "D-Bus name to use for this instance"
-msgstr "Nom D-BUS a usar per a aquesta instància"
-
-#: ../src/nm-libreswan-service.c:1915
-msgid ""
-"This service provides integrated IPsec VPN capability to NetworkManager."
-msgstr ""
-"Aquest servei proveeix funcionalitat IPsec VPN integrada per al "
-"NetworkManager."
+#~ msgid "Request VPN authentication"
+#~ msgstr "Demana l'autenticació de la VPN"
 
 #~ msgid "IPsec, IKEv1, IKEv2 based VPN"
 #~ msgstr "VPN basada en IPsec, IKEv1 i IKEv2"
