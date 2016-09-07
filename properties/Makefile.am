@@ -44,7 +44,7 @@ libnm_vpn_plugin_libreswan_la_SOURCES = \
 
 libnm_vpn_plugin_libreswan_la_LIBADD = \
     $(LIBNM_LIBS) \
-    $(LD_LIBS) \
+    $(DL_LIBS) \
     $(NULL)
 
 libnm_vpn_plugin_libreswan_la_LDFLAGS = \
