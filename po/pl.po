@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-17 18:53+0200\n"
-"PO-Revision-Date: 2016-08-17 18:54+0200\n"
+"POT-Creation-Date: 2016-09-10 00:14+0200\n"
+"PO-Revision-Date: 2016-09-10 00:15+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -141,7 +141,7 @@ msgstr "Błąd podczas zapisywania konfiguracji: %s"
 #: ../shared/nm-utils/nm-shared-utils.c:185
 #, c-format
 msgid "object class '%s' has no property named '%s'"
-msgstr "klasa obiektów „%s” nie posiada właściwości o nazwie „%s”"
+msgstr "klasa obiektów „%s” nie ma właściwości o nazwie „%s”"
 
 #: ../shared/nm-utils/nm-shared-utils.c:192
 #, c-format
