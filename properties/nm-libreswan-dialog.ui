@@ -308,7 +308,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes"> </col>
+        <col id="0"> </col>
       </row>
     </data>
   </object>
@@ -319,7 +319,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes"> </col>
+        <col id="0"> </col>
       </row>
     </data>
   </object>
