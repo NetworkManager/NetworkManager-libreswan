@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-10 00:14+0200\n"
-"PO-Revision-Date: 2016-09-10 00:15+0200\n"
+"POT-Creation-Date: 2016-10-03 21:52+0200\n"
+"PO-Revision-Date: 2016-10-03 21:53+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -69,7 +69,7 @@ msgstr "Hasło g_rupy:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
 "Aby uzyskać dostęp do wirtualnej sieci prywatnej „%s”, należy dokonać "
 "uwierzytelnienia."
@@ -85,17 +85,17 @@ msgstr "VPN oparte na IPsec, używające IKEv1"
 #: ../properties/nm-libreswan-editor-plugin.c:80
 #: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
-msgid "Can't open file '%s': %s"
+msgid "Can’t open file “%s”: %s"
 msgstr "Nie można otworzyć pliku „%s”: %s"
 
 #: ../properties/nm-libreswan-editor-plugin.c:126
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
+msgid "Missing “conn” section in “%s”"
 msgstr "Brak sekcji „conn” w „%s”"
 
 #: ../properties/nm-libreswan-editor-plugin.c:167
 #, c-format
-msgid "Error writing to file '%s': %s"
+msgid "Error writing to file “%s”: %s"
 msgstr "Błąd podczas zapisywania do pliku „%s”: %s"
 
 #: ../src/nm-libreswan-service.c:1449
@@ -115,7 +115,7 @@ msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
 #: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
+msgid "Don’t quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
 #: ../src/nm-libreswan-service.c:1990
@@ -197,8 +197,8 @@ msgid "unknown error creating editor instance"
 msgstr "nieznany błąd podczas tworzenia wystąpienia edytora"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>Ogólne</b>"
+msgid "General"
+msgstr "Ogólne"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
@@ -239,7 +239,3 @@ msgstr "Algorytmy fazy pierwszej:"
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Ad_vanced"
 msgstr "Zaa_wansowane"
-
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
