@@ -77,7 +77,7 @@ import_from_file (NMVpnEditorPlugin *self,
 	if (fd == -1) {
 		errsv = errno;
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, 0,
-		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
+		             _("Can’t open file “%s”: %s"), path, g_strerror (errsv));
 		return NULL;
 	}
 
@@ -123,7 +123,7 @@ import_from_file (NMVpnEditorPlugin *self,
 
 	if (!has_conn) {
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FILE_NOT_VPN,
-		             _("Missing \"conn\" section in \"%s\""), path);
+		             _("Missing “conn” section in “%s”"), path);
 		g_object_unref (connection);
 		return NULL;
 	}
@@ -146,7 +146,7 @@ export_to_file (NMVpnEditorPlugin *self,
 	if (fd == -1) {
 		errsv = errno;
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
-		             _("Can't open file '%s': %s"), path, g_strerror (errsv));
+		             _("Can’t open file “%s”: %s"), path, g_strerror (errsv));
 		return FALSE;
 	}
 
@@ -164,7 +164,7 @@ export_to_file (NMVpnEditorPlugin *self,
 	                                &local)) {
 		g_close (fd, NULL);
 		g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR_FAILED,
-		             _("Error writing to file '%s': %s"), path, local->message);
+		             _("Error writing to file “%s”: %s"), path, local->message);
 		return FALSE;
 	}
 
