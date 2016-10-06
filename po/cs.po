@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-06-24 16:48+0000\n"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2016-10-03 19:54+0000\n"
 "PO-Revision-Date: 2016-06-30 14:38+0100\n"
 "Last-Translator: Zdeněk Hataš <zdenek.hatas@gmail.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -69,7 +69,7 @@ msgstr "Heslo _skupiny:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "Pro přístup do VPN „%s“ se musí provést ověření."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
@@ -83,18 +83,17 @@ msgstr "VPN pomocí IPsec s použitím IKEv1"
 #: ../properties/nm-libreswan-editor-plugin.c:80
 #: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
-msgid "Can't open file '%s': %s"
+msgid "Can’t open file “%s”: %s"
 msgstr "Nelze otevřít soubor „%s“: %s"
 
 #: ../properties/nm-libreswan-editor-plugin.c:126
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
+msgid "Missing “conn” section in “%s”"
 msgstr "Chybějící sekce „conn“ v „%s“"
 
 #: ../properties/nm-libreswan-editor-plugin.c:167
 #, c-format
-#| msgid "Can't open file '%s': %s"
-msgid "Error writing to file '%s': %s"
+msgid "Error writing to file “%s”: %s"
 msgstr "Chyba při zápisu do souboru „%s“: %s"
 
 #: ../src/nm-libreswan-service.c:1449
@@ -113,7 +112,7 @@ msgid "Unhandled pending authentication."
 msgstr "Neošetřené čekající ověření."
 
 #: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
+msgid "Don’t quit when VPN connection terminates"
 msgstr "Neskončit, dokud se spojení VPN ukončuje"
 
 #: ../src/nm-libreswan-service.c:1990
@@ -190,8 +189,8 @@ msgid "unknown error creating editor instance"
 msgstr "neznámá chyba vytváření instance editoru"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>Obecné</b>"
+msgid "General"
+msgstr "Obecné"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
@@ -233,6 +232,3 @@ msgstr "Algoritmy Fáze1:"
 msgid "Ad_vanced"
 msgstr "P_okročilé"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
