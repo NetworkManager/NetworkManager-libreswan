@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager Libreswan\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-07-13 11:28+0000\n"
-"PO-Revision-Date: 2016-09-23 21:16+0200\n"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2016-10-03 19:54+0000\n"
+"PO-Revision-Date: 2016-10-13 16:29+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: de <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -70,7 +70,7 @@ msgstr "_Gruppenpasswort:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
 "Sie müssen sich legitimieren, um auf das Virtuelle private Netzwerk »%s« "
 "zugreifen zu können."
@@ -86,17 +86,17 @@ msgstr "IPsec-basiertes VPN mit IKEv1"
 #: ../properties/nm-libreswan-editor-plugin.c:80
 #: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
-msgid "Can't open file '%s': %s"
+msgid "Can’t open file “%s”: %s"
 msgstr "Datei »%s« kann nicht geöffnet werden: %s"
 
 #: ../properties/nm-libreswan-editor-plugin.c:126
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
+msgid "Missing “conn” section in “%s”"
 msgstr "Abschnitt »conn« in »%s« fehlt"
 
 #: ../properties/nm-libreswan-editor-plugin.c:167
 #, c-format
-msgid "Error writing to file '%s': %s"
+msgid "Error writing to file “%s”: %s"
 msgstr "Fehler beim Schreiben in die Datei »%s«: %s"
 
 #: ../src/nm-libreswan-service.c:1449
@@ -116,7 +116,7 @@ msgid "Unhandled pending authentication."
 msgstr "Nicht verarbeitete, ausstehende Legitimierung."
 
 #: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
+msgid "Don’t quit when VPN connection terminates"
 msgstr "Nicht bei Abbruch der VPN-Verbindung beenden"
 
 #: ../src/nm-libreswan-service.c:1990
@@ -197,8 +197,8 @@ msgid "unknown error creating editor instance"
 msgstr "Unbekannter Fehler beim Erstellen der Editor-Instanz"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>Allgemein</b>"
+msgid "General"
+msgstr "Allgemein"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
@@ -240,9 +240,8 @@ msgstr "Phase1-Algorithmen:"
 msgid "Ad_vanced"
 msgstr "Er_weitert"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
+#~ msgid " "
+#~ msgstr " "
 
 #~ msgid "Network"
 #~ msgstr "Netzwerk"
