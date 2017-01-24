@@ -1,4 +1,16 @@
 ========================================================
+NetworkManager-libreswan-1.2.6
+Overview of changes since NetworkManager-libreswan-1.2.4
+========================================================
+
+This is a new stable release of NetworkManager-libreswan.  Notable changes include:
+
+* Updated Catalan, Czech, German, Spanish, Hungarian, Indonesian, Lithuanian,
+  Polish, Serbian, Serbian Latin, Swedish translations
+* Fix translatable texts and use Unicode
+* Minor code cleanups and build fixes
+
+========================================================
 NetworkManager-libreswan-1.2.4
 Overview of changes since NetworkManager-libreswan-1.2.2
 ========================================================
