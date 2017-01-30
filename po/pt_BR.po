@@ -6,14 +6,14 @@
 # Fábio Nogueira <deb-user-ba@ubuntu.com>
 # Henrique P Machado <zehrique@gmail.com>, 2008
 # Enrico Nicoletto <liverig@gmail.com>, 2013.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2016.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=Network"
-"Manager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-06-24 10:16+0000\n"
-"PO-Revision-Date: 2016-06-25 20:03-0200\n"
+"Manager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2016-10-03 19:54+0000\n"
+"PO-Revision-Date: 2017-01-30 14:08-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Virtaal 1.0.0-beta1\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -73,9 +73,10 @@ msgstr "Senha do _grupo:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+#| msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Você precisa se autenticar para acessar a Rede Privada Virtual (VPN) \"%s\"."
+"Você precisa se autenticar para acessar a Rede Privada Virtual (VPN) “%s”."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
@@ -88,19 +89,21 @@ msgstr "VPN baseada em IPsec usando IKEv1"
 #: ../properties/nm-libreswan-editor-plugin.c:80
 #: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
-msgid "Can't open file '%s': %s"
-msgstr "Não foi possível abrir o arquivo \"%s\": %s"
+#| msgid "Can't open file '%s': %s"
+msgid "Can’t open file “%s”: %s"
+msgstr "Não foi possível abrir o arquivo “%s”: %s"
 
 #: ../properties/nm-libreswan-editor-plugin.c:126
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
-msgstr "Faltando seção \"conn\" em \"%s\""
+#| msgid "Missing \"conn\" section in \"%s\""
+msgid "Missing “conn” section in “%s”"
+msgstr "Faltando seção “conn” em “%s”"
 
 #: ../properties/nm-libreswan-editor-plugin.c:167
 #, c-format
-#| msgid "Can't open file '%s': %s"
-msgid "Error writing to file '%s': %s"
-msgstr "Erro ao gravar o arquivo \"%s\": %s"
+#| msgid "Error writing to file '%s': %s"
+msgid "Error writing to file “%s”: %s"
+msgstr "Erro ao gravar o arquivo “%s”: %s"
 
 #: ../src/nm-libreswan-service.c:1449
 msgid "A password is required."
@@ -119,7 +122,8 @@ msgid "Unhandled pending authentication."
 msgstr "Autenticação pendente não lidada."
 
 #: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
+#| msgid "Don't quit when VPN connection terminates"
+msgid "Don’t quit when VPN connection terminates"
 msgstr "Não sair quando a conexão VPN terminar"
 
 #: ../src/nm-libreswan-service.c:1990
@@ -145,34 +149,34 @@ msgstr "Erro ao gravar a configuração: %s"
 #: ../shared/nm-utils/nm-shared-utils.c:185
 #, c-format
 msgid "object class '%s' has no property named '%s'"
-msgstr "a classe de objeto \"%s\" não possui uma propriedade chamada \"%s\""
+msgstr "a classe de objeto “%s” não possui uma propriedade chamada “%s”"
 
 #: ../shared/nm-utils/nm-shared-utils.c:192
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
-msgstr "a propriedade \"%s\" da classe de objeto \"%s\" não pode ser escrita"
+msgstr "a propriedade “%s” da classe de objeto “%s” não pode ser escrita"
 
 #: ../shared/nm-utils/nm-shared-utils.c:199
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"propriedade de construtor \"%s\" para objeto \"%s\" não pode ser definido "
-"após construção"
+"propriedade de construtor “%s” para objeto “%s” não pode ser definido após "
+"construção"
 
 #: ../shared/nm-utils/nm-shared-utils.c:207
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
-"\"%s::%s\" não é um nome de propriedade válido; \"%s\" não é um subtipo de "
+"“%s::%s” não é um nome de propriedade válido; “%s” não é um subtipo de "
 "GObject"
 
 #: ../shared/nm-utils/nm-shared-utils.c:216
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
-"não foi possível definir a propriedade \"%s\" de tipo \"%s\" a partir do "
-"valor de tipo \"%s\""
+"não foi possível definir a propriedade “%s” de tipo “%s” a partir do valor "
+"de tipo “%s”"
 
 #: ../shared/nm-utils/nm-shared-utils.c:227
 #, c-format
@@ -180,13 +184,13 @@ msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"o valor \"%s\" de tipo \"%s\" é inválido ou fora do intervalo da propriedade "
-"\"%s\" de tipo \"%s\""
+"o valor “%s” de tipo “%s” é inválido ou fora do intervalo da propriedade "
+"“%s” de tipo “%s”"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
 #, c-format
 msgid "missing plugin file \"%s\""
-msgstr "faltando arquivo de plug-in \"%s\""
+msgstr "faltando arquivo de plug-in “%s”"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
 #, c-format
@@ -203,8 +207,9 @@ msgid "unknown error creating editor instance"
 msgstr "erro desconhecido ao criar instância de editor"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>Geral</b>"
+#| msgid "<b>General</b>"
+msgid "General"
+msgstr "Geral"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
@@ -246,9 +251,8 @@ msgstr "Algoritmos da fase 1:"
 msgid "Ad_vanced"
 msgstr "A_vançado"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
+#~ msgid " "
+#~ msgstr " "
 
 #~ msgid "Network"
 #~ msgstr "Rede"
