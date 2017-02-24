@@ -13,13 +13,11 @@ ACLOCAL_AMFLAGS = -I m4
 plugindir = $(libdir)/NetworkManager
 plugin_LTLIBRARIES =
 
+libexec_PROGRAMS =
+
 SUBDIRS = \
 	src \
 	po
-
-if WITH_GNOME
-SUBDIRS += auth-dialog
-endif
 
 ###############################################################################
 
@@ -139,6 +137,32 @@ EXTRA_DIST += \
 	properties/libnm-vpn-plugin-libreswan.ver \
 	properties/libnm-vpn-plugin-libreswan-editor.ver \
 	properties/nm-libreswan-dialog.ui
+
+###############################################################################
+
+if WITH_GNOME
+libexec_PROGRAMS += auth-dialog/nm-libreswan-auth-dialog
+endif
+
+auth_dialog_nm_libreswan_auth_dialog_CPPFLAGS = \
+	-DICONDIR=\""$(datadir)/pixmaps"\" \
+	-DBINDIR=\""$(bindir)"\" \
+	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
+	-I$(srcdir)/shared \
+	$(GLIB_CFLAGS) \
+	$(LIBNM_CFLAGS) \
+	$(LIBNMA_CFLAGS) \
+	$(GTK_CFLAGS) \
+	$(LIBSECRET_CFLAGS)
+
+auth_dialog_nm_libreswan_auth_dialog_SOURCES = \
+	auth-dialog/main.c
+
+auth_dialog_nm_libreswan_auth_dialog_LDADD = \
+	$(LIBNM_LIBS) \
+	$(GTK_LIBS) \
+	$(LIBNMA_LIBS) \
+	$(LIBSECRET_LIBS)
 
 ###############################################################################
 

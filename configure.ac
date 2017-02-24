@@ -160,7 +160,6 @@ fi
 AC_CONFIG_FILES([
 Makefile
 src/Makefile
-auth-dialog/Makefile
 po/Makefile.in
 ])
 AC_OUTPUT
