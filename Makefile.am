@@ -1,10 +1,26 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = shared properties src po
+EXTRA_DIST =
+
+CLEANFILES =
+
+DISTCLEANFILES =
+
+DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
+
+ACLOCAL_AMFLAGS = -I m4
+
+SUBDIRS = \
+	shared \
+	properties \
+	src \
+	po
 
 if WITH_GNOME
 SUBDIRS += auth-dialog
 endif
+
+###############################################################################
 
 dbusservicedir = $(sysconfdir)/dbus-1/system.d
 dbusservice_DATA = nm-libreswan-service.conf
@@ -40,19 +56,21 @@ nm-libreswan-service.name: $(srcdir)/nm-libreswan-service.name.in
 	    -e 's|[@]PLUGINDIR[@]/|@NM_PLUGIN_DIR_NAME_FILE@|g' \
 	    $< >$@
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
+EXTRA_DIST += \
+	nm-libreswan-service.name.in \
+	$(dbusservice_DATA)  \
+	$(appdata_in_files)  \
+	$(appdata_files)      \
+	intltool-extract.in  \
+	intltool-merge.in    \
+	intltool-update.in
 
-EXTRA_DIST = nm-libreswan-service.name.in \
-             $(dbusservice_DATA)  \
-             $(appdata_in_files)  \
-             $(appdata_files)      \
-             intltool-extract.in  \
-             intltool-merge.in    \
-             intltool-update.in
+CLEANFILES += \
+	$(nmvpnservice_DATA) \
+	$(appdata_files)
 
-CLEANFILES = $(nmvpnservice_DATA) \
-             $(appdata_files)
+DISTCLEANFILES += \
+	intltool-extract \
+	intltool-merge \
+	intltool-update
 
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update
-
-ACLOCAL_AMFLAGS = -I m4
