@@ -54,6 +54,21 @@ common_CFLAGS = \
 
 ###############################################################################
 
+noinst_LTLIBRARIES += properties/libutils.la
+
+properties_libutils_la_SOURCES = \
+	shared/utils.c \
+	shared/utils.h \
+	shared/nm-utils/nm-vpn-plugin-utils.c \
+	shared/nm-utils/nm-vpn-plugin-utils.h \
+	shared/nm-service-defines.h
+
+properties_libutils_la_CPPFLAGS = \
+	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
+	-DNM_PLUGIN_DIR=\"$(NM_PLUGIN_DIR)\" \
+	$(common_CFLAGS) \
+	$(LIBNM_CFLAGS)
+
 plugin_LTLIBRARIES += properties/libnm-vpn-plugin-libreswan.la
 
 properties_libnm_vpn_plugin_libreswan_la_CFLAGS = \
@@ -63,13 +78,10 @@ properties_libnm_vpn_plugin_libreswan_la_CFLAGS = \
 	$(LIBNM_CFLAGS)
 
 properties_libnm_vpn_plugin_libreswan_la_SOURCES = \
-	shared/utils.c \
-	shared/utils.h \
-	shared/nm-utils/nm-vpn-plugin-utils.c \
-	shared/nm-utils/nm-vpn-plugin-utils.h \
 	$(plugin_sources)
 
 properties_libnm_vpn_plugin_libreswan_la_LIBADD = \
+	properties/libutils.la \
 	$(LIBNM_LIBS) \
 	$(DL_LIBS)
 
@@ -184,17 +196,6 @@ src_cppflags = \
 	$(LIBNM_CFLAGS) \
 	$(LIBNL_CFLAGS)
 
-src_shared_sources = \
-	shared/nm-utils/nm-shared-utils.c \
-	shared/nm-utils/nm-shared-utils.h \
-	shared/utils.c \
-	shared/utils.h \
-	shared/nm-service-defines.h \
-	$(NULL)
-
-###############################################################################
-
-# D-Bus stuff
 noinst_LTLIBRARIES += src/libnm-libreswan-helper-service-dbus.la
 
 nodist_src_libnm_libreswan_helper_service_dbus_la_SOURCES = \
@@ -214,19 +215,32 @@ src/nm-libreswan-helper-service-dbus.h: src/nm-libreswan-helper-service.xml
 src/nm-libreswan-helper-service-dbus.c: src/nm-libreswan-helper-service-dbus.h
 	@true
 
+noinst_LTLIBRARIES += src/libutils.la
+
+src_libutils_la_SOURCES = \
+	shared/nm-utils/nm-shared-utils.c \
+	shared/nm-utils/nm-shared-utils.h \
+	shared/utils.c \
+	shared/utils.h \
+	shared/nm-service-defines.h
+
+src_libutils_la_CPPFLAGS = \
+	$(src_cppflags)
+
+src_libutils_la_LIBADD = \
+	$(GLIB_LIBS) \
+	$(LIBNM_LIBS)
+
 ###############################################################################
 
 libexec_PROGRAMS += src/nm-libreswan-service
-
-src_nm_libreswan_service_SOURCES = \
-	$(src_shared_sources) \
-	src/nm-libreswan-service.c
 
 src_nm_libreswan_service_CPPFLAGS = \
 	$(src_cppflags)
 
 src_nm_libreswan_service_LDADD = \
 	src/libnm-libreswan-helper-service-dbus.la \
+	src/libutils.la \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNL_LIBS) \
@@ -238,15 +252,13 @@ $(src_nm_libreswan_service_OBJECTS): src/nm-libreswan-helper-service-dbus.h
 
 libexec_PROGRAMS += src/nm-libreswan-service-helper
 
-src_nm_libreswan_service_helper_SOURCES = \
-	$(src_shared_sources) \
-	src/nm-libreswan-service-helper.c
-
 src_nm_libreswan_service_helper_CPPFLAGS = \
 	$(src_cppflags)
 
 src_nm_libreswan_service_helper_LDADD = \
 	src/libnm-libreswan-helper-service-dbus.la \
+	src/libutils.la \
+	$(GLIB_LIBS) \
 	$(LIBNM_LIBS)
 
 $(src_nm_libreswan_service_helper_OBJECTS): src/nm-libreswan-helper-service-dbus.h
