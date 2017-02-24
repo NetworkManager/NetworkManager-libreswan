@@ -14,6 +14,10 @@ AC_CONFIG_HEADERS([config.h])
 
 AC_USE_SYSTEM_EXTENSIONS
 
+dnl Prefer gcc-* variants; the ones libtool would choose don't work with LTO
+AC_CHECK_TOOLS(AR, [gcc-ar ar], false)
+AC_CHECK_TOOLS(RANLIB, [gcc-ranlib ranlib], :)
+
 dnl
 dnl Require programs
 dnl
@@ -139,6 +143,8 @@ NM_VPN_SERVICE_DIR=`$PKG_CONFIG --define-variable prefix='\${prefix}' --variable
 AC_SUBST(NM_VPN_SERVICE_DIR)
 
 NM_COMPILER_WARNINGS([yes])
+NM_LTO
+NM_LD_GC
 
 NM_PLUGIN_DIR="$libdir/NetworkManager"
 AC_SUBST(NM_PLUGIN_DIR)
@@ -172,3 +178,6 @@ echo "  --enable-absolute-paths=$enable_absolute_paths"
 echo "  --enable-more-warnings=$set_more_warnings"
 echo "  --with-nm-ipsec-conf=$with_nm_ipsec_conf"
 echo "  --with-nm-ipsec-secrets-dir=$with_nm_ipsec_secrets_dir"
+echo "  --enable-lto=$enable_lto"
+echo "  --enable-ld-gc=$enable_ld_gc"
+echo ""
