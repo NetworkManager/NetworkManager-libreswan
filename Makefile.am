@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign subdir-objects
 
 EXTRA_DIST =
 
@@ -13,10 +13,13 @@ ACLOCAL_AMFLAGS = -I m4
 plugindir = $(libdir)/NetworkManager
 plugin_LTLIBRARIES =
 
+noinst_LTLIBRARIES =
+
 libexec_PROGRAMS =
 
+noinst_PROGRAMS =
+
 SUBDIRS = \
-	src \
 	po
 
 ###############################################################################
@@ -166,6 +169,110 @@ auth_dialog_nm_libreswan_auth_dialog_LDADD = \
 
 ###############################################################################
 
+src_cppflags = \
+	-DBINDIR=\"$(bindir)\" \
+	-DPREFIX=\""$(prefix)"\" \
+	-DLIBDIR=\""$(libdir)"\" \
+	-DLIBEXECDIR=\""$(libexecdir)"\" \
+	-DLOCALSTATEDIR=\""$(localstatedir)"\" \
+	-DDATADIR=\"$(datadir)\" \
+	-DNM_LIBRESWAN_LOCALEDIR=\"$(datadir)/locale\" \
+	-I$(srcdir)/shared \
+	-I$(builddir)/src \
+	-I$(srcdir)/src \
+	$(GLIB_CFLAGS) \
+	$(LIBNM_CFLAGS) \
+	$(LIBNL_CFLAGS)
+
+src_shared_sources = \
+	shared/nm-utils/nm-shared-utils.c \
+	shared/nm-utils/nm-shared-utils.h \
+	shared/utils.c \
+	shared/utils.h \
+	shared/nm-service-defines.h \
+	$(NULL)
+
+###############################################################################
+
+# D-Bus stuff
+noinst_LTLIBRARIES += src/libnm-libreswan-helper-service-dbus.la
+
+nodist_src_libnm_libreswan_helper_service_dbus_la_SOURCES = \
+	src/nm-libreswan-helper-service-dbus.c \
+	src/nm-libreswan-helper-service-dbus.h
+
+src_libnm_libreswan_helper_service_dbus_la_CPPFLAGS = $(filter-out -DGLIB_VERSION_MAX_ALLOWED%,$(src_cppflags))
+
+src/nm-libreswan-helper-service-dbus.h: src/nm-libreswan-helper-service.xml
+	@$(MKDIR_P) src
+	$(AM_V_GEN) gdbus-codegen \
+		--generate-c-code $(basename $@) \
+		--c-namespace NMDBus \
+		--interface-prefix org.freedesktop.NetworkManager \
+		$<
+
+src/nm-libreswan-helper-service-dbus.c: src/nm-libreswan-helper-service-dbus.h
+	@true
+
+###############################################################################
+
+libexec_PROGRAMS += src/nm-libreswan-service
+
+src_nm_libreswan_service_SOURCES = \
+	$(src_shared_sources) \
+	src/nm-libreswan-service.c
+
+src_nm_libreswan_service_CPPFLAGS = \
+	$(src_cppflags)
+
+src_nm_libreswan_service_LDADD = \
+	src/libnm-libreswan-helper-service-dbus.la \
+	$(GLIB_LIBS) \
+	$(LIBNM_LIBS) \
+	$(LIBNL_LIBS) \
+	-lutil
+
+$(src_nm_libreswan_service_OBJECTS): src/nm-libreswan-helper-service-dbus.h
+
+###############################################################################
+
+libexec_PROGRAMS += src/nm-libreswan-service-helper
+
+src_nm_libreswan_service_helper_SOURCES = \
+	$(src_shared_sources) \
+	src/nm-libreswan-service-helper.c
+
+src_nm_libreswan_service_helper_CPPFLAGS = \
+	$(src_cppflags)
+
+src_nm_libreswan_service_helper_LDADD = \
+	src/libnm-libreswan-helper-service-dbus.la \
+	$(LIBNM_LIBS)
+
+$(src_nm_libreswan_service_helper_OBJECTS): src/nm-libreswan-helper-service-dbus.h
+
+###############################################################################
+
+noinst_PROGRAMS += src/show-xfrm
+
+src_show_xfrm_CPPFLAGS = \
+	$(src_cppflags)
+
+src_show_xfrm_LDADD = \
+	$(LIBNL_LIBS) \
+	$(GLIB_LIBS)
+
+###############################################################################
+
+CLEANFILES += \
+	src/nm-libreswan-helper-service-dbus.h \
+	src/nm-libreswan-helper-service-dbus.c
+
+EXTRA_DIST += \
+	src/nm-libreswan-helper-service.xml
+
+###############################################################################
+
 EXTRA_DIST += \
 	shared/README \
 	shared/nm-utils/gsystem-local-alloc.h \
@@ -188,7 +295,7 @@ if WITH_LIBNM_GLIB
 # Install a file with full path to plugins for an old gnome-shell
 # https://bugzilla.gnome.org/show_bug.cgi?id=693590
 install-data-hook:
-	mkdir -p $(DESTDIR)$(sysconfdir)/NetworkManager/VPN
+	@$(MKDIR_P) $(DESTDIR)$(sysconfdir)/NetworkManager/VPN
 	sed -e "1s|^|# This file is obsoleted by a file in $(NM_VPN_SERVICE_DIR)\n\n|" \
 	    -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' \
 	    -e 's|[@]PLUGINDIR[@]|@NM_PLUGIN_DIR@|g' \

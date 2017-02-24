@@ -22,6 +22,7 @@ AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
+AC_PROG_MKDIR_P
 
 dnl
 dnl Required headers
@@ -159,7 +160,6 @@ fi
 
 AC_CONFIG_FILES([
 Makefile
-src/Makefile
 po/Makefile.in
 ])
 AC_OUTPUT
