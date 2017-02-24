@@ -6,6 +6,7 @@ AC_INIT(NetworkManager-libreswan,
         NetworkManager-libreswan)
 AM_INIT_AUTOMAKE([no-dist-gzip dist-xz])
 AM_MAINTAINER_MODE
+AM_SILENT_RULES([yes])
 
 AC_CONFIG_MACRO_DIR([m4])
 
