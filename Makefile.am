@@ -11,7 +11,6 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
 ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = \
-	shared \
 	properties \
 	src \
 	po
@@ -27,6 +26,26 @@ dbusservice_DATA = nm-libreswan-service.conf
 
 nmvpnservicedir = $(NM_VPN_SERVICE_DIR)
 nmvpnservice_DATA = nm-libreswan-service.name
+
+###############################################################################
+
+EXTRA_DIST += \
+	shared/README \
+	shared/nm-utils/gsystem-local-alloc.h \
+	shared/nm-utils/nm-glib.h \
+	shared/nm-utils/nm-macros-internal.h \
+	shared/nm-utils/nm-shared-utils.c \
+	shared/nm-utils/nm-shared-utils.h \
+	shared/nm-utils/nm-vpn-plugin-utils.c \
+	shared/nm-utils/nm-vpn-plugin-utils.h \
+	shared/nm-utils/nm-vpn-plugin-macros.h \
+	shared/nm-default.h \
+	shared/nm-service-defines.h \
+	shared/utils.c \
+	shared/utils.h \
+	$(NULL)
+
+###############################################################################
 
 if WITH_LIBNM_GLIB
 # Install a file with full path to plugins for an old gnome-shell
