@@ -1,17 +1,17 @@
 # Serbian translation for network-manager-libreswan.
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2016.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2017.
 # Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2016.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=Network"
-"Manager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-07-13 11:28+0000\n"
-"PO-Revision-Date: 2016-08-26 06:04+0200\n"
+"Manager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2016-10-03 19:54+0000\n"
+"PO-Revision-Date: 2017-02-12 18:23+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: srpski <gnome-sr@googlegroups.org>\n"
+"Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,8 @@ msgstr "Lozinka _grupe:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+#| msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
 "Morate da potvrdite identitet da biste mogli da pristupite virtuelnoj "
 "privatnoj mreži „%s“."
@@ -85,18 +86,20 @@ msgstr "VPN zasnovan na IPsec-u koristeći IKEv1"
 #: ../properties/nm-libreswan-editor-plugin.c:80
 #: ../properties/nm-libreswan-editor-plugin.c:149
 #, c-format
-msgid "Can't open file '%s': %s"
+#| msgid "Can't open file '%s': %s"
+msgid "Can’t open file “%s”: %s"
 msgstr "Ne mogu da otvorim datoteku „%s“: %s"
 
 #: ../properties/nm-libreswan-editor-plugin.c:126
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
+#| msgid "Missing \"conn\" section in \"%s\""
+msgid "Missing “conn” section in “%s”"
 msgstr "Nedostaje odeljak „conn“ u „%s“"
 
 #: ../properties/nm-libreswan-editor-plugin.c:167
 #, c-format
-#| msgid "Can't open file '%s': %s"
-msgid "Error writing to file '%s': %s"
+#| msgid "Error writing to file '%s': %s"
+msgid "Error writing to file “%s”: %s"
 msgstr "Greška pisanja u datoteku „%s“: %s"
 
 #: ../src/nm-libreswan-service.c:1449
@@ -114,7 +117,8 @@ msgid "Unhandled pending authentication."
 msgstr "Zakazano potvrđivanje identiteta nije ispravno."
 
 #: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
+#| msgid "Don't quit when VPN connection terminates"
+msgid "Don’t quit when VPN connection terminates"
 msgstr "Ne prekida kada se završi VPN veza"
 
 #: ../src/nm-libreswan-service.c:1990
@@ -190,8 +194,9 @@ msgid "unknown error creating editor instance"
 msgstr "nepoznata greška prilikom stvaranja primerka uređivača"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>Opšte</b>"
+#| msgid "<b>General</b>"
+msgid "General"
+msgstr "Opšte"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
@@ -233,9 +238,8 @@ msgstr "Algoritmi faze 1:"
 msgid "Ad_vanced"
 msgstr "_Napredno"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
+#~ msgid " "
+#~ msgstr " "
 
 #~ msgid "Network"
 #~ msgstr "Mreža"
