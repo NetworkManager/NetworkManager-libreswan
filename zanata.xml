@@ -1,0 +1,14 @@
+<!--
+	Maintainers:
+	do a "make -C po make -C po NetworkManager-libreswan.pot" before "zanata-cli push -''-push-type=both"
+-->
+
+<config xmlns="http://zanata.org/namespace/config/">
+	<url>https://vendors.zanata.redhat.com/</url>
+	<project>networkmanager-libreswan</project>
+	<project-version>RHEL-8.0</project-version>
+	<project-type>gettext</project-type>
+	<src-dir>po</src-dir>
+	<trans-dir>po</trans-dir>
+	<rules/>
+</config>
