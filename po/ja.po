@@ -2,272 +2,238 @@
 # Copyright (C) 2006 THE NetworkManager-vpnc's COPYRIGHT HOLDER
 # This file is distributed under the same license as the NetworkManager-vpnc package.
 # Satoru SATOH <ss@gnome.gr.jp>, 2006.
-#
+# kmoriguc <kmoriguc@redhat.com>, 2017. #zanata
+# lrintel <lrintel@redhat.com>, 2017. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager-vpnc HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-23 04:10+0000\n"
-"PO-Revision-Date: 2013-10-03 14:18+0900\n"
-"Last-Translator: Hajime Taira <htaira@redhat.com>\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-16 10:52+0200\n"
+"PO-Revision-Date: 2017-05-19 12:59+0000\n"
+"Last-Translator: kmoriguc <kmoriguc@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Zanata 4.1.1\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
-#: ../auth-dialog/main.c:188
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN クライアント"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+"IKEv1 ベースの IPsec 仮想プライベートネットワーク向けの Libreswan ベースのク"
+"ライアント"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"IKEv1 ベースの IPsec 仮想プライベートネットワーク接続に関する設定のサポート"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Libreswan および Cisco IPsec VPN サーバーと互換性があります。"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "NetworkManager 開発者"
+
+#: ../auth-dialog/main.c:165
+#, c-format
+msgid "Authenticate VPN %s"
+msgstr "VPN %s を認証"
+
+#: ../auth-dialog/main.c:182
+msgid "Password:"
+msgstr "パスワード:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "グループパスワード:"
+
+#: ../auth-dialog/main.c:228
+msgid "Authenticate VPN"
+msgstr "VPN 認証"
+
+#: ../auth-dialog/main.c:237
+msgid "_Group Password:"
+msgstr "グループパスワード(_G):"
+
+#: ../auth-dialog/main.c:487
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgstr "仮想プライベートネットワーク '%s' にアクセスするには認証が必要です。"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "VPN 認証"
-
-#: ../auth-dialog/main.c:200
-msgid "Password:"
-msgstr "パスワード:"
-
-#: ../auth-dialog/main.c:202
-msgid "Group Password:"
-msgstr "グループパスワード:"
-
-#: ../auth-dialog/main.c:223
-msgid "_Group Password:"
-msgstr "グループパスワード(_G):"
-
-#: ../nm-libreswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (libreswan)"
-msgstr "IPsec ベースの VPN 接続マネージャー (libreswan)"
-
-#: ../nm-libreswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "VPN 接続を追加、削除または編集"
-
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "IPsec ベースの VPN"
 
-#: ../properties/nm-libreswan.c:48
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "IPsec, IKEv1, IKEv2 ベースの VPN"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN using IKEv1"
+msgstr "IKEv1 を使った IPsec ベースの VPN"
 
-#: ../properties/nm-libreswan.c:274
-msgid "Saved"
-msgstr "保存しました"
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:149
+#, c-format
+msgid "Can't open file '%s': %s"
+msgstr "ファイル '%s' を開けません: %s"
 
-#: ../properties/nm-libreswan.c:281
-msgid "Always Ask"
-msgstr "毎回求める"
+#: ../properties/nm-libreswan-editor-plugin.c:126
+#, c-format
+msgid "Missing \"conn\" section in \"%s\""
+msgstr "\"%s\" に \"conn\" セクションがありません"
 
-#: ../properties/nm-libreswan.c:288
-msgid "Not Required"
-msgstr "不要"
+#: ../properties/nm-libreswan-editor-plugin.c:167
+#, c-format
+msgid "Error writing to file '%s': %s"
+msgstr "ファイル '%s' への書き込みでエラー: %s"
+
+#: ../src/nm-libreswan-service.c:1449
+msgid "A password is required."
+msgstr "パスワードが必要です"
+
+#: ../src/nm-libreswan-service.c:1833
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "VPN 接続設定が無効のため、リクエストを処理できませんでした。"
+
+#: ../src/nm-libreswan-service.c:1847
+msgid "Unhandled pending authentication."
+msgstr "保留中の認証を未処理"
+
+#: ../src/nm-libreswan-service.c:1989
+msgid "Don't quit when VPN connection terminates"
+msgstr "終了時に VPN 接続を切断しない"
+
+#: ../src/nm-libreswan-service.c:1990
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+"詳細なデバッグログ機能を有効化する (パスワードが露出する可能性があります)"
+
+#: ../src/nm-libreswan-service.c:1991
+msgid "D-Bus name to use for this instance"
+msgstr "このインスタンスに使用する D-Bus 名"
+
+#: ../src/nm-libreswan-service.c:2014
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "このサービスは、統合 IPsec VPN 機能を NetworkManager に提供します。"
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr "config への書き込みでエラー: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:185
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "オブジェクトクラス '%s' には '%s' という名前のプロパティーがありません"
+
+#: ../shared/nm-utils/nm-shared-utils.c:192
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+"オブジェクトクラス '%s' のプロパティー '%s' は、書き込み可能ではありません"
+
+#: ../shared/nm-utils/nm-shared-utils.c:199
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"オブジェクト '%s' のコンストラクトプロパティー \"%s\" は構築後に設定できませ"
+"ん"
+
+#: ../shared/nm-utils/nm-shared-utils.c:207
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+"'%s::%s' は有効なプロパティー名ではありません。'%s' は GObject サブタイプでは"
+"ありません"
+
+#: ../shared/nm-utils/nm-shared-utils.c:216
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr "プロパティー '%s' (タイプ '%s') をタイプ '%s' の値から設定できません"
+
+#: ../shared/nm-utils/nm-shared-utils.c:227
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"値 \"%s\" (タイプ '%s') がプロパティー '%s' (タイプ '%s') に対して無効または"
+"範囲外です"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "プラグインファイル '%s' がありません"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "エディタープラグインを読み込めません: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "プラグインからファクトリー %s を読み込めません: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "エディターインスタンスの作成中に不明なエラー"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "<b>General</b>"
 msgstr "<b>全般</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "_Gateway:"
+msgstr "ゲートウェイ(_G):"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "パスワードを表示する"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "グループパスワード(_U):"
+msgid "_Secret:"
+msgstr "シークレット(_S):"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "ゲートウェイ(_G):"
+msgid "_User password:"
+msgstr "ユーザーパスワード(_U):"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "グループ名(_R):"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "ユーザーパスワード(_U):"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>オプション</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "ユーザー名:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "フェーズ2 アルゴリズム:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "ドメイン:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "フェーズ1 アルゴリズム:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "フェーズ2 アルゴリズム:"
+msgid "Ad_vanced"
+msgstr "高度な(_V)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "ドメイン:"
-
-#: ../src/nm-libreswan-service.c:877
-msgid "Don't quit when VPN connection terminates"
-msgstr "終了時に VPN 接続を切断しない"
-
-#: ../src/nm-libreswan-service.c:878
-msgid "Enable verbose debug logging (may expose passwords)"
-msgstr "詳細なデバッグログ機能を有効化する (パスワードが露出する可能性があります)"
-
-#: ../src/nm-libreswan-service.c:901
-msgid "nm-libreswan-service provides integrated IPsec VPN capability to NetworkManager."
-msgstr "nm-libreswan-service は NetworkManager に統合化された IPsec VPN 機能を提供します。"
-
-#~ msgid "_Secondary Password:"
-#~ msgstr "第二パスワード(_S):"
-
-#~ msgid "Connect _anonymously"
-#~ msgstr "匿名で接続(_A)"
-
-#~ msgid "Connect as _user:"
-#~ msgstr "ユーザで接続(_U):"
-
-#~ msgid "_Remember passwords for this session"
-#~ msgstr "このセッションのパスワードを記憶する(_R)"
-
-#~ msgid "_Save passwords in keyring"
-#~ msgstr "パスワードをキーリングに保存する(_S)"
-
-#~ msgid "Compatible Cisco VPN client (vpnc)"
-#~ msgstr "Cisco VPN 互換クライアント (vpnc)"
-
-#~ msgid "The following vpnc VPN connection will be created:"
-#~ msgstr "次の vpnc VPN 接続を作成します:"
-
-#~ msgid "Name:  %s"
-#~ msgstr "名前:  %s"
-
-#~ msgid "Gateway:  %s"
-#~ msgstr "ゲートウェイ:  %s"
-
-#~ msgid "Group Name:  %s"
-#~ msgstr "グループ名:  %s"
-
-#~ msgid "Username:  %s"
-#~ msgstr "ユーザ名:  %s"
-
-#~ msgid "Domain:  %s"
-#~ msgstr "ドメイン:  %s"
-
-#~ msgid "Routes:  %s"
-#~ msgstr "ルート:  %s"
-
-#~ msgid "NAT-Keepalive packet interval:  %s"
-#~ msgstr "NAT-Keepalive パケット間隔:  %s"
-
-#~ msgid "Enable Single DES"
-#~ msgstr "シングル DES を有効にする"
-
-#~ msgid "Disable NAT Traversal"
-#~ msgstr "NAT Traversal を無効にする"
-
-#~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr "接続の詳細は\"編集\"ボタンで変更できます。"
-
-#~ msgid "TCP tunneling not supported"
-#~ msgstr "TCP トンネリングはサポートされていません"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled through TCP which is currently not supported in the vpnc software.\n"
-#~ "\n"
-#~ "The connection can still be created, with TCP tunneling disabled, however it may not work as expected."
-#~ msgstr ""
-#~ "VPn 設定ファイル '%s' は VPN 通信が TCP を介してトンネルされるように指定していますが、今のところ vpnc はこの機能をサポートしていません。\n"
-#~ "\n"
-#~ "TCP トンネリングを無効にした上で接続を作成することはできますが期待どおりに動作しないかもしれません。"
-
-#~ msgid "Cannot import settings"
-#~ msgstr "設定をインポートできません"
-
-#~ msgid "The VPN settings file '%s' does not contain valid data."
-#~ msgstr "VPN 設定ファイル '%s' には適切なデータが含まれていません。"
-
-#~ msgid "Select file to import"
-#~ msgstr "インポートするファイルを選択"
-
-#~ msgid "Save as..."
-#~ msgstr "別名で保存..."
-
-#~ msgid "A file named \"%s\" already exists."
-#~ msgstr "ファイル \"%s\" は既にあります。"
-
-#~ msgid "Do you want to replace it with the one you are saving?"
-#~ msgstr "保存しようとしているファイルで上書きしますか?"
-
-#~ msgid "Failed to export configuration"
-#~ msgstr "設定のエクスポートに失敗"
-
-#~ msgid "Failed to save file %s"
-#~ msgstr "ファイル %s の保存に失敗"
-
-#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-#~ msgstr "<i>例: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#~ msgid "Connection na_me:"
-#~ msgstr "接続名(_M):"
-
-#~ msgid "Disable NAT _traversal"
-#~ msgstr "NAT Traversal を無効にする(_T)"
-
-#~ msgid "Enable _weak single DES encryption"
-#~ msgstr "弱いシングル DES 暗号を有効にする(_W)"
-
-#~ msgid "Import _Saved Configuration..."
-#~ msgstr "保存設定をインポート(_S)..."
-
-#~ msgid "Interval:"
-#~ msgstr "間隔:"
-
-#~ msgid "Name used to identify the connection to the private network, e.g. \"Campus VPN\" or \"Corporate Network\""
-#~ msgstr "例えば \"キャンパス VPN\" や \"社内ネットワーク\" などといったプライベートネットワークの接続を識別するための名前です。"
-
-#~ msgid "Override _user name"
-#~ msgstr "ユーザ名を上書き指定(_U)"
-
-#~ msgid "Please enter the information provided by your system administrator below. Do not enter your password here as you will be prompted when connecting."
-#~ msgstr "システム管理者が提供した情報を下に入力してください。接続時にきかれるまではパスワードは入力しないでください。"
-
-#~ msgid "Please note that the file you import is not a Cisco VPN or VPNC configuration file. Ask your adminstrator for the file."
-#~ msgstr "インポートしたファイルは Cisco VPN と VPNC の設定ファイルのいずれでもありません。管理者に尋ねてみて下さい。"
-
-#~ msgid "Use NAT _keepalive packets"
-#~ msgstr "NAT Keepalive パケットを使用(_K)"
-
-#~ msgid "Use _domain for authentication"
-#~ msgstr "認証にドメインを使用(_D)"
-
-#~ msgid "_Only use VPN connection for these addresses"
-#~ msgstr "これらのアドレスについてのみ VPN 接続を利用(_O)"
-
-#~ msgid "The VPN login failed because the user name and password were not accepted."
-#~ msgstr "VPN ログインに失敗。ユーザ名、パスワードが間違っています。"
-
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr "VPN ログインに失敗。VPN プログラムを起動できませんでした。"
-
-#~ msgid "The VPN login failed because the VPN program could not connect to the VPN server."
-#~ msgstr "VPN ログインに失敗。VPN プログラムは VPN サーバに接続できませんでした。"
-
-#~ msgid "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr "VPN ログインに失敗。VPN 設定オプションが間違っています。"
-
-#~ msgid "The VPN login failed because the VPN program received an invalid configuration from the VPN server."
-#~ msgstr "VPN ログインに失敗。VPN プログラムが VPN サーバから受け取った設定は適切なものではありません。"
-
-#~ msgid "<b>Required Information</b>"
-#~ msgstr "<b>必須情報</b>"
-
-#~ msgid "O_ptional Information"
-#~ msgstr "オプション情報(_P)"
+msgid " "
+msgstr " "
