@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-vpnc\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-11 18:22+0000\n"
-"PO-Revision-Date: 2013-09-22 19:59+0300\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2017-02-24 18:06+0000\n"
+"PO-Revision-Date: 2017-09-25 20:18+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -19,121 +19,239 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: ../auth-dialog/main.c:188
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN -asiakasohjelmisto"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Yhteensopiva Libreswan- ja Cisco IPsec VPN -palvelimien kanssa."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "NetworkManagerin kehittäjät"
+
+#: ../auth-dialog/main.c:165
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Yhteydenotto VPN-verkkoon \"%s\" vaatii kirjautumista."
+msgid "Authenticate VPN %s"
+msgstr "Todenna VPN %s"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Todenna VPN-yhteyden avaus"
-
-#: ../auth-dialog/main.c:200
-#| msgid "_Password:"
+#: ../auth-dialog/main.c:182
 msgid "Password:"
 msgstr "Salasana:"
 
-#: ../auth-dialog/main.c:202
-#| msgid "_Group Password:"
+#: ../auth-dialog/main.c:192
 msgid "Group Password:"
 msgstr "Ryhmän salasana:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:228
+msgid "Authenticate VPN"
+msgstr "Todenna VPN-yhteyden avaus"
+
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_Ryhmän salasana:"
 
-#: ../nm-libreswan.desktop.in.h:1
-#| msgid "VPN Connection Manager (vpnc)"
-msgid "IPsec Based VPN Connection Manager (libreswan)"
-msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (libreswan)"
+#: ../auth-dialog/main.c:487
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "Yhteydenotto VPN-verkkoon “%s” vaatii tunnistautumisen."
 
-#: ../nm-libreswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Lisää, poista tai muokkaa VPN-yhteyksiä"
-
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "IPsec-pohjainen VPN"
 
-#: ../properties/nm-libreswan.c:48
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "IPsec-, IKEv1- ja IKEv2-pohjainen VPN"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN using IKEv1"
+msgstr "IPsec-pohjainen VPN käyttäen IKEv1:tä"
 
-#: ../properties/nm-libreswan.c:274
-msgid "Saved"
-msgstr "Tallennettu"
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:149
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "Ei voida avata tiedostoa “%s”: %s"
 
-#: ../properties/nm-libreswan.c:281
-msgid "Always Ask"
-msgstr "Kysy aina"
+#: ../properties/nm-libreswan-editor-plugin.c:126
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
 
-#: ../properties/nm-libreswan.c:288
-msgid "Not Required"
-msgstr "Ei vaadittu"
+#: ../properties/nm-libreswan-editor-plugin.c:167
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "Virhe kirjoittaessa tiedostoon “%s”: %s"
+
+#: ../src/nm-libreswan-service.c:1449
+msgid "A password is required."
+msgstr "Salasana vaaditaan."
+
+#: ../src/nm-libreswan-service.c:1833
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1847
+msgid "Unhandled pending authentication."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1989
+msgid "Don’t quit when VPN connection terminates"
+msgstr "Älä lopeta VPN-yhteyden päättyessä"
+
+#: ../src/nm-libreswan-service.c:1990
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1991
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2014
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Tämä palvelu integroi IPsec VPN -ominaisuudet NetworkManageriin."
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:312
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:319
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:326
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:334
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:343
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:354
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
+msgid "General"
+msgstr "Yleiset"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
-msgid "<b>General</b>"
-msgstr "<b>Yleisasetukset</b>"
+msgid "_Gateway:"
+msgstr "_Yhdyskäytävä:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Näytä salasanat"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "_Ryhmän salasana:"
+msgid "_Secret:"
+msgstr "_Salaisuus:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Yhdyskäytävä:"
+msgid "_User password:"
+msgstr "_Käyttäjän salasana:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "_Ryhmän nimi:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "_Käyttäjän salasana:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>Lisäasetukset</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Käyttäjätunnus:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Phase2-algoritmit:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Toimialue:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Phase1-algoritmit:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Phase2-algoritmit:"
+msgid "Ad_vanced"
+msgstr "_Lisäasetukset"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Toimialue:"
+#~| msgid "VPN Connection Manager (vpnc)"
+#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
+#~ msgstr "IPsec-pohjainen VPN-yhteysohjelmisto (libreswan)"
 
-#: ../src/nm-libreswan-service.c:877
-msgid "Don't quit when VPN connection terminates"
-msgstr "Älä lopeta VPN-yhteyden päättyessä"
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Lisää, poista tai muokkaa VPN-yhteyksiä"
 
-#: ../src/nm-libreswan-service.c:878
-msgid "Enable verbose debug logging (may expose passwords)"
-msgstr ""
+#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
+#~ msgstr "IPsec-, IKEv1- ja IKEv2-pohjainen VPN"
 
-#: ../src/nm-libreswan-service.c:901
-msgid ""
-"nm-libreswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
+#~ msgid "Saved"
+#~ msgstr "Tallennettu"
+
+#~ msgid "Always Ask"
+#~ msgstr "Kysy aina"
+
+#~ msgid "Not Required"
+#~ msgstr "Ei vaadittu"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "Gro_up password:"
+#~ msgstr "_Ryhmän salasana:"
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>Lisäasetukset</b>"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Toissijainen salasana:"
