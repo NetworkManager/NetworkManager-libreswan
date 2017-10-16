@@ -101,7 +101,10 @@ nm_libreswan_config_write (gint fd,
 	const char *default_username;
 	const char *phase1_alg_str;
 	const char *phase2_alg_str;
+	const char *phase1_lifetime_str;
+	const char *phase2_lifetime_str;
 	const char *leftid;
+	const char *remote_network;
 
 	g_return_val_if_fail (fd > 0, FALSE);
 	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
@@ -145,7 +148,14 @@ nm_libreswan_config_write (gint fd,
 	WRITE_CHECK (fd, debug_write_fcn, error, " rightxauthserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " rightmodecfgserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
-	WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
+
+	remote_network = nm_setting_vpn_get_data_item (s_vpn,
+						       NM_LIBRESWAN_REMOTENETWORK);
+	if (!remote_network || !strlen (remote_network))
+		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
+	else
+		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s",
+			     remote_network);
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
@@ -160,8 +170,23 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " esp=%s", phase2_alg_str);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " rekey=yes");
-	WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
-	WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
+
+	phase1_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
+							    NM_LIBRESWAN_IKELIFETIME);
+	if (!phase1_lifetime_str || !strlen (phase1_lifetime_str))
+		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
+	else
+		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s",
+			     phase1_lifetime_str);
+
+	phase2_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
+							    NM_LIBRESWAN_SALIFETIME);
+	if (!phase2_lifetime_str || !strlen (phase2_lifetime_str))
+		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
+	else
+		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s",
+			     phase2_lifetime_str);
+
 	WRITE_CHECK (fd, debug_write_fcn, error, " keyingtries=1");
 
 	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
