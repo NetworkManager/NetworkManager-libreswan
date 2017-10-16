@@ -47,7 +47,10 @@
 #define NM_LIBRESWAN_DPDTIMEOUT "dpdtimeout"
 #define NM_LIBRESWAN_IKE  "ike"
 #define NM_LIBRESWAN_ESP  "esp"
+#define NM_LIBRESWAN_IKELIFETIME "ikelifetime"
+#define NM_LIBRESWAN_SALIFETIME "salifetime"
 #define NM_LIBRESWAN_VENDOR  "vendor"
+#define NM_LIBRESWAN_REMOTENETWORK "rightsubnet"
 
 #define NM_LIBRESWAN_PW_TYPE_SAVE   "save"
 #define NM_LIBRESWAN_PW_TYPE_ASK    "ask"
