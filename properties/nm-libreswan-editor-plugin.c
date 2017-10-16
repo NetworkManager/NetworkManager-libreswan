@@ -113,6 +113,15 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, &str[4]);
 		else if (g_str_has_prefix (str, "cisco-unity=yes"))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_VENDOR, "Cisco");
+		else if (g_str_has_prefix (str, "ikelifetime="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKELIFETIME,
+						      &str[12]);
+		else if (g_str_has_prefix (str, "salifetime="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_SALIFETIME,
+						      &str[11]);
+		else if (g_str_has_prefix (str, "rightsubnet="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_REMOTENETWORK,
+						      &str[12]);
 		else {
 			/* unknown tokens are silently ignored. */
 		}
