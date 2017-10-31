@@ -205,7 +205,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
@@ -215,7 +215,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
@@ -250,7 +250,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
@@ -261,7 +261,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
@@ -272,7 +272,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
@@ -284,7 +284,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKELIFETIME);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed",
@@ -297,7 +297,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_SALIFETIME);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed",
@@ -308,7 +308,7 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_DOMAIN);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
@@ -327,7 +327,7 @@ init_editor_plugin (LibreswanEditor *self,
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn,
 		                                      NM_LIBRESWAN_REMOTENETWORK);
-		if (value && strlen (value))
+		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed",
@@ -365,7 +365,7 @@ save_one_password (NMSettingVpn *s_vpn,
 	case NM_SETTING_SECRET_FLAG_NONE:
 	case NM_SETTING_SECRET_FLAG_AGENT_OWNED:
 		password = gtk_entry_get_text (GTK_ENTRY (entry));
-		if (password && strlen (password))
+		if (password && *password)
 			nm_setting_vpn_add_secret (s_vpn, secret_key, password);
 		data_val = NM_LIBRESWAN_PW_TYPE_SAVE;
 		break;
@@ -403,58 +403,58 @@ update_connection (NMVpnEditor *iface,
 	/* Gateway */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "gateway_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHT, str);
 
 	/* Group name */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, str);
 
 	/* User name*/
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, str);
 
 	/* Phase 1 Algorithms: ike */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKE, str);
 
 	/* Phase 2 Algorithms: esp */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase2_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, str);
 
 	/* Phase 1 Lifetime: ike */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
 	                                             "phase1_lifetime_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKELIFETIME, str);
 
 	/* Phase 2 Lifetime: sa */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
 	                                             "phase2_lifetime_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_SALIFETIME, str);
 
 	/* Domain entry */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "domain_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_DOMAIN, str);
 
 	/* Remote Network */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
 	                                             "remote_network_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && strlen (str))
+	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_REMOTENETWORK, str);
 
 	save_one_password (s_vpn,
