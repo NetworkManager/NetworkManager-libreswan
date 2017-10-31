@@ -1552,8 +1552,8 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 
 	switch (priv->connect_step) {
 	case CONNECT_STEP_FIRST:
-		/* fall through */
 		priv->connect_step++;
+		/* fallthrough */
 
 	case CONNECT_STEP_CHECK_RUNNING:
 		if (!do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--status", NULL))
@@ -1575,8 +1575,8 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 			return success;
 		}
-		/* fall through */
 		priv->connect_step++;
+		/* fallthrough */
 
 	case CONNECT_STEP_CHECK_NSS:
 		/* Start the IPsec service */
@@ -1587,8 +1587,8 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 			return success;
 		}
-		/* fall through */
 		priv->connect_step++;
+		/* fallthrough */
 
 	case CONNECT_STEP_IPSEC_START:
 		/* Start the IPsec service */
