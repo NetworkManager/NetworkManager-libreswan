@@ -126,8 +126,8 @@ show_toggled_cb (GtkCheckButton *button, LibreswanEditor *self)
 
 static void
 password_storage_changed_cb (GObject *entry,
-			     GParamSpec *pspec,
-			     gpointer user_data)
+                             GParamSpec *pspec,
+                             gpointer user_data)
 {
 	LibreswanEditor *self = LIBRESWAN_EDITOR (user_data);
 
@@ -165,7 +165,7 @@ init_password_icon (LibreswanEditor *self,
 	g_assert (entry);
 
 	nma_utils_setup_password_storage (entry, 0, (NMSetting *) s_vpn, secret_key,
-	                                   TRUE, FALSE);
+	                                  TRUE, FALSE);
 
 	/* If there's no password and no flags in the setting,
 	 * initialize flags as "always-ask".
@@ -176,12 +176,13 @@ init_password_icon (LibreswanEditor *self,
 			flags = nm_setting_vpn_get_data_item (s_vpn, type_key);
 	}
 	value = gtk_entry_get_text (GTK_ENTRY (entry));
-	if ((!value || !*value) && !flags)
+	if ((!value || !*value) && !flags) {
 		nma_utils_update_password_storage (entry, NM_SETTING_SECRET_FLAG_NOT_SAVED,
-	                                           (NMSetting *) s_vpn, secret_key);
+		                                   (NMSetting *) s_vpn, secret_key);
+	}
 
 	g_signal_connect (entry, "notify::secondary-icon-name",
-	                          G_CALLBACK (password_storage_changed_cb), self);
+	                  G_CALLBACK (password_storage_changed_cb), self);
 }
 
 static gboolean
@@ -278,7 +279,7 @@ init_editor_plugin (LibreswanEditor *self,
 
 	/* Phase 1 Lifetime: IKE */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-						     "phase1_lifetime_entry"));
+	                                             "phase1_lifetime_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -287,11 +288,11 @@ init_editor_plugin (LibreswanEditor *self,
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed",
-			  G_CALLBACK (stuff_changed_cb), self);
+	                  G_CALLBACK (stuff_changed_cb), self);
 
 	/* Phase 2 Lifetime: SA */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-						     "phase2_lifetime_entry"));
+	                                             "phase2_lifetime_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
@@ -300,7 +301,7 @@ init_editor_plugin (LibreswanEditor *self,
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed",
-			  G_CALLBACK (stuff_changed_cb), self);
+	                  G_CALLBACK (stuff_changed_cb), self);
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "domain_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -320,17 +321,17 @@ init_editor_plugin (LibreswanEditor *self,
 
 	/* Remote Network */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-						     "remote_network_entry"));
+	                                             "remote_network_entry"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn,
-						      NM_LIBRESWAN_REMOTENETWORK);
+		                                      NM_LIBRESWAN_REMOTENETWORK);
 		if (value && strlen (value))
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
 	g_signal_connect (G_OBJECT (widget), "changed",
-			  G_CALLBACK (stuff_changed_cb), self);
+	                  G_CALLBACK (stuff_changed_cb), self);
 
 	return TRUE;
 }
@@ -431,14 +432,14 @@ update_connection (NMVpnEditor *iface,
 
 	/* Phase 1 Lifetime: ike */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-						     "phase1_lifetime_entry"));
+	                                             "phase1_lifetime_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKELIFETIME, str);
 
 	/* Phase 2 Lifetime: sa */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-						     "phase2_lifetime_entry"));
+	                                             "phase2_lifetime_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_SALIFETIME, str);
@@ -451,7 +452,7 @@ update_connection (NMVpnEditor *iface,
 
 	/* Remote Network */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-						     "remote_network_entry"));
+	                                             "remote_network_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && strlen (str))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_REMOTENETWORK, str);
