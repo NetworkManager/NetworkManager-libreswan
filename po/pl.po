@@ -1,16 +1,16 @@
 # Polish translation for network-manager-libreswan.
-# Copyright © 2008-2016 the network-manager-libreswan authors.
+# Copyright © 2008-2017 the network-manager-libreswan authors.
 # This file is distributed under the same license as the network-manager-libreswan package.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2008-2009.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2016.
-# Aviary.pl <community-poland@mozilla.org>, 2008-2016.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2017.
+# Aviary.pl <community-poland@mozilla.org>, 2008-2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-03 21:52+0200\n"
-"PO-Revision-Date: 2016-10-03 21:53+0200\n"
+"POT-Creation-Date: 2017-11-05 15:40+0100\n"
+"PO-Revision-Date: 2017-11-05 15:41+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -83,26 +83,26 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "VPN oparte na IPsec, używające IKEv1"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Nie można otworzyć pliku „%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Brak sekcji „conn” w „%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Błąd podczas zapisywania do pliku „%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -110,23 +110,23 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:1989
+#: ../src/nm-libreswan-service.c:1992
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "Nazwa D-Bus dla tego wystąpienia"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -138,17 +138,17 @@ msgstr ""
 msgid "Error writing config: %s"
 msgstr "Błąd podczas zapisywania konfiguracji: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:312
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "klasa obiektów „%s” nie ma właściwości o nazwie „%s”"
 
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:319
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "właściwość „%s” klasy obiektów „%s” nie jest zapisywalna"
 
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -156,19 +156,19 @@ msgstr ""
 "właściwość konstruktu „%s” dla obiektu „%s” nie może zostać ustawiona po "
 "konstrukcji"
 
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:334
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "„%s::%s” nie jest prawidłową nazwą właściwości; „%s” nie jest podtypem "
 "GObject"
 
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:343
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr "nie można ustawić właściwości „%s” typu „%s” z wartości typu „%s”"
 
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:354
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -237,5 +237,17 @@ msgid "Phase1 Algorithms:"
 msgstr "Algorytmy fazy pierwszej:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Phase1 Lifetime:"
+msgstr "Czas trwania fazy pierwszej:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "Phase2 Lifetime:"
+msgstr "Czas trwania fazy drugiej:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr "Zdalna sieć:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "Zaa_wansowane"
