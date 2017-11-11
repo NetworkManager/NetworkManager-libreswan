@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2016-10-03 19:54+0000\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
 "PO-Revision-Date: 2017-02-16 15:20+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -74,7 +74,7 @@ msgstr "_Gruppeadgangskode:"
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Du skal opnå godkendelse for at tilgå det virtuelle private netværk \"%s\"."
+"Du skal opnå godkendelse for at tilgå det virtuelle private netværk “%s”."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
@@ -85,27 +85,27 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "VPN baseret på IPsec med brug af IKEv1"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
 msgid "Can’t open file “%s”: %s"
-msgstr "Kan ikke åbne filen \"%s\": %s"
+msgstr "Kan ikke åbne filen “%s”: %s"
 
 # står conn for connection - og skal det i givet fald oversættes til forb?
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
 msgid "Missing “conn” section in “%s”"
-msgstr "Manglende \"conn\"-afsnit i \"%s\""
+msgstr "Manglende “conn”-afsnit i “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
 msgid "Error writing to file “%s”: %s"
-msgstr "Fejl under skrivning til filen \"%s\": %s"
+msgstr "Fejl under skrivning til filen “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Adgangskode er krævet."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -113,25 +113,25 @@ msgstr ""
 "Kunne ikke behandle forespørgslen, fordi indstillingerne for VPN-"
 "forbindelsen var ugyldige."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Uhåndteret ventende godkendelse."
 
-#: ../src/nm-libreswan-service.c:1989
+#: ../src/nm-libreswan-service.c:1992
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Afslut ikke, når VPN-forbindelsen afsluttes"
 
 # findes også i pptp
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Aktivér uddybende fejlsøgningslog (kan afsløre adgangskoder)"
 
 # findes også i pptp
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "Navn på D-Bus der skal bruges i dette tilfælde"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -144,57 +144,56 @@ msgid "Error writing config: %s"
 msgstr "Fejl under skrivning af konfiguration: %s"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:312
 #, c-format
 msgid "object class '%s' has no property named '%s'"
-msgstr "objektklassen \"%s\" har ingen egenskab ved navn \"%s\""
+msgstr "objektklassen “%s” har ingen egenskab ved navn “%s”"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:319
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
-msgstr "egenskaben \"%s\" for objektklassen \"%s\" er skrivebeskyttet"
+msgstr "egenskaben “%s” for objektklassen “%s” er skrivebeskyttet"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"construct-egenskaben \"%s\" for objektet \"%s\" kan ikke angives efter "
+"construct-egenskaben “%s” for objektet “%s” kan ikke angives efter "
 "konstruktion"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:334
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
-"\"%s::%s\" er ikke et gyldigt egenskabsnavn; \"%s\" er ikke en undertype af "
+"“%s::%s” er ikke et gyldigt egenskabsnavn; “%s” er ikke en undertype af "
 "GObjekt"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:343
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
-"kan ikke angive egenskaben \"%s\" af type \"%s\" ud fra værdien af typen \"%s"
-"\""
+"kan ikke angive egenskaben “%s” af type “%s” ud fra værdien af typen “%s”"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:354
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"værdien \"%s\" af typen \"%s\" er ugyldig eller uden for intervallet for "
-"egenskaben \"%s\" af typen \"%s\""
+"værdien “%s” af typen “%s” er ugyldig eller uden for intervallet for "
+"egenskaben “%s” af typen “%s”"
 
 # streng også i modulerne vpnc og pptp
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
 #, c-format
 msgid "missing plugin file \"%s\""
-msgstr "manglende udvidelsesmodulfil \"%s\""
+msgstr "manglende udvidelsesmodulfil “%s”"
 
 # streng også i modulerne vpnc og pptp
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
@@ -254,6 +253,20 @@ msgid "Phase1 Algorithms:"
 msgstr "Phase1-algoritmer:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+#, fuzzy
+msgid "Phase1 Lifetime:"
+msgstr "Phase1-algoritmer:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+#, fuzzy
+msgid "Phase2 Lifetime:"
+msgstr "Phase2-algoritmer:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "A_vanceret"
 
@@ -323,8 +336,8 @@ msgstr "A_vanceret"
 #~ "The connection can still be created, with TCP tunneling disabled, however "
 #~ "it may not work as expected."
 #~ msgstr ""
-#~ "VPN-opsætningsfilen \"%s\" angiver, at VPN-trafikken skal sendes gennem "
-#~ "en TCP-tunnel, som i øjeblikket ikke er understøttet i vpnc-programmet.\n"
+#~ "VPN-opsætningsfilen “%s” angiver, at VPN-trafikken skal sendes gennem en "
+#~ "TCP-tunnel, som i øjeblikket ikke er understøttet i vpnc-programmet.\n"
 #~ "\n"
 #~ "Forbindelsen kan stadig oprettes uden TCP-tunnel, men vil muligvis ikke "
 #~ "fungere som forventet."
@@ -375,7 +388,7 @@ msgstr "A_vanceret"
 #~ msgstr "Ruter:  %s"
 
 #~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr "Forbindelsens detaljer kan ændres ved at bruge knappen \"Redigér\"."
+#~ msgstr "Forbindelsens detaljer kan ændres ved at bruge knappen “Redigér”."
 
 #~ msgid "Cannot import settings"
 #~ msgstr "Kan ikke importere opsætning"
@@ -387,10 +400,10 @@ msgstr "A_vanceret"
 #~ msgstr "Vælg fil der skal importeres"
 
 #~ msgid "Save as..."
-#~ msgstr "Gem som..."
+#~ msgstr "Gem som …"
 
 #~ msgid "A file named \"%s\" already exists."
-#~ msgstr "En fil med navnet \"%s\" eksisterer allerede."
+#~ msgstr "En fil med navnet “%s” eksisterer allerede."
 
 #~ msgid "Do you want to replace it with the one you are saving?"
 #~ msgstr "Vil du erstatte den med den du gemmer?"
@@ -418,7 +431,7 @@ msgstr "A_vanceret"
 #~ "\"Campus VPN\" or \"Corporate Network\""
 #~ msgstr ""
 #~ "Navn brugt til at identificere forbindelsen til det private netværk, f."
-#~ "eks. \"Universitets VPN\" eller \"Virksomhedens netværk\""
+#~ "eks. “Universitets VPN” eller “Virksomhedens netværk”"
 
 #~ msgid "Override _user name"
 #~ msgstr "Overskriv br_ugernavn"
@@ -438,7 +451,7 @@ msgstr "A_vanceret"
 #~ "konfigurationsfil. Spørg din administrator efter filen."
 
 #~ msgid "_Import Saved Configuration..."
-#~ msgstr "_Importér gemt konfiguration..."
+#~ msgstr "_Importér gemt konfiguration …"
 
 #~ msgid "_Only use VPN connection for these addresses"
 #~ msgstr "_Brug kun VPN-forbindelse til flg. adresser"
