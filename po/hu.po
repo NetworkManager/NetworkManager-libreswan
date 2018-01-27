@@ -1,23 +1,23 @@
-# Hungarian translation of network-manager-libreswan
-# Copyright (C) 2006, 2007, 2008, Free Software Foundation, Inc.
+# Hungarian translation for network-manager-libreswan.
+# Copyright (C) 2006, 2007, 2008, 2013, 2014, 2016, 2018 Free Software Foundation, Inc.
 # This file is distributed under the same license as the network-manager-libreswan package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2006, 2007, 2008, 2013, 2016.
-# Balázs Úr <urbalazs at gmail dot com>, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2014, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2016-10-03 19:54+0000\n"
-"PO-Revision-Date: 2016-10-04 12:38+0200\n"
-"Last-Translator: Meskó Balázs <meskobalazs@gmail.com>\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
+"PO-Revision-Date: 2018-01-27 10:08+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -80,26 +80,26 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "IPsec alapú VPN IKEv1 használatával"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "A(z) „%s” fájl nem nyitható meg: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Hiányzik a „conn” szakasz itt: „%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Hiba a(z) „%s” fájl írásakor: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Jelszó szükséges."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -107,25 +107,25 @@ msgstr ""
 "A kérés feldolgozása sikertelen, mivel a VPN-kapcsolat beállításai "
 "érvénytelenek."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Kezeletlen várakozó hitelesítés."
 
-#: ../src/nm-libreswan-service.c:1989
+#: ../src/nm-libreswan-service.c:1992
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Ne lépjen ki, ha a VPN-kapcsolat megszakad"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Részletes hibakeresési naplózás engedélyezése (jelszavak is  a naplóba "
 "kerülhetnek)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "A példányhoz használandó D-Bus név"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -136,17 +136,17 @@ msgstr ""
 msgid "Error writing config: %s"
 msgstr "Hiba a beállítások írásakor: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:312
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "a(z) „%s” objektumosztálynak nincs „%s” nevű tulajdonsága"
 
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:319
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "„%2$s” osztály „%1$s” tulajdonsága nem írható"
 
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -154,18 +154,18 @@ msgstr ""
 "„%2$s” objektum „%1$s” konstuktortulajdonsága nem állítható be a létrehozás "
 "után"
 
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:334
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr "„%s::%s” nem érvényes tulajdonságnév, „%s” nem egy GObject résztípus"
 
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:343
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
 "nem állítható be „%2$s” típusú „%1$s” tulajdonság „%3$s” típusú értékre"
 
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:354
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -234,106 +234,18 @@ msgid "Phase1 Algorithms:"
 msgstr "Phase1 algoritmusok:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Phase1 Lifetime:"
+msgstr "Phase1 élettartam:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "Phase2 Lifetime:"
+msgstr "Phase2 élettartam:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr "Távoli hálózat:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "Spe_ciális"
 
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Network"
-#~ msgstr "Hálózat"
-
-#~ msgid "Request VPN authentication"
-#~ msgstr "VPN-azonosítás kérése"
-
-#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
-#~ msgstr "IPsec, IKEv1, IKEv2 alapú VPN"
-
-#~ msgid "Saved"
-#~ msgstr "Mentett"
-
-#~ msgid "Always Ask"
-#~ msgstr "Kérdés mindig"
-
-#~ msgid "Not Required"
-#~ msgstr "Nem szükséges"
-
-#~ msgid "Gro_up password:"
-#~ msgstr "_Csoportjelszó:"
-
-#~ msgid "<b>Optional</b>"
-#~ msgstr "<b>Opcionális</b>"
-
-#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
-#~ msgstr "IPsec alapú VPN kapcsolatkezelő (libreswan)"
-
-#~ msgid "Add, Remove, and Edit VPN Connections"
-#~ msgstr "VPN kapcsolatok hozzáadása, szerkesztése és eltávolítása"
-
-#~ msgid "_Secondary Password:"
-#~ msgstr "Jelszó _még egyszer:"
-
-#~ msgid "_Password:"
-#~ msgstr "_Jelszó:"
-
-#~ msgid "Sh_ow passwords"
-#~ msgstr "_Jelszavak megjelenítése"
-
-#~ msgid "_Remember passwords for this session"
-#~ msgstr "_Jelszavak megjegyzése erre a munkamenetre"
-
-#~ msgid "_Save passwords in keyring"
-#~ msgstr "Jelszavak mentése a k_ulcstartóra"
-
-#~ msgid "Cisco Compatible VPN (vpnc)"
-#~ msgstr "Cisco-kompatibilis VPN kliens (vpnc)"
-
-#~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
-#~ "based VPN gateways."
-#~ msgstr ""
-#~ "Kompatibilis számos Cisco, Juniper, Netscreen és Sonicwall IPsec-alapú "
-#~ "VPN átjáróval."
-
-#~ msgid "Secure (default)"
-#~ msgstr "Biztonságos (alapértelmezett)"
-
-#~ msgid "Weak (use with caution)"
-#~ msgstr "Gyenge (óvatosan használja)"
-
-#~ msgid "None (completely insecure)"
-#~ msgstr "Nincs (nem biztonságos)"
-
-#~ msgid "Cisco UDP (default)"
-#~ msgstr "Cisco UDP (alapértelmezett)"
-
-#~ msgid "NAT-T"
-#~ msgstr "NAT-T"
-
-#~ msgid "Disabled"
-#~ msgstr "Tiltva"
-
-#~ msgid "TCP tunneling not supported"
-#~ msgstr "A TCP alagutazás nem támogatott"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-#~ "through TCP which is currently not supported in the vpnc software.\n"
-#~ "\n"
-#~ "The connection can still be created, with TCP tunneling disabled, however "
-#~ "it may not work as expected."
-#~ msgstr ""
-#~ "A(z) „%s” VPN beállítófájl alapján a VPN forgalmat TCP alagúton keresztül "
-#~ "kell bonyolítani, ami jelenleg nem támogatott.\n"
-#~ "\n"
-#~ "A kapcsolat így is létrehozható letiltott TCP alagutazással, azonban "
-#~ "lehetséges, hogy nem a várt módon fog működni."
-
-#~ msgid "Disable Dead Peer Detection"
-#~ msgstr "Halott partnerek felismerésének tiltása"
-
-#~ msgid "Encryption method:"
-#~ msgstr "Titkosítási mód:"
-
-#~ msgid "NAT traversal:"
-#~ msgstr "NAT bejárás:"
