@@ -1,17 +1,17 @@
 # Serbian translation for network-manager-libreswan.
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2017.
-# Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2018.
+# Copyright © 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
-# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2017.
+# Miroslav Nikolić <miroslavnikolic@rocketmail.com>, 2013—2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=Network"
-"Manager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2016-10-03 19:54+0000\n"
-"PO-Revision-Date: 2017-02-12 18:23+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=Networ"
+"kManager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
+"PO-Revision-Date: 2018-02-24 19:47+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Language-Team: srpski <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,6 @@ msgstr "Lozinka _grupe:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-#| msgid "You need to authenticate to access the Virtual Private Network '%s'."
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
 "Morate da potvrdite identitet da biste mogli da pristupite virtuelnoj "
@@ -84,52 +83,48 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "VPN zasnovan na IPsec-u koristeći IKEv1"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
-#| msgid "Can't open file '%s': %s"
 msgid "Can’t open file “%s”: %s"
 msgstr "Ne mogu da otvorim datoteku „%s“: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
-#| msgid "Missing \"conn\" section in \"%s\""
 msgid "Missing “conn” section in “%s”"
 msgstr "Nedostaje odeljak „conn“ u „%s“"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
-#| msgid "Error writing to file '%s': %s"
 msgid "Error writing to file “%s”: %s"
 msgstr "Greška pisanja u datoteku „%s“: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Potrebna je lozinka."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "Ne mogu da obradim zahtev zato što su podešavanja VPN veze neispravna."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Zakazano potvrđivanje identiteta nije ispravno."
 
-#: ../src/nm-libreswan-service.c:1989
-#| msgid "Don't quit when VPN connection terminates"
+#: ../src/nm-libreswan-service.c:1992
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Ne prekida kada se završi VPN veza"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Uključuje opširno zapisivanje pročišćavanja (može da izloži lozinke)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "Naziv D-sabirnice koji se koristi za ovaj primerak"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ova usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost."
@@ -139,33 +134,33 @@ msgstr "Ova usluga obezbeđuje Upravniku mreže objedinjenu IPsec VPN mogućnost
 msgid "Error writing config: %s"
 msgstr "Greška pisanja podešavanja: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:312
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "klasa objekta „%s“ nema svojstvo sa nazivom „%s“"
 
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:319
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "svojstvo „%s“ klase objekta „%s“ nije upisivo"
 
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr "svojstvo tvorbe „%s“ za objekat „%s“ se ne može postaviti nakon tvorbe"
 
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:334
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr "„%s::%s“ nije ispravan naziv svojstva; „%s“ nije podvrsta Gobjekta"
 
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:343
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr "ne mogu da postavim svojstvo „%s“ vrste „%s“ iz vrednosti vrste „%s“"
 
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:354
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -194,7 +189,6 @@ msgid "unknown error creating editor instance"
 msgstr "nepoznata greška prilikom stvaranja primerka uređivača"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-#| msgid "<b>General</b>"
 msgid "General"
 msgstr "Opšte"
 
@@ -235,14 +229,26 @@ msgid "Phase1 Algorithms:"
 msgstr "Algoritmi faze 1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+#| msgid "Phase1 Algorithms:"
+msgid "Phase1 Lifetime:"
+msgstr "Vreme trajanja faze 1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+#| msgid "Phase2 Algorithms:"
+msgid "Phase2 Lifetime:"
+msgstr "Vreme trajanja faze 2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+#| msgid "Network"
+msgid "Remote Network:"
+msgstr "Udaljena mreža:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "_Napredno"
 
 #~ msgid " "
 #~ msgstr " "
-
-#~ msgid "Network"
-#~ msgstr "Mreža"
 
 #~ msgid "Request VPN authentication"
 #~ msgstr "Zahtevaj VPN potvrđivanje identiteta"
