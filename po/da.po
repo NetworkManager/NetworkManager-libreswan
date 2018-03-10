@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2017-10-31 08:58+0000\n"
-"PO-Revision-Date: 2017-02-16 15:20+0100\n"
+"POT-Creation-Date: 2017-11-11 17:58+0000\n"
+"PO-Revision-Date: 2018-03-08 13:12+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -253,18 +253,16 @@ msgid "Phase1 Algorithms:"
 msgstr "Phase1-algoritmer:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-#, fuzzy
 msgid "Phase1 Lifetime:"
-msgstr "Phase1-algoritmer:"
+msgstr "Phase1-levetid:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-#, fuzzy
 msgid "Phase2 Lifetime:"
-msgstr "Phase2-algoritmer:"
+msgstr "Phase2-levetid:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
 msgid "Remote Network:"
-msgstr ""
+msgstr "Fjernnetværk:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
