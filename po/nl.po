@@ -5,183 +5,343 @@
 #
 # Tino Meinen <a.t.meinen@chello.nl>, 2006, 2007.
 # Wouter Bolsterlee <wbolster@gnome.org>, 2008.
+# Nathan Follens <nthn@unseen.is>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-15 10:45+0200\n"
-"PO-Revision-Date: 2008-09-15 10:45+0200\n"
-"Last-Translator: Wouter Bolsterlee <wbolster@gnome.org>\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
+"PO-Revision-Date: 2018-03-14 23:13+0100\n"
+"Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:145
-msgid "_Secondary Password:"
-msgstr "_Secondair wachtwoord:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec-VPN-cliënt"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:259
-msgid "_Username:"
-msgstr "_Gebruikersnaam:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:261
-msgid "_Domain:"
-msgstr "_Domein:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:263
-msgid "_Password:"
-msgstr "_Wachtwoord:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:352
-msgid "Connect _anonymously"
-msgstr "_Anoniem verbinden"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:357
-msgid "Connect as _user:"
-msgstr "Verbinden met _gebruikersnaam:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:466
-msgid "_Remember passwords for this session"
-msgstr "W_achtwoorden voor deze sessie onthouden"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:468
-msgid "_Save passwords in keyring"
-msgstr "Wachtwoorden in _sleutelbos opslaan"
-
-# eigenlijk: moet er een aanmeldingscontrole worden uitgevoerd,
-# maar het gaat erom dat er een wachtwoord moet worden gegeven
-#: ../auth-dialog/main.c:66
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
 msgstr ""
-"Om toegang te krijgen tot het Virtual Private Network ‘%s’ moet u uzelf "
-"aanmelden."
+"Libreswan-gebaseerde cliënt voor op IKEv1 gebaseerde IPsec-virtuele "
+"privénetwerken"
 
-#: ../auth-dialog/main.c:67
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Ondersteuning voor configuratie van op IKEv1 gebaseerde IPsec-"
+"virtueleprivénetwerkverbindingen."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Compatibel met Libreswan- en Cisco-IPsec-VPN-servers."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "De NetworkManager-ontwikkelaars"
+
+#: ../auth-dialog/main.c:165
+#, c-format
+msgid "Authenticate VPN %s"
+msgstr "Aanmeldingscontrole voor VPN %s"
+
+#: ../auth-dialog/main.c:182
+msgid "Password:"
+msgstr "Wachtwoord:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "Groepswachtwoord:"
+
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
-msgstr "VPN aanmeldingscontrole"
+msgstr "Aanmeldingscontrole voor VPN"
 
-#: ../auth-dialog/main.c:74
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_Groepswachtwoord:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "VPN-verbindingen toevoegen, verwijderen en bewerken"
-
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN verbindingen beheren (vpnc)"
-
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "Cisco-compatibele VPN-cliënt (vpnc)"
-
-#: ../properties/nm-vpnc.c:54
-msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
-"VPN gateways."
+# eigenlijk: moet er een aanmeldingscontrole worden uitgevoerd,
+# maar het gaat erom dat er een wachtwoord moet worden gegeven
+#: ../auth-dialog/main.c:487
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Geschikt voor verschillende Cisco, Juniper, Netscreen en Sonicwall IPsec-"
-"gebaseerde VPN-gateways."
+"Om toegang te krijgen tot het virtuele privénetwerk ‘%s’ moet u zich "
+"aanmelden."
 
-#: ../properties/nm-vpnc.c:282
-msgid "Secure (default)"
-msgstr "Veilig (standaard)"
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr "IPsec-gebaseerde VPN"
 
-#: ../properties/nm-vpnc.c:285
-msgid "Weak (use with caution)"
-msgstr "Zwak (voorzichtigheid geboden)"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN using IKEv1"
+msgstr "IPsec-gebaseerde VPN met IKEv1"
 
-#: ../properties/nm-vpnc.c:293
-msgid "None (completely insecure)"
-msgstr "Geen (geheel onveilig)"
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:158
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "Kan bestand ‘%s’ niet openen: %s"
 
-#: ../properties/nm-vpnc.c:331
-msgid "NAT-T (default)"
-msgstr "NAT-T (standaard)"
+#: ../properties/nm-libreswan-editor-plugin.c:135
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "Sectie ‘conn’ ontbreekt in ‘%s’"
 
-#: ../properties/nm-vpnc.c:338
-msgid "Cisco UDP"
-msgstr "Cisco UDP"
+#: ../properties/nm-libreswan-editor-plugin.c:176
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "Fout bij het schrijven naar bestand ‘%s’: %s"
 
-#: ../properties/nm-vpnc.c:345
-msgid "Disabled"
-msgstr "Uitgeschakeld"
+#: ../src/nm-libreswan-service.c:1452
+msgid "A password is required."
+msgstr "Er is een wachtwoord nodig."
 
-#: ../properties/nm-vpnc.c:809
-msgid "TCP tunneling not supported"
-msgstr "TCP tunneling is niet mogelijk"
+#: ../src/nm-libreswan-service.c:1836
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Aanmelding is mislukt wegens ongeldige verbindingsinstellingen van VPN."
 
-#: ../properties/nm-vpnc.c:811
+#: ../src/nm-libreswan-service.c:1850
+msgid "Unhandled pending authentication."
+msgstr "Lopende aanmeldingscontrole niet verwerkt"
+
+#: ../src/nm-libreswan-service.c:1992
+msgid "Don’t quit when VPN connection terminates"
+msgstr "Niet afsluiten wanneer VPN-verbinding beëindigt"
+
+#: ../src/nm-libreswan-service.c:1993
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Uitgebreide debug-logging inschakelen (kan wachtwoorden blootstellen)"
+
+#: ../src/nm-libreswan-service.c:1994
+msgid "D-Bus name to use for this instance"
+msgstr "D-Bus-naam voor deze instantie"
+
+#: ../src/nm-libreswan-service.c:2017
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Deze dienst biedt geïntegreerde IPsec-VPN-mogelijkheden aan NetworkManager."
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Fout bij het schrijven van configuratie: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:312
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "objectklasse ‘%s’ heeft geen eigenschap met de naam ‘%s’"
+
+#: ../shared/nm-utils/nm-shared-utils.c:319
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "eigenschap ‘%s’ van objectklasse ‘%s’ is niet schrijfbaar"
+
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
+"construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"Het VPN-instellingenbestand ‘%s’ geeft aan dat VPN-verkeer getunnelt moet "
-"worden via TCP hetgeen momenteel nog niet mogelijk is met de vpnc-software.\n"
-"\n"
-"De verbinding kan evengoed worden gemaakt met TPC-tunneling uitgeschakeld, "
-"maar het werkt mogelijkerwijs niet helemaal correct."
+"constructeigenschap ‘%s’ voor object ‘%s’ kan niet ingesteld worden na "
+"constructie"
 
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid " "
-msgstr " "
+#: ../shared/nm-utils/nm-shared-utils.c:334
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr "‘%s::%s’ is geen geldige eigenschapsnaam; ‘%s’ is geen GObject-subtype"
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>General</b>"
-msgstr "<b>Algemeen</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:343
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+"instellen van eigenschap ‘%s’ van type ‘%s’ van waarde van type ‘%s’ mislukt"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>Optioneel</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:354
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"waarde ‘%s’ van type ‘%s’ is ongeldig of buiten bereik voor eigenschap ‘%s’ "
+"van type ‘%s’"
 
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "Detectie van ‘Dead peers’ uitschakelen"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "plug-inbestand ‘%s’ ontbreekt"
 
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "Domein:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "laden van verwerkersplug-in mislukt: %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "Versleutelingsmethode:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "laden van factory %s uit plug-in %s mislukt"
 
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "G_roepsnaam:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "onbekende fout bij aanmaken van verwerkersinstantie"
 
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "_Groepswachtwoord:"
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "General"
+msgstr "Algemeen"
 
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "NAT-traversal:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Show passwords"
-msgstr "Wachtwoorden tonen"
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "Gebruikersnaam:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
 msgstr "_Gateway:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "Show passwords"
+msgstr "Wachtwoorden tonen"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Secret:"
+msgstr "_Geheim:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "_User password:"
-msgstr "_Gebuikerswachtwoord:"
+msgstr "Gebr_uikerswachtwoord:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "G_roup name:"
+msgstr "G_roepsnaam:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Gebruikersnaam:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Phase2-algoritmen:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Domein:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "Phase1 Algorithms:"
+msgstr "Phase1-algoritmen:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Phase1 Lifetime:"
+msgstr "Phase1-levensduur:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "Phase2 Lifetime:"
+msgstr "Phase2-levensduur:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr "Extern netwerk"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced"
+msgstr "Gea_vanceerd"
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Secondair wachtwoord:"
+
+#~ msgid "_Username:"
+#~ msgstr "_Gebruikersnaam:"
+
+#~ msgid "_Domain:"
+#~ msgstr "_Domein:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "_Anoniem verbinden"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "Verbinden met _gebruikersnaam:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "W_achtwoorden voor deze sessie onthouden"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "Wachtwoorden in _sleutelbos opslaan"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "VPN-verbindingen toevoegen, verwijderen en bewerken"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "VPN verbindingen beheren (vpnc)"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "Cisco-compatibele VPN-cliënt (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
+#~ "based VPN gateways."
+#~ msgstr ""
+#~ "Geschikt voor verschillende Cisco, Juniper, Netscreen en Sonicwall IPsec-"
+#~ "gebaseerde VPN-gateways."
+
+#~ msgid "Secure (default)"
+#~ msgstr "Veilig (standaard)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "Zwak (voorzichtigheid geboden)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "Geen (geheel onveilig)"
+
+#~ msgid "NAT-T (default)"
+#~ msgstr "NAT-T (standaard)"
+
+#~ msgid "Cisco UDP"
+#~ msgstr "Cisco UDP"
+
+#~ msgid "Disabled"
+#~ msgstr "Uitgeschakeld"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP tunneling is niet mogelijk"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "Het VPN-instellingenbestand ‘%s’ geeft aan dat VPN-verkeer getunnelt moet "
+#~ "worden via TCP hetgeen momenteel nog niet mogelijk is met de vpnc-"
+#~ "software.\n"
+#~ "\n"
+#~ "De verbinding kan evengoed worden gemaakt met TPC-tunneling "
+#~ "uitgeschakeld, maar het werkt mogelijkerwijs niet helemaal correct."
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>Optioneel</b>"
+
+#~ msgid "Disable Dead Peer Detection"
+#~ msgstr "Detectie van ‘Dead peers’ uitschakelen"
+
+#~ msgid "Encryption method:"
+#~ msgstr "Versleutelingsmethode:"
+
+#~ msgid "Gro_up password:"
+#~ msgstr "_Groepswachtwoord:"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "NAT-traversal:"
 
 #~ msgid "The following vpnc VPN connection will be created:"
 #~ msgstr "De volgende vpnc VPN-verbinding zal worden aangemaakt:"
@@ -273,9 +433,6 @@ msgstr "_Gebuikerswachtwoord:"
 #~ "Merk op dat het bestand dat u importeert geen Cisco VPN of VPNC "
 #~ "configuratiebestand is. Vraag uw systeembeheerder om het bestand."
 
-#~ msgid "Use _domain for authentication"
-#~ msgstr "_Domein gebruiken voor aanmeldingscontrole"
-
 #~ msgid "_Import Saved Configuration..."
 #~ msgstr "_Opgeslagen configuratie importeren..."
 
@@ -299,12 +456,6 @@ msgstr "_Gebuikerswachtwoord:"
 #~ msgstr ""
 #~ "Aanmelding bij het VPN is mislukt omdat het VPN-programma geen verbinding "
 #~ "kon maken met de VPN-server."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr ""
-#~ "Aanmelding bij het VPN is mislukt omdat de VPN-configuratieopties "
-#~ "ongeldig waren."
 
 #~ msgid ""
 #~ "The VPN login failed because the VPN program received an invalid "
