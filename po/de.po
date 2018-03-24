@@ -2,24 +2,24 @@
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
 # Thomas Gier <info@thomasgier.de>, 2007.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2008, 2016.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2008, 2016, 2018.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2013, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager Libreswan\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2016-10-03 19:54+0000\n"
-"PO-Revision-Date: 2016-10-13 16:29+0200\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
+"PO-Revision-Date: 2018-03-16 22:26+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: de <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -84,26 +84,26 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "IPsec-basiertes VPN mit IKEv1"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Datei »%s« kann nicht geöffnet werden: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Abschnitt »conn« in »%s« fehlt"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Fehler beim Schreiben in die Datei »%s«: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Ein Passwort ist notwendig."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -111,23 +111,23 @@ msgstr ""
 "Die Anfrage konnte nicht verarbeitet werden, weil die VPN-"
 "Konfigurationseinstellungen ungültig waren."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Nicht verarbeitete, ausstehende Legitimierung."
 
-#: ../src/nm-libreswan-service.c:1989
+#: ../src/nm-libreswan-service.c:1992
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Nicht bei Abbruch der VPN-Verbindung beenden"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ausführliches Diagnoseprotokoll aktivieren (kann Passwörter enthalten)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "Für diese Instanz zu verwendender D-Bus-Name"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Dieser Dienst bietet ein integriertes IPsec-VPN für NetworkManager."
@@ -137,17 +137,17 @@ msgstr "Dieser Dienst bietet ein integriertes IPsec-VPN für NetworkManager."
 msgid "Error writing config: %s"
 msgstr "Fehler beim Schreiben der Konfiguration: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:312
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "Objektklasse »%s« hat keine Eigenschaft namens »%s«"
 
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:319
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "Eigenschaft »%s« von Objektklasse »%s« ist nicht schreibbar"
 
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -155,20 +155,20 @@ msgstr ""
 "Konstruktor-Eigenschaft »%s« für Objekt »%s« kann nicht nach der "
 "Konstruktion gesetzt werden"
 
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:334
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "»%s::%s« ist ein ungültiger Eigenschaftsname. »%s« ist kein GObject-Untertyp"
 
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:343
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
 "Eigenschaft »%s« des Typs »%s« von Wert des Typs »%s« kann nicht gesetzt "
 "werden"
 
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:354
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -237,238 +237,17 @@ msgid "Phase1 Algorithms:"
 msgstr "Phase1-Algorithmen:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Phase1 Lifetime:"
+msgstr "Phase1-Lebensdauer:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "Phase2 Lifetime:"
+msgstr "Phase2-Lebensdauer:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr "Entferntes Netzwerk:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "Er_weitert"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Network"
-#~ msgstr "Netzwerk"
-
-#~ msgid "Request VPN authentication"
-#~ msgstr "Legitimierung für VPN anfordern"
-
-#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
-#~ msgstr "IPsec, IKEv1, IKEv2-basiertes VPN"
-
-#~ msgid "Saved"
-#~ msgstr "Gespeichert"
-
-#~ msgid "Always Ask"
-#~ msgstr "Immer fragen"
-
-#~ msgid "Not Required"
-#~ msgstr "Nicht notwendig"
-
-#~ msgid "Gro_up password:"
-#~ msgstr "_Gruppenpasswort:"
-
-#~ msgid "<b>Optional</b>"
-#~ msgstr "<b>Optional</b>"
-
-#~ msgid "_Secondary Password:"
-#~ msgstr "_Zweitpasswort:"
-
-#~ msgid "_Password:"
-#~ msgstr "_Passwort:"
-
-#~ msgid "Sh_ow passwords"
-#~ msgstr "Passwörter an_zeigen"
-
-#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
-#~ msgstr "Auf IPsec basierender VPN-Verbindungsmanager (libreswan)"
-
-#~ msgid "Add, Remove, and Edit VPN Connections"
-#~ msgstr "VPN-Verbindungen hinzufügen, entfernen und bearbeiten"
-
-#~ msgid "_Remember passwords for this session"
-#~ msgstr "Passwo_rt für diese Sitzung behalten"
-
-#~ msgid "_Save passwords in keyring"
-#~ msgstr "Passwort im _Schlüsselbund speichern"
-
-#~ msgid "Cisco Compatible VPN (vpnc)"
-#~ msgstr "Cisco-kompatibler VPN-Client (vpnc)"
-
-#~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
-#~ "based VPN gateways."
-#~ msgstr ""
-#~ "Kompatibel zu verschiedenen VPN-Gateways von Cisco, Juniper, Netscreen "
-#~ "und Sonicwall (IPsec-basiert)."
-
-#~ msgid "Secure (default)"
-#~ msgstr "Sicher (Vorgabe)"
-
-#~ msgid "Weak (use with caution)"
-#~ msgstr "Weich (mit Vorsicht zu verwenden)"
-
-#~ msgid "None (completely insecure)"
-#~ msgstr "Keine (komplett unsicher)"
-
-#~ msgid "Cisco UDP (default)"
-#~ msgstr "Cisco-UDP (Vorgabe)"
-
-#~ msgid "NAT-T"
-#~ msgstr "NAT-T"
-
-#~ msgid "Disabled"
-#~ msgstr "Deaktiviert"
-
-#~ msgid "TCP tunneling not supported"
-#~ msgstr "TCP-Tunneling wird nicht unterstützt"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-#~ "through TCP which is currently not supported in the vpnc software.\n"
-#~ "\n"
-#~ "The connection can still be created, with TCP tunneling disabled, however "
-#~ "it may not work as expected."
-#~ msgstr ""
-#~ "Die VPN-Einstellungsdatei »%s« legt fest, dass VPN-Verkehr über TCP "
-#~ "getunnelt werden soll, was jedoch zur Zeit nicht in der vpnc-Software "
-#~ "unterstützt wird.\n"
-#~ "\n"
-#~ "Die Verbindung kann dennoch mit unterdrücktem TCP-Tunneling erzeugt "
-#~ "werden, allerdings besteht die Möglichkeit, dass sie nicht wie erwartet "
-#~ "funktioniert."
-
-#~ msgid "Disable Dead Peer Detection"
-#~ msgstr "Peer-To-Peer-Erkennung deaktivieren"
-
-#~ msgid "Encryption method:"
-#~ msgstr "Verschlüsselungsmethode:"
-
-#~ msgid "NAT traversal:"
-#~ msgstr "NAT-Traversal:"
-
-#~ msgid "_Username:"
-#~ msgstr "_Benutzername:"
-
-#~ msgid "_Domain:"
-#~ msgstr "_Domäne:"
-
-#~ msgid "Connect _anonymously"
-#~ msgstr "_Anonym verbinden"
-
-#~ msgid "Connect as _user:"
-#~ msgstr "Als Ben_utzer verbinden:"
-
-#~ msgid "The following vpnc VPN connection will be created:"
-#~ msgstr "Folgende vpnc-VPN-Verbindung wird erzeugt:"
-
-#~ msgid "Name:  %s"
-#~ msgstr "Name:  »%s«"
-
-#~ msgid "Gateway:  %s"
-#~ msgstr "Gateway:  »%s«"
-
-#~ msgid "Group Name:  %s"
-#~ msgstr "Gruppenname:  »%s«"
-
-#~ msgid "Username:  %s"
-#~ msgstr "Benutzername:  »%s«"
-
-#~ msgid "Domain:  %s"
-#~ msgstr "Domäne:  »%s«"
-
-#~ msgid "Routes:  %s"
-#~ msgstr "Routen:  »%s«"
-
-#~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr ""
-#~ "Die Verbindungsdetails können mit Hilfe des »Bearbeiten«-Knopfes geändert "
-#~ "werden."
-
-#~ msgid "Cannot import settings"
-#~ msgstr "Einstellungen können nicht importiert werden"
-
-#~ msgid "The VPN settings file '%s' does not contain valid data."
-#~ msgstr "Die VPN-Einstellungendatei »%s« enthält keine gültigen Daten."
-
-#~ msgid "Select file to import"
-#~ msgstr "Datei zum Import auswählen"
-
-#~ msgid "Save as..."
-#~ msgstr "Speichern unter …"
-
-#~ msgid "A file named \"%s\" already exists."
-#~ msgstr "Eine Datei mit dem Namen »%s« existiert bereits."
-
-#~ msgid "Do you want to replace it with the one you are saving?"
-#~ msgstr "Möchten Sie sie mit der aktuellen Datei ersetzen?"
-
-#~ msgid "Failed to export configuration"
-#~ msgstr "Export der Konfiguration gescheitert"
-
-#~ msgid "Failed to save file %s"
-#~ msgstr "Speichern der Datei »%s« gescheitert"
-
-#~ msgid "<b>Connection Information</b>"
-#~ msgstr "<b>Verbindungsinformationen</b>"
-
-#~ msgid "<b>Connection Name</b>"
-#~ msgstr "<b>Verbindungsname</b>"
-
-#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-#~ msgstr "<i>Beispiel: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#~ msgid "Connection Name"
-#~ msgstr "Verbindungsname"
-
-#~ msgid ""
-#~ "Name used to identify the connection to the private network, e.g. "
-#~ "\"Campus VPN\" or \"Corporate Network\""
-#~ msgstr ""
-#~ "Name, der zur Identifikation der Verbindung zum privaten Netzwerk "
-#~ "verwendet wird, z.B. »Campus VPN« oder »Firmennetzwerk«"
-
-#~ msgid "Override _user name"
-#~ msgstr "Ben_utzernamen außer Kraft setzen"
-
-#~ msgid ""
-#~ "Please enter the information provided by your system administrator below. "
-#~ "Do not enter your password here as you will be prompted when connecting."
-#~ msgstr ""
-#~ "Bitte tragen Sie die Informationen, die Sie von Ihrem Systemadministrator "
-#~ "erhalten haben unten ein. Geben Sie Ihr Kennwort nicht ein, da Sie beim "
-#~ "Verbinden danach gefragt werden."
-
-#~ msgid ""
-#~ "Please note that the file you import is not a Cisco VPN or VPNC "
-#~ "configuration file. Ask your adminstrator for the file."
-#~ msgstr ""
-#~ "Beachten Sie bitte, dass die Datei, die Sie importieren, keine Cisco VPN "
-#~ "oder VPNC-Konfigurationsdatei ist. Wenden Sie sich an Ihren Administrator."
-
-#~ msgid "_Import Saved Configuration..."
-#~ msgstr "Gespeicherte Konfiguration importieren …"
-
-#~ msgid "_Only use VPN connection for these addresses"
-#~ msgstr "_VPN-Verbindung nur für diese Adressen verwenden"
-
-#~ msgid ""
-#~ "The VPN login failed because the user name and password were not accepted."
-#~ msgstr ""
-#~ "Die VPN-Anmeldung scheiterte, da Benutzername und Kennwort nicht "
-#~ "akzeptiert wurden."
-
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr ""
-#~ "Die VPN-Anmeldung scheiterte, weil das VPN-Porgramm nicht gestartet "
-#~ "werden konnte."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program could not connect to the VPN "
-#~ "server."
-#~ msgstr ""
-#~ "Die VPN-Anmeldung scheiterte, weil das VPN-Programm sich nicht mit dem "
-#~ "VPN-Server verbinden konnte."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program received an invalid "
-#~ "configuration from the VPN server."
-#~ msgstr ""
-#~ "Die VPN-Anmeldung scheiterte, weil das VPN-Programm eine ungültige "
-#~ "Konfiguration vom VPN-Server erhielt."
