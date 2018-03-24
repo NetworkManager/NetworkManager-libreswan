@@ -1,134 +1,282 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-12 12:47+0000\n"
-"PO-Revision-Date: 2013-04-21 23:41+0300\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=Network"
+"Manager&keywords=I18N+L10N&component=VPN: libreswan\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
+"PO-Revision-Date: 2018-03-24 08:58+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
-"2);\n"
-"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 :"
+" 2);\n"
+"X-Generator: Lokalize 2.0\n"
 
-#: ../auth-dialog/main.c:188
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN klients"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
 msgstr ""
-"Jums ir jāautentificējas, lai piekļūtu virtuālajiem privātajiem tīkliem “%s”."
+"Uz Libreswan balstīts klients uz IKEv1 balstītiem IPsec virtuālajiem"
+" privātajiem tīkliem"
 
-#: ../auth-dialog/main.c:197 ../auth-dialog/main.c:221
-msgid "Authenticate VPN"
-msgstr "Autentificēt VPN"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Atbalsts IKEv1 IPsec virtuālo privāto tīklu savienojumu konfigurēšanai."
 
-#: ../auth-dialog/main.c:200
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Savietojams ar Libreswan un Cisco IPsec VPN serveriem."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "NetworkManager izstrādātāji"
+
+#: ../auth-dialog/main.c:165
+#, c-format
+#| msgid "Authenticate VPN"
+msgid "Authenticate VPN %s"
+msgstr "Autentificēt VPN %s"
+
+#: ../auth-dialog/main.c:182
 msgid "Password:"
 msgstr "Parole:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:192
 msgid "Group Password:"
 msgstr "Grupas parole:"
 
-#: ../auth-dialog/main.c:223
+#: ../auth-dialog/main.c:228
+msgid "Authenticate VPN"
+msgstr "Autentificēt VPN"
+
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_Grupas parole:"
 
-#: ../nm-libreswan.desktop.in.h:1
-msgid "IPsec Based VPN Connection Manager (libreswan)"
-msgstr "Uz IPsec balstīts VPN savienojumu pārvaldnieks (libreswan)"
+#: ../auth-dialog/main.c:487
+#, c-format
+#| msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr ""
+"Jums ir jāautentificējas, lai piekļūtu virtuālajiem privātajiem tīkliem “%s”."
 
-#: ../nm-libreswan.desktop.in.h:2
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Pievienot, noņemt un rediģēt VPN savienojumus"
-
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "Uz IPsec balstīts VPN"
 
-#: ../properties/nm-libreswan.c:48
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "IPsec, IKEv1, IKEv2 balstīts VPN"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+#| msgid "IPsec based VPN"
+msgid "IPsec based VPN using IKEv1"
+msgstr "Uz IPsec balstīts VPN, izmantojot IKEv1"
 
-#: ../properties/nm-libreswan.c:274
-msgid "Saved"
-msgstr "Saglabāts"
+#: ../properties/nm-libreswan-editor-plugin.c:80
+#: ../properties/nm-libreswan-editor-plugin.c:158
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "Nevar atvērt datni “%s”: %s"
 
-#: ../properties/nm-libreswan.c:281
-msgid "Always Ask"
-msgstr "Vienmēr jautāt"
+#: ../properties/nm-libreswan-editor-plugin.c:135
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "“%s” trūkst sadaļas “conn”"
 
-#: ../properties/nm-libreswan.c:288
-msgid "Not Required"
-msgstr "Nav nepieciešams"
+#: ../properties/nm-libreswan-editor-plugin.c:176
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "Kļūda,rakstot datnē “%s” — %s"
+
+#: ../src/nm-libreswan-service.c:1452
+msgid "A password is required."
+msgstr "Nepieciešama parole."
+
+#: ../src/nm-libreswan-service.c:1836
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Neizdevās apstrādāt pieprasījumu, jo VPN savienojuma iestatījumi bija "
+"nederīgi."
+
+#: ../src/nm-libreswan-service.c:1850
+msgid "Unhandled pending authentication."
+msgstr "Nepastrādāta gaidoša autentifikācija."
+
+#: ../src/nm-libreswan-service.c:1992
+#| msgid "Don't quit when VPN connection terminates"
+msgid "Don’t quit when VPN connection terminates"
+msgstr "Neiziet, kad tiek pārtraukts VPN savienojums"
+
+#: ../src/nm-libreswan-service.c:1993
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Aktivēt detalizētu atkļūdošanas reģistrēšanu (var atklāt paroles)"
+
+#: ../src/nm-libreswan-service.c:1994
+msgid "D-Bus name to use for this instance"
+msgstr "D-Bus nosaukums, ko izmantot šai instancei"
+
+#: ../src/nm-libreswan-service.c:2017
+#| msgid ""
+#| "nm-libreswan-service provides integrated IPsec VPN capability to "
+#| "NetworkManager."
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "Šis pakalpojums nodrošina NetworkManager integrētu IPsec VPN iespēju."
+
+#: ../shared/utils.c:85
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Kļūda, rakstot konfigurāciju: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:312
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "objektu klasei “%s” nav īpašības ar nosaukumu “%s”"
+
+#: ../shared/nm-utils/nm-shared-utils.c:319
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "objektu klases “%2$s” īpašība “%1$s” nav rakstāma"
+
+#: ../shared/nm-utils/nm-shared-utils.c:326
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"objekta “%2$s” konstrukcijas īpašību “%1$s” nevar iestatīt pēc uzkonstruēšanas"
+
+#: ../shared/nm-utils/nm-shared-utils.c:334
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr "“%s::%s” nav derīgs īpašības nosaukums; “%s” nav GObject apakštips"
+
+#: ../shared/nm-utils/nm-shared-utils.c:343
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr "nevar iestatīt īpašību “%s” ar tipu “%s” no tipa “%s” vērtības"
+
+#: ../shared/nm-utils/nm-shared-utils.c:354
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"tipa “%2$s” vērtība “%1$s” nav derīga vai ir ārpus tipa “%4$s” īpašības “"
+"%3$s” apgabala"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "datnei “%s” trūkst spraudņa"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "nevar ielādēt redaktora spraudni: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "nevar ielādēt ražotni %s no spraudņa: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "nezināma kļūda, veidojot redaktora instanci"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
+#| msgid "<b>General</b>"
+msgid "General"
+msgstr "Vispārēji"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
-msgid "<b>General</b>"
-msgstr "<b>Vispārējs</b>"
+msgid "_Gateway:"
+msgstr "_Vārteja:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "Show passwords"
 msgstr "Rādīt paroles"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "Gr_upas parole:"
+msgid "_Secret:"
+msgstr "No_slēpums:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Vārteja:"
+msgid "_User password:"
+msgstr "_Lietotāja parole:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "G_roup name:"
 msgstr "G_rupas nosaukums:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "_Lietotāja parole:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>Neobligāts</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
 msgid "User name:"
 msgstr "Lietotājvārds:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "Phase2 Algorithms:"
+msgstr "Phase2 algoritms:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "Domain:"
+msgstr "Domēns:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
 msgid "Phase1 Algorithms:"
 msgstr "Phase1 algoritms:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Phase2 algoritms:"
+#| msgid "Phase1 Algorithms:"
+msgid "Phase1 Lifetime:"
+msgstr "Phase1 dzīves ilgums:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Domēns:"
+#| msgid "Phase2 Algorithms:"
+msgid "Phase2 Lifetime:"
+msgstr "Phase2 dzīves ilgums:"
 
-#: ../src/nm-libreswan-service.c:877
-msgid "Don't quit when VPN connection terminates"
-msgstr "Neiziet, kad tiek pārtraukts VPN savienojums"
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr "Attālināts tīkls:"
 
-#: ../src/nm-libreswan-service.c:878
-msgid "Enable verbose debug logging (may expose passwords)"
-msgstr "Aktivēt detalizētu atkļūdošanas reģistrēšanu (var atklāt paroles)"
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced"
+msgstr "Pap_lašināti"
 
-#: ../src/nm-libreswan-service.c:901
-msgid ""
-"nm-libreswan-service provides integrated IPsec VPN capability to "
-"NetworkManager."
-msgstr ""
-"nm-libreswan-service nodrošina NetworkManager integrētu IPsec VPN iespēju."
+#~ msgid "IPsec Based VPN Connection Manager (libreswan)"
+#~ msgstr "Uz IPsec balstīts VPN savienojumu pārvaldnieks (libreswan)"
 
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Pievienot, noņemt un rediģēt VPN savienojumus"
+
+#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
+#~ msgstr "IPsec, IKEv1, IKEv2 balstīts VPN"
+
+#~ msgid "Saved"
+#~ msgstr "Saglabāts"
+
+#~ msgid "Always Ask"
+#~ msgstr "Vienmēr jautāt"
+
+#~ msgid "Not Required"
+#~ msgstr "Nav nepieciešams"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "Gro_up password:"
+#~ msgstr "Gr_upas parole:"
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>Neobligāts</b>"
