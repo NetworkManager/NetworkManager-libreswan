@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the NetworkManager package.
 # Žygimantas Beručka <zygis@gnome.org>, 2008.
 # Gintautas Miliauskas <gintautas@miliauskas.lt>, 2009.
-# Aurimas Černius <aurisc4@gmail.com>, 2014, 2015, 2016.
+# Aurimas Černius <aurisc4@gmail.com>, 2014, 2015, 2016, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2017-02-26 08:36+0000\n"
-"PO-Revision-Date: 2017-03-13 00:57+0200\n"
-"Last-Translator: Moo\n"
+"POT-Creation-Date: 2017-10-31 08:58+0000\n"
+"PO-Revision-Date: 2018-03-26 22:38+0300\n"
+"Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -85,49 +85,49 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "IPsec pagrįstas VPN naudojant IKEv1"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Nepavyksta atverti failo „%s“: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "„%s“ trūksta „conn“ sekcijos"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Klaida rašant į failą „%s“: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Reikalingas slaptažodis."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Nepavyko apdoroti užklausos, kadangi VPN ryšio nustatymai buvo neteisingi."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Neapdorotas laukiamas tapatybės nustatymas."
 
-#: ../src/nm-libreswan-service.c:1989
+#: ../src/nm-libreswan-service.c:1992
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Neišeiti, kai nutrūksta VPN ryšys"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Įjungti išsamų derinimo žurnalą (gali atskleisti slaptažodžius)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "D-Bus pavadinimas, kurį naudoti šiam egzemplioriui"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ši tarnyba sutekia NetworkManager integruotą IPsec VPN galimybę."
@@ -234,14 +234,26 @@ msgid "Phase1 Algorithms:"
 msgstr "Pirmos fazės algoritmai:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+#| msgid "Phase1 Algorithms:"
+msgid "Phase1 Lifetime:"
+msgstr "Pirmos fazės ciklas:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+#| msgid "Phase2 Algorithms:"
+msgid "Phase2 Lifetime:"
+msgstr "Antros fazės ciklas:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+#| msgid "Network"
+msgid "Remote Network:"
+msgstr "Nutolęs tinklas:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "Išplė_stiniai"
 
 #~ msgid " "
 #~ msgstr " "
-
-#~ msgid "Network"
-#~ msgstr "Tinklas"
 
 #~ msgid "Request VPN authentication"
 #~ msgstr "Prašyti VPN tapatybės patvirtinimo"
