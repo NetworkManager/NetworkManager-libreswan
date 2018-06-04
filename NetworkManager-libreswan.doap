@@ -4,7 +4,7 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">network-manager-libreswan</name>
+  <name xml:lang="en">NetworkManager-libreswan</name>
   <shortdesc xml:lang="en">Libreswan VPN client plugin for NetworkManager</shortdesc>
   <description>Provides easy connections to IPsec VPNs using NetworkManager and Libreswan.</description>
 
