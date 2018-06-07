@@ -27,7 +27,7 @@
 
   <screenshots>
     <screenshot type="default">
-      <image width="624" height="618">https://git.gnome.org/browse/network-manager-libreswan/plain/appdata/libreswan.png</image>
+      <image width="624" height="618">https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/raw/master/appdata/libreswan.png</image>
     </screenshot>
   </screenshots>
 
