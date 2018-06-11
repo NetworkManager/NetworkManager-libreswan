@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = foreign subdir-objects
+AUTOMAKE_OPTIONS = subdir-objects
 
 EXTRA_DIST =
 

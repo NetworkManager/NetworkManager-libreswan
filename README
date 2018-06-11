@@ -1,0 +1,4 @@
+Libreswan VPN client plugin for NetworkManager
+
+Support for configuring IKEv1 based IPsec virtual private network connections.
+Compatible with Libreswan and Cisco IPsec VPN servers.

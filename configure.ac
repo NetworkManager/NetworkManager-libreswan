@@ -4,7 +4,7 @@ AC_INIT(NetworkManager-libreswan,
         1.2.7,
         https://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager,
         NetworkManager-libreswan)
-AM_INIT_AUTOMAKE([no-dist-gzip dist-xz])
+AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-xz -Wno-portability])
 AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
 
@@ -29,6 +29,16 @@ AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MKDIR_P
+
+AC_CHECK_PROG([has_file], file, yes, no)
+if test x$has_file = xno ; then
+    AC_MSG_ERROR(["file" utility not found.])
+fi
+
+AC_CHECK_PROG([has_find], find, yes, no)
+if test x$has_find = xno ; then
+    AC_MSG_ERROR(["find" utility not found.])
+fi
 
 dnl
 dnl Required headers
