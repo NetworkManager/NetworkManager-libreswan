@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkBox" id="libreswan-vbox">
@@ -15,7 +15,7 @@
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkLabel" id="label22">
+          <object class="GtkLabel" id="label_general">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">General</property>
@@ -31,7 +31,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkGrid" id="table2">
+          <object class="GtkGrid" id="table_main">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="margin_left">12</property>
@@ -40,7 +40,7 @@
             <property name="row_spacing">6</property>
             <property name="column_spacing">16</property>
             <child>
-              <object class="GtkLabel" id="label23">
+              <object class="GtkLabel" id="gateway_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Gateway:</property>
@@ -81,11 +81,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label4">
+              <object class="GtkLabel" id="group_password_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Secret:</property>
                 <property name="use_underline">True</property>
+                <property name="mnemonic_widget">group_password_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -94,11 +95,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label3">
+              <object class="GtkLabel" id="user_password_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_User password:</property>
                 <property name="use_underline">True</property>
+                <property name="mnemonic_widget">user_password_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -119,11 +121,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label24">
+              <object class="GtkLabel" id="group_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">G_roup name:</property>
                 <property name="use_underline">True</property>
+                <property name="mnemonic_widget">group_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -143,10 +146,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label26">
+              <object class="GtkLabel" id="user_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">User name:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">user_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -202,7 +207,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <child>
-          <object class="GtkGrid" id="table3">
+          <object class="GtkGrid" id="table_advanced">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="margin_left">12</property>
@@ -211,10 +216,12 @@
             <property name="row_spacing">6</property>
             <property name="column_spacing">16</property>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="phase2_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Phase2 Algorithms:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">phase2_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -223,10 +230,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label2">
+              <object class="GtkLabel" id="domain_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Domain:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">domain_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -271,10 +280,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label27">
+              <object class="GtkLabel" id="phase1_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Phase1 Algorithms:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">phase1_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -283,10 +294,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="phase1_lifetime">
+              <object class="GtkLabel" id="phase1_lifetime_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Phase1 Lifetime:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">phase1_lifetime_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -305,10 +318,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="phase2_lifetime">
+              <object class="GtkLabel" id="phase2_lifetime_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Phase2 Lifetime:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">phase2_lifetime_entry</property>
                 <property name="single_line_mode">True</property>
                 <property name="xalign">0</property>
               </object>
@@ -328,10 +343,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="remote_network">
+              <object class="GtkLabel" id="remote_network_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Remote Network:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">remote_network_entry</property>
                 <property name="xalign">0</property>
               </object>
               <packing>
@@ -352,7 +369,7 @@
           </object>
         </child>
         <child type="label">
-          <object class="GtkLabel" id="label5">
+          <object class="GtkLabel" id="label_advanced">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">Ad_vanced</property>
