@@ -31,7 +31,7 @@ msgstr "Cliente VPN IPsec"
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
 msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
 msgstr ""
-"Cliente baseado em Libreswan para redes privadas virtuais IPSec baseadas em "
+"Cliente baseado em Libreswan para redes privadas virtuais IPsec baseadas em "
 "IKEv1"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3

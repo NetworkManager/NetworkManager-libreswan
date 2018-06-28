@@ -972,7 +972,7 @@ badpipes:
  * specific subnets to be routed over the VPN (eg, CISCO_SPLIT_INC).
  * This is what we need to automatically determine 'never-default' behavior.
  * Instead, we have to inspect the kernel's SAD (Security Assocation Database)
- * for IPSec-secured routes pointing to the VPN gateway.
+ * for IPsec-secured routes pointing to the VPN gateway.
  */
 
 typedef struct {

@@ -73,19 +73,19 @@ if test -n "$ac_macro_dir"; then
 fi
 AC_SUBST([ACLOCAL_AMFLAGS])
 
-AC_ARG_WITH(nm-ipsec-conf, AS_HELP_STRING([--with-nm-ipsec-conf=path], [The IPSec configuration file, defaults to /etc/ipsec.conf]), [], [with_nm_ipsec_conf=])
+AC_ARG_WITH(nm-ipsec-conf, AS_HELP_STRING([--with-nm-ipsec-conf=path], [The IPsec configuration file, defaults to /etc/ipsec.conf]), [], [with_nm_ipsec_conf=])
 AS_IF([test -z "$with_nm_ipsec_conf"], with_nm_ipsec_conf="/etc/ipsec.conf")
 if (printf '%s' "$with_nm_ipsec_conf" | grep -v -q '^/'); then
 	AC_MSG_ERROR([--with-nm-ipsec-conf must be an absolute path, instead it is '$with_nm_ipsec_conf'])
 fi
-AC_DEFINE_UNQUOTED(NM_IPSEC_CONF, "$with_nm_ipsec_conf", [IPSec configuration file])
+AC_DEFINE_UNQUOTED(NM_IPSEC_CONF, "$with_nm_ipsec_conf", [IPsec configuration file])
 
-AC_ARG_WITH(nm-ipsec-secrets-dir, AS_HELP_STRING([--with-nm-ipsec-secrets-dir=path], [The directory where to put IPSec secrets, defaults to /etc/ipsec.d/]), [], [with_nm_ipsec_secrets_dir=])
+AC_ARG_WITH(nm-ipsec-secrets-dir, AS_HELP_STRING([--with-nm-ipsec-secrets-dir=path], [The directory where to put IPsec secrets, defaults to /etc/ipsec.d/]), [], [with_nm_ipsec_secrets_dir=])
 AS_IF([test -z "$with_nm_ipsec_secrets_dir"], with_nm_ipsec_secrets_dir="/etc/ipsec.d")
 if (printf '%s' "$with_nm_ipsec_secrets_dir" | grep -v -q '^/'); then
 	AC_MSG_ERROR([--with-nm-ipsec-secrets-dir must be an absolute path, instead it is '$with_nm_ipsec_secrets_dir'])
 fi
-AC_DEFINE_UNQUOTED(NM_IPSEC_SECRETS_DIR, "$with_nm_ipsec_secrets_dir", [IPSec secret dir])
+AC_DEFINE_UNQUOTED(NM_IPSEC_SECRETS_DIR, "$with_nm_ipsec_secrets_dir", [IPsec secret dir])
 
 dnl
 dnl GNOME support
