@@ -50,8 +50,9 @@ Always Required.
 .TP
 .I "leftid"
 specifies the local identifier to be used during IKE negotiation. When this property is specified and the
-IKEv1 protocol is used the key exchange will be performed in aggressive mode. Corresponds to the Libreswan
-parameter of the same name.
+IKEv1 protocol is used the key exchange will be performed in aggressive mode and the identifier will be
+considered a literal string (it will be automatically prefixed with '@' when passed to Libreswan).
+Corresponds to the Libreswan parameter of the same name.
 .TP
 .I "leftxauthusername"
 the username to be used during XAUTH authentication. If not specified, the
@@ -90,6 +91,10 @@ ending the CISCO_UNITY payload to the peer. The option is ignored otherwise.
 .I "rightsubnet"
 the destination subnet that should be reached throught the VPN. If omitted, will
 be filled with '0.0.0.0/0'. Matches the Libreswan parameter of the same name.
+.TP
+.I "ikev2"
+use IKEv2 negotiation. Allowed values are: 'permit', 'no'/'never', 'yes'/'propose' and 'insist'.
+Matches the Libreswan parameter of the same name.
 .TP
 .I "pskinputmodes"
 where the 'pskvalue' can be retrieved. Used internally by the plugin. Allowed values are: 'unused', 'save', 'ask'.

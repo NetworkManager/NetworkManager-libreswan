@@ -107,6 +107,7 @@ typedef struct {
 	gboolean interactive;
 	gboolean pending_auth;
 	gboolean managed;
+	gboolean xauth_enabled;
 
 	GPid pid;
 	guint watch_id;
@@ -260,6 +261,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_SALIFETIME,                 G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_VENDOR,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_REMOTENETWORK,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_IKEV2,                      G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_LIBRESWAN_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
 	{ NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
@@ -486,25 +488,25 @@ connect_cleanup (NMLibreswanPlugin *self)
 		priv->retry_id = 0;
 	}
 
-	if (priv->io_id) {
-		g_source_remove (priv->io_id);
-		priv->io_id = 0;
-	}
-	g_clear_pointer (&priv->channel, g_io_channel_unref);
+	if (priv->xauth_enabled) {
+		if (priv->io_id) {
+			g_source_remove (priv->io_id);
+			priv->io_id = 0;
+		}
+		g_clear_pointer (&priv->channel, g_io_channel_unref);
 
-	if (priv->io_buf) {
-		g_string_free (priv->io_buf, TRUE);
-		priv->io_buf = NULL;
+		if (priv->io_buf) {
+			g_string_free (priv->io_buf, TRUE);
+			priv->io_buf = NULL;
+		}
+		if (priv->password) {
+			memset (priv->password, 0, strlen (priv->password));
+			g_free (priv->password);
+			priv->password = NULL;
+		}
 	}
-
 	pipe_cleanup (&priv->out);
 	pipe_cleanup (&priv->err);
-
-	if (priv->password) {
-		memset (priv->password, 0, strlen (priv->password));
-		g_free (priv->password);
-		priv->password = NULL;
-	}
 }
 
 static void
@@ -1654,18 +1656,23 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	}
 	case CONNECT_STEP_CONNECT:
 		g_assert (uuid);
-		if (!spawn_pty (self, &up_stdout, &up_stderr, &up_pty, &priv->pid, error,
-		                priv->ipsec_path, "auto", "--up", uuid, NULL))
+
+		if (!spawn_pty (self, &up_stdout, &up_stderr,
+		                priv->xauth_enabled ? &up_pty : NULL,
+		                &priv->pid, error,
+		                priv->ipsec_path, "auto", "--up", uuid, NULL)) {
 			return FALSE;
+		}
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 
-		/* Wait for the password request */
-		priv->io_buf = g_string_sized_new (128);
-		priv->channel = g_io_channel_unix_new (up_pty);
-		g_io_channel_set_encoding (priv->channel, NULL, NULL);
-		g_io_channel_set_buffered (priv->channel, FALSE);
-		priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
-
+		if (priv->xauth_enabled) {
+			/* Wait for the password request */
+			priv->io_buf = g_string_sized_new (128);
+			priv->channel = g_io_channel_unix_new (up_pty);
+			g_io_channel_set_encoding (priv->channel, NULL, NULL);
+			g_io_channel_set_buffered (priv->channel, FALSE);
+			priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
+		}
 		pipe_init (&priv->out, up_stdout, "OUT");
 		pipe_init (&priv->err, up_stderr, "ERR");
 		return TRUE;
@@ -1741,7 +1748,11 @@ _connect_common (NMVpnServicePlugin   *plugin,
 		return FALSE;
 	}
 
-	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
+	/* XAUTH is not part of the IKEv2 standard and we always enforce it in IKEv1 */
+	priv->xauth_enabled = !nm_libreswan_utils_setting_is_ikev2 (s_vpn, NULL);
+
+	if (priv->xauth_enabled)
+		priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
 
 	/* Write the IPsec secret (group password); *SWAN always requires this and
 	 * doesn't ask for it interactively.
@@ -1806,11 +1817,13 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 		}
 	}
 
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
-	if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
-		if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD)) {
-			*setting_name = NM_SETTING_VPN_SETTING_NAME;
-			return TRUE;
+	if (!nm_libreswan_utils_setting_is_ikev2 (s_vpn, NULL)) {
+		pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
+		if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
+			if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD)) {
+				*setting_name = NM_SETTING_VPN_SETTING_NAME;
+				return TRUE;
+			}
 		}
 	}
 
