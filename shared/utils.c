@@ -130,22 +130,11 @@ nm_libreswan_config_write (gint fd,
 	}
 	WRITE_CHECK (fd, debug_write_fcn, error, " authby=secret");
 	WRITE_CHECK (fd, debug_write_fcn, error, " left=%%defaultroute");
-	WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthclient=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=yes");
-
 	if (leftupdown_script)
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=%s", leftupdown_script);
 
-	default_username = nm_setting_vpn_get_user_name (s_vpn);
-	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
-	if (props_username && strlen (props_username))
-		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", props_username);
-	else if (default_username && strlen (default_username))
-		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", default_username);
-
 	WRITE_CHECK (fd, debug_write_fcn, error, " right=%s", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
-	WRITE_CHECK (fd, debug_write_fcn, error, " remote_peer_type=cisco");
-	WRITE_CHECK (fd, debug_write_fcn, error, " rightxauthserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " rightmodecfgserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
 
@@ -156,6 +145,18 @@ nm_libreswan_config_write (gint fd,
 	else
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s",
 			     remote_network);
+	WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthclient=yes");
+
+	default_username = nm_setting_vpn_get_user_name (s_vpn);
+	props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
+	if (props_username && strlen (props_username))
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", props_username);
+	else if (default_username && strlen (default_username))
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", default_username);
+
+	WRITE_CHECK (fd, debug_write_fcn, error, " remote_peer_type=cisco");
+	WRITE_CHECK (fd, debug_write_fcn, error, " rightxauthserver=yes");
+
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
 	if (!phase1_alg_str || !strlen (phase1_alg_str))
