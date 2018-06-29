@@ -165,9 +165,9 @@ nm_libreswan_config_write (gint fd,
 
 	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
 	if (!phase2_alg_str || !strlen (phase2_alg_str))
-		WRITE_CHECK (fd, debug_write_fcn, error, " esp=aes-sha1;modp1024");
+		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=aes-sha1;modp1024");
 	else
-		WRITE_CHECK (fd, debug_write_fcn, error, " esp=%s", phase2_alg_str);
+		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", phase2_alg_str);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " rekey=yes");
 
