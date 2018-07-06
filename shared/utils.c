@@ -125,6 +125,13 @@ nm_libreswan_config_write (gint fd,
 	is_ikev2 = nm_libreswan_utils_setting_is_ikev2 (s_vpn, &ikev2);
 	/* When IKEv1 is in place, we enforce XAUTH */
 	xauth_enabled = !is_ikev2;
+	/* When using IKEv1 (default in our plugin), we should ensure that we make
+	 * it explicit to Libreswan (which defaults to IKEv2): when crypto algorithms
+	 * are not specified ("esp" & "ike") Libreswan will use system-wide crypto
+	 * policies based on the IKE version in place.
+	 */
+	if (!ikev2)
+		ikev2 = NM_LIBRESWAN_IKEV2_NEVER;
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
 
@@ -180,16 +187,24 @@ nm_libreswan_config_write (gint fd,
 
 
 	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
-	if (!phase1_alg_str || !strlen (phase1_alg_str))
-		WRITE_CHECK (fd, debug_write_fcn, error, " ike=aes-sha1");
-	else
+	/* When the crypto is unspecified, let Libreswan use many sets of crypto
+	 * proposals (just leave the property unset). An exception should be made
+	 * for IKEv1 connections in aggressive mode: there the DH group in the crypto
+	 * phase1 proposal must be just one; moreover no more than 4 proposal may be
+	 * specified. So, when IKEv1 aggressive mode ('leftid' specified) is configured
+	 * force the best proposal that should be accepted by all obsolete VPN SW/HW
+	 * acting as a remote access VPN server.
+	 */
+	if (phase1_alg_str && strlen (phase1_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ike=%s", phase1_alg_str);
+	else if (xauth_enabled && leftid)
+		WRITE_CHECK (fd, debug_write_fcn, error, " ike=aes256-sha1;modp1536");
 
 	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
-	if (!phase2_alg_str || !strlen (phase2_alg_str))
-		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=aes-sha1;modp1024");
-	else
+	if (phase2_alg_str && strlen (phase2_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", phase2_alg_str);
+	else if (xauth_enabled && leftid)
+		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=aes256-sha1");
 
 	phase1_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
 							    NM_LIBRESWAN_IKELIFETIME);

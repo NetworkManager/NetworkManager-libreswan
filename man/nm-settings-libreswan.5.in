@@ -74,11 +74,13 @@ ignored.
 .TP
 .I "ike"
 allowed ciphers to be negotiatied to establish the IKE SAs. Corresponds to the
-Libreswan parameter of the same name. Default value is 'aes-sha1'.
+Libreswan parameter of the same name. Default value depends on Libreswan but for
+IKEv1 aggressive negotiation: in that case the default is forced to 'aes256-sha1;modp1536'.
 .TP
 .I "esp"
 allowed ciphers for establishing phase2 SAs. Matches the Libreswan
-parameter of the same name. Default value is 'aes-sha1;modp1024'.
+parameter of the same name. Default value depends on Libreswan but for IKEv1 aggressive
+negotiation: in that case the default is forced to 'aes256-sha1'.
 .TP
 .I "ikelifetime"
 how long the phase1 SA of a connection should last. Matches the Libreswan
