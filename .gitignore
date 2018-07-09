@@ -39,5 +39,6 @@ src/nm-libreswan-service-helper
 src/show-xfrm
 src/nm-libreswan-helper-service-dbus.c
 src/nm-libreswan-helper-service-dbus.h
+man/nm-settings-libreswan.5
 
 /NetworkManager-libreswan*.tar*
