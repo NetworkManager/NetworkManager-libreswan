@@ -48,6 +48,10 @@ Here the full list of the allowed parameters:
 contains the address of the remote VPN endpoint. Corresponds to the Libreswan parameter of the same name.
 Always Required.
 .TP
+.I "rightid"
+specifies the remote identifier to be used during IKE negotiation. Corresponds to the Libreswan
+parameter of the same name.
+.TP
 .I "leftid"
 specifies the local identifier to be used during IKE negotiation. When this property is specified and the
 IKEv1 protocol is used the key exchange will be performed in aggressive mode and the identifier will be
@@ -94,6 +98,23 @@ be filled with '0.0.0.0/0'. Matches the Libreswan parameter of the same name.
 .TP
 .I "ikev2"
 use IKEv2 negotiation. Allowed values are: 'permit', 'no'/'never', 'yes'/'propose' and 'insist'.
+Matches the Libreswan parameter of the same name.
+.TP
+.I "narrowing"
+only effective in IKEv2 negotiation. Allowed values are: 'yes' and 'no'.
+Matches the Libreswan parameter of the same name.
+.TP
+.I "rekey"
+Allowed values are: 'yes' and 'no'.
+Defaults to 'yes'.
+Matches the Libreswan parameter of the same name.
+.TP
+.I "fragmentation"
+Allowed values are: 'yes' and 'no'.
+Matches the Libreswan parameter of the same name.
+.TP
+.I "mobike"
+Allowed values are: 'yes' and 'no'.
 Matches the Libreswan parameter of the same name.
 .TP
 .I "pskinputmodes"

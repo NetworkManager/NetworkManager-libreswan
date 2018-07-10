@@ -35,6 +35,7 @@
 #define NM_LIBRESWAN_HELPER_PATH      LIBEXECDIR"/nm-libreswan-service-helper"
 
 #define NM_LIBRESWAN_RIGHT                      "right"
+#define NM_LIBRESWAN_RIGHTID                    "rightid"
 #define NM_LIBRESWAN_LEFTID                     "leftid"
 #define NM_LIBRESWAN_PSK_VALUE                  "pskvalue"
 #define NM_LIBRESWAN_PSK_INPUT_MODES            "pskinputmodes"
@@ -52,6 +53,10 @@
 #define NM_LIBRESWAN_VENDOR                     "vendor"
 #define NM_LIBRESWAN_REMOTENETWORK              "rightsubnet"
 #define NM_LIBRESWAN_IKEV2                      "ikev2"
+#define NM_LIBRESWAN_NARROWING                  "narrowing"
+#define NM_LIBRESWAN_REKEY                      "rekey"
+#define NM_LIBRESWAN_FRAGMENTATION              "fragmentation"
+#define NM_LIBRESWAN_MOBIKE                     "mobike"
 
 #define NM_LIBRESWAN_IKEV2_NO      "no"
 #define NM_LIBRESWAN_IKEV2_NEVER   "never"
