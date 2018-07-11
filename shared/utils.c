@@ -193,19 +193,17 @@ nm_libreswan_config_write (gint fd,
 
 	phase1_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
 							    NM_LIBRESWAN_IKELIFETIME);
-	if (!phase1_lifetime_str || !strlen (phase1_lifetime_str))
+	if (phase1_lifetime_str && strlen (phase1_lifetime_str))
+		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s", phase1_lifetime_str);
+	else if (!is_ikev2)
 		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
-	else
-		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s",
-			     phase1_lifetime_str);
 
 	phase2_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
 							    NM_LIBRESWAN_SALIFETIME);
-	if (!phase2_lifetime_str || !strlen (phase2_lifetime_str))
+	if (phase2_lifetime_str && strlen (phase2_lifetime_str))
+		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s", phase2_lifetime_str);
+	else if (!is_ikev2)
 		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
-	else
-		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s",
-			     phase2_lifetime_str);
 
 	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_REKEY);
 	if (!rekey || !strlen (rekey)) {
