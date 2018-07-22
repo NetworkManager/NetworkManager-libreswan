@@ -9,15 +9,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 21:02+0200\n"
-"PO-Revision-Date: 2016-09-06 17:55+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2018-06-04 12:19+0000\n"
+"PO-Revision-Date: 2018-07-22 16:30+0200\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -68,7 +70,7 @@ msgstr "Contrasenya de _grup:"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "Us heu d'autenticar per poder accedir a la xarxa privada virtual «%s»."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
@@ -80,26 +82,26 @@ msgid "IPsec based VPN using IKEv1"
 msgstr "VPN basada en IPsec usant IKEv1"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:158
 #, c-format
-msgid "Can't open file '%s': %s"
+msgid "Can’t open file “%s”: %s"
 msgstr "No s'ha pogut obrir el fitxer «%s» %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:135
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
+msgid "Missing “conn” section in “%s”"
 msgstr "Secció absent «conn» a «%s»"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:176
 #, c-format
-msgid "Error writing to file '%s': %s"
+msgid "Error writing to file “%s”: %s"
 msgstr "S'ha produït un error mentre s'escrivia el fitxer «%s»: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1452
 msgid "A password is required."
 msgstr "Cal una contrasenya."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1836
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -107,25 +109,25 @@ msgstr ""
 "No s'ha pogut processar la sol·licitud perquè la configuració de la connexió "
 "VPN no era vàlida."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1850
 msgid "Unhandled pending authentication."
 msgstr "Autenticació pendent no gestionada"
 
-#: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
+#: ../src/nm-libreswan-service.c:1992
+msgid "Don’t quit when VPN connection terminates"
 msgstr "No surtis quan s'acabi la connexió VPN"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:1993
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Habilita el registre de depuració amb missatges (pot exposar les "
 "contrasenyes)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:1994
 msgid "D-Bus name to use for this instance"
 msgstr "Nom D-BUS a usar per a aquesta instància"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2017
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -137,17 +139,17 @@ msgstr ""
 msgid "Error writing config: %s"
 msgstr "S'ha produït un error quan s'escrivia la configuració: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:312
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "l'objecte de classe «%s» no té una propietat anomenada «%s»"
 
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:319
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "la propietat «%s» de l'objecte classe «%s» no es pot escriure"
 
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:326
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -155,20 +157,20 @@ msgstr ""
 "la propietat «%s» de construcció per a l'objecte «%s» no es pot establir "
 "després de la construcció"
 
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:334
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "«%s::%s» no és un nom de propietat vàlid; «%s» no és un subtipus GObject"
 
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:343
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
 "no s'ha pogut establir la propietat «%s» del tipus «%s» a partir del valor "
 "de tipus «%s»"
 
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:354
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -198,8 +200,8 @@ msgstr ""
 "s'ha produït un error desconegut quan es creava la instància de l'editor"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>General</b>"
+msgid "General"
+msgstr "General"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "_Gateway:"
@@ -238,15 +240,23 @@ msgid "Phase1 Algorithms:"
 msgstr "Algoritmes Phase1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Phase1 Lifetime:"
+msgstr "Temps de vida Phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "Phase2 Lifetime:"
+msgstr "Temps de vida Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "Remote Network:"
+msgstr "Xarxa remota:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Ad_vanced"
 msgstr "A_vançat"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
-
-#~ msgid "Network"
-#~ msgstr "Xarxa"
+#~ msgid " "
+#~ msgstr " "
 
 #~ msgid "Request VPN authentication"
 #~ msgstr "Demana l'autenticació de la VPN"
