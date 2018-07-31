@@ -36,7 +36,10 @@
 
 #define NM_LIBRESWAN_RIGHT                      "right"
 #define NM_LIBRESWAN_RIGHTID                    "rightid"
+#define NM_LIBRESWAN_RIGHTRSASIGKEY             "rightrsasigkey"
 #define NM_LIBRESWAN_LEFTID                     "leftid"
+#define NM_LIBRESWAN_LEFTRSASIGKEY              "leftrsasigkey"
+#define NM_LIBRESWAN_LEFTCERT                   "leftcert"
 #define NM_LIBRESWAN_PSK_VALUE                  "pskvalue"
 #define NM_LIBRESWAN_PSK_INPUT_MODES            "pskinputmodes"
 #define NM_LIBRESWAN_LEFTXAUTHUSER              "leftxauthusername"

@@ -52,11 +52,23 @@ Always Required.
 specifies the remote identifier to be used during IKE negotiation. Corresponds to the Libreswan
 parameter of the same name.
 .TP
+.I "rightrsasigkey"
+specifies the remote's public key for RSA authentication.
+When the 'leftcert' key is defined a default value of "%cert" is assumed.
+.TP
 .I "leftid"
 specifies the local identifier to be used during IKE negotiation. When this property is specified and the
 IKEv1 protocol is used the key exchange will be performed in aggressive mode and the identifier will be
 considered a literal string (it will be automatically prefixed with '@' when passed to Libreswan).
 Corresponds to the Libreswan parameter of the same name.
+.TP
+.I "leftrsasigkey"
+specifies the local public key for RSA authentication. The key should be already installed in the *swan NSS database.
+When the 'leftcert' key is defined a default value of "%cert" is assumed.
+.TP
+.I "leftcert"
+this defines the certificate nickname of your certificate in the NSS database.
+The certificate should be already installed in the NSS database.
 .TP
 .I "leftxauthusername"
 the username to be used during XAUTH authentication. If not specified, the

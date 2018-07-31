@@ -250,8 +250,11 @@ typedef struct {
 static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_RIGHTID,                    G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_RIGHTRSASIGKEY,             G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_LEFTID,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_DOMAIN,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_DHGROUP,                    G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
@@ -1800,6 +1803,9 @@ real_need_secrets (NMVpnServicePlugin *plugin,
                    GError **error)
 {
 	NMSettingVpn *s_vpn;
+	const char *leftcert;
+	const char *leftrsasigkey;
+	const char *rightrsasigkey;
 	const char *pw_type;
 
 	g_return_val_if_fail (NM_IS_VPN_SERVICE_PLUGIN (plugin), FALSE);
@@ -1814,6 +1820,17 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 		return FALSE;
 	}
 
+	/* When leftcert is specified, rsasigkey are assumed to be '%cert' */
+	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTCERT);
+	if (leftcert)
+		goto xauth_check;
+
+	/* If authentication is done through rsasigkeys, only the public keys are required */
+	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTRSASIGKEY);
+	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHTRSASIGKEY);
+	if (leftrsasigkey && rightrsasigkey)
+		goto xauth_check;
+
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
 	if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
 		if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_PSK_VALUE)) {
@@ -1822,6 +1839,7 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 		}
 	}
 
+xauth_check:
 	if (!nm_libreswan_utils_setting_is_ikev2 (s_vpn, NULL)) {
 		pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
 		if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
