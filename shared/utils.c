@@ -103,6 +103,7 @@ nm_libreswan_config_write (gint fd,
 	const char *phase2_alg_str;
 	const char *phase1_lifetime_str;
 	const char *phase2_lifetime_str;
+	const char *left;
 	const char *leftid;
 	const char *leftcert;
 	const char *leftrsasigkey;
@@ -174,7 +175,12 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " authby=secret");
 	}
 
-	WRITE_CHECK (fd, debug_write_fcn, error, " left=%%defaultroute");
+	left = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFT);
+	if (left && strlen (left))
+		WRITE_CHECK (fd, debug_write_fcn, error, " left=%s", left);
+	else
+		WRITE_CHECK (fd, debug_write_fcn, error, " left=%%defaultroute");
+
 	WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=yes");
 	if (leftupdown_script)
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=%s", leftupdown_script);

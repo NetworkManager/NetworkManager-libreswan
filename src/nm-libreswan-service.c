@@ -251,6 +251,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_RIGHTID,                    G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_RIGHTRSASIGKEY,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_LEFT,                       G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_LEFTID,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
