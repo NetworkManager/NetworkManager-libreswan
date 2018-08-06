@@ -41,7 +41,7 @@
 #endif
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")
-#define LIBRESWAN_PLUGIN_DESC    _("IPsec based VPN using IKEv1")
+#define LIBRESWAN_PLUGIN_DESC    _("IPsec based VPN for remote clients")
 
 /*****************************************************************************/
 
