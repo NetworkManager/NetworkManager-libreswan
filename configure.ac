@@ -179,6 +179,8 @@ fi
 AC_CONFIG_FILES([
 Makefile
 po/Makefile.in
+man/Makefile
+man/nm-settings-libreswan.5
 ])
 AC_OUTPUT
 

@@ -56,6 +56,8 @@ typedef struct {
 	GtkSizeGroup *group;
 } LibreswanEditorPrivate;
 
+#define TYPE_IKEV1_XAUTH 0
+#define TYPE_IKEV2_CERT  1
 
 static gboolean
 check_validity (LibreswanEditor *self, GError **error)
@@ -63,6 +65,7 @@ check_validity (LibreswanEditor *self, GError **error)
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	GtkWidget *widget;
 	char *str;
+	int contype;
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "gateway_entry"));
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
@@ -74,6 +77,21 @@ check_validity (LibreswanEditor *self, GError **error)
 		return FALSE;
 	}
 
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "type_combo"));
+	contype = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
+
+	if (contype == TYPE_IKEV2_CERT) {
+		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "cert_entry"));
+		str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
+		if (!str || !strlen (str) || strstr (str, " ") || strstr (str, "\t")) {
+			g_set_error (error,
+			             NMV_EDITOR_PLUGIN_ERROR,
+			             NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
+			             NM_LIBRESWAN_LEFTCERT);
+			return FALSE;
+		}
+	}
+
 	return TRUE;
 }
 
@@ -81,6 +99,44 @@ static void
 stuff_changed_cb (GtkWidget *widget, gpointer user_data)
 {
 	g_signal_emit_by_name (LIBRESWAN_EDITOR (user_data), "changed");
+}
+
+static void
+contype_combo_changed_cb (GtkWidget *combo, gpointer user_data)
+{
+	LibreswanEditor *self = LIBRESWAN_EDITOR (user_data);
+	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+	int contype;
+	const char *ikev1_widgets[] = { "user_label" , "user_entry",
+	                                "user_password_label", "user_password_entry",
+	                                "group_label", "group_entry",
+	                                "group_password_label", "group_password_entry",
+	                                "show_passwords_checkbutton",
+	                                NULL };
+	const char *ikev2_widgets[] = { "cert_label", "cert_entry",
+	                                "remoteid_label", "remoteid_entry",
+	                                NULL };
+	const char **widget_show;
+	const char **widget_hide;
+
+	contype = gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
+
+	switch (contype) {
+	case TYPE_IKEV2_CERT:
+		widget_show = ikev2_widgets;
+		widget_hide = ikev1_widgets;
+		break;
+	case TYPE_IKEV1_XAUTH:
+	default:
+		widget_show = ikev1_widgets;
+		widget_hide = ikev2_widgets;
+		break;
+	}
+	while (*widget_show)
+		gtk_widget_show (GTK_WIDGET (gtk_builder_get_object (priv->builder, *widget_show++)));
+	while (*widget_hide)
+		gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (priv->builder, *widget_hide++)));
+
 }
 
 static void
@@ -195,6 +251,8 @@ init_editor_plugin (LibreswanEditor *self,
 	NMSettingVpn *s_vpn = NULL;
 	GtkWidget *widget;
 	const char *value = NULL;
+	const char *ikev2 = NM_LIBRESWAN_IKEV2_NO;
+	int contype = TYPE_IKEV1_XAUTH;
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
 
@@ -208,6 +266,23 @@ init_editor_plugin (LibreswanEditor *self,
 		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "type_combo"));
+	g_return_val_if_fail (widget != NULL, FALSE);
+	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
+	if (s_vpn) {
+		ikev2 = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKEV2);
+		if (NM_IN_STRSET (ikev2,
+		                  NM_LIBRESWAN_IKEV2_YES,
+		                  NM_LIBRESWAN_IKEV2_PROPOSE,
+		                  NM_LIBRESWAN_IKEV2_INSIST)) {
+			contype = TYPE_IKEV2_CERT;
+		} else
+			contype = TYPE_IKEV1_XAUTH;
+	}
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (contype_combo_changed_cb), self);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (widget), contype);
 	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
@@ -250,6 +325,26 @@ init_editor_plugin (LibreswanEditor *self,
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
+		if (value && *value)
+			gtk_entry_set_text (GTK_ENTRY (widget), value);
+	}
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "cert_entry"));
+	g_return_val_if_fail (widget != NULL, FALSE);
+	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
+	if (s_vpn) {
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTCERT);
+		if (value && *value)
+			gtk_entry_set_text (GTK_ENTRY (widget), value);
+	}
+	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remoteid_entry"));
+	g_return_val_if_fail (widget != NULL, FALSE);
+	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
+	if (s_vpn) {
+		value = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHTID);
 		if (value && *value)
 			gtk_entry_set_text (GTK_ENTRY (widget), value);
 	}
@@ -393,6 +488,7 @@ update_connection (NMVpnEditor *iface,
 	NMSettingVpn *s_vpn;
 	GtkWidget *widget;
 	char *str;
+	int contype;
 
 	if (!check_validity (self, error))
 		return FALSE;
@@ -406,17 +502,60 @@ update_connection (NMVpnEditor *iface,
 	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHT, str);
 
-	/* Group name */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
-	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && *str)
-		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, str);
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "type_combo"));
+	contype = gtk_combo_box_get_active (GTK_COMBO_BOX (widget));
+	switch (contype) {
+	case TYPE_IKEV2_CERT:
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKEV2, NM_LIBRESWAN_IKEV2_INSIST);
 
-	/* User name*/
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
-	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
-	if (str && *str)
-		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, str);
+		/* Certificate name */
+		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "cert_entry"));
+		str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
+		if (str && *str)
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTCERT, str);
+
+		/* Remote ID */
+		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remoteid_entry"));
+		str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
+		if (str && *str)
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHTID, str);
+
+		/* For now just enforce retrieving the local id from the certificate.
+		 * We will allow to change this when we will refactore the "advanced"
+		 * section and will expose the "leftid" parameter there.
+		 */
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, "%fromcert");
+
+		break;
+
+	case TYPE_IKEV1_XAUTH:
+		/* Group name */
+		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "group_entry"));
+		str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
+		if (str && *str)
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, str);
+
+		/* User name*/
+		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "user_entry"));
+		str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
+		if (str && *str)
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, str);
+
+		save_one_password (s_vpn,
+		                   priv->builder,
+		                   "user_password_entry",
+		                   NM_LIBRESWAN_XAUTH_PASSWORD,
+		                   NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
+		save_one_password (s_vpn,
+		                   priv->builder,
+		                   "group_password_entry",
+		                   NM_LIBRESWAN_PSK_VALUE,
+		                   NM_LIBRESWAN_PSK_INPUT_MODES);
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
+	}
 
 	/* Phase 1 Algorithms: ike */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_entry"));
@@ -456,17 +595,6 @@ update_connection (NMVpnEditor *iface,
 	str = (char *) gtk_entry_get_text (GTK_ENTRY (widget));
 	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_REMOTENETWORK, str);
-
-	save_one_password (s_vpn,
-	                   priv->builder,
-	                   "user_password_entry",
-	                   NM_LIBRESWAN_XAUTH_PASSWORD,
-	                   NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
-	save_one_password (s_vpn,
-	                   priv->builder,
-	                   "group_password_entry",
-	                   NM_LIBRESWAN_PSK_VALUE,
-	                   NM_LIBRESWAN_PSK_INPUT_MODES);
 
 	nm_connection_add_setting (connection, NM_SETTING (s_vpn));
 	return TRUE;

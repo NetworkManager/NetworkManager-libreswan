@@ -19,8 +19,7 @@ libexec_PROGRAMS =
 
 noinst_PROGRAMS =
 
-SUBDIRS = \
-	po
+SUBDIRS = po man
 
 ###############################################################################
 
