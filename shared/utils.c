@@ -272,6 +272,8 @@ nm_libreswan_config_write (gint fd,
 	if (mobike && strlen (mobike))
 		WRITE_CHECK (fd, debug_write_fcn, error, " mobike=%s", mobike);
 
+	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
+
 	WRITE_CHECK_NEWLINE (fd, trailing_newline, debug_write_fcn, error, " auto=add");
 
 	return TRUE;
