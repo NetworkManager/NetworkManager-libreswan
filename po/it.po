@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2017-10-31 08:58+0000\n"
-"PO-Revision-Date: 2018-03-08 09:28+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2018-08-10 17:14+0000\n"
+"PO-Revision-Date: 2018-08-27 15:01+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -77,8 +77,8 @@ msgid "IPsec based VPN"
 msgstr "VPN basata su IPsec"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-msgid "IPsec based VPN using IKEv1"
-msgstr "VPN basata su IPsec con IKEv1"
+msgid "IPsec based VPN for remote clients"
+msgstr "VPN basata su IPsec per client remoti"
 
 #: ../properties/nm-libreswan-editor-plugin.c:80
 #: ../properties/nm-libreswan-editor-plugin.c:158
@@ -96,11 +96,11 @@ msgstr "Manca la sezione «conn» in «%s»"
 msgid "Error writing to file “%s”: %s"
 msgstr "Errore nello scrivere sul file «%s»: %s"
 
-#: ../src/nm-libreswan-service.c:1452
+#: ../src/nm-libreswan-service.c:1463
 msgid "A password is required."
 msgstr "È richiesta una password."
 
-#: ../src/nm-libreswan-service.c:1836
+#: ../src/nm-libreswan-service.c:1873
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -108,23 +108,23 @@ msgstr ""
 "Impossibile elaborare la richiesta poiché le impostazioni della connessione "
 "VPN non sono valide."
 
-#: ../src/nm-libreswan-service.c:1850
+#: ../src/nm-libreswan-service.c:1887
 msgid "Unhandled pending authentication."
 msgstr "Autenticazione pendente non gestita."
 
-#: ../src/nm-libreswan-service.c:1992
+#: ../src/nm-libreswan-service.c:2029
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Non esce quando la connessione VPN termina"
 
-#: ../src/nm-libreswan-service.c:1993
+#: ../src/nm-libreswan-service.c:2030
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Abilita output di debug prolisso (potrebbe esporre le password)"
 
-#: ../src/nm-libreswan-service.c:1994
+#: ../src/nm-libreswan-service.c:2031
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus da usare per questa istanza"
 
-#: ../src/nm-libreswan-service.c:2017
+#: ../src/nm-libreswan-service.c:2054
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -194,60 +194,87 @@ msgid "unknown error creating editor instance"
 msgstr "errore sconosciuto nel create l'istanza dell'editor"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (certificato)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
 msgstr "Generale"
 
-#: ../properties/nm-libreswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Gateway:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "Mostra le password"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Secret:"
-msgstr "_Segreto:"
-
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_User password:"
-msgstr "Password _utente:"
+msgid "Authentication"
+msgstr "Autenticazione"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "Nome g_ruppo:"
+msgid "Type:"
+msgstr "Tipo:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
 msgstr "Nome utente:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "Phase2 Algorithms:"
-msgstr "Algoritmi phase2:"
+msgid "_User password:"
+msgstr "Password _utente:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "Domain:"
-msgstr "Dominio:"
+msgid "G_roup name:"
+msgstr "Nome g_ruppo:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Segreto:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Mostra le password"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "Nome _certificato:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "ID _remoto:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
 msgid "Phase1 Algorithms:"
 msgstr "Algoritmi phase1:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmi phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "Domain:"
+msgstr "Dominio:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "Phase1 Lifetime:"
 msgstr "Durata phase1:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "Phase2 Lifetime:"
 msgstr "Durata phase2:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:19
 msgid "Remote Network:"
 msgstr "Rete remota:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:14
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Ad_vanced"
 msgstr "A_vanzate"
+
+#~ msgid "IPsec based VPN using IKEv1"
+#~ msgstr "VPN basata su IPsec con IKEv1"
 
 #~ msgid " "
 #~ msgstr " "
