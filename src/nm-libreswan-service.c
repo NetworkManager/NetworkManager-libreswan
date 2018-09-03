@@ -248,40 +248,40 @@ typedef struct {
 } ValidProperty;
 
 static ValidProperty valid_properties[] = {
-	{ NM_LIBRESWAN_RIGHT,                      G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_RIGHTID,                    G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_RIGHTRSASIGKEY,             G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_LEFT,                       G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_LEFTID,                     G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_DOMAIN,                     G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_DHGROUP,                    G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
-	{ NM_LIBRESWAN_IKE,                        G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_ESP,                        G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_IKELIFETIME,                G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_SALIFETIME,                 G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_VENDOR,                     G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_REMOTENETWORK,              G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_IKEV2,                      G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_NARROWING,                  G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_REKEY,                      G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_FRAGMENTATION,              G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_MOBIKE,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_RIGHT,                      G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_RIGHTID,                    G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_RIGHTRSASIGKEY,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFT,                       G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTID,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_DOMAIN,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_DHGROUP,                    G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
+	{ NM_LIBRESWAN_KEY_IKE,                        G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_ESP,                        G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_IKELIFETIME,                G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_SALIFETIME,                 G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_VENDOR,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_REMOTENETWORK,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_IKEV2,                      G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_NARROWING,                  G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_REKEY,                      G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_FRAGMENTATION,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_MOBIKE,                     G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
-	{ NM_LIBRESWAN_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
-	{ NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
-	{ NM_LIBRESWAN_PSK_VALUE "-flags",         G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_XAUTH_PASSWORD "-flags",    G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
+	{ NM_LIBRESWAN_KEY_PSK_VALUE "-flags",         G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags",    G_TYPE_STRING, 0, 0 },
 	{ NULL,                                    G_TYPE_NONE, 0, 0 }
 };
 
 static ValidProperty valid_secrets[] = {
-	{ NM_LIBRESWAN_PSK_VALUE,                  G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_XAUTH_PASSWORD,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_PSK_VALUE,                  G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD,             G_TYPE_STRING, 0, 0 },
 	{ NULL,                                    G_TYPE_NONE, 0, 0 }
 };
 
@@ -730,11 +730,11 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 	gboolean success;
 
 	/* Check for ignored group password */
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
+	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
 	if (pw_type && !strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED))
 		return TRUE;
 
-	psk = nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_PSK_VALUE);
+	psk = nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_PSK_VALUE);
 	if (!psk)
 		return TRUE;
 
@@ -765,11 +765,11 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 		return FALSE;
 	}
 
-	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID);
 	if (leftid) {
 		success = write_config_option (fd, NULL, error, "@%s: PSK \"%s\"", leftid, psk);
 	} else {
-		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT);
+		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT);
 		g_assert (right);
 		success = write_config_option (fd, NULL, error, "%s %%any: PSK \"%s\"", right, psk);
 	}
@@ -1459,7 +1459,7 @@ handle_auth (NMLibreswanPlugin *self, const char **out_message, const char **out
 		g_free (priv->password);
 		priv->password = NULL;
 	} else {
-		*out_hint = NM_LIBRESWAN_XAUTH_PASSWORD;
+		*out_hint = NM_LIBRESWAN_KEY_XAUTH_PASSWORD;
 		*out_message = _("A password is required.");
 	}
 
@@ -1761,7 +1761,7 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	priv->xauth_enabled = !nm_libreswan_utils_setting_is_ikev2 (s_vpn, NULL);
 
 	if (priv->xauth_enabled)
-		priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
+		priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
 
 	/* Write the IPsec secret (group password); *SWAN always requires this and
 	 * doesn't ask for it interactively.
@@ -1822,19 +1822,19 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 	}
 
 	/* When leftcert is specified, rsasigkey are assumed to be '%cert' */
-	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTCERT);
+	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
 	if (leftcert)
 		goto xauth_check;
 
 	/* If authentication is done through rsasigkeys, only the public keys are required */
-	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTRSASIGKEY);
-	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHTRSASIGKEY);
+	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
+	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
 	if (leftrsasigkey && rightrsasigkey)
 		goto xauth_check;
 
-	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_PSK_INPUT_MODES);
+	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
 	if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
-		if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_PSK_VALUE)) {
+		if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_PSK_VALUE)) {
 			*setting_name = NM_SETTING_VPN_SETTING_NAME;
 			return TRUE;
 		}
@@ -1842,9 +1842,9 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 
 xauth_check:
 	if (!nm_libreswan_utils_setting_is_ikev2 (s_vpn, NULL)) {
-		pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
+		pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
 		if (!pw_type || strcmp (pw_type, NM_LIBRESWAN_PW_TYPE_UNUSED)) {
-			if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD)) {
+			if (!nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_XAUTH_PASSWORD)) {
 				*setting_name = NM_SETTING_VPN_SETTING_NAME;
 				return TRUE;
 			}
@@ -1877,7 +1877,7 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 	_LOGD ("VPN received new secrets; sending to ipsec");
 
 	g_free (priv->password);
-	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_XAUTH_PASSWORD));
+	priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
 
 	g_warn_if_fail (priv->pending_auth);
 	if (!handle_auth (self, &message, &hints[0])) {

@@ -102,25 +102,25 @@ import_from_file (NMVpnEditorPlugin *self,
 			g_object_set (s_con, NM_SETTING_CONNECTION_ID, &str[5], NULL);
 		}
 		else if (g_str_has_prefix (str, "leftid=@"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTID, &str[8]);
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID, &str[8]);
 		else if (g_str_has_prefix (str, "leftxauthusername="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER, &str[18]);
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER, &str[18]);
 		else if (g_str_has_prefix (str, "right="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_RIGHT, &str[6]);
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT, &str[6]);
 		else if (g_str_has_prefix (str, "ike=") && strcmp (str, "ike=aes-sha1"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKE, &str[4]);
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKE, &str[4]);
 		else if (g_str_has_prefix (str, "esp=") && strcmp (str, "esp=aes-sha1;modp1024"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_ESP, &str[4]);
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP, &str[4]);
 		else if (g_str_has_prefix (str, "cisco-unity=yes"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_VENDOR, "Cisco");
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR, "Cisco");
 		else if (g_str_has_prefix (str, "ikelifetime="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_IKELIFETIME,
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKELIFETIME,
 						      &str[12]);
 		else if (g_str_has_prefix (str, "salifetime="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_SALIFETIME,
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_SALIFETIME,
 						      &str[11]);
 		else if (g_str_has_prefix (str, "rightsubnet="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_REMOTENETWORK,
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK,
 						      &str[12]);
 		else {
 			/* unknown tokens are silently ignored. */

@@ -177,7 +177,7 @@ eui_finish (const char *vpn_name,
 	if (need_password || existing_password || retry) {
 		show = (need_password && !existing_password) || retry;
 		keyfile_add_entry_info (keyfile,
-		                        NM_LIBRESWAN_XAUTH_PASSWORD,
+		                        NM_LIBRESWAN_KEY_XAUTH_PASSWORD,
 		                        existing_password ? existing_password : "",
 		                        _("Password:"),
 		                        TRUE,
@@ -187,7 +187,7 @@ eui_finish (const char *vpn_name,
 	if (need_group_password || existing_group_password || retry) {
 		show = (need_group_password && !existing_group_password) || retry;
 		keyfile_add_entry_info (keyfile,
-		                        NM_LIBRESWAN_PSK_VALUE,
+		                        NM_LIBRESWAN_KEY_PSK_VALUE,
 		                        existing_group_password ? existing_group_password : "",
 		                        _("Group Password:"),
 		                        TRUE,
@@ -288,9 +288,9 @@ std_finish (const char *vpn_name,
 {
 	/* Send the passwords back to our parent */
 	if (password)
-		printf ("%s\n%s\n", NM_LIBRESWAN_XAUTH_PASSWORD, password);
+		printf ("%s\n%s\n", NM_LIBRESWAN_KEY_XAUTH_PASSWORD, password);
 	if (group_password)
-		printf ("%s\n%s\n", NM_LIBRESWAN_PSK_VALUE, group_password);
+		printf ("%s\n%s\n", NM_LIBRESWAN_KEY_PSK_VALUE, group_password);
 	printf ("\n\n");
 
 	/* for good measure, flush stdout since Kansas is going Bye-Bye */
@@ -342,20 +342,20 @@ get_existing_passwords (GHashTable *vpn_data,
 	g_return_if_fail (out_group_password != NULL);
 
 	if (need_password) {
-		upw_flags = get_pw_flags (existing_secrets, NM_LIBRESWAN_XAUTH_PASSWORD, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
+		upw_flags = get_pw_flags (existing_secrets, NM_LIBRESWAN_KEY_XAUTH_PASSWORD, NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
 		if (!(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
-			*out_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_XAUTH_PASSWORD));
+			*out_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
 			if (!*out_password)
-				*out_password = keyring_lookup_secret (vpn_uuid, NM_LIBRESWAN_XAUTH_PASSWORD);
+				*out_password = keyring_lookup_secret (vpn_uuid, NM_LIBRESWAN_KEY_XAUTH_PASSWORD);
 		}
 	}
 
 	if (need_group_password) {
-		gpw_flags = get_pw_flags (existing_secrets, NM_LIBRESWAN_PSK_VALUE, NM_LIBRESWAN_PSK_INPUT_MODES);
+		gpw_flags = get_pw_flags (existing_secrets, NM_LIBRESWAN_KEY_PSK_VALUE, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
 		if (!(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
-			*out_group_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_PSK_VALUE));
+			*out_group_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_KEY_PSK_VALUE));
 			if (!*out_group_password)
-				*out_group_password = keyring_lookup_secret (vpn_uuid, NM_LIBRESWAN_PSK_VALUE);
+				*out_group_password = keyring_lookup_secret (vpn_uuid, NM_LIBRESWAN_KEY_PSK_VALUE);
 		}
 	}
 }
@@ -377,21 +377,21 @@ get_passwords_required (GHashTable *data,
 		for (iter = hints; iter && *iter; iter++) {
 			if (!prompt && g_str_has_prefix (*iter, VPN_MSG_TAG))
 				prompt = g_strdup (*iter + strlen (VPN_MSG_TAG));
-			else if (strcmp (*iter, NM_LIBRESWAN_XAUTH_PASSWORD) == 0)
+			else if (strcmp (*iter, NM_LIBRESWAN_KEY_XAUTH_PASSWORD) == 0)
 				*out_need_password = TRUE;
-			else if (strcmp (*iter, NM_LIBRESWAN_PSK_VALUE) == 0)
+			else if (strcmp (*iter, NM_LIBRESWAN_KEY_PSK_VALUE) == 0)
 				*out_need_group_password = TRUE;
 		}
 		return prompt;
 	}
 
 	/* User password (XAuth password) */
-	flags = get_pw_flags (data, NM_LIBRESWAN_XAUTH_PASSWORD, NM_LIBRESWAN_XAUTH_PASSWORD_INPUT_MODES);
+	flags = get_pw_flags (data, NM_LIBRESWAN_KEY_XAUTH_PASSWORD, NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
 	if (!(flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
 		*out_need_password = TRUE;
 
 	/* Group password (IPsec secret) */
-	flags = get_pw_flags (data, NM_LIBRESWAN_PSK_VALUE, NM_LIBRESWAN_PSK_INPUT_MODES);
+	flags = get_pw_flags (data, NM_LIBRESWAN_KEY_PSK_VALUE, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
 	if (!(flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
 		*out_need_group_password = TRUE;
 

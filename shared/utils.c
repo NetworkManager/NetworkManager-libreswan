@@ -137,7 +137,7 @@ nm_libreswan_config_write (gint fd,
 	if (!ikev2)
 		ikev2 = NM_LIBRESWAN_IKEV2_NEVER;
 
-	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTID);
+	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID);
 
 #define WRITE_CHECK_NEWLINE(fd, new_line, debug_write_fcn, error, ...) \
 	G_STMT_START { \
@@ -156,9 +156,9 @@ nm_libreswan_config_write (gint fd,
 		             leftid);
 	}
 
-	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTRSASIGKEY);
-	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHTRSASIGKEY);
-	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTCERT);
+	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
+	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
+	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
 	if (leftcert && strlen (leftcert)) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftcert=%s", leftcert);
 		if (!leftrsasigkey)
@@ -175,7 +175,7 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " authby=secret");
 	}
 
-	left = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFT);
+	left = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFT);
 	if (left && strlen (left))
 		WRITE_CHECK (fd, debug_write_fcn, error, " left=%s", left);
 	else
@@ -185,15 +185,15 @@ nm_libreswan_config_write (gint fd,
 	if (leftupdown_script)
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=%s", leftupdown_script);
 
-	WRITE_CHECK (fd, debug_write_fcn, error, " right=%s", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHT));
-	rightid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_RIGHTID);
+	WRITE_CHECK (fd, debug_write_fcn, error, " right=%s", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT));
+	rightid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTID);
 	if (rightid && strlen (rightid))
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightid=%s", rightid);
 	WRITE_CHECK (fd, debug_write_fcn, error, " rightmodecfgserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
 
 	remote_network = nm_setting_vpn_get_data_item (s_vpn,
-						       NM_LIBRESWAN_REMOTENETWORK);
+						       NM_LIBRESWAN_KEY_REMOTENETWORK);
 	if (!remote_network || !strlen (remote_network))
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
 	else
@@ -203,7 +203,7 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthclient=yes");
 
 		default_username = nm_setting_vpn_get_user_name (s_vpn);
-		props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_LEFTXAUTHUSER);
+		props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER);
 		if (props_username && strlen (props_username))
 			WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", props_username);
 		else if (default_username && strlen (default_username))
@@ -214,7 +214,7 @@ nm_libreswan_config_write (gint fd,
 	}
 
 
-	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKE);
+	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IKE);
 	/* When the crypto is unspecified, let Libreswan use many sets of crypto
 	 * proposals (just leave the property unset). An exception should be made
 	 * for IKEv1 connections in aggressive mode: there the DH group in the crypto
@@ -228,47 +228,47 @@ nm_libreswan_config_write (gint fd,
 	else if (xauth_enabled && leftid)
 		WRITE_CHECK (fd, debug_write_fcn, error, " ike=aes256-sha1;modp1536");
 
-	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_ESP);
+	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
 	if (phase2_alg_str && strlen (phase2_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", phase2_alg_str);
 	else if (xauth_enabled && leftid)
 		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=aes256-sha1");
 
 	phase1_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
-							    NM_LIBRESWAN_IKELIFETIME);
+							    NM_LIBRESWAN_KEY_IKELIFETIME);
 	if (phase1_lifetime_str && strlen (phase1_lifetime_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s", phase1_lifetime_str);
 	else if (!is_ikev2)
 		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
 
 	phase2_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
-							    NM_LIBRESWAN_SALIFETIME);
+							    NM_LIBRESWAN_KEY_SALIFETIME);
 	if (phase2_lifetime_str && strlen (phase2_lifetime_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s", phase2_lifetime_str);
 	else if (!is_ikev2)
 		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
 
-	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_REKEY);
+	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY);
 	if (!rekey || !strlen (rekey)) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " rekey=yes");
 		WRITE_CHECK (fd, debug_write_fcn, error, " keyingtries=1");
 	} else
 		WRITE_CHECK (fd, debug_write_fcn, error, " rekey=%s", rekey);
 
-	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_VENDOR), "Cisco") == 0)
+	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") == 0)
 		WRITE_CHECK (fd, debug_write_fcn, error, " cisco-unity=yes");
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " ikev2=%s", ikev2);
 
-	narrowing = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_NARROWING);
+	narrowing = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_NARROWING);
 	if (narrowing && strlen (narrowing))
 		WRITE_CHECK (fd, debug_write_fcn, error, " narrowing=%s", narrowing);
 
-	fragmentation = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_FRAGMENTATION);
+	fragmentation = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_FRAGMENTATION);
 	if (fragmentation && strlen (fragmentation))
 		WRITE_CHECK (fd, debug_write_fcn, error, " fragmentation=%s", fragmentation);
 
-	mobike = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_MOBIKE);
+	mobike = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_MOBIKE);
 	if (mobike && strlen (mobike))
 		WRITE_CHECK (fd, debug_write_fcn, error, " mobike=%s", mobike);
 
