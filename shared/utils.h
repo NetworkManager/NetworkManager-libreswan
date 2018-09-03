@@ -50,7 +50,7 @@ nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn, const char **out_ikev2
 {
 	const char *ikev2;
 
-	ikev2 = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_IKEV2);
+	ikev2 = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IKEV2);
 	if (ikev2 && strlen (ikev2) && out_ikev2)
 		*out_ikev2 = ikev2;
 
