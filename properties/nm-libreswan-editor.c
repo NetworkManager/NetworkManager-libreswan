@@ -122,14 +122,14 @@ contype_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 	contype = gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
 
 	switch (contype) {
-	case TYPE_IKEV2_CERT:
-		widget_show = ikev2_widgets;
-		widget_hide = ikev1_widgets;
-		break;
 	case TYPE_IKEV1_XAUTH:
-	default:
 		widget_show = ikev1_widgets;
 		widget_hide = ikev2_widgets;
+		break;
+	case TYPE_IKEV2_CERT:
+	default:
+		widget_show = ikev2_widgets;
+		widget_hide = ikev1_widgets;
 		break;
 	}
 	while (*widget_show)
@@ -251,8 +251,7 @@ init_editor_plugin (LibreswanEditor *self,
 	NMSettingVpn *s_vpn = NULL;
 	GtkWidget *widget;
 	const char *value = NULL;
-	const char *ikev2 = NM_LIBRESWAN_IKEV2_NO;
-	int contype = TYPE_IKEV1_XAUTH;
+	int contype = TYPE_IKEV2_CERT;
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
 
@@ -271,7 +270,9 @@ init_editor_plugin (LibreswanEditor *self,
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "type_combo"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
-	if (s_vpn) {
+	if (!new_connection && s_vpn) {
+		const char *ikev2;
+
 		ikev2 = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IKEV2);
 		if (NM_IN_STRSET (ikev2,
 		                  NM_LIBRESWAN_IKEV2_YES,
