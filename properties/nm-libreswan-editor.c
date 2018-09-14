@@ -59,6 +59,14 @@ typedef struct {
 #define TYPE_IKEV1_XAUTH 0
 #define TYPE_IKEV2_CERT  1
 
+/* Define a three-valued logic (3VL) for managing boolean values that allows a third value
+ * beside the common "yes"/"no". The third value actual meaning may depend on the context,
+ * e.g., for fragmentation it means "force".
+ */
+#define TYPE_3VL_NO    0
+#define TYPE_3VL_YES   1
+#define TYPE_3VL_OTHER 2
+
 static gboolean
 check_validity (LibreswanEditor *self, GError **error)
 {
@@ -241,11 +249,21 @@ init_password_icon (LibreswanEditor *self,
 	                  G_CALLBACK (password_storage_changed_cb), self);
 }
 
+
+/* Init the widget on the basis of its actual type.
+ *  widget_name: the name of the widget
+ *  key_name:    the name of the key where the config value is stored
+ *  match_value: used only for toggle_button and combo_box widgets; when matched
+ *               in the former it will set the toggle button as active, in the latter
+ *               will be used as a match for enabling the third index of possible values
+ *               (a three-valued logic value is expected: "no", "yes" or "match_value").
+ */
 static gboolean
 init_widget (LibreswanEditor *self,
              NMSettingVpn *s_vpn,
              const char *widget_name,
-             const char *key_name)
+             const char *key_name,
+             const char *match_value)
 {
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	GtkWidget *widget;
@@ -254,13 +272,32 @@ init_widget (LibreswanEditor *self,
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, widget_name));
 	g_return_val_if_fail (widget, FALSE);
 
-	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
+	if (GTK_IS_ENTRY (widget))
+		gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, key_name);
-		if (value && *value)
-			gtk_entry_set_text (GTK_ENTRY (widget), value);
+		if (value && *value) {
+			if (GTK_IS_ENTRY (widget)) {
+				gtk_entry_set_text (GTK_ENTRY (widget), value);
+			} else if (GTK_IS_CHECK_BUTTON (widget)) {
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget),
+				                              nm_streq0 (value, match_value));
+			} else if (GTK_IS_COMBO_BOX (widget)) {
+				gint idx = -1;
+
+				if (nm_streq (value, "no"))
+					idx = TYPE_3VL_NO;
+				else if (nm_streq (value, "yes"))
+					idx = TYPE_3VL_YES;
+				else if (nm_streq0 (value, match_value))
+					idx = TYPE_3VL_OTHER;
+				gtk_combo_box_set_active (GTK_COMBO_BOX (widget), idx);
+			}
+		}
 	}
-	g_signal_connect (G_OBJECT (widget), "changed", G_CALLBACK (stuff_changed_cb), self);
+	g_signal_connect (G_OBJECT (widget),
+	                  GTK_IS_CHECK_BUTTON (widget) ? "toggled" : "changed",
+	                  G_CALLBACK (stuff_changed_cb), self);
 
 	return TRUE;
 }
@@ -331,37 +368,37 @@ init_editor_plugin (LibreswanEditor *self,
 	                  (GCallback) show_toggled_cb,
 	                  self);
 
-	widget_updated = init_widget (self, s_vpn, "gateway_entry", NM_LIBRESWAN_KEY_RIGHT);
+	widget_updated = init_widget (self, s_vpn, "gateway_entry", NM_LIBRESWAN_KEY_RIGHT, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "group_entry", NM_LIBRESWAN_KEY_LEFTID);
+	widget_updated = init_widget (self, s_vpn, "group_entry", NM_LIBRESWAN_KEY_LEFTID, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "user_entry", NM_LIBRESWAN_KEY_LEFTXAUTHUSER);
+	widget_updated = init_widget (self, s_vpn, "user_entry", NM_LIBRESWAN_KEY_LEFTXAUTHUSER, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "cert_entry", NM_LIBRESWAN_KEY_LEFTCERT);
+	widget_updated = init_widget (self, s_vpn, "cert_entry", NM_LIBRESWAN_KEY_LEFTCERT, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "remoteid_entry", NM_LIBRESWAN_KEY_RIGHTID);
+	widget_updated = init_widget (self, s_vpn, "remoteid_entry", NM_LIBRESWAN_KEY_RIGHTID, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "phase1_entry", NM_LIBRESWAN_KEY_IKE);
+	widget_updated = init_widget (self, s_vpn, "phase1_entry", NM_LIBRESWAN_KEY_IKE, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "phase2_entry", NM_LIBRESWAN_KEY_ESP);
+	widget_updated = init_widget (self, s_vpn, "phase2_entry", NM_LIBRESWAN_KEY_ESP, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "phase1_lifetime_entry", NM_LIBRESWAN_KEY_IKELIFETIME);
+	widget_updated = init_widget (self, s_vpn, "phase1_lifetime_entry", NM_LIBRESWAN_KEY_IKELIFETIME, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME);
+	widget_updated = init_widget (self, s_vpn, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "domain_entry", NM_LIBRESWAN_KEY_DOMAIN);
+	widget_updated = init_widget (self, s_vpn, "domain_entry", NM_LIBRESWAN_KEY_DOMAIN, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
-	widget_updated = init_widget (self, s_vpn, "remote_network_entry", NM_LIBRESWAN_KEY_REMOTENETWORK);
+	widget_updated = init_widget (self, s_vpn, "remote_network_entry", NM_LIBRESWAN_KEY_REMOTENETWORK, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
 	return TRUE;
