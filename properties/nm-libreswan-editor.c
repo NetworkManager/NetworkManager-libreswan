@@ -123,7 +123,6 @@ contype_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 	                                "show_passwords_checkbutton",
 	                                NULL };
 	const char *ikev2_widgets[] = { "cert_label", "cert_entry",
-	                                "remoteid_label", "remoteid_entry",
 	                                NULL };
 	const char **widget_show;
 	const char **widget_hide;
@@ -532,12 +531,6 @@ update_connection (NMVpnEditor *iface,
 		if (str && *str)
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT, str);
 
-		/* Remote ID */
-		widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remoteid_entry"));
-		str = gtk_entry_get_text (GTK_ENTRY (widget));
-		if (str && *str)
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTID, str);
-
 		/* For now just enforce retrieving the local id from the certificate.
 		 * We will allow to change this when we will refactore the "advanced"
 		 * section and will expose the "leftid" parameter there.
@@ -574,6 +567,12 @@ update_connection (NMVpnEditor *iface,
 		g_assert_not_reached ();
 		break;
 	}
+
+	/* Remote ID */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remoteid_entry"));
+	str = gtk_entry_get_text (GTK_ENTRY (widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTID, str);
 
 	/* Phase 1 Algorithms: ike */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_entry"));
