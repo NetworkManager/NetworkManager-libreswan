@@ -1,5 +1,5 @@
 ========================================================
-NetworkManager-libreswan-1.2.8 (not released yet)
+NetworkManager-libreswan-1.2.8
 Overview of changes since NetworkManager-libreswan-1.2.6
 ========================================================
 
@@ -8,6 +8,8 @@ The API is subject to change and not guaranteed to be compatible
 with the later release.
 USE AT YOUR OWN RISK.  NOT RECOMMENDED FOR PRODUCTION USE!
 
+* GUI allows to set the remote id also for IKEv1 connections.
+* GUI "advanced" section as been moved to a separate dialog.
 * GUI allows to select IKEv2 certificate-based config.
 * Added support to many new Libreswan options: "'rightid', 'narrowing', 'rekey',
   'fragmentation', mobike' ... see man page for full list.
