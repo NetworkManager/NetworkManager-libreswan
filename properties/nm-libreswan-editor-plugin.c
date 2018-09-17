@@ -72,6 +72,24 @@ import_from_file (NMVpnEditorPlugin *self,
 	char *str_tmp;
 	int fd, errsv;
 	gboolean has_conn = FALSE;
+	gboolean has_ikev2 = FALSE;
+	gboolean is_ikev2 = TRUE;
+	gboolean is_aggrmode = FALSE;
+	gboolean is_default_aggr_ike = FALSE;
+	gboolean is_default_aggr_esp = FALSE;
+	gboolean is_default_ikev1_ikelifetime = FALSE;
+	gboolean is_default_ikev1_salifetime = FALSE;
+	/*
+	 * All the booleans here are used to track if we are dealing with an IKEv1 configuration
+	 * in aggressive mode: in IKEv1 we enforce our own defaults to libreswan for the "ikelifetime"
+	 * and "salifetime" parameters; similarly, for IKEv1 connection in aggressive mode we enforce
+	 * our own ike and esp chiper suites.
+	 * Things got complicated because for IKEv2 connections we let Libreswan to pick up the default
+	 * values: so, our defaults for IKEv1 when applied to IKEv2 connections are particular values
+	 * that we have to add to the configuration.
+	 * So, track when we hit default IKEv1 values and decide after having read the whole config if
+	 * we need to track them in the NM config or not.
+	 */
 
 	fd = g_open (path, O_RDONLY, 0777);
 	if (fd == -1) {
@@ -95,34 +113,109 @@ import_from_file (NMVpnEditorPlugin *self,
 		g_strstrip (str);
 		if (g_str_has_prefix (str, "conn ")) {
 			if (has_conn) {
-				/* only accept the frist connection section */
+				/* only accept the first connection section */
 				break;
 			}
 			has_conn = TRUE;
 			g_object_set (s_con, NM_SETTING_CONNECTION_ID, &str[5], NULL);
-		}
-		else if (g_str_has_prefix (str, "leftid=@"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID, &str[8]);
+		} else if (g_str_has_prefix (str, "leftid=")) {
+			if (str[7] == '@')
+				is_aggrmode = TRUE;
+			nm_setting_vpn_add_data_item (s_vpn,
+			                              NM_LIBRESWAN_KEY_LEFTID,
+			                              is_aggrmode ? &str[8] : &str[7]);
+		} else if (g_str_has_prefix (str, "rightid=")) {
+			nm_setting_vpn_add_data_item (s_vpn,
+			                              NM_LIBRESWAN_KEY_RIGHTID,
+			                              (str[8] == '@') ? &str[9] : &str[8]);
+		} else if (g_str_has_prefix (str, "ikev2=")) {
+			const char *ikev2 = &str[6];
+
+			has_ikev2 = TRUE;
+			if (NM_IN_STRSET (ikev2,
+			                  NM_LIBRESWAN_IKEV2_NO,
+			                  NM_LIBRESWAN_IKEV2_NEVER)) {
+				is_ikev2 = FALSE;
+			} else
+				is_ikev2 = TRUE;
+			if (!nm_streq (ikev2, NM_LIBRESWAN_IKEV2_NEVER))
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKEV2, ikev2);
+		} else if (g_str_has_prefix (str, "ike=")) {
+			const char *ike = &str[4];
+
+			if (nm_streq (ike, NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE))
+				is_default_aggr_ike = TRUE;
+			else
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKE, ike);
+		} else if (g_str_has_prefix (str, "esp=")) {
+			const char *esp = &str[4];
+
+			if (nm_streq (esp, NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP))
+				is_default_aggr_esp = TRUE;
+			else
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP, esp);
+		} else if (g_str_has_prefix (str, "phase2alg=")) {
+			const char *esp = &str[10];
+
+			if (nm_streq (esp, NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP))
+				is_default_aggr_esp = TRUE;
+			else
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP, esp);
+		} else if (g_str_has_prefix (str, "ikelifetime=")) {
+			const char *lifetime = &str[12];
+
+			if (nm_streq (lifetime, NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME))
+				is_default_ikev1_ikelifetime = TRUE;
+			else
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKELIFETIME, lifetime);
+		} else if (g_str_has_prefix (str, "salifetime=")) {
+			const char *lifetime = &str[11];
+
+			if (nm_streq (lifetime, NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME))
+				is_default_ikev1_salifetime = TRUE;
+			else
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_SALIFETIME, lifetime);
+		} else if (g_str_has_prefix (str, "left=")) {
+			if (!nm_streq (str, "left=%defaultroute"))
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFT, &str[5]);
+		} else if (g_str_has_prefix (str, "right="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT, &str[6]);
 		else if (g_str_has_prefix (str, "leftxauthusername="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER, &str[18]);
-		else if (g_str_has_prefix (str, "right="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT, &str[6]);
-		else if (g_str_has_prefix (str, "ike=") && strcmp (str, "ike=aes-sha1"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKE, &str[4]);
-		else if (g_str_has_prefix (str, "esp=") && strcmp (str, "esp=aes-sha1;modp1024"))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP, &str[4]);
+		else if (g_str_has_prefix (str, "leftcert="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT, &str[9]);
+		else if (g_str_has_prefix (str, "pfs=no"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_PFS, "no");
 		else if (g_str_has_prefix (str, "cisco-unity=yes"))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR, "Cisco");
-		else if (g_str_has_prefix (str, "ikelifetime="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKELIFETIME,
-						      &str[12]);
-		else if (g_str_has_prefix (str, "salifetime="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_SALIFETIME,
-						      &str[11]);
-		else if (g_str_has_prefix (str, "rightsubnet="))
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK,
-						      &str[12]);
-		else {
+		else if (g_str_has_prefix (str, "rekey=no"))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY, "no");
+		else if (g_str_has_prefix (str, "narrowing="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_NARROWING, &str[10]);
+		else if (g_str_has_prefix (str, "fragmentation="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_FRAGMENTATION, &str[14]);
+		else if (g_str_has_prefix (str, "mobike="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_MOBIKE, &str[7]);
+		else if (g_str_has_prefix (str, "rightsubnet=")) {
+			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);
+		} else if (g_str_has_prefix (str, "leftrsasigkey=")) {
+			if (str[14] != '%')
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY, &str[14]);
+		} else if (g_str_has_prefix (str, "rightrsasigkey=")) {
+			if (str[15] != '%')
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY, &str[15]);
+		} else {
+			/* till we don't get an explicit ikev2 value get hints on IKE version:
+			 * libreswan changed the default from IKEv1 to IKEv2 but older NM version
+			 * assumed IKEv1 as default... we should guess smart if we don't get an
+			 * explicit ikev2 value. */
+			if (   !has_ikev2
+			    && (   nm_streq (str, "aggrmode=yes")
+			        || nm_streq (str, "leftxauthclient=yes")
+			        || nm_streq (str, "rightxauthserver=yes"))) {
+				is_ikev2 = FALSE;
+			}
 			/* unknown tokens are silently ignored. */
 		}
 	}
@@ -135,6 +228,31 @@ import_from_file (NMVpnEditorPlugin *self,
 		             _("Missing “conn” section in “%s”"), path);
 		g_object_unref (connection);
 		return NULL;
+	}
+
+	if (!has_ikev2 && is_ikev2)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKEV2, NM_LIBRESWAN_IKEV2_YES);
+
+	if (is_ikev2) {
+		is_aggrmode = FALSE;
+		if (is_default_ikev1_ikelifetime) {
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKELIFETIME,
+			                              NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME);
+		}
+		if (is_default_ikev1_salifetime) {
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_SALIFETIME,
+			                              NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME);
+		}
+	}
+	if (!is_aggrmode) {
+		if (is_default_aggr_ike) {
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKE,
+			                              NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE);
+		}
+		if (is_default_aggr_esp) {
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP,
+			                              NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP);
+		}
 	}
 
 	return connection;
