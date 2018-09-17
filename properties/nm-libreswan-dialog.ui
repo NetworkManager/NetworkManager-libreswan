@@ -539,7 +539,7 @@
                       <object class="GtkEntry" id="domain_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">(NT-)Domain name for authentication
+                        <property name="tooltip_text" translatable="yes">(NT-)Domain name for authentication.
 config: Domain &lt;domain&gt;</property>
                         <property name="invisible_char">●</property>
                       </object>
@@ -601,7 +601,7 @@ config: Domain &lt;domain&gt;</property>
                       <object class="GtkEntry" id="phase1_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">IKE encryption/authentication algorithm to be used for the connection (phase 1 aka ISAKMP SA). The format is "cipher-hash;modpgroup, cipher-hash;modpgroup, ..."
+                        <property name="tooltip_text" translatable="yes">IKE encryption/authentication algorithm to be used for the connection (phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.
 config: ike &lt;proposals&gt;</property>
                         <property name="hexpand">True</property>
                         <property name="invisible_char">●</property>
@@ -628,7 +628,7 @@ config: ike &lt;proposals&gt;</property>
                       <object class="GtkEntry" id="phase2_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Specifies the algorithms that will be offered/accepted for a phase2 negotiation. The format is "cipher-hash;modpgroup, cipher-hash;modpgroup, ..."
+                        <property name="tooltip_text" translatable="yes">Specifies the algorithms that will be offered/accepted for a phase2 negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.
 config: esp &lt;proposals&gt;</property>
                         <property name="hexpand">True</property>
                         <property name="invisible_char">●</property>
@@ -655,7 +655,7 @@ config: esp &lt;proposals&gt;</property>
                       <object class="GtkEntry" id="phase1_lifetime_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">how long the keying channel of a connection should last before being renegotiated. The value is expressed by a number followed by an optional 's'(econds), 'm'(inutes), 'h'(ours) or 'd'(ays)
+                        <property name="tooltip_text" translatable="yes">How long the keying channel of a connection should last before being renegotiated. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).
 config: ikelifetime &lt;lifetime&gt;</property>
                       </object>
                       <packing>
@@ -681,7 +681,7 @@ config: ikelifetime &lt;lifetime&gt;</property>
                       <object class="GtkEntry" id="phase2_lifetime_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">how long a particular instance of a connection (a set of encryption/authentication keys for user packets) should last, from successful negotiation to expiry. The value is expressed by a number followed by an optional 's'(econds), 'm'(inutes), 'h'(ours) or 'd'(ays)
+                        <property name="tooltip_text" translatable="yes">How long a particular instance of a connection (a set of encryption/authentication keys for user packets) should last, from successful negotiation to expiry. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).
 config: salifetime &lt;lifetime&gt;</property>
                       </object>
                       <packing>
@@ -695,7 +695,7 @@ config: salifetime &lt;lifetime&gt;</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">whether a connection should not be renegotiated when it is about to expire
+                        <property name="tooltip_text" translatable="yes">Whether a connection should not be renegotiated when it is about to expire.
 config: rekey &lt;no/yes&gt;</property>
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
@@ -767,7 +767,7 @@ config: rekey &lt;no/yes&gt;</property>
                       <object class="GtkEntry" id="remote_network_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">private subnet behind the remote participant, expressed as network/netmask
+                        <property name="tooltip_text" translatable="yes">Private subnet behind the remote participant, expressed as network/netmask.
 config: rightsubnet &lt;net&gt;</property>
                       </object>
                       <packing>
@@ -812,7 +812,7 @@ config: rightsubnet &lt;net&gt;</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="tooltip_text" translatable="yes">IKEv2 negotiation may allow establishing an IPsec connection with narrowed down traffic selectors. This option is ignored for IKEv1
+                        <property name="tooltip_text" translatable="yes">IKEv2 negotiation may allow establishing an IPsec connection with narrowed down traffic selectors. This option is ignored for IKEv1.
 config: narrowing &lt;yes/no&gt;</property>
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
