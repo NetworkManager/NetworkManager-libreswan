@@ -24,6 +24,7 @@
 #include "nm-default.h"
 
 #include "utils.h"
+#include "nm-utils/nm-shared-utils.h"
 
 #include <unistd.h>
 #include <string.h>
@@ -147,13 +148,16 @@ nm_libreswan_config_write (gint fd,
 #define WRITE_CHECK(fd, debug_write_fcn, error, ...) WRITE_CHECK_NEWLINE (fd, TRUE, debug_write_fcn, error, __VA_ARGS__)
 
 	WRITE_CHECK (fd, debug_write_fcn, error, "conn %s", con_name);
-	if (leftid) {
+	if (leftid && strlen (leftid)) {
 		if (xauth_enabled)
 			WRITE_CHECK (fd, debug_write_fcn, error, " aggrmode=yes");
-		WRITE_CHECK (fd, debug_write_fcn, error,
-		             " leftid=%s%s",
-		             xauth_enabled ? "@" : "",
-		             leftid);
+
+		if (   leftid[0] == '%'
+		    || leftid[0] == '@'
+		    || nm_utils_parse_inaddr_bin (AF_UNSPEC, leftid, NULL)) {
+			WRITE_CHECK (fd, debug_write_fcn, error, " leftid=%s", leftid);
+		} else
+			WRITE_CHECK (fd, debug_write_fcn, error, " leftid=@%s", leftid);
 	}
 
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
@@ -187,8 +191,14 @@ nm_libreswan_config_write (gint fd,
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " right=%s", nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT));
 	rightid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTID);
-	if (rightid && strlen (rightid))
-		WRITE_CHECK (fd, debug_write_fcn, error, " rightid=%s", rightid);
+	if (rightid && strlen (rightid)) {
+		if (   rightid[0] == '@'
+		    || rightid[0] == '%'
+		    ||  nm_utils_parse_inaddr_bin (AF_UNSPEC, rightid, NULL)) {
+			WRITE_CHECK (fd, debug_write_fcn, error, " rightid=%s", rightid);
+		} else
+			WRITE_CHECK (fd, debug_write_fcn, error, " rightid=@%s", rightid);
+	}
 	WRITE_CHECK (fd, debug_write_fcn, error, " rightmodecfgserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
 
