@@ -428,6 +428,9 @@ init_editor_plugin (LibreswanEditor *self,
 	widget_updated = init_widget (self, s_vpn, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, "no");
 	g_return_val_if_fail (widget_updated, FALSE);
 
+	widget_updated = init_widget (self, s_vpn, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, "no");
+	g_return_val_if_fail (widget_updated, FALSE);
+
 	widget_updated = init_widget (self, s_vpn, "remote_network_entry", NM_LIBRESWAN_KEY_REMOTENETWORK, NULL);
 	g_return_val_if_fail (widget_updated, FALSE);
 
@@ -617,6 +620,11 @@ update_connection (NMVpnEditor *iface,
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "rekey_checkbutton"));
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY, "no");
+
+	/* Disable PFS */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "pfs_checkbutton"));
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_PFS, "no");
 
 	/* Narrowing */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "narrowing_checkbutton"));
