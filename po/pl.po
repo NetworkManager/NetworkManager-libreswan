@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-12 19:47+0200\n"
-"PO-Revision-Date: 2018-08-12 19:48+0200\n"
+"POT-Creation-Date: 2018-09-23 18:53+0200\n"
+"PO-Revision-Date: 2018-09-23 18:54+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -98,11 +98,11 @@ msgstr "Brak sekcji „conn” w „%s”"
 msgid "Error writing to file “%s”: %s"
 msgstr "Błąd podczas zapisywania do pliku „%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1463
+#: ../src/nm-libreswan-service.c:1464
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1873
+#: ../src/nm-libreswan-service.c:1874
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -110,45 +110,45 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1887
+#: ../src/nm-libreswan-service.c:1888
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:2030
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2031
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:2031
+#: ../src/nm-libreswan-service.c:2032
 msgid "D-Bus name to use for this instance"
 msgstr "Nazwa D-Bus dla tego wystąpienia"
 
-#: ../src/nm-libreswan-service.c:2054
+#: ../src/nm-libreswan-service.c:2055
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Ta usługa dostarcza zintegrowaną możliwość VPN IPsec dla usługi "
 "NetworkManager."
 
-#: ../shared/utils.c:85
+#: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Błąd podczas zapisywania konfiguracji: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:312
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "klasa obiektów „%s” nie ma właściwości o nazwie „%s”"
 
-#: ../shared/nm-utils/nm-shared-utils.c:319
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "właściwość „%s” klasy obiektów „%s” nie jest zapisywalna"
 
-#: ../shared/nm-utils/nm-shared-utils.c:326
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -156,19 +156,19 @@ msgstr ""
 "właściwość konstruktu „%s” dla obiektu „%s” nie może zostać ustawiona po "
 "konstrukcji"
 
-#: ../shared/nm-utils/nm-shared-utils.c:334
+#: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "„%s::%s” nie jest prawidłową nazwą właściwości; „%s” nie jest podtypem "
 "GObject"
 
-#: ../shared/nm-utils/nm-shared-utils.c:343
+#: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr "nie można ustawić właściwości „%s” typu „%s” z wartości typu „%s”"
 
-#: ../shared/nm-utils/nm-shared-utils.c:354
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -249,29 +249,170 @@ msgid "_Remote ID:"
 msgstr "_Zdalny identyfikator:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Phase1 Algorithms:"
-msgstr "Algorytmy fazy pierwszej:"
+msgid "Ad_vanced…"
+msgstr "Zaa_wansowane…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
-msgid "Phase2 Algorithms:"
-msgstr "Algorytmy fazy drugiej:"
+msgid "no"
+msgstr "nie"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "tak"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "wymuszanie"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "Zaawansowane opcje IPsec"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr "Identyfikacja"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
 msgstr "Domena:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:17
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+"(NT-)Nazwa domeny do uwierzytelniania.\n"
+"konfiguracja: Domain <domena>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "Zabezpieczenia"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Algorytmy fazy pierwszej:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"Algorytm szyfrowania/uwierzytelniania IKE używany do połączenia (1. faza, "
+"czyli ISAKMP SA). Format to „cipher-hash;modpgroup, cipher-hash;modpgroup,"
+"…”.\n"
+"konfiguracja: ike <propozycje>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Algorytmy fazy drugiej:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"Określa algorytmy, które będą oferowane/przyjmowane do negocjacji 2. fazy. "
+"Format to „cipher-hash;modpgroup, cipher-hash;modpgroup,…”.\n"
+"konfiguracja: esp <propozycje>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
 msgstr "Czas trwania fazy pierwszej:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:18
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"Jak długo ma trwać kanał dopasowywania połączenia przed ponowną negocjacją. "
+"Wartość jest wyrażana liczbą z opcjonalnym „s” (sekundy), „m” (minuty), "
+"„h” (godziny) lub „d” (dni).\n"
+"konfiguracja: ikelifetime <czas-trwania>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
 msgstr "Czas trwania fazy drugiej:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:19
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"Jak długo ma trwać konkretne wystąpienie połączenia (zestaw kluczy "
+"szyfrowania/uwierzytelniania dla pakietów użytkownika), od pomyślnej "
+"negocjacji do wygaśnięcia. Wartość jest wyrażana liczbą z opcjonalnym "
+"„s” (sekundy), „m” (minuty), „h” (godziny) lub „d” (dni).\n"
+"konfiguracja: salifetime <czas-trwania>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "Wyłączenie ponownego dopasowywania"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+"Czy połączenie ma nie być ponownie negocjowane, kiedy niedługo wygaśnie.\n"
+"konfiguracja: rekey <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "Wyłączenie PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Wyłącza PFS (Perfect Forward Security). Należy włączyć tę opcję, jeśli "
+"serwer nie obsługuje PFS.\n"
+"konfiguracja: pfs <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "Łączność"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
 msgstr "Zdalna sieć:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Ad_vanced"
-msgstr "Zaa_wansowane"
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"Prywatna podsieć za zdalnym uczestnikiem, wyrażana jako sieć/maska sieci.\n"
+"konfiguracja: rightsubnet <sieć>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "Włączenie fragmentacji"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "zwężanie"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"Negocjacja IKEv2 może zezwalać na nawiązywanie połączenia IPsec za pomocą "
+"zwężonych selekcjonerów ruchu. Ta opcja jest ignorowana dla IKEv1.\n"
+"konfiguracja: narrowing <yes/no>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "Włączenie MOBIKE"
