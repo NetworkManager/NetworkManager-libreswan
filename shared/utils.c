@@ -239,13 +239,13 @@ nm_libreswan_config_write (gint fd,
 	if (phase1_alg_str && strlen (phase1_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ike=%s", phase1_alg_str);
 	else if (!is_ikev2 && leftid)
-		WRITE_CHECK (fd, debug_write_fcn, error, " ike=aes256-sha1;modp1536");
+		WRITE_CHECK (fd, debug_write_fcn, error, " ike=%s", NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE);
 
 	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
 	if (phase2_alg_str && strlen (phase2_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", phase2_alg_str);
 	else if (!is_ikev2 && leftid)
-		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=aes256-sha1");
+		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP);
 
 	pfs = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PFS);
 	if (pfs && !strcmp (pfs, "no"))
@@ -256,14 +256,14 @@ nm_libreswan_config_write (gint fd,
 	if (phase1_lifetime_str && strlen (phase1_lifetime_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s", phase1_lifetime_str);
 	else if (!is_ikev2)
-		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
+		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s", NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME);
 
 	phase2_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
 							    NM_LIBRESWAN_KEY_SALIFETIME);
 	if (phase2_lifetime_str && strlen (phase2_lifetime_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s", phase2_lifetime_str);
 	else if (!is_ikev2)
-		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
+		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s", NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME);
 
 	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY);
 	if (!rekey || !strlen (rekey)) {
