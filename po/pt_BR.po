@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/"
 "NetworkManager-libreswan/issues\n"
-"POT-Creation-Date: 2018-09-17 17:08+0000\n"
-"PO-Revision-Date: 2018-09-18 23:27-0200\n"
+"POT-Creation-Date: 2018-09-22 09:00+0000\n"
+"PO-Revision-Date: 2018-10-05 11:08-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -101,11 +101,11 @@ msgstr "Faltando seção “conn” em “%s”"
 msgid "Error writing to file “%s”: %s"
 msgstr "Erro ao gravar o arquivo “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1463
+#: ../src/nm-libreswan-service.c:1464
 msgid "A password is required."
 msgstr "A senha é necessária."
 
-#: ../src/nm-libreswan-service.c:1873
+#: ../src/nm-libreswan-service.c:1874
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -113,23 +113,23 @@ msgstr ""
 "Não é possível processar a requisição pelo fato da configuração conexão da "
 "VPN eram inválidas."
 
-#: ../src/nm-libreswan-service.c:1887
+#: ../src/nm-libreswan-service.c:1888
 msgid "Unhandled pending authentication."
 msgstr "Autenticação pendente não lidada."
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:2030
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Não sair quando a conexão VPN terminar"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2031
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ativar registro de depuração detalhado (pode expor senhas)"
 
-#: ../src/nm-libreswan-service.c:2031
+#: ../src/nm-libreswan-service.c:2032
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus a ser usado para esta instância"
 
-#: ../src/nm-libreswan-service.c:2054
+#: ../src/nm-libreswan-service.c:2055
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -254,7 +254,6 @@ msgid "_Remote ID:"
 msgstr "ID _remoto:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#| msgid "Ad_vanced"
 msgid "Ad_vanced…"
 msgstr "A_vançado…"
 
@@ -275,7 +274,6 @@ msgid "IPsec Advanced Options"
 msgstr "Opções avançadas de IPsec"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
-#| msgid "Authentication"
 msgid "Identification"
 msgstr "Identificação"
 
@@ -362,7 +360,6 @@ msgstr ""
 "config: salifetime <tempo-de-vida>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:36
-#| msgid "Disable Dead Peer Detection"
 msgid "Disable rekeying"
 msgstr "Desabilitar renovação de chave"
 
@@ -375,14 +372,29 @@ msgstr ""
 "config: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
+#| msgid "Disabled"
+msgid "Disable PFS"
+msgstr "Desabilitar PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Desabilita perfect forward security. Habilite essa opção apenas se o "
+"servidor não tiver suporte a PFS.\n"
+"config: pfs <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
 msgstr "Conectividade"
 
-#: ../properties/nm-libreswan-dialog.ui.h:40
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
 msgstr "Rede remota:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:41
+#: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
@@ -391,15 +403,15 @@ msgstr ""
 "máscara.\n"
 "config: rightsubnet <rede>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:43
+#: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
 msgstr "Habilitar fragmentação"
 
-#: ../properties/nm-libreswan-dialog.ui.h:44
+#: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
 msgstr "narrowing"
 
-#: ../properties/nm-libreswan-dialog.ui.h:45
+#: ../properties/nm-libreswan-dialog.ui.h:48
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
@@ -409,7 +421,7 @@ msgstr ""
 "seletores de tráfego estreitos. Essa opção é ignorada para IKEv1.\n"
 "config: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:47
+#: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Habilitar MOBIKE"
 
@@ -485,9 +497,6 @@ msgstr "Habilitar MOBIKE"
 
 #~ msgid "NAT-T"
 #~ msgstr "NAT-T"
-
-#~ msgid "Disabled"
-#~ msgstr "Desabilitado"
 
 #~ msgid "TCP tunneling not supported"
 #~ msgstr "Não há suporte a encapsulamento TCP"
