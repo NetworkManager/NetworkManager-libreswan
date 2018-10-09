@@ -118,7 +118,6 @@ nm_libreswan_config_write (gint fd,
 	const char *mobike;
 	const char *pfs;
 	gboolean is_ikev2 = FALSE;
-	gboolean xauth_enabled = TRUE;
 
 	g_return_val_if_fail (fd > 0, FALSE);
 	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
@@ -129,10 +128,9 @@ nm_libreswan_config_write (gint fd,
 	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn), FALSE);
 
 	is_ikev2 = nm_libreswan_utils_setting_is_ikev2 (s_vpn, &ikev2);
-	/* When IKEv1 is in place, we enforce XAUTH */
-	xauth_enabled = !is_ikev2;
+
 	/* When using IKEv1 (default in our plugin), we should ensure that we make
-	 * it explicit to Libreswan (which defaults to IKEv2): when crypto algorithms
+	 * it explicit to Libreswan (which now defaults to IKEv2): when crypto algorithms
 	 * are not specified ("esp" & "ike") Libreswan will use system-wide crypto
 	 * policies based on the IKE version in place.
 	 */
@@ -150,7 +148,7 @@ nm_libreswan_config_write (gint fd,
 
 	WRITE_CHECK (fd, debug_write_fcn, error, "conn %s", con_name);
 	if (leftid && strlen (leftid)) {
-		if (xauth_enabled)
+		if (!is_ikev2)
 			WRITE_CHECK (fd, debug_write_fcn, error, " aggrmode=yes");
 
 		if (   leftid[0] == '%'
@@ -210,7 +208,11 @@ nm_libreswan_config_write (gint fd,
 	else
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s",
 			     remote_network);
-	if (xauth_enabled) {
+
+	if (!is_ikev2) {
+		/* When IKEv1 is in place, we enforce XAUTH: so, use IKE version
+		 * also to check if XAUTH conf options should be passed to Libreswan.
+		 */
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthclient=yes");
 
 		default_username = nm_setting_vpn_get_user_name (s_vpn);
@@ -236,14 +238,14 @@ nm_libreswan_config_write (gint fd,
 	 */
 	if (phase1_alg_str && strlen (phase1_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ike=%s", phase1_alg_str);
-	else if (xauth_enabled && leftid)
-		WRITE_CHECK (fd, debug_write_fcn, error, " ike=aes256-sha1;modp1536");
+	else if (!is_ikev2 && leftid)
+		WRITE_CHECK (fd, debug_write_fcn, error, " ike=%s", NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE);
 
 	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
 	if (phase2_alg_str && strlen (phase2_alg_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", phase2_alg_str);
-	else if (xauth_enabled && leftid)
-		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=aes256-sha1");
+	else if (!is_ikev2 && leftid)
+		WRITE_CHECK (fd, debug_write_fcn, error, " phase2alg=%s", NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP);
 
 	pfs = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PFS);
 	if (pfs && !strcmp (pfs, "no"))
@@ -254,14 +256,14 @@ nm_libreswan_config_write (gint fd,
 	if (phase1_lifetime_str && strlen (phase1_lifetime_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s", phase1_lifetime_str);
 	else if (!is_ikev2)
-		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=24h");
+		WRITE_CHECK (fd, debug_write_fcn, error, " ikelifetime=%s", NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME);
 
 	phase2_lifetime_str = nm_setting_vpn_get_data_item (s_vpn,
 							    NM_LIBRESWAN_KEY_SALIFETIME);
 	if (phase2_lifetime_str && strlen (phase2_lifetime_str))
 		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s", phase2_lifetime_str);
 	else if (!is_ikev2)
-		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=24h");
+		WRITE_CHECK (fd, debug_write_fcn, error, " salifetime=%s", NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME);
 
 	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY);
 	if (!rekey || !strlen (rekey)) {
