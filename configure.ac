@@ -1,7 +1,7 @@
 AC_PREREQ(2.52)
 
 AC_INIT(NetworkManager-libreswan,
-        1.2.9,
+        1.2.10,
         https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues,
         NetworkManager-libreswan)
 AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-xz -Wno-portability])
