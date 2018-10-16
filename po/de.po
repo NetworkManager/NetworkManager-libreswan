@@ -5,13 +5,13 @@
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2008, 2016, 2018.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2013, 2016.
-#
+# ljanda <ljanda@redhat.com>, 2018. #zanata
+# lrintel <lrintel@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager Libreswan\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
-"libreswan/issues\n"
-"POT-Creation-Date: 2018-10-09 07:59+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-16 15:10+0200\n"
 "PO-Revision-Date: 2018-10-12 19:23+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: de <gnome-de@gnome.org>\n"
@@ -20,6 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"

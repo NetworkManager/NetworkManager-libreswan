@@ -2,21 +2,22 @@
 # Copyright (C) 2006 THE NetworkManager-vpnc's COPYRIGHT HOLDER
 # This file is distributed under the same license as the NetworkManager-vpnc package.
 # Satoru SATOH <ss@gnome.gr.jp>, 2006.
-# kmoriguc <kmoriguc@redhat.com>, 2017. #zanata
-# lrintel <lrintel@redhat.com>, 2017. #zanata
+# kemorigu <kemorigu@redhat.com>, 2018. #zanata
+# ljanda <ljanda@redhat.com>, 2018. #zanata
+# lrintel <lrintel@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-16 10:52+0200\n"
-"PO-Revision-Date: 2017-05-19 12:59+0000\n"
-"Last-Translator: kmoriguc <kmoriguc@redhat.com>\n"
+"POT-Creation-Date: 2018-10-16 15:10+0200\n"
+"PO-Revision-Date: 2018-08-24 01:03+0000\n"
+"Last-Translator: kemorigu <kemorigu@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 4.1.1\n"
+"X-Generator: Zanata 4.6.2\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -67,82 +68,82 @@ msgstr "グループパスワード(_G):"
 
 #: ../auth-dialog/main.c:487
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "仮想プライベートネットワーク '%s' にアクセスするには認証が必要です。"
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "仮想プライベートネットワーク “%s” にアクセスするには認証が必要です。"
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "IPsec ベースの VPN"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-msgid "IPsec based VPN using IKEv1"
-msgstr "IKEv1 を使った IPsec ベースの VPN"
+msgid "IPsec based VPN for remote clients"
+msgstr "リモートクライアント向け IPsec ベースの VPN"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
-msgid "Can't open file '%s': %s"
-msgstr "ファイル '%s' を開けません: %s"
+msgid "Can’t open file “%s”: %s"
+msgstr "ファイル “%s” を開けません: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
-msgid "Missing \"conn\" section in \"%s\""
-msgstr "\"%s\" に \"conn\" セクションがありません"
+msgid "Missing “conn” section in “%s”"
+msgstr "“%s” に “conn” セクションがありません"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
-msgid "Error writing to file '%s': %s"
-msgstr "ファイル '%s' への書き込みでエラー: %s"
+msgid "Error writing to file “%s”: %s"
+msgstr "ファイル “%s” への書き込みでエラー: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1464
 msgid "A password is required."
 msgstr "パスワードが必要です"
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1874
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "VPN 接続設定が無効のため、リクエストを処理できませんでした。"
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1888
 msgid "Unhandled pending authentication."
 msgstr "保留中の認証を未処理"
 
-#: ../src/nm-libreswan-service.c:1989
-msgid "Don't quit when VPN connection terminates"
-msgstr "終了時に VPN 接続を切断しない"
+#: ../src/nm-libreswan-service.c:2030
+msgid "Don’t quit when VPN connection terminates"
+msgstr "VPN 接続の切断時に終了しません"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:2031
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "詳細なデバッグログ機能を有効化する (パスワードが露出する可能性があります)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:2032
 msgid "D-Bus name to use for this instance"
 msgstr "このインスタンスに使用する D-Bus 名"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2055
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "このサービスは、統合 IPsec VPN 機能を NetworkManager に提供します。"
 
-#: ../shared/utils.c:85
+#: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
 msgstr "config への書き込みでエラー: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:185
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "オブジェクトクラス '%s' には '%s' という名前のプロパティーがありません"
 
-#: ../shared/nm-utils/nm-shared-utils.c:192
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr ""
 "オブジェクトクラス '%s' のプロパティー '%s' は、書き込み可能ではありません"
 
-#: ../shared/nm-utils/nm-shared-utils.c:199
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -150,19 +151,19 @@ msgstr ""
 "オブジェクト '%s' のコンストラクトプロパティー \"%s\" は構築後に設定できませ"
 "ん"
 
-#: ../shared/nm-utils/nm-shared-utils.c:207
+#: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "'%s::%s' は有効なプロパティー名ではありません。'%s' は GObject サブタイプでは"
 "ありません"
 
-#: ../shared/nm-utils/nm-shared-utils.c:216
+#: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr "プロパティー '%s' (タイプ '%s') をタイプ '%s' の値から設定できません"
 
-#: ../shared/nm-utils/nm-shared-utils.c:227
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -191,49 +192,196 @@ msgid "unknown error creating editor instance"
 msgstr "エディターインスタンスの作成中に不明なエラー"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>全般</b>"
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (証明書)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "全般"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "ゲートウェイ(_G):"
 
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "パスワードを表示する"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Secret:"
-msgstr "シークレット(_S):"
-
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_User password:"
-msgstr "ユーザーパスワード(_U):"
+msgid "Authentication"
+msgstr "認証"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "グループ名(_R):"
+msgid "Type:"
+msgstr "種類:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
 msgstr "ユーザー名:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "Phase2 Algorithms:"
-msgstr "フェーズ2 アルゴリズム:"
+msgid "_User password:"
+msgstr "ユーザーパスワード(_U):"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "グループ名(_R):"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "シークレット(_S):"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "パスワードを表示する"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "証明書の名前 (_C)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "リモート ID (_R)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+#, fuzzy
+msgid "Ad_vanced…"
+msgstr "高度な(_V)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+#, fuzzy
+msgid "Identification"
+msgstr "認証"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
 msgstr "ドメイン:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
 msgstr "フェーズ1 アルゴリズム:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Ad_vanced"
-msgstr "高度な(_V)"
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "フェーズ2 アルゴリズム:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr "Phase1 ライフタイム:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr "Phase2 ライフタイム:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr "リモートネットワーク:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""

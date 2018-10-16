@@ -7,21 +7,22 @@
 # Henrique P Machado <zehrique@gmail.com>, 2008
 # Enrico Nicoletto <liverig@gmail.com>, 2013.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2016-2018.
+# ljanda <ljanda@redhat.com>, 2018. #zanata
+# lrintel <lrintel@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/"
-"NetworkManager-libreswan/issues\n"
-"POT-Creation-Date: 2018-09-22 09:00+0000\n"
-"PO-Revision-Date: 2018-10-05 11:08-0200\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-16 15:10+0200\n"
+"PO-Revision-Date: 2018-08-20 09:48+0000\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 1.0.0-beta1\n"
+"X-Generator: Zanata 4.6.2\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -85,18 +86,18 @@ msgstr "VPN baseada em IPsec"
 msgid "IPsec based VPN for remote clients"
 msgstr "VPN baseada em IPsec para clientes remotos"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:158
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Não foi possível abrir o arquivo “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:135
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Faltando seção “conn” em “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:176
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Erro ao gravar o arquivo “%s”: %s"
@@ -372,7 +373,6 @@ msgstr ""
 "config: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
-#| msgid "Disabled"
 msgid "Disable PFS"
 msgstr "Desabilitar PFS"
 
@@ -651,35 +651,5 @@ msgstr "Habilitar MOBIKE"
 #~ msgid "_Only use VPN connection for these addresses"
 #~ msgstr "Usar conexão VPN _apenas para estes endereços"
 
-#~ msgid ""
-#~ "The VPN login failed because the user name and password were not accepted."
-#~ msgstr ""
-#~ "A autenticação na VPN falhou porque o nome do usuário e a senha não foram "
-#~ "aceitos."
-
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr ""
-#~ "A autenticação na VPN falhou porque o programa VPN não pôde ser iniciado."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program could not connect to the VPN "
-#~ "server."
-#~ msgstr ""
-#~ "A autenticação na VPN falhou porque o programa VPN não pôde conectar ao "
-#~ "servidor VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program received an invalid "
-#~ "configuration from the VPN server."
-#~ msgstr ""
-#~ "A autenticação na VPN falhou porque o programa VPN recebeu uma "
-#~ "configuração inválida do servidor VPN."
-
-#~ msgid "<b>Connection Information</b>"
-#~ msgstr "<b>Informações da conexão</b>"
-
-#~ msgid "<b>Connection Name</b>"
-#~ msgstr "<b>Nome da conexão</b>"
-
-#~ msgid "O_ptional Information"
-#~ msgstr "_Informações opcionais"
+#~ msgid "Ad_vanced"
+#~ msgstr "A_vançado"

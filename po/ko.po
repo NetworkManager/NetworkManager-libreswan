@@ -3,300 +3,381 @@
 # This file is distributed under the same license as the nm-vpnc package.
 # Young-Ho Cha <ganadist@gmail.com>, 2007.
 # Namhyung Kim <namhyung@gmail.com>, 2007.
-# 
-# 
+#
+# eukim <eukim@redhat.com>, 2018. #zanata
+# ljanda <ljanda@redhat.com>, 2018. #zanata
+# lrintel <lrintel@redhat.com>, 2018. #zanata
+# phrdina <phrdina@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: nm-vpnc\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-05 22:06+0000\n"
-"PO-Revision-Date: 2007-12-24 17:15+0900\n"
-"Last-Translator: Namhyung kim <namhyung@gmail.com>\n"
+"POT-Creation-Date: 2018-10-16 15:10+0200\n"
+"PO-Revision-Date: 2018-09-27 12:58+0000\n"
+"Last-Translator: eukim <eukim@redhat.com>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "보조 암호(_S):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN 클라이언트 "
 
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "사용자 이름(_U):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr " IKEv1 기반 IPsec VPN의 Libreswan 기반 클라이언트 "
 
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "도메인(_D):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr "IKEv1 기반 IPsec VPN 연결 설정 지원 "
 
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
-msgstr "암호(_P):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr " Libreswan 및 Cisco IPsec VPN 서버와 호환됩니다. "
 
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "익명으로 연결(_A)"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "NetworkManager 개발자 "
 
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr "사용자로 연결(_U):"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr "이 세션에서 암호 기억(_R)"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "키링에 암호 저장(_S)"
-
-#: ../auth-dialog/main.c:172
+#: ../auth-dialog/main.c:165
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "가상 사설 네트워크 '%s'에 접근할 때 인증이 필요합니다."
+msgid "Authenticate VPN %s"
+msgstr "VPN %s 인증 "
 
-#: ../auth-dialog/main.c:173
+#: ../auth-dialog/main.c:182
+msgid "Password:"
+msgstr "암호:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "그룹 암호: "
+
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "VPN 인증"
 
-#: ../auth-dialog/main.c:180
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "그룹 암호(_G):"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "VPN 연결 더하기, 지우기, 편집"
-
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN 연결 관리자 (vpnc)"
-
-#: ../properties/nm-vpnc.c:98
-msgid "Compatible Cisco VPN client (vpnc)"
-msgstr "Cisco VPN 클라이언트 호환 (vpnc)"
-
-#: ../properties/nm-vpnc.c:543
-msgid "The following vpnc VPN connection will be created:"
-msgstr "다음 vpnc VPN 연결이 만들어집니다:"
-
-#: ../properties/nm-vpnc.c:545
+#: ../auth-dialog/main.c:487
 #, c-format
-msgid "Name:  %s"
-msgstr "이름: %s"
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "VPN \"%s\"에 액세스하려면 인증이 필요합니다. "
 
-#: ../properties/nm-vpnc.c:548
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr "IPsec 기반 VPN"
+
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr "원격 클라이언트 용 IPsec 기반 VPN"
+
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
-msgid "Gateway:  %s"
-msgstr "게이트웨이: %s"
+msgid "Can’t open file “%s”: %s"
+msgstr "파일 “%s”을/를 열 수 없습니다: %s"
 
-#: ../properties/nm-vpnc.c:550
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
-msgid "Group Name:  %s"
-msgstr "그룹 이름: %s"
+msgid "Missing “conn” section in “%s”"
+msgstr "“%s”에 누락된 “conn” 항목"
 
-#: ../properties/nm-vpnc.c:554
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
-msgid "Username:  %s"
-msgstr "사용자이름:  %s"
+msgid "Error writing to file “%s”: %s"
+msgstr "파일 “%s”에 쓰기 오류: %s"
 
-#: ../properties/nm-vpnc.c:559
+#: ../src/nm-libreswan-service.c:1464
+msgid "A password is required."
+msgstr "암호가 필요합니다. "
+
+#: ../src/nm-libreswan-service.c:1874
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "VPN 연결 설정을 사용하지 않아 요청을 처리할 수 없습니다. "
+
+#: ../src/nm-libreswan-service.c:1888
+msgid "Unhandled pending authentication."
+msgstr "보류중인 인증을 처리할 수 없습니다."
+
+#: ../src/nm-libreswan-service.c:2030
+msgid "Don’t quit when VPN connection terminates"
+msgstr "VPN 연결이 중단된 경우 종료할 수 없습니다. "
+
+#: ../src/nm-libreswan-service.c:2031
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "자세한 디버그 로깅 사용 (암호가 노출될 수 있음)"
+
+#: ../src/nm-libreswan-service.c:2032
+msgid "D-Bus name to use for this instance"
+msgstr "인스턴스에 사용할 D-Bus 이름 "
+
+#: ../src/nm-libreswan-service.c:2055
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "이 서비스는 통합된 IPsec VPN 기능을  NetworkManager에 제공합니다."
+
+#: ../shared/utils.c:86
 #, c-format
-msgid "Domain:  %s"
-msgstr "도메인:  %s"
+msgid "Error writing config: %s"
+msgstr " config 쓰기 오류: %s"
 
-#: ../properties/nm-vpnc.c:564
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
-msgid "Routes:  %s"
-msgstr "경로:  %s"
+msgid "object class '%s' has no property named '%s'"
+msgstr "개체 클래스 '%s'에 이름이 '%s'인 속성이 없습니다"
 
-#: ../properties/nm-vpnc.c:568
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
-msgid "NAT-Keepalive packet interval:  %s"
-msgstr "NAT-keepalive 패킷 간격:  %s"
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "개체 클래스의 '%s'의 속성 '%s'에는 쓸 수 없습니다"
 
-#: ../properties/nm-vpnc.c:572
-msgid "Enable Single DES"
-msgstr "싱글 DES 사용"
-
-#: ../properties/nm-vpnc.c:576
-msgid "Disable NAT Traversal"
-msgstr "NAT 탐색 사용 안함"
-
-#: ../properties/nm-vpnc.c:580
-msgid "The connection details can be changed using the \"Edit\" button."
-msgstr "\"편집\" 단추를 눌러서 연결 설정을 바꿀 수 있습니다."
-
-#: ../properties/nm-vpnc.c:665
-msgid "TCP tunneling not supported"
-msgstr "TCP 터널링은 지원하지 않습니다"
-
-#: ../properties/nm-vpnc.c:667
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr "구성 후에는 개체 '%s'의 구성 속성 ''%s''을(를) 설정할 수 없습니다"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
-"VPN 설정 파일 '%s'에 VPN연결이 TCP를 통해 터널을 뚫도록 되어있습니다만, vpnc "
-"소프트웨어에서 현재 지원하지 않습니다.\n"
-"\n"
-"TCP 터널링이 꺼진채로 연결이 만들어집니다만, 제대로 동작하지 않을 것입니다."
+"'%s::%s'은(는) 올바른 속성 이름이 아닙니다. '%s'은(는) GObject 하위 유형이 아"
+"닙니다"
 
-#: ../properties/nm-vpnc.c:687
-msgid "Settings import incomplete"
-msgstr "설정 가져오기 미완료"
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr "유형 '%s'의 값에서 유형 '%s'의 속성 '%s'(을)를 설정할 수 없습니다"
 
-#: ../properties/nm-vpnc.c:689
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
-"The VPN settings file '%s' is incomplete. You may not be able to connect "
-"without providing further information."
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
 msgstr ""
-"VPN 설정 파일 '%s'의 정보가 충분하지 않습니다. 필요한 정보를 제공하지 않으면 "
-"연결할 수 없습니다."
+"유형 '%s'의 값 \"%s\"이(가) 잘못되었거나 유형 '%s'의 속성 '%s' 범위에서 벗어"
+"났습니다"
 
-#: ../properties/nm-vpnc.c:709
-msgid "Cannot import settings"
-msgstr "설정을 가져올 수 없음"
-
-#: ../properties/nm-vpnc.c:711
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
 #, c-format
-msgid "The VPN settings file '%s' could not be read or is invalid."
-msgstr "VPN 설정 파일 '%s'을(를) 읽을 수 없거나 올바르지 않습니다."
+msgid "missing plugin file \"%s\""
+msgstr "누락된 플러그인 파일 \"%s\""
 
-#: ../properties/nm-vpnc.c:726
-msgid "Select file to import"
-msgstr "가져올 파일 선택"
-
-#: ../properties/nm-vpnc.c:908
-msgid "Save as..."
-msgstr "다른 이름으로 저장..."
-
-#: ../properties/nm-vpnc.c:937
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
 #, c-format
-msgid "A file named \"%s\" already exists."
-msgstr "\"%s\" 파일이 이미 있습니다."
+msgid "cannot load editor plugin: %s"
+msgstr "편집기 플러그인을 로딩할 수 없습니다: %s"
 
-#: ../properties/nm-vpnc.c:940
-msgid "Do you want to replace it with the one you are saving?"
-msgstr "이를 저장할 파일로 바꾸겠습니까?"
-
-#: ../properties/nm-vpnc.c:954
-msgid "Failed to export configuration"
-msgstr "설정 내보내기 실패"
-
-#: ../properties/nm-vpnc.c:956
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
 #, c-format
-msgid "Failed to save file %s"
-msgstr "파일 %s(으)로 저장 실패"
+msgid "cannot load factory %s from plugin: %s"
+msgstr "플러그인에서 %s 팩토리를 로드할 수 없습니다: %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-msgstr "<i>예: 172.16.0.0/16 10.11.12.0/24</i>"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "편집기 인스턴스 작성 중 알 수 없는 오류 "
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "Connection na_me:"
-msgstr "연결 이름(_M):"
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "Disable NAT _traversal"
-msgstr "NAT 탐색 사용 안함(_T)"
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (인증서)"
 
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Enable _weak single DES encryption"
-msgstr "weak single DES 암호화 사용(_W)"
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "일반"
 
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "G_roup name:"
-msgstr "그룹 이름(_R):"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Import _Saved Configuration..."
-msgstr "저장된 설정 가져오기(_S)..."
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "Interval:"
-msgstr "간격:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid ""
-"Name used to identify the connection to the private network, e.g. \"Campus "
-"VPN\" or \"Corporate Network\""
-msgstr "사설 네트워크 연결에 붙일 이름. (예: \"학교 VPN\", \"회사 네트워크\")"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "Optional"
-msgstr "추가 정보"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Override _user name"
-msgstr "사용자 이름 덮어쓰기(_U)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid ""
-"Please enter the information provided by your system administrator below. Do "
-"not enter your password here as you will be prompted when connecting."
-msgstr ""
-"시스템 관리자에게 받은 정보를 입력하십시오. 연결될 때 나타나는 화면에 암호를 "
-"입력하지 마십시오."
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
-msgid ""
-"Please note that the file you import is not a Cisco VPN or VPNC "
-"configuration file. Ask your adminstrator for the file."
-msgstr ""
-"가져온 파일이 Cisco VPN이나 VPNC 설정 파일이 아닙니다. 관리자에게 문의하십시"
-"오."
-
-#: ../properties/nm-vpnc-dialog.glade.h:13
-msgid "Required"
-msgstr "필수 정보"
-
-#: ../properties/nm-vpnc-dialog.glade.h:14
-msgid "Use NAT _keepalive packets"
-msgstr "NAT keepalive 패킷 사용(_K)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:15
-msgid "Use _domain for authentication"
-msgstr "인증에 도메인 사용(_D)"
-
-#: ../properties/nm-vpnc-dialog.glade.h:16
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "게이트웨이(_G):"
 
-#: ../properties/nm-vpnc-dialog.glade.h:17
-msgid "_Only use VPN connection for these addresses"
-msgstr "이 주소에 VPN 연결 만 사용(_O)"
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "Authentication"
+msgstr "인증"
 
-msgid "<b>Connection Information</b>"
-msgstr "<b>연결 정보</b>"
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr "유형:"
 
-msgid "<b>Connection Name</b>"
-msgstr "<b>연결 이름</b>"
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "사용자명:"
 
-msgid ""
-"The VPN login failed because the user name and password were not accepted."
-msgstr "사용자 이름과 열쇠글이 틀려서 로그인 실패했습니다."
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "_User password:"
+msgstr "사용자 암호(_U): "
 
-msgid "The VPN login failed because the VPN program could not be started."
-msgstr "VPN 프로그램을 시작할 수 없어서 로그인 실패했습니다."
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "그룹 이름(_R):"
 
-msgid ""
-"The VPN login failed because the VPN program could not connect to the VPN "
-"server."
-msgstr "VPN 프로그램이 VPN 서버에 연결하지 못해서 로그인 실패했습니다."
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "비밀 정보(_S):"
 
-msgid ""
-"The VPN login failed because the VPN configuration options were invalid."
-msgstr "VPN 설정 옵션이 잘못되어서 로그인 실패했습니다."
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "암호 표시 "
 
-msgid ""
-"The VPN login failed because the VPN program received an invalid "
-"configuration from the VPN server."
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "인증서 이름(_C):"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "원격 ID(_R):"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+#, fuzzy
+msgid "Ad_vanced…"
+msgstr "고급(_V)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
 msgstr ""
-"VPN 프로그램이 VPN 서버에서 잘못된 설정값을 받아서 로그인 실패했습니다."
 
-msgid "O_ptional Information"
-msgstr "기타 정보(_P)"
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+#, fuzzy
+msgid "Identification"
+msgstr "인증"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "도메인:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "1 단계 알고리즘:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "2 단계 알고리즘: "
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr "1 단계 수명: "
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr "2 단계 수명: "
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr "원격 네트워크:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
