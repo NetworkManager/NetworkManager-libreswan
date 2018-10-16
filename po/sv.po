@@ -8,9 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
-"libreswan/issues\n"
-"POT-Creation-Date: 2018-08-10 17:14+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-10 18:07+0100\n"
 "PO-Revision-Date: 2018-09-06 00:10+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -82,27 +81,27 @@ msgstr "IPsec-baserad VPN"
 msgid "IPsec based VPN for remote clients"
 msgstr "IPsec-baserad VPN för fjärrklienter"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:158
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Kan inte öppna filen ”%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:135
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Saknar avsnittet ”conn” i ”%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:176
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Fel vid skrivning till filen ”%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1463
+#: ../src/nm-libreswan-service.c:1464
 msgid "A password is required."
 msgstr "Ett lösenord krävs."
 
-#: ../src/nm-libreswan-service.c:1873
+#: ../src/nm-libreswan-service.c:1874
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -110,45 +109,45 @@ msgstr ""
 "Kunde inte bearbeta begäran eftersom VPN-anslutningsalternativen var "
 "ogiltiga."
 
-#: ../src/nm-libreswan-service.c:1887
+#: ../src/nm-libreswan-service.c:1888
 msgid "Unhandled pending authentication."
 msgstr "Ohanterad väntande autentisering."
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:2030
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Avsluta inte när VPN-anslutningen termineras"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2031
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Aktivera utförlig loggning (kan avslöja lösenord)"
 
-#: ../src/nm-libreswan-service.c:2031
+#: ../src/nm-libreswan-service.c:2032
 msgid "D-Bus name to use for this instance"
 msgstr "D-Bus-namn att använda för denna instans"
 
-#: ../src/nm-libreswan-service.c:2054
+#: ../src/nm-libreswan-service.c:2055
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Denna tjänst tillhandahåller integrerad VPN-kapacitet till "
 "Nätverkshanteraren."
 
-#: ../shared/utils.c:85
+#: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Fel vid skrivning av konfiguration: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:312
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "objektklassen ”%s” har ingen egenskap med namn ”%s”"
 
-#: ../shared/nm-utils/nm-shared-utils.c:319
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "egenskapen ”%s” för objektklassen ”%s” är skrivskyddad"
 
-#: ../shared/nm-utils/nm-shared-utils.c:326
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -156,19 +155,19 @@ msgstr ""
 "konstruktoregenskapen ”%s” för objektet ”%s” kan inte anges efter "
 "konstruktion"
 
-#: ../shared/nm-utils/nm-shared-utils.c:334
+#: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "”%s::%s'” är inte ett giltigt egenskapsnamn; ”%s” är inte en GObject-undertyp"
 
-#: ../shared/nm-utils/nm-shared-utils.c:343
+#: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
 "kunde inte ange egenskapen ”%s” för typen ”%s” från värdet av typen ”%s”"
 
-#: ../shared/nm-utils/nm-shared-utils.c:354
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -249,32 +248,150 @@ msgid "_Remote ID:"
 msgstr "_Fjärr-ID:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Phase1 Algorithms:"
-msgstr "Phase1-algoritmer:"
+#, fuzzy
+msgid "Ad_vanced…"
+msgstr "Av_ancerad"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
-msgid "Phase2 Algorithms:"
-msgstr "Phase2-algoritmer"
+msgid "no"
+msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+#, fuzzy
+msgid "Identification"
+msgstr "Autentisering"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
 msgstr "Domän:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:17
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Phase1-algoritmer:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Phase2-algoritmer"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
 msgstr "Phase1-livslängd:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:18
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
 msgstr "Phase2-livslängd:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:19
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+#, fuzzy
+msgid "Disable rekeying"
+msgstr "Inaktivera Dead Peer Detection"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+#, fuzzy
+msgid "Disable PFS"
+msgstr "Inaktiverad"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
 msgstr "Fjärrnätverk:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Ad_vanced"
-msgstr "Av_ancerad"
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+#, fuzzy
+msgid "Enable fragmentation"
+msgstr "Valfri information"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
 
 #~ msgid "IPsec based VPN using IKEv1"
 #~ msgstr "IPsec-baserad VPN som använder IKEv1"
@@ -346,9 +463,6 @@ msgstr "Av_ancerad"
 #~ msgid "NAT-T"
 #~ msgstr "NAT-T"
 
-#~ msgid "Disabled"
-#~ msgstr "Inaktiverad"
-
 #~ msgid "TCP tunneling not supported"
 #~ msgstr "TCP-tunnling stöds inte"
 
@@ -364,9 +478,6 @@ msgstr "Av_ancerad"
 #~ "\n"
 #~ "Anslutningen kan fortfarande skapas, med inaktiverad TCP-tunnling, men "
 #~ "det kanske inte fungerar som väntat."
-
-#~ msgid "Disable Dead Peer Detection"
-#~ msgstr "Inaktivera Dead Peer Detection"
 
 #~ msgid "Encryption method:"
 #~ msgstr "Krypteringsmetod:"
@@ -580,9 +691,6 @@ msgstr "Av_ancerad"
 
 #~ msgid "Routes:"
 #~ msgstr "Vägar:"
-
-#~ msgid "Optional Information"
-#~ msgstr "Valfri information"
 
 #~ msgid "Override user name"
 #~ msgstr "Åsidosätt användarnamn"

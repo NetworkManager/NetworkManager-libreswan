@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vpnc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-17 14:54+0100\n"
+"POT-Creation-Date: 2018-12-10 18:07+0100\n"
 "PO-Revision-Date: 2007-12-17 15:00+0100\n"
 "Last-Translator: Espen Stefansen <espens@svn.gnome.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -16,240 +16,529 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "_Sekundært passord:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "Br_ukernavn:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "_Domene:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
+#, fuzzy, c-format
+msgid "Authenticate VPN %s"
+msgstr "Autentiser VPN"
+
+#: ../auth-dialog/main.c:182
+#, fuzzy
+msgid "Password:"
 msgstr "_Passord:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "Koble til _anonymt"
+#: ../auth-dialog/main.c:192
+#, fuzzy
+msgid "Group Password:"
+msgstr "_Gruppepassord:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr "Koble til som br_uker:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr "_Husk passord for denne sesjonen"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "_Lagre passord i nøkkelring"
-
-#: ../auth-dialog/main.c:172
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Du må autentisere deg for å få tilgang til virtuelt privat nettverk «%s»."
-
-#: ../auth-dialog/main.c:173
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "Autentiser VPN"
 
-#: ../auth-dialog/main.c:180
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_Gruppepassord:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Legg til, fjern og regiger VPN-tilkoblinger"
-
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "Håndtering av VPN-tilkobling (vpnc)"
-
-#: ../properties/nm-vpnc.c:98
-msgid "Compatible Cisco VPN client (vpnc)"
-msgstr "Kompatibel Cisco VPN-klient (vpnc)"
-
-#: ../properties/nm-vpnc.c:543
-msgid "The following vpnc VPN connection will be created:"
-msgstr "Følgende vpnc-tilkobling vil bli opprettet:"
-
-#: ../properties/nm-vpnc.c:545
-#, c-format
-msgid "Name:  %s"
-msgstr "Navn:  %s"
-
-#: ../properties/nm-vpnc.c:548
-#, c-format
-msgid "Gateway:  %s"
-msgstr "Gateway:  %s"
-
-#: ../properties/nm-vpnc.c:550
-#, c-format
-msgid "Group Name:  %s"
-msgstr "Gruppenavn:  %s"
-
-#: ../properties/nm-vpnc.c:554
-#, c-format
-msgid "Username:  %s"
-msgstr "Brukernavn:  %s"
-
-#: ../properties/nm-vpnc.c:559
-#, c-format
-msgid "Domain:  %s"
-msgstr "Domene:  %s"
-
-#: ../properties/nm-vpnc.c:564
-#, c-format
-msgid "Routes:  %s"
-msgstr "Ruter:  %s"
-
-#: ../properties/nm-vpnc.c:568
-#, c-format
-msgid "NAT-Keepalive packet interval:  %s"
-msgstr "Pakkeintervall for NAT-Keepalive:  %s"
-
-#: ../properties/nm-vpnc.c:572
-#, c-format
-msgid "Enable Single DES"
-msgstr "Aktiver enkel DES"
-
-#: ../properties/nm-vpnc.c:576
-#, c-format
-msgid "Disable NAT Traversal"
-msgstr "Inaktiver NAT-traversering"
-
-#: ../properties/nm-vpnc.c:580
-msgid "The connection details can be changed using the \"Edit\" button."
-msgstr "Tilkoblingsdetaljene kan endres med «Rediger»-knappen."
-
-#: ../properties/nm-vpnc.c:665
-msgid "TCP tunneling not supported"
-msgstr "TCP-tunnelering ikke støttet"
-
-#: ../properties/nm-vpnc.c:667
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it may not work as expected."
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Filen «%s» med innstillinger for VPN spesifiserer at VPN-trafikk skal tunneleres gjennom TCP, men dette er ikke støttet i vpnc-programvaren.\n"
-"\n"
-"Tilkoblingen kan fremdeles opprettes med TCP-tunnelering deaktivert, men det er ikke sikkert at dette vil fungere som forventet."
+"Du må autentisere deg for å få tilgang til virtuelt privat nettverk «%s»."
 
-#: ../properties/nm-vpnc.c:687
-msgid "Settings import incomplete"
-msgstr "Import av innstillingene er ikke komplett"
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:689
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
-msgid "The VPN settings file '%s' is incomplete. You may not be able to connect without providing further information."
-msgstr "Innstillingsfilen «%s» for VPN er ikke komplett. Uten å oppgi mer informasjon, er det ikke sikkert at det er mulig å koble til."
+msgid "Can’t open file “%s”: %s"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:709
-msgid "Cannot import settings"
-msgstr "Kan ikke importere innstillinger"
-
-#: ../properties/nm-vpnc.c:711
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
-msgid "The VPN settings file '%s' could not be read or is invalid."
-msgstr "Filen «%s» med innstillinger for VPN inneholder ikke gyldige data eller kan ikke bli lest."
+msgid "Missing “conn” section in “%s”"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:726
-msgid "Select file to import"
-msgstr "Velg fil som skal importeres"
-
-#: ../properties/nm-vpnc.c:908
-msgid "Save as..."
-msgstr "Lagre som..."
-
-#: ../properties/nm-vpnc.c:937
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
-msgid "A file named \"%s\" already exists."
-msgstr "En fil med navn «%s» eksisterer allerede."
+msgid "Error writing to file “%s”: %s"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:940
-msgid "Do you want to replace it with the one you are saving?"
-msgstr "Vil du erstatte den med filen du lagrer nå?"
+#: ../src/nm-libreswan-service.c:1464
+msgid "A password is required."
+msgstr ""
 
-#: ../properties/nm-vpnc.c:954
-msgid "Failed to export configuration"
-msgstr "Klarte ikke å eksportere konfigurasjonen"
+#: ../src/nm-libreswan-service.c:1874
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
 
-#: ../properties/nm-vpnc.c:956
-#, c-format
-msgid "Failed to save file %s"
-msgstr "Klarte ikke å lagre fil %s"
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-msgstr "<i>eksempel: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "Connection na_me:"
-msgstr "_Navn på tilkobling:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "Disable NAT _traversal"
-msgstr "Inaktiver NAT-_traversering"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Enable _weak single DES encryption"
-msgstr "Aktiver _svak enkel DES-kryptering"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "G_roup name:"
-msgstr "G_ruppenavn:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Import _Saved Configuration..."
-msgstr "Importer lagret konfigura_sjon..."
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "Interval:"
-msgstr "Intervall:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Name used to identify the connection to the private network, e.g. \"Campus VPN\" or \"Corporate Network\""
-msgstr "Navn som brukes til å identifisere tilkoblingen til det private nettverket. F.eks. «Mitt VPN» eller «Jobbnettverk»"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "Optional"
-msgstr "Valgfri"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Override _user name"
-msgstr "Overstyr br_ukernavn"
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "Please enter the information provided by your system administrator below. Do not enter your password here as you will be prompted when connecting."
-msgstr "Vennligst oppgi informasjonen du har fått av din systemadministrator under. Ikke oppgi passordet her da du vil bli spurt om dette når du kobler til."
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
-msgid "Please note that the file you import is not a Cisco VPN or VPNC configuration file. Ask your adminstrator for the file."
-msgstr "Vennligst legg merke til at filen som du importerer ikke er en konfigurasjonsfil for Cisco VPN eller VPNC. Spør din administrator om filen."
-
-#: ../properties/nm-vpnc-dialog.glade.h:13
-msgid "Required"
-msgstr "Krevet"
-
-#: ../properties/nm-vpnc-dialog.glade.h:14
-msgid "Use NAT _keepalive packets"
-msgstr "Bruk NAT-_keepalivepakker"
-
-#: ../properties/nm-vpnc-dialog.glade.h:15
-msgid "Use _domain for authentication"
+#: ../src/nm-libreswan-service.c:1888
+#, fuzzy
+msgid "Unhandled pending authentication."
 msgstr "Bruk _domene for autentisering"
 
-#: ../properties/nm-vpnc-dialog.glade.h:16
+#: ../src/nm-libreswan-service.c:2030
+msgid "Don’t quit when VPN connection terminates"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2031
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2032
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2055
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Gateway:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:17
-msgid "_Only use VPN connection for these addresses"
-msgstr "K_un bruk VPN-tilkoblingen for disse adressene"
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "Autentiser VPN"
 
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+#, fuzzy
+msgid "User name:"
+msgstr "Br_ukernavn:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+#, fuzzy
+msgid "_User password:"
+msgstr "_Passord:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "G_ruppenavn:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+#, fuzzy
+msgid "Show passwords"
+msgstr "_Gruppepassord:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+#, fuzzy
+msgid "Domain:"
+msgstr "_Domene:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Sekundært passord:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "Koble til _anonymt"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "Koble til som br_uker:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_Husk passord for denne sesjonen"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Lagre passord i nøkkelring"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Legg til, fjern og regiger VPN-tilkoblinger"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "Håndtering av VPN-tilkobling (vpnc)"
+
+#~ msgid "Compatible Cisco VPN client (vpnc)"
+#~ msgstr "Kompatibel Cisco VPN-klient (vpnc)"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "Følgende vpnc-tilkobling vil bli opprettet:"
+
+#~ msgid "Name:  %s"
+#~ msgstr "Navn:  %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "Gateway:  %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "Gruppenavn:  %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "Brukernavn:  %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "Domene:  %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "Ruter:  %s"
+
+#~ msgid "NAT-Keepalive packet interval:  %s"
+#~ msgstr "Pakkeintervall for NAT-Keepalive:  %s"
+
+#~ msgid "Enable Single DES"
+#~ msgstr "Aktiver enkel DES"
+
+#~ msgid "Disable NAT Traversal"
+#~ msgstr "Inaktiver NAT-traversering"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "Tilkoblingsdetaljene kan endres med «Rediger»-knappen."
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP-tunnelering ikke støttet"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "Filen «%s» med innstillinger for VPN spesifiserer at VPN-trafikk skal "
+#~ "tunneleres gjennom TCP, men dette er ikke støttet i vpnc-programvaren.\n"
+#~ "\n"
+#~ "Tilkoblingen kan fremdeles opprettes med TCP-tunnelering deaktivert, men "
+#~ "det er ikke sikkert at dette vil fungere som forventet."
+
+#~ msgid "Settings import incomplete"
+#~ msgstr "Import av innstillingene er ikke komplett"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' is incomplete. You may not be able to connect "
+#~ "without providing further information."
+#~ msgstr ""
+#~ "Innstillingsfilen «%s» for VPN er ikke komplett. Uten å oppgi mer "
+#~ "informasjon, er det ikke sikkert at det er mulig å koble til."
+
+#~ msgid "Cannot import settings"
+#~ msgstr "Kan ikke importere innstillinger"
+
+#~ msgid "The VPN settings file '%s' could not be read or is invalid."
+#~ msgstr ""
+#~ "Filen «%s» med innstillinger for VPN inneholder ikke gyldige data eller "
+#~ "kan ikke bli lest."
+
+#~ msgid "Select file to import"
+#~ msgstr "Velg fil som skal importeres"
+
+#~ msgid "Save as..."
+#~ msgstr "Lagre som..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "En fil med navn «%s» eksisterer allerede."
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "Vil du erstatte den med filen du lagrer nå?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "Klarte ikke å eksportere konfigurasjonen"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "Klarte ikke å lagre fil %s"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>eksempel: 172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "Connection na_me:"
+#~ msgstr "_Navn på tilkobling:"
+
+#~ msgid "Disable NAT _traversal"
+#~ msgstr "Inaktiver NAT-_traversering"
+
+#~ msgid "Enable _weak single DES encryption"
+#~ msgstr "Aktiver _svak enkel DES-kryptering"
+
+#~ msgid "Import _Saved Configuration..."
+#~ msgstr "Importer lagret konfigura_sjon..."
+
+#~ msgid "Interval:"
+#~ msgstr "Intervall:"
+
+#~ msgid ""
+#~ "Name used to identify the connection to the private network, e.g. "
+#~ "\"Campus VPN\" or \"Corporate Network\""
+#~ msgstr ""
+#~ "Navn som brukes til å identifisere tilkoblingen til det private "
+#~ "nettverket. F.eks. «Mitt VPN» eller «Jobbnettverk»"
+
+#~ msgid "Optional"
+#~ msgstr "Valgfri"
+
+#~ msgid "Override _user name"
+#~ msgstr "Overstyr br_ukernavn"
+
+#~ msgid ""
+#~ "Please enter the information provided by your system administrator below. "
+#~ "Do not enter your password here as you will be prompted when connecting."
+#~ msgstr ""
+#~ "Vennligst oppgi informasjonen du har fått av din systemadministrator "
+#~ "under. Ikke oppgi passordet her da du vil bli spurt om dette når du "
+#~ "kobler til."
+
+#~ msgid ""
+#~ "Please note that the file you import is not a Cisco VPN or VPNC "
+#~ "configuration file. Ask your adminstrator for the file."
+#~ msgstr ""
+#~ "Vennligst legg merke til at filen som du importerer ikke er en "
+#~ "konfigurasjonsfil for Cisco VPN eller VPNC. Spør din administrator om "
+#~ "filen."
+
+#~ msgid "Required"
+#~ msgstr "Krevet"
+
+#~ msgid "Use NAT _keepalive packets"
+#~ msgstr "Bruk NAT-_keepalivepakker"
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "K_un bruk VPN-tilkoblingen for disse adressene"

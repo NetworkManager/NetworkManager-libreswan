@@ -6,191 +6,415 @@
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2005-2007.
 # Leonid Kanter <leon@asplinux.ru>, 2007, 2008.
 # Артём Попов <artfwo@gmail.com>, 2009.
+# ljanda <ljanda@redhat.com>, 2018. #zanata
+# lrintel <lrintel@redhat.com>, 2018. #zanata
+# phrdina <phrdina@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: ru\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-20 10:34+0300\n"
-"PO-Revision-Date: 2009-02-12 16:57+0600\n"
-"Last-Translator: Артём Попов <artfwo@gmail.com>\n"
+"POT-Creation-Date: 2018-12-10 18:07+0100\n"
+"PO-Revision-Date: 2018-11-20 05:42+0000\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Zanata 4.6.2\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:103
-msgid "_Secondary Password:"
-msgstr "_Вторичный пароль:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "Клиент VPN IPsec"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:159
-msgid "_Password:"
-msgstr "_Пароль:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+"Клиент на основе Libreswan для виртуальных частных сетей IPSec на основе "
+"IKEv1"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:240
-msgid "Sh_ow passwords"
-msgstr "П_оказать пароли"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Поддержка настройки IPSec на основе IKEv1 виртуальных частных сетевых "
+"подключений."
 
-#: ../auth-dialog/gnome-two-password-dialog.c:300
-msgid "_Remember passwords for this session"
-msgstr "_Запомнить пароли для этого сеанса"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Совместимость с VPN-серверами Libreswan и Cisco IPsec."
 
-#: ../auth-dialog/gnome-two-password-dialog.c:301
-msgid "_Save passwords in keyring"
-msgstr "_Сохранить пароли на брелоке"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "Разработчики NetworkManager"
 
-#: ../auth-dialog/main.c:170
+#: ../auth-dialog/main.c:165
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Для доступа к виртуальной частной сети «%s» требуется аутентификация."
+msgid "Authenticate VPN %s"
+msgstr "Аутентификация VPN %s"
 
-#: ../auth-dialog/main.c:171
+#: ../auth-dialog/main.c:182
+msgid "Password:"
+msgstr "Пароль:"
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "Групповой пароль:"
+
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "Аутентификация VPN"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "Пароль _группы:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Добавление, изменение и удаление соединений VPN"
+#: ../auth-dialog/main.c:487
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr ""
+"Вам необходимо пройти аутентификацию для доступа к виртуальной частной сети "
+"\"%s»."
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "Менеджер соединений VPN (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr "VPN на основе IPsec"
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "Cisco-совместимая VPN (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr "VPN на основе IPsec для удаленных клиентов"
 
-#: ../properties/nm-vpnc.c:54
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "Не удается открыть файл \"%s«: %s"
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "Отсутствует раздел \"conn\" в разделе \"%s»"
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "Ошибка записи в файл \"%s«: %s"
+
+#: ../src/nm-libreswan-service.c:1464
+msgid "A password is required."
+msgstr "Требуется пароль."
+
+#: ../src/nm-libreswan-service.c:1874
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
-"VPN gateways."
-msgstr "Совместим с различными роутерами Cisco, Juniper, Netscreen, Sonicwall."
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Не удалось обработать запрос, поскольку параметры подключения VPN были "
+"неверными."
 
-#: ../properties/nm-vpnc.c:339
-msgid "Saved"
-msgstr "Сохранённый"
+#: ../src/nm-libreswan-service.c:1888
+msgid "Unhandled pending authentication."
+msgstr "Необработанная ожидающая аутентификация."
 
-#: ../properties/nm-vpnc.c:346
-msgid "Always Ask"
-msgstr "Всегда спрашивать"
+#: ../src/nm-libreswan-service.c:2030
+msgid "Don’t quit when VPN connection terminates"
+msgstr "Не прекращайте работу, когда VPN-соединение завершается"
 
-#: ../properties/nm-vpnc.c:353
-msgid "Not Required"
-msgstr "Не требуется"
+#: ../src/nm-libreswan-service.c:2031
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Включить подробное ведение журнала отладки (может выставлять пароли)"
 
-#: ../properties/nm-vpnc.c:412
-msgid "Secure (default)"
-msgstr "Строгое (по умолчанию)"
+#: ../src/nm-libreswan-service.c:2032
+msgid "D-Bus name to use for this instance"
+msgstr "Имя D-Bus для использования в этом экземпляре"
 
-#: ../properties/nm-vpnc.c:415
-msgid "Weak (use with caution)"
-msgstr "Слабое (использовать с осторожностью)"
+#: ../src/nm-libreswan-service.c:2055
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Эта услуга предоставляет интегрированные возможности IPsec VPN для "
+"NetworkManager."
 
-#: ../properties/nm-vpnc.c:423
-msgid "None (completely insecure)"
-msgstr "Нет (без шифрования)"
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Ошибка записи config: %s"
 
-#: ../properties/nm-vpnc.c:471
-msgid "Cisco UDP (default)"
-msgstr "Cisco UDP (по умолчанию)"
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "класс объекта «%s» не содержит свойства «%s»"
 
-#: ../properties/nm-vpnc.c:478
-msgid "NAT-T"
-msgstr "NAT-T"
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "свойство «%s» класса объекта «%s» недоступно  для записи"
 
-#: ../properties/nm-vpnc.c:485
-msgid "Disabled"
-msgstr "Выключено"
-
-#: ../properties/nm-vpnc.c:1116
-msgid "TCP tunneling not supported"
-msgstr "Туннелирование TCP не поддерживается"
-
-#: ../properties/nm-vpnc.c:1118
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
+"construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"Файл параметров VPN \"%s\" указывает, что трафик VPN должен быть "
-"туннелирован через TCP. Эта функция сейчас не поддерживается программой "
-"vpnc.\n"
-"\n"
-"Подключение может быть создано с отключенным туннелированием TCP, но оно "
-"может работать не так, как ожидается."
+"формирование свойства «%s» для объекта «%s» не может быть настроено после "
+"сборки"
 
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid " "
-msgstr " "
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+"Недопустимое название свойства: «%s::%s». «%s» не является подтипом GObject"
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>General</b>"
-msgstr "<b>Общие</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+"не удалось установить свойство «%s», так как его тип «%s» не может быть "
+"заменен типом «%s»"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>Необязательные</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"значение «%s» с типом «%s» неверное или выходит за пределы диапазона для "
+"свойства «%s» с типом «%s»"
 
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "Отключить Dead Peer Detection"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "отсутствующий файл плагина \"%s\""
 
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "Домен:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "невозможно загрузить плагин редактора: %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "Метод шифрования:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "невозможно загрузить завод %s из плагина: %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "Имя г_руппы:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "неизвестная ошибка создания экземпляра редактора"
 
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "Пароль гр_уппы:"
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
 
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "Обход NAT:"
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (сертификат)"
 
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Show passwords"
-msgstr "Показать пароли"
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "Основное"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "Имя пользователя:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Шлюз:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "Authentication"
+msgstr "Аутентификация"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr "Тип:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Имя пользователя:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "_User password:"
 msgstr "Пароль _пользователя:"
 
-#~ msgid "_Username:"
-#~ msgstr "_Имя пользователя:"
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "Имя г_руппы:"
 
-#~ msgid "_Domain:"
-#~ msgstr "_Домен:"
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Secret:"
 
-#~ msgid "Connect _anonymously"
-#~ msgstr "Подключаться _анонимно"
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Показать пароли"
 
-#~ msgid "Connect as _user:"
-#~ msgstr "_Подключаться как пользователь:"
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "_Конфиденциальное имя:"
 
-#~ msgid "NAT-T (default)"
-#~ msgstr "NAT-T (по умолчанию)"
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "_Remote ID:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr "_Дополнительно…"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "нет"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "да"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "сила"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "Дополнительные параметры IPsec"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+#, fuzzy
+msgid "Identification"
+msgstr "Аутентификация"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "Домен:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr "(NT-) Доменное имя для аутентификации. config: Домен <domain>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "Безопасность"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Алгоритмы Phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"IKE алгоритм шифрования / аутентификации, который будет использоваться для "
+"соединения (фаза 1 aka ISAKMP SA). Формат - «шифр-хэш», modpgroup, cipher-"
+"hash, modpgroup, ... ». config: ike <proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Алгоритмы Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"Определяет алгоритмы, которые будут предложены / приняты для согласования "
+"фазы2. Формат - «шифр-хэш», modpgroup, cipher-hash, modpgroup, ... ». "
+"Конфигурация: esp <proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr "Phase1 Срок службы:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"Как долго ключевой канал соединения должен прослужить до перезаключения. "
+"Значение выражается числом, за которым следуют необязательные «s» (econds), "
+"«m» (inutes), «h» (наши) или «d» (ays). config: ikelifetime <lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr "Phase2 Lifetime:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"Как долго длится конкретный экземпляр соединения (набор ключей шифрования / "
+"аутентификации для пользовательских пакетов), от успешных переговоров до "
+"истечения срока действия. Значение выражается числом, за которым следуют "
+"необязательные «s» (econds), «m» (inutes), «h» (наши) или «d» (ays). config: "
+"salifetime <lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "Отключить переключение"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+"Не следует ли возобновлять связь, когда она скоро истечет. config: rekey <no/"
+"yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "Отключить PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Отключите отличную безопасность. Включите эту опцию, только если сервер не "
+"поддерживает PFS. config: pfs <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "Соединение"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr "Удаленная сеть:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"Частная подсеть за удаленным участником, выраженная как сетевая / сетевая "
+"маска. config: rightsubnet <net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "Включить фрагментацию"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "уменьшение"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"Согласование IKEv2 может разрешить установление соединения IPsec с суженными "
+"селекторами трафика. Этот параметр игнорируется для IKEv1. config: сужение "
+"<yes/no>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "Включить MOBIKE"

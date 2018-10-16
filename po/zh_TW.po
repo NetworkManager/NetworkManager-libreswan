@@ -1,280 +1,388 @@
 # Chinese (Taiwan) translation of NetworkManager-vpnc.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2007.
+# ljanda <ljanda@redhat.com>, 2018. #zanata
+# lrintel <lrintel@redhat.com>, 2018. #zanata
+# phrdina <phrdina@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager-vpnc 0.7.0\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-23 21:22+0800\n"
-"PO-Revision-Date: 2009-04-21 19:28+0800\n"
-"Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
+"POT-Creation-Date: 2018-12-10 18:07+0100\n"
+"PO-Revision-Date: 2018-11-20 05:42+0000\n"
+"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
-"Language: zh_TW\n"
+"Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:103
-msgid "_Secondary Password:"
-msgstr "第二組密碼(_S):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN客戶端"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:159
-msgid "_Password:"
-msgstr "密碼(_P):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr "基於Libreswan的客戶端，用於基於IKEv1的IPsec虛擬專用網絡"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:240
-msgid "Sh_ow passwords"
-msgstr "顯示密碼(_O)"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr "支持配置基於IKEv1的IPsec虛擬專用網絡連接。"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:300
-msgid "_Remember passwords for this session"
-msgstr "在這個作業階段記住密碼(_R)"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "與Libreswan和Cisco IPsec VPN服務器兼容。"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:301
-msgid "_Save passwords in keyring"
-msgstr "將密碼儲存在金鑰圈內(_S)"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "NetworkManager開發人員"
 
-#: ../auth-dialog/main.c:170
+#: ../auth-dialog/main.c:165
 #, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "您需要驗證才能存取虛擬私人網路「%s」。"
+msgid "Authenticate VPN %s"
+msgstr "驗證VPN %s"
 
-#: ../auth-dialog/main.c:171
+#: ../auth-dialog/main.c:182
+msgid "Password:"
+msgstr "密碼："
+
+#: ../auth-dialog/main.c:192
+msgid "Group Password:"
+msgstr "組密碼："
+
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "驗證 VPN"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "群組密碼(_G):"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "加入、移除與編輯 VPN 連線"
+#: ../auth-dialog/main.c:487
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "您需要進行身份驗證才能訪問虛擬專用網絡“%s“。"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN 連線管理程式 (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr "基於IPsec的VPN"
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "Cisco 相容 VPN (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr "基於IPsec的VPN用於遠程客戶端"
 
-#: ../properties/nm-vpnc.c:54
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "無法打開文件“%s“： %s"
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "缺少“conn”部分“%s“"
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "寫入文件時出錯“%s“： %s"
+
+#: ../src/nm-libreswan-service.c:1464
+msgid "A password is required."
+msgstr "密碼是必需的。"
+
+#: ../src/nm-libreswan-service.c:1874
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
-"VPN gateways."
-msgstr ""
-"相容於各式 Cisco、Juniper、Netscreen和 Sonicwall 基於 IPsec 的 VPN 通訊閘。"
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "由於VPN連接設置無效，無法處理請求。"
 
-#: ../properties/nm-vpnc.c:339
-msgid "Saved"
-msgstr "已儲存"
+#: ../src/nm-libreswan-service.c:1888
+msgid "Unhandled pending authentication."
+msgstr "未處理的待處理身份驗證"
 
-#: ../properties/nm-vpnc.c:346
-msgid "Always Ask"
-msgstr "永遠詢問"
+#: ../src/nm-libreswan-service.c:2030
+msgid "Don’t quit when VPN connection terminates"
+msgstr "VPN連接終止時不要退出"
 
-#: ../properties/nm-vpnc.c:353
-msgid "Not Required"
-msgstr "不需要"
+#: ../src/nm-libreswan-service.c:2031
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "啟用詳細調試日誌記錄（可能會公開密碼）"
 
-#: ../properties/nm-vpnc.c:412
-msgid "Secure (default)"
-msgstr "安全（預設值）"
+#: ../src/nm-libreswan-service.c:2032
+msgid "D-Bus name to use for this instance"
+msgstr "用於此實例的D-Bus名稱"
 
-#: ../properties/nm-vpnc.c:415
-msgid "Weak (use with caution)"
-msgstr "脆弱（請小心使用）"
+#: ../src/nm-libreswan-service.c:2055
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "此服務為NetworkManager提供集成的IPsec VPN功能。"
 
-#: ../properties/nm-vpnc.c:423
-msgid "None (completely insecure)"
-msgstr "無（完全不安全）"
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr "寫配置時出錯： %s"
 
-#: ../properties/nm-vpnc.c:471
-msgid "Cisco UDP (default)"
-msgstr "Cisco UDP (預設值)"
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "對像類'%s'沒有名字'%s“"
 
-#: ../properties/nm-vpnc.c:478
-msgid "NAT-T"
-msgstr "NAT-T"
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "物業'%s'對像類'%s'不可寫"
 
-#: ../properties/nm-vpnc.c:485
-msgid "Disabled"
-msgstr "已停用"
-
-#: ../properties/nm-vpnc.c:1116
-msgid "TCP tunneling not supported"
-msgstr "不支援 TCP 穿隧功能"
-
-#: ../properties/nm-vpnc.c:1118
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"VPN 設定檔案「%s」指定 VPN 通訊應透過 TCP 穿隧（目前 vpnc 軟體尚未支援）。\n"
-"\n"
-"若停用 TCP 穿隧功能，此連線仍然可以建立，然而它可能無法如預期的方式運作。"
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr "建築物“%s“對象”%s'施工後無法設置"
 
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid " "
-msgstr " "
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr "“%s::%s'不是有效的財產名稱; “%s'不是GObject子類型"
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>General</b>"
-msgstr "<b>一般</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr "無法設置屬性'%s'類型'%s'來自類型的價值'%s“"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>選擇性</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr "價值“%s“類型'%s'無效或超出財產範圍'%s'類型'%s“"
 
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "停用斷線端偵測(DPD)"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "缺少插件文件“%s“"
 
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "網域:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "無法加載編輯器插件： %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "加密方法:"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "無法加載工廠 %s 來自插件： %s"
 
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "群組名稱(_R):"
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+msgid "unknown error creating editor instance"
+msgstr "創建編輯器實例的未知錯誤"
 
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "群組密碼(_U):"
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
 
-#: ../properties/nm-vpnc-dialog.glade.h:9
-#, fuzzy
-#| msgid "NAT Traversal:"
-msgid "NAT traversal:"
-msgstr "NAT 連結逾時"
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2（證書）"
 
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Show passwords"
-msgstr "顯示密碼"
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "一般"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "使用者名稱:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "通訊閘(_G):"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "Authentication"
+msgstr "身份認證"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr "類型："
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "使用者名稱:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "_User password:"
 msgstr "使用者密碼(_U):"
 
-#~ msgid "_Username:"
-#~ msgstr "使用者名稱(_U):"
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "群組名稱(_R):"
 
-#~ msgid "_Domain:"
-#~ msgstr "網域(_D):"
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_秘密："
 
-#~ msgid "Connect _anonymously"
-#~ msgstr "匿名連線(_A)"
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "顯示密碼"
 
-#~ msgid "Connect as _user:"
-#~ msgstr "以使用者連線(_U):"
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "_Certificate名稱："
 
-#~ msgid "NAT-T (default)"
-#~ msgstr "NAT-T（預設值）"
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "_Remote ID："
 
-#~ msgid "Name:  %s"
-#~ msgstr "名稱:  %s"
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr "高級…"
 
-#~ msgid "Gateway:  %s"
-#~ msgstr "閘道:  %s"
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "否"
 
-#~ msgid "Group Name:  %s"
-#~ msgstr "群組名稱:  %s"
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "是"
 
-#~ msgid "Username:  %s"
-#~ msgstr "使用者名稱:  %s"
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "力"
 
-#~ msgid "Domain:  %s"
-#~ msgstr "網域:  %s"
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "IPsec高級選項"
 
-#~ msgid "Routes:  %s"
-#~ msgstr "路由:  %s"
+#: ../properties/nm-libreswan-dialog.ui.h:19
+#, fuzzy
+msgid "Identification"
+msgstr "身份認證"
 
-#~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr "連線詳細資訊可以使用「編輯」按鈕改變。"
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "網域:"
 
-#~ msgid "Cannot import settings"
-#~ msgstr "不能匯入設定值"
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr "（NT-）用於身份驗證的域名。 config：域名 <domain>"
 
-#~ msgid "The VPN settings file '%s' does not contain valid data."
-#~ msgstr "VPN 設定檔「%s」沒有包含有效的資料。"
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "安全性"
 
-#~ msgid "Select file to import"
-#~ msgstr "選取要匯入的檔案"
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Phase1算法："
 
-#~ msgid "Save as..."
-#~ msgstr "另存為..."
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"IKE加密/認證算法用於連接（階段1又稱ISAKMP SA）。格式為“cipher-hash; "
+"modpgroup，cipher-hash; modpgroup，...”。配置：ike <proposals>"
 
-#~ msgid "A file named \"%s\" already exists."
-#~ msgstr "已存在一個名為「%s」的檔案。"
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "階段2算法："
 
-#~ msgid "Do you want to replace it with the one you are saving?"
-#~ msgstr "是否要以儲存的版本來替換它？"
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"指定將為phase2協商提供/接受的算法。格式為“cipher-hash; modpgroup，cipher-"
+"hash; modpgroup，...”。 config：esp <proposals>"
 
-#~ msgid "Failed to export configuration"
-#~ msgstr "匯出組態失敗"
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr "階段1終身："
 
-#~ msgid "Failed to save file %s"
-#~ msgstr "儲存檔案「%s」時失敗"
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"在重新協商之前，連接的密鑰通道應該持續多長時間。該值由數字後跟可選"
+"的“s”（秒），“m”（inutes），“h”（我們的）或“d”（ays）表示。配置：ikelifetime "
+"<lifetime>"
 
-#~ msgid "<b>Connection Information</b>"
-#~ msgstr "<b>連線資訊</b>"
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr "階段2終身："
 
-#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-#~ msgstr "<i>範例: 172.16.0.0/16 10.11.12.0/24</i>"
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"從成功協商到到期，連接的特定實例（用戶數據包的一組加密/身份驗證密鑰）應該持續"
+"多長時間。該值由數字後跟可選的“s”（秒），“m”（inutes），“h”（我們的）"
+"或“d”（ays）表示。 config：salifetime <lifetime>"
 
-#~ msgid "Connection Name"
-#~ msgstr "連線名稱"
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "禁用重新加密"
 
-#~ msgid ""
-#~ "Please enter the information provided by your system administrator below. "
-#~ "Do not enter your password here as you will be prompted when connecting."
-#~ msgstr ""
-#~ "請在下面輸入您的系統管理者提供的資訊。請勿在此輸入密碼，當進行連線時便會提"
-#~ "示您輸入。"
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr "連接是否即將到期時是否不應重新協商。 config：rekey <no/yes>"
 
-#~ msgid ""
-#~ "Please note that the file you import is not a Cisco VPN or VPNC "
-#~ "configuration file. Ask your adminstrator for the file."
-#~ msgstr ""
-#~ "注意：您準備匯入的檔案不是 Cisco VPN 或 VPNC 設定檔。請向管理員查詢如果取"
-#~ "得該檔案。"
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "禁用PFS"
 
-#~ msgid "_Import Saved Configuration..."
-#~ msgstr "匯入儲存的組態(_I)..."
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"禁用完美的前向安全性僅在服務器不支持PFS時啟用此選項。 config：pfs <no/yes>"
 
-#~ msgid "_Only use VPN connection for these addresses"
-#~ msgstr "只對這些位址使用 _VPN 連線"
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "連線性"
 
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr "VPN 登入失敗，因為 VPN 程式無法啟動。"
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr "遠程網絡："
 
-#~ msgid ""
-#~ "The VPN login failed because the VPN program could not connect to the VPN "
-#~ "server."
-#~ msgstr "VPN 登入失敗，因為 VPN 程式無法連線至 VPN 伺服器。"
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"遠程參與者後面的私有子網，表示為網絡/網絡掩碼。 config：rightsubnet <net>"
 
-#~ msgid ""
-#~ "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr "VPN 登入失敗，因為 VPN 組態選項無效。"
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "啟用碎片"
 
-#~ msgid ""
-#~ "The VPN login failed because the VPN program received an invalid "
-#~ "configuration from the VPN server."
-#~ msgstr "VPN 登入失敗，因為 VPN 程式從 VPN 伺服器接收到無效的組態。"
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "變窄"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"IKEv2協商可以允許與縮小的流量選擇器建立IPsec連接。 IKEv1忽略此選項。配置：縮"
+"小 <yes/no>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "啟用MOBIKE"

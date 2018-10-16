@@ -10,9 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
-"libreswan/issues\n"
-"POT-Creation-Date: 2018-09-22 09:00+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-10 18:07+0100\n"
 "PO-Revision-Date: 2017-11-27 14:07+0100\n"
 "Last-Translator: Zdeněk Hataš <zdenek.hatas@gmail.com>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
@@ -80,18 +79,18 @@ msgstr "VPN pomocí IPsec"
 msgid "IPsec based VPN for remote clients"
 msgstr "VPN pomocí IPsec pro vzdálené klienty"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:158
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Nelze otevřít soubor „%s“: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:135
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Chybějící sekce „conn“ v „%s“"
 
-#: ../properties/nm-libreswan-editor-plugin.c:176
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Chyba při zápisu do souboru „%s“: %s"
