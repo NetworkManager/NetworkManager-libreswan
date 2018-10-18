@@ -1,4 +1,13 @@
 =========================================================
+NetworkManager-libreswan-1.2.14
+Overview of changes since NetworkManager-libreswan-1.2.12
+=========================================================
+
+* The auth helper in external UI mode can now be run without a display
+  server. Future nmcli version will utilize this for handling the
+  secrets without a graphical desktop.
+
+=========================================================
 NetworkManager-libreswan-1.2.12
 Overview of changes since NetworkManager-libreswan-1.2.10
 =========================================================
