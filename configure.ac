@@ -30,6 +30,8 @@ AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MKDIR_P
 
+AC_GNU_SOURCE
+
 AC_CHECK_PROG([has_file], file, yes, no)
 if test x$has_file = xno ; then
     AC_MSG_ERROR(["file" utility not found.])

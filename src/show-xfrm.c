@@ -18,7 +18,6 @@
 
 #include "nm-default.h"
 
-#define _GNU_SOURCE 1
 #include <netlink/netlink.h>
 #include <netlink/msg.h>
 #include <sys/socket.h>

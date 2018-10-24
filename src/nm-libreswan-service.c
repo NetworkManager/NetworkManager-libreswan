@@ -24,8 +24,6 @@
 
 #include "nm-default.h"
 
-#define _GNU_SOURCE 1
-
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
