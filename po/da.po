@@ -1,18 +1,18 @@
 # Danish translation of NetworkManager-vpnc
-# Copyright (C) 2005-2017
+# Copyright (C) 2005-2018
 # This file is distributed under the same license as the NetworkManager-vpnc package.
 # David Zeuthen <davidz@redhat.com>, 2005.
 # Lasse Bang Mikkelsen <lbm@fatalerror.dk>, 2006, 07.
 # Mads Bille Lundby <lundbymads@gmail.com, 2009.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2017.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2017-11-11 17:58+0000\n"
-"PO-Revision-Date: 2018-03-08 13:12+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2018-10-24 13:26+0000\n"
+"PO-Revision-Date: 2018-10-28 17:09+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -81,31 +81,31 @@ msgid "IPsec based VPN"
 msgstr "VPN baseret på IPsec"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-msgid "IPsec based VPN using IKEv1"
-msgstr "VPN baseret på IPsec med brug af IKEv1"
+msgid "IPsec based VPN for remote clients"
+msgstr "IPsec-baseret VPN til eksterne klienter"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:158
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Kan ikke åbne filen “%s”: %s"
 
 # står conn for connection - og skal det i givet fald oversættes til forb?
-#: ../properties/nm-libreswan-editor-plugin.c:135
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Manglende “conn”-afsnit i “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:176
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Fejl under skrivning til filen “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1452
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "Adgangskode er krævet."
 
-#: ../src/nm-libreswan-service.c:1836
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -113,50 +113,50 @@ msgstr ""
 "Kunne ikke behandle forespørgslen, fordi indstillingerne for VPN-"
 "forbindelsen var ugyldige."
 
-#: ../src/nm-libreswan-service.c:1850
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Uhåndteret ventende godkendelse."
 
-#: ../src/nm-libreswan-service.c:1992
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Afslut ikke, når VPN-forbindelsen afsluttes"
 
 # findes også i pptp
-#: ../src/nm-libreswan-service.c:1993
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Aktivér uddybende fejlsøgningslog (kan afsløre adgangskoder)"
 
 # findes også i pptp
-#: ../src/nm-libreswan-service.c:1994
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "Navn på D-Bus der skal bruges i dette tilfælde"
 
-#: ../src/nm-libreswan-service.c:2017
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Denne tjeneste tilbyder integreret Ipsec-VPN-kapacitet til "
 "Netværkshåndtering."
 
-#: ../shared/utils.c:85
+#: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Fejl under skrivning af konfiguration: %s"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:312
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "objektklassen “%s” har ingen egenskab ved navn “%s”"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:319
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "egenskaben “%s” for objektklassen “%s” er skrivebeskyttet"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:326
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -165,7 +165,7 @@ msgstr ""
 "konstruktion"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:334
+#: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
@@ -173,14 +173,14 @@ msgstr ""
 "GObjekt"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:343
+#: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
 "kan ikke angive egenskaben “%s” af type “%s” ud fra værdien af typen “%s”"
 
 # streng også i modulet applet
-#: ../shared/nm-utils/nm-shared-utils.c:354
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -190,83 +190,260 @@ msgstr ""
 "egenskaben “%s” af typen “%s”"
 
 # streng også i modulerne vpnc og pptp
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "kan ikke hente navnet på udvidelsesmodul til redigering: %s"
+
+# streng også i modulerne vpnc og pptp
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "manglende udvidelsesmodulfil “%s”"
 
 # streng også i modulerne vpnc og pptp
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "kan ikke indlæse udvidelsesmodul til redigering: %s"
 
 # streng også i modulerne vpnc og pptp
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "kan ikke indlæse fabrikken %s fra udvidelsesmodul: %s"
 
 # streng også i modulerne vpnc og pptp
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
 msgstr "ukendt fejl i forsøget på at danne redigeringsinstans"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (Certifikat)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
 msgstr "Generelt"
 
-#: ../properties/nm-libreswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Gateway:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "Vis adgangskoder"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Secret:"
-msgstr "_Hemmelighed:"
-
+# findes også i pptp
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_User password:"
-msgstr "Br_ugeradgangskode:"
+msgid "Authentication"
+msgstr "Godkendelse"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "G_ruppenavn:"
+msgid "Type:"
+msgstr "Type:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
 msgstr "Brugernavn:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "Phase2 Algorithms:"
-msgstr "Phase2-algoritmer:"
+msgid "_User password:"
+msgstr "Br_ugeradgangskode:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "G_ruppenavn:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Hemmelighed:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Vis adgangskoder"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "_Certifikatnavn:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "_Ekstern ID:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr "A_vanceret …"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "nej"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "ja"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "gennemtving"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "Avancerede indstillinger af IPsec"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr "Identifikation"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
 msgstr "Domæne:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+"(NT-)Domænenavn til godkendelse.\n"
+"Konfiguration: Domain <domæne>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "Sikkerhed"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
 msgstr "Phase1-algoritmer:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:11
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"IKE-krypterings-/godkendelsesalgoritme der skal bruges til forbindelsen "
+"(fase 1 også kendt som ISAKMP SA). Formatet er “cipher-hash;modpgroup, "
+"cipher-hash;modpgroup, …”.\n"
+"Konfiguration: ike <forslag>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Fase2-algoritmer:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"Angiver algoritmen som vil blive tilbudt/accepteret til en fase 2-forhandling. "
+"Formatet er “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
+"Konfiguration: esp <forslag>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
-msgstr "Phase1-levetid:"
+msgstr "Fase1-levetid:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
+# https://en.wikipedia.org/wiki/Keying_(telecommunications)
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"Hvor længe en forbindelses “keying”-kanal skal vare, inden den "
+"genforhandles. Værdien udtrykkes som et tal efterfulgt af et valgfrit "
+"“s” (sekunder), “m” (minutter), “h” (timer) eller “d” (dage).\n"
+"Konfiguration: ikelifetime <levetid>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
-msgstr "Phase2-levetid:"
+msgstr "Fase2-levetid:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"Hvor lang tid en bestemt instans af en forbindelse (et sæt af krypterings-/"
+"godkendelsesnøgler til brugerpakker) skal vare fra gennemført forhandling "
+"til udløb. Værdien udtrykkes som et tal efterfulgt af et valgfrit "
+"“s” (sekunder), “m” (minutter), “h” (timer) eller “d” (dage).\n"
+"Konfiguration: salifetime <levetid>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "Deaktivér gen-keying"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+"Hvorvidt en forbindelse ikke skal genforhandles, når den er ved at udløbe.\n"
+"Konfiguration: rekey <nej/ja>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "Deaktivér PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Deaktivér “perfect forward security”. Aktivér kun denne indstilling hvis "
+"serveren ikke understøtter PFS.\n"
+"Konfiguration: pfs <nej/ja>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "Forbindelse"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
 msgstr "Fjernnetværk:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced"
-msgstr "A_vanceret"
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"Privat undernet bag ved fjerndeltageren udtrykt som netværk/netmaske.\n"
+"Konfiguration: rightsubnet <net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "Aktivér fragmentering"
+
+# indsnævrer?
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "indsnævring"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"IKEv2-forhandling kan tillade oprettelse af en IPsec-forbindelse med "
+"indsnævrede traffikvælgere. Denne indstilling ignoreres for IKEv1.\n"
+"Konfiguration: narrowing <ja/nej>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "Aktivér MOBIKE"
+
+#~ msgid "IPsec based VPN using IKEv1"
+#~ msgstr "VPN baseret på IPsec med brug af IKEv1"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Sekundær adgangskode:"
@@ -321,9 +498,6 @@ msgstr "A_vanceret"
 #~ msgid "NAT-T"
 #~ msgstr "NAT-T"
 
-#~ msgid "Disabled"
-#~ msgstr "Deaktiveret"
-
 #~ msgid "TCP tunneling not supported"
 #~ msgstr "TCP-tunnel er ikke understøttet"
 
@@ -345,9 +519,6 @@ msgstr "A_vanceret"
 
 #~ msgid "<b>Optional</b>"
 #~ msgstr "<b>Valgfri</b>"
-
-#~ msgid "Disable Dead Peer Detection"
-#~ msgstr "Deaktivér genkendelse af døde ligemænd (peers)"
 
 #~ msgid "Encryption method:"
 #~ msgstr "Krypteringsmetode:"
