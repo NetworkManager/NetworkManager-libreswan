@@ -12,17 +12,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-16 15:10+0200\n"
-"PO-Revision-Date: 2018-08-20 09:48+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/"
+"NetworkManager-libreswan/issues\n"
+"POT-Creation-Date: 2018-10-24 13:26+0000\n"
+"PO-Revision-Date: 2018-11-22 07:15-0200\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Virtaal 1.0.0-beta1\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -102,11 +103,11 @@ msgstr "Faltando seção “conn” em “%s”"
 msgid "Error writing to file “%s”: %s"
 msgstr "Erro ao gravar o arquivo “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1464
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "A senha é necessária."
 
-#: ../src/nm-libreswan-service.c:1874
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -114,23 +115,23 @@ msgstr ""
 "Não é possível processar a requisição pelo fato da configuração conexão da "
 "VPN eram inválidas."
 
-#: ../src/nm-libreswan-service.c:1888
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Autenticação pendente não lidada."
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Não sair quando a conexão VPN terminar"
 
-#: ../src/nm-libreswan-service.c:2031
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ativar registro de depuração detalhado (pode expor senhas)"
 
-#: ../src/nm-libreswan-service.c:2032
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus a ser usado para esta instância"
 
-#: ../src/nm-libreswan-service.c:2055
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -180,25 +181,31 @@ msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"o valor “%s” de tipo “%s” é inválido ou fora do intervalo da propriedade "
-"“%s” de tipo “%s”"
+"o valor “%s” de tipo “%s” é inválido ou fora do intervalo da propriedade “%s”"
+" de tipo “%s”"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+#| msgid "cannot load editor plugin: %s"
+msgid "unable to get editor plugin name: %s"
+msgstr "não foi possível obter o nome do editor do plug-in: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "faltando arquivo de plug-in “%s”"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
-msgstr "não foi possível carregar o plug-in de editor: %s"
+msgstr "não foi possível carregar o editor do plug-in: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "não foi possível carregar %s de fábrica do plug-in: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
 msgstr "erro desconhecido ao criar instância de editor"
 
