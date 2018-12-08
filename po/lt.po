@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the NetworkManager package.
 # Žygimantas Beručka <zygis@gnome.org>, 2008.
 # Gintautas Miliauskas <gintautas@miliauskas.lt>, 2009.
-# Aurimas Černius <aurisc4@gmail.com>, 2014, 2015, 2016, 2018.
+# Aurimas Černius <aurisc4@gmail.com>, 2014-2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2017-10-31 08:58+0000\n"
-"PO-Revision-Date: 2018-03-26 22:38+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2018-10-24 13:26+0000\n"
+"PO-Revision-Date: 2018-12-08 14:53+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.30.1\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -81,73 +81,74 @@ msgid "IPsec based VPN"
 msgstr "IPsec pagrįstas VPN"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-msgid "IPsec based VPN using IKEv1"
-msgstr "IPsec pagrįstas VPN naudojant IKEv1"
+#| msgid "IPsec VPN client"
+msgid "IPsec based VPN for remote clients"
+msgstr "IPsec pagrindo VPN nuotoliniams klientams"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:158
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Nepavyksta atverti failo „%s“: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:135
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "„%s“ trūksta „conn“ sekcijos"
 
-#: ../properties/nm-libreswan-editor-plugin.c:176
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Klaida rašant į failą „%s“: %s"
 
-#: ../src/nm-libreswan-service.c:1452
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "Reikalingas slaptažodis."
 
-#: ../src/nm-libreswan-service.c:1836
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Nepavyko apdoroti užklausos, kadangi VPN ryšio nustatymai buvo neteisingi."
 
-#: ../src/nm-libreswan-service.c:1850
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Neapdorotas laukiamas tapatybės nustatymas."
 
-#: ../src/nm-libreswan-service.c:1992
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Neišeiti, kai nutrūksta VPN ryšys"
 
-#: ../src/nm-libreswan-service.c:1993
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Įjungti išsamų derinimo žurnalą (gali atskleisti slaptažodžius)"
 
-#: ../src/nm-libreswan-service.c:1994
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "D-Bus pavadinimas, kurį naudoti šiam egzemplioriui"
 
-#: ../src/nm-libreswan-service.c:2017
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ši tarnyba sutekia NetworkManager integruotą IPsec VPN galimybę."
 
-#: ../shared/utils.c:85
+#: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Klaida rašant konfigūraciją: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:312
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "objekto klasė „%s“ neturi savybės „%s“"
 
-#: ../shared/nm-utils/nm-shared-utils.c:319
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "savybė „%s“ objekto klasėje „%s“ nėra rašoma"
 
-#: ../shared/nm-utils/nm-shared-utils.c:326
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -155,17 +156,17 @@ msgstr ""
 "konstruktoriaus savybė „%s“ objektui „%s“ negali būti nustatyta po "
 "sukonstravimo"
 
-#: ../shared/nm-utils/nm-shared-utils.c:334
+#: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr "„%s::%s“ nėra tinkamas savybės pavadinimas; „%s“ nėra GObject potipis"
 
-#: ../shared/nm-utils/nm-shared-utils.c:343
+#: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr "negalima nustatyti savybės „%s“ tipe „%s“ į „%s“ tipo vertę"
 
-#: ../shared/nm-utils/nm-shared-utils.c:354
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -174,83 +175,257 @@ msgstr ""
 "vertė „%s“, kurios tipas „%s“, yra netinkama arba už leistinų ribų savybei "
 "„%s“ tipe „%s“"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+#| msgid "cannot load editor plugin: %s"
+msgid "unable to get editor plugin name: %s"
+msgstr "nepavyksta įkelti redaktoriaus įskiepio pavadinimo: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "trūksta įskiepio failo „%s“"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "nepavyksta įkelti redaktoriaus įskiepio: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "nepavyksta įkelti gamyklos %s iš įskiepio: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
 msgstr "nežinoma klaida kuriant redaktoriaus egzempliorių"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (liudijimas)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
 msgstr "Bendra"
 
-#: ../properties/nm-libreswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Tinklų sietuvas:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "Rodyti slaptažodžius"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Secret:"
-msgstr "Pa_slaptis:"
-
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_User password:"
-msgstr "_Naudotojo slaptažodis:"
+#| msgid "Authenticate VPN"
+msgid "Authentication"
+msgstr "Tapatybės patvirtinimas"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "G_rupės vardas:"
+msgid "Type:"
+msgstr "Tipas:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
 msgstr "Naudotojo vardas:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "Phase2 Algorithms:"
-msgstr "Antros fazės algoritmai:"
+msgid "_User password:"
+msgstr "_Naudotojo slaptažodis:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "G_rupės vardas:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "Pa_slaptis:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Rodyti slaptažodžius"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "_Liudijimo pavadinimas:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+#| msgid "Remote Network:"
+msgid "_Remote ID:"
+msgstr "_Nuotolinis ID:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+#| msgid "Ad_vanced"
+msgid "Ad_vanced…"
+msgstr "Išplė_stiniai…"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "ne"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "taip"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "priversti"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "IPsec išplėstiniai parametrai"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr "Identifikacija"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
 msgstr "Sritis:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+"(NT-)Domeno pavadinimas tapatybės patvirtinimui.\n"
+"konfig: Domain <domain>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "Saugumas"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
 msgstr "Pirmos fazės algoritmai:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:11
-#| msgid "Phase1 Algorithms:"
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"IKE šifravimo/tapatybės patvirtinimo algoritmas, naudojamas ryšiui (fazė 1 "
+"arba ISAKMP SA). Formatas yra „cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…“.\n"
+"konfig: ike <proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Antros fazės algoritmai:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"Nurodo algoritmus, kurie bus siūlomi/priimami derybų antroje fazėje. "
+"Formatas yra „cipher-hash;modpgroup, cipher-hash;modpgroup, …“.\n"
+"konfig: esp <proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
 msgstr "Pirmos fazės ciklas:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:12
-#| msgid "Phase2 Algorithms:"
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"Kiek ilgai ryšio raktų kanalas turėtų tęsti iki naujų derybų. Vertė nurodoma "
+"skaičiumi ir po jo nebūtinu „s“ (sekundės“, „m“ (minutės“ arba "
+"„d“ (dienos).\n"
+"konfig: ikelifetime <lifetime"
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
 msgstr "Antros fazės ciklas:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:13
-#| msgid "Network"
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"Kiek ilgai turėtų trukti konkretus ryšys (šifravimo/tapatybės patvirtinimo "
+"raktų rinkinys naudotojo paketams) po sėkmingų derybų iki galiojimo "
+"pabaigos. Vertė nurodoma skaičiumi ir po jo nebūtinu „s“ (sekundės“, "
+"„m“ (minutės“ arba „d“ (dienos).\n"
+"konfig: salifetime <lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "Išjungti raktų keitimą"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+"Ar ryšio nereikia atnaujinti jo galiojimui artėjant į pabaigą.\n"
+"konfig: rekey <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "Išjungti PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Išjungti puikų pirminį saugumą. Įjunkite šį parametrą tik jei serveris "
+"nepalaiko PFS.\n"
+"konfig: pfs <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "Jungiamumas"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
 msgstr "Nutolęs tinklas:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced"
-msgstr "Išplė_stiniai"
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"Privatus potinklis už nuotolinio dalyvio, nurodomas kaip tinklas/kaukė.\n"
+"konfig: rightsubnet <net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "Įjungti fragmentaciją"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "siaurinama"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"IKEv2 derybos gali leisti užmegzti IPsec ryšį su susiaurintais srauto "
+"žymikliais. Šio parametro nepaisoma naudojant IKEv1.\n"
+"konfig: narrowing <yes/no>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "Įjungti MOBIKE"
+
+#~ msgid "IPsec based VPN using IKEv1"
+#~ msgstr "IPsec pagrįstas VPN naudojant IKEv1"
 
 #~ msgid " "
 #~ msgstr " "
