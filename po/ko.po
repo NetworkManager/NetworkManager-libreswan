@@ -4,6 +4,7 @@
 # Young-Ho Cha <ganadist@gmail.com>, 2007.
 # Namhyung Kim <namhyung@gmail.com>, 2007.
 #
+#
 # eukim <eukim@redhat.com>, 2018. #zanata
 # ljanda <ljanda@redhat.com>, 2018. #zanata
 # lrintel <lrintel@redhat.com>, 2018. #zanata
@@ -12,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-16 15:10+0200\n"
+"POT-Creation-Date: 2019-01-08 15:46+0100\n"
 "PO-Revision-Date: 2018-09-27 12:58+0000\n"
 "Last-Translator: eukim <eukim@redhat.com>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
@@ -95,33 +96,33 @@ msgstr "“%s”에 누락된 “conn” 항목"
 msgid "Error writing to file “%s”: %s"
 msgstr "파일 “%s”에 쓰기 오류: %s"
 
-#: ../src/nm-libreswan-service.c:1464
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "암호가 필요합니다. "
 
-#: ../src/nm-libreswan-service.c:1874
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "VPN 연결 설정을 사용하지 않아 요청을 처리할 수 없습니다. "
 
-#: ../src/nm-libreswan-service.c:1888
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "보류중인 인증을 처리할 수 없습니다."
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "VPN 연결이 중단된 경우 종료할 수 없습니다. "
 
-#: ../src/nm-libreswan-service.c:2031
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "자세한 디버그 로깅 사용 (암호가 노출될 수 있음)"
 
-#: ../src/nm-libreswan-service.c:2032
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "인스턴스에 사용할 D-Bus 이름 "
 
-#: ../src/nm-libreswan-service.c:2055
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "이 서비스는 통합된 IPsec VPN 기능을  NetworkManager에 제공합니다."
@@ -168,22 +169,27 @@ msgstr ""
 "유형 '%s'의 값 \"%s\"이(가) 잘못되었거나 유형 '%s'의 속성 '%s' 범위에서 벗어"
 "났습니다"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, fuzzy, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "편집기 플러그인을 로딩할 수 없습니다: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "누락된 플러그인 파일 \"%s\""
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "편집기 플러그인을 로딩할 수 없습니다: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "플러그인에서 %s 팩토리를 로드할 수 없습니다: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
 msgstr "편집기 인스턴스 작성 중 알 수 없는 오류 "
 
@@ -246,19 +252,19 @@ msgstr "고급(_V)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "아니요"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "예 "
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "힘"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
-msgstr ""
+msgstr "IPsec 고급 옵션"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 #, fuzzy
@@ -273,11 +279,11 @@ msgstr "도메인:"
 msgid ""
 "(NT-)Domain name for authentication.\n"
 "config: Domain <domain>"
-msgstr ""
+msgstr "(NT-) 인증을위한 도메인 이름. config : 도메인 <domain>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "보안"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
@@ -290,6 +296,9 @@ msgid ""
 "modpgroup, …”.\n"
 "config: ike <proposals>"
 msgstr ""
+"IKE 암호화 / 인증 알고리즘이 연결에 사용됩니다 (1 단계 ISAKMP SA). 형식은 "
+"\"암호 해시, modpgroup, 암호 해시, modpgroup, ...\"입니다. config : ike "
+"<proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Phase2 Algorithms:"
@@ -302,6 +311,8 @@ msgid ""
 "…”.\n"
 "config: esp <proposals>"
 msgstr ""
+"phase2 협상을 위해 제안 / 수락 할 알고리즘을 지정합니다. 형식은 \"암호 해시, "
+"modpgroup, 암호 해시, modpgroup, ...\"입니다. config : esp <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
@@ -314,6 +325,9 @@ msgid ""
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: ikelifetime <lifetime>"
 msgstr ""
+"재협상되기 전에 연결의 키잉 채널이 지속되어야하는 기간. 값은 숫자 뒤에 선택"
+"적 \"s\"(econds), \"m\"(inutes), \"h\"(ours) 또는 \"d\"(ays)로 표시됩니다. "
+"config : ikelifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
@@ -327,20 +341,26 @@ msgid ""
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: salifetime <lifetime>"
 msgstr ""
+"성공적인 협상에서 만료까지 연결의 특정 인스턴스 (사용자 패킷에 대한 암호화 / "
+"인증 키 세트)의 지속 기간. 값은 숫자 뒤에 선택적 \"s\"(econds), \"m"
+"\"(inutes), \"h\"(ours) 또는 \"d\"(ays)로 표시됩니다. 구성 : salifetime "
+"<lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:36
 msgid "Disable rekeying"
-msgstr ""
+msgstr "다시 키 사용 안 함"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "config: rekey <no/yes>"
 msgstr ""
+"연결이 만료 될 때 연결을 재협상하지 않아야하는지 여부. config : rekey <no/"
+"yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
 msgid "Disable PFS"
-msgstr ""
+msgstr "PFS 사용 안 함"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
@@ -348,10 +368,12 @@ msgid ""
 "doesn’t support PFS.\n"
 "config: pfs <no/yes>"
 msgstr ""
+"완벽한 전달 보안을 비활성화하십시오. 서버가 PFS를 지원하지 않는 경우에만이 옵"
+"션을 활성화하십시오. config : pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
-msgstr ""
+msgstr "연결 관련 "
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
@@ -362,14 +384,16 @@ msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
 msgstr ""
+"원격 참가자 뒤의 개인 서브넷으로 네트워크 / 넷 마스크로 표시됩니다. config : "
+"rightsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
-msgstr ""
+msgstr "조각화 사용"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
-msgstr ""
+msgstr "좁히기"
 
 #: ../properties/nm-libreswan-dialog.ui.h:48
 msgid ""
@@ -377,7 +401,9 @@ msgid ""
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "config: narrowing <yes/no>"
 msgstr ""
+"IKEv2 협상은 협소 한 트래픽 선택 자와의 IPsec 연결을 설정할 수 있습니다. "
+"IKEv1에서는이 옵션이 무시됩니다. config : 좁히기 <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "MOBIKE 사용"
