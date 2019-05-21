@@ -8,9 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
-"libreswan/issues\n"
-"POT-Creation-Date: 2018-10-24 13:26+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2018-12-08 14:53+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
@@ -81,7 +80,6 @@ msgid "IPsec based VPN"
 msgstr "IPsec pagrįstas VPN"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-#| msgid "IPsec VPN client"
 msgid "IPsec based VPN for remote clients"
 msgstr "IPsec pagrindo VPN nuotoliniams klientams"
 
@@ -177,7 +175,6 @@ msgstr ""
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
 #, c-format
-#| msgid "cannot load editor plugin: %s"
 msgid "unable to get editor plugin name: %s"
 msgstr "nepavyksta įkelti redaktoriaus įskiepio pavadinimo: %s"
 
@@ -217,7 +214,6 @@ msgid "_Gateway:"
 msgstr "_Tinklų sietuvas:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-#| msgid "Authenticate VPN"
 msgid "Authentication"
 msgstr "Tapatybės patvirtinimas"
 
@@ -250,12 +246,10 @@ msgid "_Certificate name:"
 msgstr "_Liudijimo pavadinimas:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-#| msgid "Remote Network:"
 msgid "_Remote ID:"
 msgstr "_Nuotolinis ID:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#| msgid "Ad_vanced"
 msgid "Ad_vanced…"
 msgstr "Išplė_stiniai…"
 

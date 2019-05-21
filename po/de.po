@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager Libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-16 15:10+0200\n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2018-10-12 19:23+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: de <gnome-de@gnome.org>\n"
@@ -100,11 +100,11 @@ msgstr "Abschnitt »conn« in »%s« fehlt"
 msgid "Error writing to file “%s”: %s"
 msgstr "Fehler beim Schreiben in die Datei »%s«: %s"
 
-#: ../src/nm-libreswan-service.c:1464
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "Ein Passwort ist notwendig."
 
-#: ../src/nm-libreswan-service.c:1874
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -112,23 +112,23 @@ msgstr ""
 "Die Anfrage konnte nicht verarbeitet werden, weil die VPN-"
 "Konfigurationseinstellungen ungültig waren."
 
-#: ../src/nm-libreswan-service.c:1888
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Nicht verarbeitete, ausstehende Legitimierung."
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Nicht bei Abbruch der VPN-Verbindung beenden"
 
-#: ../src/nm-libreswan-service.c:2031
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ausführliches Diagnoseprotokoll aktivieren (kann Passwörter enthalten)"
 
-#: ../src/nm-libreswan-service.c:2032
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "Für diese Instanz zu verwendender D-Bus-Name"
 
-#: ../src/nm-libreswan-service.c:2055
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Dieser Dienst bietet ein integriertes IPsec-VPN für NetworkManager."
@@ -178,22 +178,27 @@ msgstr ""
 "Wert »%s« des Typs »%s« ist ungültig oder nicht im Wertebereich für "
 "Eigenschaft »%s« des Typs »%s«"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, fuzzy, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "Editor-Plugin kann nicht geladen werden: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "Fehlende Plugin-Datei »%s«"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "Editor-Plugin kann nicht geladen werden: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "Factory %s kann nicht aus Plugin geladen werden: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
 msgstr "Unbekannter Fehler beim Erstellen der Editor-Instanz"
 
