@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-05 22:06+0000\n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2008-06-06 15:06+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -17,254 +17,529 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: LocFactoryEditor 1.7b3\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "Mật khẩu _phụ :"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "_Tên người dùng:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "_Miền:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
+#, fuzzy, c-format
+msgid "Authenticate VPN %s"
+msgstr "Xác thực VPN"
+
+#: ../auth-dialog/main.c:182
+#, fuzzy
+msgid "Password:"
 msgstr "Mật _khẩu :"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "Kết nối nặc d_anh"
+#: ../auth-dialog/main.c:192
+#, fuzzy
+msgid "Group Password:"
+msgstr "Mật khẩu _nhóm:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr "Kết nối _với tư cách người dùng:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr "Nhớ các mật khẩu cho _buổi hợp này"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "_Lưu các mật khẩu vào vòng khoá"
-
-#: ../auth-dialog/main.c:172
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Bạn cần phải xác thực để truy cập đến Mạng Riêng Ảo (VPN) « %s »."
-
-#: ../auth-dialog/main.c:173
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "Xác thực VPN"
 
-#: ../auth-dialog/main.c:180
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "Mật khẩu _nhóm:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Thêm, Bỏ và Sửa kết nối VPN"
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "Bạn cần phải xác thực để truy cập đến Mạng Riêng Ảo (VPN) « %s »."
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "Bộ Quản Lý Kết Nối VPN (vpnc)"
-
-#: ../properties/nm-vpnc.c:98
-msgid "Compatible Cisco VPN client (vpnc)"
-msgstr "Ứng dụng khách VPN Cisco tương thích (vpnc)"
-
-#: ../properties/nm-vpnc.c:543
-msgid "The following vpnc VPN connection will be created:"
-msgstr "Kết nối VPN vpnc theo đây sẽ được tạo :"
-
-#: ../properties/nm-vpnc.c:545
-#, c-format
-msgid "Name:  %s"
-msgstr "Tên: %s"
-
-#: ../properties/nm-vpnc.c:548
-#, c-format
-msgid "Gateway:  %s"
-msgstr "Cổng ra: %s"
-
-#: ../properties/nm-vpnc.c:550
-#, c-format
-msgid "Group Name:  %s"
-msgstr "Tên nhóm: %s"
-
-#: ../properties/nm-vpnc.c:554
-#, c-format
-msgid "Username:  %s"
-msgstr "Tên người dùng: %s"
-
-#: ../properties/nm-vpnc.c:559
-#, c-format
-msgid "Domain:  %s"
-msgstr "Miền: %s"
-
-#: ../properties/nm-vpnc.c:564
-#, c-format
-msgid "Routes:  %s"
-msgstr "Tuyến: %s"
-
-#: ../properties/nm-vpnc.c:568
-#, c-format
-msgid "NAT-Keepalive packet interval:  %s"
-msgstr "Khoảng đợi gói tin cứ hoạt động NAT: %s"
-
-#: ../properties/nm-vpnc.c:572
-msgid "Enable Single DES"
-msgstr "Bật DES Đơn"
-
-#: ../properties/nm-vpnc.c:576
-msgid "Disable NAT Traversal"
-msgstr "Tắt đi ngang qua NAT"
-
-#: ../properties/nm-vpnc.c:580
-msgid "The connection details can be changed using the \"Edit\" button."
-msgstr "Chi tiết kết nối có thể được sửa đổi bằng nút « Sửa »."
-
-#: ../properties/nm-vpnc.c:665
-msgid "TCP tunneling not supported"
-msgstr "Không hỗ trợ đường hầm TCP"
-
-#: ../properties/nm-vpnc.c:667
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
 msgstr ""
-"Tập tin thiết lập VPN « %s » xác định rằng giao thông VPN nên theo đường hầm qua TCP, mà hiện thời không được hỗ trợ bởi phần mềm vpnc.\n"
-"\n"
-"Vẫn còn có khả năng tạo kết nối, với chức năng chạy đường hầm bị tắt, nhưng mà nó có thể "
-"không hoạt động như mong đợi."
 
-#: ../properties/nm-vpnc.c:687
-msgid "Settings import incomplete"
-msgstr "Chưa nhập thiết lập hoàn toàn"
-
-#: ../properties/nm-vpnc.c:689
-#, c-format
-msgid ""
-"The VPN settings file '%s' is incomplete. You may not be able to connect "
-"without providing further information."
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
 msgstr ""
-"Tập tin thiết lập VPN « %s » chưa hoàn thành. Do đó bạn có thể không kết nối được mà không cung cấp thêm thông tin."
 
-#: ../properties/nm-vpnc.c:709
-msgid "Cannot import settings"
-msgstr "Không thể nhập thiết lập"
-
-#: ../properties/nm-vpnc.c:711
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
-msgid "The VPN settings file '%s' could not be read or is invalid."
-msgstr "Tập tin thiết lập VPN « %s » không đọc được hay không hợp lệ."
+msgid "Can’t open file “%s”: %s"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:726
-msgid "Select file to import"
-msgstr "Chọn tập tin cần nhập vào"
-
-#: ../properties/nm-vpnc.c:908
-msgid "Save as..."
-msgstr "Lưu dạng..."
-
-#: ../properties/nm-vpnc.c:937
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
-msgid "A file named \"%s\" already exists."
-msgstr "Một tập tin tên « %s » đã có."
+msgid "Missing “conn” section in “%s”"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:940
-msgid "Do you want to replace it with the one you are saving?"
-msgstr "Bạn có muốn thay thế nó bằng tập tin đang lưu không?"
-
-#: ../properties/nm-vpnc.c:954
-msgid "Failed to export configuration"
-msgstr "Lỗi xuất cấu hình"
-
-#: ../properties/nm-vpnc.c:956
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
-msgid "Failed to save file %s"
-msgstr "Lỗi lưu tập tin %s"
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-msgstr "<i>v.d.: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "Connection na_me:"
-msgstr "Tên _kết nối:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "Disable NAT _traversal"
-msgstr "_Tắt đi ngang qua NAT"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Enable _weak single DES encryption"
-msgstr "Bật mật mã DES đơn _yếu"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "G_roup name:"
-msgstr "Tên nhó_m:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Import _Saved Configuration..."
-msgstr "Nhập cấu hình đã _lưu..."
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "Interval:"
-msgstr "Khoảng:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid ""
-"Name used to identify the connection to the private network, e.g. \"Campus "
-"VPN\" or \"Corporate Network\""
+msgid "Error writing to file “%s”: %s"
 msgstr ""
-"Tên dùng để nhận diện kết nối cho mạng riêng, v.d. « VPN đại học » hay « Mạng "
-"công ty »."
 
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "Optional"
-msgstr "Tùy chọn"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Override _user name"
-msgstr "_Ghi đè lên tên người dùng"
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid ""
-"Please enter the information provided by your system administrator below. Do "
-"not enter your password here as you will be prompted when connecting."
+#: ../src/nm-libreswan-service.c:1462
+msgid "A password is required."
 msgstr ""
-"Hãy gõ dưới đây thông tin được cung cấp bởi nhà quản trị hệ thống. Đừng gõ "
-"mật khẩu vào đây: bạn sẽ được nhắc gõ nó trong khi kết nối."
 
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
-"Please note that the file you import is not a Cisco VPN or VPNC "
-"configuration file. Ask your adminstrator for the file."
+"Could not process the request because the VPN connection settings were "
+"invalid."
 msgstr ""
-"Ghi chú : tập tin nhập vào không phải là tập tin cấu hình kiểu VPN Cisco hay VPNC. Hãy xin nhà quản trị hệ thống cung cấp tập tin đó."
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
-msgid "Required"
-msgstr "Đòi hỏi"
-
-#: ../properties/nm-vpnc-dialog.glade.h:14
-msgid "Use NAT _keepalive packets"
-msgstr "Dùng gói cứ h_oạt động NAT"
-
-#: ../properties/nm-vpnc-dialog.glade.h:15
-msgid "Use _domain for authentication"
+#: ../src/nm-libreswan-service.c:1886
+#, fuzzy
+msgid "Unhandled pending authentication."
 msgstr "Dùng miền để xác thực"
 
-#: ../properties/nm-vpnc-dialog.glade.h:16
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "Cổn_g ra:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:17
-msgid "_Only use VPN connection for these addresses"
-msgstr "Chỉ dùng kết nối VPN ch_o những địa chỉ này"
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "Xác thực VPN"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+#, fuzzy
+msgid "User name:"
+msgstr "_Tên người dùng:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+#, fuzzy
+msgid "_User password:"
+msgstr "Mật _khẩu :"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "Tên nhó_m:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+#, fuzzy
+msgid "Show passwords"
+msgstr "Mật khẩu _nhóm:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+#, fuzzy
+msgid "Domain:"
+msgstr "_Miền:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "Mật khẩu _phụ :"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "Kết nối nặc d_anh"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "Kết nối _với tư cách người dùng:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "Nhớ các mật khẩu cho _buổi hợp này"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_Lưu các mật khẩu vào vòng khoá"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Thêm, Bỏ và Sửa kết nối VPN"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "Bộ Quản Lý Kết Nối VPN (vpnc)"
+
+#~ msgid "Compatible Cisco VPN client (vpnc)"
+#~ msgstr "Ứng dụng khách VPN Cisco tương thích (vpnc)"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "Kết nối VPN vpnc theo đây sẽ được tạo :"
+
+#~ msgid "Name:  %s"
+#~ msgstr "Tên: %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "Cổng ra: %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "Tên nhóm: %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "Tên người dùng: %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "Miền: %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "Tuyến: %s"
+
+#~ msgid "NAT-Keepalive packet interval:  %s"
+#~ msgstr "Khoảng đợi gói tin cứ hoạt động NAT: %s"
+
+#~ msgid "Enable Single DES"
+#~ msgstr "Bật DES Đơn"
+
+#~ msgid "Disable NAT Traversal"
+#~ msgstr "Tắt đi ngang qua NAT"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "Chi tiết kết nối có thể được sửa đổi bằng nút « Sửa »."
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "Không hỗ trợ đường hầm TCP"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "Tập tin thiết lập VPN « %s » xác định rằng giao thông VPN nên theo đường "
+#~ "hầm qua TCP, mà hiện thời không được hỗ trợ bởi phần mềm vpnc.\n"
+#~ "\n"
+#~ "Vẫn còn có khả năng tạo kết nối, với chức năng chạy đường hầm bị tắt, "
+#~ "nhưng mà nó có thể không hoạt động như mong đợi."
+
+#~ msgid "Settings import incomplete"
+#~ msgstr "Chưa nhập thiết lập hoàn toàn"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' is incomplete. You may not be able to connect "
+#~ "without providing further information."
+#~ msgstr ""
+#~ "Tập tin thiết lập VPN « %s » chưa hoàn thành. Do đó bạn có thể không kết "
+#~ "nối được mà không cung cấp thêm thông tin."
+
+#~ msgid "Cannot import settings"
+#~ msgstr "Không thể nhập thiết lập"
+
+#~ msgid "The VPN settings file '%s' could not be read or is invalid."
+#~ msgstr "Tập tin thiết lập VPN « %s » không đọc được hay không hợp lệ."
+
+#~ msgid "Select file to import"
+#~ msgstr "Chọn tập tin cần nhập vào"
+
+#~ msgid "Save as..."
+#~ msgstr "Lưu dạng..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "Một tập tin tên « %s » đã có."
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "Bạn có muốn thay thế nó bằng tập tin đang lưu không?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "Lỗi xuất cấu hình"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "Lỗi lưu tập tin %s"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>v.d.: 172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "Connection na_me:"
+#~ msgstr "Tên _kết nối:"
+
+#~ msgid "Disable NAT _traversal"
+#~ msgstr "_Tắt đi ngang qua NAT"
+
+#~ msgid "Enable _weak single DES encryption"
+#~ msgstr "Bật mật mã DES đơn _yếu"
+
+#~ msgid "Import _Saved Configuration..."
+#~ msgstr "Nhập cấu hình đã _lưu..."
+
+#~ msgid "Interval:"
+#~ msgstr "Khoảng:"
+
+#~ msgid ""
+#~ "Name used to identify the connection to the private network, e.g. "
+#~ "\"Campus VPN\" or \"Corporate Network\""
+#~ msgstr ""
+#~ "Tên dùng để nhận diện kết nối cho mạng riêng, v.d. « VPN đại học » hay « "
+#~ "Mạng công ty »."
+
+#~ msgid "Optional"
+#~ msgstr "Tùy chọn"
+
+#~ msgid "Override _user name"
+#~ msgstr "_Ghi đè lên tên người dùng"
+
+#~ msgid ""
+#~ "Please enter the information provided by your system administrator below. "
+#~ "Do not enter your password here as you will be prompted when connecting."
+#~ msgstr ""
+#~ "Hãy gõ dưới đây thông tin được cung cấp bởi nhà quản trị hệ thống. Đừng "
+#~ "gõ mật khẩu vào đây: bạn sẽ được nhắc gõ nó trong khi kết nối."
+
+#~ msgid ""
+#~ "Please note that the file you import is not a Cisco VPN or VPNC "
+#~ "configuration file. Ask your adminstrator for the file."
+#~ msgstr ""
+#~ "Ghi chú : tập tin nhập vào không phải là tập tin cấu hình kiểu VPN Cisco "
+#~ "hay VPNC. Hãy xin nhà quản trị hệ thống cung cấp tập tin đó."
+
+#~ msgid "Required"
+#~ msgstr "Đòi hỏi"
+
+#~ msgid "Use NAT _keepalive packets"
+#~ msgstr "Dùng gói cứ h_oạt động NAT"
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "Chỉ dùng kết nối VPN ch_o những địa chỉ này"

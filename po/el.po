@@ -7,9 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: Openswan\n"
-"POT-Creation-Date: 2016-03-10 02:03+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2016-03-10 14:30+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
@@ -20,108 +19,86 @@ msgstr ""
 "X-Generator: Poedit 1.8.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../auth-dialog/main.c:174
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "Πιστοποίηση VPN %s"
 
-#: ../auth-dialog/main.c:191
+#: ../auth-dialog/main.c:182
 msgid "Password:"
 msgstr "Κωδικός πρόσβασης:"
 
-#: ../auth-dialog/main.c:201
+#: ../auth-dialog/main.c:192
 msgid "Group Password:"
 msgstr "Κωδικός πρόσβασης ομάδας:"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "Πιστοποίηση VPN"
 
-#: ../auth-dialog/main.c:246
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "Κωδικός πρόσβασης ο_μάδας:"
 
-#: ../auth-dialog/main.c:496
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
 "Χρειάζεστε πιστοποίηση για να αποκτήσετε πρόσβαση στο Ιδιωτικό Εικονικό "
 "Δίκτυο (VPN) '%s'."
 
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
-msgid "Network"
-msgstr "Δίκτυο"
-
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
-msgid "Request VPN authentication"
-msgstr "Απαιτεί VPN πιστοποίηση"
-
-#: ../properties/nm-libreswan.c:64
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "IPsec βασισμένο στο VPN"
 
-#: ../properties/nm-libreswan.c:65
-msgid "IPsec based VPN using IKEv1"
-msgstr "IPsec βασισμένο στο VPN χρησιμοποιώντας IKEv1"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+#, fuzzy
+msgid "IPsec based VPN for remote clients"
+msgstr "IPsec βασισμένο στο VPN"
 
-#: ../properties/nm-libreswan.c:596 ../properties/nm-libreswan.c:618
-#, c-format
-msgid "Can't open file '%s': %s"
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, fuzzy, c-format
+msgid "Can’t open file “%s”: %s"
 msgstr "Αδυναμία ανοίγματος αρχείου '%s': %s"
 
-#: ../properties/nm-libreswan-dialog.ui.h:1
-msgid "<b>General</b>"
-msgstr "<b>Γενικά</b>"
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:2
-msgid "_Gateway:"
-msgstr "_Πύλη:"
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "Εμφάνιση κωδικών πρόσβασης"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Secret:"
-msgstr "_Απόρρητο:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_User password:"
-msgstr "Κωδικός πρόσβασης χ_ρήστη:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "Όνομα ομά_δας:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Όνομα χρήστη:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "Phase2 Algorithms:"
-msgstr "Αλγόριθμοι Phase2:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "Domain:"
-msgstr "Τομέας:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "Phase1 Algorithms:"
-msgstr "Αλγόριθμοι Phase1:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Ad_vanced"
-msgstr "Για προ_χωρημένους"
-
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid " "
-msgstr " "
-
-#: ../src/nm-libreswan-service.c:1348
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "Απαιτείται κωδικός πρόσβασης"
 
-#: ../src/nm-libreswan-service.c:1734
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -129,28 +106,301 @@ msgstr ""
 "Αδύνατη η επεξεργασία του αιτήματος διότι οι ρυθμίσεις της σύνδεσης VPN ήταν "
 "άκυρες."
 
-#: ../src/nm-libreswan-service.c:1748
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Ανεπίλυτη αναμονή πιστοποίησης."
 
-#: ../src/nm-libreswan-service.c:1890
-msgid "Don't quit when VPN connection terminates"
+#: ../src/nm-libreswan-service.c:2028
+#, fuzzy
+msgid "Don’t quit when VPN connection terminates"
 msgstr "Να μην γίνει έξοδος όταν η σύνδεση VPN τερματίζει"
 
-#: ../src/nm-libreswan-service.c:1891
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Ενεργοποίηση καταγραφής εντοπισμού σφαλμάτων (μπορεί να εκθέσει τους "
 "κωδικούς πρόσβασης)"
 
-#: ../src/nm-libreswan-service.c:1892
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "Ονομασία D-Bus που θα χρησιμοποιηθεί για αυτή τη συνεδρία"
 
-#: ../src/nm-libreswan-service.c:1915
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec VPN στον NetworkManager."
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+#, fuzzy
+msgid "General"
+msgstr "<b>Γενικά</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Gateway:"
+msgstr "_Πύλη:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "Πιστοποίηση VPN"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Όνομα χρήστη:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "_User password:"
+msgstr "Κωδικός πρόσβασης χ_ρήστη:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "Όνομα ομά_δας:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Απόρρητο:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Εμφάνιση κωδικών πρόσβασης"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+#, fuzzy
+msgid "Ad_vanced…"
+msgstr "Για προ_χωρημένους"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "Τομέας:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Αλγόριθμοι Phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Αλγόριθμοι Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+#, fuzzy
+msgid "Phase1 Lifetime:"
+msgstr "Αλγόριθμοι Phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+#, fuzzy
+msgid "Phase2 Lifetime:"
+msgstr "Αλγόριθμοι Phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+#, fuzzy
+msgid "Disable rekeying"
+msgstr "Απενεργοποίηση του Dead Peer Detection "
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+#, fuzzy
+msgid "Disable PFS"
+msgstr "Απενεργοποιημένη"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+#, fuzzy
+msgid "Remote Network:"
+msgstr "Δίκτυο"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "Request VPN authentication"
+#~ msgstr "Απαιτεί VPN πιστοποίηση"
+
+#~ msgid "IPsec based VPN using IKEv1"
+#~ msgstr "IPsec βασισμένο στο VPN χρησιμοποιώντας IKEv1"
+
+#~ msgid " "
+#~ msgstr " "
 
 #~ msgid "IPsec, IKEv1, IKEv2 based VPN"
 #~ msgstr "IPsec, IKEv1, IKEv2 βασισμένο στο VPN"
@@ -214,9 +464,6 @@ msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec
 #~ msgid "NAT-T"
 #~ msgstr "NAT-T"
 
-#~ msgid "Disabled"
-#~ msgstr "Απενεργοποιημένη"
-
 #~ msgid "TCP tunneling not supported"
 #~ msgstr "Το TCP tunneling  δεν υποστηρίζεται"
 
@@ -233,9 +480,6 @@ msgstr "Αυτή η υπηρεσία παρέχει δυνατότητες IPsec
 #~ " \n"
 #~ "Παρόλ' αυτά η σύνδεση μπορεί να δημιουργηθεί, αλλά με το TCP tunneling "
 #~ "απενεργοποιημένο. Ενδέχεται, όμως, να μη λειτουργήσει σωστά. "
-
-#~ msgid "Disable Dead Peer Detection"
-#~ msgstr "Απενεργοποίηση του Dead Peer Detection "
 
 #~ msgid "Encryption method:"
 #~ msgstr "Μέθοδος κρυπτογράφησης:"

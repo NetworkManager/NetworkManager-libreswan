@@ -6,16 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=NetworkManager&keywords=I18N+L10N&component=VPN: libreswan\n"
-"POT-Creation-Date: 2017-03-20 11:29+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2017-04-09 21:50+0200\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "X-Generator: Poedit 1.8.12\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -74,164 +73,324 @@ msgid "IPsec based VPN"
 msgstr "VPN basât su IPsec"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-msgid "IPsec based VPN using IKEv1"
-msgstr "VPN basât su IPsec doprant IKEv1"
+#, fuzzy
+msgid "IPsec based VPN for remote clients"
+msgstr "Client VPN di IPsec"
 
-#: ../properties/nm-libreswan-editor-plugin.c:80
-#: ../properties/nm-libreswan-editor-plugin.c:149
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Impussibil vierzi il file “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:126
+#: ../properties/nm-libreswan-editor-plugin.c:228
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "E mancje la sezion “conn” in “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:167
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Erôr tal scrivi sul file “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1449
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "E covente une password."
 
-#: ../src/nm-libreswan-service.c:1833
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
-"Impussibil elaborâ la domande parcè che lis impostazions di conession VPN "
-"no jerin validis."
+"Impussibil elaborâ la domande parcè che lis impostazions di conession VPN no "
+"jerin validis."
 
-#: ../src/nm-libreswan-service.c:1847
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Autenticazion vierte no gjestide."
 
-#: ../src/nm-libreswan-service.c:1989
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "No stâ jessî cuant che e termine la conession VPN"
 
-#: ../src/nm-libreswan-service.c:1990
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Abilite regjistris di debug prolìs (al podarès esponi lis password)"
 
-#: ../src/nm-libreswan-service.c:1991
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "Non D-Bus di doprâ par cheste istance"
 
-#: ../src/nm-libreswan-service.c:2014
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"Chest servizi al furnìs a NetworkManager funzionalitâts VPN IPsec "
-"integradis."
+"Chest servizi al furnìs a NetworkManager funzionalitâts VPN IPsec integradis."
 
-#: ../shared/utils.c:85
+#: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Erôr tal scrivi la configurazion: %s"
 
-#: ../shared/nm-utils/nm-shared-utils.c:312
+#: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "la classe dal ogjet '%s' no à proprietâts clamadis '%s'"
 
-#: ../shared/nm-utils/nm-shared-utils.c:319
+#: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "proprietât '%s' de classe dal ogjet '%s' no je scrivibile"
 
-#: ../shared/nm-utils/nm-shared-utils.c:326
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"impussibil stabilî la proprietât \"%s\" dal costrutôr pal ogjet '%s' dopo "
-"de costruzion"
+"impussibil stabilî la proprietât \"%s\" dal costrutôr pal ogjet '%s' dopo de "
+"costruzion"
 
-#: ../shared/nm-utils/nm-shared-utils.c:334
+#: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "'%s::%s' nol è un non di proprietât valit; '%s' nol è un sot-gjenar GObject"
 
-#: ../shared/nm-utils/nm-shared-utils.c:343
+#: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
-"impussibil stabilî la proprietât '%s' di gjenar '%s' dal valôr di gjenar "
-"'%s'"
+"impussibil stabilî la proprietât '%s' di gjenar '%s' dal valôr di gjenar '%s'"
 
-#: ../shared/nm-utils/nm-shared-utils.c:354
+#: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"il valôr \"%s\" di gjenar '%s' nol è valit o fûr dal interval pe "
-"proprietât '%s' di gjenar '%s'"
+"il valôr \"%s\" di gjenar '%s' nol è valit o fûr dal interval pe proprietât "
+"'%s' di gjenar '%s'"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:80
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, fuzzy, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "impussibil cjariâ il plugin editôr: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "al mancje il file plugin \"%s\""
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:86
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "impussibil cjariâ il plugin editôr: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:95
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "impussibil cjariâ la fabriche %s dal plugin: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:121
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
 msgstr "erôr no cognossût tal creâ la istance dal editôr"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
 msgstr "Gjenerâl"
 
-#: ../properties/nm-libreswan-dialog.ui.h:2
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Gateway:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "Mostre lis password"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Secret:"
-msgstr "_Segret:"
-
 #: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_User password:"
-msgstr "Password _utent:"
+#, fuzzy
+msgid "Authentication"
+msgstr "Autentiche VPN"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "Non g_rup:"
+msgid "Type:"
+msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
 msgstr "Non utent:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "Phase2 Algorithms:"
-msgstr "Algoritmis fase2:"
+msgid "_User password:"
+msgstr "Password _utent:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "Non g_rup:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Segret:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Mostre lis password"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+#, fuzzy
+msgid "Ad_vanced…"
+msgstr "A_vanzadis"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
 msgstr "Domini:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:10
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
 msgstr "Algoritmis fase1:"
 
-#: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Ad_vanced"
-msgstr "A_vanzadis"
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmis fase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+#, fuzzy
+msgid "Phase1 Lifetime:"
+msgstr "Algoritmis fase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+#, fuzzy
+msgid "Phase2 Lifetime:"
+msgstr "Algoritmis fase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "IPsec based VPN using IKEv1"
+#~ msgstr "VPN basât su IPsec doprant IKEv1"

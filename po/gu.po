@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-vpnc.po.master.gu\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=NetworkManager&component=VPN: vpnc\n"
-"POT-Creation-Date: 2009-04-23 13:25+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2009-05-29 11:46+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
@@ -19,160 +19,449 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:103
-msgid "_Secondary Password:"
-msgstr "ગૌણ પાસવર્ડ (_S):"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:159
-msgid "_Password:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
+#, fuzzy, c-format
+msgid "Authenticate VPN %s"
+msgstr "સત્તાધિકરણ VPN"
+
+#: ../auth-dialog/main.c:182
+#, fuzzy
+msgid "Password:"
 msgstr "પાસવર્ડ (_P):"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:240
-msgid "Sh_ow passwords"
-msgstr "પાસવર્ડોને બતાવો (_o)"
+#: ../auth-dialog/main.c:192
+#, fuzzy
+msgid "Group Password:"
+msgstr "જૂથ પાસવર્ડ (_G):"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:300
-msgid "_Remember passwords for this session"
-msgstr "આ સત્ર માટે પાસવર્ડોને યાદ રાખો (_R)"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:301
-msgid "_Save passwords in keyring"
-msgstr "કિરીંગમાં પાસવર્ડોને સંગ્રહો (_S)"
-
-#: ../auth-dialog/main.c:170
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "તમારે વર્ચ્યુઅલ ખાનગી નેટવર્ક '%s' ને પ્રવેશ મેળવવા સત્તાધિકરણની જરૂર પડશે."
-
-#: ../auth-dialog/main.c:171
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "સત્તાધિકરણ VPN"
 
-#: ../auth-dialog/main.c:175
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "જૂથ પાસવર્ડ (_G):"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "VPN જોડાણોને ઉમેરો, દૂર કરો, અને ફેરફાર કરો"
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "તમારે વર્ચ્યુઅલ ખાનગી નેટવર્ક '%s' ને પ્રવેશ મેળવવા સત્તાધિકરણની જરૂર પડશે."
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN જોડાણ વ્યવસ્થાપક (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:53
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "Cisco સુસંગત VPN (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:54
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1462
+msgid "A password is required."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
-"VPN gateways."
-msgstr "વિવિધ Cisco, Juniper, Netscreen, અને Sonicwall IPsec સાથે સુસંગત છે-આધારિત VPN ગેટવે."
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
 
-#: ../properties/nm-vpnc.c:339
-msgid "Saved"
-msgstr "સંગ્રહ થયેલ છે"
+#: ../src/nm-libreswan-service.c:1886
+msgid "Unhandled pending authentication."
+msgstr ""
 
-#: ../properties/nm-vpnc.c:346
-msgid "Always Ask"
-msgstr "હંમેશા પૂછો"
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:353
-msgid "Not Required"
-msgstr "જરૂરી નથી"
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:412
-msgid "Secure (default)"
-msgstr "સુરક્ષિત (મૂળભૂત)"
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:415
-msgid "Weak (use with caution)"
-msgstr "નબળુ (સાવધાની સાથે વાપરો)"
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
 
-#: ../properties/nm-vpnc.c:423
-msgid "None (completely insecure)"
-msgstr "કંઇ નહિં (સંપૂર્ણ રીતે સુરક્ષિત નથી)"
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:471
-msgid "Cisco UDP (default)"
-msgstr "Cisco UDP (મૂળભૂત)"
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:478
-msgid "NAT-T"
-msgstr "NAT-T"
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:485
-msgid "Disabled"
-msgstr "નિષ્ક્રિય થયેલ"
-
-#: ../properties/nm-vpnc.c:1116
-msgid "TCP tunneling not supported"
-msgstr "TCP ટનલીંગ આધારભૂત નથી"
-
-#: ../properties/nm-vpnc.c:1118
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
+"construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"VPN સુયોજનો ફાઇલ '%s' એ સ્પષ્ટ કરે છે કે જે VPN ટ્રાફિક TCP મારફતે ટનલ થયેલ હોવો જોઇએ કે જે "
-"vpnc સોફ્ટવેરમાં હાલમાં આધારભૂત નથી.\n"
-"\n"
-"જોડાણ હજુ બનાવી શકાય છે, TCP ટનલિંગ નિષ્ક્રિય થયેલ સાથે, ગમે તે રીતે તે ઇચ્છિત રીતે કામ કરી શકશે નહિં."
 
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid " "
-msgstr " "
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>General</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+#, fuzzy
+msgid "General"
 msgstr "<b>સામાન્ય</b>"
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Optional</b>"
-msgstr "<b>વૈકલ્પિક</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
-msgstr "મૃત પીઅર શોધ ને નિષ્ક્રિય કરો"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Domain:"
-msgstr "ડોમેઇન:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption method:"
-msgstr "એનક્રિપ્શન પદ્દતિ:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid "G_roup name:"
-msgstr "જૂથ નામ (_r):"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Gro_up password:"
-msgstr "જૂથ પાસવર્ડ (_u):"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "NAT traversal:"
-msgstr "NAT પ્રતિક્રમણ:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "Show passwords"
-msgstr "પાસવર્ડોને બતાવો"
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid "User name:"
-msgstr "વપરાશકર્તા નામ:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "ગેટવે (_G):"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "સત્તાધિકરણ VPN"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "વપરાશકર્તા નામ:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
 msgid "_User password:"
 msgstr "વપરાશકર્તા પાસવર્ડ (_U):"
 
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "જૂથ નામ (_r):"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "પાસવર્ડોને બતાવો"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "ડોમેઇન:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+#, fuzzy
+msgid "Disable rekeying"
+msgstr "મૃત પીઅર શોધ ને નિષ્ક્રિય કરો"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+#, fuzzy
+msgid "Disable PFS"
+msgstr "નિષ્ક્રિય થયેલ"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "ગૌણ પાસવર્ડ (_S):"
+
+#~ msgid "Sh_ow passwords"
+#~ msgstr "પાસવર્ડોને બતાવો (_o)"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "આ સત્ર માટે પાસવર્ડોને યાદ રાખો (_R)"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "કિરીંગમાં પાસવર્ડોને સંગ્રહો (_S)"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "VPN જોડાણોને ઉમેરો, દૂર કરો, અને ફેરફાર કરો"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "VPN જોડાણ વ્યવસ્થાપક (vpnc)"
+
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "Cisco સુસંગત VPN (vpnc)"
+
+#~ msgid ""
+#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
+#~ "based VPN gateways."
+#~ msgstr ""
+#~ "વિવિધ Cisco, Juniper, Netscreen, અને Sonicwall IPsec સાથે સુસંગત છે-આધારિત VPN "
+#~ "ગેટવે."
+
+#~ msgid "Saved"
+#~ msgstr "સંગ્રહ થયેલ છે"
+
+#~ msgid "Always Ask"
+#~ msgstr "હંમેશા પૂછો"
+
+#~ msgid "Not Required"
+#~ msgstr "જરૂરી નથી"
+
+#~ msgid "Secure (default)"
+#~ msgstr "સુરક્ષિત (મૂળભૂત)"
+
+#~ msgid "Weak (use with caution)"
+#~ msgstr "નબળુ (સાવધાની સાથે વાપરો)"
+
+#~ msgid "None (completely insecure)"
+#~ msgstr "કંઇ નહિં (સંપૂર્ણ રીતે સુરક્ષિત નથી)"
+
+#~ msgid "Cisco UDP (default)"
+#~ msgstr "Cisco UDP (મૂળભૂત)"
+
+#~ msgid "NAT-T"
+#~ msgstr "NAT-T"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP ટનલીંગ આધારભૂત નથી"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "VPN સુયોજનો ફાઇલ '%s' એ સ્પષ્ટ કરે છે કે જે VPN ટ્રાફિક TCP મારફતે ટનલ થયેલ હોવો "
+#~ "જોઇએ કે જે vpnc સોફ્ટવેરમાં હાલમાં આધારભૂત નથી.\n"
+#~ "\n"
+#~ "જોડાણ હજુ બનાવી શકાય છે, TCP ટનલિંગ નિષ્ક્રિય થયેલ સાથે, ગમે તે રીતે તે ઇચ્છિત રીતે "
+#~ "કામ કરી શકશે નહિં."
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>વૈકલ્પિક</b>"
+
+#~ msgid "Encryption method:"
+#~ msgstr "એનક્રિપ્શન પદ્દતિ:"
+
+#~ msgid "Gro_up password:"
+#~ msgstr "જૂથ પાસવર્ડ (_u):"
+
+#~ msgid "NAT traversal:"
+#~ msgstr "NAT પ્રતિક્રમણ:"

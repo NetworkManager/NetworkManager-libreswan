@@ -12,9 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/"
-"NetworkManager-libreswan/issues\n"
-"POT-Creation-Date: 2018-10-24 13:26+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2018-11-22 07:15-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
@@ -181,12 +180,11 @@ msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"o valor “%s” de tipo “%s” é inválido ou fora do intervalo da propriedade “%s”"
-" de tipo “%s”"
+"o valor “%s” de tipo “%s” é inválido ou fora do intervalo da propriedade "
+"“%s” de tipo “%s”"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
 #, c-format
-#| msgid "cannot load editor plugin: %s"
 msgid "unable to get editor plugin name: %s"
 msgstr "não foi possível obter o nome do editor do plug-in: %s"
 

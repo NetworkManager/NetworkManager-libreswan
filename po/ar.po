@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-31 10:41+0100\n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2007-12-26 09:15+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -22,157 +22,428 @@ msgstr ""
 "X-Poedit-Language: Arabic\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "_كلمة سر ثانوية:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "ا_سم المستخدم:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "ال_نطاق:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
-msgstr "_كلمة السر:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "اتصل كشخص م_جهول"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr "اتصل _كمستخدم:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr "_تذكّر كلمة سر هذه الجلسة"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "احفظ كلمة السر في _حلقة المفاتيح"
+#: ../auth-dialog/main.c:165
+#, fuzzy, c-format
+msgid "Authenticate VPN %s"
+msgstr "وثِّق VPN"
 
 #: ../auth-dialog/main.c:182
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "تحتاج إلى التوثيق لتَنفُذ إلى الشبكة الخاصة التخيلية '%s'."
+#, fuzzy
+msgid "Password:"
+msgstr "_كلمة السر:"
 
-#: ../auth-dialog/main.c:183
+#: ../auth-dialog/main.c:192
+#, fuzzy
+msgid "Group Password:"
+msgstr "كلمة سر ال_مجموعة:"
+
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "وثِّق VPN"
 
-#: ../auth-dialog/main.c:190
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "كلمة سر ال_مجموعة:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "أضِف، احذِف، و حرِّر اتصالات VPN"
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "تحتاج إلى التوثيق لتَنفُذ إلى الشبكة الخاصة التخيلية '%s'."
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "مدير اتصالات VPN (vpnc)"
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr ""
 
-#: ../properties/nm-vpnc.c:51
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1462
+msgid "A password is required."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1872
 #, fuzzy
-msgid "Cisco Compatible VPN (vpnc)"
-msgstr "عميل متوافق مع VPN سيسكو (vpnc) "
-
-#: ../properties/nm-vpnc.c:52
 msgid ""
-"Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-based "
-"VPN gateways."
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "فشل ولوج VPN لأن خيارات اعدادات VPN غير صالحة."
+
+#: ../src/nm-libreswan-service.c:1886
+#, fuzzy
+msgid "Unhandled pending authentication."
+msgstr "استخدم ال_نطاق للتوثّق"
+
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
 msgstr ""
 
-#: ../properties/nm-vpnc.c:204
-msgid "Secure (default)"
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 
-#: ../properties/nm-vpnc.c:207
-msgid "Weak (use with caution)"
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
 msgstr ""
 
-#: ../properties/nm-vpnc.c:215
-msgid "None (completely insecure)"
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 
-#: ../properties/nm-vpnc.c:260
-msgid "NAT-T (default)"
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
 msgstr ""
 
-#: ../properties/nm-vpnc.c:267
-msgid "Cisco UDP"
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
 msgstr ""
 
-#: ../properties/nm-vpnc.c:274
-msgid "Disabled"
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
 msgstr ""
 
-#: ../properties/nm-vpnc.c:698
-msgid "TCP tunneling not supported"
-msgstr "أنفاق TCP ليست مدعومة"
-
-#: ../properties/nm-vpnc.c:700
+#: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"ينص ملف اعدادات VPN '%s' على توجد تمرير حركة المرور عبر نفقة TCP وهو ما ليس "
-"مدعوما حاليا في برمجيات vpnc\n"
-"\n"
-"ما زال بالإمكان إنشاء الإتصال مع تعطيل أنفاق TCP، بالرغم من أنها قد لا تعمل "
-"كما هو متوقع."
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid " "
+"construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
 
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>General</b>"
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 
-#: ../properties/nm-vpnc-dialog.glade.h:3
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Gateway:"
+msgstr "ال_بوّابة:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
 #, fuzzy
-msgid "<b>Optional</b>"
-msgstr "خياري"
+msgid "Authentication"
+msgstr "وثِّق VPN"
 
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "Disable Dead Peer Detection"
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
 msgstr ""
 
-#: ../properties/nm-vpnc-dialog.glade.h:5
-#, fuzzy
-msgid "Domain:"
-msgstr "ال_نطاق:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Encryption Method:"
-msgstr ""
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-#, fuzzy
-msgid "G_roup Name:"
-msgstr "اسم الم_جموعة:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-#, fuzzy
-msgid "NAT Traversal:"
-msgstr "عطل الإرسال عبر NAT"
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
+#: ../properties/nm-libreswan-dialog.ui.h:7
 #, fuzzy
 msgid "User name:"
 msgstr "ا_سم المستخدم:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "_Gateway:"
-msgstr "ال_بوّابة:"
+#: ../properties/nm-libreswan-dialog.ui.h:8
+#, fuzzy
+msgid "_User password:"
+msgstr "_كلمة السر:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+#, fuzzy
+msgid "G_roup name:"
+msgstr "اسم الم_جموعة:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+#, fuzzy
+msgid "Show passwords"
+msgstr "كلمة سر ال_مجموعة:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+#, fuzzy
+msgid "Domain:"
+msgstr "ال_نطاق:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_كلمة سر ثانوية:"
+
+#~ msgid "_Username:"
+#~ msgstr "ا_سم المستخدم:"
+
+#~ msgid "_Domain:"
+#~ msgstr "ال_نطاق:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "اتصل كشخص م_جهول"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "اتصل _كمستخدم:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_تذكّر كلمة سر هذه الجلسة"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "احفظ كلمة السر في _حلقة المفاتيح"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "أضِف، احذِف، و حرِّر اتصالات VPN"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "مدير اتصالات VPN (vpnc)"
+
+#, fuzzy
+#~ msgid "Cisco Compatible VPN (vpnc)"
+#~ msgstr "عميل متوافق مع VPN سيسكو (vpnc) "
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "أنفاق TCP ليست مدعومة"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "ينص ملف اعدادات VPN '%s' على توجد تمرير حركة المرور عبر نفقة TCP وهو ما "
+#~ "ليس مدعوما حاليا في برمجيات vpnc\n"
+#~ "\n"
+#~ "ما زال بالإمكان إنشاء الإتصال مع تعطيل أنفاق TCP، بالرغم من أنها قد لا "
+#~ "تعمل كما هو متوقع."
+
+#, fuzzy
+#~ msgid "<b>Optional</b>"
+#~ msgstr "خياري"
+
+#, fuzzy
+#~ msgid "NAT Traversal:"
+#~ msgstr "عطل الإرسال عبر NAT"
 
 #~ msgid "The following vpnc VPN connection will be created:"
 #~ msgstr "سيُنشأ اتصال VPN التالي:"
@@ -286,9 +557,6 @@ msgstr "ال_بوّابة:"
 #~ msgid "Use NAT _keepalive packets"
 #~ msgstr "ا_ستعمل رزمات NAT"
 
-#~ msgid "Use _domain for authentication"
-#~ msgstr "استخدم ال_نطاق للتوثّق"
-
 #~ msgid "_Only use VPN connection for these addresses"
 #~ msgstr "استخدم _فقط اتصالات VPN لهذه العناوين"
 
@@ -303,10 +571,6 @@ msgstr "ال_بوّابة:"
 #~ "The VPN login failed because the VPN program could not connect to the VPN "
 #~ "server."
 #~ msgstr "فشل ولوج VPN لأن برنامج VPN لا يمكنه الإتصال بخادم VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN configuration options were invalid."
-#~ msgstr "فشل ولوج VPN لأن خيارات اعدادات VPN غير صالحة."
 
 #~ msgid ""
 #~ "The VPN login failed because the VPN program received an invalid "

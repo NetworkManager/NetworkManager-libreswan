@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product"
-"=network-manager-libreswan&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-26 11:12+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2014-12-27 19:08+0000\n"
 "Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -20,133 +19,394 @@ msgstr ""
 "X-Generator: Pootle 2.5.1.1\n"
 "X-POOTLE-MTIME: 1419707284.000000\n"
 
-#: ../auth-dialog/main.c:175
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
 #, c-format
 msgid "Authenticate VPN %s"
 msgstr "%s VPN Kimlik Doğrulaması"
 
-#: ../auth-dialog/main.c:192
+#: ../auth-dialog/main.c:182
 msgid "Password:"
 msgstr "Parola:"
 
-#: ../auth-dialog/main.c:202
+#: ../auth-dialog/main.c:192
 msgid "Group Password:"
 msgstr "Grup Parolası:"
 
-#: ../auth-dialog/main.c:238
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "VPN Kimlik Doğrulaması"
 
-#: ../auth-dialog/main.c:247
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_Grup Parolası:"
 
-#: ../auth-dialog/main.c:496
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "'%s' Sanal Özel Ağına erişmek için kimlik kanıtlaması yapmanız gerekir."
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr ""
+"'%s' Sanal Özel Ağına erişmek için kimlik kanıtlaması yapmanız gerekir."
 
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:1
-msgid "Network"
-msgstr "Ağ"
-
-#: ../auth-dialog/nm-libreswan-auth-dialog.desktop.in.in.h:2
-msgid "Request VPN authentication"
-msgstr "VPN kimlik doğrulaması iste"
-
-#: ../properties/nm-libreswan.c:47
+#: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "IPsec tabanlı VPN"
 
-#: ../properties/nm-libreswan.c:48
-msgid "IPsec, IKEv1, IKEv2 based VPN"
-msgstr "IPsec, IKEv1, IKEv2 tabanlı VPN"
+#: ../properties/nm-libreswan-editor-plugin.c:44
+#, fuzzy
+msgid "IPsec based VPN for remote clients"
+msgstr "IPsec tabanlı VPN"
 
-#: ../properties/nm-libreswan.c:303
-msgid "Saved"
-msgstr "Kaydedildi"
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr ""
 
-#: ../properties/nm-libreswan.c:310
-msgid "Always Ask"
-msgstr "Daima Sor"
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
 
-#: ../properties/nm-libreswan.c:317
-msgid "Not Required"
-msgstr "Gerekli Değil"
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../properties/nm-libreswan-dialog.ui.h:2
-msgid "<b>General</b>"
-msgstr "<b>Genel</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:3
-msgid "Show passwords"
-msgstr "Parolaları göster"
-
-#: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "Gro_up password:"
-msgstr "Gr_up parolası:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:5
-msgid "_Gateway:"
-msgstr "_Ağ geçidi:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "G_roup name:"
-msgstr "G_rup ismi:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "_User password:"
-msgstr "_Kullanıcı parolası:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "<b>Optional</b>"
-msgstr "<b>İsteğe Bağlı</b>"
-
-#: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "User name:"
-msgstr "Kullanıcı adı:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "Phase1 Algorithms:"
-msgstr "Faz1 Algoritması:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:11
-msgid "Phase2 Algorithms:"
-msgstr "Faz2 Algoritması:"
-
-#: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "Domain:"
-msgstr "Alan:"
-
-#: ../src/nm-libreswan-service.c:831
+#: ../src/nm-libreswan-service.c:1462
 msgid "A password is required."
 msgstr "Parola gerekli."
 
-#: ../src/nm-libreswan-service.c:1197
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "VPN bağlantı ayarları geçersiz olduğundan istek işlenemedi."
 
-#: ../src/nm-libreswan-service.c:1211
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "İşlenmemiş bekleyen kimlik doğrulaması."
 
-#: ../src/nm-libreswan-service.c:1297
-msgid "Don't quit when VPN connection terminates"
+#: ../src/nm-libreswan-service.c:2028
+#, fuzzy
+msgid "Don’t quit when VPN connection terminates"
 msgstr "VPN bağlantısı sonlandığında çıkma"
 
-#: ../src/nm-libreswan-service.c:1298
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Ayrıntılı hata ayıklama günlüklemesini etkinleştir (parolaları görünür "
 "yapabilir)"
 
-#: ../src/nm-libreswan-service.c:1321
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Bu servis NetworkManager için tümleşik IPsec VPN yeterliliğini sağlar."
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+#, fuzzy
+msgid "General"
+msgstr "<b>Genel</b>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Gateway:"
+msgstr "_Ağ geçidi:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "VPN Kimlik Doğrulaması"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Kullanıcı adı:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "_User password:"
+msgstr "_Kullanıcı parolası:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "G_rup ismi:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Parolaları göster"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "Alan:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Faz1 Algoritması:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Faz2 Algoritması:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+#, fuzzy
+msgid "Phase1 Lifetime:"
+msgstr "Faz1 Algoritması:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+#, fuzzy
+msgid "Phase2 Lifetime:"
+msgstr "Faz2 Algoritması:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+#, fuzzy
+msgid "Remote Network:"
+msgstr "Ağ"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "Request VPN authentication"
+#~ msgstr "VPN kimlik doğrulaması iste"
+
+#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
+#~ msgstr "IPsec, IKEv1, IKEv2 tabanlı VPN"
+
+#~ msgid "Saved"
+#~ msgstr "Kaydedildi"
+
+#~ msgid "Always Ask"
+#~ msgstr "Daima Sor"
+
+#~ msgid "Not Required"
+#~ msgstr "Gerekli Değil"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "Gro_up password:"
+#~ msgstr "Gr_up parolası:"
+
+#~ msgid "<b>Optional</b>"
+#~ msgstr "<b>İsteğe Bağlı</b>"

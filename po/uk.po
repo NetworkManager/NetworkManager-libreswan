@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager vpnc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-16 18:06+0200\n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2007-02-16 03:32+0200\n"
 "Last-Translator: Maxim Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -15,241 +15,518 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "_Вторинний пароль:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "_Ім'я:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "_Домен"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
+#, fuzzy, c-format
+msgid "Authenticate VPN %s"
+msgstr "Автентифікація VPN"
+
+#: ../auth-dialog/main.c:182
+#, fuzzy
+msgid "Password:"
 msgstr "_Пароль:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "З'єднуватись _анонімно"
+#: ../auth-dialog/main.c:192
+#, fuzzy
+msgid "Group Password:"
+msgstr "Пароль _групи:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr "З'єднуватись як _користувач:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr "Па_м'ятати пароль для цього сеансу"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "З_берегти пароль у в'язці паролів"
-
-#: ../auth-dialog/main.c:161
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr "Для доступу до приватної мережі '%s' потрібна автентифікація."
-
-#: ../auth-dialog/main.c:162
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "Автентифікація VPN"
 
-#: ../auth-dialog/main.c:169
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "Пароль _групи:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
-msgstr "Додавання, видалення та редагування з'єднань типу VPN"
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "Для доступу до приватної мережі '%s' потрібна автентифікація."
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "Менеджер з'єднань VPN (vpnc)"
-
-#: ../properties/nm-vpnc.c:84
-msgid "Compatible Cisco VPN client (vpnc)"
-msgstr "Сумісний з Cisco VPN клієнт (vpnc)"
-
-#: ../properties/nm-vpnc.c:448
-msgid "The following vpnc VPN connection will be created:"
-msgstr "Буде створено з'єднання vpnc VPN:"
-
-#: ../properties/nm-vpnc.c:450
-#, c-format
-msgid "Name:  %s"
-msgstr "Назва:  %s"
-
-#: ../properties/nm-vpnc.c:453
-#, c-format
-msgid "Gateway:  %s"
-msgstr "Шлюз:  %s"
-
-#: ../properties/nm-vpnc.c:455
-#, c-format
-msgid "Group Name:  %s"
-msgstr "Назва групи:  %s"
-
-#: ../properties/nm-vpnc.c:459
-#, c-format
-msgid "Username:  %s"
-msgstr "Ім'я:  %s"
-
-#: ../properties/nm-vpnc.c:464
-#, c-format
-msgid "Domain:  %s"
-msgstr "Домен:  %s"
-
-#: ../properties/nm-vpnc.c:469
-#, c-format
-msgid "Routes:  %s"
-msgstr "Маршрутизатори:  %s"
-
-#: ../properties/nm-vpnc.c:473
-msgid "The connection details can be changed using the \"Edit\" button."
-msgstr "Подробиці про з'єднання можна змінити кнопкою \"Правка\"."
-
-#: ../properties/nm-vpnc.c:542
-msgid "TCP tunneling not supported"
-msgstr "Тунелювання TCP не підтримується"
-
-#: ../properties/nm-vpnc.c:544
-#, c-format
-msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
 msgstr ""
-"У файлі параметрів VPN '%s' вказано, що трафік VPN повинен тунелюватись "
-"через TCP, що наразі не підтримується програмою vpnc.\n"
-"\n"
-"З'єднання буде створено з вимкненим тунелюванням TCP, але воно може не "
-"працювати належним чином."
 
-#: ../properties/nm-vpnc.c:565
-msgid "Cannot import settings"
-msgstr "Не вдається імпортувати параметри"
-
-#: ../properties/nm-vpnc.c:567
-#, c-format
-msgid "The VPN settings file '%s' does not contain valid data."
-msgstr "Файл параметрів VPN '%s' містить некоректні дані."
-
-#: ../properties/nm-vpnc.c:584
-msgid "Select file to import"
-msgstr "Виберіть файл для імпорту"
-
-#. printf ("in impl_export\n");
-#: ../properties/nm-vpnc.c:744
-msgid "Save as..."
-msgstr "Зберегти як..."
-
-#: ../properties/nm-vpnc.c:774
-#, c-format
-msgid "A file named \"%s\" already exists."
-msgstr "Файл з назвою \"%s\" вже існує."
-
-#: ../properties/nm-vpnc.c:777
-msgid "Do you want to replace it with the one you are saving?"
-msgstr "Замінити його?"
-
-#: ../properties/nm-vpnc.c:791
-msgid "Failed to export configuration"
-msgstr "Помилка експорту конфігурації"
-
-#: ../properties/nm-vpnc.c:793
-#, c-format
-msgid "Failed to save file %s"
-msgstr "Помилка збереження файлу %s"
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid "<b>Connection Name</b>"
-msgstr "<b>Назва з'єднання</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>Required Information</b>"
-msgstr "<b>Обов'язкова інформація</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-msgstr "<i>приклад: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "G_roup Name:"
-msgstr "Назва г_рупи:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "O_ptional Information"
-msgstr "_Не обов'язкова інформація"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "Override _user name"
-msgstr "Перевизначати ім'я _користувача'"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid ""
-"Please enter the information provided by your system administrator below. Do "
-"not enter your password here as you will be prompted when connecting."
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
 msgstr ""
-"Нижче введіть інформацію, що надана системним адміністратором. Не вводьте "
-"тут ваш пароль, пароль буде запитаний на етапі встановлення з'єднання."
 
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Use _domain for authentication"
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1462
+msgid "A password is required."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1872
+#, fuzzy
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "Помилка входу у VPN, оскільки конфігурація VPN була неправильною."
+
+#: ../src/nm-libreswan-service.c:1886
+#, fuzzy
+msgid "Unhandled pending authentication."
 msgstr "Використовувати _домен для автентифікації"
 
-#: ../properties/nm-vpnc-dialog.glade.h:9
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_Шлюз:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid "_Import Saved Configuration..."
-msgstr "_Імпорт збереженої конфігурації..."
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "Автентифікація VPN"
 
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid ""
-"_Name used to identify the connection to the private network, e.g. \"Campus "
-"VPN\" or \"Corporate Network\""
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
 msgstr ""
-"_Назва, що використовується для ідентифікації з'єднання з приватною мережею, "
-"наприклад \"Campus VPN\" чи \"Corporate Network\""
 
-#: ../properties/nm-vpnc-dialog.glade.h:12
-msgid "_Only use VPN connection for these addresses"
-msgstr "Використовувати VPN _лише для цих адрес"
+#: ../properties/nm-libreswan-dialog.ui.h:7
+#, fuzzy
+msgid "User name:"
+msgstr "_Ім'я:"
 
-#: ../src/nm-vpnc-service.c:118
-msgid ""
-"The VPN login failed because the user name and password were not accepted."
+#: ../properties/nm-libreswan-dialog.ui.h:8
+#, fuzzy
+msgid "_User password:"
+msgstr "_Пароль:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+#, fuzzy
+msgid "G_roup name:"
+msgstr "Назва г_рупи:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
 msgstr ""
-"Помилка входу у VPN, оскільки ім'я користувача та пароль не були прийняті."
 
-#: ../src/nm-vpnc-service.c:120
-msgid "The VPN login failed because the VPN program could not be started."
-msgstr "Помилка входу у VPN, оскільки не вдається запустити програму VPN."
+#: ../properties/nm-libreswan-dialog.ui.h:11
+#, fuzzy
+msgid "Show passwords"
+msgstr "Пароль _групи:"
 
-#: ../src/nm-vpnc-service.c:122
-msgid ""
-"The VPN login failed because the VPN program could not connect to the VPN "
-"server."
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
 msgstr ""
-"Помилка входу у VPN, оскільки програма VPN не може з'єднатись з сервером VPN."
 
-#: ../src/nm-vpnc-service.c:124
-msgid ""
-"The VPN login failed because the VPN configuration options were invalid."
-msgstr "Помилка входу у VPN, оскільки конфігурація VPN була неправильною."
-
-#: ../src/nm-vpnc-service.c:126
-msgid ""
-"The VPN login failed because the VPN program received an invalid "
-"configuration from the VPN server."
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
 msgstr ""
-"Помилка входу у VPN, оскільки програма VPN отримала неправильну конфігурацію "
-"від сервера VPN."
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+#, fuzzy
+msgid "Domain:"
+msgstr "_Домен"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_Вторинний пароль:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "З'єднуватись _анонімно"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "З'єднуватись як _користувач:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "Па_м'ятати пароль для цього сеансу"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "З_берегти пароль у в'язці паролів"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "Додавання, видалення та редагування з'єднань типу VPN"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "Менеджер з'єднань VPN (vpnc)"
+
+#~ msgid "Compatible Cisco VPN client (vpnc)"
+#~ msgstr "Сумісний з Cisco VPN клієнт (vpnc)"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "Буде створено з'єднання vpnc VPN:"
+
+#~ msgid "Name:  %s"
+#~ msgstr "Назва:  %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "Шлюз:  %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "Назва групи:  %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "Ім'я:  %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "Домен:  %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "Маршрутизатори:  %s"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "Подробиці про з'єднання можна змінити кнопкою \"Правка\"."
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "Тунелювання TCP не підтримується"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "У файлі параметрів VPN '%s' вказано, що трафік VPN повинен тунелюватись "
+#~ "через TCP, що наразі не підтримується програмою vpnc.\n"
+#~ "\n"
+#~ "З'єднання буде створено з вимкненим тунелюванням TCP, але воно може не "
+#~ "працювати належним чином."
+
+#~ msgid "Cannot import settings"
+#~ msgstr "Не вдається імпортувати параметри"
+
+#~ msgid "The VPN settings file '%s' does not contain valid data."
+#~ msgstr "Файл параметрів VPN '%s' містить некоректні дані."
+
+#~ msgid "Select file to import"
+#~ msgstr "Виберіть файл для імпорту"
+
+#~ msgid "Save as..."
+#~ msgstr "Зберегти як..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "Файл з назвою \"%s\" вже існує."
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "Замінити його?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "Помилка експорту конфігурації"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "Помилка збереження файлу %s"
+
+#~ msgid "<b>Connection Name</b>"
+#~ msgstr "<b>Назва з'єднання</b>"
+
+#~ msgid "<b>Required Information</b>"
+#~ msgstr "<b>Обов'язкова інформація</b>"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>приклад: 172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "O_ptional Information"
+#~ msgstr "_Не обов'язкова інформація"
+
+#~ msgid "Override _user name"
+#~ msgstr "Перевизначати ім'я _користувача'"
+
+#~ msgid ""
+#~ "Please enter the information provided by your system administrator below. "
+#~ "Do not enter your password here as you will be prompted when connecting."
+#~ msgstr ""
+#~ "Нижче введіть інформацію, що надана системним адміністратором. Не вводьте "
+#~ "тут ваш пароль, пароль буде запитаний на етапі встановлення з'єднання."
+
+#~ msgid "_Import Saved Configuration..."
+#~ msgstr "_Імпорт збереженої конфігурації..."
+
+#~ msgid ""
+#~ "_Name used to identify the connection to the private network, e.g. "
+#~ "\"Campus VPN\" or \"Corporate Network\""
+#~ msgstr ""
+#~ "_Назва, що використовується для ідентифікації з'єднання з приватною "
+#~ "мережею, наприклад \"Campus VPN\" чи \"Corporate Network\""
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "Використовувати VPN _лише для цих адрес"
+
+#~ msgid ""
+#~ "The VPN login failed because the user name and password were not accepted."
+#~ msgstr ""
+#~ "Помилка входу у VPN, оскільки ім'я користувача та пароль не були прийняті."
+
+#~ msgid "The VPN login failed because the VPN program could not be started."
+#~ msgstr "Помилка входу у VPN, оскільки не вдається запустити програму VPN."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program could not connect to the VPN "
+#~ "server."
+#~ msgstr ""
+#~ "Помилка входу у VPN, оскільки програма VPN не може з'єднатись з сервером "
+#~ "VPN."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program received an invalid "
+#~ "configuration from the VPN server."
+#~ msgstr ""
+#~ "Помилка входу у VPN, оскільки програма VPN отримала неправильну "
+#~ "конфігурацію від сервера VPN."

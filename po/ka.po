@@ -5,10 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-02 03:30+0000\n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2007-03-07 01:14+0100\n"
 "Last-Translator: Vladimer Sichinava ვლადიმერ სიჭინავა <vsichi@gnome.org>\n"
-"Language-Team: Georgian <http://mail.gnome.org/mailman/listinfo/gnome-ge-list>\n"
+"Language-Team: Georgian <http://mail.gnome.org/mailman/listinfo/gnome-ge-"
+"list>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,306 +17,528 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:144
-msgid "_Secondary Password:"
-msgstr "_მეორადი პაროლი:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:258
-msgid "_Username:"
-msgstr "_სახელი:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:260
-msgid "_Domain:"
-msgstr "_დომენი:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
 
-#: ../auth-dialog/gnome-two-password-dialog.c:262
-msgid "_Password:"
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr ""
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr ""
+
+#: ../auth-dialog/main.c:165
+#, fuzzy, c-format
+msgid "Authenticate VPN %s"
+msgstr "VPN-აუთენტიკაცია"
+
+#: ../auth-dialog/main.c:182
+#, fuzzy
+msgid "Password:"
 msgstr "_პაროლი:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:351
-msgid "Connect _anonymously"
-msgstr "_ანონიმური შეერთება"
+#: ../auth-dialog/main.c:192
+#, fuzzy
+msgid "Group Password:"
+msgstr "_ჯგუფის პაროლი:"
 
-#: ../auth-dialog/gnome-two-password-dialog.c:356
-msgid "Connect as _user:"
-msgstr ""
-"_შეერთება მომხმარებლის "
-"სახელით:"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:465
-msgid "_Remember passwords for this session"
-msgstr ""
-"_სესიის პაროლის "
-"დამახსოვრება"
-
-#: ../auth-dialog/gnome-two-password-dialog.c:467
-msgid "_Save passwords in keyring"
-msgstr "_პაროლის აწმში შენახვა"
-
-#: ../auth-dialog/main.c:161
-#, c-format
-msgid "You need to authenticate to access the Virtual Private Network '%s'."
-msgstr ""
-"საჭიროა აუთენტიკაცია VPN "
-"‘%s’-ში შესვლისათვის"
-
-#: ../auth-dialog/main.c:162
+#: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
 msgstr "VPN-აუთენტიკაცია"
 
-#: ../auth-dialog/main.c:169
+#: ../auth-dialog/main.c:237
 msgid "_Group Password:"
 msgstr "_ჯგუფის პაროლი:"
 
-#: ../nm-vpnc.desktop.in.h:1
-msgid "Add, Remove, and Edit VPN Connections"
+#: ../auth-dialog/main.c:487
+#, fuzzy, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "საჭიროა აუთენტიკაცია VPN ‘%s’-ში შესვლისათვის"
+
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
 msgstr ""
-"VPN-შეერთებების დამატება, "
-"წაშლა და რედაქტირება"
 
-#: ../nm-vpnc.desktop.in.h:2
-msgid "VPN Connection Manager (vpnc)"
-msgstr "VPN-შეერთებების მენეჯერი (vpnc)"
-
-#: ../properties/nm-vpnc.c:84
-msgid "Compatible Cisco VPN client (vpnc)"
-msgstr "თავსებადი Cisco VPN-კლიენტი (vpnc)"
-
-#: ../properties/nm-vpnc.c:448
-msgid "The following vpnc VPN connection will be created:"
-msgstr "გახსნილია VPN-შეერთებები:"
-
-#: ../properties/nm-vpnc.c:450
-#, c-format
-msgid "Name:  %s"
-msgstr "სახელი: %s"
-
-#: ../properties/nm-vpnc.c:453
-#, c-format
-msgid "Gateway:  %s"
-msgstr "კარიბჭე: %s"
-
-#: ../properties/nm-vpnc.c:455
-#, c-format
-msgid "Group Name:  %s"
-msgstr "ჯგუფის სახელი: %s"
-
-#: ../properties/nm-vpnc.c:459
-#, c-format
-msgid "Username:  %s"
-msgstr "მომხმარებლის სახელი: %s"
-
-#: ../properties/nm-vpnc.c:464
-#, c-format
-msgid "Domain:  %s"
-msgstr "დომენი: %s"
-
-#: ../properties/nm-vpnc.c:469
-#, c-format
-msgid "Routes:  %s"
-msgstr "მაშრუტები: %s"
-
-#: ../properties/nm-vpnc.c:473
-msgid "The connection details can be changed using the \"Edit\" button."
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
 msgstr ""
-"\"Edit\" ღილაკით შეიძლება "
-"შეერთების დეტალების "
-"რედაქტირება"
 
-#: ../properties/nm-vpnc.c:542
-msgid "TCP tunneling not supported"
-msgstr ""
-"TCP-გვირაბები არ არის "
-"მხარდაჭერილი"
-
-#: ../properties/nm-vpnc.c:544
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
 #, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr ""
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1462
+msgid "A password is required."
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:1872
+#, fuzzy
 msgid ""
-"The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-"through TCP which is currently not supported in the vpnc software.\n"
-"\n"
-"The connection can still be created, with TCP tunneling disabled, however it "
-"may not work as expected."
-msgstr ""
-"VPN-პარამეტრების ფაილი '%s' "
-"მიუთითებს, რომ VPN-ტრაფიკი "
-"უნდა განხორციელდეს "
-"TCP-გვირაბით, რომლის "
-"მხარდაჭერა vpnc პროგრამას არა "
-"აქვს.\n"
-" \n"
-"შეერთება შენარჩუნებულია "
-"გამორთული TCP-გვირაბით, რის "
-"გამოც შეიძლება არ იმუშაოს "
-"სწორად."
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "VPN-კონფიგურაციის პარამეტრები არასწორია, ავტორიზაცია არ შედგა."
 
-#: ../properties/nm-vpnc.c:565
-msgid "Cannot import settings"
-msgstr ""
-"ვერ ხერხდება პარამეტრების "
-"იმპორტი"
-
-#: ../properties/nm-vpnc.c:567
-#, c-format
-msgid "The VPN settings file '%s' does not contain valid data."
-msgstr ""
-"VPN-პარამეტრების ფაილი '%s' "
-"არასწორ მონაცემებს შეიცავს."
-
-#: ../properties/nm-vpnc.c:584
-msgid "Select file to import"
-msgstr ""
-"მიუთითეთ ფაილი "
-"იმპორტისათვის"
-
-#. printf ("in impl_export\n");
-#: ../properties/nm-vpnc.c:744
-msgid "Save as..."
-msgstr "შევინახოთ როგორც..."
-
-#: ../properties/nm-vpnc.c:774
-#, c-format
-msgid "A file named \"%s\" already exists."
-msgstr "ფაილი \"%s\" უკვე არსებობს."
-
-#: ../properties/nm-vpnc.c:777
-msgid "Do you want to replace it with the one you are saving?"
-msgstr "შევცვალოთ იგი თქვენი ფაილით?"
-
-#: ../properties/nm-vpnc.c:791
-msgid "Failed to export configuration"
-msgstr ""
-"შეცდომა კონფიგურაციის "
-"ექსპორტისას"
-
-#: ../properties/nm-vpnc.c:793
-#, c-format
-msgid "Failed to save file %s"
-msgstr "ვერ შეინახა ფაილი %s"
-
-#: ../properties/nm-vpnc-dialog.glade.h:1
-msgid "<b>Connection Information</b>"
-msgstr ""
-"<b>ინფორმაცია შეერთების "
-"შესახებ</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:2
-msgid "<b>Connection Name</b>"
-msgstr "<b>შეერთების სახელი</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:3
-msgid "<b>Required</b>"
-msgstr "<b>საჭიროა</b>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:4
-msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-msgstr "<i>მაგალითი:172.16.0.0/16 10.11.12.0/24</i>"
-
-#: ../properties/nm-vpnc-dialog.glade.h:5
-msgid "Connection Name"
-msgstr "შეერთების სახელი"
-
-#: ../properties/nm-vpnc-dialog.glade.h:6
-msgid "G_roup Name:"
-msgstr "_ჯგუფის სახელი:"
-
-#: ../properties/nm-vpnc-dialog.glade.h:7
-msgid ""
-"Name used to identify the connection to the private network, e.g. \"Campus "
-"VPN\" or \"Corporate Network\""
-msgstr ""
-"სახელი VPN-ში შეერთების "
-"იდენტიფიცირებისათვის, მაგ.: "
-"\"CampusVPN\" ან \"Corporate Network\""
-
-#: ../properties/nm-vpnc-dialog.glade.h:8
-msgid "Optional"
-msgstr ""
-"არ არის აუცილებელი\n"
-" \n"
-" "
-
-#: ../properties/nm-vpnc-dialog.glade.h:9
-msgid "Override _user name"
-msgstr "ს_ახელის ჩანაცვლება"
-
-#: ../properties/nm-vpnc-dialog.glade.h:10
-msgid ""
-"Please enter the information provided by your system administrator below. Do "
-"not enter your password here as you will be prompted when connecting."
-msgstr ""
-"შეიყვანეთ სისტემური "
-"ადმინისტრატორისაგან "
-"მიღებული ინფორმაცია. ნუ "
-"შეიყვანთ თქვენს პაროლს "
-"დაკავშiრებისას ."
-
-#: ../properties/nm-vpnc-dialog.glade.h:11
-msgid ""
-"Please note that the file you import is not a Cisco VPN or VPNC "
-"configuration file. Ask your adminstrator for the file."
-msgstr ""
-"თქვენს მიერ იმპორტირებული "
-"ფაილი არ არის არც Cisco VPN და არც "
-"VPNC კონფიგურაციის ფაილი. "
-"მიმართეთ ადმინისტრატორს "
-"ფაილისათვის."
-
-#: ../properties/nm-vpnc-dialog.glade.h:12
-msgid "Use _domain for authentication"
+#: ../src/nm-libreswan-service.c:1886
+#, fuzzy
+msgid "Unhandled pending authentication."
 msgstr "_დომენი აუთენტიკაციისათვის"
 
-#: ../properties/nm-vpnc-dialog.glade.h:13
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr ""
+
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr ""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
 msgid "_Gateway:"
 msgstr "_კარიბჭე:"
 
-#: ../properties/nm-vpnc-dialog.glade.h:14
-msgid "_Import Saved Configuration..."
-msgstr ""
-"_შენახული კონფიგურაციის "
-"იმპორტი..."
+#: ../properties/nm-libreswan-dialog.ui.h:5
+#, fuzzy
+msgid "Authentication"
+msgstr "VPN-აუთენტიკაცია"
 
-#: ../properties/nm-vpnc-dialog.glade.h:15
-msgid "_Only use VPN connection for these addresses"
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
 msgstr ""
-"მ_ოცემული "
-"მისამართებისათვის მხოლოდ VPN "
-"კავშირის გამოყენება"
 
-#: ../src/nm-vpnc-service.c:119
-msgid "The VPN login failed because the user name and password were not accepted."
+#: ../properties/nm-libreswan-dialog.ui.h:7
+#, fuzzy
+msgid "User name:"
+msgstr "_სახელი:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+#, fuzzy
+msgid "_User password:"
+msgstr "_პაროლი:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+#, fuzzy
+msgid "G_roup name:"
+msgstr "_ჯგუფის სახელი:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
 msgstr ""
-"სახელი ან პაროლი არასწორია, "
-"ავტორიზაცია არ შედგა."
 
-#: ../src/nm-vpnc-service.c:121
-msgid "The VPN login failed because the VPN program could not be started."
+#: ../properties/nm-libreswan-dialog.ui.h:11
+#, fuzzy
+msgid "Show passwords"
+msgstr "_ჯგუფის პაროლი:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
 msgstr ""
-"ვერ გაიშვა VPN-პროგრამა, "
-"ავტორიზაცია არ შედგა."
 
-#: ../src/nm-vpnc-service.c:123
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+#, fuzzy
+msgid "Domain:"
+msgstr "_დომენი:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
-"The VPN login failed because the VPN program could not connect to the VPN "
-"server."
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
 msgstr ""
-"VPN-პროგრამა ვერ დაუკავშირდა "
-"VPN-სერვერს, ავტორიზაცია არ "
-"შედგა."
 
-#: ../src/nm-vpnc-service.c:125
-msgid "The VPN login failed because the VPN configuration options were invalid."
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
 msgstr ""
-"VPN-კონფიგურაციის "
-"პარამეტრები არასწორია, "
-"ავტორიზაცია არ შედგა."
 
-#: ../src/nm-vpnc-service.c:127
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
-"The VPN login failed because the VPN program received an invalid "
-"configuration from the VPN server."
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
 msgstr ""
-"VPN-პროგრამამ VPN-სერვერისაგან "
-"არასწორი კონფიგურაცია "
-"მიიღო, ავტორიზაცია არ შედგა."
 
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr ""
+
+#~ msgid "_Secondary Password:"
+#~ msgstr "_მეორადი პაროლი:"
+
+#~ msgid "Connect _anonymously"
+#~ msgstr "_ანონიმური შეერთება"
+
+#~ msgid "Connect as _user:"
+#~ msgstr "_შეერთება მომხმარებლის სახელით:"
+
+#~ msgid "_Remember passwords for this session"
+#~ msgstr "_სესიის პაროლის დამახსოვრება"
+
+#~ msgid "_Save passwords in keyring"
+#~ msgstr "_პაროლის აწმში შენახვა"
+
+#~ msgid "Add, Remove, and Edit VPN Connections"
+#~ msgstr "VPN-შეერთებების დამატება, წაშლა და რედაქტირება"
+
+#~ msgid "VPN Connection Manager (vpnc)"
+#~ msgstr "VPN-შეერთებების მენეჯერი (vpnc)"
+
+#~ msgid "Compatible Cisco VPN client (vpnc)"
+#~ msgstr "თავსებადი Cisco VPN-კლიენტი (vpnc)"
+
+#~ msgid "The following vpnc VPN connection will be created:"
+#~ msgstr "გახსნილია VPN-შეერთებები:"
+
+#~ msgid "Name:  %s"
+#~ msgstr "სახელი: %s"
+
+#~ msgid "Gateway:  %s"
+#~ msgstr "კარიბჭე: %s"
+
+#~ msgid "Group Name:  %s"
+#~ msgstr "ჯგუფის სახელი: %s"
+
+#~ msgid "Username:  %s"
+#~ msgstr "მომხმარებლის სახელი: %s"
+
+#~ msgid "Domain:  %s"
+#~ msgstr "დომენი: %s"
+
+#~ msgid "Routes:  %s"
+#~ msgstr "მაშრუტები: %s"
+
+#~ msgid "The connection details can be changed using the \"Edit\" button."
+#~ msgstr "\"Edit\" ღილაკით შეიძლება შეერთების დეტალების რედაქტირება"
+
+#~ msgid "TCP tunneling not supported"
+#~ msgstr "TCP-გვირაბები არ არის მხარდაჭერილი"
+
+#~ msgid ""
+#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
+#~ "through TCP which is currently not supported in the vpnc software.\n"
+#~ "\n"
+#~ "The connection can still be created, with TCP tunneling disabled, however "
+#~ "it may not work as expected."
+#~ msgstr ""
+#~ "VPN-პარამეტრების ფაილი '%s' მიუთითებს, რომ VPN-ტრაფიკი უნდა განხორციელდეს "
+#~ "TCP-გვირაბით, რომლის მხარდაჭერა vpnc პროგრამას არა აქვს.\n"
+#~ " \n"
+#~ "შეერთება შენარჩუნებულია გამორთული TCP-გვირაბით, რის გამოც შეიძლება არ "
+#~ "იმუშაოს სწორად."
+
+#~ msgid "Cannot import settings"
+#~ msgstr "ვერ ხერხდება პარამეტრების იმპორტი"
+
+#~ msgid "The VPN settings file '%s' does not contain valid data."
+#~ msgstr "VPN-პარამეტრების ფაილი '%s' არასწორ მონაცემებს შეიცავს."
+
+#~ msgid "Select file to import"
+#~ msgstr "მიუთითეთ ფაილი იმპორტისათვის"
+
+#~ msgid "Save as..."
+#~ msgstr "შევინახოთ როგორც..."
+
+#~ msgid "A file named \"%s\" already exists."
+#~ msgstr "ფაილი \"%s\" უკვე არსებობს."
+
+#~ msgid "Do you want to replace it with the one you are saving?"
+#~ msgstr "შევცვალოთ იგი თქვენი ფაილით?"
+
+#~ msgid "Failed to export configuration"
+#~ msgstr "შეცდომა კონფიგურაციის ექსპორტისას"
+
+#~ msgid "Failed to save file %s"
+#~ msgstr "ვერ შეინახა ფაილი %s"
+
+#~ msgid "<b>Connection Information</b>"
+#~ msgstr "<b>ინფორმაცია შეერთების შესახებ</b>"
+
+#~ msgid "<b>Connection Name</b>"
+#~ msgstr "<b>შეერთების სახელი</b>"
+
+#~ msgid "<b>Required</b>"
+#~ msgstr "<b>საჭიროა</b>"
+
+#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
+#~ msgstr "<i>მაგალითი:172.16.0.0/16 10.11.12.0/24</i>"
+
+#~ msgid "Connection Name"
+#~ msgstr "შეერთების სახელი"
+
+#~ msgid ""
+#~ "Name used to identify the connection to the private network, e.g. "
+#~ "\"Campus VPN\" or \"Corporate Network\""
+#~ msgstr ""
+#~ "სახელი VPN-ში შეერთების იდენტიფიცირებისათვის, მაგ.: \"CampusVPN\" ან "
+#~ "\"Corporate Network\""
+
+#~ msgid "Optional"
+#~ msgstr ""
+#~ "არ არის აუცილებელი\n"
+#~ " \n"
+#~ " "
+
+#~ msgid "Override _user name"
+#~ msgstr "ს_ახელის ჩანაცვლება"
+
+#~ msgid ""
+#~ "Please enter the information provided by your system administrator below. "
+#~ "Do not enter your password here as you will be prompted when connecting."
+#~ msgstr ""
+#~ "შეიყვანეთ სისტემური ადმინისტრატორისაგან მიღებული ინფორმაცია. ნუ შეიყვანთ "
+#~ "თქვენს პაროლს დაკავშiრებისას ."
+
+#~ msgid ""
+#~ "Please note that the file you import is not a Cisco VPN or VPNC "
+#~ "configuration file. Ask your adminstrator for the file."
+#~ msgstr ""
+#~ "თქვენს მიერ იმპორტირებული ფაილი არ არის არც Cisco VPN და არც VPNC "
+#~ "კონფიგურაციის ფაილი. მიმართეთ ადმინისტრატორს ფაილისათვის."
+
+#~ msgid "_Import Saved Configuration..."
+#~ msgstr "_შენახული კონფიგურაციის იმპორტი..."
+
+#~ msgid "_Only use VPN connection for these addresses"
+#~ msgstr "მ_ოცემული მისამართებისათვის მხოლოდ VPN კავშირის გამოყენება"
+
+#~ msgid ""
+#~ "The VPN login failed because the user name and password were not accepted."
+#~ msgstr "სახელი ან პაროლი არასწორია, ავტორიზაცია არ შედგა."
+
+#~ msgid "The VPN login failed because the VPN program could not be started."
+#~ msgstr "ვერ გაიშვა VPN-პროგრამა, ავტორიზაცია არ შედგა."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program could not connect to the VPN "
+#~ "server."
+#~ msgstr "VPN-პროგრამა ვერ დაუკავშირდა VPN-სერვერს, ავტორიზაცია არ შედგა."
+
+#~ msgid ""
+#~ "The VPN login failed because the VPN program received an invalid "
+#~ "configuration from the VPN server."
+#~ msgstr ""
+#~ "VPN-პროგრამამ VPN-სერვერისაგან არასწორი კონფიგურაცია მიიღო, ავტორიზაცია "
+#~ "არ შედგა."

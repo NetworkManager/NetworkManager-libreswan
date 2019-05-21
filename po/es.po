@@ -17,9 +17,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
-"libreswan/issues\n"
-"POT-Creation-Date: 2018-10-24 13:26+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2018-11-16 12:42+0100\n"
 "Last-Translator: Rodrigo <rodhos92@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -188,7 +187,6 @@ msgstr ""
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
 #, c-format
-#| msgid "cannot load editor plugin: %s"
 msgid "unable to get editor plugin name: %s"
 msgstr "no se puede obtener el nombre del complemento del editor: %s"
 
