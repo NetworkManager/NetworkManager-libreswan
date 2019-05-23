@@ -5,15 +5,14 @@
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2007.
 # Claude Paroz <claude@2xlibre.net>, 2007-2009.
 # Robert-André Mauchin <zebob.m@pengzone.org>, 2007-2008.
-# croe <croe@redhat.com>, 2018. #zanata
-# ljanda <ljanda@redhat.com>, 2018. #zanata
-# lrintel <lrintel@redhat.com>, 2018. #zanata
+# croe <croe@redhat.com>, 2019. #zanata
+# ljanda <ljanda@redhat.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-08-29 11:42+0000\n"
+"PO-Revision-Date: 2019-05-21 11:50+0000\n"
 "Last-Translator: croe <croe@redhat.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -181,9 +180,9 @@ msgstr ""
 "valeurs pour la propriété « %s » de type « %s »"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "impossible de charger le plugin : %s"
+msgstr "impossible d'obtenir le nom du plugin de l'éditeur : %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format

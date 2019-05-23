@@ -3,15 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Funda Wang <fundawang@linux.net.cn>, 2006.
 # Wei Mingzhi <whistler@openoffice.org>, 2009.
-# ljanda <ljanda@redhat.com>, 2018. #zanata
-# lrintel <lrintel@redhat.com>, 2018. #zanata
-# tfu <tfu@redhat.com>, 2018. #zanata
+# ljanda <ljanda@redhat.com>, 2019. #zanata
+# tfu <tfu@redhat.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-09-18 04:19+0000\n"
+"PO-Revision-Date: 2019-05-22 02:38+0000\n"
 "Last-Translator: tfu <tfu@redhat.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "Language: zh_Hans\n"
@@ -163,9 +162,9 @@ msgid ""
 msgstr "类型 '%s' 的值 \"%s\" 是无效的或超出类型为 '%s' 的属性 '%s' 的范围"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "无法加载编辑器插件 : %s"
+msgstr "无法获得编辑器插件名称 : %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format

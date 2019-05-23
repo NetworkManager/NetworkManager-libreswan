@@ -2,16 +2,14 @@
 # Copyright (C) 2006 THE NetworkManager-vpnc's COPYRIGHT HOLDER
 # This file is distributed under the same license as the NetworkManager-vpnc package.
 # Satoru SATOH <ss@gnome.gr.jp>, 2006.
-# kemorigu <kemorigu@redhat.com>, 2018. #zanata
-# kmoriguc <kmoriguc@redhat.com>, 2018. #zanata
-# ljanda <ljanda@redhat.com>, 2018. #zanata
-# lrintel <lrintel@redhat.com>, 2018. #zanata
+# kemorigu <kemorigu@redhat.com>, 2019. #zanata
+# ljanda <ljanda@redhat.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-08-24 01:03+0000\n"
+"PO-Revision-Date: 2019-05-22 03:09+0000\n"
 "Last-Translator: kemorigu <kemorigu@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -174,9 +172,9 @@ msgstr ""
 "範囲外です"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "エディタープラグインを読み込めません: %s"
+msgstr "エディタープラグイン名を取得できません: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
