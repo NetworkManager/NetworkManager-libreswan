@@ -1,5 +1,5 @@
 =========================================================
-NetworkManager-libreswan-1.2.12 (not released yet)
+NetworkManager-libreswan-1.2.12
 Overview of changes since NetworkManager-libreswan-1.2.10
 =========================================================
 
@@ -7,6 +7,9 @@ Overview of changes since NetworkManager-libreswan-1.2.10
   It can be enabled by passing --with-libnm-glib to configure script.
   Nobody should need it by now. Users that still use this are encourage
   to let us know before the libnm-glib support is removed for good.
+* Fixed the advanced dialog not working in Gnome
+* Updated Czech, Polish, Danist, Spanish, Brazilian, Portuguese Lithuanian, Italian,
+  Dutch, Danish, Japanese, Chinese, French and Hungarian translations.
 
 ========================================================
 NetworkManager-libreswan-1.2.10
