@@ -2,12 +2,14 @@
 # Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
 # Andika Triwidada <andika@gmail.com>, 2013, 2014, 2017.
-#
+# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018, 2019.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2019-05-21 13:18+0000\n"
 "PO-Revision-Date: 2018-08-27 15:03+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
@@ -45,7 +47,7 @@ msgstr "Para Pengembang NetworkManager"
 #: ../auth-dialog/main.c:165
 #, c-format
 msgid "Authenticate VPN %s"
-msgstr "Otentikasikan VPN %s"
+msgstr "Autentikasikan VPN %s"
 
 #: ../auth-dialog/main.c:182
 msgid "Password:"
@@ -57,7 +59,7 @@ msgstr "Sandi Grup:"
 
 #: ../auth-dialog/main.c:228
 msgid "Authenticate VPN"
-msgstr "Otentikasikan VPN"
+msgstr "Autentikasikan VPN"
 
 #: ../auth-dialog/main.c:237
 msgid "_Group Password:"
@@ -67,7 +69,7 @@ msgstr "Sandi _Grup:"
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Anda perlu mengotentikasi untuk mengakses Virtual Private Network \"%s\"."
+"Anda perlu mengautentikasi untuk mengakses Virtual Private Network \"%s\"."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
@@ -105,7 +107,7 @@ msgstr "Tak bisa memroses permintaan karena pengaturan koneksi VPN tak valid."
 
 #: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
-msgstr "Otentikasi tertunda yang tak tertangani."
+msgstr "Autentikasi tertunda yang tak tertangani."
 
 #: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
@@ -168,6 +170,7 @@ msgstr ""
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
 #, fuzzy, c-format
+#| msgid "cannot load editor plugin: %s"
 msgid "unable to get editor plugin name: %s"
 msgstr "tak bisa memuat pengaya penyunting: %s"
 
@@ -244,6 +247,7 @@ msgstr "ID Ja_rak Jauh:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
 #, fuzzy
+#| msgid "Ad_vanced"
 msgid "Ad_vanced…"
 msgstr "Tingkat la_njut"
 
@@ -265,6 +269,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 #, fuzzy
+#| msgid "Authentication"
 msgid "Identification"
 msgstr "Autentikasi"
 
