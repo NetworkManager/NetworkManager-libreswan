@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the network-manager-libreswan package.
 # Andika Triwidada <andika@gmail.com>, 2013, 2014, 2017.
 # Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018, 2019.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2019-05-21 13:18+0000\n"
-"PO-Revision-Date: 2018-08-27 15:03+0700\n"
-"Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
+"POT-Creation-Date: 2019-11-10 03:03+0000\n"
+"PO-Revision-Date: 2019-11-12 23:40+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2.4\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -57,15 +57,15 @@ msgstr "Sandi:"
 msgid "Group Password:"
 msgstr "Sandi Grup:"
 
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:230
 msgid "Authenticate VPN"
 msgstr "Autentikasikan VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:239
 msgid "_Group Password:"
 msgstr "Sandi _Grup:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:489
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
@@ -169,10 +169,9 @@ msgstr ""
 "bertipe '%s'"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
-#| msgid "cannot load editor plugin: %s"
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "tak bisa memuat pengaya penyunting: %s"
+msgstr "tidak bisa memperoleh nama pengaya penyunting: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
@@ -246,32 +245,28 @@ msgid "_Remote ID:"
 msgstr "ID Ja_rak Jauh:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#, fuzzy
-#| msgid "Ad_vanced"
 msgid "Ad_vanced…"
-msgstr "Tingkat la_njut"
+msgstr "Tingkat _Lanjut…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "tidak"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "ya"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "paksa"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
-msgstr ""
+msgstr "Opsi Tingkat Lanjut IPsec"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
-#, fuzzy
-#| msgid "Authentication"
 msgid "Identification"
-msgstr "Autentikasi"
+msgstr "Identifikasi"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
@@ -285,7 +280,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "Keamanan"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
@@ -389,6 +384,3 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr ""
-
-#~ msgid "IPsec based VPN using IKEv1"
-#~ msgstr "VPN berbasis IPsec memakai IKEv1"
