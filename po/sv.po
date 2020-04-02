@@ -1,16 +1,17 @@
-# Swedish messages for NetworkManager-vpnc.
-# Copyright © 2004-2018 Free Software Foundation, Inc.
+# Swedish messages for NetworkManager-libreswan.
+# Copyright © 2004-2019 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008.
 # Christian Rose <menthos@menthos.com>, 2004, 2005, 2006.
 # Josef Andersson <josef.andersson@fripost.org>, 2014.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2018.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2018, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-09-06 00:10+0200\n"
+"Project-Id-Version: NetworkManager-libreswan\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2019-11-12 16:44+0000\n"
+"PO-Revision-Date: 2020-04-02 23:11+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.3\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -59,15 +60,15 @@ msgstr "Lösenord:"
 msgid "Group Password:"
 msgstr "Grupplösenord:"
 
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:230
 msgid "Authenticate VPN"
 msgstr "Autentisera VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:239
 msgid "_Group Password:"
 msgstr "_Grupplösenord:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:489
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
@@ -177,9 +178,9 @@ msgstr ""
 "egenskapen ”%s” av typen ”%s”"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "kan inte öppna redigerarinsticket: %s"
+msgstr "kan inte erhålla namn för redigerarinstick: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
@@ -198,7 +199,7 @@ msgstr "kan inte öppna fabriken %s från insticksmodulen: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
-msgstr "okänt fel vid skapande av redigeringsinstans."
+msgstr "okänt fel vid skapande av redigeringsinstans"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "IKEv1 (XAUTH)"
@@ -253,21 +254,20 @@ msgid "_Remote ID:"
 msgstr "_Fjärr-ID:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#, fuzzy
 msgid "Ad_vanced…"
-msgstr "Av_ancerad"
+msgstr "Av_ancerat…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "nej"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "tvinga"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
@@ -290,7 +290,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "Säkerhet"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
@@ -306,7 +306,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Phase2 Algorithms:"
-msgstr "Phase2-algoritmer"
+msgstr "Phase2-algoritmer:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -353,9 +353,8 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
-#, fuzzy
 msgid "Disable PFS"
-msgstr "Inaktiverad"
+msgstr "Inaktivera PFS"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
@@ -396,7 +395,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "Aktivera MOBIKE"
 
 #~ msgid "IPsec based VPN using IKEv1"
 #~ msgstr "IPsec-baserad VPN som använder IKEv1"
