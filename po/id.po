@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2019-11-10 03:03+0000\n"
-"PO-Revision-Date: 2019-11-12 23:40+0700\n"
+"POT-Creation-Date: 2020-04-02 21:13+0000\n"
+"PO-Revision-Date: 2020-04-09 17:10+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -277,6 +277,8 @@ msgid ""
 "(NT-)Domain name for authentication.\n"
 "config: Domain <domain>"
 msgstr ""
+"Nama (NT-)Domain untuk autentikasi.\n"
+"config: Domain <domain>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
@@ -293,6 +295,10 @@ msgid ""
 "modpgroup, …”.\n"
 "config: ike <proposals>"
 msgstr ""
+"Algoritma enkripsi/otentikasi IKE yang akan digunakan untuk koneksi (fase 1 "
+"alias ISAKMP SA). Formatnya adalah \"cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …\".\n"
+"konfigurasi: ike<proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Phase2 Algorithms:"
@@ -305,6 +311,9 @@ msgid ""
 "…”.\n"
 "config: esp <proposals>"
 msgstr ""
+"Menentukan algoritma yang akan ditawarkan/diterima untuk negosiasi phase2. "
+"Formatnya adalah \"cipher-hash;modpgroup, cipher-hash;modpgroup, …\".\n"
+"konfigurasi: esp<proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
@@ -317,6 +326,11 @@ msgid ""
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: ikelifetime <lifetime>"
 msgstr ""
+"Berapa lama saluran perkuncian sambungan harus berlangsung sebelum "
+"direnegosiasi. Nilai dinyatakan oleh angka yang diikuti oleh opsional \"s"
+"\"(econds/detik), \"m\"(inutes/menit), \"h\"(our/jam), atau \"d\"(ays/"
+"hair).\n"
+"config: ikelifetime<lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
@@ -330,20 +344,27 @@ msgid ""
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: salifetime <lifetime>"
 msgstr ""
+"Berapa lama contoh sambungan tertentu (satu set enkripsi/kunci autentikasi "
+"untuk paket pengguna) harus berlangsung, dari negosiasi sukses sampai "
+"kedaluwarsa. Nilai dinyatakan oleh angka yang diikuti oleh opsional \"s"
+"\"(econd/detik), \"m\"(inute/menit), \"h\"(our/jam) atau \"d\"(ay/hari).\n"
+"config: salifetime<lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:36
 msgid "Disable rekeying"
-msgstr ""
+msgstr "Menonaktifkan rekey"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "config: rekey <no/yes>"
 msgstr ""
+"Apakah sambungan tidak harus dinegosiasi ulang ketika akan berakhir.\n"
+"config: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
 msgid "Disable PFS"
-msgstr ""
+msgstr "Nonaktifkan PFS"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
@@ -351,10 +372,13 @@ msgid ""
 "doesn’t support PFS.\n"
 "config: pfs <no/yes>"
 msgstr ""
+"Nonaktifkan perfect forward security. Aktifkan opsi ini hanya jika server "
+"tidak mendukung PFS.\n"
+"config: pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
-msgstr ""
+msgstr "Konektivitas"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
@@ -365,14 +389,17 @@ msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
 msgstr ""
+"Subnet pribadi di belakang peserta remote, dinyatakan sebagai jaringan/"
+"netmask.\n"
+"config: rightsubnet<net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
-msgstr ""
+msgstr "Aktifkan fragmentasi"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
-msgstr ""
+msgstr "penyempitan"
 
 #: ../properties/nm-libreswan-dialog.ui.h:48
 msgid ""
@@ -380,7 +407,10 @@ msgid ""
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "config: narrowing <yes/no>"
 msgstr ""
+"Negosiasi IKEv2 dapat memungkinkan membangun koneksi IPsec dengan penyeleksi "
+"lalu lintas yang dipersempit. Opsi ini akan diabaikan untuk IKEv1.\n"
+"config: narrowing <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "Aktifkan MOBIKE"
