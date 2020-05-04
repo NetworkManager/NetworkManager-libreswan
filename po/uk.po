@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/"
 "issues\n"
-"POT-Creation-Date: 2019-11-10 03:03+0000\n"
-"PO-Revision-Date: 2020-01-26 14:23+0200\n"
+"POT-Creation-Date: 2020-05-04 15:56+0000\n"
+"PO-Revision-Date: 2020-05-04 20:36+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.03.70\n"
+"X-Generator: Lokalize 20.07.70\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -28,16 +28,16 @@ msgstr "Клієнт VPN IPsec"
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
 msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
 msgstr ""
-"Клієнт на основі libreswan для віртуальних приватних мереж IPsec на основі"
-" IKEv1"
+"Клієнт на основі libreswan для віртуальних приватних мереж IPsec на основі "
+"IKEv1"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
 msgid ""
 "Support for configuring IKEv1 based IPsec virtual private network "
 "connections."
 msgstr ""
-"Підтримка налаштовування з'єднань із віртуальними приватними мережами IPsec"
-" на основі IKEv1."
+"Підтримка налаштовування з'єднань із віртуальними приватними мережами IPsec "
+"на основі IKEv1."
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
 msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
@@ -47,33 +47,30 @@ msgstr "Сумісний із серверами VPN libreswan та IPsec Cisco.
 msgid "The NetworkManager Developers"
 msgstr "Розробники NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Розпізнавання у %s VPN"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Пароль:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Пароль групи:"
-
-#: ../auth-dialog/main.c:230
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Автентифікація VPN"
 
-#: ../auth-dialog/main.c:239
+#: ../auth-dialog/main.c:179
+#| msgid "Password:"
+msgid "Password"
+msgstr "Пароль"
+
+#: ../auth-dialog/main.c:189
+#| msgid "Group Password:"
+msgid "Group Password"
+msgstr "Пароль групи"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Пароль _групи:"
 
-#: ../auth-dialog/main.c:489
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Вам слід пройти розпізнавання для отримання доступу до віртуальної приватної"
-" мережі «%s»."
+"Вам слід пройти розпізнавання для отримання доступу до віртуальної приватної "
+"мережі «%s»."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
@@ -302,9 +299,9 @@ msgid ""
 "modpgroup, …”.\n"
 "config: ike <proposals>"
 msgstr ""
-"Алгоритм шифрування і розпізнавання IKE, яким слід скористатися для з'єднання"
-" (фаза 1 або ISAKMP SA). Формат: «хеш-шифрування;modpgroup,"
-" хеш-шифрування;modpgroup, …».\n"
+"Алгоритм шифрування і розпізнавання IKE, яким слід скористатися для "
+"з'єднання (фаза 1 або ISAKMP SA). Формат: «хеш-шифрування;modpgroup, хеш-"
+"шифрування;modpgroup, …».\n"
 "Файл налаштувань: ike <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
@@ -318,8 +315,8 @@ msgid ""
 "…”.\n"
 "config: esp <proposals>"
 msgstr ""
-"Задає алгоритми, які буде запропоновано або прийнято для фази 2 узгодження"
-" зв'язку. Формат: «хеш-шифрування;modpgroup, хеш-шифрування;modpgroup, …».\n"
+"Задає алгоритми, які буде запропоновано або прийнято для фази 2 узгодження "
+"зв'язку. Формат: «хеш-шифрування;modpgroup, хеш-шифрування;modpgroup, …».\n"
 "Файл налаштувань: esp <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
@@ -333,10 +330,10 @@ msgid ""
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: ikelifetime <lifetime>"
 msgstr ""
-"Визначає строк існування каналу обміну ключами з'єднання, перш ніж буде"
-" виконано процедуру повторного узгодження. Значення слід вказувати як число"
-" із додатковими позначками «s» (секунди), «m» (хвилини), «h» (години) або «d»"
-" (дні).\n"
+"Визначає строк існування каналу обміну ключами з'єднання, перш ніж буде "
+"виконано процедуру повторного узгодження. Значення слід вказувати як число "
+"із додатковими позначками «s» (секунди), «m» (хвилини), «h» (години) або "
+"«d» (дні).\n"
 "Файл налаштувань: ikelifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
@@ -351,11 +348,11 @@ msgid ""
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: salifetime <lifetime>"
 msgstr ""
-"Визначає строк існування окремого екземпляра з'єднання (набору ключів"
-" шифрування і розпізнавання для пакетів користувача), перш ніж буде завершено"
-" строк дії успішного узгодження. Значення слід вказувати як число із"
-" додатковими позначками «s» (секунди), «m» (хвилини), «h» (години) або «d»"
-" (дні).\n"
+"Визначає строк існування окремого екземпляра з'єднання (набору ключів "
+"шифрування і розпізнавання для пакетів користувача), перш ніж буде завершено "
+"строк дії успішного узгодження. Значення слід вказувати як число із "
+"додатковими позначками «s» (секунди), «m» (хвилини), «h» (години) або "
+"«d» (дні).\n"
 "Файл налаштувань: salifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:36
@@ -367,8 +364,8 @@ msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "config: rekey <no/yes>"
 msgstr ""
-"Визначає, чи слід виконувати повторне узгодження зв'язку, коли строк дії"
-" зв'язку наближається до завершення.\n"
+"Визначає, чи слід виконувати повторне узгодження зв'язку, коли строк дії "
+"зв'язку наближається до завершення.\n"
 "Файл налаштувань: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
@@ -381,8 +378,8 @@ msgid ""
 "doesn’t support PFS.\n"
 "config: pfs <no/yes>"
 msgstr ""
-"Вимкнути PFS. Цей пункт слід позначати, лише якщо на сервері не передбачено"
-" підтримки PFS.\n"
+"Вимкнути PFS. Цей пункт слід позначати, лише якщо на сервері не передбачено "
+"підтримки PFS.\n"
 "Файл налаштувань: pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
@@ -398,8 +395,8 @@ msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
 msgstr ""
-"Приватна підмережа віддаленого учасника, визначається у форматі «мережа/маска"
-" мережі».\n"
+"Приватна підмережа віддаленого учасника, визначається у форматі «мережа/"
+"маска мережі».\n"
 "Файл налаштувань: rightsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
@@ -416,14 +413,17 @@ msgid ""
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "config: narrowing <yes/no>"
 msgstr ""
-"Узгодження за протоколом IKEv2 дозволяє встановлення з'єднання IPsec зі"
-" звуженими параметрами обміну даними. Цей параметр буде проігноровано для"
-" IKEv1.\n"
+"Узгодження за протоколом IKEv2 дозволяє встановлення з'єднання IPsec зі "
+"звуженими параметрами обміну даними. Цей параметр буде проігноровано для "
+"IKEv1.\n"
 "Файл налаштувань: narrowing <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Увімкнути MOBIKE"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "Розпізнавання у %s VPN"
 
 #~ msgid "_Secondary Password:"
 #~ msgstr "_Вторинний пароль:"
