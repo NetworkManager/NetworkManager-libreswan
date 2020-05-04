@@ -154,7 +154,6 @@ eui_finish (const char *vpn_name,
             const char *existing_group_password)
 {
 	GKeyFile *keyfile;
-	char *title;
 	gboolean show;
 
 	keyfile = g_key_file_new ();
@@ -162,9 +161,7 @@ eui_finish (const char *vpn_name,
 	g_key_file_set_integer (keyfile, UI_KEYFILE_GROUP, "Version", 2);
 	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Description", prompt);
 
-	title = g_strdup_printf (_("Authenticate VPN"));
-	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Title", title);
-	g_free (title);
+	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Title", _("Authenticate VPN"));
 
 	/* If we have an existing password, or we need the user to give us one,
 	 * then tell the external UI about the password.  An entry for the password
