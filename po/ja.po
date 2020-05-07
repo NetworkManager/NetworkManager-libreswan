@@ -7,8 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2020-05-04 15:56+0000\n"
 "PO-Revision-Date: 2019-05-22 03:09+0000\n"
 "Last-Translator: kemorigu <kemorigu@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -44,28 +45,27 @@ msgstr "Libreswan および Cisco IPsec VPN サーバーと互換性がありま
 msgid "The NetworkManager Developers"
 msgstr "NetworkManager 開発者"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "VPN %s を認証"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "パスワード:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "グループパスワード:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "VPN 認証"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+#, fuzzy
+#| msgid "Password:"
+msgid "Password"
+msgstr "パスワード:"
+
+#: ../auth-dialog/main.c:189
+#, fuzzy
+#| msgid "Group Password:"
+msgid "Group Password"
+msgstr "グループパスワード:"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "グループパスワード(_G):"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "仮想プライベートネットワーク “%s” にアクセスするには認証が必要です。"
@@ -415,3 +415,6 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "MOBIKE の有効化"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "VPN %s を認証"
