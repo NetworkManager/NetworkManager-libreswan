@@ -1,16 +1,16 @@
 # Polish translation for NetworkManager-libreswan.
-# Copyright © 2008-2018 the NetworkManager-libreswan authors.
+# Copyright © 2008-2020 the NetworkManager-libreswan authors.
 # This file is distributed under the same license as the NetworkManager-libreswan package.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2008-2009.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2018.
-# Aviary.pl <community-poland@mozilla.org>, 2008-2018.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2020.
+# Aviary.pl <community-poland@mozilla.org>, 2008-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-10-28 17:52+0100\n"
+"POT-Creation-Date: 2020-05-17 11:48+0200\n"
+"PO-Revision-Date: 2020-05-17 11:49+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -46,28 +46,23 @@ msgstr "Zgodne z biblioteką libreswan i serwerami VPN IPsec firmy Cisco."
 msgid "The NetworkManager Developers"
 msgstr "Programiści projektu NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Uwierzytelnianie VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Hasło:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Hasło grupy:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Uwierzytelnianie VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Hasło"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Hasło grupy"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Hasło g_rupy:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
