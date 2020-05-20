@@ -12,14 +12,15 @@
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2014, 2015, 2016, 2017.
 # ljanda <ljanda@redhat.com>, 2018. #zanata
 # lrintel <lrintel@redhat.com>, 2018. #zanata
-# Rodrigo <rodhos92@gmail.com>, 2018.
+# Rodrigo <rodhos92@gmail.com>, 2018-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-11-16 12:42+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2020-05-04 15:56+0000\n"
+"PO-Revision-Date: 2020-05-14 17:18+0200\n"
 "Last-Translator: Rodrigo <rodhos92@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -27,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -54,28 +55,25 @@ msgstr "Compatible con servidores Libreswan Cisco IPsec VPN."
 msgid "The NetworkManager Developers"
 msgstr "Los desarrolladores de NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Autenticar VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Contraseña:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Contraseña del grupo_"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Autenticación VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+#| msgid "Password:"
+msgid "Password"
+msgstr "Contraseña"
+
+#: ../auth-dialog/main.c:189
+#| msgid "Group Password:"
+msgid "Group Password"
+msgstr "Contraseña del grupo"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Contraseña del _grupo:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "Debe autenticarse para acceder a la red privada virtual «%s»."
@@ -436,3 +434,6 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Activar MOBIKE"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "Autenticar VPN %s"
