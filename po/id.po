@@ -1,7 +1,7 @@
 # Indonesian translation for network-manager-libreswan.
 # Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
-# Andika Triwidada <andika@gmail.com>, 2013, 2014, 2017.
+# Andika Triwidada <andika@gmail.com>, 2013, 2014, 2017, 2020.
 # Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018, 2019.
 #
 msgid ""
@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2020-04-02 21:13+0000\n"
-"PO-Revision-Date: 2020-04-09 17:10+0700\n"
+"POT-Creation-Date: 2020-05-17 09:50+0000\n"
+"PO-Revision-Date: 2020-06-06 16:25+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -44,28 +44,23 @@ msgstr "Kompatibel dengan server VPN IPsec Cisco dan Libreswan."
 msgid "The NetworkManager Developers"
 msgstr "Para Pengembang NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Autentikasikan VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Sandi:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Sandi Grup:"
-
-#: ../auth-dialog/main.c:230
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Autentikasikan VPN"
 
-#: ../auth-dialog/main.c:239
-msgid "_Group Password:"
-msgstr "Sandi _Grup:"
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Kata Sandi"
 
-#: ../auth-dialog/main.c:489
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Kata Sandi Grup"
+
+#: ../auth-dialog/main.c:236
+msgid "_Group Password:"
+msgstr "Kata Sandi _Grup:"
+
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
@@ -414,3 +409,6 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Aktifkan MOBIKE"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "Autentikasikan VPN %s"
