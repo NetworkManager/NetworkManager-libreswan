@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues\n"
+"POT-Creation-Date: 2020-06-06 09:27+0000\n"
 "PO-Revision-Date: 2018-07-22 16:30+0200\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -27,8 +27,8 @@ msgstr "Client IPsec VPN"
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
 msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
 msgstr ""
-"Client basat en el Libreswan per a xarxes privades virtuals IPsec basades en "
-"IKEv1"
+"Client basat en el Libreswan per a xarxes privades virtuals IPsec basades en"
+" IKEv1"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
 msgid ""
@@ -46,40 +46,35 @@ msgstr "Compatible amb servidors VPN Libreswan i Cisco IPsec."
 msgid "The NetworkManager Developers"
 msgstr "Els desenvolupadors del NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Autentica la VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Contrasenya:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Contrasenya de grup:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Autentica la VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Contrasenya"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Contrasenya de grup"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Contrasenya de _grup:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
-msgstr "Us heu d'autenticar per poder accedir a la xarxa privada virtual «%s»."
+msgstr ""
+"Us heu d'autenticar per poder accedir a la xarxa privada virtual «%s»."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
 msgstr "VPN basada en IPsec"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-#, fuzzy
 msgid "IPsec based VPN for remote clients"
-msgstr "Client IPsec VPN"
+msgstr "VPN basada en IPsec per a clients remots"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
 #: ../properties/nm-libreswan-editor-plugin.c:276
@@ -106,8 +101,8 @@ msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
-"No s'ha pogut processar la sol·licitud perquè la configuració de la connexió "
-"VPN no era vàlida."
+"No s'ha pogut processar la sol·licitud perquè la configuració de la connexió"
+" VPN no era vàlida."
 
 #: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
@@ -151,8 +146,7 @@ msgstr "la propietat «%s» de l'objecte classe «%s» no es pot escriure"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
-msgid ""
-"construct property \"%s\" for object '%s' can't be set after construction"
+msgid "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
 "la propietat «%s» de construcció per a l'objecte «%s» no es pot establir "
 "després de la construcció"
@@ -180,9 +174,9 @@ msgstr ""
 "propietat «%s» de tipus «%s»"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "no s'ha pogut carregar el connector d'editor: %s"
+msgstr "no s'ha pogut obtenir el nom del connector de l'editor: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
@@ -206,11 +200,11 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "IKEv1 (XAUTH)"
-msgstr ""
+msgstr "IKEv1 (XAUTH)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "IKEv2 (Certificate)"
-msgstr ""
+msgstr "IKEv2 (certificat)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
@@ -221,13 +215,12 @@ msgid "_Gateway:"
 msgstr "_Passarel·la:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-#, fuzzy
 msgid "Authentication"
-msgstr "Autentica la VPN"
+msgstr "Autenticació"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "Type:"
-msgstr ""
+msgstr "Tipus:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
@@ -251,37 +244,35 @@ msgstr "Mostra les contrasenyes"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "_Certificate name:"
-msgstr ""
+msgstr "_Nom del certificat:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-#, fuzzy
 msgid "_Remote ID:"
-msgstr "Xarxa remota:"
+msgstr "_ID remot:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#, fuzzy
 msgid "Ad_vanced…"
-msgstr "A_vançat"
+msgstr "A_vançat…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "sí"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "força"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
-msgstr ""
+msgstr "Opcions avançades d'IPsec"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 msgid "Identification"
-msgstr ""
+msgstr "Identificació"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
@@ -292,87 +283,92 @@ msgid ""
 "(NT-)Domain name for authentication.\n"
 "config: Domain <domain>"
 msgstr ""
+"(NT-)Nom de domini per a l'autenticació.\n"
+"config: Domain <domain>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "Seguretat"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
 msgstr "Algoritmes Phase1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
+#, fuzzy
 msgid ""
-"IKE encryption/authentication algorithm to be used for the connection (phase "
-"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
-"modpgroup, …”.\n"
+"IKE encryption/authentication algorithm to be used for the connection (phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
 "config: ike <proposals>"
 msgstr ""
+"Algorisme d'autenticació/encriptatge IKE que s'utilitzarà per a la connexió "
+"(fase 1 aka ISAKMP SA). El format és «cipher-hash;modpgroup xifrat-"
+"hash;modpgroup ». config ike <propos>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Phase2 Algorithms:"
 msgstr "Algoritmes Phase2:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
+#, fuzzy
 msgid ""
-"Specifies the algorithms that will be offered/accepted for a phase2 "
-"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
-"…”.\n"
+"Specifies the algorithms that will be offered/accepted for a phase2 negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
 "config: esp <proposals>"
 msgstr ""
+"Especifica els algoritmes que s'oferiran/acceptaran per a una negociació de "
+"fase2. El format és «cipher-hash;modpgroup xifrat-hash;modpgroup» . config "
+"esp <propostas>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
 msgstr "Temps de vida Phase1:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
+#, fuzzy
 msgid ""
-"How long the keying channel of a connection should last before being "
-"renegotiated. The value is expressed by a number followed by an optional "
-"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"How long the keying channel of a connection should last before being renegotiated. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: ikelifetime <lifetime>"
 msgstr ""
+"Quant de temps ha de durar el canal de teclat d'una connexió abans de "
+"renegociar-se. El valor s'expressa per un nombre seguit d'un «s» (econds) "
+"opcional «m» (inutes) «h» (nostre) o «d» (ays). config ikelifetime "
+"<lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
 msgstr "Temps de vida Phase2:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
+#, fuzzy
 msgid ""
-"How long a particular instance of a connection (a set of encryption/"
-"authentication keys for user packets) should last, from successful "
-"negotiation to expiry. The value is expressed by a number followed by an "
-"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"How long a particular instance of a connection (a set of encryption/authentication keys for user packets) should last, from successful negotiation to expiry. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: salifetime <lifetime>"
 msgstr ""
+"Quant de temps una instància particular d'una connexió (un conjunt de claus "
+"d'encriptatge/autenticació per als paquets d'usuari) ha de durar des d'una "
+"negociació reeixida fins a l'expiració. El valor s'expressa per un número "
+"seguit d'un \"s\"(econds) opcional \"m\"(inutes) o \"d\"(ays). config "
+"salifetime <lifetime>"
 
 # FIXME això queda molt macabre (dpm)
 #: ../properties/nm-libreswan-dialog.ui.h:36
-#, fuzzy
 msgid "Disable rekeying"
-msgstr "Inhabilita la detecció de l'homòleg mort"
-
-#: ../properties/nm-libreswan-dialog.ui.h:37
-msgid ""
-"Whether a connection should not be renegotiated when it is about to expire.\n"
-"config: rekey <no/yes>"
-msgstr ""
+msgstr "Inhabilita la reobtenció de la clau"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
-#, fuzzy
 msgid "Disable PFS"
-msgstr "Inhabilitat"
+msgstr "Inhabilita PFS"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
-"Disable perfect forward security. Enable this option only if the server "
-"doesn’t support PFS.\n"
+"Disable perfect forward security. Enable this option only if the server doesn’t support PFS.\n"
 "config: pfs <no/yes>"
 msgstr ""
+"Desactiva la seguretat de reenviament perfecta. Habiliteu aquesta opció "
+"només si el servidor no admet PFS.\nconfig pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
-msgstr ""
+msgstr "Connectivitat"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
@@ -383,269 +379,28 @@ msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
 msgstr ""
+"Subxarxa privada darrere del participant remot, expressada com a xarxa/màscara de xarxa.\n "
+"config: rightsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
-msgstr ""
+msgstr "Habilita la fragmentació"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
-msgstr ""
+msgstr "reducció"
 
 #: ../properties/nm-libreswan-dialog.ui.h:48
+#, fuzzy
 msgid ""
-"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
-"down traffic selectors. This option is ignored for IKEv1.\n"
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed down traffic selectors. This option is ignored for IKEv1.\n"
 "config: narrowing <yes/no>"
 msgstr ""
+"La negociació d'IKEv2 pot permetre establir una connexió IPsec amb selectors"
+" de trànsit reduïts. Aquesta opció s'ignora per a IKEv1. config arrow "
+"<yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "Activa el MOBIKE"
 
-#~ msgid "IPsec based VPN using IKEv1"
-#~ msgstr "VPN basada en IPsec usant IKEv1"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Request VPN authentication"
-#~ msgstr "Demana l'autenticació de la VPN"
-
-#~ msgid "IPsec, IKEv1, IKEv2 based VPN"
-#~ msgstr "VPN basada en IPsec, IKEv1 i IKEv2"
-
-#~ msgid "Saved"
-#~ msgstr "Desat"
-
-#~ msgid "Always Ask"
-#~ msgstr "Demana-ho sempre"
-
-#~ msgid "Not Required"
-#~ msgstr "No necessària"
-
-#~ msgid "Gro_up password:"
-#~ msgstr "Contrasenya del _grup:"
-
-#~ msgid "<b>Optional</b>"
-#~ msgstr "<b>Opcional</b>"
-
-#~ msgid "_Secondary Password:"
-#~ msgstr "Contrasenya _secundària:"
-
-#~ msgid "Sh_ow passwords"
-#~ msgstr "_Mostra les contrasenyes"
-
-#~ msgid "_Remember passwords for this session"
-#~ msgstr "_Recorda les contrasenyes per aquesta sessió"
-
-#~ msgid "_Save passwords in keyring"
-#~ msgstr "_Desa les contrasenyes a l'anell de claus"
-
-#~ msgid "Add, Remove, and Edit VPN Connections"
-#~ msgstr "Afegiu, suprimiu, i editeu connexions VPN"
-
-#~ msgid "VPN Connection Manager (vpnc)"
-#~ msgstr "Gestor de connexions VPN (vpnc)"
-
-#~ msgid "Cisco Compatible VPN (vpnc)"
-#~ msgstr "VPN compatible amb Cisco (vpnc)"
-
-#~ msgid ""
-#~ "Compatible with various Cisco, Juniper, Netscreen, and Sonicwall IPsec-"
-#~ "based VPN gateways."
-#~ msgstr ""
-#~ "Compatible amb diverses passarel·les VPN Cisco, Juniper, Netscreen i "
-#~ "Sonicwall basades en IPsec."
-
-#~ msgid "Secure (default)"
-#~ msgstr "Segura (predeterminat)"
-
-#~ msgid "Weak (use with caution)"
-#~ msgstr "Dèbil (utilitzeu amb compte)"
-
-#~ msgid "None (completely insecure)"
-#~ msgstr "Cap (completament insegura)"
-
-#~ msgid "Cisco UDP (default)"
-#~ msgstr "Cisco UDP (predeterminat)"
-
-#~ msgid "NAT-T"
-#~ msgstr "NAT-T"
-
-#~ msgid "TCP tunneling not supported"
-#~ msgstr "No estan implementats els túnels TCP"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-#~ "through TCP which is currently not supported in the vpnc software.\n"
-#~ "\n"
-#~ "The connection can still be created, with TCP tunneling disabled, however "
-#~ "it may not work as expected."
-#~ msgstr ""
-#~ "El fitxer de paràmetres de la VPN «%s» especifica que el tràfic VPN "
-#~ "s'hauria de posar en un túnel TCP, que de moment encara no està "
-#~ "implementat a l'aplicació vpnc.\n"
-#~ "\n"
-#~ "Tot i això es pot crear la connexió, amb el túnel a través de TCP "
-#~ "inhabilitat, tanmateix segurament no funcionarà com s'espera."
-
-#~ msgid "Encryption method:"
-#~ msgstr "Mètode d'encriptació:"
-
-#~ msgid "NAT traversal:"
-#~ msgstr "Travessament del NAT:"
-
-#~ msgid "Connect _anonymously"
-#~ msgstr "Connecta _anònimament"
-
-#~ msgid "Connect as _user:"
-#~ msgstr "Connecta com a _usuari:"
-
-#~ msgid "The following vpnc VPN connection will be created:"
-#~ msgstr "Es crearà la següent connexió VPN de vpnc:"
-
-#~ msgid "Name:  %s"
-#~ msgstr "Nom:  %s"
-
-#~ msgid "Gateway:  %s"
-#~ msgstr "Passarel·la:  %s"
-
-#~ msgid "Group Name:  %s"
-#~ msgstr "Nom del grup:  %s"
-
-#~ msgid "Username:  %s"
-#~ msgstr "Nom d'usuari:  %s"
-
-#~ msgid "Domain:  %s"
-#~ msgstr "Domini:  %s"
-
-#~ msgid "Routes:  %s"
-#~ msgstr "Rutes:  %s"
-
-#~ msgid "NAT-Keepalive packet interval:  %s"
-#~ msgstr "Interval del paquet NAT-Keepalive: %s"
-
-#~ msgid "Enable Single DES"
-#~ msgstr "Habilita el DES únic"
-
-#~ msgid "Disable NAT Traversal"
-#~ msgstr "Inhabilita el NAT transversal"
-
-#~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr "Els detalls de la connexió es poden canviar amb el botó «Edita»."
-
-#~ msgid "Settings import incomplete"
-#~ msgstr "No s'han pogut importar els paràmetres"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' is incomplete. You may not be able to connect "
-#~ "without providing further information."
-#~ msgstr ""
-#~ "El fitxer de configuració de la VPN «%s» no és complet. No us podreu "
-#~ "connectar si no proporcioneu més informació."
-
-#~ msgid "Cannot import settings"
-#~ msgstr "No es poden importar els paràmetres"
-
-#~ msgid "The VPN settings file '%s' could not be read or is invalid."
-#~ msgstr ""
-#~ "No s'ha pogut llegir el fitxer de configuració de la VPN «%s» o no és "
-#~ "vàlid."
-
-#~ msgid "Select file to import"
-#~ msgstr "Seleccioneu el fitxer a importar"
-
-#~ msgid "Save as..."
-#~ msgstr "Anomena i desa..."
-
-#~ msgid "A file named \"%s\" already exists."
-#~ msgstr "Ja existeix un fitxer anomenat «%s»."
-
-#~ msgid "Do you want to replace it with the one you are saving?"
-#~ msgstr "Voleu reemplaçar-lo amb el que voleu desar?"
-
-#~ msgid "Failed to export configuration"
-#~ msgstr "No s'ha pogut exportar la configuració"
-
-#~ msgid "Failed to save file %s"
-#~ msgstr "No s'ha pogut desar el fitxer %s"
-
-#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-#~ msgstr "<i>exemple: 172.16.0.0/16 10.11.12.0/24</i>"
-
-#~ msgid "Connection na_me:"
-#~ msgstr "No_m de la connexió:"
-
-#~ msgid "Enable _weak single DES encryption"
-#~ msgstr "Habilita el xifratge DES únic _fluix"
-
-#~ msgid "Import _Saved Configuration..."
-#~ msgstr "Importa la configuració _desada..."
-
-#~ msgid "Interval:"
-#~ msgstr "Interval:"
-
-#~ msgid ""
-#~ "Name used to identify the connection to the private network, e.g. "
-#~ "\"Campus VPN\" or \"Corporate Network\""
-#~ msgstr ""
-#~ "Nom utilitzat per identificar la connexió a la xarxa privada, per exemple "
-#~ "«VPN del Campus» o «Xarxa Corporativa»"
-
-#~ msgid "Override _user name"
-#~ msgstr "Sobreescriu el nom d'_usuari"
-
-#~ msgid ""
-#~ "Please enter the information provided by your system administrator below. "
-#~ "Do not enter your password here as you will be prompted when connecting."
-#~ msgstr ""
-#~ "Entreu la informació proporcionada pel vostre administrador de sistema. "
-#~ "No hi entreu la vostra contrasenya, ja es demanarà en connectar."
-
-#~ msgid ""
-#~ "Please note that the file you import is not a Cisco VPN or VPNC "
-#~ "configuration file. Ask your adminstrator for the file."
-#~ msgstr ""
-#~ "Tingueu en compte que el fitxer que heu importat no és un fitxer de "
-#~ "configuració Cisco VPN o VPNC. Demaneu el fitxer al vostre administrador."
-
-#~ msgid "Use NAT _keepalive packets"
-#~ msgstr "Utilitza els paquets NAT _keepalive"
-
-#~ msgid "_Only use VPN connection for these addresses"
-#~ msgstr "_Fes servir només la connexió VPN per aquestes adreces"
-
-#~ msgid "<b>Connection Information</b>"
-#~ msgstr "<b>Informació de la connexió</b>"
-
-#~ msgid "<b>Connection Name</b>"
-#~ msgstr "<b>Nom de la connexió</b>"
-
-#~ msgid ""
-#~ "The VPN login failed because the user name and password were not accepted."
-#~ msgstr ""
-#~ "No s'ha pogut connectar a la VPN perquè no s'han acceptat el nom d'usuari "
-#~ "i la contrasenya."
-
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr ""
-#~ "No s'ha pogut connectar a la VPN perquè no s'ha pogut iniciar l'aplicació "
-#~ "VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program could not connect to the VPN "
-#~ "server."
-#~ msgstr ""
-#~ "No s'ha pogut connectar a la VPN perquè l'aplicació VPN no s'ha pogut "
-#~ "connectar al servidor VPN."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program received an invalid "
-#~ "configuration from the VPN server."
-#~ msgstr ""
-#~ "No s'ha pogut connectar a la VPN perquè l'aplicació VPN ha rebut una "
-#~ "configuració errònia del servidor VPN."
-
-#~ msgid "O_ptional Information"
-#~ msgstr "Informació o_pcional"
