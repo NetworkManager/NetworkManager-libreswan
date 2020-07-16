@@ -1,0 +1,420 @@
+# Romanian translation for NetworkManager-libreswan.
+# Copyright (C) 2020 NetworkManager-libreswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the NetworkManager-libreswan package.
+# Florentina Mușat <florentina.musat.28@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-libreswan master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2020-07-16 11:23+0000\n"
+"PO-Revision-Date: 2020-07-16 14:47+0300\n"
+"Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"X-Generator: Poedit 2.3.1\n"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "Client VPN IPsec"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+"Client bazat pe Libreswan pentru rețelele private virtuale IPsec bazate pe "
+"IKEv1"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Suport pentru configurarea conexiunilor de rețea privată virtuală IPsec "
+"bazate pe KEv1."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Compatibil cu serverele Libreswan și VPN IPsec Cisco."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "Dezvoltatori ManagerRețea"
+
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
+msgid "Authenticate VPN"
+msgstr "Autentifică VPN"
+
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Parolă"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Parolă de grup"
+
+#: ../auth-dialog/main.c:236
+msgid "_Group Password:"
+msgstr "Parolă de _grup:"
+
+#: ../auth-dialog/main.c:486
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr ""
+"Trebuie să vă autentificați pentru a accesa rețeaua privată virtuală „%s”."
+
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr "VPN bazat pe IPsec"
+
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr "VPN bazat pe IPsec pentru clienții de la distanță"
+
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:276
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "Nu se poate deschide fișierul „%s”: %s"
+
+#: ../properties/nm-libreswan-editor-plugin.c:228
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "Lipsește secțiunea „conn” în „%s”"
+
+#: ../properties/nm-libreswan-editor-plugin.c:294
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "Eroare la scrierea în fișierul „%s”: %s"
+
+#: ../src/nm-libreswan-service.c:1462
+msgid "A password is required."
+msgstr "O parolă este necesară."
+
+#: ../src/nm-libreswan-service.c:1872
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr ""
+"Nu s-a putut procesa cererea pentru că configurările de conexiune VPN nu au "
+"fost valide."
+
+#: ../src/nm-libreswan-service.c:1886
+msgid "Unhandled pending authentication."
+msgstr "Autentificare în așteptare nemanipulabilă."
+
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
+msgstr "Nu ieși când conexiunea VPN se termină"
+
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Activează înregistrarea de depanare detaliată (poate expune parole)"
+
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr "Numele D-Bus de utilizat pentru această instanță"
+
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Acest serviciu furnizează capabilitate VPN IPsec integrată la GestionarRețea."
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Eroare la scrierea config: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "clasa obiectului „%s” nu are nicio proprietate numită „%s”"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "proprietatea „%s” a clasei de obiect „%s” nu este inscriptibilă"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"proprietatea de construct „%s” pentru obiectul „%s” nu poate fi stabilită "
+"după construcție"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr ""
+"„%s::%s” nu este un nume de proprietate valid; „%s” nu este un subtip de "
+"GObject"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+"nu se poate stabili proprietatea „%s” de tipul „%s” de la valoarea de tipul "
+"„%s”"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"valoarea „%s” de tipul „%s” nu este validă sau este în afara intervalului "
+"pentru proprietatea „%s” de tipul „%s”"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "nu se poate obține numele modulului editor: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "lipsește fișierul modul „%s”"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "nu se poate încărca modulul editorului: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "nu se poate încărca fabrica %s de la modulul: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr "eroare necunoscută la crearea instanței editorului"
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (Certificat)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "Generale"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Gateway:"
+msgstr "_Gateway:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "Authentication"
+msgstr "Autentificare"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr "Tip:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Nume de utilizator:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "_User password:"
+msgstr "Parolă de _utilizator:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "Nume de g_rup:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Secret:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Arată parolele"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "Nume de _certificat:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "ID de la _distanță:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr "A_vansat…"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "nu"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "da"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "forță"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "Opțiuni avansate IPsec"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr "Identificare"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "Domeniu:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+"(NT-)Nume de domeniu pentru autentificare.\n"
+"config: Domeniu <domain>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "Securitate"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Algoritmi phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"Algoritm de criptare/autentificare IKE de utilizat pentru conexiune (faza 1 "
+"adică ISAKMP SA). Formatul este „cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmi phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"Specifică algoritmii care vor fi oferiți/acceptați pentru o negociere "
+"phase2. Formatul este „cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
+"config: esp <proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr "Durata de viață phase1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"Pentru cât timp canalul de inel de chei al unei conexiuni ar trebui să "
+"dureze înainte de a fi negociat. Valoarea este exprimată de un număr urmat "
+"de un opțional „s”(ecunde), „m”(inute), „o”(re) sau „z”(ile).\n"
+"config: ikelifetime <lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr "Durata de viață phase2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"Pentru cât timp o instanță particulară a unei conexiuni (un set de chei de "
+"criptare/autentificare pentru pachetele utilizatorului) ar trebui să dureze, "
+"de la negociere cu succes la expirare. Valoarea este exprimată de un număr "
+"urmat de un opțional „s”(ecunde), „m”(inute), „o”(re) sau „z”(ile).\n"
+"config: salifetime <lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "Dezactivează recodificarea"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+"Dacă o conexiune nu ar trebui să fie renegociată când este pe cale să "
+"expire.\n"
+"config: rekey <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "Dezactivează PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Dezactivează securitatea de înainte perfectă. Activează această opțiune doar "
+"dacă serverul nu suportă PFS.\n"
+"config: pfs <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "Conectivitate"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr "Rețea de la distanță:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"Subrețea privată în spatele participantului de la distanță, exprimat ca o "
+"rețea/mască de rețea.\n"
+"config: rightsubnet <net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "Activează fragmentarea"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "îngustarea"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"Negocierea IKEv2 poate permite stabilirea unei conexiuni IPsec cu selectori "
+"de trafic îngustați. Această opțiune este ignorată pentru IKEv1.\n"
+"config: narrowing <yes/no>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "Activează MOBIKE"
