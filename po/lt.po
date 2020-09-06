@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the NetworkManager package.
 # Žygimantas Beručka <zygis@gnome.org>, 2008.
 # Gintautas Miliauskas <gintautas@miliauskas.lt>, 2009.
-# Aurimas Černius <aurisc4@gmail.com>, 2014-2018.
+# Aurimas Černius <aurisc4@gmail.com>, 2014-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-12-08 14:53+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2020-06-06 09:27+0000\n"
+"PO-Revision-Date: 2020-09-06 22:54+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -18,8 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 3.30.1\n"
+"%100<10 || n%100>=20) ? 1 : 2)\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -47,28 +48,25 @@ msgstr "Suderinama su Libreswan is Cisco IPsec VPN serveriais."
 msgid "The NetworkManager Developers"
 msgstr "NetworkManager kūrėjai"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Nustatyti tapatybę VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Slaptažodis:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Grupės slaptažodis:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Nustatyti tapatybę VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+#| msgid "Password:"
+msgid "Password"
+msgstr "Slaptažodis"
+
+#: ../auth-dialog/main.c:189
+#| msgid "Group Password:"
+msgid "Group Password"
+msgstr "Grupės slaptažodis"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "_Grupės slaptažodis:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
@@ -417,6 +415,9 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Įjungti MOBIKE"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "Nustatyti tapatybę VPN %s"
 
 #~ msgid "IPsec based VPN using IKEv1"
 #~ msgstr "IPsec pagrįstas VPN naudojant IKEv1"
