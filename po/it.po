@@ -1,16 +1,18 @@
 # Italian translation of NetworkManager-libreswan.
 # Copyright (C) 2006, 2007, 2008, 2009, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019 the NetworkManager-libreswan'S COPYRIGHT HOLDER
+# Copyright (C) 2020 the NetworkManager-libreswan'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the NetworkManager-libreswan package.
 # Francesco Marletta <francesco.marletta@tiscali.it>, 2006, 2007, 2008, 2009.
-# Milo Casagrande <milo@milo.name>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
+# Milo Casagrande <milo@milo.name>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
 # lrintel <lrintel@redhat.com>, 2018. #zanata
 # phrdina <phrdina@redhat.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2019-02-15 13:47+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2020-06-06 09:27+0000\n"
+"PO-Revision-Date: 2020-09-07 09:47+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -18,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -45,28 +47,23 @@ msgstr "Compatibile con Libresca e i server VPN IPsec Cisco."
 msgid "The NetworkManager Developers"
 msgstr "Gli sviluppatori di NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Autenticazione VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Password:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Password di gruppo:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Autenticazione VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Password"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Password di gruppo"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Password di _gruppo:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
