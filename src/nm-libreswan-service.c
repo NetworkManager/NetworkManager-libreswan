@@ -106,6 +106,7 @@ typedef struct {
 	gboolean pending_auth;
 	gboolean managed;
 	gboolean xauth_enabled;
+	int version;
 
 	GPid pid;
 	guint watch_id;
@@ -252,6 +253,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_LEFT,                       G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTID,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DOMAIN,                     G_TYPE_STRING, 0, 0 },
@@ -412,68 +414,6 @@ unblock_quit (NMLibreswanPlugin *self)
 /****************************************************************/
 
 static gboolean connect_step (NMLibreswanPlugin *self, GError **error);
-
-static const char *
-_find_helper (const char *progname, const char **paths, GError **error)
-{
-	const char **iter = paths;
-	GString *tmp;
-	const char *ret = NULL;
-
-	if (error)
-		g_return_val_if_fail (*error == NULL, NULL);
-
-	tmp = g_string_sized_new (50);
-	for (iter = paths; iter && *iter; iter++) {
-		g_string_append_printf (tmp, "%s%s", *iter, progname);
-		if (g_file_test (tmp->str, G_FILE_TEST_EXISTS)) {
-			ret = g_intern_string (tmp->str);
-			break;
-		}
-		g_string_set_size (tmp, 0);
-	}
-	g_string_free (tmp, TRUE);
-
-	if (!ret) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "Could not find %s binary",
-		             progname);
-	}
-	return ret;
-}
-
-static const char *
-find_helper_bin (const char *progname, GError **error)
-{
-	static const char *paths[] = {
-		PREFIX "/sbin/",
-		PREFIX "/bin/",
-		"/sbin/",
-		"/usr/sbin/",
-		"/usr/local/sbin/",
-		"/usr/bin/",
-		"/usr/local/bin/",
-		NULL,
-	};
-
-	return _find_helper (progname, paths, error);
-}
-
-static const char *
-find_helper_libexec (const char *progname, GError **error)
-{
-	static const char *paths[] = {
-		PREFIX "/libexec/ipsec/",
-		PREFIX "/lib/ipsec/",
-		"/usr/libexec/ipsec/",
-		"/usr/local/libexec/ipsec/",
-		"/usr/lib/ipsec/",
-		"/usr/local/lib/ipsec/",
-		NULL,
-	};
-
-	return _find_helper (progname, paths, error);
-}
 
 static void
 connect_cleanup (NMLibreswanPlugin *self)
@@ -1578,7 +1518,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		if (!priv->openswan) {
 			const char *stackman_path;
 
-			stackman_path = find_helper_libexec ("_stackmanager", error);
+			stackman_path = nm_libreswan_find_helper_libexec ("_stackmanager", error);
 			if (!stackman_path)
 				return FALSE;
 
@@ -1650,6 +1590,7 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		                                   bus_name);
 
 		if (!nm_libreswan_config_write (fd,
+		                                priv->version,
 		                                priv->connection,
 		                                uuid,
 		                                ifupdown_script,
@@ -1696,20 +1637,6 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 }
 
 static gboolean
-is_openswan (const char *path)
-{
-	const char *argv[] = { path, NULL };
-	gboolean openswan = FALSE;
-	char *output = NULL;
-
-	if (g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, &output, NULL, NULL, NULL)) {
-		openswan = output && strcasestr (output, " Openswan ");
-		g_free (output);
-	}
-	return openswan;
-}
-
-static gboolean
 _connect_common (NMVpnServicePlugin   *plugin,
                  NMConnection  *connection,
                  GVariant      *details,
@@ -1719,22 +1646,26 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	NMSettingVpn *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
+	gs_free char *ipsec_banner = NULL;
 
 	if (_LOGD_enabled ()) {
 		_LOGD ("connection:");
 		nm_connection_dump (connection);
 	}
 
-	priv->ipsec_path = find_helper_bin ("ipsec", error);
+	priv->ipsec_path = nm_libreswan_find_helper_bin ("ipsec", error);
 	if (!priv->ipsec_path)
 		return FALSE;
 
-	priv->openswan = is_openswan (priv->ipsec_path);
+	nm_libreswan_detect_version (priv->ipsec_path, &priv->openswan, &priv->version, &ipsec_banner);
+	_LOGD ("ipsec: version banner: %s", ipsec_banner);
+	_LOGD ("ipsec: detected version %d (%s)", priv->version, priv->openswan ? "Openswan" : "Libreswan");
+
 	if (!priv->openswan) {
-		priv->pluto_path = find_helper_libexec ("pluto", error);
+		priv->pluto_path = nm_libreswan_find_helper_libexec ("pluto", error);
 		if (!priv->pluto_path)
 			return FALSE;
-		priv->whack_path = find_helper_libexec ("whack", error);
+		priv->whack_path = nm_libreswan_find_helper_libexec ("whack", error);
 		if (!priv->whack_path)
 			return FALSE;
 	}

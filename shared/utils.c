@@ -89,6 +89,7 @@ write_config_option_newline (int fd,
 
 gboolean
 nm_libreswan_config_write (gint fd,
+                           int ipsec_version,
                            NMConnection *connection,
                            const char *con_name,
                            const char *leftupdown_script,
@@ -217,12 +218,19 @@ nm_libreswan_config_write (gint fd,
 
 		default_username = nm_setting_vpn_get_user_name (s_vpn);
 		props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER);
+		if (!props_username)
+			props_username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTUSERNAME);
 		if (props_username && strlen (props_username))
-			WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", props_username);
+			WRITE_CHECK (fd, debug_write_fcn, error,
+			             ipsec_version >= 4 ? " leftusername=%s" : " leftxauthusername=%s",
+			             props_username);
 		else if (default_username && strlen (default_username))
-			WRITE_CHECK (fd, debug_write_fcn, error, " leftxauthusername=%s", default_username);
+			WRITE_CHECK (fd, debug_write_fcn, error,
+			             ipsec_version >= 4 ? " leftusername=%s" : " leftxauthusername=%s",
+			             default_username);
 
-		WRITE_CHECK (fd, debug_write_fcn, error, " remote_peer_type=cisco");
+		WRITE_CHECK (fd, debug_write_fcn, error,
+		             ipsec_version >= 4 ? " remote-peer-type=cisco" : " remote_peer_type=cisco");
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightxauthserver=yes");
 	}
 
@@ -294,4 +302,118 @@ nm_libreswan_config_write (gint fd,
 	WRITE_CHECK_NEWLINE (fd, trailing_newline, debug_write_fcn, error, " auto=add");
 
 	return TRUE;
+}
+
+static const char *
+_find_helper (const char *progname, const char **paths, GError **error)
+{
+	const char **iter = paths;
+	GString *tmp;
+	const char *ret = NULL;
+
+	if (error)
+		g_return_val_if_fail (*error == NULL, NULL);
+
+	tmp = g_string_sized_new (50);
+	for (iter = paths; iter && *iter; iter++) {
+		g_string_append_printf (tmp, "%s%s", *iter, progname);
+		if (g_file_test (tmp->str, G_FILE_TEST_EXISTS)) {
+			ret = g_intern_string (tmp->str);
+			break;
+		}
+		g_string_set_size (tmp, 0);
+	}
+	g_string_free (tmp, TRUE);
+
+	if (!ret) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		             "Could not find %s binary",
+		             progname);
+	}
+	return ret;
+}
+
+const char *
+nm_libreswan_find_helper_bin (const char *progname, GError **error)
+{
+	static const char *paths[] = {
+		PREFIX "/sbin/",
+		PREFIX "/bin/",
+		"/sbin/",
+		"/usr/sbin/",
+		"/usr/local/sbin/",
+		"/usr/bin/",
+		"/usr/local/bin/",
+		NULL,
+	};
+
+	return _find_helper (progname, paths, error);
+}
+
+const char *
+nm_libreswan_find_helper_libexec (const char *progname, GError **error)
+{
+	static const char *paths[] = {
+		PREFIX "/libexec/ipsec/",
+		PREFIX "/lib/ipsec/",
+		"/usr/libexec/ipsec/",
+		"/usr/local/libexec/ipsec/",
+		"/usr/lib/ipsec/",
+		"/usr/local/lib/ipsec/",
+		NULL,
+	};
+
+	return _find_helper (progname, paths, error);
+}
+
+void
+nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *out_version, char **out_banner)
+{
+	const char *argv[] = { path, "--version", NULL };
+	gs_free char *output = NULL;
+	const char* v;
+
+	g_return_if_fail (out_is_openswan);
+	g_return_if_fail (out_version);
+
+	*out_is_openswan = FALSE;
+	*out_version = -1;
+
+	if (!path)
+		return;
+
+	g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, &output, NULL, NULL, NULL);
+
+	/*
+	 * Examples:
+	 * Linux Openswan 2.4.5 (klips)
+	 * Linux Libreswan 3.32 (netkey) on 5.8.11-200.fc32.x86_64+debug
+	 * Linux Libreswan U4.2rc1/K(no kernel code presently loaded) on 5.6.15-300.fc32.x86_64
+	 */
+
+	if (output) {
+		v = strcasestr (output, "Openswan");
+		if (v) {
+			v = v + strlen ("Openswan");
+			*out_is_openswan = TRUE;
+		}
+
+		if (!v) {
+			v = strcasestr (output, "Libreswan");
+			if (v)
+				v = v + strlen ("Libreswan");
+		}
+
+		if (v) {
+			while (g_ascii_isspace (*v))
+				v++;
+			if (*v == 'U')
+				v++;
+			if (g_ascii_isdigit (*v))
+				*out_version = *v - '0';
+		}
+
+		if (out_banner)
+			*out_banner = g_steal_pointer (&output);
+	}
 }

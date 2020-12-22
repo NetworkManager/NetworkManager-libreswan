@@ -65,6 +65,7 @@ properties_libutils_la_SOURCES = \
 	shared/nm-service-defines.h
 
 properties_libutils_la_CPPFLAGS = \
+	-DPREFIX=\""$(prefix)"\" \
 	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
 	-DNM_PLUGIN_DIR=\"$(NM_PLUGIN_DIR)\" \
 	$(common_CFLAGS) \

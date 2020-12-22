@@ -73,7 +73,7 @@ When the 'leftcert' key is defined a default value of "%cert" is assumed.
 this defines the certificate nickname of your certificate in the NSS database.
 The certificate should be already installed in the NSS database.
 .TP
-.I "leftxauthusername"
+.I "leftxauthusername" or "leftusername"
 the username to be used during XAUTH authentication. If not specified, the
 current user will be implicitly assumed. Corresponds to the Libreswan parameter
 of the same name.

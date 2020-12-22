@@ -182,6 +182,8 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT, &str[6]);
 		else if (g_str_has_prefix (str, "leftxauthusername="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER, &str[18]);
+		else if (g_str_has_prefix (str, "leftusername="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTUSERNAME, &str[13]);
 		else if (g_str_has_prefix (str, "leftcert="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT, &str[9]);
 		else if (g_str_has_prefix (str, "pfs=no"))
@@ -268,6 +270,8 @@ export_to_file (NMVpnEditorPlugin *self,
 	gboolean openswan = FALSE;
 	int fd, errsv;
 	gs_free_error GError *local = NULL;
+	gboolean is_openswan;
+	int version;
 
 	fd = g_open (path, O_WRONLY | O_CREAT, 0666);
 	if (fd == -1) {
@@ -281,7 +285,11 @@ export_to_file (NMVpnEditorPlugin *self,
 	if (s_vpn)
 		openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
 
+	nm_libreswan_detect_version (nm_libreswan_find_helper_bin ("ipsec", NULL),
+	                             &is_openswan, &version, NULL);
+
 	if (!nm_libreswan_config_write (fd,
+	                                version,
 	                                connection,
 	                                nm_connection_get_id (connection),
 	                                NULL,

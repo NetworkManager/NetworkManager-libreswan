@@ -37,6 +37,7 @@ gboolean write_config_option_newline (int fd,
 
 gboolean
 nm_libreswan_config_write (gint fd,
+                           int ipsec_version,
                            NMConnection *connection,
                            const char *con_name,
                            const char *leftupdown_script,
@@ -59,5 +60,14 @@ nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn, const char **out_ikev2
 	                     NM_LIBRESWAN_IKEV2_YES,
 	                     NM_LIBRESWAN_IKEV2_INSIST);
 }
+
+void
+nm_libreswan_detect_version (const char *path,
+                             gboolean *out_is_openswan,
+                             int *out_version,
+                             char **out_banner);
+
+const char *nm_libreswan_find_helper_bin (const char *progname, GError **error);
+const char *nm_libreswan_find_helper_libexec (const char *progname, GError **error);
 
 #endif /* __UTILS_H__ */

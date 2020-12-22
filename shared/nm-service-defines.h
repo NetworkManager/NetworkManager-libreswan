@@ -44,6 +44,7 @@
 #define NM_LIBRESWAN_KEY_PSK_VALUE                  "pskvalue"
 #define NM_LIBRESWAN_KEY_PSK_INPUT_MODES            "pskinputmodes"
 #define NM_LIBRESWAN_KEY_LEFTXAUTHUSER              "leftxauthusername"
+#define NM_LIBRESWAN_KEY_LEFTUSERNAME               "leftusername"
 #define NM_LIBRESWAN_KEY_XAUTH_PASSWORD             "xauthpassword"
 #define NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES "xauthpasswordinputmodes"
 #define NM_LIBRESWAN_KEY_DOMAIN                     "Domain"
