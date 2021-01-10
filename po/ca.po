@@ -35,8 +35,8 @@ msgid ""
 "Support for configuring IKEv1 based IPsec virtual private network "
 "connections."
 msgstr ""
-"Suport per configurar connexions de xarxes privades virtuals IPsec basades "
-"en IKEv1"
+"Suport per a configurar connexions de xarxes privades virtuals IPsec basades "
+"en IKEv1."
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
 msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
@@ -66,7 +66,7 @@ msgstr "Contrasenya de _grup:"
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
-"Us heu d'autenticar per poder accedir a la xarxa privada virtual «%s»."
+"Us heu d'autenticar per a poder accedir a la xarxa privada virtual «%s»."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
@@ -106,7 +106,7 @@ msgstr ""
 
 #: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
-msgstr "Autenticació pendent no gestionada"
+msgstr "Autenticació pendent no gestionada."
 
 #: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
