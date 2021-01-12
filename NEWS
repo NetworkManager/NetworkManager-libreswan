@@ -3,9 +3,14 @@ NetworkManager-libreswan-1.2.14
 Overview of changes since NetworkManager-libreswan-1.2.12
 =========================================================
 
+* Support Libreswan 4, which changed the name of some configuration
+  parameters. Now the plugin can detect the Libreswan version and use
+  the appropriate parameter names.
 * The auth helper in external UI mode can now be run without a display
   server. Future nmcli version will utilize this for handling the
   secrets without a graphical desktop.
+* Update strings for new dialog design in gnome-shell.
+* Update translations.
 
 =========================================================
 NetworkManager-libreswan-1.2.12
