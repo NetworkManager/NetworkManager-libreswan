@@ -1,14 +1,15 @@
 # Serbian translation for network-manager-libreswan.
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2018.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2013—2021.
 # Copyright © 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2018.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2018-02-24 19:47+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/"
+"NetworkManager-libreswan/issues\n"
+"POT-Creation-Date: 2020-06-06 09:27+0000\n"
+"PO-Revision-Date: 2021-01-20 21:26+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -45,28 +46,25 @@ msgstr "Сагласно са Либресван и Циско ИПсец ВПН
 msgid "The NetworkManager Developers"
 msgstr "Програмери Управника мреже"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Потврди ВПН %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Лозинка:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Лозинка групе:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Потврди ВПН"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+#| msgid "Password:"
+msgid "Password"
+msgstr "Лозинка"
+
+#: ../auth-dialog/main.c:189
+#| msgid "Group Password:"
+msgid "Group Password"
+msgstr "Лозинка групе"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Лозинка _групе:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
@@ -78,9 +76,8 @@ msgid "IPsec based VPN"
 msgstr "ВПН заснован на ИПсец-у"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-#, fuzzy
 msgid "IPsec based VPN for remote clients"
-msgstr "ИПсец ВПН клијент"
+msgstr "ИПсец заснована ВПН за удаљене клијенте"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
 #: ../properties/nm-libreswan-editor-plugin.c:276
@@ -170,9 +167,9 @@ msgstr ""
 "врсте „%s“"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr "не могу да учитам прикључак уређивача: %s"
+msgstr "не могу да добавим назив прикључка уређивача: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
@@ -195,11 +192,11 @@ msgstr "непозната грешка приликом стварања при
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "IKEv1 (XAUTH)"
-msgstr ""
+msgstr "ИКЕв1 (XAUTH)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "IKEv2 (Certificate)"
-msgstr ""
+msgstr "ИКЕв2 (Уверење)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
@@ -210,13 +207,12 @@ msgid "_Gateway:"
 msgstr "_Мрежни пролаз:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-#, fuzzy
 msgid "Authentication"
-msgstr "Потврди ВПН"
+msgstr "Потврђивање идентитета"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
 msgid "Type:"
-msgstr ""
+msgstr "Врста:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
 msgid "User name:"
@@ -240,37 +236,35 @@ msgstr "Прикажи лозинке"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
 msgid "_Certificate name:"
-msgstr ""
+msgstr "Назив _уверења:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-#, fuzzy
 msgid "_Remote ID:"
-msgstr "Удаљена мрежа:"
+msgstr "_Удаљени ИД:"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#, fuzzy
 msgid "Ad_vanced…"
-msgstr "_Напредно"
+msgstr "_Напредно…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "не"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "да"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "увек"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
-msgstr ""
+msgstr "IPsec напредне опције"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 msgid "Identification"
-msgstr ""
+msgstr "Идентификација"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Domain:"
@@ -281,10 +275,12 @@ msgid ""
 "(NT-)Domain name for authentication.\n"
 "config: Domain <domain>"
 msgstr ""
+"(NT-)Назив домена за потврђивање идентитета.\n"
+"подешавање: Домен <домен>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "Безбедност"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Phase1 Algorithms:"
@@ -297,6 +293,10 @@ msgid ""
 "modpgroup, …”.\n"
 "config: ike <proposals>"
 msgstr ""
+"ИКЕ алгоритам шифровања/потврђивања идентитета који ће се користити за везу ("
+"фаза 1 aka ISAKMP SA). Формат је „cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …“.\n"
+"подешавање: ike <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Phase2 Algorithms:"
@@ -309,6 +309,9 @@ msgid ""
 "…”.\n"
 "config: esp <proposals>"
 msgstr ""
+"Наводи алгоритме који ће бити понуђени/прихваћени за преговарање фазе2. "
+"Формат је „cipher-hash;modpgroup, cipher-hash;modpgroup, …“.\n"
+"подешавање: esp <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Lifetime:"
@@ -321,6 +324,10 @@ msgid ""
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: ikelifetime <lifetime>"
 msgstr ""
+"Колико дуго канал кључа везе треба да траје пре поновног преговарања. "
+"Вредност је изражена бројем за којим следи изборно „s“(секунде), „m“(минути)"
+", „h“(сати) или „d“(дани).\n"
+"подешавање: ikelifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Lifetime:"
@@ -334,20 +341,27 @@ msgid ""
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "config: salifetime <lifetime>"
 msgstr ""
+"Колико дуго неки примерак везе (скуп кључева шифровања/потврђивања "
+"идентитета за корисничке пакете) треба да траје, да би успешно преговарање "
+"истекло. Вредност је изражена бројем за којим следи изборно „s“(секунде), "
+"„m“(минути), „h“(сати) или „d“(дани).\n"
+"подешавање: salifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:36
 msgid "Disable rekeying"
-msgstr ""
+msgstr "Искључи поновно укључавање"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "config: rekey <no/yes>"
 msgstr ""
+"Да ли веза не треба да буде поново преговарана када је на истеку.\n"
+"подешавање: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
 msgid "Disable PFS"
-msgstr ""
+msgstr "Искључи ПФС"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
@@ -355,10 +369,13 @@ msgid ""
 "doesn’t support PFS.\n"
 "config: pfs <no/yes>"
 msgstr ""
+"Искључује савршену безбедност прослеђивања. Укључите ову опцију само ако "
+"сервер не подржава ПФС.\n"
+"подешавање: pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
-msgstr ""
+msgstr "Повезивост"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Remote Network:"
@@ -369,14 +386,16 @@ msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
 msgstr ""
+"Приватна подмрежа иза удаљеног учесника, изражена као мрежа/мрежна маска.\n"
+"подешавање: rightsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
-msgstr ""
+msgstr "Укључује фрагментацију"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
-msgstr ""
+msgstr "скупљање"
 
 #: ../properties/nm-libreswan-dialog.ui.h:48
 msgid ""
@@ -384,10 +403,16 @@ msgid ""
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "config: narrowing <yes/no>"
 msgstr ""
+"ИКЕв2 преговарање може дозволити успостављање ИПсец везе са смањеним "
+"бирачима саобраћаја. Ова опција је занемарена за ИКЕв1.\n"
+"подешавање: narrowing <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "Укључује МОБИКЕ"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "Потврди ВПН %s"
 
 #~ msgid "IPsec based VPN using IKEv1"
 #~ msgstr "ВПН заснован на ИПсец-у користећи ИКЕв1"
