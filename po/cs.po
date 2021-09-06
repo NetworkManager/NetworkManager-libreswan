@@ -4,16 +4,17 @@
 #
 # Jakub Friedl <jfriedl@suse.cz>, 2006.
 # Jiří Eischmann <jiri@eischmann.cz>, 2008.
-# Marek Černocký <marek@manet.cz>, 2013.
+# Marek Černocký <marek@manet.cz>, 2013, 2021.
 # Zdeněk Hataš <zdenek.hatas@gmail.com>, 2009 - 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2020-06-06 09:27+0000\n"
 "PO-Revision-Date: 2017-11-27 14:07+0100\n"
-"Last-Translator: Zdeněk Hataš <zdenek.hatas@gmail.com>\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -45,28 +46,23 @@ msgstr "Kompatibilní s IPsec VPN servery Libreswan a Cisco."
 msgid "The NetworkManager Developers"
 msgstr "Vývojáři aplikace NetworkManager"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Ověřit VPN %s"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Heslo:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Heslo skupiny:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
 msgstr "Ověřování VPN"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Heslo"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Heslo skupiny"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "Heslo _skupiny:"
 
-#: ../auth-dialog/main.c:487
+#: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "Pro přístup do VPN „%s“ se musí provést ověření."
@@ -412,3 +408,4 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Povolit MOBIKE"
+
