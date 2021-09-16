@@ -88,7 +88,7 @@ ignored.
 ignored.
 .TP
 .I "ike"
-allowed ciphers to be negotiatied to establish the IKE SAs. Corresponds to the
+allowed ciphers to be negotiated to establish the IKE SAs. Corresponds to the
 Libreswan parameter of the same name. Default value depends on Libreswan but for
 IKEv1 aggressive negotiation: in that case the default is forced to 'aes256-sha1;modp1536'.
 .TP
@@ -102,7 +102,7 @@ how long the phase1 SA of a connection should last. Matches the Libreswan
 parameter of the same name. Default value is '24h'.
 .TP
 .I "salifetime"
-how long the pashe2 SA of a connection should last. Matches the Libreswan
+how long the phase2 SA of a connection should last. Matches the Libreswan
 parameter of the same name. Default value is '24h'.
 .TP
 .I "vendor"
@@ -110,7 +110,7 @@ when equals 'Cisco', the 'cisco-unity=yes' will be passed to Libreswan, to allow
 ending the CISCO_UNITY payload to the peer. The option is ignored otherwise.
 .TP
 .I "rightsubnet"
-the destination subnet that should be reached throught the VPN. If omitted, will
+the destination subnet that should be reached through the VPN. If omitted, will
 be filled with '0.0.0.0/0'. Matches the Libreswan parameter of the same name.
 .TP
 .I "ikev2"
