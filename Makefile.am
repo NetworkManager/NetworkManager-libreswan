@@ -67,7 +67,6 @@ properties_libutils_la_SOURCES = \
 properties_libutils_la_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\" \
 	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
-	-DNM_PLUGIN_DIR=\"$(NM_PLUGIN_DIR)\" \
 	$(common_CFLAGS) \
 	$(LIBNM_CFLAGS)
 
@@ -75,7 +74,6 @@ plugin_LTLIBRARIES += properties/libnm-vpn-plugin-libreswan.la
 
 properties_libnm_vpn_plugin_libreswan_la_CFLAGS = \
 	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
-	-DNM_PLUGIN_DIR=\"$(NM_PLUGIN_DIR)\" \
 	$(common_CFLAGS) \
 	$(LIBNM_CFLAGS)
 

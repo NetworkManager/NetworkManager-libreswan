@@ -340,7 +340,7 @@ get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
 #ifdef NM_VPN_OLD
 		return nm_vpn_editor_new (connection, error);
 #else
-		return nm_vpn_plugin_utils_load_editor (NM_PLUGIN_DIR"/libnm-vpn-plugin-libreswan-editor.so",
+		return nm_vpn_plugin_utils_load_editor ("libnm-vpn-plugin-libreswan-editor.so",
 		                                        "nm_vpn_editor_factory_libreswan",
 		                                        _call_editor_factory,
 		                                        iface,
