@@ -255,14 +255,27 @@ advanced_button_clicked_cb (GtkWidget *button, gpointer user_data)
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (user_data);
 	GtkWidget *toplevel;
 
-	if (gtk_widget_get_visible (priv->advanced_dialog))
-		gtk_widget_hide (priv->advanced_dialog);
-	else {
-		toplevel = gtk_widget_get_toplevel (priv->widget);
-		if (gtk_widget_is_toplevel (toplevel))
-			gtk_window_set_transient_for (GTK_WINDOW (priv->advanced_dialog), GTK_WINDOW (toplevel));
-		gtk_widget_show_all (priv->advanced_dialog);
-	}
+	toplevel = gtk_widget_get_toplevel (priv->widget);
+	if (gtk_widget_is_toplevel (toplevel))
+		gtk_window_set_transient_for (GTK_WINDOW (priv->advanced_dialog), GTK_WINDOW (toplevel));
+	gtk_widget_show_all (priv->advanced_dialog);
+}
+
+static void update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn);
+static void populate_adv_dialog (LibreswanEditor *self);
+
+static void
+advanced_dialog_response_cb (GtkWidget *dialog, gint response, gpointer user_data)
+{
+	LibreswanEditor *self = LIBRESWAN_EDITOR (user_data);
+	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+
+	gtk_widget_hide (priv->advanced_dialog);
+
+	if (response == GTK_RESPONSE_APPLY)
+		update_adv_settings (self, priv->s_vpn);
+	else
+		populate_adv_dialog (self);
 }
 
 static GObject *
@@ -451,11 +464,10 @@ init_editor_plugin (LibreswanEditor *self,
 	g_signal_connect (G_OBJECT (priv->advanced_dialog), "delete-event",
 	                  G_CALLBACK (gtk_widget_hide_on_delete), self);
 
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "advanced_button"));
-	g_return_val_if_fail (widget != NULL, FALSE);
-	g_signal_connect (G_OBJECT (widget), "clicked", G_CALLBACK (advanced_button_clicked_cb), self);
+	g_signal_connect (G_OBJECT (priv->advanced_dialog), "response",
+	                  G_CALLBACK (advanced_dialog_response_cb), self);
 
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "apply_button"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "advanced_button"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_signal_connect (G_OBJECT (widget), "clicked", G_CALLBACK (advanced_button_clicked_cb), self);
 
@@ -756,11 +768,9 @@ dispose (GObject *object)
 	                                      (GCallback) password_storage_changed_cb,
 	                                      plugin);
 
-	if (priv->widget)
-		g_object_unref (priv->widget);
-
-	if (priv->builder)
-		g_object_unref (priv->builder);
+	g_clear_object (&priv->widget);
+	g_clear_object (&priv->builder);
+	g_clear_object (&priv->s_vpn);
 
 	G_OBJECT_CLASS (libreswan_editor_parent_class)->dispose (object);
 }
