@@ -42,5 +42,7 @@ src/nm-libreswan-helper-service-dbus.h
 man/nm-settings-libreswan.5
 properties/resources.c
 properties/resources.h
+gtk4/nm-libreswan-dialog.ui
+gtk4/resources.c
 
 /NetworkManager-libreswan*.tar*
