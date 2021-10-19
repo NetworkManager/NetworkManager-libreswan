@@ -29,12 +29,13 @@ dbusservice_DATA = nm-libreswan-service.conf
 nmvpnservicedir = $(NM_VPN_SERVICE_DIR)
 nmvpnservice_DATA = nm-libreswan-service.name
 
-uidir = $(datadir)/gnome-vpn-properties/libreswan
-if WITH_GNOME
-ui_DATA = properties/nm-libreswan-dialog.ui
-endif
-
 ###############################################################################
+
+properties/resources.h: properties/gresource.xml
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $< --target=$@ --sourcedir=$(srcdir)/properties --generate-header --internal
+
+properties/resources.c: properties/gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/properties --generate-dependencies $(srcdir)/properties/gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $< --target=$@ --sourcedir=$(srcdir)/properties --generate-source --internal
 
 plugin_sources = \
 	properties/nm-libreswan-editor-plugin.c \
@@ -45,8 +46,6 @@ editor_sources = \
 	properties/nm-libreswan-editor.h
 
 common_CFLAGS = \
-	-DICONDIR=\""$(datadir)/pixmaps"\" \
-	-DUIDIR=\""$(uidir)"\" \
 	-DLOCALEDIR=\"$(datadir)/locale\" \
 	-I$(srcdir)/shared \
 	$(GLIB_CFLAGS)
@@ -102,6 +101,10 @@ properties_libnm_vpn_plugin_libreswan_editor_la_CFLAGS = \
 	$(LIBNM_CFLAGS) \
 	$(LIBNMA_CFLAGS)
 
+nodist_properties_libnm_vpn_plugin_libreswan_editor_la_SOURCES = \
+	properties/resources.h \
+	properties/resources.c
+
 properties_libnm_vpn_plugin_libreswan_editor_la_SOURCES = \
 	$(editor_sources)
 
@@ -129,6 +132,10 @@ properties_libnm_libreswan_properties_la_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(LIBNM_GLIB_CFLAGS) \
 	$(LIBNM_GTK_CFLAGS)
+
+nodist_properties_libnm_libreswan_properties_la_SOURCES = \
+	properties/resources.h \
+	properties/resources.c
 
 properties_libnm_libreswan_properties_la_SOURCES = \
 	shared/utils.c \
@@ -160,7 +167,6 @@ libexec_PROGRAMS += auth-dialog/nm-libreswan-auth-dialog
 endif
 
 auth_dialog_nm_libreswan_auth_dialog_CPPFLAGS = \
-	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DBINDIR=\""$(bindir)"\" \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
 	-I$(srcdir)/shared \
@@ -276,12 +282,21 @@ src_show_xfrm_LDADD = \
 
 ###############################################################################
 
+BUILT_SOURCES = \
+	src/nm-libreswan-helper-service-dbus.h \
+	src/nm-libreswan-helper-service-dbus.c \
+	properties/resources.c \
+	properties/resources.h
+
 CLEANFILES += \
 	src/nm-libreswan-helper-service-dbus.h \
-	src/nm-libreswan-helper-service-dbus.c
+	src/nm-libreswan-helper-service-dbus.c \
+	properties/resources.c \
+	properties/resources.h
 
 EXTRA_DIST += \
-	src/nm-libreswan-helper-service.xml
+	src/nm-libreswan-helper-service.xml \
+	properties/gresource.xml
 
 ###############################################################################
 
