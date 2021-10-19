@@ -160,7 +160,6 @@ setup_password_widget (LibreswanEditor *self,
 
 	widget = (GtkWidget *) gtk_builder_get_object (priv->builder, entry_name);
 	g_assert (widget);
-	gtk_size_group_add_widget (priv->group, widget);
 
 	if (s_vpn) {
 		value = nm_setting_vpn_get_secret (s_vpn, secret_name);
@@ -299,8 +298,6 @@ init_widget (LibreswanEditor *self,
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, widget_name));
 	g_return_val_if_fail (widget, FALSE);
 
-	if (GTK_IS_ENTRY (widget))
-		gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (s_vpn) {
 		value = nm_setting_vpn_get_data_item (s_vpn, key_name);
 		if (!value && alt_key_name)
@@ -345,11 +342,8 @@ init_editor_plugin (LibreswanEditor *self,
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
 
-	priv->group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "type_combo"));
 	g_return_val_if_fail (widget != NULL, FALSE);
-	gtk_size_group_add_widget (priv->group, GTK_WIDGET (widget));
 	if (!new_connection && s_vpn) {
 		const char *ikev2;
 
@@ -743,9 +737,6 @@ dispose (GObject *object)
 	g_signal_handlers_disconnect_by_func (G_OBJECT (widget),
 	                                      (GCallback) password_storage_changed_cb,
 	                                      plugin);
-
-	if (priv->group)
-		g_object_unref (priv->group);
 
 	if (priv->widget)
 		g_object_unref (priv->widget);
