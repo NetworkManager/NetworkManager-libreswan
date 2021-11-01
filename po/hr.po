@@ -1,0 +1,411 @@
+# Croatian translation for NetworkManager-libreswan.
+# Copyright (C) 2021 NetworkManager-libreswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the NetworkManager-libreswan package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-libreswan master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2021-10-25 08:10+0000\n"
+"PO-Revision-Date: 2021-11-01 15:38+0100\n"
+"Language-Team: Croatian <hr@li.org>\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
+"X-Generator: Poedit 2.3\n"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN klijent"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr ""
+"Libreswan temeljen klijent za IKEv1 temeljene IPsec virtualne privatne mreže"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr ""
+"Podrška za podešavanje IKEv1 temeljenih na povezivanjima IPsec virtualnih "
+"privatnih mreža."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Kompatibilno s Libreswan i Cisco IPsec VPN poslužiteljima."
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "Razvijatelji Mrežnog upravitelja"
+
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
+msgid "Authenticate VPN"
+msgstr "Ovjeri VPM"
+
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Lozinka"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Lozinka grupe"
+
+#: ../auth-dialog/main.c:236
+msgid "_Group Password:"
+msgstr "_Lozinka grupe:"
+
+#: ../auth-dialog/main.c:486
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "Potrebna vam je ovjera za pristup Virtualnoj Privatnoj Mreži “%s“."
+
+#: ../properties/nm-libreswan-editor-plugin.c:43
+msgid "IPsec based VPN"
+msgstr "IPsec temeljen VPN"
+
+#: ../properties/nm-libreswan-editor-plugin.c:44
+msgid "IPsec based VPN for remote clients"
+msgstr "IPsec temeljen VPN za udaljene klijente"
+
+#: ../properties/nm-libreswan-editor-plugin.c:98
+#: ../properties/nm-libreswan-editor-plugin.c:280
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "Nemoguće otvaranje datoteke “%s”: %s"
+
+#: ../properties/nm-libreswan-editor-plugin.c:230
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "Nedostaje “conn” odjeljak u “%s”"
+
+#: ../properties/nm-libreswan-editor-plugin.c:302
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "Greška zapisivanja datoteke “%s”: %s"
+
+#: ../src/nm-libreswan-service.c:1402
+msgid "A password is required."
+msgstr "Potrebna je lozinka."
+
+#: ../src/nm-libreswan-service.c:1803
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "Nemoguća obrada zahtjeva jer su postavke VPN povezivanja nevaljane."
+
+#: ../src/nm-libreswan-service.c:1817
+msgid "Unhandled pending authentication."
+msgstr "Nepoznato čekanje ovjere."
+
+#: ../src/nm-libreswan-service.c:1959
+msgid "Don’t quit when VPN connection terminates"
+msgstr "Ne zatvaraj kada se VPN povezivanje prekida"
+
+#: ../src/nm-libreswan-service.c:1960
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "Omogući opširno zapisivanje otklanjanja grešaka (može otkriti lozinke)"
+
+#: ../src/nm-libreswan-service.c:1961
+msgid "D-Bus name to use for this instance"
+msgstr "D-Bus naziv za korištenje s ovim primjerkom"
+
+#: ../src/nm-libreswan-service.c:1984
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr ""
+"Ova usluga omogućuje integrirane IPsec VPN mogućnosti u Mrežnom upravitelju."
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Greška zapisivanja podešavanja: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "klasa objekta '%s' nema svojstvo naziva '%s'"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "svojstvo '%s' klase objekta '%s' nije zapisivo"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"svojstvo izgradnje \"%s\" za objekt '%s' ne može se postaviti nakon "
+"izgradenje"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr "'%s::%s' nije valjani naziv svojstva; '%s' nije GObject podvrsta"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr ""
+"neuspješno postavljanje svojstva '%s' vrste '%s' iz vrijednosti vrste '%s'"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"vrijednost \"%s\" vrste '%s' je neispravna ili je izvan raspona za svojstvo "
+"'%s' vrste '%s'"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "nemoguće dobivanje naziva priključka uređivača: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "nedostaje datoteka priključka \"%s\""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "nemoguće učitavanje priključka uređivača: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "nemoguče učitavanje tvorničkog %s iz priključka: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr "nepoznata greška stvaranja primjerka uređivača"
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (Vjerodajnica)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "Općenito"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Gateway:"
+msgstr "_Pristupnik:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "Authentication"
+msgstr "Ovjera"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type:"
+msgstr "Vrsta:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name:"
+msgstr "Korisničko ime:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "_User password:"
+msgstr "_Korisnička lozinka:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name:"
+msgstr "N_aziv grupe:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret:"
+msgstr "_Tajna:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "Prikaži lozinku"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name:"
+msgstr "_Naziv vjerodajnice:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID:"
+msgstr "_Udaljeni ID:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "Ad_vanced…"
+msgstr "Na_predno…"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "ne"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "da"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "prisili"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "IPsec Advanced Options"
+msgstr "IPsec napredne mogućnosti"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Identification"
+msgstr "Identifikacija"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Domain:"
+msgstr "Domena:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"config: Domain <domain>"
+msgstr ""
+"(NT-)Naziv domene ovjere.\n"
+"podešavanje: Domain <domena>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Security"
+msgstr "Sigurnost"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Phase1 Algorithms:"
+msgstr "Algoritmi faze 1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <proposals>"
+msgstr ""
+"Algoritam IKE šifriranja/ovjere koji se koristi pri povezivanju. (faza 1 "
+"poznata i kao ISAKMP SA). Format je “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"config: ike <prijedlozi>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Phase2 Algorithms:"
+msgstr "Algoritmi faze 2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"config: esp <proposals>"
+msgstr ""
+"Određuje algoritme koji će se ponuditi/prihvatiti za fazu 2 pregovaranja. "
+"Format je “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
+"config: esp <prijedlozi>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:30
+msgid "Phase1 Lifetime:"
+msgstr "Rok trajanja faze 1:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: ikelifetime <lifetime>"
+msgstr ""
+"Koliko dugo treba trajati ključni kanal povezivanja prije ponovnog "
+"pregovaranja. Vrijednost je izražena brojem slijeđenim neobaveznim "
+"“s”(sekundama), “m”(minutama), “h”(satima) ili “d”(danima).\n"
+"podešavanje: ikelifetime <rok trajanja>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:33
+msgid "Phase2 Lifetime:"
+msgstr "Rok trajanja faze 2:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"config: salifetime <lifetime>"
+msgstr ""
+"Koliko dugo određeni primjerak povezivanja (skup ključeva šifriranja/ovjere "
+"za pakete korisnika) treba trajati, od uspješnog pregovaranja do isteka. "
+"Vrijednost je izražena brojem slijeđenim neobaveznim “s”(sekundama), "
+"“m”(minutama), “h”(satima) ili “d”(danima).\n"
+"config: salifetime <rok trajanja>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:36
+msgid "Disable rekeying"
+msgstr "Onemogući ponovno pregovaranje pri isteku"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"config: rekey <no/yes>"
+msgstr ""
+"Treba li povezivanje ponovno pregovarati pri isteku.\n"
+"podešavanje: rekey <da/ne>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:39
+msgid "Disable PFS"
+msgstr "Onemogući PFS"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"config: pfs <no/yes>"
+msgstr ""
+"Onemogući savršenu sigurnost prosljeđivanja (PFS). Omogući ovu mogućnost "
+"samo ako poslužitelj ne podržava PFS.\n"
+"config: pfs <ne/da>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:42
+msgid "Connectivity"
+msgstr "Povezivost"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Remote Network:"
+msgstr "Udaljena mreža:"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"config: rightsubnet <net>"
+msgstr ""
+"Privatena podmrža iza udaljenog učesnika, izrađena kao mreža/mrežna maska.\n"
+"podešavanje: rightsubnet <mreža>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Enable fragmentation"
+msgstr "Omogući fragmentaciju"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid "narrowing"
+msgstr "sužavanje"
+
+#: ../properties/nm-libreswan-dialog.ui.h:48
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"config: narrowing <yes/no>"
+msgstr ""
+"IKEv2 pregovaranje može dopustiti uspostavljanje IPsec povezivanja sa "
+"suženim odabirateljima prometa. Ova mogućnost je zanemarena za IKEv1.\n"
+"podešavanje: narrowing <da/ne>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:50
+msgid "Enable MOBIKE"
+msgstr "Omogući MOBIKE"
