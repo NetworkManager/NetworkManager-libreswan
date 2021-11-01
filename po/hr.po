@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
 "POT-Creation-Date: 2021-10-25 08:10+0000\n"
-"PO-Revision-Date: 2021-11-01 15:38+0100\n"
+"PO-Revision-Date: 2021-11-01 18:19+0100\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
@@ -142,8 +142,7 @@ msgstr "svojstvo '%s' klase objekta '%s' nije zapisivo"
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
-"svojstvo izgradnje \"%s\" za objekt '%s' ne može se postaviti nakon "
-"izgradenje"
+"svojstvo izgradnje \"%s\" za objekt '%s' ne može se postaviti nakon izgradnje"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
