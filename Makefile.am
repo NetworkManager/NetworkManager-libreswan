@@ -6,7 +6,9 @@ CLEANFILES =
 
 DISTCLEANFILES =
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-more-warnings=yes
+DISTCHECK_CONFIGURE_FLAGS = \
+	--enable-more-warnings=yes \
+	--with-gtk4
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -29,12 +31,27 @@ dbusservice_DATA = nm-libreswan-service.conf
 nmvpnservicedir = $(NM_VPN_SERVICE_DIR)
 nmvpnservice_DATA = nm-libreswan-service.name
 
-uidir = $(datadir)/gnome-vpn-properties/libreswan
-if WITH_GNOME
-ui_DATA = properties/nm-libreswan-dialog.ui
-endif
-
 ###############################################################################
+
+properties/resources.h: properties/gresource.xml
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $< --target=$@ --sourcedir=$(srcdir)/properties --generate-header --internal
+
+properties/resources.c: properties/gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/properties --generate-dependencies $(srcdir)/properties/gresource.xml)
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $< --target=$@ --sourcedir=$(srcdir)/properties --generate-source --internal
+
+
+gtk4/resources.c: properties/gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies $(srcdir)/properties/gresource.xml |sed "s,^,$(builddir)/gtk4/,")
+	@mkdir -p $(builddir)/gtk4
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $< --target=$@ --sourcedir=$(srcdir)/gtk4 --sourcedir=$(builddir)/gtk4 --generate-source --internal
+
+gtk4/%.ui: properties/%.ui
+	@mkdir -p $(builddir)/gtk4
+	gtk4-builder-tool simplify --3to4 $< |grep -v can-default >$@
+
+# Include a prebuilt file in tarball, to avoid hitting
+# https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/4415
+EXTRA_DIST += \
+	gtk4/nm-libreswan-dialog.ui
 
 plugin_sources = \
 	properties/nm-libreswan-editor-plugin.c \
@@ -45,8 +62,6 @@ editor_sources = \
 	properties/nm-libreswan-editor.h
 
 common_CFLAGS = \
-	-DICONDIR=\""$(datadir)/pixmaps"\" \
-	-DUIDIR=\""$(uidir)"\" \
 	-DLOCALEDIR=\"$(datadir)/locale\" \
 	-I$(srcdir)/shared \
 	$(GLIB_CFLAGS)
@@ -67,7 +82,6 @@ properties_libutils_la_SOURCES = \
 properties_libutils_la_CPPFLAGS = \
 	-DPREFIX=\""$(prefix)"\" \
 	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
-	-DNM_PLUGIN_DIR=\"$(NM_PLUGIN_DIR)\" \
 	$(common_CFLAGS) \
 	$(LIBNM_CFLAGS)
 
@@ -75,7 +89,6 @@ plugin_LTLIBRARIES += properties/libnm-vpn-plugin-libreswan.la
 
 properties_libnm_vpn_plugin_libreswan_la_CFLAGS = \
 	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
-	-DNM_PLUGIN_DIR=\"$(NM_PLUGIN_DIR)\" \
 	$(common_CFLAGS) \
 	$(LIBNM_CFLAGS)
 
@@ -104,6 +117,10 @@ properties_libnm_vpn_plugin_libreswan_editor_la_CFLAGS = \
 	$(LIBNM_CFLAGS) \
 	$(LIBNMA_CFLAGS)
 
+nodist_properties_libnm_vpn_plugin_libreswan_editor_la_SOURCES = \
+	properties/resources.h \
+	properties/resources.c
+
 properties_libnm_vpn_plugin_libreswan_editor_la_SOURCES = \
 	$(editor_sources)
 
@@ -113,6 +130,35 @@ properties_libnm_vpn_plugin_libreswan_editor_la_LIBADD = \
 	$(LIBNMA_LIBS)
 
 properties_libnm_vpn_plugin_libreswan_editor_la_LDFLAGS = \
+	-avoid-version \
+	-Wl,--version-script="$(srcdir)/properties/libnm-vpn-plugin-libreswan-editor.ver"
+
+###############################################################################
+
+if WITH_GTK4
+plugin_LTLIBRARIES += properties/libnm-gtk4-vpn-plugin-libreswan-editor.la
+endif
+
+properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_CFLAGS = \
+	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_EDITOR \
+	$(common_CFLAGS) \
+	$(GTK4_CFLAGS) \
+	$(LIBNM_CFLAGS) \
+	$(LIBNMA_GTK4_CFLAGS)
+
+nodist_properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_SOURCES = \
+	properties/resources.h \
+	gtk4/resources.c
+
+properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_SOURCES = \
+	$(editor_sources)
+
+properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_LIBADD = \
+	$(GTK4_LIBS) \
+	$(LIBNM_LIBS) \
+	$(LIBNMA_GTK4_LIBS)
+
+properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_LDFLAGS = \
 	-avoid-version \
 	-Wl,--version-script="$(srcdir)/properties/libnm-vpn-plugin-libreswan-editor.ver"
 
@@ -131,6 +177,10 @@ properties_libnm_libreswan_properties_la_CFLAGS = \
 	$(GTK_CFLAGS) \
 	$(LIBNM_GLIB_CFLAGS) \
 	$(LIBNM_GTK_CFLAGS)
+
+nodist_properties_libnm_libreswan_properties_la_SOURCES = \
+	properties/resources.h \
+	properties/resources.c
 
 properties_libnm_libreswan_properties_la_SOURCES = \
 	shared/utils.c \
@@ -162,7 +212,6 @@ libexec_PROGRAMS += auth-dialog/nm-libreswan-auth-dialog
 endif
 
 auth_dialog_nm_libreswan_auth_dialog_CPPFLAGS = \
-	-DICONDIR=\""$(datadir)/pixmaps"\" \
 	-DBINDIR=\""$(bindir)"\" \
 	-DGNOMELOCALEDIR=\"$(datadir)/locale\" \
 	-I$(srcdir)/shared \
@@ -278,12 +327,24 @@ src_show_xfrm_LDADD = \
 
 ###############################################################################
 
-CLEANFILES += \
+BUILT_SOURCES = \
+	gtk4/resources.c \
 	src/nm-libreswan-helper-service-dbus.h \
-	src/nm-libreswan-helper-service-dbus.c
+	src/nm-libreswan-helper-service-dbus.c \
+	properties/resources.c \
+	properties/resources.h
+
+CLEANFILES += \
+	gtk4/nm-libreswan-dialog.ui \
+	gtk4/resources.c \
+	src/nm-libreswan-helper-service-dbus.h \
+	src/nm-libreswan-helper-service-dbus.c \
+	properties/resources.c \
+	properties/resources.h
 
 EXTRA_DIST += \
-	src/nm-libreswan-helper-service.xml
+	src/nm-libreswan-helper-service.xml \
+	properties/gresource.xml
 
 ###############################################################################
 

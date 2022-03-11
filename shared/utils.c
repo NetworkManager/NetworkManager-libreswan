@@ -370,7 +370,7 @@ void
 nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *out_version, char **out_banner)
 {
 	const char *argv[] = { path, "--version", NULL };
-	gs_free char *output = NULL;
+	char *output = NULL;
 	const char* v;
 
 	g_return_if_fail (out_is_openswan);
@@ -383,6 +383,8 @@ nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *o
 		return;
 
 	g_spawn_sync (NULL, (char **) argv, NULL, 0, NULL, NULL, &output, NULL, NULL, NULL);
+	if (!output)
+		return;
 
 	/*
 	 * Examples:
@@ -391,29 +393,29 @@ nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *o
 	 * Linux Libreswan U4.2rc1/K(no kernel code presently loaded) on 5.6.15-300.fc32.x86_64
 	 */
 
-	if (output) {
-		v = strcasestr (output, "Openswan");
-		if (v) {
-			v = v + strlen ("Openswan");
-			*out_is_openswan = TRUE;
-		}
-
-		if (!v) {
-			v = strcasestr (output, "Libreswan");
-			if (v)
-				v = v + strlen ("Libreswan");
-		}
-
-		if (v) {
-			while (g_ascii_isspace (*v))
-				v++;
-			if (*v == 'U')
-				v++;
-			if (g_ascii_isdigit (*v))
-				*out_version = *v - '0';
-		}
-
-		if (out_banner)
-			*out_banner = g_steal_pointer (&output);
+	v = strcasestr (output, "Openswan");
+	if (v) {
+		v = v + strlen ("Openswan");
+		*out_is_openswan = TRUE;
 	}
+
+	if (!v) {
+		v = strcasestr (output, "Libreswan");
+		if (v)
+			v = v + strlen ("Libreswan");
+	}
+
+	if (v) {
+		while (g_ascii_isspace (*v))
+			v++;
+		if (*v == 'U')
+			v++;
+		if (g_ascii_isdigit (*v))
+			*out_version = *v - '0';
+	}
+
+	if (out_banner)
+		*out_banner = output;
+	else
+		g_free (output);
 }
