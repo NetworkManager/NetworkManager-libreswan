@@ -1,4 +1,15 @@
 =========================================================
+NetworkManager-libreswan-1.2.16
+Overview of changes since NetworkManager-libreswan-1.2.14
+=========================================================
+
+This is a new stable release of NetworkManager-libreswan. Notable changes include:
+
+* Gtk4 version of the editor plugin is now available (for use with Control
+  Center of GNOME 42 or later).
+* Update Croatian, Swedish, Czech, Danish, Hungarian and Serbian translations.
+
+=========================================================
 NetworkManager-libreswan-1.2.14
 Overview of changes since NetworkManager-libreswan-1.2.12
 =========================================================
