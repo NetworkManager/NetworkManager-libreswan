@@ -3,23 +3,21 @@
 # This file is distributed under the same license as the NetworkManager package.
 #
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2005-2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager vpnc\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/"
-"issues\n"
-"POT-Creation-Date: 2020-05-04 15:56+0000\n"
-"PO-Revision-Date: 2020-05-04 20:36+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues\n"
+"POT-Creation-Date: 2022-03-11 15:52+0000\n"
+"PO-Revision-Date: 2022-03-12 09:03+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.07.70\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -52,12 +50,10 @@ msgid "Authenticate VPN"
 msgstr "Автентифікація VPN"
 
 #: ../auth-dialog/main.c:179
-#| msgid "Password:"
 msgid "Password"
 msgstr "Пароль"
 
 #: ../auth-dialog/main.c:189
-#| msgid "Group Password:"
 msgid "Group Password"
 msgstr "Пароль групи"
 
@@ -81,49 +77,49 @@ msgid "IPsec based VPN for remote clients"
 msgstr "VPN на основі IPsec для віддалених клієнтів"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Не вдалося відкрити файл «%s»: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "У «%s» пропущено розділ «conn»"
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Помилка під час спроби виконати запис до файла «%s»: %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
 msgstr "Потрібен пароль."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Не вдалося обробити запит, оскільки параметри з'єднання VPN є некоректними."
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
 msgstr "Непридатне до обробки розпізнавання у черзі."
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Не виходити, якщо розірвано з'єднання VPN"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Увімкнути докладний журнал діагностики (можливе виведення паролів)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
 msgstr "Назва D-Bus для використання для цього екземпляра"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -209,47 +205,56 @@ msgid "General"
 msgstr "Загальне"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Шлюз:"
+#| msgid "_Gateway:"
+msgid "_Gateway"
+msgstr "_Шлюз"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Розпізнавання"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Тип:"
+#| msgid "Type:"
+msgid "Type"
+msgstr "Тип"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Користувач:"
+#| msgid "User name:"
+msgid "User name"
+msgstr "Користувач"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "_Пароль користувача:"
+#| msgid "_User password:"
+msgid "_User password"
+msgstr "_Пароль користувача"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "Назва г_рупи:"
+#| msgid "G_roup name:"
+msgid "G_roup name"
+msgstr "Назва г_рупи"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "_Реєстраційні дані:"
+#| msgid "_Secret:"
+msgid "_Secret"
+msgstr "_Реєстраційні дані"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Показати паролі"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "_Назва сертифіката:"
+#| msgid "_Certificate name:"
+msgid "_Certificate name"
+msgstr "_Назва сертифіката"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "_Віддалений ідентифікатор:"
+#| msgid "_Remote ID:"
+msgid "_Remote ID"
+msgstr "_Віддалений ідентифікатор"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
+#| msgid "Ad_vanced…"
+msgid "A_dvanced…"
 msgstr "Д_одатково…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
@@ -273,8 +278,9 @@ msgid "Identification"
 msgstr "Ідентифікація"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Домен:"
+#| msgid "Domain:"
+msgid "Domain"
+msgstr "Домен"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -289,8 +295,9 @@ msgid "Security"
 msgstr "Захист"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "Алгоритми фази 1:"
+#| msgid "Phase1 Algorithms:"
+msgid "Phase1 Algorithms"
+msgstr "Алгоритми фази 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -305,8 +312,9 @@ msgstr ""
 "Файл налаштувань: ike <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "Алгоритми фази 2:"
+#| msgid "Phase2 Algorithms:"
+msgid "Phase2 Algorithms"
+msgstr "Алгоритми фази 2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -320,8 +328,9 @@ msgstr ""
 "Файл налаштувань: esp <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "Строк дії фази 1:"
+#| msgid "Phase1 Lifetime:"
+msgid "Phase1 Lifetime"
+msgstr "Строк дії фази 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -337,8 +346,9 @@ msgstr ""
 "Файл налаштувань: ikelifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "Строк дії фази 2:"
+#| msgid "Phase2 Lifetime:"
+msgid "Phase2 Lifetime"
+msgstr "Строк дії фази 2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -387,8 +397,9 @@ msgid "Connectivity"
 msgstr "Можливість з'єднання"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Віддалена мережа:"
+#| msgid "Remote Network:"
+msgid "Remote Network"
+msgstr "Віддалена мережа"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -421,6 +432,21 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Увімкнути MOBIKE"
+
+#: ../properties/nm-libreswan-dialog.ui.h:51
+#| msgid "IPsec Advanced Options"
+msgid "Advanced Properties"
+msgstr "Додаткові властивості"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr ""
+"_Скасувати"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr ""
+"_Застосувати"
 
 #~ msgid "Authenticate VPN %s"
 #~ msgstr "Розпізнавання у %s VPN"
