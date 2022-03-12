@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
 "POT-Creation-Date: 2022-03-11 15:52+0000\n"
-"PO-Revision-Date: 2022-03-12 21:13+0100\n"
+"PO-Revision-Date: 2022-03-12 21:17+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -411,7 +411,7 @@ msgstr "Omogući MOBIKE"
 
 #: ../properties/nm-libreswan-dialog.ui.h:51
 msgid "Advanced Properties"
-msgstr "Napredna svojsta"
+msgstr "Napredna svojstva"
 
 #: ../properties/nm-libreswan-dialog.ui.h:52
 msgid "_Cancel"
