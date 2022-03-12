@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2021-10-25 08:10+0000\n"
-"PO-Revision-Date: 2021-11-01 18:19+0100\n"
+"POT-Creation-Date: 2022-03-11 15:52+0000\n"
+"PO-Revision-Date: 2022-03-12 21:13+0100\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
-"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -201,48 +201,48 @@ msgid "General"
 msgstr "Općenito"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Pristupnik:"
+msgid "_Gateway"
+msgstr "_Pristupnik"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Ovjera"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Vrsta:"
+msgid "Type"
+msgstr "Vrsta"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Korisničko ime:"
+msgid "User name"
+msgstr "Korisničko ime"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "_Korisnička lozinka:"
+msgid "_User password"
+msgstr "Korisnička _lozinka"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "N_aziv grupe:"
+msgid "G_roup name"
+msgstr "N_aziv grupe"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "_Tajna:"
+msgid "_Secret"
+msgstr "_Tajna"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Prikaži lozinku"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "_Naziv vjerodajnice:"
+msgid "_Certificate name"
+msgstr "_Naziv vjerodajnice"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "_Udaljeni ID:"
+msgid "_Remote ID"
+msgstr "_Udaljeni ID"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
-msgstr "Na_predno…"
+msgid "A_dvanced…"
+msgstr "N_apredno…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
@@ -265,8 +265,8 @@ msgid "Identification"
 msgstr "Identifikacija"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Domena:"
+msgid "Domain"
+msgstr "Domena"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -281,8 +281,8 @@ msgid "Security"
 msgstr "Sigurnost"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "Algoritmi faze 1:"
+msgid "Phase1 Algorithms"
+msgstr "Algoritmi faze 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -297,8 +297,8 @@ msgstr ""
 "config: ike <prijedlozi>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "Algoritmi faze 2:"
+msgid "Phase2 Algorithms"
+msgstr "Algoritmi faze 2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -312,8 +312,8 @@ msgstr ""
 "config: esp <prijedlozi>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "Rok trajanja faze 1:"
+msgid "Phase1 Lifetime"
+msgstr "Rok trajanja faze 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -328,8 +328,8 @@ msgstr ""
 "podešavanje: ikelifetime <rok trajanja>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "Rok trajanja faze 2:"
+msgid "Phase2 Lifetime"
+msgstr "Rok trajanja faze 2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -376,8 +376,8 @@ msgid "Connectivity"
 msgstr "Povezivost"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Udaljena mreža:"
+msgid "Remote Network"
+msgstr "Udaljena mreža"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -408,3 +408,15 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Omogući MOBIKE"
+
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "Napredna svojsta"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "_Odustani"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "_Primijeni"
