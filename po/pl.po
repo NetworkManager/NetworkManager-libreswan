@@ -1,16 +1,16 @@
 # Polish translation for NetworkManager-libreswan.
-# Copyright © 2008-2020 the NetworkManager-libreswan authors.
+# Copyright © 2008-2022 the NetworkManager-libreswan authors.
 # This file is distributed under the same license as the NetworkManager-libreswan package.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2008-2009.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2020.
-# Aviary.pl <community-poland@mozilla.org>, 2008-2020.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2022.
+# Aviary.pl <community-poland@mozilla.org>, 2008-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-17 11:48+0200\n"
-"PO-Revision-Date: 2020-05-17 11:49+0200\n"
+"POT-Creation-Date: 2022-03-13 13:24+0100\n"
+"PO-Revision-Date: 2022-03-13 13:25+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -78,26 +78,26 @@ msgid "IPsec based VPN for remote clients"
 msgstr "VPN oparte na IPsec dla zdalnych klientów"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Nie można otworzyć pliku „%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Brak sekcji „conn” w „%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Błąd podczas zapisywania do pliku „%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
 msgstr "Wymagane jest hasło."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -105,23 +105,23 @@ msgstr ""
 "Nie można przetworzyć żądania, ponieważ ustawienia połączenia VPN są "
 "nieprawidłowe."
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
 msgstr "Nieobsłużone oczekujące uwierzytelnienie."
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Nie kończy działania, kiedy połączenie VPN jest kończone"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Włącza więcej komunikatów debugowania (może wyjawić hasła)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
 msgstr "Nazwa D-Bus dla tego wystąpienia"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -209,47 +209,47 @@ msgid "General"
 msgstr "Ogólne"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Brama:"
+msgid "_Gateway"
+msgstr "_Brama"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Uwierzytelnianie"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Typ:"
+msgid "Type"
+msgstr "Typ"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Nazwa użytkownika:"
+msgid "User name"
+msgstr "Nazwa użytkownika"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "Hasło _użytkownika:"
+msgid "_User password"
+msgstr "Hasło _użytkownika"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "Nazwa g_rupy:"
+msgid "G_roup name"
+msgstr "Nazwa g_rupy"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "_Hasło:"
+msgid "_Secret"
+msgstr "_Hasło"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Wyświetlanie haseł"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "_Nazwa certyfikatu:"
+msgid "_Certificate name"
+msgstr "_Nazwa certyfikatu"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "_Zdalny identyfikator:"
+msgid "_Remote ID"
+msgstr "_Zdalny identyfikator"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
+msgid "A_dvanced…"
 msgstr "Zaa_wansowane…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
@@ -273,8 +273,8 @@ msgid "Identification"
 msgstr "Identyfikacja"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Domena:"
+msgid "Domain"
+msgstr "Domena"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -289,8 +289,8 @@ msgid "Security"
 msgstr "Zabezpieczenia"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "Algorytmy fazy pierwszej:"
+msgid "Phase1 Algorithms"
+msgstr "Algorytmy fazy pierwszej"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -305,8 +305,8 @@ msgstr ""
 "konfiguracja: ike <propozycje>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "Algorytmy fazy drugiej:"
+msgid "Phase2 Algorithms"
+msgstr "Algorytmy fazy drugiej"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -320,8 +320,8 @@ msgstr ""
 "konfiguracja: esp <propozycje>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "Czas trwania fazy pierwszej:"
+msgid "Phase1 Lifetime"
+msgstr "Czas trwania fazy pierwszej"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -336,8 +336,8 @@ msgstr ""
 "konfiguracja: ikelifetime <czas-trwania>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "Czas trwania fazy drugiej:"
+msgid "Phase2 Lifetime"
+msgstr "Czas trwania fazy drugiej"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -384,8 +384,8 @@ msgid "Connectivity"
 msgstr "Łączność"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Zdalna sieć:"
+msgid "Remote Network"
+msgstr "Zdalna sieć"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -416,3 +416,15 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Włączenie MOBIKE"
+
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "Zaawansowane właściwości"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "_Anuluj"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "_Zastosuj"
