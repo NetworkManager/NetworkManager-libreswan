@@ -4,15 +4,15 @@
 #
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2014, 2015.
 # Edurne Labaka <elabaka@uzei.com>, 2015.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2022.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: network-manager-libreswan master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2015-02-07 17:55+0100\n"
-"Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
-"Language-Team: Basque <librezale@librezale.org>\n"
+msgstr "Project-Id-Version: network-manager-libreswan master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues\n"
+"POT-Creation-Date: 2022-03-11 15:52+0000\n"
+"PO-Revision-Date: 2022-03-12 17:55+0100\n"
+"Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
+"Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,270 +22,258 @@ msgstr ""
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
-msgstr ""
+msgstr "IPsec VPN bezeroa"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
 msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
-msgstr ""
+msgstr "Libreswan inplementazioan oinarritutako bezeroa IKEv1 oinarria duten IPsec sare pribatu birtualetarako"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
 msgid ""
 "Support for configuring IKEv1 based IPsec virtual private network "
 "connections."
-msgstr ""
+msgstr "IKEv1 oinarria duten IPsec sare birtual pribatuetako konexioak konfiguratzeko euskarria"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
 msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
-msgstr ""
+msgstr "Libreswan eta Cisco IPsec VPN zerbitzariekin bateragarria."
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
 msgid "The NetworkManager Developers"
-msgstr ""
+msgstr "NetworkManager aplikazioaren garatzaileak"
 
-#: ../auth-dialog/main.c:165
-#, c-format
-msgid "Authenticate VPN %s"
-msgstr "Autentifikatu %s VPN"
-
-#: ../auth-dialog/main.c:182
-msgid "Password:"
-msgstr "Pasahitza:"
-
-#: ../auth-dialog/main.c:192
-msgid "Group Password:"
-msgstr "Taldearen pasahitza:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
-msgstr "Autentifikatu VPN"
+msgstr "Autentifikatu VPNa"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "Pasahitza"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "Taldearen pasahitza"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "_Taldearen pasahitza:"
 
-#: ../auth-dialog/main.c:487
-#, fuzzy, c-format
+#: ../auth-dialog/main.c:486
+#, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
-msgstr "Autentifikatu egin behar zara '%s' VPN-ra sarbidetzeko."
+msgstr "Autentifikatu egin behar duzu “%s” Sare Birtual Pribatura sartzeko."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
-msgstr "IPsec-en oinarritutako VPN-a"
+msgstr "IPsec-en oinarritutako VPNa"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
-#, fuzzy
 msgid "IPsec based VPN for remote clients"
-msgstr "IPsec-en oinarritutako VPN-a"
+msgstr "IPsec-en oinarritutako VPNa urruneko bezeroentzako"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
-msgstr ""
+msgstr "Ezin da “%s” fitxategia ireki: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
-msgstr ""
+msgstr "“conn” sekzioa falta da hemen: “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
-msgstr ""
+msgstr "Errorea “%s” fitxategian idaztean: %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
 msgstr "Pasahitza behar da."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
-msgstr ""
-"Ezin izan da eskaera prozesatu VPN konexioaren ezarpenak baliogabekoak "
-"direlako."
+msgstr "Ezin izan da eskaera prozesatu VPN konexioaren ezarpenak baliogabekoak direlako."
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
 msgstr "Autentifikatzea falta dena kudeatu gabe."
 
-#: ../src/nm-libreswan-service.c:2028
-#, fuzzy
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
-msgstr "Ez irten VPNaren konexioa amaitzean"
+msgstr "Ez irten VPN konexioa amaitzen denean"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Gaitu arazketaren erregistro xehea (pasahitzak erakuts ditzake)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
-msgstr ""
+msgstr "Instantzia honetan erabiliko den D-Bus izena"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
-msgstr ""
-"Zerbitzu honek VPN IPsec gaitasuna erabiltzea baimentzen dio NetworkManager-"
-"i."
+msgstr "Zerbitzu honek VPN IPsec gaitasuna erabiltzea baimentzen dio NetworkManager-i."
 
 #: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
-msgstr ""
+msgstr "Errorea konfigurazioa idaztean: %s"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
-msgstr ""
+msgstr "'%s' klaseko objektuak ez du '%s' izeneko propietaterik"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
-msgstr ""
+msgstr "'%s' propietatea ez da idazgarria '%s' klaseko objektuan"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
-msgstr ""
+msgstr "eraiki ondoren ezin da \"%s\" eraikitzeko jabetza \"%s\" objekturako aldatu"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
-msgstr ""
+msgstr "'%s::%s' ez da baliozko propietate izena; '%s' ez da GObject azpimota"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
-msgstr ""
+msgstr "ezin da ezarri '%s' propietatea, '%s' motakoa, '%s' motako baliotik"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
-msgstr ""
+msgstr "“%s” balioa, '%s' motakoa, ez da baliozkoa edo tartetik kanpo dago '%s' propietaterako ('%s' motakoa dena)"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
 #, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr ""
+msgstr "ezin izan da editore-pluginaren izena lortu: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
-msgstr ""
+msgstr "“%s” plugin-fitxategia falta da"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
-msgstr ""
+msgstr "ezin da editore-plugina kargatu: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
-msgstr ""
+msgstr "ezin da %s fabrika kargatu pluginetik: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
-msgstr ""
+msgstr "errore ezezaguna editore-instantzia sortzean"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "IKEv1 (XAUTH)"
-msgstr ""
+msgstr "IKEv1 (XAUTH)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "IKEv2 (Certificate)"
-msgstr ""
+msgstr "IKEv2 (ziurtagiria)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
-#, fuzzy
 msgid "General"
-msgstr "<b>Orokorra</b>"
+msgstr "Orokorra"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Atebidea:"
+msgid "_Gateway"
+msgstr "_Atebidea"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-#, fuzzy
 msgid "Authentication"
-msgstr "Autentifikatu VPN"
+msgstr "Autentifikazioa"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr ""
+msgid "Type"
+msgstr "Mota"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Erabiltzaile-izena:"
+msgid "User name"
+msgstr "Erabiltzaile-izena"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "_Erabiltzailearen pasahitza:"
+msgid "_User password"
+msgstr "_Erabiltzailearen pasahitza"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "_Taldearen izena:"
+msgid "G_roup name"
+msgstr "_Taldearen izena"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr ""
+msgid "_Secret"
+msgstr "_Sekretua"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Erakutsi pasahitzak"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr ""
+msgid "_Certificate name"
+msgstr "_Ziurtagiri-izena"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr ""
+msgid "_Remote ID"
+msgstr "_Urruneko IDa"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
-msgstr ""
+msgid "A_dvanced…"
+msgstr "A_urreratua…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "ez"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "bai"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "behartu"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
-msgstr ""
+msgstr "IPsec aukera aurreratuak"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 msgid "Identification"
-msgstr ""
+msgstr "Identifikazioa"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Domeinua:"
+msgid "Domain"
+msgstr "Domeinua"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
 "(NT-)Domain name for authentication.\n"
 "config: Domain <domain>"
-msgstr ""
+msgstr "(NT-) Domeinuaren izena autentifikatzeko\n"
+"konfigurazioa: Domain <domeinua>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "Segurtasuna"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "1. faseko algoritmoak:"
+msgid "Phase1 Algorithms"
+msgstr "1. faseko algoritmoak"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -293,11 +281,12 @@ msgid ""
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
 "modpgroup, …”.\n"
 "config: ike <proposals>"
-msgstr ""
+msgstr "Konexiorako erabiliko den IKE zifratze/autentifikazioko algoritmoa (1. fasea, alegia, ISAKMP SA). Formatua honakoa da: “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
+"config: ike <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "2. faseko algoritmoak:"
+msgid "Phase2 Algorithms"
+msgstr "2. faseko algoritmoak"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -305,12 +294,12 @@ msgid ""
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
 "…”.\n"
 "config: esp <proposals>"
-msgstr ""
+msgstr "2. faseko negoziazioan eskainiko/onartuko diren algoritmoak zehazten ditu. Formatua honakoa da: “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
+"config: esp <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-#, fuzzy
-msgid "Phase1 Lifetime:"
-msgstr "1. faseko algoritmoak:"
+msgid "Phase1 Lifetime"
+msgstr "1. faseko bizitza"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -321,9 +310,8 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-#, fuzzy
-msgid "Phase2 Lifetime:"
-msgstr "2. faseko algoritmoak:"
+msgid "Phase2 Lifetime"
+msgstr "2. faseko bizitza"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -335,61 +323,77 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:36
-#, fuzzy
 msgid "Disable rekeying"
-msgstr "Desgaitu hildako parekoen detekzioa"
+msgstr "Desgaitu birnegoziatzea"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "config: rekey <no/yes>"
-msgstr ""
+msgstr "Konexio bat birnegoziatuko den ala ez hura iraungitzear dagoenean.\n"
+"config: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
-#, fuzzy
 msgid "Disable PFS"
-msgstr "Desgaituta"
+msgstr "Desgaitu PFSa"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
 "config: pfs <no/yes>"
-msgstr ""
+msgstr "Desgaitu birbidaltze-segurtasun perfektua. Gaitu aukera hau zerbitzariak PFS onartzen ez badu soilik.\n"
+"config: pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
-msgstr ""
+msgstr "Konektibitatea"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-#, fuzzy
-msgid "Remote Network:"
-msgstr "Sarea"
+msgid "Remote Network"
+msgstr "Urruneko sarea"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "config: rightsubnet <net>"
-msgstr ""
+msgstr "Urruneko partaidearen atzeko azpisare pribatua, sarea/sare-maskara modura adierazita.\n"
+"config: rightsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
-msgstr ""
+msgstr "Gaitu zatikatzea"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
-msgstr ""
+msgstr "estutzea"
 
 #: ../properties/nm-libreswan-dialog.ui.h:48
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "config: narrowing <yes/no>"
-msgstr ""
+msgstr "IKEv2 negoziazioan, IPsec konexioa trafiko-hautatzaile estutuekin ezartzea onartu daiteke. Aukera horri ez ikusiarena egiten zaio IKEv1 negoziazioaren kasuan.\n"
+"config: narrowing <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "Gaitu MOBIKE"
+
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "Ezarpen aurreratuak"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "_Utzi"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "_Aplikatu"
+
+#~ msgid "Authenticate VPN %s"
+#~ msgstr "Autentifikatu %s VPN"
 
 #~ msgid "Request VPN authentication"
 #~ msgstr "Eskatu VPNren autentifikazioa"
