@@ -1,9 +1,9 @@
 # Swedish messages for NetworkManager-libreswan.
-# Copyright © 2004-2021 Free Software Foundation, Inc.
+# Copyright © 2004-2022 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008.
 # Christian Rose <menthos@menthos.com>, 2004, 2005, 2006.
 # Josef Andersson <josef.andersson@fripost.org>, 2014.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2018, 2019, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2018, 2019, 2021, 2022.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2021-03-13 14:44+0000\n"
-"PO-Revision-Date: 2021-09-19 18:47+0200\n"
+"POT-Creation-Date: 2022-03-11 15:52+0000\n"
+"PO-Revision-Date: 2022-03-11 21:50+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -210,48 +210,48 @@ msgid "General"
 msgstr "Allmänt"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Gateway:"
+msgid "_Gateway"
+msgstr "_Gateway"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Autentisering"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Typ:"
+msgid "Type"
+msgstr "Typ"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Användarnamn:"
+msgid "User name"
+msgstr "Användarnamn"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "Användarlös_enord:"
+msgid "_User password"
+msgstr "Användarlös_enord"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "G_ruppnamn:"
+msgid "G_roup name"
+msgstr "G_ruppnamn"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "_Hemlighet:"
+msgid "_Secret"
+msgstr "_Hemlighet"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Visa lösenord"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "_Certifikatnamn:"
+msgid "_Certificate name"
+msgstr "_Certifikatnamn"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "_Fjärr-ID:"
+msgid "_Remote ID"
+msgstr "_Fjärr-ID"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
-msgstr "Av_ancerat…"
+msgid "A_dvanced…"
+msgstr "_Avancerat…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
@@ -274,8 +274,8 @@ msgid "Identification"
 msgstr "Identifiering"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Domän:"
+msgid "Domain"
+msgstr "Domän"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -290,8 +290,8 @@ msgid "Security"
 msgstr "Säkerhet"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "Fas 1-algoritmer:"
+msgid "Phase1 Algorithms"
+msgstr "Fas 1-algoritmer"
 
 # Standardvärde 'aes256-sha1;modp1536'
 #: ../properties/nm-libreswan-dialog.ui.h:25
@@ -307,8 +307,8 @@ msgstr ""
 "konfig: ike <förslag>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "Fas 2-algoritmer:"
+msgid "Phase2 Algorithms"
+msgstr "Fas 2-algoritmer"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -322,8 +322,8 @@ msgstr ""
 "konfig: esp <förslag>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "Fas 1-livslängd:"
+msgid "Phase1 Lifetime"
+msgstr "Fas 1-livslängd"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -338,8 +338,8 @@ msgstr ""
 "konfig: ikelifetime <livstid>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "Fas 2-livslängd:"
+msgid "Phase2 Lifetime"
+msgstr "Fas 2-livslängd"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -386,8 +386,8 @@ msgid "Connectivity"
 msgstr "Anslutbarhet"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Fjärrnätverk:"
+msgid "Remote Network"
+msgstr "Fjärrnätverk"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -418,6 +418,18 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "Aktivera MOBIKE"
+
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "Avancerade egenskaper"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "A_vbryt"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "V_erkställ"
 
 #~ msgid "Authenticate VPN %s"
 #~ msgstr "Autentisera VPN %s"
