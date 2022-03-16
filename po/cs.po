@@ -4,7 +4,7 @@
 #
 # Jakub Friedl <jfriedl@suse.cz>, 2006.
 # Jiří Eischmann <jiri@eischmann.cz>, 2008.
-# Marek Černocký <marek@manet.cz>, 2013, 2021.
+# Marek Černocký <marek@manet.cz>, 2013, 2021, 2022.
 # Zdeněk Hataš <zdenek.hatas@gmail.com>, 2009 - 2017.
 #
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: network-manager-libreswan\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2020-06-06 09:27+0000\n"
-"PO-Revision-Date: 2017-11-27 14:07+0100\n"
+"POT-Creation-Date: 2022-03-13 12:22+0000\n"
+"PO-Revision-Date: 2022-03-16 13:30+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -76,49 +76,49 @@ msgid "IPsec based VPN for remote clients"
 msgstr "VPN pomocí IPsec pro vzdálené klienty"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Nelze otevřít soubor „%s“: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Chybějící sekce „conn“ v „%s“"
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Chyba při zápisu do souboru „%s“: %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
 msgstr "Je požadováno heslo."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Nelze zpracovat požadavek, protože nastavení připojení VPN nejsou platná."
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
 msgstr "Neošetřené čekající ověření."
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Neskončit, dokud se spojení VPN ukončuje"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Zapnout podrobnou evidenci ladění (může odhalit hesla)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
 msgstr "Název použitý pro tuto instanci v D-Bus"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -201,47 +201,47 @@ msgid "General"
 msgstr "Obecné"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Brána:"
+msgid "_Gateway"
+msgstr "_Brána"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Ověřování"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Typ:"
+msgid "Type"
+msgstr "Typ"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Uživ. jméno:"
+msgid "User name"
+msgstr "Uživatelské jméno"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "_Uživ. heslo:"
+msgid "_User password"
+msgstr "_Uživatelské heslo"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "Název sk_upiny:"
+msgid "G_roup name"
+msgstr "Název sk_upiny"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "_Tajemství:"
+msgid "_Secret"
+msgstr "_Tajemství"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
-msgstr "Zobrazit hesla"
+msgstr "Zobrazovat hesla"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "Název _certifikátu:"
+msgid "_Certificate name"
+msgstr "Název _certifikátu"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "Vz_dálené ID:"
+msgid "_Remote ID"
+msgstr "Vz_dálené ID"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
+msgid "A_dvanced…"
 msgstr "P_okročilé…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
@@ -265,8 +265,8 @@ msgid "Identification"
 msgstr "Identifikace"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Doména:"
+msgid "Domain"
+msgstr "Doména"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -281,8 +281,8 @@ msgid "Security"
 msgstr "Zabezpečení"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "Algoritmy Fáze1:"
+msgid "Phase1 Algorithms"
+msgstr "Algoritmy Fáze1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -297,8 +297,8 @@ msgstr ""
 "config: ike <návrhy>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "Alogritmy Fáze2:"
+msgid "Phase2 Algorithms"
+msgstr "Alogritmy Fáze2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -312,8 +312,8 @@ msgstr ""
 "config: esp <návrhy>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "Životnost fáze1:"
+msgid "Phase1 Lifetime"
+msgstr "Životnost fáze1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -328,8 +328,8 @@ msgstr ""
 "config: ikelifetime <životnost>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "Životnost fáze2:"
+msgid "Phase2 Lifetime"
+msgstr "Životnost fáze2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -376,8 +376,8 @@ msgid "Connectivity"
 msgstr "Konektivita"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Vzdálená síť:"
+msgid "Remote Network"
+msgstr "Vzdálená síť"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -409,3 +409,14 @@ msgstr ""
 msgid "Enable MOBIKE"
 msgstr "Povolit MOBIKE"
 
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "Pokročilé vlastnosti"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "_Použít"
