@@ -1,17 +1,17 @@
 # Hungarian translation for network-manager-libreswan.
-# Copyright (C) 2006, 2007, 2008, 2013, 2014, 2016, 2018, 2021 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2007, 2008, 2013, 2014, 2016, 2018, 2021, 2022 Free Software Foundation, Inc.
 # This file is distributed under the same license as the network-manager-libreswan package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2006, 2007, 2008, 2013, 2016.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2018, 2019, 2021.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2018, 2019, 2021, 2022.
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: network-manager-libreswan master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/"
 "issues\n"
-"POT-Creation-Date: 2020-06-06 09:27+0000\n"
-"PO-Revision-Date: 2021-02-15 01:43+0100\n"
+"POT-Creation-Date: 2022-03-13 12:22+0000\n"
+"PO-Revision-Date: 2022-03-18 01:50+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -51,12 +51,10 @@ msgid "Authenticate VPN"
 msgstr "VPN azonosítás"
 
 #: ../auth-dialog/main.c:179
-#| msgid "Password:"
 msgid "Password"
 msgstr "Jelszó"
 
 #: ../auth-dialog/main.c:189
-#| msgid "Group Password:"
 msgid "Group Password"
 msgstr "Csoportjelszó"
 
@@ -78,26 +76,26 @@ msgid "IPsec based VPN for remote clients"
 msgstr "IPsec VPN kliens távoli klienseknek"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "A(z) „%s” fájl nem nyitható meg: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Hiányzik a „conn” szakasz itt: „%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Hiba a(z) „%s” fájl írásakor: %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
 msgstr "Jelszó szükséges."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -105,25 +103,25 @@ msgstr ""
 "A kérés feldolgozása sikertelen, mivel a VPN-kapcsolat beállításai "
 "érvénytelenek."
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
 msgstr "Kezeletlen várakozó hitelesítés."
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Ne lépjen ki, ha a VPN-kapcsolat megszakad"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Részletes hibakeresési naplózás engedélyezése (jelszavak is  a naplóba "
 "kerülhetnek)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
 msgstr "A példányhoz használandó D-Bus név"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -209,47 +207,56 @@ msgid "General"
 msgstr "Általános"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "Á_tjáró:"
+#| msgid "_Gateway:"
+msgid "_Gateway"
+msgstr "Á_tjáró"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Hitelesítés"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Típus:"
+#| msgid "Type:"
+msgid "Type"
+msgstr "Típus"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Felhasználónév:"
+#| msgid "User name:"
+msgid "User name"
+msgstr "Felhasználónév"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "_Felhasználó jelszava:"
+#| msgid "_User password:"
+msgid "_User password"
+msgstr "_Felhasználó jelszava"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "Cso_portnév:"
+#| msgid "G_roup name:"
+msgid "G_roup name"
+msgstr "Cso_portnév"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "_Titok:"
+#| msgid "_Secret:"
+msgid "_Secret"
+msgstr "_Titok"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Jelszavak megjelenítése"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "_Tanúsítvány neve:"
+#| msgid "_Certificate name:"
+msgid "_Certificate name"
+msgstr "_Tanúsítvány neve"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "Távoli _azonosító:"
+#| msgid "_Remote ID:"
+msgid "_Remote ID"
+msgstr "Távoli _azonosító"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
+#| msgid "Ad_vanced…"
+msgid "A_dvanced…"
 msgstr "Spe_ciális…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
@@ -273,8 +280,9 @@ msgid "Identification"
 msgstr "Azonosítás"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Tartomány:"
+#| msgid "Domain:"
+msgid "Domain"
+msgstr "Tartomány"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -289,8 +297,9 @@ msgid "Security"
 msgstr "Biztonság"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "1. fázis algoritmusai:"
+#| msgid "Phase1 Algorithms:"
+msgid "Phase1 Algorithms"
+msgstr "1. fázis algoritmusai"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -305,8 +314,9 @@ msgstr ""
 "konfiguráció: ike <javaslatok>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "2. fázis algoritmusai:"
+#| msgid "Phase2 Algorithms:"
+msgid "Phase2 Algorithms"
+msgstr "2. fázis algoritmusai"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -321,8 +331,9 @@ msgstr ""
 "konfiguráció: esp <javaslatok>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "1. fázis élettartama:"
+#| msgid "Phase1 Lifetime:"
+msgid "Phase1 Lifetime"
+msgstr "1. fázis élettartama"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -337,8 +348,9 @@ msgstr ""
 "konfiguráció: ikelifetime <élettartam>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "2. fázis élettartama:"
+#| msgid "Phase2 Lifetime:"
+msgid "Phase2 Lifetime"
+msgstr "2. fázis élettartama"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -386,8 +398,9 @@ msgid "Connectivity"
 msgstr "Kapcsolódás"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Távoli hálózat:"
+#| msgid "Remote Network:"
+msgid "Remote Network"
+msgstr "Távoli hálózat"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -420,3 +433,16 @@ msgstr ""
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
 msgstr "MOBIKE engedélyezése"
+
+#: ../properties/nm-libreswan-dialog.ui.h:51
+#| msgid "IPsec Advanced Options"
+msgid "Advanced Properties"
+msgstr "Speciális tulajdonságok"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "_Mégse"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "_Alkalmaz"
