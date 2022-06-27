@@ -15,8 +15,6 @@ PKG_NAME=NetworkManager-libreswan
 
 (cd $srcdir;
     autoreconf --install --symlink &&
-    intltoolize --force &&
-    autoreconf &&
     ./configure --enable-maintainer-mode --enable-more-warnings=error $@
 )
 

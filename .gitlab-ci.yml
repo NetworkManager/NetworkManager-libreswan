@@ -16,7 +16,6 @@
       gtk4-devel
       libnma-gtk4-devel
       libnl3-devel
-      intltool
       libtool
       libsecret-devel
       libnma-devel
