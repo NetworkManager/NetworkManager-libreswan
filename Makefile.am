@@ -338,7 +338,9 @@ if WITH_GNOME
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 endif
 appdata_in_files = appdata/network-manager-libreswan.metainfo.xml.in
-@INTLTOOL_XML_RULE@
+
+appdata/network-manager-libreswan.metainfo.xml: appdata/network-manager-libreswan.metainfo.xml.in
+	$(AM_V_GEN)$(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 nm-libreswan-service.name: $(srcdir)/nm-libreswan-service.name.in
 	sed -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' \
@@ -349,17 +351,8 @@ EXTRA_DIST += \
 	nm-libreswan-service.name.in \
 	$(dbusservice_DATA)  \
 	$(appdata_in_files)  \
-	$(appdata_files)      \
-	intltool-extract.in  \
-	intltool-merge.in    \
-	intltool-update.in
+	$(appdata_files)
 
 CLEANFILES += \
 	$(nmvpnservice_DATA) \
 	$(appdata_files)
-
-DISTCLEANFILES += \
-	intltool-extract \
-	intltool-merge \
-	intltool-update
-
