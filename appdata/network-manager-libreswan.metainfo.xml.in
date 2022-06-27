@@ -7,8 +7,8 @@
   <extends>nm-connection-editor.desktop</extends>
   <extends>org.gnome.Settings.desktop</extends>
   <extends>gnome-control-center.desktop</extends>
-  <_name>IPsec VPN client</_name>
-  <_summary>Libreswan based client for IKEv1 based IPsec virtual private networks</_summary>
+  <name>IPsec VPN client</name>
+  <summary>Libreswan based client for IKEv1 based IPsec virtual private networks</summary>
 
   <keywords>
     <keyword>network</keyword>
@@ -22,8 +22,8 @@
   </keywords>
 
   <description>
-    <_p>Support for configuring IKEv1 based IPsec virtual private network connections.</_p>
-    <_p>Compatible with Libreswan and Cisco IPsec VPN servers.</_p>
+    <p>Support for configuring IKEv1 based IPsec virtual private network connections.</p>
+    <p>Compatible with Libreswan and Cisco IPsec VPN servers.</p>
   </description>
 
   <screenshots>
@@ -36,5 +36,5 @@
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues</url>
   <update_contact>networkmanager-maint@gnome.bugs</update_contact>
   <translation type="gettext">NetworkManager-libreswan</translation>
-  <_developer_name>The NetworkManager Developers</_developer_name>
+  <developer_name>The NetworkManager Developers</developer_name>
 </component>

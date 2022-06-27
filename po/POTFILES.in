@@ -8,4 +8,4 @@ src/nm-libreswan-service.c
 shared/utils.c
 shared/nm-utils/nm-shared-utils.c
 shared/nm-utils/nm-vpn-plugin-utils.c
-[type: gettext/glade]properties/nm-libreswan-dialog.ui
+properties/nm-libreswan-dialog.ui

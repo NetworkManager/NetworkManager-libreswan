@@ -2,6 +2,7 @@
 *.o
 *.lo
 *.la
+ABOUT-NLS
 Makefile
 Makefile.in*
 configure
@@ -23,13 +24,31 @@ stamp-*
 .libs
 autom4te.cache
 intltool-*
-po/*.gmo
 po/.intltool-merge-cache
+po/*.gmo
+po/boldquot.sed
+po/en@boldquot.header
+po/en@quot.header
+po/insert-header.sin
+po/Makevars.template
+po/quot.sed
+po/remove-potcdate.sed
+po/remove-potcdate.sin
+po/Rules-quot
+m4/gettext.m4
 m4/gtk-doc.m4
+m4/host-cpu-c-abi.m4
+m4/iconv.m4
+m4/intlmacosx.m4
 m4/intltool.m4
+m4/lib-ld.m4
+m4/lib-link.m4
+m4/lib-prefix.m4
 m4/libtool.m4
 m4/lt*.m4
-appdata/network-manager-libreswan.metainfo.xml
+m4/nls.m4
+m4/po.m4
+m4/progtest.m4
 /cscope.*
 
 auth-dialog/nm-libreswan-auth-dialog
@@ -44,5 +63,6 @@ properties/resources.c
 properties/resources.h
 gtk4/nm-libreswan-dialog.ui
 gtk4/resources.c
+appdata/network-manager-libreswan.metainfo.xml
 
 /NetworkManager-libreswan*.tar*
