@@ -26,12 +26,10 @@ dnl
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
-AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MKDIR_P
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 
-AC_GNU_SOURCE
 
 AC_CHECK_PROG([has_file], file, yes, no)
 if test x$has_file = xno ; then
@@ -46,7 +44,6 @@ fi
 dnl
 dnl Required headers
 dnl
-AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h paths.h sys/ioctl.h sys/time.h syslog.h unistd.h)
 
 dnl
@@ -54,7 +51,6 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 dnl
 AC_TYPE_MODE_T
 AC_TYPE_PID_T
-AC_HEADER_TIME
 
 dnl
 dnl Checks for library functions.
