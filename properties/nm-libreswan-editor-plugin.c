@@ -34,11 +34,7 @@
 
 #include "utils.h"
 
-#ifdef NM_VPN_OLD
-#include "nm-libreswan-editor.h"
-#else
 #include "nm-utils/nm-vpn-plugin-utils.h"
-#endif
 
 #define LIBRESWAN_PLUGIN_NAME    _("IPsec based VPN")
 #define LIBRESWAN_PLUGIN_DESC    _("IPsec based VPN for remote clients")
@@ -315,7 +311,6 @@ get_capabilities (NMVpnEditorPlugin *iface)
 	return NM_VPN_EDITOR_PLUGIN_CAPABILITY_EXPORT | NM_VPN_EDITOR_PLUGIN_CAPABILITY_IMPORT;
 }
 
-#ifndef NM_VPN_OLD
 static NMVpnEditor *
 _call_editor_factory (gpointer factory,
                       NMVpnEditorPlugin *editor_plugin,
@@ -327,7 +322,6 @@ _call_editor_factory (gpointer factory,
 	                                       connection,
 	                                       error);
 }
-#endif
 
 static NMVpnEditor *
 get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
@@ -350,9 +344,6 @@ get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
 		editor = "libnm-gtk4-vpn-plugin-libreswan-editor.so";
 	}
 
-#ifdef NM_VPN_OLD
-	return nm_vpn_editor_new (connection, error);
-#else
 	return nm_vpn_plugin_utils_load_editor (editor,
 						"nm_vpn_editor_factory_libreswan",
 						_call_editor_factory,
@@ -360,7 +351,6 @@ get_editor (NMVpnEditorPlugin *iface, NMConnection *connection, GError **error)
 						connection,
 						NULL,
 						error);
-#endif
 }
 
 static void

@@ -56,7 +56,6 @@ fedora38_dist:
     - dnf -y install
       /usr/bin/autopoint
       autoconf automake make
-      NetworkManager-libnm-devel
     - sh autogen.sh
     - make -j dist
   artifacts:
