@@ -61,25 +61,6 @@
 
 /*****************************************************************************/
 
-#ifdef NM_VPN_OLD
-
-#define NM_VPN_LIBNM_COMPAT
-#include <nm-connection.h>
-#include <nm-setting-connection.h>
-#include <nm-setting-8021x.h>
-#include <nm-setting-ip4-config.h>
-#include <nm-setting-vpn.h>
-#include <nm-utils.h>
-#include <nm-vpn-plugin-ui-interface.h>
-
-#define nm_simple_connection_new                    nm_connection_new
-#define NMV_EDITOR_PLUGIN_ERROR                     NM_SETTING_VPN_ERROR
-#define NMV_EDITOR_PLUGIN_ERROR_FAILED              NM_SETTING_VPN_ERROR_UNKNOWN
-#define NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY    NM_SETTING_VPN_ERROR_INVALID_PROPERTY
-#define NMV_EDITOR_PLUGIN_ERROR_FILE_NOT_VPN        NM_SETTING_VPN_ERROR_UNKNOWN
-
-#else /* !NM_VPN_OLD */
-
 #include <NetworkManager.h>
 
 #define NMV_EDITOR_PLUGIN_ERROR                     NM_CONNECTION_ERROR
@@ -87,17 +68,11 @@
 #define NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY    NM_CONNECTION_ERROR_INVALID_PROPERTY
 #define NMV_EDITOR_PLUGIN_ERROR_FILE_NOT_VPN        NM_CONNECTION_ERROR_FAILED
 
-#endif /* NM_VPN_OLD */
-
 /*****************************************************************************/
 
 #if (NETWORKMANAGER_COMPILATION) & NM_NETWORKMANAGER_COMPILATION_LIB_EDITOR
 
-#ifdef NM_VPN_OLD
-#include <nm-ui-utils.h>
-#else /* NM_VPN_OLD */
 #include <nma-ui-utils.h>
-#endif /* NM_VPN_OLD */
 
 #endif /* NM_NETWORKMANAGER_COMPILATION_LIB_EDITOR */
 
