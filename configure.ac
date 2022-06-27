@@ -4,7 +4,7 @@ AC_INIT(NetworkManager-libreswan,
         1.2.17,
         https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues,
         NetworkManager-libreswan)
-AM_INIT_AUTOMAKE([1.9 no-dist-gzip dist-xz -Wno-portability])
+AM_INIT_AUTOMAKE([1.9 foreign no-dist-gzip dist-xz -Wno-portability])
 AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
 
