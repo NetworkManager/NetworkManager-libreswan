@@ -1,23 +1,23 @@
 # Indonesian translation for network-manager-libreswan.
 # Copyright (C) 2013 network-manager-libreswan's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-libreswan package.
-# Andika Triwidada <andika@gmail.com>, 2013, 2014, 2017, 2020.
+# Andika Triwidada <andika@gmail.com>, 2013, 2014, 2017, 2020, 2022.
 # Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-libreswan master\n"
+"Project-Id-Version: network-manager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2020-05-17 09:50+0000\n"
-"PO-Revision-Date: 2020-06-06 16:25+0700\n"
+"POT-Creation-Date: 2022-05-13 06:57+0000\n"
+"PO-Revision-Date: 2022-07-08 11:00+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -75,48 +75,48 @@ msgid "IPsec based VPN for remote clients"
 msgstr "VPN berbasis IPsec untuk klien jarak jauh"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Tak bisa membuka berkas \"%s\": %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Kurang seksi \"conn\" dalam \"%s\""
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Galat saat menulis ke berkas \"%s\": %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
 msgstr "Perlu sebuah sandi."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "Tak bisa memroses permintaan karena pengaturan koneksi VPN tak valid."
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
 msgstr "Autentikasi tertunda yang tak tertangani."
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Jangan keluar ketika koneksi VPN berakhir"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Fungsikan log awakutu cerewet (mungkin mengungkap sandi)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
 msgstr "Nama D-Bus untuk dipakai bagi instansi ini"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -200,47 +200,47 @@ msgid "General"
 msgstr "Umum"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_Gateway:"
+msgid "_Gateway"
+msgstr "_Gateway"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
 msgid "Authentication"
 msgstr "Autentikasi"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr "Tipe:"
+msgid "Type"
+msgstr "Tipe"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-msgid "User name:"
-msgstr "Nama pengguna:"
+msgid "User name"
+msgstr "Nama pengguna"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-msgid "_User password:"
-msgstr "Sandi pengg_una:"
+msgid "_User password"
+msgstr "Sandi pengg_una"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-msgid "G_roup name:"
-msgstr "Nama g_rup:"
+msgid "G_roup name"
+msgstr "Nama g_rup"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr "Raha_sia:"
+msgid "_Secret"
+msgstr "Raha_sia"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
 msgid "Show passwords"
 msgstr "Tampilkan sandi"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr "Nama _sertifikat:"
+msgid "_Certificate name"
+msgstr "Nama _sertifikat"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr "ID Ja_rak Jauh:"
+msgid "_Remote ID"
+msgstr "ID Ja_rak Jauh"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
+msgid "A_dvanced…"
 msgstr "Tingkat _Lanjut…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
@@ -264,8 +264,8 @@ msgid "Identification"
 msgstr "Identifikasi"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-msgid "Domain:"
-msgstr "Domain:"
+msgid "Domain"
+msgstr "Domain"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -280,8 +280,8 @@ msgid "Security"
 msgstr "Keamanan"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr "Algoritma Fase1:"
+msgid "Phase1 Algorithms"
+msgstr "Algoritma Fase1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -296,8 +296,8 @@ msgstr ""
 "konfigurasi: ike<proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr "Algoritma Fase2:"
+msgid "Phase2 Algorithms"
+msgstr "Algoritma Fase2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -311,8 +311,8 @@ msgstr ""
 "konfigurasi: esp<proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
-msgstr "Umur Hidup Fase1:"
+msgid "Phase1 Lifetime"
+msgstr "Umur Hidup Fase1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
@@ -328,8 +328,8 @@ msgstr ""
 "config: ikelifetime<lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
-msgstr "Umur Hidup Fase2:"
+msgid "Phase2 Lifetime"
+msgstr "Umur Hidup Fase2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
@@ -376,8 +376,8 @@ msgid "Connectivity"
 msgstr "Konektivitas"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr "Jaringan Jauh:"
+msgid "Remote Network"
+msgstr "Jaringan Jauh"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -410,5 +410,14 @@ msgstr ""
 msgid "Enable MOBIKE"
 msgstr "Aktifkan MOBIKE"
 
-#~ msgid "Authenticate VPN %s"
-#~ msgstr "Autentikasikan VPN %s"
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "Properti Tingkat Lanjut"
+
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "Ba_tal"
+
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "Ter_apkan"
