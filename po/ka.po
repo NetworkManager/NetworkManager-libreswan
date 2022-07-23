@@ -1,25 +1,27 @@
-# translation of NetworkManager-vpnc.HEAD.po to Georgian
-# Malkhaz Barkalaya მალზახ ბარკალაია <malxaz@gmail.com>, 2007.
-# Vladimer Sichinava ვლადიმერ სიჭინავა <vsichi@gnome.org>, 2007.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: NetworkManager-vpnc.HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-21 10:01+0200\n"
-"PO-Revision-Date: 2007-03-07 01:14+0100\n"
-"Last-Translator: Vladimer Sichinava ვლადიმერ სიჭინავა <vsichi@gnome.org>\n"
-"Language-Team: Georgian <http://mail.gnome.org/mailman/listinfo/gnome-ge-"
-"list>\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2022-07-08 04:01+0000\n"
+"PO-Revision-Date: 2022-07-23 22:47+0200\n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
+"Language-Team: \n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
-msgstr ""
+msgstr "IPsec VPN კლიენტი"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
 msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
@@ -37,89 +39,80 @@ msgstr ""
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
 msgid "The NetworkManager Developers"
-msgstr ""
+msgstr "NetworkManager-ის პროგრამისტები"
 
-#: ../auth-dialog/main.c:165
-#, fuzzy, c-format
-msgid "Authenticate VPN %s"
-msgstr "VPN-აუთენტიკაცია"
-
-#: ../auth-dialog/main.c:182
-#, fuzzy
-msgid "Password:"
-msgstr "_პაროლი:"
-
-#: ../auth-dialog/main.c:192
-#, fuzzy
-msgid "Group Password:"
-msgstr "_ჯგუფის პაროლი:"
-
-#: ../auth-dialog/main.c:228
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
 msgid "Authenticate VPN"
-msgstr "VPN-აუთენტიკაცია"
+msgstr "VPN-ის ავთენტიკაცია"
 
-#: ../auth-dialog/main.c:237
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "პაროლი"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "ჯგუფის პაროლი"
+
+#: ../auth-dialog/main.c:236
 msgid "_Group Password:"
 msgstr "_ჯგუფის პაროლი:"
 
-#: ../auth-dialog/main.c:487
-#, fuzzy, c-format
+#: ../auth-dialog/main.c:486
+#, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
-msgstr "საჭიროა აუთენტიკაცია VPN ‘%s’-ში შესვლისათვის"
+msgstr "VPN \"%s\"-თან წვდომისთვის საჭიროა ავთენტიკაცია."
 
 #: ../properties/nm-libreswan-editor-plugin.c:43
 msgid "IPsec based VPN"
-msgstr ""
+msgstr "IPsec თან თავსებადი VPN"
 
 #: ../properties/nm-libreswan-editor-plugin.c:44
 msgid "IPsec based VPN for remote clients"
-msgstr ""
+msgstr "IPsec -თან თავსებადი VPN დაშორებული კლიენტებისთვის"
 
 #: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:276
+#: ../properties/nm-libreswan-editor-plugin.c:280
 #, c-format
 msgid "Can’t open file “%s”: %s"
-msgstr ""
+msgstr "ფაილის გახსნის შეცდომა “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:228
+#: ../properties/nm-libreswan-editor-plugin.c:230
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr ""
 
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:302
 #, c-format
 msgid "Error writing to file “%s”: %s"
-msgstr ""
+msgstr "ფაილში (%s) ჩაწერის შეცდომა: %s"
 
-#: ../src/nm-libreswan-service.c:1462
+#: ../src/nm-libreswan-service.c:1402
 msgid "A password is required."
-msgstr ""
+msgstr "პაროლი სავალდებულოა."
 
-#: ../src/nm-libreswan-service.c:1872
-#, fuzzy
+#: ../src/nm-libreswan-service.c:1803
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
-msgstr "VPN-კონფიგურაციის პარამეტრები არასწორია, ავტორიზაცია არ შედგა."
+msgstr ""
 
-#: ../src/nm-libreswan-service.c:1886
-#, fuzzy
+#: ../src/nm-libreswan-service.c:1817
 msgid "Unhandled pending authentication."
-msgstr "_დომენი აუთენტიკაციისათვის"
+msgstr ""
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:1984
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -127,7 +120,7 @@ msgstr ""
 #: ../shared/utils.c:86
 #, c-format
 msgid "Error writing config: %s"
-msgstr ""
+msgstr "კონფიგურაცის ჩაწერის შეცდომა: %s"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
@@ -170,90 +163,85 @@ msgstr ""
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
 msgid "missing plugin file \"%s\""
-msgstr ""
+msgstr "აკლია დამატების ფაილი \"%s\""
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
 #, c-format
 msgid "cannot load editor plugin: %s"
-msgstr ""
+msgstr "რედაქტორის დამატების ჩატვირთვა შეუძლებელია: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
-msgstr ""
+msgstr "დამატებიდან ქარხნის (%s) ჩატვირთვა შეუძლებელია: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
 msgid "unknown error creating editor instance"
-msgstr ""
+msgstr "უცნობ შეცდომა რედაქტორის ასლის შექმნისას"
 
 #: ../properties/nm-libreswan-dialog.ui.h:1
 msgid "IKEv1 (XAUTH)"
-msgstr ""
+msgstr "IKEv1 (XAUTH)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:2
 msgid "IKEv2 (Certificate)"
-msgstr ""
+msgstr "IKEv2 (სერტიფიკატი)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:3
 msgid "General"
-msgstr ""
+msgstr "ზოგადი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-msgid "_Gateway:"
-msgstr "_კარიბჭე:"
+msgid "_Gateway"
+msgstr "_ნაგულისხმები რაუტერი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:5
-#, fuzzy
 msgid "Authentication"
-msgstr "VPN-აუთენტიკაცია"
+msgstr "ავთენტიკაცია"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-msgid "Type:"
-msgstr ""
+msgid "Type"
+msgstr "ტიპით"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-#, fuzzy
-msgid "User name:"
-msgstr "_სახელი:"
+msgid "User name"
+msgstr "მომხმარებელი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-#, fuzzy
-msgid "_User password:"
-msgstr "_პაროლი:"
+msgid "_User password"
+msgstr "_მომხმარებლის პაროლი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-#, fuzzy
-msgid "G_roup name:"
-msgstr "_ჯგუფის სახელი:"
+msgid "G_roup name"
+msgstr "_ჯგუფის სახელი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-msgid "_Secret:"
-msgstr ""
+msgid "_Secret"
+msgstr "­_საიდუმლო"
 
 #: ../properties/nm-libreswan-dialog.ui.h:11
-#, fuzzy
 msgid "Show passwords"
-msgstr "_ჯგუფის პაროლი:"
+msgstr "პაროლების ჩვენება"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-msgid "_Certificate name:"
-msgstr ""
+msgid "_Certificate name"
+msgstr "სერტიფიკატის _სახელი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-msgid "_Remote ID:"
-msgstr ""
+msgid "_Remote ID"
+msgstr "_დაშორებულის ID"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-msgid "Ad_vanced…"
-msgstr ""
+msgid "A_dvanced…"
+msgstr "_დამატებით…"
 
 #: ../properties/nm-libreswan-dialog.ui.h:15
 msgid "no"
-msgstr ""
+msgstr "არა"
 
 #: ../properties/nm-libreswan-dialog.ui.h:16
 msgid "yes"
-msgstr ""
+msgstr "დიახ"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
@@ -261,16 +249,15 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "IPsec Advanced Options"
-msgstr ""
+msgstr "IPsec -ის დამატებითი პარამეტრები"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 msgid "Identification"
-msgstr ""
+msgstr "იდენტიფიკაცია"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
-#, fuzzy
-msgid "Domain:"
-msgstr "_დომენი:"
+msgid "Domain"
+msgstr "დომენი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:21
 msgid ""
@@ -280,11 +267,11 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Security"
-msgstr ""
+msgstr "უსაფრთხოება"
 
 #: ../properties/nm-libreswan-dialog.ui.h:24
-msgid "Phase1 Algorithms:"
-msgstr ""
+msgid "Phase1 Algorithms"
+msgstr "პირველი ფაზის ალგორითმები"
 
 #: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
@@ -295,8 +282,8 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:27
-msgid "Phase2 Algorithms:"
-msgstr ""
+msgid "Phase2 Algorithms"
+msgstr "მეორე ფაზის ალგორითმები"
 
 #: ../properties/nm-libreswan-dialog.ui.h:28
 msgid ""
@@ -307,7 +294,7 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:30
-msgid "Phase1 Lifetime:"
+msgid "Phase1 Lifetime"
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
@@ -319,7 +306,7 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:33
-msgid "Phase2 Lifetime:"
+msgid "Phase2 Lifetime"
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
@@ -343,7 +330,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:39
 msgid "Disable PFS"
-msgstr ""
+msgstr "PFS-ის გამორთვა"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
@@ -354,11 +341,11 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Connectivity"
-msgstr ""
+msgstr "დაკავშირება"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network:"
-msgstr ""
+msgid "Remote Network"
+msgstr "დაშორებული ქსელი"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
@@ -368,7 +355,7 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Enable fragmentation"
-msgstr ""
+msgstr "ფრაგმენტაციის ჩართვა"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
 msgid "narrowing"
@@ -383,162 +370,16 @@ msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:50
 msgid "Enable MOBIKE"
-msgstr ""
+msgstr "MOBIKE-ის ჩართვა"
 
-#~ msgid "_Secondary Password:"
-#~ msgstr "_მეორადი პაროლი:"
+#: ../properties/nm-libreswan-dialog.ui.h:51
+msgid "Advanced Properties"
+msgstr "დამატებითი თვისებები"
 
-#~ msgid "Connect _anonymously"
-#~ msgstr "_ანონიმური შეერთება"
+#: ../properties/nm-libreswan-dialog.ui.h:52
+msgid "_Cancel"
+msgstr "_შეწყვეტა"
 
-#~ msgid "Connect as _user:"
-#~ msgstr "_შეერთება მომხმარებლის სახელით:"
-
-#~ msgid "_Remember passwords for this session"
-#~ msgstr "_სესიის პაროლის დამახსოვრება"
-
-#~ msgid "_Save passwords in keyring"
-#~ msgstr "_პაროლის აწმში შენახვა"
-
-#~ msgid "Add, Remove, and Edit VPN Connections"
-#~ msgstr "VPN-შეერთებების დამატება, წაშლა და რედაქტირება"
-
-#~ msgid "VPN Connection Manager (vpnc)"
-#~ msgstr "VPN-შეერთებების მენეჯერი (vpnc)"
-
-#~ msgid "Compatible Cisco VPN client (vpnc)"
-#~ msgstr "თავსებადი Cisco VPN-კლიენტი (vpnc)"
-
-#~ msgid "The following vpnc VPN connection will be created:"
-#~ msgstr "გახსნილია VPN-შეერთებები:"
-
-#~ msgid "Name:  %s"
-#~ msgstr "სახელი: %s"
-
-#~ msgid "Gateway:  %s"
-#~ msgstr "კარიბჭე: %s"
-
-#~ msgid "Group Name:  %s"
-#~ msgstr "ჯგუფის სახელი: %s"
-
-#~ msgid "Username:  %s"
-#~ msgstr "მომხმარებლის სახელი: %s"
-
-#~ msgid "Domain:  %s"
-#~ msgstr "დომენი: %s"
-
-#~ msgid "Routes:  %s"
-#~ msgstr "მაშრუტები: %s"
-
-#~ msgid "The connection details can be changed using the \"Edit\" button."
-#~ msgstr "\"Edit\" ღილაკით შეიძლება შეერთების დეტალების რედაქტირება"
-
-#~ msgid "TCP tunneling not supported"
-#~ msgstr "TCP-გვირაბები არ არის მხარდაჭერილი"
-
-#~ msgid ""
-#~ "The VPN settings file '%s' specifies that VPN traffic should be tunneled "
-#~ "through TCP which is currently not supported in the vpnc software.\n"
-#~ "\n"
-#~ "The connection can still be created, with TCP tunneling disabled, however "
-#~ "it may not work as expected."
-#~ msgstr ""
-#~ "VPN-პარამეტრების ფაილი '%s' მიუთითებს, რომ VPN-ტრაფიკი უნდა განხორციელდეს "
-#~ "TCP-გვირაბით, რომლის მხარდაჭერა vpnc პროგრამას არა აქვს.\n"
-#~ " \n"
-#~ "შეერთება შენარჩუნებულია გამორთული TCP-გვირაბით, რის გამოც შეიძლება არ "
-#~ "იმუშაოს სწორად."
-
-#~ msgid "Cannot import settings"
-#~ msgstr "ვერ ხერხდება პარამეტრების იმპორტი"
-
-#~ msgid "The VPN settings file '%s' does not contain valid data."
-#~ msgstr "VPN-პარამეტრების ფაილი '%s' არასწორ მონაცემებს შეიცავს."
-
-#~ msgid "Select file to import"
-#~ msgstr "მიუთითეთ ფაილი იმპორტისათვის"
-
-#~ msgid "Save as..."
-#~ msgstr "შევინახოთ როგორც..."
-
-#~ msgid "A file named \"%s\" already exists."
-#~ msgstr "ფაილი \"%s\" უკვე არსებობს."
-
-#~ msgid "Do you want to replace it with the one you are saving?"
-#~ msgstr "შევცვალოთ იგი თქვენი ფაილით?"
-
-#~ msgid "Failed to export configuration"
-#~ msgstr "შეცდომა კონფიგურაციის ექსპორტისას"
-
-#~ msgid "Failed to save file %s"
-#~ msgstr "ვერ შეინახა ფაილი %s"
-
-#~ msgid "<b>Connection Information</b>"
-#~ msgstr "<b>ინფორმაცია შეერთების შესახებ</b>"
-
-#~ msgid "<b>Connection Name</b>"
-#~ msgstr "<b>შეერთების სახელი</b>"
-
-#~ msgid "<b>Required</b>"
-#~ msgstr "<b>საჭიროა</b>"
-
-#~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
-#~ msgstr "<i>მაგალითი:172.16.0.0/16 10.11.12.0/24</i>"
-
-#~ msgid "Connection Name"
-#~ msgstr "შეერთების სახელი"
-
-#~ msgid ""
-#~ "Name used to identify the connection to the private network, e.g. "
-#~ "\"Campus VPN\" or \"Corporate Network\""
-#~ msgstr ""
-#~ "სახელი VPN-ში შეერთების იდენტიფიცირებისათვის, მაგ.: \"CampusVPN\" ან "
-#~ "\"Corporate Network\""
-
-#~ msgid "Optional"
-#~ msgstr ""
-#~ "არ არის აუცილებელი\n"
-#~ " \n"
-#~ " "
-
-#~ msgid "Override _user name"
-#~ msgstr "ს_ახელის ჩანაცვლება"
-
-#~ msgid ""
-#~ "Please enter the information provided by your system administrator below. "
-#~ "Do not enter your password here as you will be prompted when connecting."
-#~ msgstr ""
-#~ "შეიყვანეთ სისტემური ადმინისტრატორისაგან მიღებული ინფორმაცია. ნუ შეიყვანთ "
-#~ "თქვენს პაროლს დაკავშiრებისას ."
-
-#~ msgid ""
-#~ "Please note that the file you import is not a Cisco VPN or VPNC "
-#~ "configuration file. Ask your adminstrator for the file."
-#~ msgstr ""
-#~ "თქვენს მიერ იმპორტირებული ფაილი არ არის არც Cisco VPN და არც VPNC "
-#~ "კონფიგურაციის ფაილი. მიმართეთ ადმინისტრატორს ფაილისათვის."
-
-#~ msgid "_Import Saved Configuration..."
-#~ msgstr "_შენახული კონფიგურაციის იმპორტი..."
-
-#~ msgid "_Only use VPN connection for these addresses"
-#~ msgstr "მ_ოცემული მისამართებისათვის მხოლოდ VPN კავშირის გამოყენება"
-
-#~ msgid ""
-#~ "The VPN login failed because the user name and password were not accepted."
-#~ msgstr "სახელი ან პაროლი არასწორია, ავტორიზაცია არ შედგა."
-
-#~ msgid "The VPN login failed because the VPN program could not be started."
-#~ msgstr "ვერ გაიშვა VPN-პროგრამა, ავტორიზაცია არ შედგა."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program could not connect to the VPN "
-#~ "server."
-#~ msgstr "VPN-პროგრამა ვერ დაუკავშირდა VPN-სერვერს, ავტორიზაცია არ შედგა."
-
-#~ msgid ""
-#~ "The VPN login failed because the VPN program received an invalid "
-#~ "configuration from the VPN server."
-#~ msgstr ""
-#~ "VPN-პროგრამამ VPN-სერვერისაგან არასწორი კონფიგურაცია მიიღო, ავტორიზაცია "
-#~ "არ შედგა."
+#: ../properties/nm-libreswan-dialog.ui.h:53
+msgid "_Apply"
+msgstr "_გადატარება"
