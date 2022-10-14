@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
 "POT-Creation-Date: 2022-07-08 04:01+0000\n"
-"PO-Revision-Date: 2022-07-23 22:47+0200\n"
+"PO-Revision-Date: 2022-10-14 16:47+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -102,7 +102,7 @@ msgstr ""
 
 #: ../src/nm-libreswan-service.c:1959
 msgid "Don’t quit when VPN connection terminates"
-msgstr ""
+msgstr "ნუ გახვალ VPN კავშირის შეწყვეტისას"
 
 #: ../src/nm-libreswan-service.c:1960
 msgid "Enable verbose debug logging (may expose passwords)"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: ../src/nm-libreswan-service.c:1961
 msgid "D-Bus name to use for this instance"
-msgstr ""
+msgstr "ამ გაშვებული ასლისთვის გამოყენებული D-Bus -ის სახელი"
 
 #: ../src/nm-libreswan-service.c:1984
 msgid ""
@@ -125,28 +125,31 @@ msgstr "კონფიგურაცის ჩაწერის შეცდ�
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
 msgid "object class '%s' has no property named '%s'"
-msgstr ""
+msgstr "ობიექტის კლასს '%s ' თვისება სახელით'%s' არ გააჩნია"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1094
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
-msgstr ""
+msgstr "თვისება '%s' ობიექტის კლასისთვის '%s' ჩაწერადი არაა"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1101
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
 msgstr ""
+"აგებული თვისების \"%s\" დაყენება ობიექტის (\"%s\") აგების შემდეგ შეუძლებელია"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1109
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
+"'%s::%s' თვისების სწორ სახელს არ წარმოადგენს; '%s' GObject-ის ქვეტიპი არაა"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1118
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
+"თვისების (%s) ტიპისთვის '%s' ტიპის '%s' მნიშვნელობიდან დაყენების შეცდომა"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1129
 #, c-format
@@ -154,11 +157,13 @@ msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
+"მნიშვნელობა '%s' ტიპისთვის '%s' არასწორია ან დიაპაზონს გარეთაა თვისებისთვის "
+"'%s' ტიპისთვის '%s'"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
 #, c-format
 msgid "unable to get editor plugin name: %s"
-msgstr ""
+msgstr "რედაქტორი დამატების სახელის მიღების პრობლემა: %s"
 
 #: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
 #, c-format
