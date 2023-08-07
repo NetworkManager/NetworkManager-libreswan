@@ -7,7 +7,7 @@
 # Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2022, 2023.
 #
 msgid ""
-msgstr "Project-Id-Version: network-manager-libreswan master\n"
+msgstr "Project-Id-Version: network-manager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues\n"
 "POT-Creation-Date: 2022-07-08 04:01+0000\n"
 "PO-Revision-Date: 2023-04-10 17:55+0100\n"

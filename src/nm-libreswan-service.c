@@ -741,7 +741,7 @@ spawn_pty (NMLibreswanPlugin *self,
            const char *progname,
            ...)
 {
-	int pty_master_fd = 0;
+	int pty_controller_fd = 0;
 	int stdout_pipe[2], stderr_pipe[2];
 	pid_t child_pid;
 	struct termios termios_flags;
@@ -843,7 +843,7 @@ spawn_pty (NMLibreswanPlugin *self,
 	_LOGI ("PTY spawn: %s", (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 
 	/* Fork the command */
-	child_pid = forkpty (&pty_master_fd, NULL, NULL, NULL);
+	child_pid = forkpty (&pty_controller_fd, NULL, NULL, NULL);
 	if (child_pid == 0) {
 		/* in the child */
 
@@ -891,17 +891,17 @@ spawn_pty (NMLibreswanPlugin *self,
 	}
 	g_ptr_array_free (argv, TRUE);
 
-	tcgetattr (pty_master_fd, &termios_flags);
+	tcgetattr (pty_controller_fd, &termios_flags);
 	cfmakeraw (&termios_flags);
 	cfsetospeed (&termios_flags, __MAX_BAUD);
-	tcsetattr (pty_master_fd, TCSANOW, &termios_flags);
+	tcsetattr (pty_controller_fd, TCSANOW, &termios_flags);
 
 	if (out_stdout)
 		*out_stdout = stdout_pipe[0];
 	if (out_stderr)
 		*out_stderr = stderr_pipe[0];
 	if (out_ptyin)
-		*out_ptyin = pty_master_fd;
+		*out_ptyin = pty_controller_fd;
 	if (out_pid)
 		*out_pid = child_pid;
 

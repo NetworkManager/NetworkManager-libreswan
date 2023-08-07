@@ -5,7 +5,7 @@
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-libreswan master\n"
+"Project-Id-Version: network-manager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
 "POT-Creation-Date: 2022-03-13 12:22+0000\n"

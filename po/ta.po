@@ -1,4 +1,4 @@
-# translation of network-manager-vpnc.po.master.ta.po to Tamil
+# translation of network-manager-vpnc.po.main.ta.po to Tamil
 # Tamil translation of network-manager-vpnc.
 # Copyright (C) 2009 network-manager-vpnc's COPYRIGHT HOLDER
 # This file is distributed under the same license as the network-manager-vpnc package.
@@ -7,7 +7,7 @@
 # I. Felix <ifelix@redhat.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-vpnc.po.master.ta\n"
+"Project-Id-Version: network-manager-vpnc.po.main.ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2009-07-01 16:37+0530\n"

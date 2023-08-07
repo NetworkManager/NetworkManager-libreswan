@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: network-manager-libreswan master\n"
+"Project-Id-Version: network-manager-libreswan main\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-21 10:01+0200\n"
 "PO-Revision-Date: 2017-04-09 21:50+0200\n"
