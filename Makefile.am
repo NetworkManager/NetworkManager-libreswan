@@ -164,43 +164,7 @@ properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_LDFLAGS = \
 
 ###############################################################################
 
-if WITH_GNOME
-if WITH_LIBNM_GLIB
-plugin_LTLIBRARIES += properties/libnm-libreswan-properties.la
-endif
-endif
-
-properties_libnm_libreswan_properties_la_CFLAGS = \
-	-DNM_VPN_OLD \
-	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB \
-	$(common_CFLAGS) \
-	$(GTK_CFLAGS) \
-	$(LIBNM_GLIB_CFLAGS) \
-	$(LIBNM_GTK_CFLAGS)
-
-nodist_properties_libnm_libreswan_properties_la_SOURCES = \
-	properties/resources.h \
-	properties/resources.c
-
-properties_libnm_libreswan_properties_la_SOURCES = \
-	shared/utils.c \
-	shared/utils.h \
-	$(plugin_sources) \
-	$(editor_sources)
-
-properties_libnm_libreswan_properties_la_LIBADD = \
-	$(GTK_LIBS) \
-	$(LIBNM_GLIB_LIBS) \
-	$(LIBNM_GTK_LIBS)
-
-properties_libnm_libreswan_properties_la_LDFLAGS = \
-	-avoid-version \
-	-Wl,--version-script="$(srcdir)/properties/libnm-libreswan-properties.ver"
-
-###############################################################################
-
 EXTRA_DIST += \
-	properties/libnm-libreswan-properties.ver \
 	properties/libnm-vpn-plugin-libreswan.ver \
 	properties/libnm-vpn-plugin-libreswan-editor.ver \
 	properties/nm-libreswan-dialog.ui
@@ -364,21 +328,6 @@ EXTRA_DIST += \
 	$(NULL)
 
 ###############################################################################
-
-if WITH_LIBNM_GLIB
-# Install a file with full path to plugins for an old gnome-shell
-# https://bugzilla.gnome.org/show_bug.cgi?id=693590
-install-data-hook:
-	@$(MKDIR_P) $(DESTDIR)$(sysconfdir)/NetworkManager/VPN
-	sed -e "1s|^|# This file is obsoleted by a file in $(NM_VPN_SERVICE_DIR)\n\n|" \
-	    -e 's|[@]LIBEXECDIR[@]|$(libexecdir)|g' \
-	    -e 's|[@]PLUGINDIR[@]|@NM_PLUGIN_DIR@|g' \
-	    <$(srcdir)/nm-libreswan-service.name.in \
-	    >$(DESTDIR)$(sysconfdir)/NetworkManager/VPN/nm-libreswan-service.name
-
-uninstall-hook:
-	 rm -f $(DESTDIR)$(sysconfdir)/NetworkManager/VPN/nm-libreswan-service.name
-endif
 
 appdatadir = $(datadir)/metainfo
 appdata_files = $(appdata_in_files:.xml.in=.xml)
