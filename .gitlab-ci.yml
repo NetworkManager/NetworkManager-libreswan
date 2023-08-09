@@ -14,6 +14,7 @@
       glib2-devel
       gtk3-devel
       gtk4-devel
+      libnma-gtk4-devel
       libnl3-devel
       intltool
       libtool
@@ -40,6 +41,7 @@
     - ./configure
       --disable-silent-rules
       --without-libnm-glib
+      --with-gtk4
     - make -j
     - make -j check
     - make -j install
