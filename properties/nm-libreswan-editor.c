@@ -333,12 +333,22 @@ populate_widget (LibreswanEditor *self,
 	} else if (GTK_IS_COMBO_BOX (widget)) {
 		gint idx = -1;
 
+	if (nm_streq (widget_name, "dpd_action_combo")) {
+		idx = 0;
+		if (nm_streq (value, "hold"))
+			idx = 1;
+		else if (nm_streq (value, "clear"))
+			idx = 2;
+		else if (nm_streq (value, "restart"))
+			idx = 3;
+	} else {
 		if (nm_streq (value, "no"))
 			idx = TYPE_3VL_NO;
 		else if (nm_streq (value, "yes"))
 			idx = TYPE_3VL_YES;
 		else if (nm_streq0 (value, match_value))
 			idx = TYPE_3VL_OTHER;
+	}
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), idx);
 	}
 }
@@ -382,6 +392,10 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_widget (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
 	populate_widget (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
 	populate_widget (self, "mobike_combo", NM_LIBRESWAN_KEY_MOBIKE, NULL, NULL);
+	populate_widget (self, "dpd_delay_entry", NM_LIBRESWAN_KEY_DPDDELAY, NULL, NULL);
+	populate_widget (self, "dpd_timeout_entry", NM_LIBRESWAN_KEY_DPDTIMEOUT, NULL, NULL);
+	populate_widget (self, "dpd_action_combo", NM_LIBRESWAN_KEY_DPDACTION, NULL, NULL);
+
 }
 
 static gboolean
@@ -472,6 +486,9 @@ init_editor_plugin (LibreswanEditor *self,
 	hook_stuff_changed_cb (self, "narrowing_checkbutton");
 	hook_stuff_changed_cb (self, "fragmentation_combo");
 	hook_stuff_changed_cb (self, "mobike_combo");
+	hook_stuff_changed_cb (self, "dpd_delay_entry");
+	hook_stuff_changed_cb (self, "dpd_timeout_entry");
+	hook_stuff_changed_cb (self, "dpd_action_combo");
 
 	priv->advanced_dialog = GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-advanced-dialog"));
 	g_return_val_if_fail (priv->advanced_dialog != NULL, FALSE);
@@ -589,6 +606,38 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		break;
 	default:
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_FRAGMENTATION);
+	}
+
+	/* DPD delay */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "dpd_delay_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDDELAY, str);
+	else
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDDELAY);
+
+	/* DPD timeout */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "dpd_timeout_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT, str);
+	else
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT);
+
+	/* DPD action */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "dpd_action_combo"));
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (widget))) {
+	case 1:
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION, "hold");
+		break;
+	case 2:
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION, "clear");
+		break;
+	case 3:
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION, "restart");
+		break;
+	default:
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION);
 	}
 }
 

@@ -433,6 +433,26 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="liststore_dpd_action">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">(None)</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Hold</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Clear</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Restart</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="libreswan-advanced-dialog">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">IPsec Advanced Options</property>
@@ -843,6 +863,143 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">General</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="vbox3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">6</property>
+                <property name="margin_start">24</property>
+                <property name="margin_end">24</property>
+                <property name="margin_top">24</property>
+                <property name="margin_bottom">24</property>
+                <child>
+                  <object class="GtkLabel" id="dpd_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Dead Peer Detection (DPD)</property>
+                    <property name="margin_bottom">6</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkGrid">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="dpd_delay_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Delay</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">dpd_delay_entry</property>
+                        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="dpd_delay_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness keepalives that are sent for this connection. Must be a number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd' (days); if the unit is not specified, it defaults to seconds.
+                        config: dpddelay &lt;delay&gt;</property>
+                        <property name="invisible_char">●</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="dpd_timeout_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Timeout</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">dpd_timeout_entry</property>
+                        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="dpd_timeout_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">The length of time that we will idle without hearing back from our peer. After this period has elapsed with no response and no traffic, we will declare the peer dead, and remove the SA. Set value bigger than dpddelay to enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd' (days); if the unit is not specified, it defaults to seconds.
+                        config: dpdtimeout &lt;timeout&gt;</property>
+                        <property name="invisible_char">●</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="dpd_action_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Action</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">dpd_action_combo</property>
+                        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="dpd_action_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">When a DPD enabled peer is declared dead, what action should be taken.  "hold" (default) means the eroute will be put into %hold status, while "clear" means the eroute and SA with both be cleared. "restart" means that ALL SAs to the dead peer will renegotiated.
+                        config: dpdaction &lt;action&gt;</property>
+                        <property name="model">liststore_dpd_action</property>
+                        <property name="active">0</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="type_renderer2"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label14">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">DPD</property>
               </object>
               <packing>
                 <property name="tab_fill">False</property>
