@@ -194,6 +194,12 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_FRAGMENTATION, &str[14]);
 		else if (g_str_has_prefix (str, "mobike="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_MOBIKE, &str[7]);
+		else if (g_str_has_prefix (str, "dpddelay="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDDELAY, &str[9]);
+		else if (g_str_has_prefix (str, "dpdtimeout="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT, &str[11]);
+		else if (g_str_has_prefix (str, "dpdaction="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION, &str[10]);
 		else if (g_str_has_prefix (str, "rightsubnet=")) {
 			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);

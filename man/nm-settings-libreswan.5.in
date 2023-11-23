@@ -85,7 +85,26 @@ ignored.
 ignored.
 .TP
 .I "dpdtimeout"
-ignored.
+the length of time that we will idle without hearing back from our peer. After
+this period has elapsed with no response and no traffic, we will declare the
+peer dead, and remove the SA. Set value bigger than dpddelay to enable. If
+dpdtimeout is set, dpddelay also needs to be set. Must be a number optionally
+followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd'
+(days); if the unit is not specified, it defaults to seconds. Corresponds to the
+Libreswan parameter of the same name.
+.TP
+.I "dpddelay"
+the delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness
+keepalives that are sent for this connection. Must be a number optionally
+followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd'
+(days); if the unit is not specified, it defaults to seconds. Corresponds to the
+Libreswan parameter of the same name.
+.TP
+.I "dpdaction"
+When a DPD enabled peer is declared dead, what action should be taken.  "hold"
+(default) means the eroute will be put into %hold status, while "clear" means
+the eroute and SA with both be cleared. "restart" means that ALL SAs to the dead
+peer will renegotiated. Corresponds to the Libreswan parameter of the same name.
 .TP
 .I "ike"
 allowed ciphers to be negotiated to establish the IKE SAs. Corresponds to the

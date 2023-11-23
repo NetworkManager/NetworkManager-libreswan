@@ -52,6 +52,8 @@
 #define NM_LIBRESWAN_KEY_PFS                        "pfs"
 #define NM_LIBRESWAN_KEY_PFSGROUP                   "pfsgroup"
 #define NM_LIBRESWAN_KEY_DPDTIMEOUT                 "dpdtimeout"
+#define NM_LIBRESWAN_KEY_DPDDELAY                   "dpddelay"
+#define NM_LIBRESWAN_KEY_DPDACTION                  "dpdaction"
 #define NM_LIBRESWAN_KEY_IKE                        "ike"
 #define NM_LIBRESWAN_KEY_ESP                        "esp"
 #define NM_LIBRESWAN_KEY_IKELIFETIME                "ikelifetime"
