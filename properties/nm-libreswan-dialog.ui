@@ -465,367 +465,388 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="vbox2">
+          <object class="GtkNotebook" id="options_notebook">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-	    <property name="spacing">6</property>
-            <property name="margin_start">24</property>
-            <property name="margin_end">24</property>
-            <property name="margin_top">24</property>
-            <property name="margin_bottom">24</property>
+            <property name="can_focus">True</property>
             <child>
-              <object class="GtkLabel" id="identification_label">
+              <object class="GtkBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Identification</property>
-                <property name="margin_bottom">6</property>
-                <property name="xalign">0</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkGrid">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="row_spacing">6</property>
-                <property name="column_spacing">6</property>
+                <property name="orientation">vertical</property>
+	        <property name="spacing">6</property>
+                <property name="margin_start">24</property>
+                <property name="margin_end">24</property>
+                <property name="margin_top">24</property>
+                <property name="margin_bottom">24</property>
                 <child>
-                  <object class="GtkLabel" id="domain_label">
+                  <object class="GtkLabel" id="identification_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Domain</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">domain_entry</property>
-		    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Identification</property>
+                    <property name="margin_bottom">6</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="domain_entry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">(NT-)Domain name for authentication.
-config: Domain &lt;domain&gt;</property>
-                    <property name="invisible_char">●</property>
-                    <property name="hexpand">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="security_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Security</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">6</property>
-                <property name="xalign">0</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkGrid" id="table_advanced1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="row_spacing">6</property>
-                <property name="column_spacing">6</property>
-                <child>
-                  <object class="GtkLabel" id="phase1_label">
+                  <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Phase1 Algorithms</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">phase1_entry</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="phase1_entry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">IKE encryption/authentication algorithm to be used for the connection (phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.
-config: ike &lt;proposals&gt;</property>
-                    <property name="hexpand">True</property>
-                    <property name="invisible_char">●</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="phase2_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Phase2 Algorithms</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">phase2_entry</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="phase2_entry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">Specifies the algorithms that will be offered/accepted for a phase2 negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.
-config: esp &lt;proposals&gt;</property>
-                    <property name="hexpand">True</property>
-                    <property name="invisible_char">●</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="phase1_lifetime_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Phase1 Lifetime</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">phase1_lifetime_entry</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="phase1_lifetime_entry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">How long the keying channel of a connection should last before being renegotiated. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).
-config: ikelifetime &lt;lifetime&gt;</property>
-                    <property name="hexpand">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="phase2_lifetime_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Phase2 Lifetime</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">phase2_lifetime_entry</property>
-                    <property name="single_line_mode">True</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="phase2_lifetime_entry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">How long a particular instance of a connection (a set of encryption/authentication keys for user packets) should last, from successful negotiation to expiry. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).
-config: salifetime &lt;lifetime&gt;</property>
-                    <property name="hexpand">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="rekey_checkbutton">
-                    <property name="label" translatable="yes">Disable rekeying</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip_text" translatable="yes">Whether a connection should not be renegotiated when it is about to expire.
-config: rekey &lt;no/yes&gt;</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="pfs_checkbutton">
-                    <property name="label" translatable="yes">Disable PFS</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip_text" translatable="yes">Disable perfect forward security. Enable this option only if the server doesn’t support PFS.
-config: pfs &lt;no/yes&gt;</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="connectivity_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Connectivity</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">6</property>
-                <property name="xalign">0</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkGrid">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="row_spacing">6</property>
-                <property name="column_spacing">6</property>
-                <child>
-                  <object class="GtkLabel" id="remote_network_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Remote Network</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">remote_network_entry</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="remote_network_entry">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="tooltip_text" translatable="yes">Private subnet behind the remote participant, expressed as network/netmask.
-config: rightsubnet &lt;net&gt;</property>
-                    <property name="hexpand">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_fragmentation">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Enable fragmentation</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">fragmentation_combo</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkComboBox" id="fragmentation_combo">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="model">liststore_yesnoforce</property>
-                    <property name="active">1</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">6</property>
                     <child>
-                      <object class="GtkCellRendererText" id="fragmentation_renderer"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
+                      <object class="GtkLabel" id="domain_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Domain</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">domain_entry</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="domain_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">(NT-)Domain name for authentication.
+                        config: Domain &lt;domain&gt;</property>
+                        <property name="invisible_char">●</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="security_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Security</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">6</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkGrid" id="table_advanced1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="phase1_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Phase1 Algorithms</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">phase1_entry</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="phase1_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">IKE encryption/authentication algorithm to be used for the connection (phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.
+                        config: ike &lt;proposals&gt;</property>
+                        <property name="hexpand">True</property>
+                        <property name="invisible_char">●</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="phase2_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Phase2 Algorithms</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">phase2_entry</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="phase2_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Specifies the algorithms that will be offered/accepted for a phase2 negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.
+                        config: esp &lt;proposals&gt;</property>
+                        <property name="hexpand">True</property>
+                        <property name="invisible_char">●</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="phase1_lifetime_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Phase1 Lifetime</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">phase1_lifetime_entry</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="phase1_lifetime_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">How long the keying channel of a connection should last before being renegotiated. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).
+                        config: ikelifetime &lt;lifetime&gt;</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="phase2_lifetime_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Phase2 Lifetime</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">phase2_lifetime_entry</property>
+                        <property name="single_line_mode">True</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="phase2_lifetime_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">How long a particular instance of a connection (a set of encryption/authentication keys for user packets) should last, from successful negotiation to expiry. The value is expressed by a number followed by an optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).
+                        config: salifetime &lt;lifetime&gt;</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="rekey_checkbutton">
+                        <property name="label" translatable="yes">Disable rekeying</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Whether a connection should not be renegotiated when it is about to expire.
+                        config: rekey &lt;no/yes&gt;</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="pfs_checkbutton">
+                        <property name="label" translatable="yes">Disable PFS</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">Disable perfect forward security. Enable this option only if the server doesn’t support PFS.
+                        config: pfs &lt;no/yes&gt;</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="connectivity_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Connectivity</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">6</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkGrid">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">6</property>
+                    <child>
+                      <object class="GtkLabel" id="remote_network_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Remote Network</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">remote_network_entry</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="remote_network_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Private subnet behind the remote participant, expressed as network/netmask.
+                        config: rightsubnet &lt;net&gt;</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_fragmentation">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Enable fragmentation</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">fragmentation_combo</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="fragmentation_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="model">liststore_yesnoforce</property>
+                        <property name="active">1</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="fragmentation_renderer"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="narrowing_checkbutton">
+                        <property name="label" translatable="yes">narrowing</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="tooltip_text" translatable="yes">IKEv2 negotiation may allow establishing an IPsec connection with narrowed down traffic selectors. This option is ignored for IKEv1.
+                        config: narrowing &lt;yes/no&gt;</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_mobike">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Enable MOBIKE</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">mobike_combo</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="mobike_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="model">liststore_yesno</property>
+                        <property name="active">0</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="type_renderer1"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">3</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="narrowing_checkbutton">
-                    <property name="label" translatable="yes">narrowing</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip_text" translatable="yes">IKEv2 negotiation may allow establishing an IPsec connection with narrowed down traffic selectors. This option is ignored for IKEv1.
-config: narrowing &lt;yes/no&gt;</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label_mobike">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Enable MOBIKE</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">mobike_combo</property>
-		    <property name="xalign">1</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkComboBox" id="mobike_combo">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="model">liststore_yesno</property>
-                    <property name="active">0</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="type_renderer1"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">7</property>
                   </packing>
                 </child>
               </object>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label13">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">General</property>
+              </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
             </child>
           </object>
           <packing>
