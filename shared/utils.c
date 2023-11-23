@@ -118,6 +118,7 @@ nm_libreswan_config_write (gint fd,
 	const char *fragmentation;
 	const char *mobike;
 	const char *pfs;
+	const char *item;
 	gboolean is_ikev2 = FALSE;
 
 	g_return_val_if_fail (fd > 0, FALSE);
@@ -296,6 +297,18 @@ nm_libreswan_config_write (gint fd,
 	mobike = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_MOBIKE);
 	if (mobike && strlen (mobike))
 		WRITE_CHECK (fd, debug_write_fcn, error, " mobike=%s", mobike);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDDELAY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " dpddelay=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " dpdtimeout=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " dpdaction=%s", item);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 
