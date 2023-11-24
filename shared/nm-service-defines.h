@@ -65,6 +65,7 @@
 #define NM_LIBRESWAN_KEY_REKEY                      "rekey"
 #define NM_LIBRESWAN_KEY_FRAGMENTATION              "fragmentation"
 #define NM_LIBRESWAN_KEY_MOBIKE                     "mobike"
+#define NM_LIBRESWAN_KEY_IPSEC_INTERFACE            "ipsec-interface"
 
 #define NM_LIBRESWAN_IKEV2_NO      "no"
 #define NM_LIBRESWAN_IKEV2_NEVER   "never"

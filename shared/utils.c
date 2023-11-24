@@ -310,6 +310,10 @@ nm_libreswan_config_write (gint fd,
 	if (item && strlen (item))
 		WRITE_CHECK (fd, debug_write_fcn, error, " dpdaction=%s", item);
 
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " ipsec-interface=%s", item);
+
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 
 	WRITE_CHECK_NEWLINE (fd, trailing_newline, debug_write_fcn, error, " auto=add");
