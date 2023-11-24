@@ -395,7 +395,7 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_widget (self, "dpd_delay_entry", NM_LIBRESWAN_KEY_DPDDELAY, NULL, NULL);
 	populate_widget (self, "dpd_timeout_entry", NM_LIBRESWAN_KEY_DPDTIMEOUT, NULL, NULL);
 	populate_widget (self, "dpd_action_combo", NM_LIBRESWAN_KEY_DPDACTION, NULL, NULL);
-
+	populate_widget (self, "ipsec_interface_entry", NM_LIBRESWAN_KEY_IPSEC_INTERFACE, NULL, NULL);
 }
 
 static gboolean
@@ -489,6 +489,7 @@ init_editor_plugin (LibreswanEditor *self,
 	hook_stuff_changed_cb (self, "dpd_delay_entry");
 	hook_stuff_changed_cb (self, "dpd_timeout_entry");
 	hook_stuff_changed_cb (self, "dpd_action_combo");
+	hook_stuff_changed_cb (self, "ipsec_interface_entry");
 
 	priv->advanced_dialog = GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-advanced-dialog"));
 	g_return_val_if_fail (priv->advanced_dialog != NULL, FALSE);
@@ -639,6 +640,15 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 	default:
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION);
 	}
+
+	/* IPsec interface */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "ipsec_interface_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE, str);
+	else
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE);
+
 }
 
 static gboolean

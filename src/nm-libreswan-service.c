@@ -274,6 +274,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_REKEY,                      G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_FRAGMENTATION,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_MOBIKE,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_IPSEC_INTERFACE,            G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
@@ -1252,6 +1253,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	gboolean success = FALSE;
 	guint i;
 	const char *verb;
+	const char *virt_if;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1274,9 +1276,14 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 	/*
 	 * Tunnel device
-	 * Indicate that this plugin doesn't use tun/tap device
 	 */
-	val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	virt_if = lookup_string (env, "PLUTO_VIRT_INTERFACE");
+	if (virt_if && !nm_streq (virt_if, "NULL")) {
+		val = g_variant_new_string (virt_if);
+	} else {
+		val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	}
+
 	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
 
 	/* IP address */
