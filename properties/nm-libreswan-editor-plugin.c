@@ -200,6 +200,8 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT, &str[11]);
 		else if (g_str_has_prefix (str, "dpdaction="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION, &str[10]);
+		else if (g_str_has_prefix (str, "ipsec-interface="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE, &str[16]);
 		else if (g_str_has_prefix (str, "rightsubnet=")) {
 			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);

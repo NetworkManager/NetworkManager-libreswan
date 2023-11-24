@@ -153,6 +153,13 @@ Matches the Libreswan parameter of the same name.
 Allowed values are: 'yes' and 'no'.
 Matches the Libreswan parameter of the same name.
 .TP
+.I "ipsec-interface"
+If set, create or use an existing virtual interface ipsecXXX for "Routing based
+VPNs" (as opposed to "Policy based VPNs"). Valid options are 'yes', 'no' or a
+number. When using a number, the IPsec interface created and/or used will use
+that number as part of the interface name. Corresponds to the Libreswan
+parameter of the same name.
+.TP
 .I "pskinputmodes"
 where the 'pskvalue' can be retrieved. Used internally by the plugin. Allowed values are: 'unused', 'save', 'ask'.
 .TP
