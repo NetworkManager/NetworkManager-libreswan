@@ -1197,7 +1197,7 @@ _take_route (GPtrArray *routes, GVariant *new, gboolean alive)
 }
 
 static void
-handle_route (GPtrArray *routes, GVariant *env, gboolean alive)
+handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrmi)
 {
 	GVariantBuilder builder;
 	const gchar *net, *mask, *next_hop, *my_sourceip;
@@ -1210,8 +1210,12 @@ handle_route (GPtrArray *routes, GVariant *env, gboolean alive)
 	next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
 	my_sourceip = lookup_string (env, "PLUTO_MY_SOURCEIP");
 
+
 	if (!net || !mask || !next_hop || !my_sourceip)
 		return;
+
+	if (is_xfrmi)
+		next_hop = "0.0.0.0";
 
 	if (g_strcmp0 (net, "0.0.0.0") == 0 && g_strcmp0 (mask, "0")) {
 		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
@@ -1254,6 +1258,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	guint i;
 	const char *verb;
 	const char *virt_if;
+	gboolean is_xfrmi = FALSE;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1332,16 +1337,23 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
+	/* Indicates whether the VPN is using a XFRM interface (via option ipsec-interface=) */
+	is_xfrmi = nm_streq0 (lookup_string (env, "PLUTO_XFRMI_ROUTE"), "yes");
 
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
+	if (is_xfrmi) {
+		/* The traffic needs to be sent directly over the interface without a gateway.
+		 * Ignore the next hop. */
+	} else {
+		val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
+		if (val)
+			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
+	}
 
 	/* This route */
 	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
-		handle_route (priv->routes, env, TRUE);
+		handle_route (priv->routes, env, TRUE, is_xfrmi);
 	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
-		handle_route (priv->routes, env, FALSE);
+		handle_route (priv->routes, env, FALSE, is_xfrmi);
 
 	/* Routes */
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
