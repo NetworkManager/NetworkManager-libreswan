@@ -110,6 +110,7 @@ nm_libreswan_config_write (gint fd,
 	const char *leftcert;
 	const char *leftrsasigkey;
 	const char *rightrsasigkey;
+	const char *authby;
 	const char *remote_network;
 	const char *ikev2 = NULL;
 	const char *rightid;
@@ -164,6 +165,7 @@ nm_libreswan_config_write (gint fd,
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
 	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
+	authby = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_AUTHBY);
 	if (leftcert && strlen (leftcert)) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftcert=%s", leftcert);
 		if (!leftrsasigkey)
@@ -175,8 +177,11 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftrsasigkey=%s", leftrsasigkey);
 	if (rightrsasigkey && strlen (rightrsasigkey))
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightrsasigkey=%s", rightrsasigkey);
-	if (   !(leftrsasigkey && strlen (leftrsasigkey))
-	    && !(rightrsasigkey && strlen (rightrsasigkey))) {
+
+	if (authby && strlen (authby)) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " authby=%s", authby);
+	} else if (   !(leftrsasigkey && strlen (leftrsasigkey))
+	           && !(rightrsasigkey && strlen (rightrsasigkey))) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " authby=secret");
 	}
 

@@ -56,6 +56,10 @@ parameter of the same name.
 specifies the remote's public key for RSA authentication.
 When the 'leftcert' key is defined a default value of "%cert" is assumed.
 .TP
+.I "authby"
+How the two security gateways should authenticate each other. Corresponds to the
+Libreswan parameter of the same name.
+.TP
 .I "left"
 contains the local address that should be used during IKE negotiation. If not specified, the value
 "%defaultroute" is assumed. Corresponds to the Libreswan parameter of the same name.

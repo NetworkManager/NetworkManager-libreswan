@@ -41,6 +41,7 @@
 #define NM_LIBRESWAN_KEY_LEFTID                     "leftid"
 #define NM_LIBRESWAN_KEY_LEFTRSASIGKEY              "leftrsasigkey"
 #define NM_LIBRESWAN_KEY_LEFTCERT                   "leftcert"
+#define NM_LIBRESWAN_KEY_AUTHBY                     "authby"
 #define NM_LIBRESWAN_KEY_PSK_VALUE                  "pskvalue"
 #define NM_LIBRESWAN_KEY_PSK_INPUT_MODES            "pskinputmodes"
 #define NM_LIBRESWAN_KEY_LEFTXAUTHUSER              "leftxauthusername"

@@ -723,6 +723,44 @@
                         <property name="top_attach">3</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkLabel" id="authby_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Auth-by</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">authby_entry</property>
+                        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">7</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="authby_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">How the two security gateways should authenticate each other. Accepts a comma-separated list of these values:
+- 'rsasig' for RSA with SHA2 or SHA1
+- 'ecdsa' for ECDSA digital signatures using SHA-2
+- 'rsa-sha2' for RSASSA-PSS digital signatures based authentication with SHA2-256
+- 'rsa-sha2_384' for RSASSA-PSS digital signatures based authentication with SHA2-384
+- 'rsa-sha2_512' for RSASSA-PSS digital signatures based authentication with SHA2-512
+- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with SHA1
+- 'secret' for shared secrets (PSK) authentication
+- 'never' if negotiation is never to be attempted or accepted (useful for shunt-only conns)
+- 'null' for null-authentication.
+If not specified, the default value is 'rsasig,ecdsa'.
+config: authby &lt;value&gt;
+                        </property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">7</property>
+                      </packing>
+                    </child>
                   </object>
                 </child>
               </object>
