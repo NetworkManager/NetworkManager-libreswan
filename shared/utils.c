@@ -110,6 +110,7 @@ nm_libreswan_config_write (gint fd,
 	const char *leftcert;
 	const char *leftrsasigkey;
 	const char *rightrsasigkey;
+	const char *authby;
 	const char *remote_network;
 	const char *ikev2 = NULL;
 	const char *rightid;
@@ -118,6 +119,7 @@ nm_libreswan_config_write (gint fd,
 	const char *fragmentation;
 	const char *mobike;
 	const char *pfs;
+	const char *item;
 	gboolean is_ikev2 = FALSE;
 
 	g_return_val_if_fail (fd > 0, FALSE);
@@ -163,6 +165,7 @@ nm_libreswan_config_write (gint fd,
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
 	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
+	authby = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_AUTHBY);
 	if (leftcert && strlen (leftcert)) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftcert=%s", leftcert);
 		if (!leftrsasigkey)
@@ -174,8 +177,11 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftrsasigkey=%s", leftrsasigkey);
 	if (rightrsasigkey && strlen (rightrsasigkey))
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightrsasigkey=%s", rightrsasigkey);
-	if (   !(leftrsasigkey && strlen (leftrsasigkey))
-	    && !(rightrsasigkey && strlen (rightrsasigkey))) {
+
+	if (authby && strlen (authby)) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " authby=%s", authby);
+	} else if (   !(leftrsasigkey && strlen (leftrsasigkey))
+	           && !(rightrsasigkey && strlen (rightrsasigkey))) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " authby=secret");
 	}
 
@@ -296,6 +302,22 @@ nm_libreswan_config_write (gint fd,
 	mobike = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_MOBIKE);
 	if (mobike && strlen (mobike))
 		WRITE_CHECK (fd, debug_write_fcn, error, " mobike=%s", mobike);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDDELAY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " dpddelay=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " dpdtimeout=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_DPDACTION);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " dpdaction=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " ipsec-interface=%s", item);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 

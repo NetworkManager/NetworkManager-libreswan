@@ -56,6 +56,10 @@ parameter of the same name.
 specifies the remote's public key for RSA authentication.
 When the 'leftcert' key is defined a default value of "%cert" is assumed.
 .TP
+.I "authby"
+How the two security gateways should authenticate each other. Corresponds to the
+Libreswan parameter of the same name.
+.TP
 .I "left"
 contains the local address that should be used during IKE negotiation. If not specified, the value
 "%defaultroute" is assumed. Corresponds to the Libreswan parameter of the same name.
@@ -85,7 +89,26 @@ ignored.
 ignored.
 .TP
 .I "dpdtimeout"
-ignored.
+the length of time that we will idle without hearing back from our peer. After
+this period has elapsed with no response and no traffic, we will declare the
+peer dead, and remove the SA. Set value bigger than dpddelay to enable. If
+dpdtimeout is set, dpddelay also needs to be set. Must be a number optionally
+followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd'
+(days); if the unit is not specified, it defaults to seconds. Corresponds to the
+Libreswan parameter of the same name.
+.TP
+.I "dpddelay"
+the delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness
+keepalives that are sent for this connection. Must be a number optionally
+followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd'
+(days); if the unit is not specified, it defaults to seconds. Corresponds to the
+Libreswan parameter of the same name.
+.TP
+.I "dpdaction"
+When a DPD enabled peer is declared dead, what action should be taken.  "hold"
+(default) means the eroute will be put into %hold status, while "clear" means
+the eroute and SA with both be cleared. "restart" means that ALL SAs to the dead
+peer will renegotiated. Corresponds to the Libreswan parameter of the same name.
 .TP
 .I "ike"
 allowed ciphers to be negotiated to establish the IKE SAs. Corresponds to the
@@ -133,6 +156,13 @@ Matches the Libreswan parameter of the same name.
 .I "mobike"
 Allowed values are: 'yes' and 'no'.
 Matches the Libreswan parameter of the same name.
+.TP
+.I "ipsec-interface"
+If set, create or use an existing virtual interface ipsecXXX for "Routing based
+VPNs" (as opposed to "Policy based VPNs"). Valid options are 'yes', 'no' or a
+number. When using a number, the IPsec interface created and/or used will use
+that number as part of the interface name. Corresponds to the Libreswan
+parameter of the same name.
 .TP
 .I "pskinputmodes"
 where the 'pskvalue' can be retrieved. Used internally by the plugin. Allowed values are: 'unused', 'save', 'ask'.

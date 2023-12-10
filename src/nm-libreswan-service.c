@@ -256,11 +256,14 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_AUTHBY,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DOMAIN,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DHGROUP,                    G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_PFS,                        G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_PFSGROUP,                   G_TYPE_STRING, 0, 0 },
-	{ NM_LIBRESWAN_KEY_DPDTIMEOUT,                 G_TYPE_INT, 0, 86400 },
+	{ NM_LIBRESWAN_KEY_DPDACTION,                  G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_DPDDELAY,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_DPDTIMEOUT,                 G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_IKE,                        G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_ESP,                        G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_IKELIFETIME,                G_TYPE_STRING, 0, 0 },
@@ -272,6 +275,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_REKEY,                      G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_FRAGMENTATION,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_MOBIKE,                     G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_IPSEC_INTERFACE,            G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
@@ -1194,7 +1198,7 @@ _take_route (GPtrArray *routes, GVariant *new, gboolean alive)
 }
 
 static void
-handle_route (GPtrArray *routes, GVariant *env, gboolean alive)
+handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrmi)
 {
 	GVariantBuilder builder;
 	const gchar *net, *mask, *next_hop, *my_sourceip;
@@ -1207,8 +1211,12 @@ handle_route (GPtrArray *routes, GVariant *env, gboolean alive)
 	next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
 	my_sourceip = lookup_string (env, "PLUTO_MY_SOURCEIP");
 
+
 	if (!net || !mask || !next_hop || !my_sourceip)
 		return;
+
+	if (is_xfrmi)
+		next_hop = "0.0.0.0";
 
 	if (g_strcmp0 (net, "0.0.0.0") == 0 && g_strcmp0 (mask, "0")) {
 		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
@@ -1250,6 +1258,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 	gboolean success = FALSE;
 	guint i;
 	const char *verb;
+	const char *virt_if;
+	gboolean is_xfrmi = FALSE;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1272,9 +1282,14 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 	/*
 	 * Tunnel device
-	 * Indicate that this plugin doesn't use tun/tap device
 	 */
-	val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	virt_if = lookup_string (env, "PLUTO_VIRT_INTERFACE");
+	if (virt_if && !nm_streq (virt_if, "NULL")) {
+		val = g_variant_new_string (virt_if);
+	} else {
+		val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
+	}
+
 	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
 
 	/* IP address */
@@ -1323,16 +1338,23 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
+	/* Indicates whether the VPN is using a XFRM interface (via option ipsec-interface=) */
+	is_xfrmi = nm_streq0 (lookup_string (env, "PLUTO_XFRMI_ROUTE"), "yes");
 
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
+	if (is_xfrmi) {
+		/* The traffic needs to be sent directly over the interface without a gateway.
+		 * Ignore the next hop. */
+	} else {
+		val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
+		if (val)
+			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
+	}
 
 	/* This route */
 	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
-		handle_route (priv->routes, env, TRUE);
+		handle_route (priv->routes, env, TRUE, is_xfrmi);
 	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
-		handle_route (priv->routes, env, FALSE);
+		handle_route (priv->routes, env, FALSE, is_xfrmi);
 
 	/* Routes */
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
