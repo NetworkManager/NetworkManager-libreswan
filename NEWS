@@ -1,4 +1,16 @@
 =========================================================
+NetworkManager-libreswan-1.2.18
+Overview of changes since NetworkManager-libreswan-1.2.16
+=========================================================
+
+This is a new stable release of NetworkManager-libreswan. Notable changes include:
+
+* Drop libnm-glib compatibility (NetworkManager < 1.0).
+* Add support for the "authby", "dpdaction", "dpddelay", "dpdtimeout",
+  "ipsec-interface" parameters.
+* Updated translations.
+
+=========================================================
 NetworkManager-libreswan-1.2.16
 Overview of changes since NetworkManager-libreswan-1.2.14
 =========================================================
