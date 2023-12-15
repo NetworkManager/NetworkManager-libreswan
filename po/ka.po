@@ -1,23 +1,23 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Georgian translation for NetworkManager-libreswan.
+# Copyright (C) 2023 NetworkManager-libreswan authors.
+# This file is distributed under the same license as the NetworkManager-libreswan package.
+# Ekaterine Papava <papava.e@gtu.ge>, 2023.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2022-07-08 04:01+0000\n"
-"PO-Revision-Date: 2022-10-14 16:47+0200\n"
-"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
+"POT-Creation-Date: 2023-12-10 15:27+0000\n"
+"PO-Revision-Date: 2023-12-15 05:18+0100\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: \n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -62,57 +62,57 @@ msgstr "_ჯგუფის პაროლი:"
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "VPN \"%s\"-თან წვდომისთვის საჭიროა ავთენტიკაცია."
 
-#: ../properties/nm-libreswan-editor-plugin.c:43
+#: ../properties/nm-libreswan-editor-plugin.c:39
 msgid "IPsec based VPN"
 msgstr "IPsec თან თავსებადი VPN"
 
-#: ../properties/nm-libreswan-editor-plugin.c:44
+#: ../properties/nm-libreswan-editor-plugin.c:40
 msgid "IPsec based VPN for remote clients"
 msgstr "IPsec -თან თავსებადი VPN დაშორებული კლიენტებისთვის"
 
-#: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:280
+#: ../properties/nm-libreswan-editor-plugin.c:94
+#: ../properties/nm-libreswan-editor-plugin.c:286
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "ფაილის გახსნის შეცდომა “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:230
+#: ../properties/nm-libreswan-editor-plugin.c:236
 #, c-format
 msgid "Missing “conn” section in “%s”"
-msgstr ""
+msgstr "ვერ ვიპოვე სექცია \"conn\" ფაილში \"%s\""
 
-#: ../properties/nm-libreswan-editor-plugin.c:302
+#: ../properties/nm-libreswan-editor-plugin.c:308
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "ფაილში (%s) ჩაწერის შეცდომა: %s"
 
-#: ../src/nm-libreswan-service.c:1402
+#: ../src/nm-libreswan-service.c:1424
 msgid "A password is required."
 msgstr "პაროლი სავალდებულოა."
 
-#: ../src/nm-libreswan-service.c:1803
+#: ../src/nm-libreswan-service.c:1825
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:1817
+#: ../src/nm-libreswan-service.c:1839
 msgid "Unhandled pending authentication."
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:1959
+#: ../src/nm-libreswan-service.c:1981
 msgid "Don’t quit when VPN connection terminates"
 msgstr "ნუ გახვალ VPN კავშირის შეწყვეტისას"
 
-#: ../src/nm-libreswan-service.c:1960
+#: ../src/nm-libreswan-service.c:1982
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:1961
+#: ../src/nm-libreswan-service.c:1983
 msgid "D-Bus name to use for this instance"
 msgstr "ამ გაშვებული ასლისთვის გამოყენებული D-Bus -ის სახელი"
 
-#: ../src/nm-libreswan-service.c:1984
+#: ../src/nm-libreswan-service.c:2006
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -250,141 +250,255 @@ msgstr "დიახ"
 
 #: ../properties/nm-libreswan-dialog.ui.h:17
 msgid "force"
-msgstr ""
+msgstr "ძალა"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "(None)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Hold"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Clear"
+msgstr "გაწმენდა"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid "Restart"
+msgstr "გადატვირთვა"
+
+#: ../properties/nm-libreswan-dialog.ui.h:22
 msgid "IPsec Advanced Options"
 msgstr "IPsec -ის დამატებითი პარამეტრები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:19
+#: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Identification"
 msgstr "იდენტიფიკაცია"
 
-#: ../properties/nm-libreswan-dialog.ui.h:20
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Domain"
 msgstr "დომენი"
 
-#: ../properties/nm-libreswan-dialog.ui.h:21
+#: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
 "(NT-)Domain name for authentication.\n"
-"config: Domain <domain>"
+"                        config: Domain <domain>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:23
+#: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Security"
 msgstr "უსაფრთხოება"
 
-#: ../properties/nm-libreswan-dialog.ui.h:24
+#: ../properties/nm-libreswan-dialog.ui.h:28
 msgid "Phase1 Algorithms"
 msgstr "პირველი ფაზის ალგორითმები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:25
+#: ../properties/nm-libreswan-dialog.ui.h:29
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
 "modpgroup, …”.\n"
-"config: ike <proposals>"
+"                        config: ike <proposals>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:27
+#: ../properties/nm-libreswan-dialog.ui.h:31
 msgid "Phase2 Algorithms"
 msgstr "მეორე ფაზის ალგორითმები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:28
+#: ../properties/nm-libreswan-dialog.ui.h:32
 msgid ""
 "Specifies the algorithms that will be offered/accepted for a phase2 "
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
 "…”.\n"
-"config: esp <proposals>"
+"                        config: esp <proposals>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:30
+#: ../properties/nm-libreswan-dialog.ui.h:34
 msgid "Phase1 Lifetime"
-msgstr ""
+msgstr "პირველი ფაზის სიცოცხლის დრო"
 
-#: ../properties/nm-libreswan-dialog.ui.h:31
+#: ../properties/nm-libreswan-dialog.ui.h:35
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: ikelifetime <lifetime>"
+"                        config: ikelifetime <lifetime>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:33
+#: ../properties/nm-libreswan-dialog.ui.h:37
 msgid "Phase2 Lifetime"
-msgstr ""
+msgstr "მეორე ფაზის სიცოცხლის დრო"
 
-#: ../properties/nm-libreswan-dialog.ui.h:34
+#: ../properties/nm-libreswan-dialog.ui.h:38
 msgid ""
 "How long a particular instance of a connection (a set of encryption/"
 "authentication keys for user packets) should last, from successful "
 "negotiation to expiry. The value is expressed by a number followed by an "
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: salifetime <lifetime>"
+"                        config: salifetime <lifetime>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:36
+#: ../properties/nm-libreswan-dialog.ui.h:40
 msgid "Disable rekeying"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:37
+#: ../properties/nm-libreswan-dialog.ui.h:41
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
-"config: rekey <no/yes>"
+"                        config: rekey <no/yes>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:39
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Disable PFS"
 msgstr "PFS-ის გამორთვა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:40
+#: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
-"config: pfs <no/yes>"
-msgstr ""
-
-#: ../properties/nm-libreswan-dialog.ui.h:42
-msgid "Connectivity"
-msgstr "დაკავშირება"
-
-#: ../properties/nm-libreswan-dialog.ui.h:43
-msgid "Remote Network"
-msgstr "დაშორებული ქსელი"
-
-#: ../properties/nm-libreswan-dialog.ui.h:44
-msgid ""
-"Private subnet behind the remote participant, expressed as network/netmask.\n"
-"config: rightsubnet <net>"
+"                        config: pfs <no/yes>"
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Auth-by"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid ""
+"How the two security gateways should authenticate each other. Accepts a "
+"comma-separated list of these values:\n"
+"- 'rsasig' for RSA with SHA2 or SHA1\n"
+"- 'ecdsa' for ECDSA digital signatures using SHA-2\n"
+"- 'rsa-sha2' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-256\n"
+"- 'rsa-sha2_384' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-384\n"
+"- 'rsa-sha2_512' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-512\n"
+"- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with "
+"SHA1\n"
+"- 'secret' for shared secrets (PSK) authentication\n"
+"- 'never' if negotiation is never to be attempted or accepted (useful for "
+"shunt-only conns)\n"
+"- 'null' for null-authentication.\n"
+"If not specified, the default value is 'rsasig,ecdsa'.\n"
+"config: authby <value>\n"
+"                        "
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:60
+msgid "Connectivity"
+msgstr "დაკავშირება"
+
+#: ../properties/nm-libreswan-dialog.ui.h:61
+msgid "Remote Network"
+msgstr "დაშორებული ქსელი"
+
+#: ../properties/nm-libreswan-dialog.ui.h:62
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"                        config: rightsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Enable fragmentation"
 msgstr "ფრაგმენტაციის ჩართვა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:47
+#: ../properties/nm-libreswan-dialog.ui.h:65
 msgid "narrowing"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:48
+#: ../properties/nm-libreswan-dialog.ui.h:66
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
-"config: narrowing <yes/no>"
+"                        config: narrowing <yes/no>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:50
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "Enable MOBIKE"
 msgstr "MOBIKE-ის ჩართვა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:51
+#: ../properties/nm-libreswan-dialog.ui.h:69
+msgid "Dead Peer Detection (DPD)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:70
+msgid "Delay"
+msgstr "დაყოვნება"
+
+#: ../properties/nm-libreswan-dialog.ui.h:71
+msgid ""
+"The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
+"keepalives that are sent for this connection. Must be a number optionally "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+"'d' (days); if the unit is not specified, it defaults to seconds.\n"
+"                        config: dpddelay <delay>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:73
+msgid "Timeout"
+msgstr "მოლოდინის ვადა"
+
+#: ../properties/nm-libreswan-dialog.ui.h:74
+msgid ""
+"The length of time that we will idle without hearing back from our peer. "
+"After this period has elapsed with no response and no traffic, we will "
+"declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
+"enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
+"number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
+"'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"seconds.\n"
+"                        config: dpdtimeout <timeout>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:76
+msgid "Action"
+msgstr "ქმედება"
+
+#: ../properties/nm-libreswan-dialog.ui.h:78
+#, no-c-format
+msgid ""
+"When a DPD enabled peer is declared dead, what action should be taken.  "
+"\"hold\" (default) means the eroute will be put into %hold status, while "
+"\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will renegotiated.\n"
+"                        config: dpdaction <action>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:80
+msgid "Other options"
+msgstr "სხვა პარამეტრები"
+
+#: ../properties/nm-libreswan-dialog.ui.h:81
+msgid "IPsec interface"
+msgstr "IPsec ინტერფეისი"
+
+#: ../properties/nm-libreswan-dialog.ui.h:82
+msgid ""
+"If set, create or use an existing virtual interface ipsecXXX for \"Routing "
+"based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
+"'no' or a number. When using a number, the IPsec interface created and/or "
+"used will use that number as part of the interface name. For example setting "
+"ipsec-interface=5 will create and/or use the ipsec5 interface. The value 0 "
+"cannot be used and is interpreted as 'no'. The value 'yes' is interpreted as "
+"the number 1, and thus will use the interface named 'ipsec1.'\n"
+"                        config: ipsec-interface yes|no|<num>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:84
+msgid "Other"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:85
 msgid "Advanced Properties"
 msgstr "დამატებითი თვისებები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:52
+#: ../properties/nm-libreswan-dialog.ui.h:86
 msgid "_Cancel"
 msgstr "_შეწყვეტა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:53
+#: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "_Apply"
 msgstr "_გადატარება"
