@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: network-manager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2023-08-09 09:23+0000\n"
-"PO-Revision-Date: 2023-10-17 17:29+0300\n"
+"POT-Creation-Date: 2023-12-15 09:58+0000\n"
+"PO-Revision-Date: 2023-12-29 11:38+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-POOTLE-MTIME: 1419707284.000000\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -66,59 +66,59 @@ msgstr "_Küme Parolası:"
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "“%s” Sanal Özel Ağına erişmek için kimlik doğrulamanız gerekiyor."
 
-#: ../properties/nm-libreswan-editor-plugin.c:43
+#: ../properties/nm-libreswan-editor-plugin.c:39
 msgid "IPsec based VPN"
 msgstr "IPsec tabanlı VPN"
 
-#: ../properties/nm-libreswan-editor-plugin.c:44
+#: ../properties/nm-libreswan-editor-plugin.c:40
 msgid "IPsec based VPN for remote clients"
 msgstr "Uzak istemciler için IPsec tabanlı VPN"
 
-#: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:280
+#: ../properties/nm-libreswan-editor-plugin.c:94
+#: ../properties/nm-libreswan-editor-plugin.c:286
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "“%s” dosyası açılamadı: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:230
+#: ../properties/nm-libreswan-editor-plugin.c:236
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "“%s” içinde eksik “conn” bölümü"
 
-#: ../properties/nm-libreswan-editor-plugin.c:302
+#: ../properties/nm-libreswan-editor-plugin.c:308
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "“%s” dosyası yazılamadı: %s"
 
-#: ../src/nm-libreswan-service.c:1402
+#: ../src/nm-libreswan-service.c:1424
 msgid "A password is required."
 msgstr "Parola gerekli."
 
-#: ../src/nm-libreswan-service.c:1803
+#: ../src/nm-libreswan-service.c:1825
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "VPN bağlantı ayarları geçersiz olduğundan istek işlenemedi."
 
-#: ../src/nm-libreswan-service.c:1817
+#: ../src/nm-libreswan-service.c:1839
 msgid "Unhandled pending authentication."
 msgstr "İşlenmemiş bekleyen kimlik doğrulaması."
 
-#: ../src/nm-libreswan-service.c:1959
+#: ../src/nm-libreswan-service.c:1981
 msgid "Don’t quit when VPN connection terminates"
 msgstr "VPN bağlantısı sonlandığında çıkma"
 
-#: ../src/nm-libreswan-service.c:1960
+#: ../src/nm-libreswan-service.c:1982
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Ayrıntılı hata ayıklama günlüklemesini etkinleştir (parolaları görünür "
 "yapabilir)"
 
-#: ../src/nm-libreswan-service.c:1961
+#: ../src/nm-libreswan-service.c:1983
 msgid "D-Bus name to use for this instance"
 msgstr "Bu örnek için kullanılacak D-Bus adı"
 
-#: ../src/nm-libreswan-service.c:1984
+#: ../src/nm-libreswan-service.c:2006
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Bu hizmet NetworkManager için tümleşik IPsec VPN yeterliliğini sağlar."
@@ -258,87 +258,128 @@ msgid "force"
 msgstr "zorla"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "(None)"
+msgstr "(Hiçbiri)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Hold"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Clear"
+msgstr "Temizle"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid "Restart"
+msgstr "Yeniden Başlat"
+
+#: ../properties/nm-libreswan-dialog.ui.h:22
 msgid "IPsec Advanced Options"
 msgstr "IPsec Gelişmiş Seçenekleri"
 
-#: ../properties/nm-libreswan-dialog.ui.h:19
+#: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Identification"
 msgstr "Kimlik Saptama"
 
-#: ../properties/nm-libreswan-dialog.ui.h:20
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Domain"
 msgstr "Etki Alanı"
 
-#: ../properties/nm-libreswan-dialog.ui.h:21
+#: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
 "(NT-)Domain name for authentication.\n"
-"config: Domain <domain>"
+"                        config: Domain <domain>"
 msgstr ""
 "Kimlik doğrulaması için (NT-)Etki alanı.\n"
-"yapılandırma: Domain <alanadı>"
+"                        yapılandırma: Domain <alanadı>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:23
+#: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Security"
 msgstr "Güvenlik"
 
-#: ../properties/nm-libreswan-dialog.ui.h:24
+#: ../properties/nm-libreswan-dialog.ui.h:28
 msgid "Phase1 Algorithms"
 msgstr "Phase1 Algoritması"
 
-#: ../properties/nm-libreswan-dialog.ui.h:25
+#: ../properties/nm-libreswan-dialog.ui.h:29
+#, fuzzy
+#| msgid ""
+#| "IKE encryption/authentication algorithm to be used for the connection "
+#| "(phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
+#| "hash;modpgroup, …”.\n"
+#| "config: ike <proposals>"
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
 "modpgroup, …”.\n"
-"config: ike <proposals>"
+"                        config: ike <proposals>"
 msgstr ""
 "(Faz 1 yani ISAKMP SA) Bağlantı için kullanılacak IKE şifreleme/kimlik "
 "doğrulama algoritması. Biçim “cipher-hash;modpgroup, cipher-hash;modpgroup, "
 "…”.\n"
 "yapılandırma: ike <teklifler>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:27
+#: ../properties/nm-libreswan-dialog.ui.h:31
 msgid "Phase2 Algorithms"
 msgstr "Phase2 Algoritması"
 
-#: ../properties/nm-libreswan-dialog.ui.h:28
+#: ../properties/nm-libreswan-dialog.ui.h:32
+#, fuzzy
+#| msgid ""
+#| "Specifies the algorithms that will be offered/accepted for a phase2 "
+#| "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+#| "…”.\n"
+#| "config: esp <proposals>"
 msgid ""
 "Specifies the algorithms that will be offered/accepted for a phase2 "
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
 "…”.\n"
-"config: esp <proposals>"
+"                        config: esp <proposals>"
 msgstr ""
 "Phase2 el sıkışması için önerilen/kabul edilen algoritmaları belirtir. Biçim "
 "“cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
 "yapılandırma: esp <teklifler>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:30
+#: ../properties/nm-libreswan-dialog.ui.h:34
 msgid "Phase1 Lifetime"
 msgstr "Phase1 Yaşam Süresi"
 
-#: ../properties/nm-libreswan-dialog.ui.h:31
+#: ../properties/nm-libreswan-dialog.ui.h:35
+#, fuzzy
+#| msgid ""
+#| "How long the keying channel of a connection should last before being "
+#| "renegotiated. The value is expressed by a number followed by an optional "
+#| "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+#| "config: ikelifetime <lifetime>"
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: ikelifetime <lifetime>"
+"                        config: ikelifetime <lifetime>"
 msgstr ""
 "Bağlantının anahtarlama kanalının yeniden el sıkışmadan önce ne kadar "
 "sürmesi gerektiği. Değer, bir sayı ve sonunda isteğe bağlı “s” (saniye), "
 "“m” (dakika), “h” (saat) veya “d” (gün) harfiyle belirtilir.\n"
 "yapılandırma: ikelifetime <yaşamsüresi>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:33
+#: ../properties/nm-libreswan-dialog.ui.h:37
 msgid "Phase2 Lifetime"
 msgstr "Phase2 Yaşam Süresi"
 
-#: ../properties/nm-libreswan-dialog.ui.h:34
+#: ../properties/nm-libreswan-dialog.ui.h:38
+#, fuzzy
+#| msgid ""
+#| "How long a particular instance of a connection (a set of encryption/"
+#| "authentication keys for user packets) should last, from successful "
+#| "negotiation to expiry. The value is expressed by a number followed by an "
+#| "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+#| "config: salifetime <lifetime>"
 msgid ""
 "How long a particular instance of a connection (a set of encryption/"
 "authentication keys for user packets) should last, from successful "
 "negotiation to expiry. The value is expressed by a number followed by an "
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: salifetime <lifetime>"
+"                        config: salifetime <lifetime>"
 msgstr ""
 "Belirli bir bağlantı örneğinin (kullanıcı paketleri için şifreleme/kimlik "
 "doğrulama anahtarları takımı), başarılı el sıkışma bitimine dek ne kadar "
@@ -346,79 +387,192 @@ msgstr ""
 "“m” (dakika), “h” (saat) veya “d” (gün) harfiyle belirtilir.\n"
 "yapılandırma: salifetime <yaşamsüresi>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:36
+#: ../properties/nm-libreswan-dialog.ui.h:40
 msgid "Disable rekeying"
 msgstr "Yeniden anahtarlamayı (rekeying) devre dışı bırak"
 
-#: ../properties/nm-libreswan-dialog.ui.h:37
+#: ../properties/nm-libreswan-dialog.ui.h:41
+#, fuzzy
+#| msgid ""
+#| "Whether a connection should not be renegotiated when it is about to "
+#| "expire.\n"
+#| "config: rekey <no/yes>"
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
-"config: rekey <no/yes>"
+"                        config: rekey <no/yes>"
 msgstr ""
 "Bağlantının süresi dolmak üzereyken yeniden el sıkışmanın gerekip "
 "gerekmediği.\n"
 "yapılandırma: rekey <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:39
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Disable PFS"
 msgstr "PFS’yi devre dışı bırak"
 
-#: ../properties/nm-libreswan-dialog.ui.h:40
+#: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
-"config: pfs <no/yes>"
+"                        config: pfs <no/yes>"
 msgstr ""
 "Perfect forward security’yi (PFS) devre dışı bırak. Bu seçeneği yalnızca "
 "sunucu PFS’yi desteklemiyorsa etkinleştirin.\n"
-"yapılandırma: pfs <no/yes>"
+"                        yapılandırma: pfs <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:42
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Auth-by"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid ""
+"How the two security gateways should authenticate each other. Accepts a "
+"comma-separated list of these values:\n"
+"- 'rsasig' for RSA with SHA2 or SHA1\n"
+"- 'ecdsa' for ECDSA digital signatures using SHA-2\n"
+"- 'rsa-sha2' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-256\n"
+"- 'rsa-sha2_384' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-384\n"
+"- 'rsa-sha2_512' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-512\n"
+"- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with "
+"SHA1\n"
+"- 'secret' for shared secrets (PSK) authentication\n"
+"- 'never' if negotiation is never to be attempted or accepted (useful for "
+"shunt-only conns)\n"
+"- 'null' for null-authentication.\n"
+"If not specified, the default value is 'rsasig,ecdsa'.\n"
+"config: authby <value>\n"
+"                        "
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:60
 msgid "Connectivity"
 msgstr "Bağlanabilirlik"
 
-#: ../properties/nm-libreswan-dialog.ui.h:43
+#: ../properties/nm-libreswan-dialog.ui.h:61
 msgid "Remote Network"
 msgstr "Uzak Ağ"
 
-#: ../properties/nm-libreswan-dialog.ui.h:44
+#: ../properties/nm-libreswan-dialog.ui.h:62
+#, fuzzy
+#| msgid ""
+#| "Private subnet behind the remote participant, expressed as network/"
+#| "netmask.\n"
+#| "config: rightsubnet <net>"
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
-"config: rightsubnet <net>"
+"                        config: rightsubnet <net>"
 msgstr ""
 "Uzak katılımcının arkasındaki özel alt ağ, ağ/ağ maskesi olarak belirtilir.\n"
 "yapılandırma: rightsubnet <ağ>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:46
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Enable fragmentation"
 msgstr "Parçalanmayı etkinleştir"
 
-#: ../properties/nm-libreswan-dialog.ui.h:47
+#: ../properties/nm-libreswan-dialog.ui.h:65
 msgid "narrowing"
 msgstr "daralma"
 
-#: ../properties/nm-libreswan-dialog.ui.h:48
+#: ../properties/nm-libreswan-dialog.ui.h:66
+#, fuzzy
+#| msgid ""
+#| "IKEv2 negotiation may allow establishing an IPsec connection with "
+#| "narrowed down traffic selectors. This option is ignored for IKEv1.\n"
+#| "config: narrowing <yes/no>"
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
-"config: narrowing <yes/no>"
+"                        config: narrowing <yes/no>"
 msgstr ""
 "IKEv2 el sıkışması, daraltılmış trafik seçicileri ile IPsec bağlantısı "
 "kurulmasına izin verebilir. IKEv1 için bu seçenek yok sayılır.\n"
 "yapılandırma: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:50
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "Enable MOBIKE"
 msgstr "MOBIKE’yi etkinleştir"
 
-#: ../properties/nm-libreswan-dialog.ui.h:51
+#: ../properties/nm-libreswan-dialog.ui.h:69
+msgid "Dead Peer Detection (DPD)"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:70
+msgid "Delay"
+msgstr "Gecikme"
+
+#: ../properties/nm-libreswan-dialog.ui.h:71
+msgid ""
+"The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
+"keepalives that are sent for this connection. Must be a number optionally "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+"'d' (days); if the unit is not specified, it defaults to seconds.\n"
+"                        config: dpddelay <delay>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:73
+msgid "Timeout"
+msgstr "Zaman aşımı"
+
+#: ../properties/nm-libreswan-dialog.ui.h:74
+msgid ""
+"The length of time that we will idle without hearing back from our peer. "
+"After this period has elapsed with no response and no traffic, we will "
+"declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
+"enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
+"number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
+"'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"seconds.\n"
+"                        config: dpdtimeout <timeout>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:76
+msgid "Action"
+msgstr "Eylem"
+
+#: ../properties/nm-libreswan-dialog.ui.h:78
+#, no-c-format
+msgid ""
+"When a DPD enabled peer is declared dead, what action should be taken.  "
+"\"hold\" (default) means the eroute will be put into %hold status, while "
+"\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will renegotiated.\n"
+"                        config: dpdaction <action>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:80
+msgid "Other options"
+msgstr "Diğer seçenekler"
+
+#: ../properties/nm-libreswan-dialog.ui.h:81
+msgid "IPsec interface"
+msgstr "IPsec arayüzü"
+
+#: ../properties/nm-libreswan-dialog.ui.h:82
+msgid ""
+"If set, create or use an existing virtual interface ipsecXXX for \"Routing "
+"based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
+"'no' or a number. When using a number, the IPsec interface created and/or "
+"used will use that number as part of the interface name. For example setting "
+"ipsec-interface=5 will create and/or use the ipsec5 interface. The value 0 "
+"cannot be used and is interpreted as 'no'. The value 'yes' is interpreted as "
+"the number 1, and thus will use the interface named 'ipsec1.'\n"
+"                        config: ipsec-interface yes|no|<num>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:84
+msgid "Other"
+msgstr "Diğer"
+
+#: ../properties/nm-libreswan-dialog.ui.h:85
 msgid "Advanced Properties"
 msgstr "Gelişmiş Özellikler"
 
-#: ../properties/nm-libreswan-dialog.ui.h:52
+#: ../properties/nm-libreswan-dialog.ui.h:86
 msgid "_Cancel"
 msgstr "İ_ptal"
 
-#: ../properties/nm-libreswan-dialog.ui.h:53
+#: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "_Apply"
 msgstr "_Uygula"
