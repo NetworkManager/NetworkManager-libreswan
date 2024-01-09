@@ -256,6 +256,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT,          G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_AUTHBY,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DOMAIN,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DHGROUP,                    G_TYPE_STRING, 0, 0 },
