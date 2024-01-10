@@ -1270,16 +1270,14 @@ handle_callback (NMDBusLibreswanHelper *object,
 		goto out;
 	}
 
+	/* First build and send the generic config */
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
-	/* Right peer (or Gateway) */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
-	else {
-		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway)");
-		goto out;
-	}
+	/*
+	 * Enabled address families
+	 */
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP4, g_variant_new_boolean (TRUE));
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP6, g_variant_new_boolean (FALSE));
 
 	/*
 	 * Tunnel device
@@ -1290,15 +1288,43 @@ handle_callback (NMDBusLibreswanHelper *object,
 	} else {
 		val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
 	}
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_TUNDEV, val);
 
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
+	/* Banner */
+	val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_BANNER"), TRUE);
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_BANNER, val);
+
+	/* Right peer (or Gateway) */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY, val);
+	else {
+		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway) is missing");
+		goto out;
+	}
+
+	nm_vpn_service_plugin_set_config (NM_VPN_SERVICE_PLUGIN (user_data),
+	                                  g_variant_builder_end (&config));
+
+	/* Then build and send the IPv4 config */
+	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
+
+	/* Right peer (or Gateway) */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
+	else {
+		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway) is missing");
+		goto out;
+	}
 
 	/* IP address */
 	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
 	else {
-		_LOGW ("IP4 Address");
+		_LOGW ("IP4 Address is missing");
 		goto out;
 	}
 
@@ -1307,7 +1333,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else {
-		_LOGW ("IP4 PTP Address");
+		_LOGW ("IP4 PTP Address is missing");
 		goto out;
 	}
 
@@ -1324,7 +1350,6 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
-
 	/* Default domain */
 	val = str_to_gvariant (lookup_string (env, "PLUTO_CISCO_DOMAIN_INFO"), TRUE);
 	if (!val) {
@@ -1333,11 +1358,6 @@ handle_callback (NMDBusLibreswanHelper *object,
 	}
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
-
-	/* Banner */
-	val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_BANNER"), TRUE);
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
 	/* Indicates whether the VPN is using a XFRM interface (via option ipsec-interface=) */
 	is_xfrmi = nm_streq0 (lookup_string (env, "PLUTO_XFRMI_ROUTE"), "yes");
@@ -1369,12 +1389,11 @@ handle_callback (NMDBusLibreswanHelper *object,
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
 
 	success = TRUE;
+	nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
+	                                      g_variant_builder_end (&config));
 
 out:
-	if (success) {
-		nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
-		                                      g_variant_builder_end (&config));
-	} else {
+	if (!success) {
 		connect_failed (NM_LIBRESWAN_PLUGIN (user_data), NULL,
 		                NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 	}
