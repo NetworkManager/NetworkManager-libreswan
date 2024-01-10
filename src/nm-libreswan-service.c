@@ -1253,6 +1253,7 @@ handle_callback (NMDBusLibreswanHelper *object,
                  gpointer user_data)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (user_data);
+	NMSettingVpn *s_vpn;
 	GVariantBuilder config;
 	GVariantBuilder builder;
 	GVariant *val;
@@ -1260,7 +1261,9 @@ handle_callback (NMDBusLibreswanHelper *object,
 	guint i;
 	const char *verb;
 	const char *virt_if;
+	const char *str;
 	gboolean is_xfrmi = FALSE;
+	gboolean has_ip4;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1273,10 +1276,21 @@ handle_callback (NMDBusLibreswanHelper *object,
 	/* First build and send the generic config */
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
+	if (   priv->connection
+	    && (s_vpn = nm_connection_get_setting_vpn (priv->connection))
+	    && (str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT))
+	    && nm_streq (str, "no")) {
+		has_ip4 = FALSE;
+	} else {
+		has_ip4 = TRUE;
+	}
+
+	_LOGD ("Configuration has IPv4: %d", has_ip4);
+
 	/*
 	 * Enabled address families
 	 */
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP4, g_variant_new_boolean (TRUE));
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP4, g_variant_new_boolean (has_ip4));
 	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP6, g_variant_new_boolean (FALSE));
 
 	/*
@@ -1306,6 +1320,10 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 	nm_vpn_service_plugin_set_config (NM_VPN_SERVICE_PLUGIN (user_data),
 	                                  g_variant_builder_end (&config));
+	if (!has_ip4) {
+		success = TRUE;
+		goto out;
+	}
 
 	/* Then build and send the IPv4 config */
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
