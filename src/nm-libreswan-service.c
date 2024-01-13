@@ -1417,7 +1417,8 @@ out:
 	}
 
 	nmdbus_libreswan_helper_complete_callback (object, invocation);
-	return success;
+
+	return TRUE;
 }
 
 /****************************************************************/
