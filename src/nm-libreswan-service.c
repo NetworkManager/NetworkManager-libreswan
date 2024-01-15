@@ -277,6 +277,9 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_FRAGMENTATION,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_MOBIKE,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_IPSEC_INTERFACE,            G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_TYPE,                       G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_HOSTADDRFAMILY,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_CLIENTADDRFAMILY,           G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },

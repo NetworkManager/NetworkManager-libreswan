@@ -325,6 +325,18 @@ nm_libreswan_config_write (gint fd,
 	if (item && strlen (item))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ipsec-interface=%s", item);
 
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_TYPE);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " type=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " hostaddrfamily=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", item);
+
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 
 	WRITE_CHECK_NEWLINE (fd, trailing_newline, debug_write_fcn, error, " auto=add");

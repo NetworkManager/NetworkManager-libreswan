@@ -206,6 +206,12 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE, &str[16]);
 		else if (g_str_has_prefix (str, "authby="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_AUTHBY, &str[7]);
+		else if (g_str_has_prefix (str, "type="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_TYPE, str + NM_STRLEN("type="));
+		else if (g_str_has_prefix (str, "hostaddrfamily="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY, str + NM_STRLEN("hostaddrfamily="));
+		else if (g_str_has_prefix (str, "clientaddrfamily="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY, str + NM_STRLEN("clientaddrfamily="));
 		else if (g_str_has_prefix (str, "rightsubnet=")) {
 			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);
