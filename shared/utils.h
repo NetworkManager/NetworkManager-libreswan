@@ -70,4 +70,7 @@ nm_libreswan_detect_version (const char *path,
 const char *nm_libreswan_find_helper_bin (const char *progname, GError **error);
 const char *nm_libreswan_find_helper_libexec (const char *progname, GError **error);
 
+int nm_ip6_addr_same_prefix_cmp(const struct in6_addr *addr_a,
+                                const struct in6_addr *addr_b, guint32 plen);
+
 #endif /* __UTILS_H__ */

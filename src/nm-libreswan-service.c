@@ -1093,24 +1093,62 @@ str_to_gvariant (const char *str, gboolean try_convert)
 }
 
 static GVariant *
-addr4_to_gvariant (const char *str)
+addr_to_gvariant (const char *str, gboolean is_ipv4)
 {
-	struct in_addr	temp_addr;
-
 	/* Empty */
 	if (!str || strlen (str) < 1)
 		return NULL;
 
-	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
-		return NULL;
+	if (is_ipv4) {
+		struct in_addr temp_addr;
 
-	return g_variant_new_uint32 (temp_addr.s_addr);
+		if (inet_pton (AF_INET, str, &temp_addr) <= 0)
+			return NULL;
+
+		return g_variant_new_uint32 (temp_addr.s_addr);
+	} else {
+		struct in6_addr temp_addr;
+		GVariantBuilder builder;
+		guint i;
+
+		if (inet_pton (AF_INET6, str, &temp_addr) <= 0)
+			return NULL;
+
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("ay"));
+		for (i = 0; i < sizeof (temp_addr); i++)
+			g_variant_builder_add (&builder, "y", ((guint8 *) &temp_addr)[i]);
+		return g_variant_builder_end (&builder);
+	}
+}
+
+static int
+netmask6_to_prefixlen (const char *str)
+{
+	struct in6_addr temp_addr;
+	guint zeros;
+	guint tot_zeros = 0;
+	int i;
+
+	if (!str || strlen (str) < 1)
+		return 128;
+
+	if (inet_pton (AF_INET6, str, &temp_addr) <= 0)
+		return 128;
+
+	for (i = 3; i >= 0; i--) {
+		zeros = __builtin_ctz (ntohl (temp_addr.s6_addr32[i]));
+		tot_zeros += zeros;
+		if (zeros != 32)
+			break;
+	}
+
+	return 128 - tot_zeros;
 }
 
 static GVariant *
 netmask4_to_gvariant (const char *str)
 {
-	struct in_addr	temp_addr;
+	struct in_addr temp_addr;
 
 	/* Empty */
 	if (!str || strlen (str) < 1)
@@ -1123,7 +1161,7 @@ netmask4_to_gvariant (const char *str)
 }
 
 static GVariant *
-addr4_list_to_gvariant (const char *str)
+addr_list_to_gvariant (const char *str, gboolean is_ipv4)
 {
 	GVariantBuilder builder;
 	char **split;
@@ -1140,19 +1178,35 @@ addr4_list_to_gvariant (const char *str)
 	g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
 
 	for (i = 0; split[i]; i++) {
-		struct in_addr addr;
+		if (is_ipv4) {
+			struct in_addr addr;
 
-		if (inet_pton (AF_INET, split[i], &addr) > 0) {
-			g_variant_builder_add_value (&builder, g_variant_new_uint32 (addr.s_addr));
+			if (inet_pton (AF_INET, split[i], &addr) > 0) {
+				g_variant_builder_add_value (&builder, g_variant_new_uint32 (addr.s_addr));
+			} else {
+				g_strfreev (split);
+				g_variant_unref (g_variant_builder_end (&builder));
+				return NULL;
+			}
 		} else {
-			g_strfreev (split);
-			g_variant_unref (g_variant_builder_end (&builder));
-			return NULL;
+			GVariantBuilder addr_builder;
+			struct in6_addr addr;
+			guint j;
+
+			if (inet_pton (AF_INET6, split[i], &addr) > 0) {
+				g_variant_builder_init (&addr_builder, G_VARIANT_TYPE ("ay"));
+				for (j = 0; j < sizeof (addr); j++)
+					g_variant_builder_add (&addr_builder, "y", ((guint8 *) &addr)[j]);
+				g_variant_builder_add_value (&builder, g_variant_builder_end (&addr_builder));
+			} else {
+				g_strfreev (split);
+				g_variant_unref (g_variant_builder_end (&builder));
+				return NULL;
+			}
 		}
 	}
 
 	g_strfreev (split);
-
 	return g_variant_builder_end (&builder);
 }
 
@@ -1165,31 +1219,80 @@ lookup_string (GVariant *dict, const gchar *key)
 	return value;
 }
 
-static void
-_take_route (GPtrArray *routes, GVariant *new, gboolean alive)
+static gboolean
+addr6_from_gvariant(GVariant *variant, struct in6_addr *addr)
 {
-	guint32 network, network2, netmask;
+	const guint8 *buf;
+	gsize len = 0;
+
+	if (!g_variant_is_of_type (variant, G_VARIANT_TYPE("ay")))
+		return FALSE;
+
+	buf = g_variant_get_fixed_array (variant, &len, 1);
+	if (len != sizeof (*addr))
+		return FALSE;
+
+	memcpy (addr, buf, sizeof (*addr));
+	return TRUE;
+}
+
+static void
+_take_route (GPtrArray *routes, GVariant *new, gboolean alive, gboolean is_ipv4)
+{
+	guint32 netmask;
 	guint32 plen, plen2;
 	guint i;
 
 	if (!new)
 		return;
 
-	g_variant_get_child (new, 0, "u", &network);
-	g_variant_get_child (new, 1, "u", &plen);
+	/* FIXME: currently we only add routes manually and they are not duplicate;
+	 * this check doesn't seem useful. If the check is needed - now or in the
+	 * future - we should store routes as NMIPRoute objects so that we don't need
+	 * to parse the GVariants every time.
+	 */
+	if (is_ipv4) {
+		guint32 network, network2;
 
-	netmask = nm_utils_ip4_prefix_to_netmask (plen);
+		g_variant_get_child (new, 0, "u", &network);
+		g_variant_get_child (new, 1, "u", &plen);
 
-	for (i = 0; i < routes->len; i++) {
-		GVariant *r = routes->pdata[i];
+		netmask = nm_utils_ip4_prefix_to_netmask (plen);
 
-		g_variant_get_child (r, 0, "u", &network2);
-		g_variant_get_child (r, 1, "u", &plen2);
+		for (i = 0; i < routes->len; i++) {
+			GVariant *r = routes->pdata[i];
 
-		if (   plen2 == plen
-		    && ((network ^ network2) & netmask) == 0) {
-			g_ptr_array_remove_index (routes, i);
-			break;
+			g_variant_get_child (r, 0, "u", &network2);
+			g_variant_get_child (r, 1, "u", &plen2);
+
+			if (   plen2 == plen
+			    && ((network ^ network2) & netmask) == 0) {
+				g_ptr_array_remove_index (routes, i);
+				break;
+			}
+		}
+	} else {
+		gs_unref_variant GVariant *v_network = NULL;
+		gs_unref_variant GVariant *v_network2 = NULL;
+		struct in6_addr network;
+		struct in6_addr network2;
+
+		g_variant_get_child (new, 0, "@ay", &v_network);
+		addr6_from_gvariant(v_network, &network);
+		g_variant_get_child (new, 1, "u", &plen);
+
+		for (i = 0; i < routes->len; i++) {
+			GVariant *r = routes->pdata[i];
+
+			g_variant_get_child (r, 0, "@ay", &v_network2);
+			addr6_from_gvariant(v_network2, &network2);
+			g_variant_get_child (r, 1, "u", &plen2);
+
+			if (   plen2 == plen
+			    && nm_ip6_addr_same_prefix_cmp(&network, &network2, plen) == 0) {
+				g_ptr_array_remove_index (routes, i);
+				break;
+			}
 		}
 	}
 
@@ -1201,8 +1304,24 @@ _take_route (GPtrArray *routes, GVariant *new, gboolean alive)
 		g_variant_unref (new);
 }
 
+static GVariant *
+route6_to_gvariant (const char *net, guint plen, const char *gateway, guint metric, const char *pref_src)
+{
+	gs_free GVariant **variants = NULL;
+
+	variants = g_new (GVariant *, 5);
+
+	variants[0] = addr_to_gvariant (net, FALSE);
+	variants[1] = g_variant_new_uint32 (plen);
+	variants[2] = addr_to_gvariant (gateway, FALSE);
+	variants[3] = g_variant_new_uint32 (metric);
+	variants[4] = addr_to_gvariant (pref_src, FALSE);
+
+	return g_variant_new_tuple (variants, 5);
+}
+
 static void
-handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrmi)
+handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrmi, gboolean is_ipv4)
 {
 	GVariantBuilder builder;
 	const gchar *net, *mask, *next_hop, *my_sourceip;
@@ -1215,37 +1334,58 @@ handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrm
 	next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
 	my_sourceip = lookup_string (env, "PLUTO_MY_SOURCEIP");
 
-
 	if (!net || !mask || !next_hop || !my_sourceip)
 		return;
 
+	if (is_ipv4) {
+		if (is_xfrmi)
+			next_hop = "0.0.0.0";
+
+		if (g_strcmp0 (net, "0.0.0.0") == 0 && g_strcmp0 (mask, "0")) {
+			g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+			g_variant_builder_add_value (&builder, addr_to_gvariant ("0.0.0.0", TRUE));
+			g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (next_hop, TRUE));
+			g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (my_sourceip, TRUE));
+			_take_route (routes, g_variant_builder_end (&builder), alive, TRUE);
+
+			g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+			g_variant_builder_add_value (&builder, addr_to_gvariant ("128.0.0.0", TRUE));
+			g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (next_hop, TRUE));
+			g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (my_sourceip, TRUE));
+			_take_route (routes, g_variant_builder_end (&builder), alive, TRUE);
+		} else {
+			g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (net, TRUE));
+			g_variant_builder_add_value (&builder, netmask4_to_gvariant (mask));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (next_hop, TRUE));
+			g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+			g_variant_builder_add_value (&builder, addr_to_gvariant (my_sourceip, TRUE));
+			_take_route (routes, g_variant_builder_end (&builder), alive, TRUE);
+		}
+		return;
+	}
+
+	/* IPv6 */
 	if (is_xfrmi)
-		next_hop = "0.0.0.0";
+		next_hop = "::";
 
-	if (g_strcmp0 (net, "0.0.0.0") == 0 && g_strcmp0 (mask, "0")) {
-		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant ("0.0.0.0"));
-		g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
-		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
-		_take_route (routes, g_variant_builder_end (&builder), alive);
+	if (g_strcmp0 (net, "::") == 0 && g_strcmp0 (mask, "0")) {
+		GVariant *route;
 
-		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant ("128.0.0.0"));
-		g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
-		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
-		_take_route (routes, g_variant_builder_end (&builder), alive);
+		/* Do the same as Libreswan script /usr/libexec/ipsec/_updown.xfrm:
+		 * add a route 2000::/3 that eclipses the default route without
+		 * replacing it */
+		route = route6_to_gvariant ("2000::", 3, next_hop, 0, my_sourceip);
+		_take_route (routes, route, alive, FALSE);
 	} else {
-		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (net));
-		g_variant_builder_add_value (&builder, netmask4_to_gvariant (mask));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
-		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
-		_take_route (routes, g_variant_builder_end (&builder), alive);
+		GVariant *route;
+
+		route = route6_to_gvariant (net, netmask6_to_prefixlen (mask), next_hop, 0, my_sourceip);
+		_take_route (routes, route, alive, FALSE);
 	}
 }
 
@@ -1266,7 +1406,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 	const char *virt_if;
 	const char *str;
 	gboolean is_xfrmi = FALSE;
-	gboolean has_ip4;
+	gboolean has_address;
+	gboolean is_ipv4;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1276,6 +1417,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 		goto out;
 	}
 
+	is_ipv4 = !g_str_has_suffix (verb, "-v6");
+
 	/* First build and send the generic config */
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
@@ -1283,18 +1426,18 @@ handle_callback (NMDBusLibreswanHelper *object,
 	    && (s_vpn = nm_connection_get_setting_vpn (priv->connection))
 	    && (str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT))
 	    && nm_streq (str, "no")) {
-		has_ip4 = FALSE;
+		has_address = FALSE;
 	} else {
-		has_ip4 = TRUE;
+		has_address = TRUE;
 	}
 
-	_LOGD ("Configuration has IPv4: %d", has_ip4);
+	_LOGD ("Configuration has: IPv4 %d, IPv6 %d", has_address && is_ipv4, has_address && !is_ipv4);
 
 	/*
 	 * Enabled address families
 	 */
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP4, g_variant_new_boolean (has_ip4));
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP6, g_variant_new_boolean (FALSE));
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP4, g_variant_new_boolean (has_address && is_ipv4));
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP6, g_variant_new_boolean (has_address && !is_ipv4));
 
 	/*
 	 * Tunnel device
@@ -1313,7 +1456,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_BANNER, val);
 
 	/* Right peer (or Gateway) */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_PEER"), is_ipv4);
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY, val);
 	else {
@@ -1323,53 +1466,60 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 	nm_vpn_service_plugin_set_config (NM_VPN_SERVICE_PLUGIN (user_data),
 	                                  g_variant_builder_end (&config));
-	if (!has_ip4) {
+	if (!has_address) {
 		success = TRUE;
 		goto out;
 	}
 
-	/* Then build and send the IPv4 config */
+	/* Then build and send the IP config */
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
 	/* Right peer (or Gateway) */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_PEER"), is_ipv4);
 	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY, val);
 	else {
 		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway) is missing");
 		goto out;
 	}
 
 	/* IP address */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"), is_ipv4);
 	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
+		g_variant_builder_add (&config, "{sv}",
+		                       is_ipv4 ? NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS : NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS,
+		                       val);
 	else {
-		_LOGW ("IP4 Address is missing");
+		_LOGW ("IP Address is missing");
 		goto out;
 	}
 
 	/* PTP address; PTP address == internal IP4 address */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"), is_ipv4);
 	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
+		g_variant_builder_add (&config, "{sv}",
+		                       is_ipv4 ? NM_VPN_PLUGIN_IP4_CONFIG_PTP : NM_VPN_PLUGIN_IP6_CONFIG_PTP,
+		                       val);
 	else {
-		_LOGW ("IP4 PTP Address is missing");
+		_LOGW ("IP PTP Address is missing");
 		goto out;
 	}
 
 	/* Netmask */
-	val = g_variant_new_uint32 (32);
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
+	val = g_variant_new_uint32 (is_ipv4 ? 32 : 128);
+	g_variant_builder_add (&config, "{sv}", is_ipv4 ? NM_VPN_PLUGIN_IP4_CONFIG_PREFIX : NM_VPN_PLUGIN_IP6_CONFIG_PREFIX, val);
 
 	/* DNS */
-	val = addr4_list_to_gvariant (lookup_string (env, "PLUTO_CISCO_DNS_INFO"));
+	val = addr_list_to_gvariant (lookup_string (env, "PLUTO_CISCO_DNS_INFO"), is_ipv4);
 	if (!val) {
 		/* libreswan value */
-		val = addr4_list_to_gvariant (lookup_string (env, "PLUTO_PEER_DNS_INFO"));
+		val = addr_list_to_gvariant (lookup_string (env, "PLUTO_PEER_DNS_INFO"), is_ipv4);
 	}
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
+	if (val) {
+		g_variant_builder_add (&config, "{sv}",
+		                       is_ipv4 ? NM_VPN_PLUGIN_IP4_CONFIG_DNS : NM_VPN_PLUGIN_IP6_CONFIG_DNS,
+		                       val);
+	}
 
 	/* Default domain */
 	val = str_to_gvariant (lookup_string (env, "PLUTO_CISCO_DOMAIN_INFO"), TRUE);
@@ -1377,8 +1527,11 @@ handle_callback (NMDBusLibreswanHelper *object,
 		/* libreswan value */
 		val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_DOMAIN_INFO"), TRUE);
 	}
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
+	if (val) {
+		g_variant_builder_add (&config, "{sv}",
+		                       is_ipv4 ? NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN : NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN,
+		                       val);
+	}
 
 	/* Indicates whether the VPN is using a XFRM interface (via option ipsec-interface=) */
 	is_xfrmi = nm_streq0 (lookup_string (env, "PLUTO_XFRMI_ROUTE"), "yes");
@@ -1387,31 +1540,47 @@ handle_callback (NMDBusLibreswanHelper *object,
 		/* The traffic needs to be sent directly over the interface without a gateway.
 		 * Ignore the next hop. */
 	} else {
-		val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
+		val = addr_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"), is_ipv4);
 		if (val)
-			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
+			g_variant_builder_add (&config, "{sv}",
+			                       is_ipv4 ? NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY : NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY,
+			                       val);
 	}
 
 	/* This route */
-	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
-		handle_route (priv->routes, env, TRUE, is_xfrmi);
-	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
-		handle_route (priv->routes, env, FALSE, is_xfrmi);
+	if (NM_IN_STRSET (verb, "route-client", "route-host", "route-client-v6", "route-host-v6"))
+		handle_route (priv->routes, env, TRUE, is_xfrmi, is_ipv4);
+	else if (NM_IN_STRSET (verb, "unroute-client", "unroute-host", "unroute-client-v6", "unroute-host-v6"))
+		handle_route (priv->routes, env, FALSE, is_xfrmi, is_ipv4);
 
 	/* Routes */
-	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
-	for (i = 0; i < priv->routes->len; i++)
-		g_variant_builder_add_value (&builder, (GVariant *) priv->routes->pdata[i]);
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
-	                       g_variant_builder_end (&builder));
+	if (is_ipv4) {
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
+		for (i = 0; i < priv->routes->len; i++)
+			g_variant_builder_add_value (&builder, (GVariant *) priv->routes->pdata[i]);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
+		g_variant_builder_end (&builder));
+	} else {
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(ayuayuay)"));
+		for (i = 0; i < priv->routes->len; i++)
+			g_variant_builder_add_value (&builder, (GVariant *) priv->routes->pdata[i]);
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP6_CONFIG_ROUTES,
+		g_variant_builder_end (&builder));
+	}
 
+	/* FIXME: investigate whether this is needed for IPv6 */
 	/* :( */
-	if (have_sad_routes (lookup_string (env, "PLUTO_PEER")))
+	if (is_ipv4 && have_sad_routes (lookup_string (env, "PLUTO_PEER")))
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
 
 	success = TRUE;
-	nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
-	                                      g_variant_builder_end (&config));
+	if (is_ipv4) {
+		nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
+		                                      g_variant_builder_end (&config));
+	} else {
+		nm_vpn_service_plugin_set_ip6_config (NM_VPN_SERVICE_PLUGIN (user_data),
+		                                      g_variant_builder_end (&config));
+	}
 
 out:
 	if (!success) {

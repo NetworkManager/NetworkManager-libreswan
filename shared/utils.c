@@ -119,6 +119,7 @@ nm_libreswan_config_write (gint fd,
 	const char *fragmentation;
 	const char *mobike;
 	const char *pfs;
+	const char *addr_family;
 	const char *item;
 	gboolean is_ikev2 = FALSE;
 
@@ -161,6 +162,14 @@ nm_libreswan_config_write (gint fd,
 		} else
 			WRITE_CHECK (fd, debug_write_fcn, error, " leftid=@%s", leftid);
 	}
+
+	addr_family = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY);
+	if (addr_family && strlen (addr_family))
+		WRITE_CHECK (fd, debug_write_fcn, error, " hostaddrfamily=%s", addr_family);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", item);
 
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
@@ -216,11 +225,15 @@ nm_libreswan_config_write (gint fd,
 
 	remote_network = nm_setting_vpn_get_data_item (s_vpn,
 						       NM_LIBRESWAN_KEY_REMOTENETWORK);
-	if (!remote_network || !strlen (remote_network))
-		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
-	else
+	if (!remote_network || !strlen (remote_network)) {
+		if (nm_streq0 (addr_family, "ipv6"))
+			WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=::/0");
+		else
+			WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
+	} else {
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s",
-			     remote_network);
+		             remote_network);
+	}
 
 	if (!is_ikev2) {
 		/* When IKEv1 is in place, we enforce XAUTH: so, use IKE version
@@ -328,14 +341,6 @@ nm_libreswan_config_write (gint fd,
 	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_TYPE);
 	if (item && strlen (item))
 		WRITE_CHECK (fd, debug_write_fcn, error, " type=%s", item);
-
-	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY);
-	if (item && strlen (item))
-		WRITE_CHECK (fd, debug_write_fcn, error, " hostaddrfamily=%s", item);
-
-	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
-	if (item && strlen (item))
-		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", item);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 
@@ -458,4 +463,31 @@ nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *o
 		*out_banner = output;
 	else
 		g_free (output);
+}
+
+int
+nm_ip6_addr_same_prefix_cmp(const struct in6_addr *addr_a,
+                            const struct in6_addr *addr_b,
+                            guint32                plen)
+{
+    int    nbytes;
+    guint8 va, vb, m;
+
+    if (plen >= 128) {
+        nm_assert(plen == 128);
+        NM_CMP_DIRECT_MEMCMP(addr_a, addr_b, sizeof(struct in6_addr));
+    } else {
+        nbytes = plen / 8;
+        if (nbytes)
+            NM_CMP_DIRECT_MEMCMP(addr_a, addr_b, nbytes);
+
+        plen = plen % 8;
+        if (plen != 0) {
+            m  = ~((1 << (8 - plen)) - 1);
+            va = ((((const guint8 *) addr_a))[nbytes]) & m;
+            vb = ((((const guint8 *) addr_b))[nbytes]) & m;
+            NM_CMP_DIRECT(va, vb);
+        }
+    }
+    return 0;
 }
