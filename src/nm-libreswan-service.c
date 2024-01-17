@@ -256,6 +256,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTRSASIGKEY,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTCERT,                   G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT,          G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_AUTHBY,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DOMAIN,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_DHGROUP,                    G_TYPE_STRING, 0, 0 },
@@ -276,6 +277,9 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_FRAGMENTATION,              G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_MOBIKE,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_IPSEC_INTERFACE,            G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_TYPE,                       G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_HOSTADDRFAMILY,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_CLIENTADDRFAMILY,           G_TYPE_STRING, 0, 0 },
 	/* Ignored option for internal use */
 	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            G_TYPE_NONE, 0, 0 },
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, G_TYPE_NONE, 0, 0 },
@@ -1252,6 +1256,7 @@ handle_callback (NMDBusLibreswanHelper *object,
                  gpointer user_data)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (user_data);
+	NMSettingVpn *s_vpn;
 	GVariantBuilder config;
 	GVariantBuilder builder;
 	GVariant *val;
@@ -1259,7 +1264,9 @@ handle_callback (NMDBusLibreswanHelper *object,
 	guint i;
 	const char *verb;
 	const char *virt_if;
+	const char *str;
 	gboolean is_xfrmi = FALSE;
+	gboolean has_ip4;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1269,16 +1276,25 @@ handle_callback (NMDBusLibreswanHelper *object,
 		goto out;
 	}
 
+	/* First build and send the generic config */
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
-	/* Right peer (or Gateway) */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
-	else {
-		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway)");
-		goto out;
+	if (   priv->connection
+	    && (s_vpn = nm_connection_get_setting_vpn (priv->connection))
+	    && (str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT))
+	    && nm_streq (str, "no")) {
+		has_ip4 = FALSE;
+	} else {
+		has_ip4 = TRUE;
 	}
+
+	_LOGD ("Configuration has IPv4: %d", has_ip4);
+
+	/*
+	 * Enabled address families
+	 */
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP4, g_variant_new_boolean (has_ip4));
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_HAS_IP6, g_variant_new_boolean (FALSE));
 
 	/*
 	 * Tunnel device
@@ -1289,15 +1305,47 @@ handle_callback (NMDBusLibreswanHelper *object,
 	} else {
 		val = g_variant_new_string (NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE);
 	}
+	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_TUNDEV, val);
 
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV, val);
+	/* Banner */
+	val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_BANNER"), TRUE);
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_BANNER, val);
+
+	/* Right peer (or Gateway) */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY, val);
+	else {
+		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway) is missing");
+		goto out;
+	}
+
+	nm_vpn_service_plugin_set_config (NM_VPN_SERVICE_PLUGIN (user_data),
+	                                  g_variant_builder_end (&config));
+	if (!has_ip4) {
+		success = TRUE;
+		goto out;
+	}
+
+	/* Then build and send the IPv4 config */
+	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
+
+	/* Right peer (or Gateway) */
+	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	if (val)
+		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
+	else {
+		_LOGW ("IPsec/Pluto Right Peer (VPN Gateway) is missing");
+		goto out;
+	}
 
 	/* IP address */
 	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
 	else {
-		_LOGW ("IP4 Address");
+		_LOGW ("IP4 Address is missing");
 		goto out;
 	}
 
@@ -1306,7 +1354,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else {
-		_LOGW ("IP4 PTP Address");
+		_LOGW ("IP4 PTP Address is missing");
 		goto out;
 	}
 
@@ -1323,7 +1371,6 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
-
 	/* Default domain */
 	val = str_to_gvariant (lookup_string (env, "PLUTO_CISCO_DOMAIN_INFO"), TRUE);
 	if (!val) {
@@ -1332,11 +1379,6 @@ handle_callback (NMDBusLibreswanHelper *object,
 	}
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN, val);
-
-	/* Banner */
-	val = str_to_gvariant (lookup_string (env, "PLUTO_PEER_BANNER"), TRUE);
-	if (val)
-		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_BANNER, val);
 
 	/* Indicates whether the VPN is using a XFRM interface (via option ipsec-interface=) */
 	is_xfrmi = nm_streq0 (lookup_string (env, "PLUTO_XFRMI_ROUTE"), "yes");
@@ -1368,18 +1410,18 @@ handle_callback (NMDBusLibreswanHelper *object,
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
 
 	success = TRUE;
+	nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
+	                                      g_variant_builder_end (&config));
 
 out:
-	if (success) {
-		nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
-		                                      g_variant_builder_end (&config));
-	} else {
+	if (!success) {
 		connect_failed (NM_LIBRESWAN_PLUGIN (user_data), NULL,
 		                NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 	}
 
 	nmdbus_libreswan_helper_complete_callback (object, invocation);
-	return success;
+
+	return TRUE;
 }
 
 /****************************************************************/

@@ -191,7 +191,13 @@ nm_libreswan_config_write (gint fd,
 	else
 		WRITE_CHECK (fd, debug_write_fcn, error, " left=%%defaultroute");
 
-	WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=yes");
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT);
+	if (nm_streq0 (item, "no")) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=no");
+	} else {
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftmodecfgclient=yes");
+	}
+
 	if (leftupdown_script)
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftupdown=%s", leftupdown_script);
 
@@ -318,6 +324,18 @@ nm_libreswan_config_write (gint fd,
 	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE);
 	if (item && strlen (item))
 		WRITE_CHECK (fd, debug_write_fcn, error, " ipsec-interface=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_TYPE);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " type=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " hostaddrfamily=%s", item);
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", item);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 
