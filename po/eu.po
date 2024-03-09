@@ -4,13 +4,13 @@
 #
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2008, 2009, 2014, 2015.
 # Edurne Labaka <elabaka@uzei.com>, 2015.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2022, 2023.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2022, 2023, 2024.
 #
 msgid ""
 msgstr "Project-Id-Version: network-manager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/issues\n"
-"POT-Creation-Date: 2022-07-08 04:01+0000\n"
-"PO-Revision-Date: 2023-04-10 17:55+0100\n"
+"POT-Creation-Date: 2024-01-17 07:39+0000\n"
+"PO-Revision-Date: 2024-03-09 17:55+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -62,57 +62,57 @@ msgstr "_Taldearen pasahitza:"
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "Autentifikatu egin behar duzu “%s” Sare Birtual Pribatura sartzeko."
 
-#: ../properties/nm-libreswan-editor-plugin.c:43
+#: ../properties/nm-libreswan-editor-plugin.c:39
 msgid "IPsec based VPN"
 msgstr "IPsec-en oinarritutako VPNa"
 
-#: ../properties/nm-libreswan-editor-plugin.c:44
+#: ../properties/nm-libreswan-editor-plugin.c:40
 msgid "IPsec based VPN for remote clients"
 msgstr "IPsec-en oinarritutako VPNa urruneko bezeroentzako"
 
-#: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:280
+#: ../properties/nm-libreswan-editor-plugin.c:94
+#: ../properties/nm-libreswan-editor-plugin.c:294
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Ezin da “%s” fitxategia ireki: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:230
+#: ../properties/nm-libreswan-editor-plugin.c:244
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "“conn” sekzioa falta da hemen: “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:302
+#: ../properties/nm-libreswan-editor-plugin.c:316
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Errorea “%s” fitxategian idaztean: %s"
 
-#: ../src/nm-libreswan-service.c:1402
+#: ../src/nm-libreswan-service.c:1466
 msgid "A password is required."
 msgstr "Pasahitza behar da."
 
-#: ../src/nm-libreswan-service.c:1803
+#: ../src/nm-libreswan-service.c:1867
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr "Ezin izan da eskaera prozesatu VPN konexioaren ezarpenak baliogabekoak direlako."
 
-#: ../src/nm-libreswan-service.c:1817
+#: ../src/nm-libreswan-service.c:1881
 msgid "Unhandled pending authentication."
 msgstr "Autentifikatzea falta dena kudeatu gabe."
 
-#: ../src/nm-libreswan-service.c:1959
+#: ../src/nm-libreswan-service.c:2023
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Ez irten VPN konexioa amaitzen denean"
 
-#: ../src/nm-libreswan-service.c:1960
+#: ../src/nm-libreswan-service.c:2024
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Gaitu arazketaren erregistro xehea (pasahitzak erakuts ditzake)"
 
-#: ../src/nm-libreswan-service.c:1961
+#: ../src/nm-libreswan-service.c:2025
 msgid "D-Bus name to use for this instance"
 msgstr "Instantzia honetan erabiliko den D-Bus izena"
 
-#: ../src/nm-libreswan-service.c:1984
+#: ../src/nm-libreswan-service.c:2048
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Zerbitzu honek VPN IPsec gaitasuna erabiltzea baimentzen dio NetworkManager-i."
@@ -248,146 +248,281 @@ msgid "force"
 msgstr "behartu"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "(None)"
+msgstr "(bat ere ez)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Hold"
+msgstr "Eutsi"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Clear"
+msgstr "Garbitu"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid "Restart"
+msgstr "Berrabiarazi"
+
+#: ../properties/nm-libreswan-dialog.ui.h:22
 msgid "IPsec Advanced Options"
 msgstr "IPsec aukera aurreratuak"
 
-#: ../properties/nm-libreswan-dialog.ui.h:19
+#: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Identification"
 msgstr "Identifikazioa"
 
-#: ../properties/nm-libreswan-dialog.ui.h:20
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Domain"
 msgstr "Domeinua"
 
-#: ../properties/nm-libreswan-dialog.ui.h:21
+#: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
 "(NT-)Domain name for authentication.\n"
-"config: Domain <domain>"
+"                        config: Domain <domain>"
 msgstr "(NT-) Domeinuaren izena autentifikatzeko\n"
-"konfigurazioa: Domain <domeinua>"
+"                        config: Domain <domeinua>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:23
+#: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Security"
 msgstr "Segurtasuna"
 
-#: ../properties/nm-libreswan-dialog.ui.h:24
+#: ../properties/nm-libreswan-dialog.ui.h:28
 msgid "Phase1 Algorithms"
 msgstr "1. faseko algoritmoak"
 
-#: ../properties/nm-libreswan-dialog.ui.h:25
+#: ../properties/nm-libreswan-dialog.ui.h:29
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
 "modpgroup, …”.\n"
-"config: ike <proposals>"
+"                        config: ike <proposals>"
 msgstr "Konexiorako erabiliko den IKE zifratze/autentifikazioko algoritmoa (1. fasea, alegia, ISAKMP SA). Formatua honakoa da: “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
-"config: ike <proposals>"
+"                        config: ike <proposals>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:27
+#: ../properties/nm-libreswan-dialog.ui.h:31
 msgid "Phase2 Algorithms"
 msgstr "2. faseko algoritmoak"
 
-#: ../properties/nm-libreswan-dialog.ui.h:28
+#: ../properties/nm-libreswan-dialog.ui.h:32
 msgid ""
 "Specifies the algorithms that will be offered/accepted for a phase2 "
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
 "…”.\n"
-"config: esp <proposals>"
+"                        config: esp <proposals>"
 msgstr "2. faseko negoziazioan eskainiko/onartuko diren algoritmoak zehazten ditu. Formatua honakoa da: “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
-"config: esp <proposals>"
+"                        config: esp <proposals>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:30
+#: ../properties/nm-libreswan-dialog.ui.h:34
 msgid "Phase1 Lifetime"
 msgstr "1. faseko bizitza"
 
-#: ../properties/nm-libreswan-dialog.ui.h:31
+#: ../properties/nm-libreswan-dialog.ui.h:35
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: ikelifetime <lifetime>"
-msgstr "Zenbat denbora iraungo duen konexio baten gako sorten kanalak, hura birnegoziatu baino lehen. Balioa adierazteko, erabili zenbaki bat eta ondoren aukerako \"s\"(egundoak), \"m\"(inutuak), \"h\"(orduak) edo \"d\"(egunak). config: ikelifetime <lifetime>"
+"                        config: ikelifetime <lifetime>"
+msgstr "Zenbat denbora iraungo duen konexio baten gako sorten kanalak, hura birnegoziatu baino lehen. Balioa adierazteko, erabili zenbaki bat eta ondoren aukerako \"s\"(egundoak), \"m\"(inutuak), \"h\"(orduak) edo \"d\"(egunak).\n"
+"                        config: ikelifetime <lifetime>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:33
+#: ../properties/nm-libreswan-dialog.ui.h:37
 msgid "Phase2 Lifetime"
 msgstr "2. faseko bizitza"
 
-#: ../properties/nm-libreswan-dialog.ui.h:34
+#: ../properties/nm-libreswan-dialog.ui.h:38
 msgid ""
 "How long a particular instance of a connection (a set of encryption/"
 "authentication keys for user packets) should last, from successful "
 "negotiation to expiry. The value is expressed by a number followed by an "
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: salifetime <lifetime>"
-msgstr "Zenbat denbora iraungo duen konexio baten instantzia jakin batek (erabiltzaile-paketeetarako zifratze/autentifikazio gakoen sorta batek), birnegoziatze arrakastatsua iraungi baino lehen. Balioa adierazteko, erabili zenbaki bat eta ondoren aukerako \"s\"(egundoak), \"m\"(inutuak), \"h\"(orduak) edo \"d\"(egunak). config: salifetime <lifetime>"
+"                        config: salifetime <lifetime>"
+msgstr "Zenbat denbora iraungo duen konexio baten instantzia jakin batek (erabiltzaile-paketeetarako zifratze/autentifikazio gakoen sorta batek), birnegoziatze arrakastatsua iraungi baino lehen. Balioa adierazteko, erabili zenbaki bat eta ondoren aukerako \"s\"(egundoak), \"m\"(inutuak), \"h\"(orduak) edo \"d\"(egunak).\n"
+"                        config: salifetime <lifetime>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:36
+#: ../properties/nm-libreswan-dialog.ui.h:40
 msgid "Disable rekeying"
 msgstr "Desgaitu birnegoziatzea"
 
-#: ../properties/nm-libreswan-dialog.ui.h:37
+#: ../properties/nm-libreswan-dialog.ui.h:41
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
-"config: rekey <no/yes>"
+"                        config: rekey <no/yes>"
 msgstr "Konexio bat birnegoziatuko den ala ez hura iraungitzear dagoenean.\n"
-"config: rekey <no/yes>"
+"                        config: rekey <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:39
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Disable PFS"
 msgstr "Desgaitu PFSa"
 
-#: ../properties/nm-libreswan-dialog.ui.h:40
+#: ../properties/nm-libreswan-dialog.ui.h:44
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
-"config: pfs <no/yes>"
+"                        config: pfs <no/yes>"
 msgstr "Desgaitu birbidaltze-segurtasun perfektua. Gaitu aukera hau zerbitzariak PFS onartzen ez badu soilik.\n"
-"config: pfs <no/yes>"
+"                        config: pfs <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:42
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Auth-by"
+msgstr "Auth-by"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid ""
+"How the two security gateways should authenticate each other. Accepts a "
+"comma-separated list of these values:\n"
+"- 'rsasig' for RSA with SHA2 or SHA1\n"
+"- 'ecdsa' for ECDSA digital signatures using SHA-2\n"
+"- 'rsa-sha2' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-256\n"
+"- 'rsa-sha2_384' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-384\n"
+"- 'rsa-sha2_512' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-512\n"
+"- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with "
+"SHA1\n"
+"- 'secret' for shared secrets (PSK) authentication\n"
+"- 'never' if negotiation is never to be attempted or accepted (useful for "
+"shunt-only conns)\n"
+"- 'null' for null-authentication.\n"
+"If not specified, the default value is 'rsasig,ecdsa'.\n"
+"config: authby <value>\n"
+"                        "
+msgstr "Bi segurtasun-atebideak nola autentifikatu dioten elkarri. Komaz bereizitako zerrenda bat onartzen du honako balioekin:\n"
+"- 'rsasig',  RSA gehi SHA2 edo SHA1 bada\n"
+"- 'ecdsa', SHA-2 erabiltzen dituzten ECDSA sinadura digitalak badira\n"
+"- 'rsa-sha2',  SHA2-256 erabiltzen dituzten eta RSASSA-PSS sinadura digitaletan oinarritutako autentifikazioak badira\n"
+"- 'rsa-sha2_384', SHA2-384 erabiltzen dituzten eta RSASSA-PSS sinadura digitaletan oinarritutako autentifikazioak badira\n"
+"- 'rsa-sha2_512', SHA2-512 erabiltzen dituzten eta RSASSA-PSS sinadura digitaletan oinarritutako autentifikazioak badira- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with SHA1\n"
+"- 'secret', sekretu partekatuen (PSK) autentifikazioak badira\n"
+"- 'never', negozioazioa ez bada inoiz saiatuko edo onartuko (dreibaziokoak soilik diren konexioetan soilik)\n"
+"- 'null', autentifikazioa nulua bada.\n"
+"Zehazten ez bada, balio lehenetsia 'rsasig,ecdsa' da.\n"
+"config: authby <value>\n"
+"                        "
+
+#: ../properties/nm-libreswan-dialog.ui.h:60
 msgid "Connectivity"
 msgstr "Konektibitatea"
 
-#: ../properties/nm-libreswan-dialog.ui.h:43
+#: ../properties/nm-libreswan-dialog.ui.h:61
 msgid "Remote Network"
 msgstr "Urruneko sarea"
 
-#: ../properties/nm-libreswan-dialog.ui.h:44
+#: ../properties/nm-libreswan-dialog.ui.h:62
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
-"config: rightsubnet <net>"
+"                        config: rightsubnet <net>"
 msgstr "Urruneko partaidearen atzeko azpisare pribatua, sarea/sare-maskara modura adierazita.\n"
-"config: rightsubnet <net>"
+"                        config: rightsubnet <net>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:46
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Enable fragmentation"
 msgstr "Gaitu zatikatzea"
 
-#: ../properties/nm-libreswan-dialog.ui.h:47
+#: ../properties/nm-libreswan-dialog.ui.h:65
 msgid "narrowing"
 msgstr "estutzea"
 
-#: ../properties/nm-libreswan-dialog.ui.h:48
+#: ../properties/nm-libreswan-dialog.ui.h:66
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
-"config: narrowing <yes/no>"
+"                        config: narrowing <yes/no>"
 msgstr "IKEv2 negoziazioan, IPsec konexioa trafiko-hautatzaile estutuekin ezartzea onartu daiteke. Aukera horri ez ikusiarena egiten zaio IKEv1 negoziazioaren kasuan.\n"
-"config: narrowing <yes/no>"
+"                        config: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:50
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "Enable MOBIKE"
 msgstr "Gaitu MOBIKE"
 
-#: ../properties/nm-libreswan-dialog.ui.h:51
+#: ../properties/nm-libreswan-dialog.ui.h:69
+msgid "Dead Peer Detection (DPD)"
+msgstr "Pareko Hilen Detekzioa (DPD)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:70
+msgid "Delay"
+msgstr "Atzerapena"
+
+#: ../properties/nm-libreswan-dialog.ui.h:71
+msgid ""
+"The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
+"keepalives that are sent for this connection. Must be a number optionally "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+"'d' (days); if the unit is not specified, it defaults to seconds.\n"
+"                        config: dpddelay <delay>"
+msgstr "Pareko Hilen Detekzioaren (IKEv1 RFC 3706) edo konexio honetarako bidaltzen diren IKEv2 Liveness keepalive-n arteko atzerapena. Zenbaki bat izan behar du, eta aukeran, denbora-unitate bat sartu daiteke: 's' (segundoak), 'm' (minutuak), 'h', (orduak) edo 'd' (egunak); unitatea zehazten ez bada, segundoak izango dira.\n"
+"                        config: dpddelay <delay>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:73
+msgid "Timeout"
+msgstr "Denbora-muga"
+
+#: ../properties/nm-libreswan-dialog.ui.h:74
+msgid ""
+"The length of time that we will idle without hearing back from our peer. "
+"After this period has elapsed with no response and no traffic, we will "
+"declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
+"enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
+"number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
+"'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"seconds.\n"
+"                        config: dpdtimeout <timeout>"
+msgstr "Gure parekotik ezer jaso gabe igaroko dugun denbora inaktiboaren luzera. Denbora-tarte honen ondoren erantzunik edo trafikorik ez badago, parekoa hiltzat hartuko dugu eta SA kenduko dugu. Ezarri 'dpddelay' baino balio handiagoa. 'dpdtimeout' ezarrita badago, 'dpddelay' ere ezarri behar da. Zenbaki bat izan behar du, eta aukeran, denbora-unitate bat sartu daiteke: 's' (segundoak), 'm' (minutuak), 'h', (orduak) edo 'd' (egunak); unitatea zehazten ez bada, segundoak izango dira.\n"
+"                        config: dpdtimeout <timeout>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:76
+msgid "Action"
+msgstr "Ekintza"
+
+#: ../properties/nm-libreswan-dialog.ui.h:78
+#, no-c-format
+msgid ""
+"When a DPD enabled peer is declared dead, what action should be taken.  "
+"\"hold\" (default) means the eroute will be put into %hold status, while "
+"\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will renegotiated.\n"
+"                        config: dpdaction <action>"
+msgstr "DPD bidez gaitutako pareko bat hiltzat hartzen denean, zein ekintza gauzatuko den. Balio lehenetsia 'hold' da, alegia, eroute %hold egoeran ezarriko da; 'clear' balioak, berriz, esan nahi du eroute eta SA garbituko direla. Balioa 'restart' bada, esan nahi du hildako parekoarekin dauden SA guztiak birnegoziatuko direla.\n"
+"                        config: dpdaction <action>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:80
+msgid "Other options"
+msgstr "Bestelako aukerak"
+
+#: ../properties/nm-libreswan-dialog.ui.h:81
+msgid "IPsec interface"
+msgstr "IPsec interfazea"
+
+#: ../properties/nm-libreswan-dialog.ui.h:82
+msgid ""
+"If set, create or use an existing virtual interface ipsecXXX for \"Routing "
+"based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
+"'no' or a number. When using a number, the IPsec interface created and/or "
+"used will use that number as part of the interface name. For example setting "
+"ipsec-interface=5 will create and/or use the ipsec5 interface. The value 0 "
+"cannot be used and is interpreted as 'no'. The value 'yes' is interpreted as "
+"the number 1, and thus will use the interface named 'ipsec1.'\n"
+"                        config: ipsec-interface yes|no|<num>"
+msgstr "Ezarrita badago, sortu edo erabili lehendik dagoen ipsecXXX interfaze birtual bat 'Bideratzean oinarritutako VPNetarako' (kontrakoa 'Politiketan oinarritutako VPNak' dira). Balio posibleak: 'ues', 'no' edo zenbaki bat. Zenbaki bat erabiltzen bada, sortutako edo erabilitako IPsec interfazeak zenbaki hori erabiliko du interfaze-izenean. Adibidez, 'ipsec-interface=5' ezartzen bada, 'ipsec5' interfazea sortu edo erabiliko da. Balioa 0 bada, aukera 'no' dela ulertuko da. Balioa 'yes' bada, zenbakia 1 dela ulertuko da eta, beraz, 'ipsec1' izeneko interfazea erabiliko da.\n"
+"                        config: ipsec-interface yes|no|<num>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:84
+msgid "Disable Mode Config client"
+msgstr "Desgaitu modua konfiguratzeko bezeroa"
+
+#: ../properties/nm-libreswan-dialog.ui.h:85
+msgid "Other"
+msgstr "Bestelakoa"
+
+#: ../properties/nm-libreswan-dialog.ui.h:86
 msgid "Advanced Properties"
 msgstr "Ezarpen aurreratuak"
 
-#: ../properties/nm-libreswan-dialog.ui.h:52
+#: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "_Cancel"
 msgstr "_Utzi"
 
-#: ../properties/nm-libreswan-dialog.ui.h:53
+#: ../properties/nm-libreswan-dialog.ui.h:88
 msgid "_Apply"
 msgstr "_Aplikatu"
 
