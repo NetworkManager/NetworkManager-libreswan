@@ -992,7 +992,7 @@ config: authby &lt;value&gt;
                       <object class="GtkEntry" id="dpd_delay_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness keepalives that are sent for this connection. Must be a number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd' (days); if the unit is not specified, it defaults to seconds.
+                        <property name="tooltip_text" translatable="yes">The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness keepalives that are sent for this connection. Must be a number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' (days); if the unit is not specified, it defaults to seconds.
                         config: dpddelay &lt;delay&gt;</property>
                         <property name="invisible_char">●</property>
                         <property name="hexpand">True</property>
@@ -1020,7 +1020,7 @@ config: authby &lt;value&gt;
                       <object class="GtkEntry" id="dpd_timeout_entry">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">The length of time that we will idle without hearing back from our peer. After this period has elapsed with no response and no traffic, we will declare the peer dead, and remove the SA. Set value bigger than dpddelay to enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or 'd' (days); if the unit is not specified, it defaults to seconds.
+                        <property name="tooltip_text" translatable="yes">The length of time that we will idle without hearing back from our peer. After this period has elapsed with no response and no traffic, we will declare the peer dead, and remove the SA. Set value bigger than dpddelay to enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' (days); if the unit is not specified, it defaults to seconds.
                         config: dpdtimeout &lt;timeout&gt;</property>
                         <property name="invisible_char">●</property>
                         <property name="hexpand">True</property>
@@ -1048,7 +1048,7 @@ config: authby &lt;value&gt;
                       <object class="GtkComboBox" id="dpd_action_combo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="tooltip_text" translatable="yes">When a DPD enabled peer is declared dead, what action should be taken.  "hold" (default) means the eroute will be put into %hold status, while "clear" means the eroute and SA with both be cleared. "restart" means that ALL SAs to the dead peer will renegotiated.
+                        <property name="tooltip_text" translatable="yes">When a DPD enabled peer is declared dead, what action should be taken.  "hold" (default) means the eroute will be put into %hold status, while "clear" means the eroute and SA will both be cleared. "restart" means that ALL SAs to the dead peer will be renegotiated.
                         config: dpdaction &lt;action&gt;</property>
                         <property name="model">liststore_dpd_action</property>
                         <property name="active">0</property>
