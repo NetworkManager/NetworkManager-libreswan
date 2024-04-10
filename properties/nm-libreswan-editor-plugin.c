@@ -215,6 +215,8 @@ import_from_file (NMVpnEditorPlugin *self,
 		else if (g_str_has_prefix (str, "rightsubnet=")) {
 			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);
+		} else if (g_str_has_prefix (str, "leftsubnet=")) {
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK, str + NM_STRLEN("leftsubnet="));
 		} else if (g_str_has_prefix (str, "leftrsasigkey=")) {
 			if (str[14] != '%')
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY, &str[14]);

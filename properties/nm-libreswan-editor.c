@@ -388,6 +388,7 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_widget (self, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL, NULL);
 	populate_widget (self, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, NULL, "no");
 	populate_widget (self, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, NULL, "no");
+	populate_widget (self, "local_network_entry", NM_LIBRESWAN_KEY_LOCALNETWORK, NULL, NULL);
 	populate_widget (self, "remote_network_entry", NM_LIBRESWAN_KEY_REMOTENETWORK, NULL, NULL);
 	populate_widget (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
 	populate_widget (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
@@ -484,6 +485,7 @@ init_editor_plugin (LibreswanEditor *self,
 	hook_stuff_changed_cb (self, "phase2_lifetime_entry");
 	hook_stuff_changed_cb (self, "rekey_checkbutton");
 	hook_stuff_changed_cb (self, "pfs_checkbutton");
+	hook_stuff_changed_cb (self, "local_network_entry");
 	hook_stuff_changed_cb (self, "remote_network_entry");
 	hook_stuff_changed_cb (self, "narrowing_checkbutton");
 	hook_stuff_changed_cb (self, "fragmentation_combo");
@@ -562,6 +564,16 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_DOMAIN, str);
 	else
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DOMAIN);
+
+	/* Local Network */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
+	                                             "local_network_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK, str);
+	else
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+
 
 	/* Remote Network */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,

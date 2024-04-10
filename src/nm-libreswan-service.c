@@ -271,6 +271,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_SALIFETIME,                 G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_VENDOR,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_REMOTENETWORK,              G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_LOCALNETWORK,               G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_IKEV2,                      G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_NARROWING,                  G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_REKEY,                      G_TYPE_STRING, 0, 0 },

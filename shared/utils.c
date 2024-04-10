@@ -222,6 +222,11 @@ nm_libreswan_config_write (gint fd,
 		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s",
 			     remote_network);
 
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+	if (item) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftsubnet=%s", item);
+	}
+
 	if (!is_ikev2) {
 		/* When IKEv1 is in place, we enforce XAUTH: so, use IKE version
 		 * also to check if XAUTH conf options should be passed to Libreswan.

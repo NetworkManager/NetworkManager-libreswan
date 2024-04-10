@@ -401,6 +401,7 @@
   </object>
   <object class="GtkSizeGroup" id="advanced_connectivity_labels">
     <widgets>
+      <widget name="local_network_label"/>
       <widget name="remote_network_label"/>
       <widget name="label_fragmentation"/>
       <widget name="label_mobike"/>
@@ -809,6 +810,33 @@ config: authby &lt;value&gt;
                     <property name="row_spacing">6</property>
                     <property name="column_spacing">6</property>
                     <child>
+                      <object class="GtkLabel" id="local_network_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Local Network</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">local_network_entry</property>
+		        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="local_network_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Private subnet behind the local participant, expressed as network/netmask.
+                        config: leftsubnet &lt;net&gt;</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkLabel" id="remote_network_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -819,7 +847,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
+                        <property name="top_attach">1</property>
                       </packing>
                     </child>
                     <child>
@@ -832,7 +860,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
+                        <property name="top_attach">1</property>
                       </packing>
                     </child>
                     <child>
@@ -846,7 +874,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
+                        <property name="top_attach">3</property>
                       </packing>
                     </child>
                     <child>
@@ -865,7 +893,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">2</property>
+                        <property name="top_attach">3</property>
                       </packing>
                     </child>
                     <child>
@@ -880,7 +908,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
-                        <property name="top_attach">1</property>
+                        <property name="top_attach">2</property>
                       </packing>
                     </child>
                     <child>
@@ -894,7 +922,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">3</property>
+                        <property name="top_attach">4</property>
                       </packing>
                     </child>
                     <child>
@@ -912,7 +940,7 @@ config: authby &lt;value&gt;
                       </object>
                       <packing>
                         <property name="left-attach">1</property>
-                        <property name="top-attach">3</property>
+                        <property name="top-attach">4</property>
                       </packing>
                     </child>
                   </object>
