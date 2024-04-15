@@ -250,6 +250,7 @@ static ValidProperty valid_properties[] = {
 	{ NM_LIBRESWAN_KEY_RIGHT,                      G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_RIGHTID,                    G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_RIGHTRSASIGKEY,             G_TYPE_STRING, 0, 0 },
+	{ NM_LIBRESWAN_KEY_RIGHTCERT,                  G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFT,                       G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTID,                     G_TYPE_STRING, 0, 0 },
 	{ NM_LIBRESWAN_KEY_LEFTXAUTHUSER,              G_TYPE_STRING, 0, 0 },
@@ -1801,6 +1802,7 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 	NMSettingVpn *s_vpn;
 	const char *leftcert;
 	const char *leftrsasigkey;
+	const char *rightcert;
 	const char *rightrsasigkey;
 	const char *pw_type;
 
@@ -1821,10 +1823,12 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 	if (leftcert)
 		goto xauth_check;
 
-	/* If authentication is done through rsasigkeys, only the public keys are required */
+	/* If authentication is done through rsasigkeys, only the public keys are required.
+	 * If rightcert is specified, rightrsasigkey is assumed to be '%cert' */
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
-	if (leftrsasigkey && rightrsasigkey)
+	rightcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT);
+	if (leftrsasigkey && (rightrsasigkey || rightcert))
 		goto xauth_check;
 
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);

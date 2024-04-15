@@ -108,6 +108,7 @@ nm_libreswan_config_write (gint fd,
 	const char *left;
 	const char *leftid;
 	const char *leftcert;
+	const char *rightcert;
 	const char *leftrsasigkey;
 	const char *rightrsasigkey;
 	const char *authby;
@@ -165,7 +166,13 @@ nm_libreswan_config_write (gint fd,
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
 	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
+	rightcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT);
 	authby = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_AUTHBY);
+	if (rightcert && strlen (rightcert)) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " rightcert=%s", rightcert);
+		if (!rightrsasigkey)
+			rightrsasigkey = "%cert";
+	}
 	if (leftcert && strlen (leftcert)) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftcert=%s", leftcert);
 		if (!leftrsasigkey)

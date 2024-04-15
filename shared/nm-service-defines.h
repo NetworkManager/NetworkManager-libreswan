@@ -37,6 +37,7 @@
 #define NM_LIBRESWAN_KEY_RIGHT                      "right"
 #define NM_LIBRESWAN_KEY_RIGHTID                    "rightid"
 #define NM_LIBRESWAN_KEY_RIGHTRSASIGKEY             "rightrsasigkey"
+#define NM_LIBRESWAN_KEY_RIGHTCERT                  "rightcert"
 #define NM_LIBRESWAN_KEY_LEFT                       "left"
 #define NM_LIBRESWAN_KEY_LEFTID                     "leftid"
 #define NM_LIBRESWAN_KEY_LEFTRSASIGKEY              "leftrsasigkey"
