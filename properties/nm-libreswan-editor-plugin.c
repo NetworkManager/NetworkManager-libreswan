@@ -182,6 +182,8 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTUSERNAME, &str[13]);
 		else if (g_str_has_prefix (str, "leftcert="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT, &str[9]);
+		else if (g_str_has_prefix (str, "rightcert="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT, &str[10]);
 		else if (nm_streq0 (str, "leftmodecfgclient=no"))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT, "no");
 		else if (g_str_has_prefix (str, "pfs=no"))
