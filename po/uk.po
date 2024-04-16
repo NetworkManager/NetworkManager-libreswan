@@ -9,17 +9,17 @@ msgstr ""
 "Project-Id-Version: NetworkManager vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan"
 "/issues\n"
-"POT-Creation-Date: 2024-01-17 07:39+0000\n"
-"PO-Revision-Date: 2024-01-17 21:08+0200\n"
+"POT-Creation-Date: 2024-04-16 11:28+0000\n"
+"PO-Revision-Date: 2024-04-16 20:16+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"Language-Team: Ukrainian\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -79,49 +79,49 @@ msgid "IPsec based VPN for remote clients"
 msgstr "VPN на основі IPsec для віддалених клієнтів"
 
 #: ../properties/nm-libreswan-editor-plugin.c:94
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:298
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Не вдалося відкрити файл «%s»: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:244
+#: ../properties/nm-libreswan-editor-plugin.c:248
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "У «%s» пропущено розділ «conn»"
 
-#: ../properties/nm-libreswan-editor-plugin.c:316
+#: ../properties/nm-libreswan-editor-plugin.c:320
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Помилка під час спроби виконати запис до файла «%s»: %s"
 
-#: ../src/nm-libreswan-service.c:1466
+#: ../src/nm-libreswan-service.c:1468
 msgid "A password is required."
 msgstr "Потрібен пароль."
 
-#: ../src/nm-libreswan-service.c:1867
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Не вдалося обробити запит, оскільки параметри з'єднання VPN є некоректними."
 
-#: ../src/nm-libreswan-service.c:1881
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr "Непридатне до обробки розпізнавання у черзі."
 
-#: ../src/nm-libreswan-service.c:2023
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Не виходити, якщо розірвано з'єднання VPN"
 
-#: ../src/nm-libreswan-service.c:2024
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Увімкнути докладний журнал діагностики (можливе виведення паролів)"
 
-#: ../src/nm-libreswan-service.c:2025
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "Назва D-Bus для використання для цього екземпляра"
 
-#: ../src/nm-libreswan-service.c:2048
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -449,10 +449,28 @@ msgid "Connectivity"
 msgstr "Можливість з'єднання"
 
 #: ../properties/nm-libreswan-dialog.ui.h:61
+#| msgid "Remote Network"
+msgid "Local Network"
+msgstr "Локальна мережа"
+
+#: ../properties/nm-libreswan-dialog.ui.h:62
+#| msgid ""
+#| "Private subnet behind the remote participant, expressed as network/"
+#| "netmask.\n"
+#| "                        config: rightsubnet <net>"
+msgid ""
+"Private subnet behind the local participant, expressed as network/netmask.\n"
+"                        config: leftsubnet <net>"
+msgstr ""
+"Приватна підмережа локального учасника, визначається у форматі «мережа/"
+"маска мережі».\n"
+"Файл налаштувань: leftsubnet <net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Remote Network"
 msgstr "Віддалена мережа"
 
-#: ../properties/nm-libreswan-dialog.ui.h:62
+#: ../properties/nm-libreswan-dialog.ui.h:65
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "                        config: rightsubnet <net>"
@@ -461,15 +479,15 @@ msgstr ""
 "маска мережі».\n"
 "Файл налаштувань: rightsubnet <net>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:64
+#: ../properties/nm-libreswan-dialog.ui.h:67
 msgid "Enable fragmentation"
 msgstr "Увімкнути фрагментацію"
 
-#: ../properties/nm-libreswan-dialog.ui.h:65
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "narrowing"
 msgstr "звуження"
 
-#: ../properties/nm-libreswan-dialog.ui.h:66
+#: ../properties/nm-libreswan-dialog.ui.h:69
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
@@ -480,23 +498,29 @@ msgstr ""
 "IKEv1.\n"
 "Файл налаштувань: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:68
+#: ../properties/nm-libreswan-dialog.ui.h:71
 msgid "Enable MOBIKE"
 msgstr "Увімкнути MOBIKE"
 
-#: ../properties/nm-libreswan-dialog.ui.h:69
+#: ../properties/nm-libreswan-dialog.ui.h:72
 msgid "Dead Peer Detection (DPD)"
 msgstr "Виявлення непрацездатних вузлів (DPD)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:70
+#: ../properties/nm-libreswan-dialog.ui.h:73
 msgid "Delay"
 msgstr "Затримка"
 
-#: ../properties/nm-libreswan-dialog.ui.h:71
+#: ../properties/nm-libreswan-dialog.ui.h:74
+#| msgid ""
+#| "The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
+#| "keepalives that are sent for this connection. Must be a number optionally "
+#| "followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+#| "'d' (days); if the unit is not specified, it defaults to seconds.\n"
+#| "                        config: dpddelay <delay>"
 msgid ""
 "The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
 "keepalives that are sent for this connection. Must be a number optionally "
-"followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or "
 "'d' (days); if the unit is not specified, it defaults to seconds.\n"
 "                        config: dpddelay <delay>"
 msgstr ""
@@ -507,18 +531,27 @@ msgstr ""
 "одиницею є секунди.\n"
 "Файл налаштувань: dpddelay <затримка>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:73
+#: ../properties/nm-libreswan-dialog.ui.h:76
 msgid "Timeout"
 msgstr "Час очікування"
 
-#: ../properties/nm-libreswan-dialog.ui.h:74
+#: ../properties/nm-libreswan-dialog.ui.h:77
+#| msgid ""
+#| "The length of time that we will idle without hearing back from our peer. "
+#| "After this period has elapsed with no response and no traffic, we will "
+#| "declare the peer dead, and remove the SA. Set value bigger than dpddelay "
+#| "to enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
+#| "number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
+#| "'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+#| "seconds.\n"
+#| "                        config: dpdtimeout <timeout>"
 msgid ""
 "The length of time that we will idle without hearing back from our peer. "
 "After this period has elapsed with no response and no traffic, we will "
 "declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
 "enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
 "number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
-"'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"'h' (hours) or 'd' (days); if the unit is not specified, it defaults to "
 "seconds.\n"
 "                        config: dpdtimeout <timeout>"
 msgstr ""
@@ -532,17 +565,23 @@ msgstr ""
 "секунди.\n"
 "Файл налаштувань: dpdtimeout <час очікування>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:76
+#: ../properties/nm-libreswan-dialog.ui.h:79
 msgid "Action"
 msgstr "Дія"
 
-#: ../properties/nm-libreswan-dialog.ui.h:78
+#: ../properties/nm-libreswan-dialog.ui.h:81
 #, no-c-format
+#| msgid ""
+#| "When a DPD enabled peer is declared dead, what action should be taken.  "
+#| "\"hold\" (default) means the eroute will be put into %hold status, while "
+#| "\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
+#| "that ALL SAs to the dead peer will renegotiated.\n"
+#| "                        config: dpdaction <action>"
 msgid ""
 "When a DPD enabled peer is declared dead, what action should be taken.  "
 "\"hold\" (default) means the eroute will be put into %hold status, while "
-"\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
-"that ALL SAs to the dead peer will renegotiated.\n"
+"\"clear\" means the eroute and SA will both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will be renegotiated.\n"
 "                        config: dpdaction <action>"
 msgstr ""
 "Якщо з увімкненим DPD вузол оголошено непрацездатним, визначає дію, яку має "
@@ -552,15 +591,15 @@ msgstr ""
 "повторно.\n"
 "Файл налаштувань: dpdaction <дія>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:80
+#: ../properties/nm-libreswan-dialog.ui.h:83
 msgid "Other options"
 msgstr "Інші параметри"
 
-#: ../properties/nm-libreswan-dialog.ui.h:81
+#: ../properties/nm-libreswan-dialog.ui.h:84
 msgid "IPsec interface"
 msgstr "Інтерфейс IPsec"
 
-#: ../properties/nm-libreswan-dialog.ui.h:82
+#: ../properties/nm-libreswan-dialog.ui.h:85
 msgid ""
 "If set, create or use an existing virtual interface ipsecXXX for \"Routing "
 "based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
@@ -582,23 +621,36 @@ msgstr ""
 "«ipsec1».\n"
 "Файл налаштувань: ipsec-interface yes|no|<число>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:84
+#: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "Disable Mode Config client"
 msgstr "Вимкнути клієнт налаштовування режиму"
 
-#: ../properties/nm-libreswan-dialog.ui.h:85
+#: ../properties/nm-libreswan-dialog.ui.h:88
+#| msgid "_Certificate name"
+msgid "Remote certificate name"
+msgstr "Назва сертифіката віддаленого"
+
+#: ../properties/nm-libreswan-dialog.ui.h:89
+msgid ""
+"If set, specify the name of the certificate from the NSS database to "
+"authenticate the remote"
+msgstr ""
+"Якщо встановлено, визначає назву сертифіката з бази даних NSS для"
+" розпізнавання віддаленого пристрою"
+
+#: ../properties/nm-libreswan-dialog.ui.h:90
 msgid "Other"
 msgstr "Інше"
 
-#: ../properties/nm-libreswan-dialog.ui.h:86
+#: ../properties/nm-libreswan-dialog.ui.h:91
 msgid "Advanced Properties"
 msgstr "Додаткові властивості"
 
-#: ../properties/nm-libreswan-dialog.ui.h:87
+#: ../properties/nm-libreswan-dialog.ui.h:92
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: ../properties/nm-libreswan-dialog.ui.h:88
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "_Apply"
 msgstr "_Застосувати"
 
