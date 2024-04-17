@@ -1,4 +1,15 @@
 =========================================================
+NetworkManager-libreswan-1.2.20
+Overview of changes since NetworkManager-libreswan-1.2.18
+=========================================================
+
+This is a new stable release of NetworkManager-libreswan. Notable changes include:
+* Support setting "leftmodecfgclient" to "no"
+* Support for the "type", "hostaddrfamily" and "clientaddrfamily", "leftsubnet"
+  and "rightcert" parameters.
+* Updated Turkish, Ukrainian, Basque and Danish translations
+
+=========================================================
 NetworkManager-libreswan-1.2.18
 Overview of changes since NetworkManager-libreswan-1.2.16
 =========================================================
