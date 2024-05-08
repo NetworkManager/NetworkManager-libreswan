@@ -225,11 +225,16 @@ static inline int nm_close (int fd);
 NM_AUTO_DEFINE_FCN_VOID (void *, _nm_auto_free_impl, free)
 #define nm_auto_free nm_auto(_nm_auto_free_impl)
 
+NM_AUTO_DEFINE_FCN0 (GVariant *, _nm_auto_unref_variant, g_variant_unref);
+#define nm_auto_unref_variant nm_auto(_nm_auto_unref_variant)
+
 NM_AUTO_DEFINE_FCN0 (GVariantIter *, _nm_auto_free_variant_iter, g_variant_iter_free)
 #define nm_auto_free_variant_iter nm_auto(_nm_auto_free_variant_iter)
 
 NM_AUTO_DEFINE_FCN0 (GVariantBuilder *, _nm_auto_unref_variant_builder, g_variant_builder_unref)
 #define nm_auto_unref_variant_builder nm_auto(_nm_auto_unref_variant_builder)
+
+#define nm_auto_clear_variant_builder nm_auto(g_variant_builder_clear)
 
 NM_AUTO_DEFINE_FCN (GList *, _nm_auto_free_list, g_list_free)
 #define nm_auto_free_list nm_auto(_nm_auto_free_list)
@@ -244,6 +249,9 @@ NM_AUTO_DEFINE_FCN_VOID0 (void *, _nm_auto_unref_gtypeclass, g_type_class_unref)
 
 NM_AUTO_DEFINE_FCN0 (GByteArray *, _nm_auto_unref_bytearray, g_byte_array_unref)
 #define nm_auto_unref_bytearray nm_auto(_nm_auto_unref_bytearray)
+
+NM_AUTO_DEFINE_FCN0(char **, _nm_auto_strfreev, g_strfreev);
+#define nm_auto_strfreev nm_auto(_nm_auto_strfreev)
 
 static inline void
 _nm_auto_free_gstring (GString **str)
