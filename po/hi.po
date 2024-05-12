@@ -1,0 +1,611 @@
+# Hindi translation for NetworkManager-libreswan.
+# Copyright (C) 2024 NetworkManager-libreswan's COPYRIGHT HOLDER
+# This file is distributed under the same license as the NetworkManager-libreswan package.
+# Scrambled777 <weblate.scrambled777@simplelogin.com>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: NetworkManager-libreswan main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2024-04-17 11:50+0000\n"
+"PO-Revision-Date: 2024-04-24 17:32+0530\n"
+"Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 46.1\n"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
+msgid "IPsec VPN client"
+msgstr "IPsec VPN क्लाइंट"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:2
+msgid "Libreswan based client for IKEv1 based IPsec virtual private networks"
+msgstr "IKEv1 आधारित IPsec वर्चुअल प्राइवेट नेटवर्क के लिए Libreswan आधारित क्लाइंट"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:3
+msgid ""
+"Support for configuring IKEv1 based IPsec virtual private network "
+"connections."
+msgstr "IKEv1 आधारित IPsec वर्चुअल प्राइवेट नेटवर्क कनेक्शन को विन्यस्त करने के लिए समर्थन।"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
+msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
+msgstr "Libreswan और Cisco IPsec VPN सर्वर के साथ संगत।"
+
+#: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
+msgid "The NetworkManager Developers"
+msgstr "NetworkManager विकासकर्ता"
+
+#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
+msgid "Authenticate VPN"
+msgstr "VPN को प्रमाणित करें"
+
+#: ../auth-dialog/main.c:179
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: ../auth-dialog/main.c:189
+msgid "Group Password"
+msgstr "समूह पासवर्ड"
+
+#: ../auth-dialog/main.c:236
+msgid "_Group Password:"
+msgstr "समूह पासवर्ड (_G):"
+
+#: ../auth-dialog/main.c:486
+#, c-format
+msgid "You need to authenticate to access the Virtual Private Network “%s”."
+msgstr "आपको वर्चुअल प्राइवेट नेटवर्क “%s” तक पहुंचने के लिए प्रमाणित करने की आवश्यकता है।"
+
+#: ../properties/nm-libreswan-editor-plugin.c:39
+msgid "IPsec based VPN"
+msgstr "IPsec आधारित VPN"
+
+#: ../properties/nm-libreswan-editor-plugin.c:40
+msgid "IPsec based VPN for remote clients"
+msgstr "रिमोट क्लाइंट्स के लिए IPsec आधारित VPN"
+
+#: ../properties/nm-libreswan-editor-plugin.c:94
+#: ../properties/nm-libreswan-editor-plugin.c:298
+#, c-format
+msgid "Can’t open file “%s”: %s"
+msgstr "फ़ाइल “%s” नहीं खोल सकते: %s"
+
+#: ../properties/nm-libreswan-editor-plugin.c:248
+#, c-format
+msgid "Missing “conn” section in “%s”"
+msgstr "“%s” में “conn” अनुभाग गुम है"
+
+#: ../properties/nm-libreswan-editor-plugin.c:320
+#, c-format
+msgid "Error writing to file “%s”: %s"
+msgstr "फ़ाइल “%s” में लिखने में त्रुटि: %s"
+
+#: ../src/nm-libreswan-service.c:1468
+msgid "A password is required."
+msgstr "एक पासवर्ड आवश्यक है."
+
+#: ../src/nm-libreswan-service.c:1872
+msgid ""
+"Could not process the request because the VPN connection settings were "
+"invalid."
+msgstr "अनुरोध संसाधित नहीं किया जा सका क्योंकि VPN कनेक्शन सेटिंग्स अमान्य थीं।"
+
+#: ../src/nm-libreswan-service.c:1886
+msgid "Unhandled pending authentication."
+msgstr "अप्रबंधित लंबित प्रमाणीकरण."
+
+#: ../src/nm-libreswan-service.c:2028
+msgid "Don’t quit when VPN connection terminates"
+msgstr "VPN कनेक्शन समाप्त होने पर न छोड़ें"
+
+#: ../src/nm-libreswan-service.c:2029
+msgid "Enable verbose debug logging (may expose passwords)"
+msgstr "वाचाल डिबग लॉगिंग सक्षम करें (पासवर्ड उजागर हो सकता है)"
+
+#: ../src/nm-libreswan-service.c:2030
+msgid "D-Bus name to use for this instance"
+msgstr "इस इंस्टैंस के लिए उपयोग हेतु D-Bus नाम"
+
+#: ../src/nm-libreswan-service.c:2053
+msgid ""
+"This service provides integrated IPsec VPN capability to NetworkManager."
+msgstr "यह सेवा NetworkManager को एकीकृत IPsec VPN क्षमता प्रदान करती है।"
+
+#: ../shared/utils.c:86
+#, c-format
+msgid "Error writing config: %s"
+msgstr "विन्यास लिखने में त्रुटि: %s"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1087
+#, c-format
+msgid "object class '%s' has no property named '%s'"
+msgstr "वस्तु वर्ग '%s' में '%s' नाम का कोई गुण नहीं है"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1094
+#, c-format
+msgid "property '%s' of object class '%s' is not writable"
+msgstr "वस्तु वर्ग '%2$s' का गुण '%1$s' लिखने योग्य नहीं है"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1101
+#, c-format
+msgid ""
+"construct property \"%s\" for object '%s' can't be set after construction"
+msgstr ""
+"वस्तु '%2$s' के लिए निर्माण गुण \"%1$s\" निर्माण के बाद निर्धारित नहीं की जा सकती"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1109
+#, c-format
+msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
+msgstr "'%s::%s' मान्य गुण नाम नहीं है; '%s' एक GObject उपप्रकार नहीं है"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1118
+#, c-format
+msgid "unable to set property '%s' of type '%s' from value of type '%s'"
+msgstr "'%2$s' प्रकार की गुण '%1$s' को '%3$s' प्रकार के मान से निर्धारित करने में असमर्थ"
+
+#: ../shared/nm-utils/nm-shared-utils.c:1129
+#, c-format
+msgid ""
+"value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+"type '%s'"
+msgstr ""
+"प्रकार '%2$s' का मान \"%1$s\" प्रकार '%4$s' के गुण '%3$s' के लिए अमान्य या सीमा से "
+"बाहर है"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#, c-format
+msgid "unable to get editor plugin name: %s"
+msgstr "संपादक प्लगइन नाम प्राप्त करने में असमर्थ: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#, c-format
+msgid "missing plugin file \"%s\""
+msgstr "अनुपलब्ध प्लगइन फाइल \"%s\""
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#, c-format
+msgid "cannot load editor plugin: %s"
+msgstr "संपादक प्लगइन लोड नहीं कर सकता: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#, c-format
+msgid "cannot load factory %s from plugin: %s"
+msgstr "प्लगइन से फ़ैक्टरी %s लोड नहीं हो सकता: %s"
+
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+msgid "unknown error creating editor instance"
+msgstr "संपादक इंस्टैंस बनाने में अज्ञात त्रुटि"
+
+#: ../properties/nm-libreswan-dialog.ui.h:1
+msgid "IKEv1 (XAUTH)"
+msgstr "IKEv1 (XAUTH)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:2
+msgid "IKEv2 (Certificate)"
+msgstr "IKEv2 (प्रमाणपत्र)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:3
+msgid "General"
+msgstr "सामान्य"
+
+#: ../properties/nm-libreswan-dialog.ui.h:4
+msgid "_Gateway"
+msgstr "गेटवे (_G)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:5
+msgid "Authentication"
+msgstr "प्रमाणीकरण"
+
+#: ../properties/nm-libreswan-dialog.ui.h:6
+msgid "Type"
+msgstr "प्रकार"
+
+#: ../properties/nm-libreswan-dialog.ui.h:7
+msgid "User name"
+msgstr "उपयोक्ता नाम"
+
+#: ../properties/nm-libreswan-dialog.ui.h:8
+msgid "_User password"
+msgstr "उपयोक्ता पासवर्ड (_U)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:9
+msgid "G_roup name"
+msgstr "समूह नाम (_r)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:10
+msgid "_Secret"
+msgstr "_Secret"
+
+#: ../properties/nm-libreswan-dialog.ui.h:11
+msgid "Show passwords"
+msgstr "पासवर्ड दिखाएँ"
+
+#: ../properties/nm-libreswan-dialog.ui.h:12
+msgid "_Certificate name"
+msgstr "प्रमाणपत्र का नाम (_C)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:13
+msgid "_Remote ID"
+msgstr "रिमोट ID (_R)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:14
+msgid "A_dvanced…"
+msgstr "उन्नत (_d)…"
+
+#: ../properties/nm-libreswan-dialog.ui.h:15
+msgid "no"
+msgstr "नहीं"
+
+#: ../properties/nm-libreswan-dialog.ui.h:16
+msgid "yes"
+msgstr "हाँ"
+
+#: ../properties/nm-libreswan-dialog.ui.h:17
+msgid "force"
+msgstr "बाध्य"
+
+#: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "(None)"
+msgstr "(कोई नहीं)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Hold"
+msgstr "होल्ड"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Clear"
+msgstr "साफ"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid "Restart"
+msgstr "पुनः प्रारंभ"
+
+#: ../properties/nm-libreswan-dialog.ui.h:22
+msgid "IPsec Advanced Options"
+msgstr "IPsec उन्नत विकल्प"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "Identification"
+msgstr "पहचान"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
+msgid "Domain"
+msgstr "डोमेन"
+
+#: ../properties/nm-libreswan-dialog.ui.h:25
+msgid ""
+"(NT-)Domain name for authentication.\n"
+"                        config: Domain <domain>"
+msgstr ""
+"(NT-)प्रमाणीकरण के लिए डोमेन नाम.\n"
+"                                            विन्यास: डोमेन <domain>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:27
+msgid "Security"
+msgstr "सुरक्षा"
+
+#: ../properties/nm-libreswan-dialog.ui.h:28
+msgid "Phase1 Algorithms"
+msgstr "Phase1 कलन विधि"
+
+#: ../properties/nm-libreswan-dialog.ui.h:29
+msgid ""
+"IKE encryption/authentication algorithm to be used for the connection (phase "
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
+"modpgroup, …”.\n"
+"                        config: ike <proposals>"
+msgstr ""
+"कनेक्शन के लिए IKE कूटलेखन/प्रमाणीकरण कलन विधि का उपयोग किया जाएगा (Phase1 उर्फ "
+"ISAKMP SA)। प्रारूप “cipher-hash;modpgroup, cipher-hash;modpgroup, …” है।\n"
+"                                                        विन्यास: ike "
+"<proposals> "
+
+#: ../properties/nm-libreswan-dialog.ui.h:31
+msgid "Phase2 Algorithms"
+msgstr "Phase2 कलन विधि"
+
+#: ../properties/nm-libreswan-dialog.ui.h:32
+msgid ""
+"Specifies the algorithms that will be offered/accepted for a phase2 "
+"negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+"…”.\n"
+"                        config: esp <proposals>"
+msgstr ""
+"उन कलन विधि को निर्दिष्ट करता है जिन्हें phase2 वार्ता के लिए पेश/स्वीकार किया जाएगा। "
+"प्रारूप “cipher-hash;modpgroup, cipher-hash;modpgroup, …” है।\n"
+"                                                        विन्यास: esp "
+"<proposals>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:34
+msgid "Phase1 Lifetime"
+msgstr "Phase1 जीवनकाल"
+
+#: ../properties/nm-libreswan-dialog.ui.h:35
+msgid ""
+"How long the keying channel of a connection should last before being "
+"renegotiated. The value is expressed by a number followed by an optional "
+"“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"                        config: ikelifetime <lifetime>"
+msgstr ""
+"किसी कनेक्शन का कुंजीयन चैनल पुन: बातचीत करने से पहले कितने समय तक चलना चाहिए। मान को "
+"एक संख्या के बाद वैकल्पिक “से”(सेकंड), “मि”(नट), “घं”(टे) or “दि”(न) द्वारा व्यक्त किया "
+"जाता है।\n"
+"                                                        विन्यास: ikelifetime "
+"<lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:37
+msgid "Phase2 Lifetime"
+msgstr "Phase2 जीवनकाल"
+
+#: ../properties/nm-libreswan-dialog.ui.h:38
+msgid ""
+"How long a particular instance of a connection (a set of encryption/"
+"authentication keys for user packets) should last, from successful "
+"negotiation to expiry. The value is expressed by a number followed by an "
+"optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+"                        config: salifetime <lifetime>"
+msgstr ""
+"किसी कनेक्शन का एक विशेष इंस्टैंस (उपयोगकर्ता पैकेट के लिए कूटलेखन/प्रमाणीकरण कुंजी का एक "
+"समूह) सफल बातचीत से समाप्ति तक कितने समय तक चलना चाहिए। मान को एक संख्या के बाद "
+"वैकल्पिक “से”(सेकंड), “मि”(नट), “घं”(टे) or “दि”(न) द्वारा व्यक्त किया जाता है।\n"
+"                                                        विन्यास: salifetime "
+"<lifetime>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:40
+msgid "Disable rekeying"
+msgstr "रीकीइंग अक्षम करें"
+
+#: ../properties/nm-libreswan-dialog.ui.h:41
+msgid ""
+"Whether a connection should not be renegotiated when it is about to expire.\n"
+"                        config: rekey <no/yes>"
+msgstr ""
+"क्या किसी कनेक्शन की अवधि समाप्त होने पर उस पर दोबारा बातचीत नहीं की जानी चाहिए।\n"
+"                                                        विन्यास: rekey <no/"
+"yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:43
+msgid "Disable PFS"
+msgstr "PFS अक्षम करें"
+
+#: ../properties/nm-libreswan-dialog.ui.h:44
+msgid ""
+"Disable perfect forward security. Enable this option only if the server "
+"doesn’t support PFS.\n"
+"                        config: pfs <no/yes>"
+msgstr ""
+"परफेक्ट फॉरवर्ड सिक्योरिटी अक्षम करें. इस विकल्प को केवल तभी सक्षम करें जब सर्वर PFS का "
+"समर्थन नहीं करता हो।\n"
+"                                                        विन्यास: pfs <no/yes>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Auth-by"
+msgstr "Auth-by"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid ""
+"How the two security gateways should authenticate each other. Accepts a "
+"comma-separated list of these values:\n"
+"- 'rsasig' for RSA with SHA2 or SHA1\n"
+"- 'ecdsa' for ECDSA digital signatures using SHA-2\n"
+"- 'rsa-sha2' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-256\n"
+"- 'rsa-sha2_384' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-384\n"
+"- 'rsa-sha2_512' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-512\n"
+"- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with "
+"SHA1\n"
+"- 'secret' for shared secrets (PSK) authentication\n"
+"- 'never' if negotiation is never to be attempted or accepted (useful for "
+"shunt-only conns)\n"
+"- 'null' for null-authentication.\n"
+"If not specified, the default value is 'rsasig,ecdsa'.\n"
+"config: authby <value>\n"
+"                        "
+msgstr ""
+"दो सुरक्षा गेटवे को एक दूसरे को कैसे प्रमाणित करना चाहिए। इन मानों की अल्पविराम से अलग "
+"की गई सूची स्वीकार करता है:\n"
+"- 'rsasig' SHA2 या SHA1 के साथ RSA के लिए\n"
+"- 'ecdsa' SHA-2 का उपयोग करके ECDSA डिजिटल हस्ताक्षर के लिए\n"
+"- 'rsa-sha2' SHA2-256 के साथ RSASSA-PSS डिजिटल हस्ताक्षर आधारित प्रमाणीकरण के "
+"लिए\n"
+"- 'rsa-sha2_384' SHA2-384 के साथ RSASSA-PSS डिजिटल हस्ताक्षर आधारित प्रमाणीकरण के "
+"लिए\n"
+"- 'rsa-sha2_512' SHA2-512 के साथ RSASSA-PSS डिजिटल हस्ताक्षर आधारित प्रमाणीकरण के "
+"लिए\n"
+"- 'rsa-sha1' SHA1 के साथ RSA-PKCSv1.5 डिजिटल हस्ताक्षर आधारित प्रमाणीकरण के लिए\n"
+"- 'secret' साझा रहस्य (PSK) प्रमाणीकरण के लिए\n"
+"- 'never' यदि बातचीत का कभी प्रयास या स्वीकार नहीं किया जाना है (शंट-ओनली कॉन के "
+"लिए उपयोगी)\n"
+"- 'null' शून्य-प्रमाणीकरण के लिए.\n"
+"यदि निर्दिष्ट नहीं है, तो तयशुदा मान 'rsasig,ecdsa' है।\n"
+"विन्यास: authby <value>\n"
+"                        "
+
+#: ../properties/nm-libreswan-dialog.ui.h:60
+msgid "Connectivity"
+msgstr "संयोजकता"
+
+#: ../properties/nm-libreswan-dialog.ui.h:61
+msgid "Local Network"
+msgstr "स्थानीय नेटवर्क"
+
+#: ../properties/nm-libreswan-dialog.ui.h:62
+msgid ""
+"Private subnet behind the local participant, expressed as network/netmask.\n"
+"                        config: leftsubnet <net>"
+msgstr ""
+"स्थानीय भागीदार के पीछे निजी सबनेट, नेटवर्क/नेटमास्क के रूप में व्यक्त किया गया।\n"
+"                                                        विन्यास: leftsubnet "
+"<net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:64
+msgid "Remote Network"
+msgstr "रिमोट नेटवर्क"
+
+#: ../properties/nm-libreswan-dialog.ui.h:65
+msgid ""
+"Private subnet behind the remote participant, expressed as network/netmask.\n"
+"                        config: rightsubnet <net>"
+msgstr ""
+"रिमोट प्रतिभागी के पीछे निजी सबनेट, नेटवर्क/नेटमास्क के रूप में व्यक्त किया गया।\n"
+"                                                        विन्यास: rightsubnet "
+"<net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:67
+msgid "Enable fragmentation"
+msgstr "विखंडन सक्षम करें"
+
+#: ../properties/nm-libreswan-dialog.ui.h:68
+msgid "narrowing"
+msgstr "narrowing"
+
+#: ../properties/nm-libreswan-dialog.ui.h:69
+msgid ""
+"IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
+"down traffic selectors. This option is ignored for IKEv1.\n"
+"                        config: narrowing <yes/no>"
+msgstr ""
+"IKEv2 वार्ता सीमित ट्रैफ़िक चयनकर्ताओं के साथ IPsec कनेक्शन स्थापित करने की अनुमति दे "
+"सकती है। IKEv1 के लिए इस विकल्प को नज़रअंदाज कर दिया गया है।\n"
+"                                                        विन्यास: narrowing "
+"<yes/no>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:71
+msgid "Enable MOBIKE"
+msgstr "MOBIKE सक्षम करें"
+
+#: ../properties/nm-libreswan-dialog.ui.h:72
+msgid "Dead Peer Detection (DPD)"
+msgstr "डेड पीयर डिटेक्शन (DPD)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:73
+msgid "Delay"
+msgstr "देरी"
+
+#: ../properties/nm-libreswan-dialog.ui.h:74
+msgid ""
+"The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
+"keepalives that are sent for this connection. Must be a number optionally "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or "
+"'d' (days); if the unit is not specified, it defaults to seconds.\n"
+"                        config: dpddelay <delay>"
+msgstr ""
+"इस कनेक्शन के लिए भेजे गए डेड पीयर डिटेक्शन (IKEv1 RFC 3706) या IKEv2 लाइवनेस "
+"कीपलाइव्स के बीच देरी। वैकल्पिक रूप से एक समय इकाई के बाद एक संख्या होनी चाहिए: "
+"'से' (सेकंड), 'मि' (मिनट), 'घं' (घंटे) या 'दि' (दिन); यदि इकाई निर्दिष्ट नहीं है, तो "
+"यह सेकंड में डिफ़ॉल्ट हो जाती है।\n"
+"                                                        विन्यास: dpddelay "
+"<delay>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:76
+msgid "Timeout"
+msgstr "समयबाह्य"
+
+#: ../properties/nm-libreswan-dialog.ui.h:77
+msgid ""
+"The length of time that we will idle without hearing back from our peer. "
+"After this period has elapsed with no response and no traffic, we will "
+"declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
+"enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
+"number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
+"'h' (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"seconds.\n"
+"                        config: dpdtimeout <timeout>"
+msgstr ""
+"वह समय जब हम अपने पीयर से कुछ भी सुने बिना निष्क्रिय बिता देंगे। इस अवधि के बिना किसी "
+"प्रतिक्रिया या ट्रैफ़िक के बीत जाने के बाद, हम पीयर को मृत घोषित कर देंगे, और SA हटा देंगे। "
+"सक्षम करने के लिए dpddelay से बड़ा मान निर्धारित करें। वैकल्पिक रूप से एक समय इकाई के बाद "
+"एक संख्या होनी चाहिए: 'से' (सेकंड), 'मि' (मिनट), 'घं' (घंटे) या 'दि' (दिन); यदि इकाई "
+"निर्दिष्ट नहीं है, तो यह सेकंड में डिफ़ॉल्ट हो जाती है।\n"
+"                                                         विन्यास: dpdtimeout "
+"<timeout>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:79
+msgid "Action"
+msgstr "कार्रवाई"
+
+#: ../properties/nm-libreswan-dialog.ui.h:81
+#, no-c-format
+msgid ""
+"When a DPD enabled peer is declared dead, what action should be taken.  "
+"\"hold\" (default) means the eroute will be put into %hold status, while "
+"\"clear\" means the eroute and SA will both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will be renegotiated.\n"
+"                        config: dpdaction <action>"
+msgstr ""
+"जब एक DPD सक्षम पीयर को मृत घोषित कर दिया जाता है, तो क्या कार्रवाई की जानी "
+"चाहिए। \"होल्ड\" (तयशुदा) का मतलब है कि eroute को %hold स्थिति में डाल दिया जाएगा, "
+"जबकि \"साफ़\" का मतलब है कि eroute और SA दोनों को साफ़ कर दिया जाएगा। \"पुनः "
+"प्रारंभ\" का अर्थ है कि मृत पीयर के सभी SA पर पुनः बातचीत की जाएगी।\n"
+"                                                         विन्यास: dpdaction "
+"<action>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:83
+msgid "Other options"
+msgstr "अन्य विकल्प"
+
+#: ../properties/nm-libreswan-dialog.ui.h:84
+msgid "IPsec interface"
+msgstr "IPsec इंटरफ़ेस"
+
+#: ../properties/nm-libreswan-dialog.ui.h:85
+msgid ""
+"If set, create or use an existing virtual interface ipsecXXX for \"Routing "
+"based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
+"'no' or a number. When using a number, the IPsec interface created and/or "
+"used will use that number as part of the interface name. For example setting "
+"ipsec-interface=5 will create and/or use the ipsec5 interface. The value 0 "
+"cannot be used and is interpreted as 'no'. The value 'yes' is interpreted as "
+"the number 1, and thus will use the interface named 'ipsec1.'\n"
+"                        config: ipsec-interface yes|no|<num>"
+msgstr ""
+"यदि निर्धारित है, तो \"रूटिंग आधारित VPN\" (\"नीति आधारित VPN\" के विपरीत) के लिए "
+"मौजूदा वर्चुअल इंटरफ़ेस ipsecXXX बनाएं या उसका उपयोग करें। मान्य विकल्प 'हां', 'नहीं' या "
+"एक संख्या हैं। किसी नंबर का उपयोग करते समय, बनाया और/या उपयोग किया गया IPsec इंटरफ़ेस "
+"इंटरफ़ेस नाम के भाग के रूप में उस नंबर का उपयोग करेगा। उदाहरण के लिए, ipsec-interface=5 "
+"निर्धारित करने से ipsec5 इंटरफ़ेस बनेगा और/या उसका उपयोग किया जाएगा। मान 0 का उपयोग "
+"नहीं किया जा सकता है और इसकी व्याख्या 'नहीं' के रूप में की जाती है। मान 'हाँ' की व्याख्या "
+"संख्या 1 के रूप में की जाती है, और इस प्रकार 'ipsec1' नामक इंटरफ़ेस का उपयोग किया "
+"जाएगा।\n"
+"                                                         विन्यास: ipsec-"
+"interface yes|no|<num>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:87
+msgid "Disable Mode Config client"
+msgstr "मोड कॉन्फ़िग क्लाइंट अक्षम करें"
+
+#: ../properties/nm-libreswan-dialog.ui.h:88
+msgid "Remote certificate name"
+msgstr "रिमोट प्रमाणपत्र का नाम"
+
+#: ../properties/nm-libreswan-dialog.ui.h:89
+msgid ""
+"If set, specify the name of the certificate from the NSS database to "
+"authenticate the remote"
+msgstr ""
+"यदि निर्धारित है, तो रिमोट को प्रमाणित करने के लिए NSS डेटाबेस से प्रमाणपत्र का नाम "
+"निर्दिष्ट करें"
+
+#: ../properties/nm-libreswan-dialog.ui.h:90
+msgid "Other"
+msgstr "अन्य"
+
+#: ../properties/nm-libreswan-dialog.ui.h:91
+msgid "Advanced Properties"
+msgstr "उन्नत गुण"
+
+#: ../properties/nm-libreswan-dialog.ui.h:92
+msgid "_Cancel"
+msgstr "रद्द (_C)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:93
+msgid "_Apply"
+msgstr "लागू (_A)"
