@@ -936,8 +936,13 @@ badpipes:
  */
 
 typedef struct {
-	struct in_addr gw4;
+	int gw_addr_family;
+	union {
+		struct in_addr v4;
+		struct in6_addr v6;
+	} gw;
 	gboolean have_routes4;
+	gboolean have_routes6;
 } RoutesInfo;
 
 static int
@@ -979,15 +984,14 @@ setup_socket (void)
 }
 
 static int
-parse_reply (struct nl_msg *msg, void *arg)
+parse_reply (struct nl_msg *msg, RoutesInfo *info)
 {
-	RoutesInfo *info = arg;
 	struct nlmsghdr *n = nlmsg_hdr (msg);
 	struct nlattr *tb[XFRMA_MAX + 1];
 	struct xfrm_userpolicy_info *xpinfo = NULL;
 
-	if (info->have_routes4) {
-		/* already found some routes */
+	if (info->have_routes4 && info->have_routes6) {
+		/* Already determined that there are routes for both IPv4 and IPv6 */
 		return NL_SKIP;
 	}
 
@@ -1014,23 +1018,44 @@ parse_reply (struct nl_msg *msg, void *arg)
 		return NL_SKIP;
 	}
 
+	if (!NM_IN_SET (xpinfo->sel.family, AF_INET, AF_INET6))
+		return NL_SKIP;
+
+	/* We only look for subnet route associations, eg where
+	 * (sel->prefixlen_d > 0), and for those associations, we match
+	 * the xfrm_user_tmpl's destination address against the PLUTO_PEER.
+	 */
+	if (xpinfo->sel.prefixlen_d == 0)
+		return NL_SKIP;
+
 	if (tb[XFRMA_TMPL]) {
 		int attrlen = nla_len (tb[XFRMA_TMPL]);
 		struct xfrm_user_tmpl *list = nla_data (tb[XFRMA_TMPL]);
+		char saddr[INET6_ADDRSTRLEN];
+		char daddr[INET6_ADDRSTRLEN];
+		char gw[INET6_ADDRSTRLEN];
 		int i;
 
-		/* We only look for subnet route associations, eg where
-		 * (sel->prefixlen_d > 0), and for those associations, we match
-		 * the xfrm_user_tmpl's destination address against the PLUTO_PEER.
-		 */
-		if (xpinfo->sel.family == AF_INET && xpinfo->sel.prefixlen_d > 0) {
-			for (i = 0; i < attrlen / sizeof (struct xfrm_user_tmpl); i++) {
-				struct xfrm_user_tmpl *tmpl = &list[i];
+		for (i = 0; i < attrlen / sizeof (struct xfrm_user_tmpl); i++) {
+			struct xfrm_user_tmpl *tmpl = &list[i];
 
-				if (   tmpl->family == AF_INET
-				    && memcmp (&tmpl->id.daddr, &info->gw4, sizeof (struct in_addr)) == 0) {
+			if (!NM_IN_SET (tmpl->family, AF_INET, AF_INET6))
+				continue;
+
+			if (   tmpl->family == info->gw_addr_family
+			    && memcmp (&tmpl->id.daddr, &info->gw, nm_utils_addr_family_to_size (tmpl->family)) == 0) {
+
+				_LOGD("found SAD non-default route: src %s/%u dst %s/%u gw %s",
+					   inet_ntop (xpinfo->sel.family, &xpinfo->sel.saddr, saddr, sizeof (saddr)),
+					   xpinfo->sel.prefixlen_s,
+					   inet_ntop( xpinfo->sel.family, &xpinfo->sel.daddr, daddr, sizeof (daddr)),
+					   xpinfo->sel.prefixlen_d,
+					   inet_ntop (tmpl->family, &tmpl->id.daddr, gw, sizeof (gw)));
+
+				if (xpinfo->sel.family == AF_INET) {
 					info->have_routes4 = TRUE;
-					break;
+				} else if (xpinfo->sel.family == AF_INET6) {
+					info->have_routes6 = TRUE;
 				}
 			}
 		}
@@ -1039,37 +1064,45 @@ parse_reply (struct nl_msg *msg, void *arg)
 	return NL_OK;
 }
 
-static gboolean
-have_sad_routes (const char *gw_addr4)
+static void
+have_sad_routes (const char *gw, int gw_addr_family,
+                 gboolean *have_routes4, gboolean *have_routes6)
 {
-	RoutesInfo info = { { 0 }, FALSE };
+	RoutesInfo info = { };
 	struct nl_sock *sk;
 	int err;
 
-	if (inet_pton (AF_INET, gw_addr4, &info.gw4) != 1)
-		return FALSE;
+	*have_routes4 = FALSE;
+	*have_routes6 = FALSE;
+
+	info.gw_addr_family = gw_addr_family;
+
+	if (inet_pton (gw_addr_family, gw, &info.gw) != 1)
+		return;
 
 	sk = setup_socket ();
-	if (!sk)
-		return FALSE;
 
 	err = nl_send_simple (sk, XFRM_MSG_GETPOLICY, NLM_F_DUMP, NULL, 0);
 	if (err < 0) {
-		_LOGW ("Error sending: %d %s", err, nl_geterror (err));
+		_LOGW ("Error sending XFRM request: %d %s", err, nl_geterror (err));
 		goto done;
 	}
 
-	nl_socket_modify_cb (sk, NL_CB_VALID, NL_CB_CUSTOM, parse_reply, &info);
+	nl_socket_modify_cb (sk, NL_CB_VALID, NL_CB_CUSTOM,
+	                     (nl_recvmsg_msg_cb_t) parse_reply,
+	                     &info);
 
 	err = nl_recvmsgs_default (sk);
 	if (err < 0) {
-		_LOGW ("Error parsing: %d %s", err, nl_geterror (err));
+		_LOGW ("Error parsing XFRM policies: %d %s", err, nl_geterror (err));
 		goto done;
 	}
 
 done:
+	*have_routes4 = info.have_routes4;
+	*have_routes6 = info.have_routes6;
+
 	nl_socket_free (sk);
-	return info.have_routes4;
 }
 
 /****************************************************************/
@@ -1269,6 +1302,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 	const char *str;
 	gboolean is_xfrmi = FALSE;
 	gboolean has_ip4;
+	gboolean have_routes4;
+	gboolean have_routes6;
 
 	_LOGI ("Configuration from the helper received.");
 
@@ -1408,7 +1443,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 	                       g_variant_builder_end (&builder));
 
 	/* :( */
-	if (have_sad_routes (lookup_string (env, "PLUTO_PEER")))
+	have_sad_routes (lookup_string (env, "PLUTO_PEER"), AF_INET, &have_routes4, &have_routes6);
+	if (have_routes4)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT, g_variant_new_boolean (TRUE));
 
 	success = TRUE;
