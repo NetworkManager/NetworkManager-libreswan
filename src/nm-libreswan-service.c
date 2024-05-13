@@ -160,14 +160,6 @@ _debug_write_option (const char *setting)
 
 /****************************************************************/
 
-guint32
-nm_utils_ip4_prefix_to_netmask (guint32 prefix)
-{
-	return prefix < 32 ? ~htonl(0xFFFFFFFF >> prefix) : 0xFFFFFFFF;
-}
-
-/****************************************************************/
-
 static gboolean pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data);
 
 static void
@@ -1142,19 +1134,19 @@ addr4_to_gvariant (const char *str)
 	return g_variant_new_uint32 (temp_addr.s_addr);
 }
 
-static GVariant *
-netmask4_to_gvariant (const char *str)
+static gboolean
+netmask4_to_prefixlen (const char *str, guint *plen)
 {
-	struct in_addr	temp_addr;
+	struct in_addr addr;
 
-	/* Empty */
 	if (!str || strlen (str) < 1)
-		return NULL;
+		return FALSE;
 
-	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
-		return NULL;
+	if (inet_pton (AF_INET, str, &addr) <= 0)
+		return FALSE;
 
-	return g_variant_new_uint32 (nm_utils_ip4_netmask_to_prefix (temp_addr.s_addr));
+	*plen = nm_utils_ip4_netmask_to_prefix (addr.s_addr);
+	return TRUE;
 }
 
 static GVariant *
@@ -1201,28 +1193,30 @@ lookup_string (GVariant *dict, const gchar *key)
 }
 
 static void
-_take_route (GPtrArray *routes, GVariant *new, gboolean alive)
+take_route (GPtrArray *routes, NMIPRoute *route, gboolean alive)
 {
-	guint32 network, network2, netmask;
-	guint32 plen, plen2;
+	int family;
+	int family2;
+	const char *dest;
+	const char *dest2;
+	guint plen;
+	guint plen2;
 	guint i;
 
-	if (!new)
+	if (!route)
 		return;
 
-	g_variant_get_child (new, 0, "u", &network);
-	g_variant_get_child (new, 1, "u", &plen);
+	family = nm_ip_route_get_family (route);
+	plen = nm_ip_route_get_prefix (route);
+	dest = nm_ip_route_get_dest (route);
 
-	netmask = nm_utils_ip4_prefix_to_netmask (plen);
-
+	/* Check for duplicates */
 	for (i = 0; i < routes->len; i++) {
-		GVariant *r = routes->pdata[i];
+		family2 = nm_ip_route_get_family (routes->pdata[i]);
+		plen2 = nm_ip_route_get_prefix (routes->pdata[i]);
+		dest2 = nm_ip_route_get_dest (routes->pdata[i]);
 
-		g_variant_get_child (r, 0, "u", &network2);
-		g_variant_get_child (r, 1, "u", &plen2);
-
-		if (   plen2 == plen
-		    && ((network ^ network2) & netmask) == 0) {
+		if (family == family2 && plen == plen2 && nm_streq (dest, dest2)) {
 			g_ptr_array_remove_index (routes, i);
 			break;
 		}
@@ -1231,25 +1225,94 @@ _take_route (GPtrArray *routes, GVariant *new, gboolean alive)
 	if (alive) {
 		/* On new or update, we always add the new route to the end.
 		 * For update, we basically move the route to the end. */
-		g_ptr_array_add (routes, g_variant_ref_sink (new));
-	} else
-		g_variant_unref (new);
+		g_ptr_array_add (routes, route);
+	} else {
+		nm_ip_route_unref (route);
+	}
+}
+
+static GVariant *
+route_to_gvariant(NMIPRoute *route)
+{
+	const char *dest;
+	guint plen;
+	GVariant *variant;
+	const char *next_hop;
+	const char *src = NULL;
+	GVariantBuilder builder;
+
+	dest     = nm_ip_route_get_dest (route);
+	plen     = nm_ip_route_get_prefix (route);
+	next_hop = nm_ip_route_get_next_hop (route);
+
+	variant  = nm_ip_route_get_attribute (route, NM_IP_ROUTE_ATTRIBUTE_SRC);
+	if (variant) {
+		nm_assert (g_variant_is_of_type (variant, G_VARIANT_TYPE_STRING));
+		src = g_variant_get_string (variant, NULL);
+	}
+
+	nm_assert (nm_ip_route_get_family (route) == AF_INET);
+
+	g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+	g_variant_builder_add_value (&builder, addr4_to_gvariant (dest));
+	g_variant_builder_add_value (&builder, g_variant_new_uint32 (plen));
+	g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop ?: "0.0.0.0"));
+	g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+	if (src)
+		g_variant_builder_add_value (&builder, addr4_to_gvariant (src));
+
+	return g_variant_builder_end (&builder);
+}
+
+static NMIPRoute *
+new_route(int         family,
+          const char *dest,
+          guint       prefix,
+          const char *next_hop,
+          const char *src)
+{
+	NMIPRoute *route;
+	gs_free_error GError *error = NULL;
+
+	route = nm_ip_route_new (family, dest, prefix, next_hop, 0, &error);
+	if (!route) {
+		_LOGW("Error creating route: dest %s, prefix %u, next_hop %s: %s",
+		       dest, prefix, next_hop, error->message);
+		return NULL;
+	}
+
+	if (src) {
+		nm_ip_route_set_attribute (route, NM_IP_ROUTE_ATTRIBUTE_SRC, g_variant_new_string (src));
+	}
+
+	return route;
 }
 
 static void
-handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrmi)
+handle_route (GPtrArray *routes, GVariant *env, const char *verb, gboolean is_xfrmi)
 {
-	GVariantBuilder builder;
-	const gchar *net, *mask, *next_hop, *my_sourceip;
+	gboolean alive;
+	const char *net;
+	const char *mask;
+	const char *next_hop = NULL;
+	const char *my_sourceip = NULL;
+	NMIPRoute *route;
+	guint plen;
+	gs_free_error GError *error = NULL;
 
-	if (!lookup_string (env, "PLUTO_PEER_CLIENT"))
+	if (g_str_has_prefix (verb, "route-"))
+		alive = TRUE;
+	else if (g_str_has_prefix (verb, "unroute-"))
+		alive = FALSE;
+	else {
+		/* no route change */
 		return;
+	}
 
 	net = lookup_string (env, "PLUTO_PEER_CLIENT_NET");
 	mask = lookup_string (env, "PLUTO_PEER_CLIENT_MASK");
 	next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
 	my_sourceip = lookup_string (env, "PLUTO_MY_SOURCEIP");
-
 
 	if (!net || !mask || !next_hop || !my_sourceip)
 		return;
@@ -1257,30 +1320,24 @@ handle_route (GPtrArray *routes, GVariant *env, gboolean alive, gboolean is_xfrm
 	if (is_xfrmi)
 		next_hop = "0.0.0.0";
 
-	if (g_strcmp0 (net, "0.0.0.0") == 0 && g_strcmp0 (mask, "0")) {
-		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant ("0.0.0.0"));
-		g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
-		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
-		_take_route (routes, g_variant_builder_end (&builder), alive);
+	if (!netmask4_to_prefixlen (mask, &plen)) {
+		_LOGW("Invalid route netmask: %s", mask);
+		return;
+	}
 
-		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant ("128.0.0.0"));
-		g_variant_builder_add_value (&builder, netmask4_to_gvariant ("128.0.0.0"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
-		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
-		_take_route (routes, g_variant_builder_end (&builder), alive);
-	} else {
-		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (net));
-		g_variant_builder_add_value (&builder, netmask4_to_gvariant (mask));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop));
-		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (my_sourceip));
-		_take_route (routes, g_variant_builder_end (&builder), alive);
+	if (nm_streq (net, "0.0.0.0") && plen == 0) {
+		/* We want to override the default route that might already exist
+		 * on the interface. Split our default route into two /1 routes
+		 * that will be preferred due to the longest prefix. */
+		route = new_route (AF_INET, "0.0.0.0", 1, next_hop, my_sourceip);
+		take_route (routes, route, alive);
+
+		route = new_route (AF_INET, "128.0.0.0", 1, next_hop, my_sourceip);
+		take_route (routes, route, alive);
+	 } else {
+		/* Generic route */
+		route = new_route (AF_INET, net, plen, next_hop, my_sourceip);
+		take_route (routes, route, alive);
 	}
 }
 
@@ -1293,10 +1350,9 @@ handle_callback (NMDBusLibreswanHelper *object,
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (user_data);
 	NMSettingVpn *s_vpn;
 	GVariantBuilder config;
-	GVariantBuilder builder;
 	GVariant *val;
 	gboolean success = FALSE;
-	guint i;
+	GVariant *variant;
 	const char *verb;
 	const char *virt_if;
 	const char *str;
@@ -1429,18 +1485,29 @@ handle_callback (NMDBusLibreswanHelper *object,
 			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
 	}
 
-	/* This route */
-	if (g_strcmp0 (verb, "route-client") == 0 || g_strcmp0 (verb, "route-host"))
-		handle_route (priv->routes, env, TRUE, is_xfrmi);
-	else if (g_strcmp0 (verb, "unroute-client") == 0 || g_strcmp0 (verb, "unroute-host"))
-		handle_route (priv->routes, env, FALSE, is_xfrmi);
-
 	/* Routes */
-	g_variant_builder_init (&builder, G_VARIANT_TYPE ("aau"));
-	for (i = 0; i < priv->routes->len; i++)
-		g_variant_builder_add_value (&builder, (GVariant *) priv->routes->pdata[i]);
-	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
-	                       g_variant_builder_end (&builder));
+	{
+		nm_auto_unref_variant_builder GVariantBuilder *routes4 = NULL;
+		guint i;
+
+		handle_route (priv->routes, env, verb, is_xfrmi);
+
+		for (i = 0; i < priv->routes->len; i++) {
+			NMIPRoute *route = priv->routes->pdata[i];
+
+			nm_assert (nm_ip_route_get_family (route) == AF_INET);
+			variant = route_to_gvariant (route);
+
+			if (!routes4)
+				routes4 = g_variant_builder_new (G_VARIANT_TYPE("aau"));
+			g_variant_builder_add_value (routes4, variant);
+		}
+
+		if (routes4) {
+			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
+			                       g_variant_builder_end (routes4));
+		}
+	}
 
 	/* :( */
 	have_sad_routes (lookup_string (env, "PLUTO_PEER"), AF_INET, &have_routes4, &have_routes6);
@@ -1986,7 +2053,7 @@ nm_libreswan_plugin_init (NMLibreswanPlugin *plugin)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (plugin);
 
-	priv->routes = g_ptr_array_new_with_free_func ((GDestroyNotify) g_variant_unref);
+	priv->routes = g_ptr_array_new_with_free_func ((GDestroyNotify) nm_ip_route_unref);
 }
 
 static void
