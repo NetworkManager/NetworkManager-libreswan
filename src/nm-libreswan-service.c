@@ -1293,6 +1293,7 @@ handle_route (GPtrArray *routes, GVariant *env, const char *verb, gboolean is_xf
 {
 	gboolean alive;
 	const char *net;
+	const char *peer;
 	const char *mask;
 	const char *next_hop = NULL;
 	const char *my_sourceip = NULL;
@@ -1309,16 +1310,23 @@ handle_route (GPtrArray *routes, GVariant *env, const char *verb, gboolean is_xf
 		return;
 	}
 
+	peer = lookup_string (env, "PLUTO_PEER");
 	net = lookup_string (env, "PLUTO_PEER_CLIENT_NET");
 	mask = lookup_string (env, "PLUTO_PEER_CLIENT_MASK");
-	next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
 	my_sourceip = lookup_string (env, "PLUTO_MY_SOURCEIP");
 
-	if (!net || !mask || !next_hop || !my_sourceip)
+	if (!peer || !net || !mask)
 		return;
 
-	if (is_xfrmi)
-		next_hop = "0.0.0.0";
+	if (!is_xfrmi) {
+		next_hop = lookup_string (env, "PLUTO_NEXT_HOP");
+		if (!next_hop)
+			return;
+	}
+
+	/* Use the next hop only if it's not directly through the peer */
+	if (nm_streq0 (peer, next_hop))
+		next_hop = NULL;
 
 	if (!netmask4_to_prefixlen (mask, &plen)) {
 		_LOGW("Invalid route netmask: %s", mask);
