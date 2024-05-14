@@ -1120,67 +1120,108 @@ str_to_gvariant (const char *str, gboolean try_convert)
 }
 
 static GVariant *
-addr4_to_gvariant (const char *str)
+addr_to_gvariant (const char *str, int addr_family)
 {
-	struct in_addr	temp_addr;
+	union {
+		struct in_addr v4;
+		struct in6_addr v6;
+	} addr;
 
-	/* Empty */
 	if (!str || strlen (str) < 1)
 		return NULL;
 
-	if (inet_pton (AF_INET, str, &temp_addr) <= 0)
+	if (inet_pton (addr_family, str, &addr) <= 0)
 		return NULL;
 
-	return g_variant_new_uint32 (temp_addr.s_addr);
+	if (addr_family == AF_INET) {
+		return g_variant_new_uint32 (addr.v4.s_addr);
+	} else {
+		return g_variant_new_fixed_array (G_VARIANT_TYPE_BYTE,
+		                                  &addr,
+		                                  sizeof (addr.v6),
+		                                  1);
+	}
 }
 
 static gboolean
-netmask4_to_prefixlen (const char *str, guint *plen)
+netmask_to_prefixlen (const char *str, int addr_family, guint *plen)
 {
-	struct in_addr addr;
+	union {
+		struct in_addr v4;
+		struct in6_addr v6;
+	} addr;
 
 	if (!str || strlen (str) < 1)
 		return FALSE;
 
-	if (inet_pton (AF_INET, str, &addr) <= 0)
+	if (inet_pton (addr_family, str, &addr) <= 0)
 		return FALSE;
 
-	*plen = nm_utils_ip4_netmask_to_prefix (addr.s_addr);
-	return TRUE;
+	if (addr_family == AF_INET) {
+		*plen = nm_utils_ip4_netmask_to_prefix (addr.v4.s_addr);
+		return TRUE;
+	} else {
+		guint tot_zeros = 0;
+		guint zeros;
+		int i;
+
+		for (i = 3; i >= 0; i--) {
+			if (ntohl (addr.v6.s6_addr32[i]) == 0)
+				zeros = 32;
+			else
+				zeros = __builtin_ctz (ntohl (addr.v6.s6_addr32[i]));
+
+			tot_zeros += zeros;
+			if (zeros != 32)
+				break;
+		}
+		*plen = 128 - tot_zeros;
+		return TRUE;
+	}
 }
 
-static GVariant *
-addr4_list_to_gvariant (const char *str)
+static void
+addr_list_to_gvariants (const char *str, const char *desc, GVariant **out4, GVariant **out6)
 {
-	GVariantBuilder builder;
-	char **split;
-	int i;
+	nm_auto_strfreev char **split = NULL;
+	nm_auto_unref_variant_builder GVariantBuilder *builder4 = NULL;
+	nm_auto_unref_variant_builder GVariantBuilder *builder6 = NULL;
+	GVariantBuilder **builder;
+	guint i;
 
-	/* Empty */
+	*out4 = NULL;
+	*out6 = NULL;
+
 	if (!str || strlen (str) < 1)
-		return NULL;
+		return;
 
 	split = g_strsplit (str, " ", -1);
 	if (g_strv_length (split) == 0)
-		return NULL;
-
-	g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
+		return;
 
 	for (i = 0; split[i]; i++) {
-		struct in_addr addr;
+		GVariant *variant;
+		int addr_family;
 
-		if (inet_pton (AF_INET, split[i], &addr) > 0) {
-			g_variant_builder_add_value (&builder, g_variant_new_uint32 (addr.s_addr));
-		} else {
-			g_strfreev (split);
-			g_variant_unref (g_variant_builder_end (&builder));
-			return NULL;
+		addr_family = strchr (split[i], ':') ? AF_INET6 : AF_INET;
+		variant = addr_to_gvariant (split[i], addr_family);
+		if (!variant) {
+			_LOGW ("ignoring invalid address \"%s\" for %s", split[i], desc);
+			continue;
 		}
+
+		builder = (addr_family == AF_INET) ? &builder4 : &builder6;
+		if (!*builder)
+			*builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
+		g_variant_builder_add_value (*builder, variant);
 	}
 
-	g_strfreev (split);
+	if (builder4)
+		*out4 = g_variant_builder_end (builder4);
+	if (builder6)
+		*out6 = g_variant_builder_end (builder6);
 
-	return g_variant_builder_end (&builder);
+	return;
 }
 
 static const gchar *
@@ -1239,7 +1280,6 @@ route_to_gvariant(NMIPRoute *route)
 	GVariant *variant;
 	const char *next_hop;
 	const char *src = NULL;
-	GVariantBuilder builder;
 
 	dest     = nm_ip_route_get_dest (route);
 	plen     = nm_ip_route_get_prefix (route);
@@ -1251,17 +1291,28 @@ route_to_gvariant(NMIPRoute *route)
 		src = g_variant_get_string (variant, NULL);
 	}
 
-	nm_assert (nm_ip_route_get_family (route) == AF_INET);
+	if (nm_ip_route_get_family (route) == AF_INET) {
+		GVariantBuilder builder;
 
-	g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
-	g_variant_builder_add_value (&builder, addr4_to_gvariant (dest));
-	g_variant_builder_add_value (&builder, g_variant_new_uint32 (plen));
-	g_variant_builder_add_value (&builder, addr4_to_gvariant (next_hop ?: "0.0.0.0"));
-	g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
-	if (src)
-		g_variant_builder_add_value (&builder, addr4_to_gvariant (src));
+		g_variant_builder_init (&builder, G_VARIANT_TYPE ("au"));
+		g_variant_builder_add_value (&builder, addr_to_gvariant (dest, AF_INET));
+		g_variant_builder_add_value (&builder, g_variant_new_uint32 (plen));
+		g_variant_builder_add_value (&builder, addr_to_gvariant (next_hop ?: "0.0.0.0", AF_INET));
+		g_variant_builder_add_value (&builder, g_variant_new_uint32 (0));
+		if (src)
+			g_variant_builder_add_value (&builder, addr_to_gvariant (src, AF_INET));
+		return g_variant_builder_end (&builder);
+	} else {
+		gs_free GVariant **variants = g_new (GVariant *, 5);
 
-	return g_variant_builder_end (&builder);
+		variants[0] = addr_to_gvariant (dest, AF_INET6);
+		variants[1] = g_variant_new_uint32 (plen);
+		variants[2] = addr_to_gvariant (next_hop ?: "::", AF_INET6);
+		variants[3] = g_variant_new_uint32 (0);
+		variants[4] = addr_to_gvariant (src ?: "::", AF_INET6);
+
+		return g_variant_new_tuple (variants, 5);
+	}
 }
 
 static NMIPRoute *
@@ -1328,7 +1379,7 @@ handle_route (GPtrArray *routes, GVariant *env, const char *verb, gboolean is_xf
 	if (nm_streq0 (peer, next_hop))
 		next_hop = NULL;
 
-	if (!netmask4_to_prefixlen (mask, &plen)) {
+	if (!netmask_to_prefixlen (mask, AF_INET, &plen)) {
 		_LOGW("Invalid route netmask: %s", mask);
 		return;
 	}
@@ -1414,7 +1465,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_BANNER, val);
 
 	/* Right peer (or Gateway) */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_PEER"), AF_INET);
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_EXT_GATEWAY, val);
 	else {
@@ -1433,7 +1484,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	g_variant_builder_init (&config, G_VARIANT_TYPE_VARDICT);
 
 	/* Right peer (or Gateway) */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_PEER"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_PEER"), AF_INET);
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_GATEWAY, val);
 	else {
@@ -1442,7 +1493,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	}
 
 	/* IP address */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"), AF_INET);
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS, val);
 	else {
@@ -1451,7 +1502,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 	}
 
 	/* PTP address; PTP address == internal IP4 address */
-	val = addr4_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"));
+	val = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"), AF_INET);
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PTP, val);
 	else {
@@ -1464,11 +1515,10 @@ handle_callback (NMDBusLibreswanHelper *object,
 	g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_PREFIX, val);
 
 	/* DNS */
-	val = addr4_list_to_gvariant (lookup_string (env, "PLUTO_CISCO_DNS_INFO"));
-	if (!val) {
-		/* libreswan value */
-		val = addr4_list_to_gvariant (lookup_string (env, "PLUTO_PEER_DNS_INFO"));
-	}
+	str = lookup_string (env, "PLUTO_CISCO_DNS_INFO");
+	if (!str)
+		str = lookup_string (env, "PLUTO_PEER_DNS_INFO");
+	addr_list_to_gvariants (str, "DNS", &val, NULL);
 	if (val)
 		g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_DNS, val);
 
@@ -1488,7 +1538,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 		/* The traffic needs to be sent directly over the interface without a gateway.
 		 * Ignore the next hop. */
 	} else {
-		val = addr4_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"));
+		val = addr_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"), AF_INET);
 		if (val)
 			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY, val);
 	}
