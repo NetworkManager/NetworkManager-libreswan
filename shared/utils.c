@@ -112,6 +112,7 @@ nm_libreswan_config_write (gint fd,
 	const char *leftrsasigkey;
 	const char *rightrsasigkey;
 	const char *authby;
+	const char *local_network;
 	const char *remote_network;
 	const char *ikev2 = NULL;
 	const char *rightid;
@@ -120,6 +121,7 @@ nm_libreswan_config_write (gint fd,
 	const char *fragmentation;
 	const char *mobike;
 	const char *pfs;
+	const char *client_family;
 	const char *item;
 	gboolean is_ikev2 = FALSE;
 
@@ -162,6 +164,14 @@ nm_libreswan_config_write (gint fd,
 		} else
 			WRITE_CHECK (fd, debug_write_fcn, error, " leftid=@%s", leftid);
 	}
+
+	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY);
+	if (item && strlen (item))
+		WRITE_CHECK (fd, debug_write_fcn, error, " hostaddrfamily=%s", item);
+
+	client_family = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
+	if (client_family && strlen (client_family))
+		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", client_family);
 
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
@@ -221,17 +231,43 @@ nm_libreswan_config_write (gint fd,
 	WRITE_CHECK (fd, debug_write_fcn, error, " rightmodecfgserver=yes");
 	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
 
-	remote_network = nm_setting_vpn_get_data_item (s_vpn,
-						       NM_LIBRESWAN_KEY_REMOTENETWORK);
-	if (!remote_network || !strlen (remote_network))
-		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
-	else
-		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s",
-			     remote_network);
 
-	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
-	if (item) {
-		WRITE_CHECK (fd, debug_write_fcn, error, " leftsubnet=%s", item);
+	local_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+	if (local_network) {
+		WRITE_CHECK (fd, debug_write_fcn, error, " leftsubnet=%s", local_network);
+	}
+
+	remote_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK);
+	if (!remote_network || !strlen (remote_network)) {
+		int addr_family = AF_UNSPEC;
+
+		/* Detect the address family of the remote subnet. We use in order:
+		 * 1) the "clientaddrfamily" property 2) the local network.
+		 */
+		if (nm_streq0 (client_family, "ipv4")) {
+			addr_family = AF_INET;
+		} else if (nm_streq0 (client_family, "ipv6")) {
+			addr_family = AF_INET6;
+		} else {
+			if (   local_network
+			    && nm_utils_parse_inaddr_prefix_bin (AF_INET, local_network, NULL, NULL)) {
+				addr_family = AF_INET;
+			} else if (local_network
+			    && nm_utils_parse_inaddr_prefix_bin (AF_INET6, local_network, NULL, NULL)) {
+				addr_family = AF_INET6;
+			}
+		}
+
+		if (addr_family == AF_INET6) {
+			WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=::/0");
+		} else {
+			/* For backwards compatibility, if we can't determine the family
+			 * assume it's IPv4. Anyway, in the future we need to stop adding
+			 * the option automatically. */
+			WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=0.0.0.0/0");
+		}
+	} else {
+		WRITE_CHECK (fd, debug_write_fcn, error, " rightsubnet=%s", remote_network);
 	}
 
 	if (!is_ikev2) {
@@ -340,14 +376,6 @@ nm_libreswan_config_write (gint fd,
 	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_TYPE);
 	if (item && strlen (item))
 		WRITE_CHECK (fd, debug_write_fcn, error, " type=%s", item);
-
-	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY);
-	if (item && strlen (item))
-		WRITE_CHECK (fd, debug_write_fcn, error, " hostaddrfamily=%s", item);
-
-	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
-	if (item && strlen (item))
-		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", item);
 
 	WRITE_CHECK (fd, debug_write_fcn, error, " nm-configured=yes");
 
