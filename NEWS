@@ -1,4 +1,13 @@
 =========================================================
+NetworkManager-libreswan-1.2.22
+Overview of changes since NetworkManager-libreswan-1.2.20
+=========================================================
+
+This is a new stable release of NetworkManager-libreswan. Notable changes include:
+* Add IPv6 support.
+* Update Hindi and Slovenian translations.
+
+=========================================================
 NetworkManager-libreswan-1.2.20
 Overview of changes since NetworkManager-libreswan-1.2.18
 =========================================================
