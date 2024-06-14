@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2023-12-10 15:27+0000\n"
-"PO-Revision-Date: 2023-12-15 05:18+0100\n"
+"POT-Creation-Date: 2024-04-16 11:28+0000\n"
+"PO-Revision-Date: 2024-06-14 05:59+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -71,48 +71,48 @@ msgid "IPsec based VPN for remote clients"
 msgstr "IPsec -თან თავსებადი VPN დაშორებული კლიენტებისთვის"
 
 #: ../properties/nm-libreswan-editor-plugin.c:94
-#: ../properties/nm-libreswan-editor-plugin.c:286
+#: ../properties/nm-libreswan-editor-plugin.c:298
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "ფაილის გახსნის შეცდომა “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:236
+#: ../properties/nm-libreswan-editor-plugin.c:248
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "ვერ ვიპოვე სექცია \"conn\" ფაილში \"%s\""
 
-#: ../properties/nm-libreswan-editor-plugin.c:308
+#: ../properties/nm-libreswan-editor-plugin.c:320
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "ფაილში (%s) ჩაწერის შეცდომა: %s"
 
-#: ../src/nm-libreswan-service.c:1424
+#: ../src/nm-libreswan-service.c:1468
 msgid "A password is required."
 msgstr "პაროლი სავალდებულოა."
 
-#: ../src/nm-libreswan-service.c:1825
+#: ../src/nm-libreswan-service.c:1872
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:1839
+#: ../src/nm-libreswan-service.c:1886
 msgid "Unhandled pending authentication."
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:1981
+#: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
 msgstr "ნუ გახვალ VPN კავშირის შეწყვეტისას"
 
-#: ../src/nm-libreswan-service.c:1982
+#: ../src/nm-libreswan-service.c:2029
 msgid "Enable verbose debug logging (may expose passwords)"
-msgstr ""
+msgstr "გაფართოებული გამართვის ჟურნალის ჩართვა (შეიძლება, პაროლები გამოჩნდეს)"
 
-#: ../src/nm-libreswan-service.c:1983
+#: ../src/nm-libreswan-service.c:2030
 msgid "D-Bus name to use for this instance"
 msgstr "ამ გაშვებული ასლისთვის გამოყენებული D-Bus -ის სახელი"
 
-#: ../src/nm-libreswan-service.c:2006
+#: ../src/nm-libreswan-service.c:2053
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -254,11 +254,11 @@ msgstr "ძალა"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
 msgid "(None)"
-msgstr ""
+msgstr "(არცერთი)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:19
 msgid "Hold"
-msgstr ""
+msgstr "შეყოვნება"
 
 #: ../properties/nm-libreswan-dialog.ui.h:20
 msgid "Clear"
@@ -392,90 +392,100 @@ msgid "Connectivity"
 msgstr "დაკავშირება"
 
 #: ../properties/nm-libreswan-dialog.ui.h:61
+msgid "Local Network"
+msgstr "ლოკალური ქსელი"
+
+#: ../properties/nm-libreswan-dialog.ui.h:62
+msgid ""
+"Private subnet behind the local participant, expressed as network/netmask.\n"
+"                        config: leftsubnet <net>"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Remote Network"
 msgstr "დაშორებული ქსელი"
 
-#: ../properties/nm-libreswan-dialog.ui.h:62
+#: ../properties/nm-libreswan-dialog.ui.h:65
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "                        config: rightsubnet <net>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:64
+#: ../properties/nm-libreswan-dialog.ui.h:67
 msgid "Enable fragmentation"
 msgstr "ფრაგმენტაციის ჩართვა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:65
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "narrowing"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:66
+#: ../properties/nm-libreswan-dialog.ui.h:69
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "                        config: narrowing <yes/no>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:68
+#: ../properties/nm-libreswan-dialog.ui.h:71
 msgid "Enable MOBIKE"
 msgstr "MOBIKE-ის ჩართვა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:69
+#: ../properties/nm-libreswan-dialog.ui.h:72
 msgid "Dead Peer Detection (DPD)"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:70
+#: ../properties/nm-libreswan-dialog.ui.h:73
 msgid "Delay"
 msgstr "დაყოვნება"
 
-#: ../properties/nm-libreswan-dialog.ui.h:71
+#: ../properties/nm-libreswan-dialog.ui.h:74
 msgid ""
 "The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
 "keepalives that are sent for this connection. Must be a number optionally "
-"followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or "
 "'d' (days); if the unit is not specified, it defaults to seconds.\n"
 "                        config: dpddelay <delay>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:73
+#: ../properties/nm-libreswan-dialog.ui.h:76
 msgid "Timeout"
 msgstr "მოლოდინის ვადა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:74
+#: ../properties/nm-libreswan-dialog.ui.h:77
 msgid ""
 "The length of time that we will idle without hearing back from our peer. "
 "After this period has elapsed with no response and no traffic, we will "
 "declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
 "enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
 "number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
-"'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"'h' (hours) or 'd' (days); if the unit is not specified, it defaults to "
 "seconds.\n"
 "                        config: dpdtimeout <timeout>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:76
+#: ../properties/nm-libreswan-dialog.ui.h:79
 msgid "Action"
 msgstr "ქმედება"
 
-#: ../properties/nm-libreswan-dialog.ui.h:78
+#: ../properties/nm-libreswan-dialog.ui.h:81
 #, no-c-format
 msgid ""
 "When a DPD enabled peer is declared dead, what action should be taken.  "
 "\"hold\" (default) means the eroute will be put into %hold status, while "
-"\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
-"that ALL SAs to the dead peer will renegotiated.\n"
+"\"clear\" means the eroute and SA will both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will be renegotiated.\n"
 "                        config: dpdaction <action>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:80
+#: ../properties/nm-libreswan-dialog.ui.h:83
 msgid "Other options"
 msgstr "სხვა პარამეტრები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:81
+#: ../properties/nm-libreswan-dialog.ui.h:84
 msgid "IPsec interface"
 msgstr "IPsec ინტერფეისი"
 
-#: ../properties/nm-libreswan-dialog.ui.h:82
+#: ../properties/nm-libreswan-dialog.ui.h:85
 msgid ""
 "If set, create or use an existing virtual interface ipsecXXX for \"Routing "
 "based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
@@ -487,18 +497,32 @@ msgid ""
 "                        config: ipsec-interface yes|no|<num>"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:84
-msgid "Other"
+#: ../properties/nm-libreswan-dialog.ui.h:87
+msgid "Disable Mode Config client"
 msgstr ""
 
-#: ../properties/nm-libreswan-dialog.ui.h:85
+#: ../properties/nm-libreswan-dialog.ui.h:88
+msgid "Remote certificate name"
+msgstr "დაშორებული სერტიფიკატის სახელი"
+
+#: ../properties/nm-libreswan-dialog.ui.h:89
+msgid ""
+"If set, specify the name of the certificate from the NSS database to "
+"authenticate the remote"
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:90
+msgid "Other"
+msgstr "სხვა"
+
+#: ../properties/nm-libreswan-dialog.ui.h:91
 msgid "Advanced Properties"
 msgstr "დამატებითი თვისებები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:86
+#: ../properties/nm-libreswan-dialog.ui.h:92
 msgid "_Cancel"
 msgstr "_შეწყვეტა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:87
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "_Apply"
 msgstr "_გადატარება"
