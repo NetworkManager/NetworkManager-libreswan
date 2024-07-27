@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-04-16 11:28+0000\n"
-"PO-Revision-Date: 2024-05-03 14:38+0200\n"
+"POT-Creation-Date: 2024-05-03 12:39+0000\n"
+"PO-Revision-Date: 2024-07-27 13:14+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -107,9 +107,8 @@ msgstr ""
 "veljavne."
 
 #: ../src/nm-libreswan-service.c:1886
-#, fuzzy
 msgid "Unhandled pending authentication."
-msgstr "Neobravnavano čakanje na preverjanje pristnosti."
+msgstr "Neobravnavana overitev na čakanju."
 
 #: ../src/nm-libreswan-service.c:2028
 msgid "Don’t quit when VPN connection terminates"
@@ -338,7 +337,6 @@ msgid "Phase1 Lifetime"
 msgstr "Življenjska doba faze 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:35
-#, fuzzy
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
@@ -346,9 +344,9 @@ msgid ""
 "                        config: ikelifetime <lifetime>"
 msgstr ""
 "Kako dolgo naj traja kanal za tipkanje povezave, preden se o njem ponovno "
-"pogajate. Vrednost je izražena s številko, ki ji sledi neobvezna \"s"
-"\" (econds), \"m\" (inutes), \"h\" (naša) ali \"d\"(ays).\n"
-"                        Konfiguracija: IkeLifetime <lifetime>"
+"pogajate. Vrednost je izražena s številko, ki ji sledi neobvezna "
+"»s«(ekunde), »m«(inute), »h«(ure) ali »d«(nevi).\n"
+"                        Nastavitev: ikelifetime <časovnadoba>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
 msgid "Phase2 Lifetime"
@@ -369,7 +367,6 @@ msgstr ""
 "                        config: salifetime <življenjska_doba>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
-#, fuzzy
 msgid "Disable rekeying"
 msgstr "Onemogoči vnovično tipkanje"
 
@@ -397,12 +394,10 @@ msgstr ""
 "                        config: PFS <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
-#, fuzzy
 msgid "Auth-by"
-msgstr "Auth-by"
+msgstr "Avt-z"
 
 #: ../properties/nm-libreswan-dialog.ui.h:47
-#, fuzzy
 msgid ""
 "How the two security gateways should authenticate each other. Accepts a "
 "comma-separated list of these values:\n"
@@ -426,22 +421,22 @@ msgid ""
 msgstr ""
 "Kako naj varnostna prehoda preverita pristnost drug drugega. Sprejme seznam "
 "teh vrednosti, ločen z vejico:\n"
-"- \"rsasig\" za RSA s SHA2 ali SHA1\n"
-"– \"ECDSA\" za digitalne podpise ECDSA, ki uporabljajo SHA-2\n"
-"- \"rsa-sha2\" za preverjanje pristnosti na podlagi digitalnih podpisov "
-"RSASSA-PSS s SHA2-256\n"
-"- \"rsa-sha2_384\" za preverjanje pristnosti na podlagi digitalnih podpisov "
+"- »rsasig« za RSA s SHA2 ali SHA1\n"
+"– »ECDSA« za digitalne podpise ECDSA, ki uporabljajo SHA-2\n"
+"- »rsa-sha2« za preverjanje pristnosti na podlagi digitalnih podpisov RSASSA-"
+"PSS s SHA2-256\n"
+"- »rsa-sha2_384« za preverjanje pristnosti na podlagi digitalnih podpisov "
 "RSASSA-PSS s SHA2-384\n"
-"- \"rsa-sha2_512\" za preverjanje pristnosti na podlagi digitalnih podpisov "
+"- »rsa-sha2_512« za preverjanje pristnosti na podlagi digitalnih podpisov "
 "RSASSA-PSS s SHA2-512\n"
-"- \"rsa-sha1\" za preverjanje pristnosti na podlagi digitalnih podpisov RSA-"
+"- »rsa-sha1« za preverjanje pristnosti na podlagi digitalnih podpisov RSA-"
 "PKCSv1.5 s SHA1\n"
-"- \"tajno\" za preverjanje pristnosti v skupnih skrivnostih (PSK)\n"
-"- \"nikoli\", če se pogajanja nikoli ne poskušajo ali sprejmejo (uporabno za "
+"- »secret« za preverjanje pristnosti v skupnih skrivnostih (PSK)\n"
+"- »never«, če se pogajanja nikoli ne poskušajo ali sprejmejo (uporabno za "
 "samo preklopnike)\n"
-"- \"null\" za ničelno avtentikacijo.\n"
+"- »null\" za ničelno avtentikacijo.\n"
 "Če privzeta vrednost ni določena, je »rsasig,ecdsa«.\n"
-"Konfiguracija: Authby <value>\n"
+"Nastavitev: authby <vrednost>\n"
 "                        </value>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:60
@@ -477,9 +472,8 @@ msgid "Enable fragmentation"
 msgstr "Omogoči fragmentacijo"
 
 #: ../properties/nm-libreswan-dialog.ui.h:68
-#, fuzzy
 msgid "narrowing"
-msgstr "zožanje"
+msgstr "zožitev"
 
 #: ../properties/nm-libreswan-dialog.ui.h:69
 msgid ""
@@ -496,7 +490,6 @@ msgid "Enable MOBIKE"
 msgstr "Omogoči MOBIKE"
 
 #: ../properties/nm-libreswan-dialog.ui.h:72
-#, fuzzy
 msgid "Dead Peer Detection (DPD)"
 msgstr "Zaznavanje mrtvih vrstnikov (DPD)"
 
@@ -505,7 +498,6 @@ msgid "Delay"
 msgstr "Časovni zamik"
 
 #: ../properties/nm-libreswan-dialog.ui.h:74
-#, fuzzy
 msgid ""
 "The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
 "keepalives that are sent for this connection. Must be a number optionally "
@@ -517,14 +509,13 @@ msgstr ""
 "keepalives, ki so poslani za to povezavo. Mora biti številka, ki ji po želji "
 "sledi časovna enota: \"s\" (sekunde), \"m\" (minute), \"h\" (ure) ali \"d"
 "\" (dnevi); Če enota ni določena, je privzeto nastavljena na sekunde.\n"
-"                        Konfiguracija: DPDDELAY <delay>"
+"                        Nastavitev: dpddelay <zamik>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:76
 msgid "Timeout"
 msgstr "Časovna omejitev"
 
 #: ../properties/nm-libreswan-dialog.ui.h:77
-#, fuzzy
 msgid ""
 "The length of time that we will idle without hearing back from our peer. "
 "After this period has elapsed with no response and no traffic, we will "
@@ -537,19 +528,19 @@ msgid ""
 msgstr ""
 "Čas, ko bomo mirovali, ne da bi slišali nazaj od našega vrstnika. Po preteku "
 "tega obdobja brez odziva in prometa bomo vrstnika razglasili za mrtvega in "
-"odstranili SA. Nastavite vrednost, večjo od dpddelay, da omogočite. Če je "
-"nastavljena dpdtimeout, je treba nastaviti tudi dpddelay. Mora biti "
-"številka, ki ji po želji sledi časovna enota: \"s\" (sekunde), \"m"
-"\" (minute), \"h\" (ure) ali \"d\" (dnevi); Če enota ni določena, je "
-"privzeto nastavljena na sekunde.\n"
-"                        config: dpdtimeout <casovnaomejitev>"
+"odstranili SA. Nastavite vrednost, večjo od dpddelay, da jo omogočite. Če je "
+"nastavljen dpdtimeout, je treba nastaviti tudi dpddelay. Mora biti številka, "
+"ki ji po želji sledi časovna enota: \"s\" (sekunde), \"m\" (minute), \"h"
+"\" (ure) ali \"d\" (dnevi); Če enota ni določena, je privzeto nastavljena na "
+"sekunde.\n"
+"                        nastavitev: dpdtimeout <casovnaomejitev>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:79
 msgid "Action"
 msgstr "Dejanje"
 
 #: ../properties/nm-libreswan-dialog.ui.h:81
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "When a DPD enabled peer is declared dead, what action should be taken.  "
 "\"hold\" (default) means the eroute will be put into %hold status, while "
@@ -558,10 +549,9 @@ msgid ""
 "                        config: dpdaction <action>"
 msgstr ""
 "Ko je vrstnik, ki podpira DPD, razglašen za mrtvega, kakšne ukrepe je treba "
-"sprejeti.  \"Zadrži\" (privzeto) pomeni, da bo eROUTE prestavljen v "
-"%hostatus LD, medtem ko \"Počisti\" pomeni, da bosta Eroute in SA izbrisana. "
-"\"ponovnizagon\" pomeni, da se bodo VSI nadzorni organi mrtvemu vrstniku "
-"ponovno pogajali.\n"
+"sprejeti.  »hold« (privzeto) pomeni, da bo eROUTE prestavljen v stanje "
+"%hold, medtem ko »clear« pomeni, da bosta Eroute in SA izbrisana. »restart« "
+"pomeni, da se bodo VSI nadzorni organi mrtvemu vrstniku ponovno izpogajali.\n"
 "                        config: dpdaction <dejanje>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:83
@@ -573,7 +563,6 @@ msgid "IPsec interface"
 msgstr "Vmesnik IPsec"
 
 #: ../properties/nm-libreswan-dialog.ui.h:85
-#, fuzzy
 msgid ""
 "If set, create or use an existing virtual interface ipsecXXX for \"Routing "
 "based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
@@ -586,16 +575,15 @@ msgid ""
 msgstr ""
 "Če je nastavljen, ustvarite ali uporabite obstoječi navidezni vmesnik "
 "ipsecXXX za »VPN-je, ki temeljijo na usmerjanju« (v nasprotju z »VPN-ji, ki "
-"temeljijo na pravilniku«). Veljavne možnosti so »da«, »ne« ali številka. Pri "
-"uporabi številke bo ustvarjen in/ali uporabljen vmesnik IPsec to številko "
-"uporabil kot del imena vmesnika. Na primer, nastavitev ipsec-interface=5 bo "
-"ustvarila in/ali uporabila vmesnik ipsec5. Vrednosti 0 ni mogoče uporabiti "
-"in se razlaga kot \"ne\". Vrednost \"da\" se razlaga kot številka 1 in bo "
-"tako uporabljala vmesnik z imenom \"ipsec1\".\n"
+"temeljijo na pravilniku«). Veljavne možnosti so »yes«, »no« ali številka. "
+"Pri uporabi številke bo ustvarjen in/ali uporabljen vmesnik IPsec to "
+"številko uporabil kot del imena vmesnika. Primer: nastavitev ipsec-"
+"interface=5 bo ustvarila in/ali uporabila vmesnik ipsec5. Vrednosti 0 ni "
+"mogoče uporabiti in se razlaga kot »no«. Vrednost »yes« se razlaga kot "
+"številka 1 in bo tako uporabljala vmesnik z imenom »ipsec1«.\n"
 "                        config: ipsec-inteface yes|no|<num>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:87
-#, fuzzy
 msgid "Disable Mode Config client"
 msgstr "Onemogoči odjemalca za prilagoditev načina"
 
@@ -604,7 +592,6 @@ msgid "Remote certificate name"
 msgstr "Ime oddaljenega potrdila"
 
 #: ../properties/nm-libreswan-dialog.ui.h:89
-#, fuzzy
 msgid ""
 "If set, specify the name of the certificate from the NSS database to "
 "authenticate the remote"
