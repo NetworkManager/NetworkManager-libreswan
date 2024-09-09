@@ -122,6 +122,7 @@ nm_libreswan_config_write (gint fd,
 	const char *mobike;
 	const char *pfs;
 	const char *client_family;
+	const char *require_id_on_certificate;
 	const char *item;
 	gboolean is_ikev2 = FALSE;
 
@@ -172,6 +173,10 @@ nm_libreswan_config_write (gint fd,
 	client_family = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
 	if (client_family && strlen (client_family))
 		WRITE_CHECK (fd, debug_write_fcn, error, " clientaddrfamily=%s", client_family);
+
+	require_id_on_certificate = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE);
+	if (require_id_on_certificate && strlen (require_id_on_certificate))
+		WRITE_CHECK (fd, debug_write_fcn, error, " require-id-on-certificate=%s", require_id_on_certificate);
 
 	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
 	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
