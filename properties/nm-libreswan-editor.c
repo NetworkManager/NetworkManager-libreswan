@@ -351,27 +351,6 @@ populate_widget (LibreswanEditor *self,
 	}
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), idx);
 	}
-}
-
-
-/* Init the widget on the basis of its actual type.
- *  widget_name: the name of the widget
- *  key_name:    the name of the key where the config value is stored
- *  alt_key_name:alternative name of the key
- *  match_value: used only for toggle_button and combo_box widgets; when matched
- *               in the former it will set the toggle button as active, in the latter
- *               will be used as a match for enabling the third index of possible values
- *               (a three-valued logic value is expected: "no", "yes" or "match_value").
- */
-static void
-hook_stuff_changed_cb (LibreswanEditor *self,
-                       const char *widget_name)
-{
-	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
-	GtkWidget *widget;
-
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, widget_name));
-	g_return_if_fail (widget);
 
 	g_signal_connect (G_OBJECT (widget),
 	                  GTK_IS_CHECK_BUTTON (widget) ? "toggled" : "changed",
@@ -471,33 +450,7 @@ init_editor_plugin (LibreswanEditor *self,
 	populate_widget (self, "group_entry", NM_LIBRESWAN_KEY_LEFTID, NULL, NULL);
 	populate_widget (self, "cert_entry", NM_LIBRESWAN_KEY_LEFTCERT, NULL, NULL);
 	populate_widget (self, "remoteid_entry", NM_LIBRESWAN_KEY_RIGHTID, NULL, NULL);
-	hook_stuff_changed_cb (self, "gateway_entry");
-	hook_stuff_changed_cb (self, "user_entry");
-	hook_stuff_changed_cb (self, "group_entry");
-	hook_stuff_changed_cb (self, "cert_entry");
-	hook_stuff_changed_cb (self, "remoteid_entry");
-
-	/* Advanced Dialog */
 	populate_adv_dialog (self);
-	hook_stuff_changed_cb (self, "domain_entry");
-	hook_stuff_changed_cb (self, "phase1_entry");
-	hook_stuff_changed_cb (self, "phase2_entry");
-	hook_stuff_changed_cb (self, "phase1_lifetime_entry");
-	hook_stuff_changed_cb (self, "phase2_lifetime_entry");
-	hook_stuff_changed_cb (self, "rekey_checkbutton");
-	hook_stuff_changed_cb (self, "pfs_checkbutton");
-	hook_stuff_changed_cb (self, "local_network_entry");
-	hook_stuff_changed_cb (self, "remote_network_entry");
-	hook_stuff_changed_cb (self, "narrowing_checkbutton");
-	hook_stuff_changed_cb (self, "fragmentation_combo");
-	hook_stuff_changed_cb (self, "mobike_combo");
-	hook_stuff_changed_cb (self, "dpd_delay_entry");
-	hook_stuff_changed_cb (self, "dpd_timeout_entry");
-	hook_stuff_changed_cb (self, "dpd_action_combo");
-	hook_stuff_changed_cb (self, "ipsec_interface_entry");
-	hook_stuff_changed_cb (self, "authby_entry");
-	hook_stuff_changed_cb (self, "disable_modecfgclient_checkbutton");
-	hook_stuff_changed_cb (self, "remote_cert_entry");
 
 	priv->advanced_dialog = GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-advanced-dialog"));
 	g_return_val_if_fail (priv->advanced_dialog != NULL, FALSE);
