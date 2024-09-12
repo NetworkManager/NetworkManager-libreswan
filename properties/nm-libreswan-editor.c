@@ -379,6 +379,7 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_widget (self, "authby_entry", NM_LIBRESWAN_KEY_AUTHBY, NULL, NULL);
 	populate_widget (self, "disable_modecfgclient_checkbutton", NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT, NULL, "no");
 	populate_widget (self, "remote_cert_entry", NM_LIBRESWAN_KEY_RIGHTCERT, NULL, NULL);
+	populate_widget (self, "require_id_on_certificate_checkbutton", NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, NULL, "no");
 }
 
 static gboolean
@@ -642,6 +643,14 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT, str);
 	else
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT);
+
+	/* Disable Require ID on certificate */
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "require_id_on_certificate_checkbutton"));
+	if (gtk_check_button_get_active (GTK_CHECK_BUTTON (widget)))
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, "no");
+	else
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE);
+
 }
 
 static gboolean

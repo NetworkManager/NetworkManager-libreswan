@@ -73,6 +73,7 @@
 #define NM_LIBRESWAN_KEY_TYPE                       "type"
 #define NM_LIBRESWAN_KEY_HOSTADDRFAMILY             "hostaddrfamily"
 #define NM_LIBRESWAN_KEY_CLIENTADDRFAMILY           "clientaddrfamily"
+#define NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE  "require-id-on-certificate"
 
 #define NM_LIBRESWAN_IKEV2_NO      "no"
 #define NM_LIBRESWAN_IKEV2_NEVER   "never"

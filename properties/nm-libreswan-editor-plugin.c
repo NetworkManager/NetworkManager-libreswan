@@ -214,6 +214,8 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY, str + NM_STRLEN("hostaddrfamily="));
 		else if (g_str_has_prefix (str, "clientaddrfamily="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY, str + NM_STRLEN("clientaddrfamily="));
+		else if (g_str_has_prefix (str, "require-id-on-certificate="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, str + NM_STRLEN("require-id-on-certificate="));
 		else if (g_str_has_prefix (str, "rightsubnet=")) {
 			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);
