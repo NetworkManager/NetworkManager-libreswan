@@ -1,17 +1,17 @@
 # Georgian translation for NetworkManager-libreswan.
 # Copyright (C) 2023 NetworkManager-libreswan authors.
 # This file is distributed under the same license as the NetworkManager-libreswan package.
-# Ekaterine Papava <papava.e@gtu.ge>, 2023.
+# Ekaterine Papava <papava.e@gtu.ge>, 2023-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-libreswan\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-04-16 11:28+0000\n"
-"PO-Revision-Date: 2024-06-14 05:59+0200\n"
+"POT-Creation-Date: 2024-09-12 09:51+0000\n"
+"PO-Revision-Date: 2024-09-13 05:02+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
-"Language-Team: \n"
+"Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,48 +71,48 @@ msgid "IPsec based VPN for remote clients"
 msgstr "IPsec -თან თავსებადი VPN დაშორებული კლიენტებისთვის"
 
 #: ../properties/nm-libreswan-editor-plugin.c:94
-#: ../properties/nm-libreswan-editor-plugin.c:298
+#: ../properties/nm-libreswan-editor-plugin.c:300
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "ფაილის გახსნის შეცდომა “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:248
+#: ../properties/nm-libreswan-editor-plugin.c:250
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "ვერ ვიპოვე სექცია \"conn\" ფაილში \"%s\""
 
-#: ../properties/nm-libreswan-editor-plugin.c:320
+#: ../properties/nm-libreswan-editor-plugin.c:322
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "ფაილში (%s) ჩაწერის შეცდომა: %s"
 
-#: ../src/nm-libreswan-service.c:1468
+#: ../src/nm-libreswan-service.c:1684
 msgid "A password is required."
 msgstr "პაროლი სავალდებულოა."
 
-#: ../src/nm-libreswan-service.c:1872
+#: ../src/nm-libreswan-service.c:2088
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:1886
+#: ../src/nm-libreswan-service.c:2102
 msgid "Unhandled pending authentication."
 msgstr ""
 
-#: ../src/nm-libreswan-service.c:2028
+#: ../src/nm-libreswan-service.c:2244
 msgid "Don’t quit when VPN connection terminates"
 msgstr "ნუ გახვალ VPN კავშირის შეწყვეტისას"
 
-#: ../src/nm-libreswan-service.c:2029
+#: ../src/nm-libreswan-service.c:2245
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "გაფართოებული გამართვის ჟურნალის ჩართვა (შეიძლება, პაროლები გამოჩნდეს)"
 
-#: ../src/nm-libreswan-service.c:2030
+#: ../src/nm-libreswan-service.c:2246
 msgid "D-Bus name to use for this instance"
 msgstr "ამ გაშვებული ასლისთვის გამოყენებული D-Bus -ის სახელი"
 
-#: ../src/nm-libreswan-service.c:2053
+#: ../src/nm-libreswan-service.c:2269
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -512,17 +512,21 @@ msgid ""
 msgstr ""
 
 #: ../properties/nm-libreswan-dialog.ui.h:90
+msgid "Don't require remote certificate name"
+msgstr "არ მოითხოვო დაშორებული სერტიფიკატის სახელი"
+
+#: ../properties/nm-libreswan-dialog.ui.h:91
 msgid "Other"
 msgstr "სხვა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:91
+#: ../properties/nm-libreswan-dialog.ui.h:92
 msgid "Advanced Properties"
 msgstr "დამატებითი თვისებები"
 
-#: ../properties/nm-libreswan-dialog.ui.h:92
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "_Cancel"
 msgstr "_შეწყვეტა"
 
-#: ../properties/nm-libreswan-dialog.ui.h:93
+#: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "_Apply"
 msgstr "_გადატარება"
