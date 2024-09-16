@@ -90,6 +90,7 @@ EXTRA_DIST += \
 	gtk4/nm-libreswan-dialog.ui
 
 editor_sources = \
+	shared/nm-utils/nm-shared-utils.c \
 	properties/nm-libreswan-editor.c \
 	properties/nm-libreswan-editor.h
 

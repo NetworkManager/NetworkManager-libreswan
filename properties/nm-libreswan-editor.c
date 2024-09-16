@@ -24,6 +24,8 @@
 
 #include "nm-libreswan-editor.h"
 
+#include "nm-utils/nm-shared-utils.h"
+
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
@@ -69,6 +71,7 @@ typedef struct {
 	GtkWidget *widget;
 	GtkSizeGroup *group;
 	GtkWidget *advanced_dialog;
+	GtkWidget *apply_button;
 	NMSettingVpn *s_vpn;
 } LibreswanEditorPrivate;
 
@@ -325,7 +328,9 @@ populate_widget (LibreswanEditor *self,
                  const char *widget_name,
                  const char *key_name,
                  const char *alt_key_name,
-                 const char *match_value)
+                 const char *match_value,
+                 GCallback changed_cb,
+                 gpointer user_data)
 {
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	GtkWidget *widget;
@@ -377,32 +382,109 @@ populate_widget (LibreswanEditor *self,
 
 	g_signal_connect (G_OBJECT (widget),
 	                  GTK_IS_CHECK_BUTTON (widget) ? "toggled" : "changed",
-	                  G_CALLBACK (stuff_changed_cb), self);
+	                  G_CALLBACK (changed_cb), user_data);
+}
+
+static gboolean
+check_adv_validity (LibreswanEditor *self, GError **error)
+{
+	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+	GtkWidget *widget;
+	const char *str;
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "local_network_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && *str && !nm_utils_parse_inaddr_prefix (AF_INET, str, NULL, NULL)) {
+		g_set_error (error,
+		             NMV_EDITOR_PLUGIN_ERROR,
+		             NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
+		             NM_LIBRESWAN_KEY_LEFTSUBNET);
+		return FALSE;
+	}
+
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remote_network_entry"));
+	str = gtk_editable_get_text (GTK_EDITABLE (widget));
+	if (str && *str && !nm_utils_parse_inaddr_prefix (AF_INET, str, NULL, NULL)) {
+		g_set_error (error,
+		             NMV_EDITOR_PLUGIN_ERROR,
+		             NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
+		             NM_LIBRESWAN_KEY_RIGHTSUBNET);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static void
+adv_changed_cb (GtkWidget *widget, gpointer user_data)
+{
+	LibreswanEditor *self = LIBRESWAN_EDITOR (user_data);
+	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
+	gs_free_error GError *error = NULL;
+	gboolean settings_valid;
+
+	settings_valid = check_adv_validity (self, &error);
+	gtk_widget_set_sensitive (priv->apply_button, settings_valid);
+	gtk_widget_set_tooltip_text (priv->apply_button,
+	                             settings_valid ? NULL : error->message);
+}
+
+static inline void
+populate_adv (LibreswanEditor *self,
+               const char *widget_name,
+               const char *key_name,
+               const char *alt_key_name,
+               const char *match_value)
+{
+	populate_widget (self,
+			 widget_name,
+			 key_name,
+			 alt_key_name,
+			 match_value,
+			 G_CALLBACK (adv_changed_cb),
+			 self);
 }
 
 static void
 populate_adv_dialog (LibreswanEditor *self)
 {
-	populate_widget (self, "domain_entry", NM_LIBRESWAN_KEY_DOMAIN, NULL, NULL);
-	populate_widget (self, "phase1_entry", NM_LIBRESWAN_KEY_IKE, NULL, NULL);
-	populate_widget (self, "phase2_entry", NM_LIBRESWAN_KEY_ESP, NULL, NULL);
-	populate_widget (self, "phase1_lifetime_entry", NM_LIBRESWAN_KEY_IKELIFETIME, NULL, NULL);
-	populate_widget (self, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL, NULL);
-	populate_widget (self, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, NULL, "no");
-	populate_widget (self, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, NULL, "no");
-	populate_widget (self, "local_network_entry", NM_LIBRESWAN_KEY_LEFTSUBNET, NULL, NULL);
-	populate_widget (self, "remote_network_entry", NM_LIBRESWAN_KEY_RIGHTSUBNET, NULL, NULL);
-	populate_widget (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
-	populate_widget (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
-	populate_widget (self, "mobike_combo", NM_LIBRESWAN_KEY_MOBIKE, NULL, NULL);
-	populate_widget (self, "dpd_delay_entry", NM_LIBRESWAN_KEY_DPDDELAY, NULL, NULL);
-	populate_widget (self, "dpd_timeout_entry", NM_LIBRESWAN_KEY_DPDTIMEOUT, NULL, NULL);
-	populate_widget (self, "dpd_action_combo", NM_LIBRESWAN_KEY_DPDACTION, NULL, NULL);
-	populate_widget (self, "ipsec_interface_entry", NM_LIBRESWAN_KEY_IPSEC_INTERFACE, NULL, NULL);
-	populate_widget (self, "authby_entry", NM_LIBRESWAN_KEY_AUTHBY, NULL, NULL);
-	populate_widget (self, "disable_modecfgclient_checkbutton", NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT, NULL, "no");
-	populate_widget (self, "remote_cert_entry", NM_LIBRESWAN_KEY_RIGHTCERT, NULL, NULL);
-	populate_widget (self, "require_id_on_certificate_checkbutton", NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, NULL, "no");
+	populate_adv (self, "domain_entry", NM_LIBRESWAN_KEY_DOMAIN, NULL, NULL);
+	populate_adv (self, "phase1_entry", NM_LIBRESWAN_KEY_IKE, NULL, NULL);
+	populate_adv (self, "phase2_entry", NM_LIBRESWAN_KEY_ESP, NULL, NULL);
+	populate_adv (self, "phase1_lifetime_entry", NM_LIBRESWAN_KEY_IKELIFETIME, NULL, NULL);
+	populate_adv (self, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL, NULL);
+	populate_adv (self, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, NULL, "no");
+	populate_adv (self, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, NULL, "no");
+	populate_adv (self, "local_network_entry", NM_LIBRESWAN_KEY_LEFTSUBNET, NULL, NULL);
+	populate_adv (self, "remote_network_entry", NM_LIBRESWAN_KEY_RIGHTSUBNET, NULL, NULL);
+	populate_adv (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
+	populate_adv (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
+	populate_adv (self, "mobike_combo", NM_LIBRESWAN_KEY_MOBIKE, NULL, NULL);
+	populate_adv (self, "dpd_delay_entry", NM_LIBRESWAN_KEY_DPDDELAY, NULL, NULL);
+	populate_adv (self, "dpd_timeout_entry", NM_LIBRESWAN_KEY_DPDTIMEOUT, NULL, NULL);
+	populate_adv (self, "dpd_action_combo", NM_LIBRESWAN_KEY_DPDACTION, NULL, NULL);
+	populate_adv (self, "ipsec_interface_entry", NM_LIBRESWAN_KEY_IPSEC_INTERFACE, NULL, NULL);
+	populate_adv (self, "authby_entry", NM_LIBRESWAN_KEY_AUTHBY, NULL, NULL);
+	populate_adv (self, "disable_modecfgclient_checkbutton", NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT, NULL, "no");
+	populate_adv (self, "remote_cert_entry", NM_LIBRESWAN_KEY_RIGHTCERT, NULL, NULL);
+	populate_adv (self, "require_id_on_certificate_checkbutton", NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, NULL, "no");
+	adv_changed_cb (NULL, self);
+}
+
+static inline void
+populate_main (LibreswanEditor *self,
+               const char *widget_name,
+               const char *key_name,
+               const char *alt_key_name,
+               const char *match_value)
+{
+	populate_widget (self,
+			 widget_name,
+			 key_name,
+			 alt_key_name,
+			 match_value,
+			 G_CALLBACK (stuff_changed_cb),
+			 self);
 }
 
 static gboolean
@@ -469,12 +551,11 @@ init_editor_plugin (LibreswanEditor *self,
 	                  (GCallback) show_toggled_cb,
 	                  self);
 
-	populate_widget (self, "gateway_entry", NM_LIBRESWAN_KEY_RIGHT, NULL, NULL);
-	populate_widget (self, "user_entry", NM_LIBRESWAN_KEY_LEFTXAUTHUSER, NM_LIBRESWAN_KEY_LEFTUSERNAME, NULL);
-	populate_widget (self, "group_entry", NM_LIBRESWAN_KEY_LEFTID, NULL, NULL);
-	populate_widget (self, "cert_entry", NM_LIBRESWAN_KEY_LEFTCERT, NULL, NULL);
-	populate_widget (self, "remoteid_entry", NM_LIBRESWAN_KEY_RIGHTID, NULL, NULL);
-	populate_adv_dialog (self);
+	populate_main (self, "gateway_entry", NM_LIBRESWAN_KEY_RIGHT, NULL, NULL);
+	populate_main (self, "user_entry", NM_LIBRESWAN_KEY_LEFTXAUTHUSER, NM_LIBRESWAN_KEY_LEFTUSERNAME, NULL);
+	populate_main (self, "group_entry", NM_LIBRESWAN_KEY_LEFTID, NULL, NULL);
+	populate_main (self, "cert_entry", NM_LIBRESWAN_KEY_LEFTCERT, NULL, NULL);
+	populate_main (self, "remoteid_entry", NM_LIBRESWAN_KEY_RIGHTID, NULL, NULL);
 
 	priv->advanced_dialog = GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-advanced-dialog"));
 	g_return_val_if_fail (priv->advanced_dialog != NULL, FALSE);
@@ -484,9 +565,14 @@ init_editor_plugin (LibreswanEditor *self,
 	g_signal_connect (G_OBJECT (priv->advanced_dialog), "response",
 	                  G_CALLBACK (advanced_dialog_response_cb), self);
 
+	priv->apply_button = GTK_WIDGET (gtk_builder_get_object (priv->builder, "apply_button"));
+	g_return_val_if_fail (priv->apply_button != NULL, FALSE);
+
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "advanced_button"));
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_signal_connect (G_OBJECT (widget), "clicked", G_CALLBACK (advanced_button_clicked_cb), self);
+
+	populate_adv_dialog (self);
 
 	return TRUE;
 }
