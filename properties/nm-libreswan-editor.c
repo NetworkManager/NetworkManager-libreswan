@@ -333,22 +333,22 @@ populate_widget (LibreswanEditor *self,
 	} else if (GTK_IS_COMBO_BOX (widget)) {
 		gint idx = -1;
 
-	if (nm_streq (widget_name, "dpd_action_combo")) {
-		idx = 0;
-		if (nm_streq (value, "hold"))
-			idx = 1;
-		else if (nm_streq (value, "clear"))
-			idx = 2;
-		else if (nm_streq (value, "restart"))
-			idx = 3;
-	} else {
-		if (nm_streq (value, "no"))
-			idx = TYPE_3VL_NO;
-		else if (nm_streq (value, "yes"))
-			idx = TYPE_3VL_YES;
-		else if (nm_streq0 (value, match_value))
-			idx = TYPE_3VL_OTHER;
-	}
+		if (nm_streq (widget_name, "dpd_action_combo")) {
+			idx = 0;
+			if (nm_streq (value, "hold"))
+				idx = 1;
+			else if (nm_streq (value, "clear"))
+				idx = 2;
+			else if (nm_streq (value, "restart"))
+				idx = 3;
+		} else {
+			if (nm_streq (value, "no"))
+				idx = TYPE_3VL_NO;
+			else if (nm_streq (value, "yes"))
+				idx = TYPE_3VL_YES;
+			else if (nm_streq0 (value, match_value))
+				idx = TYPE_3VL_OTHER;
+		}
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), idx);
 	}
 
