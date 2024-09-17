@@ -21,6 +21,8 @@ libexec_PROGRAMS =
 
 noinst_PROGRAMS =
 
+check_PROGRAMS =
+
 SUBDIRS = po man
 
 ###############################################################################
@@ -47,6 +49,18 @@ shared_libutils_la_CPPFLAGS = \
 
 shared_libutils_la_LIBADD = \
 	$(GLIB_LIBS) \
+	$(LIBNM_LIBS)
+
+check_PROGRAMS += shared/test-utils
+
+shared_test_utils_SOURCES = shared/test-utils.c
+
+shared_test_utils_CFLAGS = \
+	$(common_CFLAGS) \
+	$(LIBNM_CFLAGS)
+
+shared_test_utils_LDADD = \
+	shared/libutils.la \
 	$(LIBNM_LIBS)
 
 ###############################################################################
