@@ -33,6 +33,24 @@ nmvpnservice_DATA = nm-libreswan-service.name
 
 ###############################################################################
 
+noinst_LTLIBRARIES += shared/libutils.la
+
+shared_libutils_la_SOURCES = \
+	shared/nm-utils/nm-shared-utils.c \
+	shared/nm-utils/nm-shared-utils.h \
+	shared/utils.c \
+	shared/utils.h \
+	shared/nm-service-defines.h
+
+shared_libutils_la_CPPFLAGS = \
+	$(src_cppflags)
+
+shared_libutils_la_LIBADD = \
+	$(GLIB_LIBS) \
+	$(LIBNM_LIBS)
+
+###############################################################################
+
 properties/resources.h: properties/gresource.xml
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $< --target=$@ --sourcedir=$(srcdir)/properties --generate-header --internal
 
@@ -53,10 +71,6 @@ gtk4/%.ui: properties/%.ui
 EXTRA_DIST += \
 	gtk4/nm-libreswan-dialog.ui
 
-plugin_sources = \
-	properties/nm-libreswan-editor-plugin.c \
-	properties/nm-libreswan-editor-plugin.h
-
 editor_sources = \
 	properties/nm-libreswan-editor.c \
 	properties/nm-libreswan-editor.h
@@ -68,23 +82,6 @@ common_CFLAGS = \
 
 ###############################################################################
 
-noinst_LTLIBRARIES += properties/libutils.la
-
-properties_libutils_la_SOURCES = \
-	shared/utils.c \
-	shared/utils.h \
-	shared/nm-utils/nm-vpn-plugin-utils.c \
-	shared/nm-utils/nm-vpn-plugin-utils.h \
-	shared/nm-utils/nm-shared-utils.c \
-	shared/nm-utils/nm-shared-utils.h \
-	shared/nm-service-defines.h
-
-properties_libutils_la_CPPFLAGS = \
-	-DPREFIX=\""$(prefix)"\" \
-	-DNETWORKMANAGER_COMPILATION=NM_NETWORKMANAGER_COMPILATION_LIB_BASE \
-	$(common_CFLAGS) \
-	$(LIBNM_CFLAGS)
-
 plugin_LTLIBRARIES += properties/libnm-vpn-plugin-libreswan.la
 
 properties_libnm_vpn_plugin_libreswan_la_CFLAGS = \
@@ -93,10 +90,13 @@ properties_libnm_vpn_plugin_libreswan_la_CFLAGS = \
 	$(LIBNM_CFLAGS)
 
 properties_libnm_vpn_plugin_libreswan_la_SOURCES = \
-	$(plugin_sources)
+	shared/nm-utils/nm-vpn-plugin-utils.c \
+	shared/nm-utils/nm-vpn-plugin-utils.h \
+	properties/nm-libreswan-editor-plugin.c \
+	properties/nm-libreswan-editor-plugin.h
 
 properties_libnm_vpn_plugin_libreswan_la_LIBADD = \
-	properties/libutils.la \
+	shared/libutils.la \
 	$(LIBNM_LIBS) \
 	$(DL_LIBS)
 
@@ -230,22 +230,6 @@ src/nm-libreswan-helper-service-dbus.h: src/nm-libreswan-helper-service.xml
 src/nm-libreswan-helper-service-dbus.c: src/nm-libreswan-helper-service-dbus.h
 	@true
 
-noinst_LTLIBRARIES += src/libutils.la
-
-src_libutils_la_SOURCES = \
-	shared/nm-utils/nm-shared-utils.c \
-	shared/nm-utils/nm-shared-utils.h \
-	shared/utils.c \
-	shared/utils.h \
-	shared/nm-service-defines.h
-
-src_libutils_la_CPPFLAGS = \
-	$(src_cppflags)
-
-src_libutils_la_LIBADD = \
-	$(GLIB_LIBS) \
-	$(LIBNM_LIBS)
-
 ###############################################################################
 
 libexec_PROGRAMS += src/nm-libreswan-service
@@ -255,7 +239,7 @@ src_nm_libreswan_service_CPPFLAGS = \
 
 src_nm_libreswan_service_LDADD = \
 	src/libnm-libreswan-helper-service-dbus.la \
-	src/libutils.la \
+	shared/libutils.la \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNL_LIBS) \
@@ -272,7 +256,7 @@ src_nm_libreswan_service_helper_CPPFLAGS = \
 
 src_nm_libreswan_service_helper_LDADD = \
 	src/libnm-libreswan-helper-service-dbus.la \
-	src/libutils.la \
+	shared/libutils.la \
 	$(GLIB_LIBS) \
 	$(LIBNM_LIBS)
 
