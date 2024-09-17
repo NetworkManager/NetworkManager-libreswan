@@ -90,7 +90,6 @@ EXTRA_DIST += \
 	gtk4/nm-libreswan-dialog.ui
 
 editor_sources = \
-	shared/nm-utils/nm-shared-utils.c \
 	properties/nm-libreswan-editor.c \
 	properties/nm-libreswan-editor.h
 
@@ -144,6 +143,7 @@ properties_libnm_vpn_plugin_libreswan_editor_la_SOURCES = \
 	$(editor_sources)
 
 properties_libnm_vpn_plugin_libreswan_editor_la_LIBADD = \
+	shared/libutils.la \
 	$(GTK_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNMA_LIBS)
@@ -173,6 +173,7 @@ properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_SOURCES = \
 	$(editor_sources)
 
 properties_libnm_gtk4_vpn_plugin_libreswan_editor_la_LIBADD = \
+	shared/libutils.la \
 	$(GTK4_LIBS) \
 	$(LIBNM_LIBS) \
 	$(LIBNMA_GTK4_LIBS)

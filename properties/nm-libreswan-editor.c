@@ -24,7 +24,7 @@
 
 #include "nm-libreswan-editor.h"
 
-#include "nm-utils/nm-shared-utils.h"
+#include "utils.h"
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -394,23 +394,13 @@ check_adv_validity (LibreswanEditor *self, GError **error)
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "local_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
-	if (str && *str && !nm_utils_parse_inaddr_prefix (AF_INET, str, NULL, NULL)) {
-		g_set_error (error,
-		             NMV_EDITOR_PLUGIN_ERROR,
-		             NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
-		             NM_LIBRESWAN_KEY_LEFTSUBNET);
+	if (!nm_libreswan_parse_subnets (str, NULL, error))
 		return FALSE;
-	}
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remote_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
-	if (str && *str && !nm_utils_parse_inaddr_prefix (AF_INET, str, NULL, NULL)) {
-		g_set_error (error,
-		             NMV_EDITOR_PLUGIN_ERROR,
-		             NMV_EDITOR_PLUGIN_ERROR_INVALID_PROPERTY,
-		             NM_LIBRESWAN_KEY_RIGHTSUBNET);
+	if (!nm_libreswan_parse_subnets (str, NULL, error))
 		return FALSE;
-	}
 
 	return TRUE;
 }
@@ -455,8 +445,8 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_adv (self, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL, NULL);
 	populate_adv (self, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, NULL, "no");
 	populate_adv (self, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, NULL, "no");
-	populate_adv (self, "local_network_entry", NM_LIBRESWAN_KEY_LEFTSUBNET, NULL, NULL);
-	populate_adv (self, "remote_network_entry", NM_LIBRESWAN_KEY_RIGHTSUBNET, NULL, NULL);
+	populate_adv (self, "local_network_entry", NM_LIBRESWAN_KEY_LEFTSUBNETS, NM_LIBRESWAN_KEY_LEFTSUBNET, NULL);
+	populate_adv (self, "remote_network_entry", NM_LIBRESWAN_KEY_RIGHTSUBNETS, NM_LIBRESWAN_KEY_RIGHTSUBNET, NULL);
 	populate_adv (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
 	populate_adv (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
 	populate_adv (self, "mobike_combo", NM_LIBRESWAN_KEY_MOBIKE, NULL, NULL);
@@ -621,6 +611,7 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	GtkWidget *widget;
 	const char *str;
+	char *subnets;
 
 	/* Domain entry */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "domain_entry"));
@@ -630,24 +621,39 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 	else
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DOMAIN);
 
-	/* Local Network */
+	/* Local Network(s) */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
 	                                             "local_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
-	if (str && *str)
-		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET, str);
-	else
+	subnets = nm_libreswan_normalize_subnets (str, NULL);
+	if (subnets == NULL || subnets[0] == '\0') {
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNETS);
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET);
+	} else if (strchr (subnets, ',')) {
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET);
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNETS, str);
+	} else {
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNETS);
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET, str);
+	}
+	g_free (subnets);
 
-
-	/* Remote Network */
+	/* Remote Network(s) */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
 	                                             "remote_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
-	if (str && *str)
-		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET, str);
-	else
+	subnets = nm_libreswan_normalize_subnets (str, NULL);
+	if (subnets == NULL || subnets[0] == '\0') {
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNETS);
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET);
+	} else if (strchr (subnets, ',')) {
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET);
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNETS, str);
+	} else {
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNETS);
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET, str);
+	}
+	g_free (subnets);
 
 	/* Disable rekeying */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "rekey_checkbutton"));
