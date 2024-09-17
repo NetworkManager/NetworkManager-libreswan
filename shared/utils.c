@@ -232,12 +232,16 @@ nm_libreswan_config_write (gint fd,
 	WRITE_CHECK (fd, debug_write_fcn, error, " modecfgpull=yes");
 
 
-	local_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+	local_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNETS);
+	if (local_network == NULL)
+		local_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET);
 	if (local_network) {
 		WRITE_CHECK (fd, debug_write_fcn, error, " leftsubnet=%s", local_network);
 	}
 
-	remote_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK);
+	remote_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNETS);
+	if (remote_network == NULL)
+		remote_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET);
 	if (!remote_network || !strlen (remote_network)) {
 		int addr_family = AF_UNSPEC;
 

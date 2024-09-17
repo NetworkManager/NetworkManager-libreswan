@@ -214,11 +214,15 @@ import_from_file (NMVpnEditorPlugin *self,
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_HOSTADDRFAMILY, str + NM_STRLEN("hostaddrfamily="));
 		else if (g_str_has_prefix (str, "clientaddrfamily="))
 			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY, str + NM_STRLEN("clientaddrfamily="));
+		else if (g_str_has_prefix (str, "leftsubnets="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNETS, str + NM_STRLEN("leftsubnets="));
+		else if (g_str_has_prefix (str, "leftsubnet="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET, str + NM_STRLEN("leftsubnet="));
+		else if (g_str_has_prefix (str, "rightsubnets="))
+			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNETS, str + NM_STRLEN("rightsubnets="));
 		else if (g_str_has_prefix (str, "rightsubnet=")) {
 			if (!g_str_has_prefix (str, "rightsubnet=0.0.0.0/0"))
-				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, &str[12]);
-		} else if (g_str_has_prefix (str, "leftsubnet=")) {
-			nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK, str + NM_STRLEN("leftsubnet="));
+				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET, &str[12]);
 		} else if (g_str_has_prefix (str, "leftrsasigkey=")) {
 			if (str[14] != '%')
 				nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY, &str[14]);
