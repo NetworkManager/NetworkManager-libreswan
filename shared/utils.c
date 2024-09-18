@@ -749,3 +749,56 @@ nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *o
 	else
 		g_free (output);
 }
+
+gboolean
+nm_libreswan_parse_subnets (const char *str,
+                            GPtrArray *arr,
+                            GError **error)
+{
+	gs_strfreev char **tokens = NULL;
+	char *addr;
+	int prefix;
+	int i;
+
+	g_return_val_if_fail (str != NULL, FALSE);
+	g_return_val_if_fail (!error || !*error, FALSE);
+
+	tokens = g_strsplit_set (str, ", \t\n\v", 0);
+	for (i = 0; tokens[i] != NULL; i++) {
+		if (*tokens[i] == '\0')
+			continue;
+		if (   nm_utils_parse_inaddr_prefix (AF_INET, tokens[i], &addr, &prefix) == FALSE
+		    && nm_utils_parse_inaddr_prefix (AF_INET6, tokens[i], &addr, &prefix) == FALSE) {
+			g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             "'%s' is not a valid IP subnet", tokens[i]);
+			return FALSE;
+		}
+		if (arr) {
+			if (prefix == -1) {
+				g_ptr_array_add (arr, g_strdup_printf ("%s", addr));
+			} else {
+				g_ptr_array_add (arr, g_strdup_printf ("%s/%d", addr, prefix));
+			}
+		}
+		g_free (addr);
+	}
+
+	return TRUE;
+}
+
+char *
+nm_libreswan_normalize_subnets (const char *str,
+                                GError **error)
+{
+	gs_unref_ptrarray GPtrArray *arr = NULL;
+
+	g_return_val_if_fail (str != NULL, FALSE);
+	g_return_val_if_fail (!error || !*error, FALSE);
+
+	arr = g_ptr_array_new_full (5, g_free);
+	if (nm_libreswan_parse_subnets (str, arr, error) == FALSE)
+		return NULL;
+	g_ptr_array_add (arr, NULL);
+
+	return g_strjoinv (",", (char **)arr->pdata);
+}

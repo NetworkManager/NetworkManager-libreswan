@@ -57,4 +57,7 @@ nm_libreswan_detect_version (const char *path,
 const char *nm_libreswan_find_helper_bin (const char *progname, GError **error);
 const char *nm_libreswan_find_helper_libexec (const char *progname, GError **error);
 
+gboolean nm_libreswan_parse_subnets (const char *str, GPtrArray *arr, GError **error);
+char *nm_libreswan_normalize_subnets (const char *str, GError **error);
+
 #endif /* __UTILS_H__ */
