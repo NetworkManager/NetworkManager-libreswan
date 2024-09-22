@@ -24,27 +24,13 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-typedef void (*NMDebugWriteFcn) (const char *setting);
-
-__attribute__((__format__ (__printf__, 5, 6)))
-gboolean write_config_option_newline (int fd,
-                                      gboolean new_line,
-                                      NMDebugWriteFcn debug_write_fcn,
-                                      GError **error,
-                                      const char *format, ...);
-
-#define write_config_option(fd, debug_write_fcn, error, ...) write_config_option_newline((fd), TRUE, debug_write_fcn, error, __VA_ARGS__)
-
-gboolean
-nm_libreswan_config_write (gint fd,
-                           int ipsec_version,
-                           NMConnection *connection,
-                           const char *con_name,
-                           const char *leftupdown_script,
-                           gboolean openswan,
-                           gboolean trailing_newline,
-                           NMDebugWriteFcn debug_write_fcn,
-                           GError **error);
+char *nm_libreswan_get_ipsec_conf (int ipsec_version,
+                                   NMSettingVpn *s_vpn,
+                                   const char *con_name,
+                                   const char *leftupdown_script,
+                                   gboolean openswan,
+                                   gboolean trailing_newline,
+                                   GError **error);
 
 static inline gboolean
 nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn, const char **out_ikev2)

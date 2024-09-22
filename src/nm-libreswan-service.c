@@ -101,12 +101,13 @@ typedef struct {
 	const char *whack_path;
 	char *secrets_path;
 
+	char *ipsec_conf;
+
 	gboolean openswan;
 	gboolean interactive;
 	gboolean pending_auth;
 	gboolean managed;
 	gboolean xauth_enabled;
-	int version;
 
 	GPid pid;
 	guint watch_id;
@@ -151,12 +152,6 @@ _LOGD_enabled (void)
 #define _LOGI(...) _NMLOG(LOG_NOTICE,  __VA_ARGS__)
 #define _LOGW(...) _NMLOG(LOG_WARNING, __VA_ARGS__)
 #define _LOGE(...) _NMLOG(LOG_EMERG, __VA_ARGS__)
-
-static void
-_debug_write_option (const char *setting)
-{
-	_LOGD ("Config %s", setting);
-}
 
 /****************************************************************/
 
@@ -667,9 +662,9 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
                                GError **error)
 {
 	const char *pw_type, *psk, *leftid, *right;
-	int fd;
-	int errsv;
-	gboolean success;
+	gs_free const char *secrets = NULL;
+	mode_t old_mask;
+	gboolean res;
 
 	/* Check for ignored group password */
 	pw_type = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
@@ -679,48 +674,36 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 	psk = nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_PSK_VALUE);
 	if (!psk)
 		return TRUE;
-
-	/* Write the PSK */
-	errno = 0;
-	fd = open (secrets_path, O_RDWR|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
-	if (fd < 0) {
-		errsv = errno;
-
-		if (errsv == ENOENT) {
-			gs_free char *dirname = g_path_get_dirname (secrets_path);
-
-			if (!g_file_test (dirname, G_FILE_TEST_IS_DIR)) {
-				g_set_error (error,
-				             NM_VPN_PLUGIN_ERROR,
-				             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-				             "Failed to open secrets file: no directory %s",
-				             dirname);
-				return FALSE;
-			}
-		}
-
-		g_set_error (error,
-		             NM_VPN_PLUGIN_ERROR,
-		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-		             "Failed to open secrets file: (%d) %s.",
-		             errsv, g_strerror (errsv));
+	if (strchr (psk, '"') || strchr (psk, '\n')) {
+		g_set_error_literal (error,
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
+		                     _("Invalid character in password."));
 		return FALSE;
 	}
 
 	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID);
 	if (leftid) {
-		success = write_config_option (fd, NULL, error, "@%s: PSK \"%s\"", leftid, psk);
+		/* nm_libreswan_get_ipsec_conf() in _connect_common should've checked these. */
+		g_return_val_if_fail (strchr (leftid, '"') == NULL, FALSE);
+		g_return_val_if_fail (strchr (leftid, '\n') == NULL, FALSE);
+
+		secrets = g_strdup_printf ("@%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT);
-		g_assert (right);
-		success = write_config_option (fd, NULL, error, "%s %%any: PSK \"%s\"", right, psk);
+
+		/* nm_libreswan_get_ipsec_conf() in _connect_common should've checked these. */
+		g_return_val_if_fail (right != NULL, FALSE);
+		g_return_val_if_fail (strchr (right, '"') == NULL, FALSE);
+		g_return_val_if_fail (strchr (right, '\n') == NULL, FALSE);
+
+		secrets = g_strdup_printf ("%s %%any: PSK \"%s\"", right, psk);
 	}
 
-	if (!success) {
-		g_close (fd, NULL);
-		return FALSE;
-	}
-	return g_close (fd, error);
+	old_mask = umask (S_IRWXG | S_IRWXO);
+	res = g_file_set_contents (secrets_path, secrets, -1, error);
+	umask (old_mask);
+	return res;
 }
 
 /****************************************************************/
@@ -1768,6 +1751,44 @@ done:
 }
 
 static gboolean
+write_config (int fd,
+              const char *string,
+              GError **error)
+{
+	const char *p;
+	gsize l;
+	int errsv;
+	gssize w;
+
+	_LOGD ("Config %s", string);
+
+	l = strlen (string);
+	p = string;
+	while (true) {
+		w = write (fd, p, l);
+		if (w == l)
+			return TRUE;
+		if (w > 0) {
+			g_assert (w < l);
+			p += w;
+			l -= w;
+			continue;
+		}
+		if (w == 0) {
+			errsv = EIO;
+			break;
+		}
+		errsv = errno;
+		if (errsv == EINTR)
+			continue;
+		break;
+	}
+	g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR,
+	             _("Error writing config: %s"), g_strerror (errsv));
+	return FALSE;
+}
+
+static gboolean
 connect_step (NMLibreswanPlugin *self, GError **error)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
@@ -1849,37 +1870,12 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		return TRUE;
 
 	case CONNECT_STEP_CONFIG_ADD: {
-		gboolean trailing_newline;
-		gs_free char *bus_name = NULL;
-		gs_free char *ifupdown_script = NULL;
 
 		if (!do_spawn (self, &priv->pid, &fd, NULL, error, priv->ipsec_path,
 		               "auto", "--replace", "--config", "-", uuid, NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
-		g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
-
-		/* openswan requires a terminating \n (otherwise it segfaults) while
-		 * libreswan fails parsing the configuration if you include the \n.
-		 * WTF?
-		 */
-		trailing_newline = priv->openswan;
-
-		ifupdown_script = g_strdup_printf ("\"%s %d %ld %s\"",
-		                                   NM_LIBRESWAN_HELPER_PATH,
-		                                   LOG_DEBUG,
-		                                   (long) getpid (),
-		                                   bus_name);
-
-		if (!nm_libreswan_config_write (fd,
-		                                priv->version,
-		                                priv->connection,
-		                                uuid,
-		                                ifupdown_script,
-		                                priv->openswan,
-		                                trailing_newline,
-		                                _debug_write_option,
-		                                error)) {
+		if (!write_config (fd, priv->ipsec_conf, error)) {
 			g_close (fd, NULL);
 			return FALSE;
 		}
@@ -1929,19 +1925,31 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	NMSettingVpn *s_vpn;
 	const char *con_name = nm_connection_get_uuid (connection);
 	gs_free char *ipsec_banner = NULL;
+	gs_free char *ifupdown_script = NULL;
+	gs_free char *bus_name = NULL;
+	gboolean trailing_newline;
+	int version;
 
 	if (_LOGD_enabled ()) {
 		_LOGD ("connection:");
 		nm_connection_dump (connection);
 	}
 
+	if (priv->connect_step != CONNECT_STEP_FIRST) {
+		g_set_error_literal (error,
+			                 NM_VPN_PLUGIN_ERROR,
+			                 NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+			                 "Already connecting!");
+		return FALSE;
+	}
+
 	priv->ipsec_path = nm_libreswan_find_helper_bin ("ipsec", error);
 	if (!priv->ipsec_path)
 		return FALSE;
 
-	nm_libreswan_detect_version (priv->ipsec_path, &priv->openswan, &priv->version, &ipsec_banner);
+	nm_libreswan_detect_version (priv->ipsec_path, &priv->openswan, &version, &ipsec_banner);
 	_LOGD ("ipsec: version banner: %s", ipsec_banner);
-	_LOGD ("ipsec: detected version %d (%s)", priv->version, priv->openswan ? "Openswan" : "Libreswan");
+	_LOGD ("ipsec: detected version %d (%s)", version, priv->openswan ? "Openswan" : "Libreswan");
 
 	if (!priv->openswan) {
 		priv->pluto_path = nm_libreswan_find_helper_libexec ("pluto", error);
@@ -1961,13 +1969,31 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	if (!nm_libreswan_secrets_validate (s_vpn, error))
 		return FALSE;
 
-	if (priv->connect_step != CONNECT_STEP_FIRST) {
-		g_set_error_literal (error,
-			                 NM_VPN_PLUGIN_ERROR,
-			                 NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-			                 "Already connecting!");
+	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
+
+	ifupdown_script = g_strdup_printf ("%s %d %ld %s",
+					   NM_LIBRESWAN_HELPER_PATH,
+					   LOG_DEBUG,
+					   (long) getpid (),
+					   bus_name);
+
+	/* openswan requires a terminating \n (otherwise it segfaults) while
+	 * libreswan fails parsing the configuration if you include the \n.
+	 * WTF?
+	 */
+	trailing_newline = priv->openswan;
+
+	/* Compose the ipsec.conf early, to catch configuration errors before
+	 * we initiate the conneciton. */
+	priv->ipsec_conf = nm_libreswan_get_ipsec_conf (version,
+		                                        s_vpn,
+		                                        con_name,
+		                                        ifupdown_script,
+		                                        priv->openswan,
+		                                        trailing_newline,
+		                                        error);
+	if (priv->ipsec_conf == NULL)
 		return FALSE;
-	}
 
 	/* XAUTH is not part of the IKEv2 standard and we always enforce it in IKEv1 */
 	priv->xauth_enabled = !nm_libreswan_utils_setting_is_ikev2 (s_vpn, NULL);
@@ -2142,6 +2168,7 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, plugin);
 
 	g_clear_object (&priv->connection);
+	g_clear_pointer (&priv->ipsec_conf, g_free);
 
 	return ret;
 }
@@ -2174,6 +2201,7 @@ finalize (GObject *object)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (object);
 
+	g_clear_pointer (&priv->ipsec_conf, g_free);
 	delete_secrets_file (NM_LIBRESWAN_PLUGIN (object));
 	connect_cleanup (NM_LIBRESWAN_PLUGIN (object));
 	g_clear_object (&priv->connection);
