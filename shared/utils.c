@@ -341,6 +341,7 @@ static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, add,                   PARAM_IGNORE },
 	{ NM_LIBRESWAN_KEY_PSK_VALUE "-flags",         add,                   PARAM_IGNORE },
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags",    add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS,           add,                   PARAM_IGNORE },
 
 	{ NULL  }
 };
@@ -368,6 +369,7 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
                       GError **error)
 {
 	gs_unref_object NMSettingVpn *sanitized = NULL;
+	gboolean auto_defaults = TRUE;
 	int handled_items = 0;
 	const char *val;
 	int i;
@@ -379,6 +381,10 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 	g_object_set (sanitized,
 	              NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN,
 	              NULL);
+
+	auto_defaults = _nm_utils_ascii_str_to_bool (
+		nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS),
+		TRUE);
 
 	for (i = 0; params[i].name != NULL; i++) {
 		val = nm_setting_vpn_get_data_item (s_vpn, params[i].name);
@@ -393,7 +399,11 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 			return NULL;
 		}
 
-		params[i].add_sanitized (sanitized, params[i].name, val);
+		if (auto_defaults) {
+			params[i].add_sanitized (sanitized, params[i].name, val);
+		} else {
+			nm_setting_vpn_add_data_item (sanitized, params[i].name, val);
+		}
 
 		val = nm_setting_vpn_get_data_item (sanitized, params[i].name);
 		if (val == NULL)

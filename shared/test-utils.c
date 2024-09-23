@@ -165,6 +165,23 @@ test_config_write (void)
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_setting_vpn_add_data_item (s_vpn, "ikev2", "insist");
+	nm_setting_vpn_add_data_item (s_vpn, "leftrsasigkey", "hello");
+	nm_setting_vpn_add_data_item (s_vpn, "rightrsasigkey", "world");
+	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
+	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	g_assert_no_error (error);
+	g_assert_cmpstr (str, ==,
+                         "conn conn\n"
+                         " ikev2=insist\n"
+                         " right=11.12.13.14\n"
+                         " rightrsasigkey=\"world\"\n"
+                         " leftrsasigkey=\"hello\"\n");
+	g_free (str);
+	g_object_unref (s_vpn);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
 	g_assert_null (str);
@@ -190,6 +207,23 @@ test_config_write (void)
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_null (str);
+	g_clear_error (&error);
+	g_object_unref (s_vpn);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
+	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_null (str);
+	g_clear_error (&error);
+	g_object_unref (s_vpn);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
 	g_assert_null (str);
