@@ -1,4 +1,15 @@
 =========================================================
+NetworkManager-libreswan-1.2.24
+Overview of changes since NetworkManager-libreswan-1.2.22
+=========================================================
+
+This is a new stable release of NetworkManager-libreswan. Notable changes include:
+* Fixed formatting of ipsec.conf snippet. This is a security
+  issue with severity of "Important." (CVE-2024-9050)
+* Added support for "require-id-on-certificate" setting.
+* Updated Georgian, Slovenian and Ukrainian translations.
+
+=========================================================
 NetworkManager-libreswan-1.2.22
 Overview of changes since NetworkManager-libreswan-1.2.20
 =========================================================
