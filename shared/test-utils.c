@@ -40,19 +40,45 @@ test_config_write (void)
 	                 "conn con_name\n"
 	                 " ikev2=never\n"
 	                 " right=11.12.13.14\n"
-	                 " authby=secret\n"
 	                 " left=%defaultroute\n"
 	                 " leftmodecfgclient=yes\n"
-	                 " rightsubnet=0.0.0.0/0\n"
-	                 " leftxauthclient=yes\n"
-	                 " remote-peer-type=cisco\n"
-	                 " rightxauthserver=yes\n"
+	                 " authby=secret\n"
 	                 " ikelifetime=24h\n"
 	                 " salifetime=24h\n"
-	                 " keyingtries=1\n"
+	                 " rightsubnet=0.0.0.0/0\n"
 	                 " rekey=yes\n"
+	                 " keyingtries=1\n"
+	                 " leftxauthclient=yes\n"
+	                 " rightxauthserver=yes\n"
+	                 " remote-peer-type=cisco\n"
 	                 " rightmodecfgserver=yes\n"
 	                 " modecfgpull=yes\n");
+	g_free (str);
+	g_object_unref (s_vpn);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
+	nm_setting_vpn_add_data_item (s_vpn, "dhgroup", "ignored");
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	g_assert_no_error (error);
+	g_assert_cmpstr (str, ==,
+	                 "conn con_name\n"
+	                 " ikev2=never\n"
+	                 " right=11.12.13.14\n"
+	                 " left=%defaultroute\n"
+	                 " leftmodecfgclient=yes\n"
+	                 " authby=secret\n"
+	                 " ikelifetime=24h\n"
+	                 " salifetime=24h\n"
+	                 " rightsubnet=0.0.0.0/0\n"
+	                 " rekey=yes\n"
+	                 " keyingtries=1\n"
+	                 " leftxauthclient=yes\n"
+	                 " rightxauthserver=yes\n"
+	                 " remote-peer-type=cisco\n"
+	                 " rightmodecfgserver=yes\n"
+	                 " modecfgpull=yes\n");
+
 	g_free (str);
 	g_object_unref (s_vpn);
 
@@ -71,13 +97,14 @@ test_config_write (void)
 	                 " right=11.12.13.14\n"
 	                 " leftid=%fromcert\n"
 	                 " leftcert=\"LibreswanClient\"\n"
-	                 " leftrsasigkey=\"%cert\"\n"
 	                 " rightrsasigkey=\"%cert\"\n"
+	                 " leftrsasigkey=\"%cert\"\n"
 	                 " left=%defaultroute\n"
 	                 " leftmodecfgclient=yes\n"
 	                 " rightsubnet=0.0.0.0/0\n"
-	                 " keyingtries=1\n"
 	                 " rekey=yes\n"
+	                 " phase2alg=aes256-sha1\n"
+	                 " keyingtries=1\n"
 	                 " rightmodecfgserver=yes\n"
 	                 " modecfgpull=yes\n");
 	g_free (str);
@@ -94,13 +121,14 @@ test_config_write (void)
 	                 "conn conn\n"
 	                 " ikev2=insist\n"
 	                 " right=11.12.13.14\n"
-	                 " leftrsasigkey=\"hello\"\n"
 	                 " rightrsasigkey=\"world\"\n"
+	                 " leftrsasigkey=\"hello\"\n"
 	                 " left=%defaultroute\n"
 	                 " leftmodecfgclient=yes\n"
 	                 " rightsubnet=0.0.0.0/0\n"
-	                 " keyingtries=1\n"
 	                 " rekey=yes\n"
+	                 " phase2alg=aes256-sha1\n"
+	                 " keyingtries=1\n"
 	                 " rightmodecfgserver=yes\n"
 	                 " modecfgpull=yes\n");
 	g_free (str);
@@ -115,25 +143,26 @@ test_config_write (void)
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
 	                 "conn my_con\n"
-	                 " auto=add\n"
-	                 " nm-configured=yes\n"
-	                 " leftupdown=\"/foo/bar/ifupdown hello 123 456\"\n"
 	                 " ikev2=never\n"
 	                 " right=11.12.13.14\n"
-	                 " authby=secret\n"
 	                 " left=%defaultroute\n"
 	                 " leftmodecfgclient=yes\n"
-	                 " rightsubnet=0.0.0.0/0\n"
-	                 " leftxauthclient=yes\n"
-	                 " remote_peer_type=cisco\n"
-	                 " rightxauthserver=yes\n"
+	                 " authby=secret\n"
 	                 " ikelifetime=24h\n"
 	                 " salifetime=24h\n"
-	                 " keyingtries=1\n"
+	                 " rightsubnet=0.0.0.0/0\n"
 	                 " rekey=yes\n"
+	                 " keyingtries=1\n"
+	                 " leftxauthclient=yes\n"
+	                 " rightxauthserver=yes\n"
+	                 " remote_peer_type=cisco\n"
 	                 " rightmodecfgserver=yes\n"
-	                 " modecfgpull=yes");
+	                 " modecfgpull=yes\n"
+	                 " leftupdown=\"/foo/bar/ifupdown hello 123 456\"\n"
+	                 " auto=add\n"
+	                 " nm-configured=yes");
 	g_free (str);
+	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
