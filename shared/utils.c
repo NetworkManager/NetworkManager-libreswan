@@ -408,12 +408,10 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 
 		keys = nm_setting_vpn_get_data_keys (s_vpn, &length);
 		for (i = 0; i < length; i++) {
-			if (   (params[i].flags & PARAM_SYNTHETIC) == 0
-			    && nm_setting_vpn_get_data_item (sanitized, keys[i])) {
+			if (nm_setting_vpn_get_data_item (sanitized, keys[i]))
 				continue;
-			}
 
-		        g_set_error (error,
+			g_set_error (error,
 			             NM_UTILS_ERROR,
 			             NM_UTILS_ERROR_INVALID_ARGUMENT,
 			             _("property '%s' invalid or not supported"),
@@ -483,6 +481,157 @@ nm_libreswan_get_ipsec_conf (int ipsec_version,
 	}
 
 	return g_string_free (g_steal_pointer (&ipsec_conf), FALSE);
+}
+
+/*
+ * The format as described in ipsec.conf(5) is fairly primitive.
+ * In values, no line breaks are allowed. If there's other whitespace,
+ * it needs to be enclosed in quote marks. Quote marks are not allowed
+ * elsewhere. There's no escaping of the quote marks or newlines or
+ * anything else. This makes it feasible to parse it with a fairly
+ * regexp.
+ */
+static const char line_match[] =
+	"^(?:"
+	    "(?:conn\\s+|\\s+(\\S+)\\s*=\\s*)"	/* <"conn "> or <whitespace><key>...=... */
+	    "(?:\"([^\"]*)\"|(\\S+))"		/* <value> or "<v a l u e>" */
+	")?"					/* (or just blank line) */
+	"\\s*(?:#.*)?$";			/* optional comment */
+
+NMSettingVpn *
+nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
+                               char **out_con_name,
+                               GError **error)
+{
+	gs_unref_object NMSettingVpn *sanitized = NULL;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
+	gs_strfreev char **lines = NULL;
+	gs_free char *con_name = NULL;
+	GMatchInfo *match_info = NULL;
+	GError *parse_error = NULL;
+	GRegex *line_regex;
+	const char *old, *new;
+	const char *rekey;
+	char *key, *val;
+	int i;
+
+	g_return_val_if_fail (ipsec_conf, NULL);
+	g_return_val_if_fail (out_con_name && !*out_con_name, NULL);
+	g_return_val_if_fail (!error || !*error, NULL);
+
+	line_regex = g_regex_new (line_match, G_REGEX_RAW, 0, NULL);
+	g_return_val_if_fail (line_regex, NULL);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+
+	lines = g_strsplit_set (ipsec_conf, "\r\n", -1);
+	for (i = 0; lines[i]; i++) {
+		if (!g_regex_match (line_regex, lines[i], 0, &match_info)) {
+			parse_error = g_error_new (
+				NM_UTILS_ERROR,
+				NM_UTILS_ERROR_INVALID_ARGUMENT,
+				_("'%s' not understood"),
+				lines[i]);
+			g_match_info_unref (match_info);
+			break;
+		}
+
+		key = g_match_info_fetch (match_info, 1); /* Key */
+		val = g_match_info_fetch (match_info, 2); /* Unquoted value */
+		if (val[0] == '\0') {
+			g_free (val);
+			/* Quoted value (quotes stripped off) */
+			val = g_match_info_fetch (match_info, 3);
+		}
+		g_match_info_unref (match_info);
+
+		if (key[0] != '\0') {
+			/* key=value line */
+			if (con_name == NULL) {
+				parse_error = g_error_new (
+					NM_UTILS_ERROR,
+					NM_UTILS_ERROR_INVALID_ARGUMENT,
+					_("Expected a conn line before '%s'"),
+					key);
+			} else if (nm_setting_vpn_get_data_item (s_vpn, key)) {
+				parse_error = g_error_new (
+					NM_UTILS_ERROR,
+					NM_UTILS_ERROR_INVALID_ARGUMENT,
+					_("'%s' specified multiple times"),
+					key);
+			} else {
+				nm_setting_vpn_add_data_item (s_vpn, key, val);
+			}
+			g_free (key);
+			g_free (val);
+		} else if (val[0] != '\0') {
+			/* If key didn't match, then this must be a "conn" line. */
+			g_free (key);
+			if (con_name != NULL) {
+				g_free (val);
+				parse_error = g_error_new (
+					NM_UTILS_ERROR,
+					NM_UTILS_ERROR_INVALID_ARGUMENT,
+					_("'%s' specified multiple times"),
+					"conn");
+			} else {
+				con_name = val;
+			}
+		} else {
+			/* Blank line */
+			g_free (key);
+			g_free (val);
+		}
+
+		if (parse_error)
+			break;
+	}
+	g_regex_unref (line_regex);
+	if (parse_error) {
+		g_propagate_error (error, parse_error);
+		return NULL;
+	}
+
+	/* The "keyingtries" kludge. See above. */
+	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY);
+	if (  rekey && rekey[0] != '\0'
+	    && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, "keyingtries"), "1") == 0) {
+		nm_setting_vpn_remove_data_item (s_vpn, "keyingtries");
+	}
+
+	sanitized = sanitize_setting_vpn (s_vpn, error);
+	if (!sanitized)
+		return NULL;
+
+	g_return_val_if_fail (con_name, NULL);
+
+	/*
+	 * Verify that the synthetic properties are either not present in the
+	 * original connection, or have the same value as has been synthesized,
+	 * Then remove them.
+	 */
+	for (i = 0; params[i].name != NULL; i++) {
+		if ((params[i].flags & PARAM_SYNTHETIC) == 0)
+			continue;
+
+		old = nm_setting_vpn_get_data_item (s_vpn, params[i].name);
+		if (old != NULL) {
+			new = nm_setting_vpn_get_data_item (sanitized, params[i].name);
+			if (g_strcmp0 (old, new) != 0) {
+				g_set_error (error,
+				             NM_UTILS_ERROR,
+				             NM_UTILS_ERROR_INVALID_ARGUMENT,
+				             _("'%s' is not supported for '%s'"),
+				             old, params[i].name);
+				return NULL;
+			}
+		}
+
+		nm_setting_vpn_remove_data_item (sanitized, params[i].name);
+	}
+
+	*out_con_name = g_steal_pointer (&con_name);
+	return g_steal_pointer (&sanitized);
 }
 
 static const char *
