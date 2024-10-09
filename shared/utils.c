@@ -18,7 +18,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2010 - 2015 Red Hat, Inc.
+ * Copyright (C) 2010 - 2024 Red Hat, Inc.
  */
 
 #include "nm-default.h"
@@ -30,92 +30,400 @@
 #include <string.h>
 #include <errno.h>
 
+enum LibreswanParamFlags {
+	PARAM_PRINTABLE	= 0x0001, /* No quotes, line breaks or whitespace. */
+	PARAM_STRING	= 0x0002, /* Same as above, except with spaces. */
+	PARAM_SYNTHETIC	= 0x0004, /* Not configurable, inferred from other options. */
+	PARAM_REQUIRED	= 0x0008, /* Mandatory parameter. */
+	PARAM_OLD	= 0x0010, /* Only include for libreswan < 4. */
+	PARAM_NEW	= 0x0020, /* Only include for libreswan >= 4. */
+	PARAM_IGNORE	= 0x0020, /* Not passed to or from Libreswan. */
+};
+
+struct LibreswanParam {
+	const char *name;
+	void (*add_sanitized) (NMSettingVpn *s_vpn, const char *key, const char *val);
+	enum LibreswanParamFlags flags;
+};
+
+static void
+add (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	/* Check redundant since NM 1.24 */
+	if (val == NULL || val[0] == '\0')
+		return;
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_ikev2 (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	/*
+	 * When using IKEv1 (default in our plugin), we should ensure that
+	 * we make it explicit to Libreswan (which now defaults to IKEv2):
+	 * when crypto algorithms are not specified ("esp" & "ike")
+	 * Libreswan will use system-wide crypto policies based on the IKE
+	 * version in place.
+	 */
+	if (val == NULL || val[0] == '\0')
+		val = NM_LIBRESWAN_IKEV2_NEVER;
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_id (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	gs_free char *new = NULL;
+
+	if (val == NULL || val[0] == '\0')
+		return;
+	if (   val[0] == '@' || val[0] == '%'
+	    || nm_utils_parse_inaddr_bin (AF_UNSPEC, val, NULL)) {
+		nm_setting_vpn_add_data_item (s_vpn, key, val);
+	} else {
+		new = g_strdup_printf ("@%s", val);
+		nm_setting_vpn_add_data_item (s_vpn, key, new);
+	}
+}
+
+static void
+add_leftrsasigkey (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0') {
+		if (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT) == NULL)
+			return;
+		val = "%cert";
+	}
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_rightrsasigkey (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0') {
+		if (   nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT) == NULL
+		    && nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT) == NULL)
+			return;
+		val = "%cert";
+	}
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_left (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0')
+		val = "%defaultroute";
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_leftmodecfgclient (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (g_strcmp0 (val, "no") != 0)
+		val = "yes";
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_authby (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (   nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY) != NULL
+	    || nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY) != NULL)
+		return;
+	nm_setting_vpn_add_data_item (s_vpn, key, "secret");
+}
+
+static void
+add_pfs (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (g_strcmp0 (val, "no") != 0)
+		return;
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_rekey (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0') {
+		val = "yes";
+		/*
+		 * keyingtries=1 used to be added when rekey defaulted to "yes",
+		 * but not when it was set explicitly. I have no idea why.
+		 * Keeping the behavior as is, even though it's criminally ugly.
+		 */
+		nm_setting_vpn_add_data_item (s_vpn, "keyingtries", "1");
+	}
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_keyingtries (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	/* Synthetic only. See above. */
+}
+
+static void
+add_rightsubnet (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	const char *leftsubnet;
+	const char *af;
+
+	if (val == NULL || val[0] == '\0') {
+		af = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
+		if (g_strcmp0 (af, "ipv6") == 0)
+			val = "::/0";
+	}
+	if (val == NULL || val[0] == '\0') {
+		leftsubnet = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+		if (leftsubnet && nm_utils_parse_inaddr_prefix_bin (AF_INET6, leftsubnet, NULL, NULL))
+			val = "::/0";
+	}
+	if (val == NULL || val[0] == '\0') {
+		val = "0.0.0.0/0";
+	}
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_yes (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	nm_setting_vpn_add_data_item (s_vpn, key, "yes");
+}
+
+static void
+add_cisco_unity (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") != 0)
+		return;
+	add_yes (s_vpn, key, NULL);
+}
+
+static void
+add_ike (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	/*
+	 * When the crypto is unspecified, let Libreswan use many sets of
+	 * crypto proposals (just leave the property unset). An exception
+	 * should be made for IKEv1 connections in aggressive mode: there
+	 * the DH group in the crypto phase1 proposal must be just one;
+	 * moreover no more than 4 proposal may be specified. So, when
+	 * IKEv1 aggressive mode ('leftid' specified) is configured force
+	 * the best proposal that should be accepted by all obsolete VPN
+	 * SW/HW acting as a remote access VPN server.
+	 */
+	if (val == NULL || val[0] == '\0') {
+		if (   nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID)
+		    && !nm_libreswan_utils_setting_is_ikev2 (s_vpn))
+			val = NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE;
+	}
+	add (s_vpn, key, val);
+}
+
+static void
+add_phase2alg (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0')
+		val = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
+	if (val == NULL || val[0] == '\0') {
+		if (nm_libreswan_utils_setting_is_ikev2 (s_vpn))
+			val = NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP;
+	}
+	nm_setting_vpn_add_data_item (s_vpn, key, val);
+}
+
+static void
+add_lifetime (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0') {
+		if (!nm_libreswan_utils_setting_is_ikev2 (s_vpn))
+			val = "24h";
+	}
+	add (s_vpn, key, val);
+}
+
+static void
+add_ikev1 (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (nm_libreswan_utils_setting_is_ikev2 (s_vpn))
+		return;
+	add (s_vpn, key, val);
+}
+
+static void
+add_ikev1_yes (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	add_ikev1 (s_vpn, key, "yes");
+}
+
+static void
+add_remote_peer_type (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	add_ikev1 (s_vpn, key, "cisco");
+}
+
+static void
+add_aggrmode (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID) == NULL)
+		return;
+	add_ikev1_yes (s_vpn, key, NULL);
+}
+
+static void
+add_username (NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val == NULL || val[0] == '\0')
+		val = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER);
+	if (val == NULL || val[0] == '\0')
+		val = nm_setting_vpn_get_user_name (s_vpn);
+	add_ikev1 (s_vpn, key, val);
+}
+
+
+static const struct LibreswanParam params[] = {
+	{ NM_LIBRESWAN_KEY_IKEV2,                      add_ikev2,             PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_RIGHT,                      add,                   PARAM_PRINTABLE | PARAM_REQUIRED },
+	{ NM_LIBRESWAN_KEY_LEFTID,                     add_id,                PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_RIGHTID,                    add_id,                PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_LEFTCERT,                   add,                   PARAM_STRING },
+	{ NM_LIBRESWAN_KEY_RIGHTCERT,                  add,                   PARAM_STRING },
+	{ NM_LIBRESWAN_KEY_RIGHTRSASIGKEY,             add_rightrsasigkey,    PARAM_STRING },
+	{ NM_LIBRESWAN_KEY_LEFTRSASIGKEY,              add_leftrsasigkey,     PARAM_STRING },
+	{ NM_LIBRESWAN_KEY_LEFT,                       add_left,              PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT,          add_leftmodecfgclient, PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_AUTHBY,                     add_authby,            PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_PFS,                        add_pfs,               PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_IKE,                        add_ike,               PARAM_PRINTABLE },
+
+	{ NM_LIBRESWAN_KEY_IKELIFETIME,                add_lifetime,          PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_SALIFETIME,                 add_lifetime,          PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_HOSTADDRFAMILY,             add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_CLIENTADDRFAMILY,           add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_LOCALNETWORK,               add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_REMOTENETWORK,              add_rightsubnet,       PARAM_PRINTABLE },
+
+	{ NM_LIBRESWAN_KEY_LEFTXAUTHUSER,              add_username,          PARAM_STRING | PARAM_OLD },
+	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               add_username,          PARAM_STRING | PARAM_NEW },
+
+	{ NM_LIBRESWAN_KEY_NARROWING,                  add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_FRAGMENTATION,              add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_MOBIKE,                     add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_DPDDELAY,                   add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_DPDTIMEOUT,                 add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_DPDACTION,                  add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_IPSEC_INTERFACE,            add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_TYPE,                       add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE,  add,                   PARAM_PRINTABLE },
+
+	/* Special. */
+	{ NM_LIBRESWAN_KEY_REKEY,                      add_rekey,             PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_ESP,                        add                    },
+	{ "phase2alg",                                 add_phase2alg,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ NM_LIBRESWAN_KEY_VENDOR,                     add                    },
+	{ "cisco-unity",                               add_cisco_unity,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
+
+	/* Synthetic, not stored. */
+	{ "keyingtries",                               add_keyingtries,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ "aggrmode",                                  add_aggrmode,          PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ "leftxauthclient",                           add_ikev1_yes,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ "rightxauthserver",                          add_ikev1_yes,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ "remote-peer-type",                          add_remote_peer_type,  PARAM_PRINTABLE | PARAM_SYNTHETIC | PARAM_NEW },
+	{ "remote_peer_type",                          add_remote_peer_type,  PARAM_PRINTABLE | PARAM_SYNTHETIC | PARAM_OLD },
+	{ "rightmodecfgserver",                        add_yes,               PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ "modecfgpull",                               add_yes,               PARAM_PRINTABLE | PARAM_SYNTHETIC },
+
+	/* Used internally or just ignored altogether. */
+	{ NM_LIBRESWAN_KEY_DOMAIN,                     add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_DHGROUP,                    add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PFSGROUP,                   add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PSK_VALUE "-flags",         add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags",    add,                   PARAM_IGNORE },
+
+	{ NULL  }
+};
+
 static gboolean
-append_printable_val (GString *str, const char *val, GError **error)
+check_val (const char *val, gboolean allow_spaces, GError **error)
 {
 	const char *p;
 
-	g_return_val_if_fail (val, FALSE);
-
 	for (p = val; *p != '\0'; p++) {
-		/* Printable characters except " and space allowed. */
-		if (*p != '"' && !g_ascii_isspace (*p) && g_ascii_isprint (*p))
-			continue;
+		if (*p != '"' && g_ascii_isprint (*p)) {
+			if (allow_spaces || !g_ascii_isspace (*p))
+				continue;
+		}
 		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT,
 			     _("Invalid character in '%s'"), val);
 		return FALSE;
 	}
 
-	g_string_append (str, val);
-	g_string_append_c (str, '\n');
 	return TRUE;
 }
 
-static gboolean
-append_string_val (GString *str, const char *val, GError **error)
+static NMSettingVpn *
+sanitize_setting_vpn (NMSettingVpn *s_vpn,
+                      GError **error)
 {
-	const char *p;
+	gs_unref_object NMSettingVpn *sanitized = NULL;
+	int handled_items = 0;
+	const char *val;
+	int i;
 
-	g_return_val_if_fail (val, FALSE);
+	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn), NULL);
+	g_return_val_if_fail (!error || !*error, NULL);
 
-	for (p = val; *p != '\0'; p++) {
-		/* Printable characters except " allowed. */
-		if (*p != '"' && g_ascii_isprint (*p))
+	sanitized = NM_SETTING_VPN (nm_setting_vpn_new ());
+	g_object_set (sanitized,
+	              NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN,
+	              NULL);
+
+	for (i = 0; params[i].name != NULL; i++) {
+		val = nm_setting_vpn_get_data_item (s_vpn, params[i].name);
+		if (val != NULL) {
+			handled_items++;
+		} else if (params[i].flags & PARAM_REQUIRED) {
+			g_set_error (error,
+			             NM_UTILS_ERROR,
+			             NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             _("'%s' key needs to be present"),
+			             params[i].name);
+			return FALSE;
+		}
+
+		params[i].add_sanitized (sanitized, params[i].name, val);
+
+		val = nm_setting_vpn_get_data_item (sanitized, params[i].name);
+		if (val == NULL)
 			continue;
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT,
-			     _("Invalid character in '%s'"), val);
-		return FALSE;
+		if (!check_val (val, params[i].flags & PARAM_STRING, error))
+			return FALSE;
 	}
 
-	g_string_append_printf (str, "\"%s\"\n", val);
-	return TRUE;
-}
+	if (handled_items != nm_setting_vpn_get_num_data_items (s_vpn)) {
+		unsigned int length;
+		const char **keys;
 
-static inline gboolean
-append_optional_string_val (GString *str, const char *key, const char *val,
-                            GError **error)
-{
-	if (val == NULL || val[0] == '\0')
-		return TRUE;
-	g_string_append_c (str, ' ');
-	g_string_append (str, key);
-	g_string_append_c (str, '=');
+		keys = nm_setting_vpn_get_data_keys (s_vpn, &length);
+		for (i = 0; i < length; i++) {
+			if (   (params[i].flags & PARAM_SYNTHETIC) == 0
+			    && nm_setting_vpn_get_data_item (sanitized, keys[i])) {
+				continue;
+			}
 
-	if (!append_string_val (str, val, error)) {
-		g_prefix_error (error, _("Invalid value for '%s': "), key);
-		return FALSE;
+		        g_set_error (error,
+			             NM_UTILS_ERROR,
+			             NM_UTILS_ERROR_INVALID_ARGUMENT,
+		                     _("property '%s' invalid or not supported"),
+		                     keys[i]);
+			return NULL;
+		}
+		g_return_val_if_reached (NULL);
 	}
 
-	return TRUE;
-}
-
-static inline gboolean
-append_optional_printable_val (GString *str, const char *key, const char *val,
-                               GError **error)
-{
-	if (val == NULL || val[0] == '\0')
-		return TRUE;
-
-	g_string_append_c (str, ' ');
-	g_string_append (str, key);
-	g_string_append_c (str, '=');
-
-	if (!append_printable_val (str, val, error)) {
-		g_prefix_error (error, _("Invalid value for '%s': "), key);
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-static inline gboolean
-append_optional_printable (GString *str, NMSettingVpn *s_vpn, const char *key,
-                           GError **error)
-{
-	return append_optional_printable_val (str,
-	                               key,
-	                               nm_setting_vpn_get_data_item (s_vpn, key),
-	                               error);
+	return g_steal_pointer (&sanitized);
 }
 
 char *
@@ -127,351 +435,50 @@ nm_libreswan_get_ipsec_conf (int ipsec_version,
                              gboolean trailing_newline,
                              GError **error)
 {
+	gs_unref_object NMSettingVpn *sanitized = NULL;
 	nm_auto_free_gstring GString *ipsec_conf = NULL;
-	const char *username;
-	const char *phase1_alg_str;
-	const char *phase2_alg_str;
-	const char *phase1_lifetime_str;
-	const char *phase2_lifetime_str;
-	const char *left;
-	const char *right;
-	const char *leftid;
-	const char *leftcert;
-	const char *rightcert;
-	const char *leftrsasigkey;
-	const char *rightrsasigkey;
-	const char *authby;
-	const char *local_network;
-	const char *remote_network;
-	const char *ikev2 = NULL;
-	const char *rightid;
-	const char *rekey;
-	const char *pfs;
-	const char *client_family;
-	const char *item;
-	gboolean is_ikev2 = FALSE;
+	const char *val;
+	int i;
 
 	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn), NULL);
 	g_return_val_if_fail (!error || !*error, NULL);
 	g_return_val_if_fail (con_name && *con_name, NULL);
 
-	ipsec_conf = g_string_sized_new (1024);
-	g_string_append (ipsec_conf, "conn ");
-	if (!append_printable_val (ipsec_conf, con_name, error)) {
-		g_prefix_error (error, _("Bad connection name: "));
+	if (!check_val (con_name, FALSE, error))
 		return FALSE;
+
+	sanitized = sanitize_setting_vpn (s_vpn, error);
+	if (!sanitized)
+		return FALSE;
+
+	ipsec_conf = g_string_sized_new (1024);
+	g_string_append_printf (ipsec_conf, "conn %s\n", con_name);
+
+	for (i = 0; params[i].name != NULL; i++) {
+		val = nm_setting_vpn_get_data_item (sanitized, params[i].name);
+		if (val == NULL)
+			continue;
+
+		if (ipsec_version >= 4 && (params[i].flags & PARAM_OLD))
+			continue;
+		else if (ipsec_version < 4 && (params[i].flags & PARAM_NEW))
+			continue;
+
+		if (params[i].flags & PARAM_STRING)
+			g_string_append_printf (ipsec_conf, " %s=\"%s\"\n", params[i].name, val);
+		else if (params[i].flags & PARAM_PRINTABLE)
+			g_string_append_printf (ipsec_conf, " %s=%s\n", params[i].name, val);
 	}
 
 	if (leftupdown_script) {
+		if (!check_val (leftupdown_script, TRUE, error))
+			return FALSE;
+		g_string_append_printf (ipsec_conf, " leftupdown=\"%s\"\n", leftupdown_script);
 		g_string_append (ipsec_conf, " auto=add\n");
-		g_string_append (ipsec_conf, " nm-configured=yes\n");
-		g_string_append (ipsec_conf, " leftupdown=");
-		if (!append_string_val (ipsec_conf, leftupdown_script, error))
-			g_return_val_if_reached (FALSE);
+		g_string_append (ipsec_conf, " nm-configured=yes");
+		if (trailing_newline)
+			g_string_append_c (ipsec_conf, '\n');
 	}
-
-	/* When using IKEv1 (default in our plugin), we should ensure that we make
-	 * it explicit to Libreswan (which now defaults to IKEv2): when crypto algorithms
-	 * are not specified ("esp" & "ike") Libreswan will use system-wide crypto
-	 * policies based on the IKE version in place.
-	 */
-	is_ikev2 = nm_libreswan_utils_setting_is_ikev2 (s_vpn, &ikev2);
-	if (!ikev2)
-		ikev2 = NM_LIBRESWAN_IKEV2_NEVER;
-	g_string_append (ipsec_conf, " ikev2=");
-	if (!append_printable_val (ipsec_conf, ikev2, error)) {
-		g_prefix_error (error, _("Invalid value for '%s': "), "ikev2");
-		return FALSE;
-	}
-
-	right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT);
-	if (right && right[0] != '\0') {
-		g_string_append (ipsec_conf, " right=");
-		if (!append_printable_val (ipsec_conf, right, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-					NM_LIBRESWAN_KEY_RIGHT);
-			return FALSE;
-		}
-	} else {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT,
-			     _("'%s' key needs to be present."), NM_LIBRESWAN_KEY_RIGHT);
-		return FALSE;
-	}
-
-	leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID);
-	if (leftid && leftid[0] != '\0') {
-		if (!is_ikev2)
-			g_string_append (ipsec_conf, " aggrmode=yes\n");
-
-		if (   leftid[0] == '%'
-		    || leftid[0] == '@'
-		    || nm_utils_parse_inaddr_bin (AF_UNSPEC, leftid, NULL)) {
-			g_string_append (ipsec_conf, " leftid=");
-		} else
-			g_string_append (ipsec_conf, " leftid=@");
-		if (!append_printable_val (ipsec_conf, leftid, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-			                NM_LIBRESWAN_KEY_LEFTID);
-			return FALSE;
-		}
-	}
-
-	if (!append_optional_printable (ipsec_conf, s_vpn,
-	                                NM_LIBRESWAN_KEY_HOSTADDRFAMILY, error)) {
-		return FALSE;
-	}
-
-	client_family = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
-	if (client_family && client_family[0] != '\0') {
-		g_string_append (ipsec_conf, " clientaddrfamily=");
-		if (!append_printable_val (ipsec_conf, client_family, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-			                NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
-			return FALSE;
-		}
-	}
-
-	leftrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTRSASIGKEY);
-	rightrsasigkey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY);
-	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
-	rightcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT);
-	authby = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_AUTHBY);
-	if (rightcert && rightcert[0] != '\0') {
-		g_string_append (ipsec_conf, " rightcert=");
-		if (!append_string_val (ipsec_conf, rightcert, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-			                NM_LIBRESWAN_KEY_RIGHTCERT);
-			return FALSE;
-		}
-		if (!rightrsasigkey)
-			rightrsasigkey = "%cert";
-	}
-	if (leftcert && leftcert[0] != '\0') {
-		g_string_append (ipsec_conf, " leftcert=");
-		if (!append_string_val (ipsec_conf, leftcert, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-			                NM_LIBRESWAN_KEY_LEFTCERT);
-			return FALSE;
-		}
-		if (!leftrsasigkey)
-			leftrsasigkey = "%cert";
-		if (!rightrsasigkey)
-			rightrsasigkey = "%cert";
-	}
-	if (!append_optional_string_val (ipsec_conf, NM_LIBRESWAN_KEY_LEFTRSASIGKEY,
-	                                 leftrsasigkey, error)) {
-		return FALSE;
-	}
-	if (!append_optional_string_val (ipsec_conf, NM_LIBRESWAN_KEY_RIGHTRSASIGKEY,
-	                                 rightrsasigkey, error)) {
-		return FALSE;
-	}
-	if (authby == NULL || authby[0] == '\0') {
-		if (   !(leftrsasigkey && leftrsasigkey[0] != '\0')
-		    && !(rightrsasigkey && rightrsasigkey[0] != '\0')) {
-			authby = "secret";
-		}
-	}
-	if (!append_optional_printable_val (ipsec_conf, NM_LIBRESWAN_KEY_AUTHBY,
-	                                    authby, error)) {
-		return FALSE;
-	}
-
-	left = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFT);
-	if (left == NULL || left[0] == '\0')
-		left = "%defaultroute";
-	g_string_append (ipsec_conf, " left=");
-	if (!append_printable_val (ipsec_conf, left, error)) {
-		g_prefix_error (error, _("Invalid value for '%s': "),
-		                NM_LIBRESWAN_KEY_LEFT);
-		return FALSE;
-	}
-
-	item = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT);
-	if (nm_streq0 (item, "no")) {
-		g_string_append (ipsec_conf, " leftmodecfgclient=no\n");
-	} else {
-		g_string_append (ipsec_conf, " leftmodecfgclient=yes\n");
-	}
-
-	rightid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTID);
-	if (rightid && rightid[0] != '\0') {
-		if (   rightid[0] == '@'
-		    || rightid[0] == '%'
-		    || nm_utils_parse_inaddr_bin (AF_UNSPEC, rightid, NULL)) {
-			g_string_append (ipsec_conf, " rightid=");
-		} else {
-			g_string_append (ipsec_conf, " rightid=@");
-		}
-		if (!append_printable_val (ipsec_conf, rightid, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-			                NM_LIBRESWAN_KEY_RIGHTID);
-			return FALSE;
-		}
-	}
-
-	local_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
-	if (local_network) {
-		g_string_append (ipsec_conf, " leftsubnet=");
-		if (!append_printable_val (ipsec_conf, local_network, error)) {
-			g_prefix_error (error, _("Invalid value for '%s': "),
-					NM_LIBRESWAN_KEY_LOCALNETWORK);
-			return FALSE;
-		}
-	}
-
-	remote_network = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK);
-	if (!remote_network || remote_network[0] == '\0') {
-		int addr_family = AF_UNSPEC;
-
-		/* Detect the address family of the remote subnet. We use in order:
-		 * 1) the "clientaddrfamily" property 2) the local network.
-		 */
-		if (nm_streq0 (client_family, "ipv4")) {
-			addr_family = AF_INET;
-		} else if (nm_streq0 (client_family, "ipv6")) {
-			addr_family = AF_INET6;
-		} else {
-			if (   local_network
-			    && nm_utils_parse_inaddr_prefix_bin (AF_INET, local_network, NULL, NULL)) {
-				addr_family = AF_INET;
-			} else if (local_network
-			    && nm_utils_parse_inaddr_prefix_bin (AF_INET6, local_network, NULL, NULL)) {
-				addr_family = AF_INET6;
-			}
-		}
-
-		if (addr_family == AF_INET6) {
-			remote_network = "::/0";
-		} else {
-			/* For backwards compatibility, if we can't determine the family
-			 * assume it's IPv4. Anyway, in the future we need to stop adding
-			 * the option automatically. */
-			remote_network = "0.0.0.0/0";
-		}
-	}
-	g_string_append (ipsec_conf, " rightsubnet=");
-	if (!append_printable_val (ipsec_conf, remote_network, error)) {
-		g_prefix_error (error, _("Invalid value for '%s': "),
-				NM_LIBRESWAN_KEY_REMOTENETWORK);
-		return FALSE;
-	}
-
-	if (!is_ikev2) {
-		/* When IKEv1 is in place, we enforce XAUTH: so, use IKE version
-		 * also to check if XAUTH conf options should be passed to Libreswan.
-		 */
-		g_string_append (ipsec_conf, " leftxauthclient=yes\n");
-
-		username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTXAUTHUSER);
-		if (username == NULL || username[0] == '\0')
-			username = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTUSERNAME);
-		if (username == NULL || username[0] == '\0')
-			username = nm_setting_vpn_get_user_name (s_vpn);
-		if (username != NULL && username[0] != '\0') {
-			g_string_append (ipsec_conf,
-			                 ipsec_version >= 4 ?
-			                 " leftusername=" :
-			                 " leftxauthusername=");
-			if (!append_string_val (ipsec_conf, username, error)) {
-				g_prefix_error (error, _("Invalid username: "));
-				return FALSE;
-			}
-		}
-
-		g_string_append (ipsec_conf,
-		                 ipsec_version >= 4 ?
-		                 " remote-peer-type=cisco\n" :
-		                 " remote_peer_type=cisco\n");
-		g_string_append (ipsec_conf, " rightxauthserver=yes\n");
-	}
-
-	/* When the crypto is unspecified, let Libreswan use many sets of crypto
-	 * proposals (just leave the property unset). An exception should be made
-	 * for IKEv1 connections in aggressive mode: there the DH group in the crypto
-	 * phase1 proposal must be just one; moreover no more than 4 proposal may be
-	 * specified. So, when IKEv1 aggressive mode ('leftid' specified) is configured
-	 * force the best proposal that should be accepted by all obsolete VPN SW/HW
-	 * acting as a remote access VPN server.
-	 */
-	phase1_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IKE);
-	if (phase1_alg_str == NULL || phase1_alg_str[0] == '\0') {
-		if (!is_ikev2 && leftid)
-			phase1_alg_str = NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE;
-	}
-	if (!append_optional_string_val (ipsec_conf, NM_LIBRESWAN_KEY_IKE, phase1_alg_str, error))
-		return FALSE;
-
-	phase2_alg_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
-	if (phase2_alg_str == NULL || phase2_alg_str[0] == '\0') {
-		if (!is_ikev2 && leftid)
-			phase2_alg_str = NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP;
-	}
-	if (!append_optional_string_val (ipsec_conf, "phase2alg", phase2_alg_str, error))
-		return FALSE;
-
-	pfs = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_PFS);
-	if (pfs && !strcmp (pfs, "no"))
-		g_string_append (ipsec_conf, " pfs=no\n");
-
-	phase1_lifetime_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IKELIFETIME);
-	if (phase1_lifetime_str == NULL || phase1_lifetime_str[0] == '\0') {
-		if (!is_ikev2)
-			phase1_lifetime_str = NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME;
-	}
-	if (!append_optional_printable_val (ipsec_conf, NM_LIBRESWAN_KEY_IKELIFETIME,
-	                                    phase1_lifetime_str, error)) {
-		return FALSE;
-	}
-
-	phase2_lifetime_str = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_SALIFETIME);
-	if (phase2_lifetime_str == NULL || phase2_lifetime_str[0] == '\0') {
-		if (!is_ikev2)
-			phase2_lifetime_str = NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME;
-	}
-	if (!append_optional_printable_val (ipsec_conf, NM_LIBRESWAN_KEY_SALIFETIME,
-	                                    phase2_lifetime_str, error)) {
-		return FALSE;
-	}
-
-	rekey = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_REKEY);
-	if (!rekey || rekey[0] == '\0') {
-		g_string_append (ipsec_conf, " keyingtries=1\n");
-		rekey = "yes";
-	}
-	g_string_append (ipsec_conf, " rekey=");
-	if (!append_printable_val (ipsec_conf, rekey, error)) {
-		g_prefix_error (error, _("Invalid value for '%s': "),
-		                NM_LIBRESWAN_KEY_REKEY);
-		return FALSE;
-	}
-
-	if (!openswan && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") == 0)
-		g_string_append (ipsec_conf, " cisco-unity=yes\n");
-
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_NARROWING, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_FRAGMENTATION, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_MOBIKE, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_DPDDELAY, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_DPDTIMEOUT, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_DPDACTION, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_IPSEC_INTERFACE, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_TYPE, error))
-		return FALSE;
-	if (!append_optional_printable (ipsec_conf, s_vpn, NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, error))
-		return FALSE;
-
-	g_string_append (ipsec_conf, " rightmodecfgserver=yes\n");
-	g_string_append (ipsec_conf, " modecfgpull=yes");
-	if (trailing_newline)
-		g_string_append_c (ipsec_conf, '\n');
 
 	return g_string_free (g_steal_pointer (&ipsec_conf), FALSE);
 }

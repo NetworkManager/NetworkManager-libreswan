@@ -18,7 +18,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2010 - 2015 Red Hat, Inc.
+ * Copyright (C) 2010 - 2024 Red Hat, Inc.
  */
 
 #ifndef __UTILS_H__
@@ -33,14 +33,11 @@ char *nm_libreswan_get_ipsec_conf (int ipsec_version,
                                    GError **error);
 
 static inline gboolean
-nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn, const char **out_ikev2)
+nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn)
 {
 	const char *ikev2;
 
 	ikev2 = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_IKEV2);
-	if (ikev2 && strlen (ikev2) && out_ikev2)
-		*out_ikev2 = ikev2;
-
 	return NM_IN_STRSET (ikev2,
 	                     NM_LIBRESWAN_IKEV2_PROPOSE,
 	                     NM_LIBRESWAN_IKEV2_YES,
