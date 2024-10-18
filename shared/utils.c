@@ -175,7 +175,7 @@ add_rightsubnet (NMSettingVpn *s_vpn, const char *key, const char *val)
 			val = "::/0";
 	}
 	if (val == NULL || val[0] == '\0') {
-		leftsubnet = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+		leftsubnet = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET);
 		if (leftsubnet && nm_utils_parse_inaddr_prefix_bin (AF_INET6, leftsubnet, NULL, NULL))
 			val = "::/0";
 	}
@@ -300,8 +300,8 @@ static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_SALIFETIME,                 add_lifetime,          PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_HOSTADDRFAMILY,             add,                   PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_CLIENTADDRFAMILY,           add,                   PARAM_PRINTABLE },
-	{ NM_LIBRESWAN_KEY_LOCALNETWORK,               add,                   PARAM_PRINTABLE },
-	{ NM_LIBRESWAN_KEY_REMOTENETWORK,              add_rightsubnet,       PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_LEFTSUBNET,                 add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_RIGHTSUBNET,                add_rightsubnet,       PARAM_PRINTABLE },
 
 	{ NM_LIBRESWAN_KEY_LEFTXAUTHUSER,              add_username,          PARAM_STRING | PARAM_OLD },
 	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               add_username,          PARAM_STRING | PARAM_NEW },
