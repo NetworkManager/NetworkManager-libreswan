@@ -483,6 +483,39 @@ nm_libreswan_get_ipsec_conf (int ipsec_version,
 	return g_string_free (g_steal_pointer (&ipsec_conf), FALSE);
 }
 
+gboolean
+nm_libreswan_check_value (const char *key,
+                          const char *val,
+                          GError **error)
+{
+	int i;
+
+	for (i = 0; params[i].name != NULL; i++) {
+		if (strcmp (params[i].name, key) != 0)
+			continue;
+
+		if (val != NULL && *val != '\0')
+			return check_val (val, params[i].flags & PARAM_STRING, error);
+
+		if (params[i].flags & PARAM_REQUIRED) {
+			g_set_error (error,
+			             NM_UTILS_ERROR,
+			             NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             _("'%s' key needs to be present"),
+			             key);
+			return FALSE;
+		}
+	}
+
+	g_set_error (error,
+		     NM_UTILS_ERROR,
+		     NM_UTILS_ERROR_INVALID_ARGUMENT,
+	             _("property '%s' invalid or not supported"),
+		     key);
+	return FALSE;
+
+}
+
 /*
  * The format as described in ipsec.conf(5) is fairly primitive.
  * In values, no line breaks are allowed. If there's other whitespace,
