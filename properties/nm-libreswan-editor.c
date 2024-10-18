@@ -303,6 +303,24 @@ get_widget (NMVpnEditor *iface)
 }
 
 static void
+insert_text_check (GtkEditable *editable, char *new_text,
+                   int len, int *pos, gpointer user_data)
+{
+	nm_auto_free_gstring GString *new_val = NULL;
+	const char *key = user_data;
+	const char *val;
+
+	val = gtk_editable_get_text (editable);
+	if (*val == '\0')
+		return;
+
+	new_val = g_string_new (gtk_editable_get_text (editable));
+	g_string_insert_len (new_val, *pos, new_text, len);
+	if (!nm_libreswan_check_value (key, new_val->str, NULL))
+		g_signal_stop_emission_by_name (G_OBJECT (editable), "insert-text");
+}
+
+static void
 populate_widget (LibreswanEditor *self,
                  const char *widget_name,
                  const char *key_name,
@@ -327,6 +345,11 @@ populate_widget (LibreswanEditor *self,
 
 	if (GTK_IS_ENTRY (widget)) {
 		gtk_editable_set_text (GTK_EDITABLE (widget), value);
+		g_signal_connect (G_OBJECT (widget),
+		                  "insert-text",
+		                  G_CALLBACK (insert_text_check),
+		                  (gpointer) key_name);
+
 	} else if (GTK_IS_CHECK_BUTTON (widget)) {
 		gtk_check_button_set_active (GTK_CHECK_BUTTON (widget),
 					     nm_streq0 (value, match_value));

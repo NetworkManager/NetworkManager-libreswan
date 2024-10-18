@@ -36,6 +36,10 @@ NMSettingVpn *nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
                                              char **con_name,
                                              GError **error);
 
+gboolean nm_libreswan_check_value (const char *key,
+                                   const char *val,
+                                   GError **error);
+
 static inline gboolean
 nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn)
 {
