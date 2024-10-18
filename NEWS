@@ -1,4 +1,12 @@
 =========================================================
+NetworkManager-libreswan-1.2.26 (in development)
+Overview of changes since NetworkManager-libreswan-1.2.24
+=========================================================
+
+* The graphical editor now doesn't enter characters that wouldn't be
+  allowed for various settings.
+
+=========================================================
 NetworkManager-libreswan-1.2.24
 Overview of changes since NetworkManager-libreswan-1.2.22
 =========================================================
