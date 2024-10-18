@@ -367,8 +367,8 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_widget (self, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL, NULL);
 	populate_widget (self, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, NULL, "no");
 	populate_widget (self, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, NULL, "no");
-	populate_widget (self, "local_network_entry", NM_LIBRESWAN_KEY_LOCALNETWORK, NULL, NULL);
-	populate_widget (self, "remote_network_entry", NM_LIBRESWAN_KEY_REMOTENETWORK, NULL, NULL);
+	populate_widget (self, "local_network_entry", NM_LIBRESWAN_KEY_LEFTSUBNET, NULL, NULL);
+	populate_widget (self, "remote_network_entry", NM_LIBRESWAN_KEY_RIGHTSUBNET, NULL, NULL);
 	populate_widget (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
 	populate_widget (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
 	populate_widget (self, "mobike_combo", NM_LIBRESWAN_KEY_MOBIKE, NULL, NULL);
@@ -526,9 +526,9 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 	                                             "local_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	if (str && *str)
-		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK, str);
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET, str);
 	else
-		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET);
 
 
 	/* Remote Network */
@@ -536,9 +536,9 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 	                                             "remote_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	if (str && *str)
-		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK, str);
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET, str);
 	else
-		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_REMOTENETWORK);
+		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTSUBNET);
 
 	/* Disable rekeying */
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "rekey_checkbutton"));
