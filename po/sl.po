@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-09-12 09:51+0000\n"
-"PO-Revision-Date: 2024-09-12 15:22+0200\n"
+"POT-Creation-Date: 2024-10-22 12:10+0000\n"
+"PO-Revision-Date: 2024-10-23 09:09+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -79,7 +79,6 @@ msgid "IPsec based VPN for remote clients"
 msgstr "VPN na osnovi IPsec za oddaljene odjemalce"
 
 #: ../properties/nm-libreswan-editor-plugin.c:94
-#: ../properties/nm-libreswan-editor-plugin.c:300
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Datoteke »%s« ni mogoče odpreti: %s"
@@ -89,16 +88,25 @@ msgstr "Datoteke »%s« ni mogoče odpreti: %s"
 msgid "Missing “conn” section in “%s”"
 msgstr "Manjkajoči razdelek »conn« v »%s«"
 
-#: ../properties/nm-libreswan-editor-plugin.c:322
+#: ../properties/nm-libreswan-editor-plugin.c:311
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Napaka pri pisanju v datoteko »%s«: %s"
 
-#: ../src/nm-libreswan-service.c:1684
+#: ../src/nm-libreswan-service.c:681
+msgid "Invalid character in password."
+msgstr "Neveljaven znak v geslu."
+
+#: ../src/nm-libreswan-service.c:1667
 msgid "A password is required."
 msgstr "Geslo je obvezno."
 
-#: ../src/nm-libreswan-service.c:2088
+#: ../src/nm-libreswan-service.c:1787
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Napaka pri pisanju prilagoditve: %s"
+
+#: ../src/nm-libreswan-service.c:2114
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -106,32 +114,54 @@ msgstr ""
 "Zahteve ni bilo mogoče obdelati, ker nastavitve povezave VPN niso bile "
 "veljavne."
 
-#: ../src/nm-libreswan-service.c:2102
+#: ../src/nm-libreswan-service.c:2128
 msgid "Unhandled pending authentication."
 msgstr "Neobravnavana overitev na čakanju."
 
-#: ../src/nm-libreswan-service.c:2244
+#: ../src/nm-libreswan-service.c:2272
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Ne končaj, ko se VPN povezava prekine"
 
-#: ../src/nm-libreswan-service.c:2245
+#: ../src/nm-libreswan-service.c:2273
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Omogoči podrobno beleženje razhroščevanja (lahko razkrije gesla)"
 
-#: ../src/nm-libreswan-service.c:2246
+#: ../src/nm-libreswan-service.c:2274
 msgid "D-Bus name to use for this instance"
 msgstr "Ime D-Bus za ta primerek"
 
-#: ../src/nm-libreswan-service.c:2269
+#: ../src/nm-libreswan-service.c:2297
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Ta storitev zagotavlja integrirano zmožnost IPsec VPN za NetworkManager."
 
-#: ../shared/utils.c:86
+#: ../shared/utils.c:45 ../shared/utils.c:66
 #, c-format
-msgid "Error writing config: %s"
-msgstr "Napaka pri pisanju prilagoditve: %s"
+msgid "Invalid character in '%s'"
+msgstr "Neveljaven znak v »%s«"
+
+#: ../shared/utils.c:85 ../shared/utils.c:104 ../shared/utils.c:183
+#: ../shared/utils.c:191 ../shared/utils.c:213 ../shared/utils.c:228
+#: ../shared/utils.c:242 ../shared/utils.c:252 ../shared/utils.c:285
+#: ../shared/utils.c:307 ../shared/utils.c:317 ../shared/utils.c:355
+#: ../shared/utils.c:444
+#, c-format
+msgid "Invalid value for '%s': "
+msgstr "Neveljavna vrednost za »%s«: "
+
+#: ../shared/utils.c:161
+msgid "Bad connection name: "
+msgstr "Slabo ime povezave"
+
+#: ../shared/utils.c:197
+#, c-format
+msgid "'%s' key needs to be present."
+msgstr "Ključ »%s« mora biti prisoten."
+
+#: ../shared/utils.c:377
+msgid "Invalid username: "
+msgstr "Neveljavno uporabniško ime: "
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
