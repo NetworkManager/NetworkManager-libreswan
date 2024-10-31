@@ -11,22 +11,23 @@
 # lrintel <lrintel@redhat.com>, 2018. #zanata
 # Henrique Machado Campos <henriquecamposrj@gmail.com>, 2020.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
+# Rômulo de Oliveira <devromulodeoliveira@gmail.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2022-03-13 12:22+0000\n"
-"PO-Revision-Date: 2022-03-13 16:03-0300\n"
-"Last-Translator: Matheus Barbosa <mdpb.matheus@gmail.com>\n"
+"POT-Creation-Date: 2024-10-23 07:10+0000\n"
+"PO-Revision-Date: 2024-10-27 20:07-0300\n"
+"Last-Translator: Rômulo de Oliveira <devromulodeoliveira@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 47.0\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -77,35 +78,43 @@ msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr ""
 "Você precisa se autenticar para acessar a Rede Privada Virtual (VPN) “%s”."
 
-#: ../properties/nm-libreswan-editor-plugin.c:43
+#: ../properties/nm-libreswan-editor-plugin.c:39
 msgid "IPsec based VPN"
 msgstr "VPN baseada em IPsec"
 
-#: ../properties/nm-libreswan-editor-plugin.c:44
+#: ../properties/nm-libreswan-editor-plugin.c:40
 msgid "IPsec based VPN for remote clients"
 msgstr "VPN baseada em IPsec para clientes remotos"
 
-#: ../properties/nm-libreswan-editor-plugin.c:98
-#: ../properties/nm-libreswan-editor-plugin.c:280
+#: ../properties/nm-libreswan-editor-plugin.c:94
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Não foi possível abrir o arquivo “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:230
+#: ../properties/nm-libreswan-editor-plugin.c:250
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Faltando seção “conn” em “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:302
+#: ../properties/nm-libreswan-editor-plugin.c:311
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Erro ao gravar o arquivo “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1402
+#: ../src/nm-libreswan-service.c:681
+msgid "Invalid character in password."
+msgstr "Caractere inválido na senha."
+
+#: ../src/nm-libreswan-service.c:1667
 msgid "A password is required."
 msgstr "A senha é necessária."
 
-#: ../src/nm-libreswan-service.c:1803
+#: ../src/nm-libreswan-service.c:1787
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Erro ao gravar a configuração: %s"
+
+#: ../src/nm-libreswan-service.c:2114
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -113,33 +122,57 @@ msgstr ""
 "Não é possível processar a requisição pelo fato da configuração conexão da "
 "VPN eram inválidas."
 
-#: ../src/nm-libreswan-service.c:1817
+#: ../src/nm-libreswan-service.c:2128
 msgid "Unhandled pending authentication."
 msgstr "Autenticação pendente não lidada."
 
-#: ../src/nm-libreswan-service.c:1959
+#: ../src/nm-libreswan-service.c:2272
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Não sair quando a conexão VPN terminar"
 
-#: ../src/nm-libreswan-service.c:1960
+#: ../src/nm-libreswan-service.c:2273
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ativar registro de depuração detalhado (pode expor senhas)"
 
-#: ../src/nm-libreswan-service.c:1961
+#: ../src/nm-libreswan-service.c:2274
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus a ser usado para esta instância"
 
-#: ../src/nm-libreswan-service.c:1984
+#: ../src/nm-libreswan-service.c:2297
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Este serviço oferece capacidade integrada de VPN IPsec ao Gerenciador de "
 "redes."
 
-#: ../shared/utils.c:86
+#: ../shared/utils.c:45 ../shared/utils.c:66
 #, c-format
-msgid "Error writing config: %s"
-msgstr "Erro ao gravar a configuração: %s"
+msgid "Invalid character in '%s'"
+msgstr "Caractere inválido em '%s'"
+
+#: ../shared/utils.c:85 ../shared/utils.c:104 ../shared/utils.c:183
+#: ../shared/utils.c:191 ../shared/utils.c:213 ../shared/utils.c:228
+#: ../shared/utils.c:242 ../shared/utils.c:252 ../shared/utils.c:285
+#: ../shared/utils.c:307 ../shared/utils.c:317 ../shared/utils.c:355
+#: ../shared/utils.c:444
+#, c-format
+msgid "Invalid value for '%s': "
+msgstr "Valor inválido para '%s'"
+
+#: ../shared/utils.c:161
+#, fuzzy
+#| msgid "Connection na_me:"
+msgid "Bad connection name: "
+msgstr "No_me da conexão:"
+
+#: ../shared/utils.c:197
+#, c-format
+msgid "'%s' key needs to be present."
+msgstr ""
+
+#: ../shared/utils.c:377
+msgid "Invalid username: "
+msgstr "Nome de usuário inválido:"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
@@ -219,7 +252,6 @@ msgid "General"
 msgstr "Geral"
 
 #: ../properties/nm-libreswan-dialog.ui.h:4
-#| msgid "_Gateway:"
 msgid "_Gateway"
 msgstr "_Gateway"
 
@@ -228,27 +260,22 @@ msgid "Authentication"
 msgstr "Autenticação"
 
 #: ../properties/nm-libreswan-dialog.ui.h:6
-#| msgid "Type:"
 msgid "Type"
 msgstr "Tipo"
 
 #: ../properties/nm-libreswan-dialog.ui.h:7
-#| msgid "User name:"
 msgid "User name"
 msgstr "Nome do usuário"
 
 #: ../properties/nm-libreswan-dialog.ui.h:8
-#| msgid "_User password:"
 msgid "_User password"
 msgstr "Senha de _usuário"
 
 #: ../properties/nm-libreswan-dialog.ui.h:9
-#| msgid "G_roup name:"
 msgid "G_roup name"
 msgstr "Nome do g_rupo"
 
 #: ../properties/nm-libreswan-dialog.ui.h:10
-#| msgid "_Secret:"
 msgid "_Secret"
 msgstr "_Segredo"
 
@@ -257,17 +284,14 @@ msgid "Show passwords"
 msgstr "Mostrar senhas"
 
 #: ../properties/nm-libreswan-dialog.ui.h:12
-#| msgid "_Certificate name:"
 msgid "_Certificate name"
 msgstr "Nome do _certificado"
 
 #: ../properties/nm-libreswan-dialog.ui.h:13
-#| msgid "_Remote ID:"
 msgid "_Remote ID"
 msgstr "ID _remoto"
 
 #: ../properties/nm-libreswan-dialog.ui.h:14
-#| msgid "Ad_vanced…"
 msgid "A_dvanced…"
 msgstr "A_vançado…"
 
@@ -284,177 +308,389 @@ msgid "force"
 msgstr "forçar"
 
 #: ../properties/nm-libreswan-dialog.ui.h:18
+msgid "(None)"
+msgstr "(Vazio)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:19
+msgid "Hold"
+msgstr "Segurar"
+
+#: ../properties/nm-libreswan-dialog.ui.h:20
+msgid "Clear"
+msgstr "Limpar"
+
+#: ../properties/nm-libreswan-dialog.ui.h:21
+msgid "Restart"
+msgstr "Reiniciar"
+
+#: ../properties/nm-libreswan-dialog.ui.h:22
 msgid "IPsec Advanced Options"
 msgstr "Opções avançadas de IPsec"
 
-#: ../properties/nm-libreswan-dialog.ui.h:19
+#: ../properties/nm-libreswan-dialog.ui.h:23
 msgid "Identification"
 msgstr "Identificação"
 
-#: ../properties/nm-libreswan-dialog.ui.h:20
-#| msgid "Domain:"
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "Domain"
 msgstr "Domínio"
 
-#: ../properties/nm-libreswan-dialog.ui.h:21
+#: ../properties/nm-libreswan-dialog.ui.h:25
 msgid ""
 "(NT-)Domain name for authentication.\n"
-"config: Domain <domain>"
+"                        config: Domain <domain>"
 msgstr ""
-"Nome de (NT-)Domain para autenticação.\n"
-"config: Domain <domínio>"
+"Nome de (NT-)domínio para autenticação.\n"
+"config: Domínio <domain>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:23
+#: ../properties/nm-libreswan-dialog.ui.h:27
 msgid "Security"
 msgstr "Segurança"
 
-#: ../properties/nm-libreswan-dialog.ui.h:24
-#| msgid "Phase1 Algorithms:"
+#: ../properties/nm-libreswan-dialog.ui.h:28
 msgid "Phase1 Algorithms"
 msgstr "Algoritmos da fase 1"
 
-#: ../properties/nm-libreswan-dialog.ui.h:25
+#: ../properties/nm-libreswan-dialog.ui.h:29
+#, fuzzy
+#| msgid ""
+#| "IKE encryption/authentication algorithm to be used for the connection "
+#| "(phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
+#| "hash;modpgroup, …”.\n"
+#| "config: ike <proposals>"
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
 "modpgroup, …”.\n"
-"config: ike <proposals>"
+"                        config: ike <proposals>"
 msgstr ""
 "Algoritmo de criptografia/autenticação IKE a ser usado para a conexão (fase "
 "1, também conhecido por ISAKMP SA). O formato é “cipher-hash;modpgroup, "
 "cipher-hash;modpgroup, …”.\n"
 "config: ike <propostas>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:27
-#| msgid "Phase2 Algorithms:"
+#: ../properties/nm-libreswan-dialog.ui.h:31
 msgid "Phase2 Algorithms"
 msgstr "Algoritmos da fase 2"
 
-#: ../properties/nm-libreswan-dialog.ui.h:28
+#: ../properties/nm-libreswan-dialog.ui.h:32
+#, fuzzy
+#| msgid ""
+#| "Specifies the algorithms that will be offered/accepted for a phase2 "
+#| "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
+#| "…”.\n"
+#| "config: esp <proposals>"
 msgid ""
 "Specifies the algorithms that will be offered/accepted for a phase2 "
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
 "…”.\n"
-"config: esp <proposals>"
+"                        config: esp <proposals>"
 msgstr ""
 "Especifica os algoritmos que serão oferecidos/aceitos para a negociação de "
 "fase 2. O formato é “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
 "config: esp <propostas>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:30
-#| msgid "Phase1 Lifetime:"
+#: ../properties/nm-libreswan-dialog.ui.h:34
 msgid "Phase1 Lifetime"
 msgstr "Tempo de vida da fase 1"
 
-#: ../properties/nm-libreswan-dialog.ui.h:31
+#: ../properties/nm-libreswan-dialog.ui.h:35
+#, fuzzy
+#| msgid ""
+#| "How long the keying channel of a connection should last before being "
+#| "renegotiated. The value is expressed by a number followed by an optional "
+#| "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
+#| "config: ikelifetime <lifetime>"
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: ikelifetime <lifetime>"
+"                        config: ikelifetime <lifetime>"
 msgstr ""
 "Por quanto tempo o canal de chaveamento de uma conexão deve durar antes de "
 "ser renegociado. O valor é expresso por um número seguido por um valor "
 "opcional “s”(egundos), “m”(inutos), “h”(oras) ou “d”(ias).\n"
 "config: ikelifetime <tempo-de-vida>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:33
-#| msgid "Phase2 Lifetime:"
+#: ../properties/nm-libreswan-dialog.ui.h:37
 msgid "Phase2 Lifetime"
 msgstr "Tempo de vida da fase 2"
 
-#: ../properties/nm-libreswan-dialog.ui.h:34
+#: ../properties/nm-libreswan-dialog.ui.h:38
 msgid ""
 "How long a particular instance of a connection (a set of encryption/"
 "authentication keys for user packets) should last, from successful "
 "negotiation to expiry. The value is expressed by a number followed by an "
 "optional “s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-"config: salifetime <lifetime>"
+"                        config: salifetime <lifetime>"
 msgstr ""
 "Por quanto tempo uma instância específica de uma conexão (um conjunto de "
 "chaves de criptografia/autenticação para pacotes de usuário) deve durar, da "
 "negociação com êxito até a expiração. O valor é expresso por um número "
-"seguido por um valor opcional “s”(egundos), “m”(inutos), “h”(oras) or "
+"seguido por um valor opcional “s”(egundos), “m”(inutos), “h”(oras) ou "
 "“d”(ias).\n"
 "config: salifetime <tempo-de-vida>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:36
+#: ../properties/nm-libreswan-dialog.ui.h:40
 msgid "Disable rekeying"
 msgstr "Desabilitar renovação de chave"
 
-#: ../properties/nm-libreswan-dialog.ui.h:37
+#: ../properties/nm-libreswan-dialog.ui.h:41
+#, fuzzy
+#| msgid ""
+#| "Whether a connection should not be renegotiated when it is about to "
+#| "expire.\n"
+#| "config: rekey <no/yes>"
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
-"config: rekey <no/yes>"
+"                        config: rekey <no/yes>"
 msgstr ""
 "Se uma conexão não deve ser renegociada quando estiver quase expirando.\n"
 "config: rekey <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:39
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Disable PFS"
 msgstr "Desabilitar PFS"
 
-#: ../properties/nm-libreswan-dialog.ui.h:40
+#: ../properties/nm-libreswan-dialog.ui.h:44
+#, fuzzy
+#| msgid ""
+#| "Disable perfect forward security. Enable this option only if the server "
+#| "doesn’t support PFS.\n"
+#| "config: pfs <no/yes>"
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
-"config: pfs <no/yes>"
+"                        config: pfs <no/yes>"
 msgstr ""
 "Desabilita perfect forward security. Habilite essa opção apenas se o "
 "servidor não tiver suporte a PFS.\n"
 "config: pfs <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:42
+#: ../properties/nm-libreswan-dialog.ui.h:46
+msgid "Auth-by"
+msgstr "Autorizado por"
+
+#: ../properties/nm-libreswan-dialog.ui.h:47
+msgid ""
+"How the two security gateways should authenticate each other. Accepts a "
+"comma-separated list of these values:\n"
+"- 'rsasig' for RSA with SHA2 or SHA1\n"
+"- 'ecdsa' for ECDSA digital signatures using SHA-2\n"
+"- 'rsa-sha2' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-256\n"
+"- 'rsa-sha2_384' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-384\n"
+"- 'rsa-sha2_512' for RSASSA-PSS digital signatures based authentication with "
+"SHA2-512\n"
+"- 'rsa-sha1' for RSA-PKCSv1.5 digital signatures based authentication with "
+"SHA1\n"
+"- 'secret' for shared secrets (PSK) authentication\n"
+"- 'never' if negotiation is never to be attempted or accepted (useful for "
+"shunt-only conns)\n"
+"- 'null' for null-authentication.\n"
+"If not specified, the default value is 'rsasig,ecdsa'.\n"
+"config: authby <value>\n"
+"                        "
+msgstr ""
+
+#: ../properties/nm-libreswan-dialog.ui.h:60
 msgid "Connectivity"
 msgstr "Conectividade"
 
-#: ../properties/nm-libreswan-dialog.ui.h:43
-#| msgid "Remote Network:"
+#: ../properties/nm-libreswan-dialog.ui.h:61
+#, fuzzy
+#| msgid "Remote Network"
+msgid "Local Network"
+msgstr "Rede remota"
+
+#: ../properties/nm-libreswan-dialog.ui.h:62
+msgid ""
+"Private subnet behind the local participant, expressed as network/netmask.\n"
+"                        config: leftsubnet <net>"
+msgstr ""
+"Sub-rede privada por trás do participante local, expressado na notação rede/"
+"máscara.\n"
+"config: rightsubnet <rede>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Remote Network"
 msgstr "Rede remota"
 
-#: ../properties/nm-libreswan-dialog.ui.h:44
+#: ../properties/nm-libreswan-dialog.ui.h:65
+#, fuzzy
+#| msgid ""
+#| "Private subnet behind the remote participant, expressed as network/"
+#| "netmask.\n"
+#| "config: rightsubnet <net>"
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
-"config: rightsubnet <net>"
+"                        config: rightsubnet <net>"
 msgstr ""
 "Sub-rede privada por trás do participante remoto, expressado na notação rede/"
 "máscara.\n"
 "config: rightsubnet <rede>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:46
+#: ../properties/nm-libreswan-dialog.ui.h:67
 msgid "Enable fragmentation"
 msgstr "Habilitar fragmentação"
 
-#: ../properties/nm-libreswan-dialog.ui.h:47
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "narrowing"
 msgstr "narrowing"
 
-#: ../properties/nm-libreswan-dialog.ui.h:48
+#: ../properties/nm-libreswan-dialog.ui.h:69
+#, fuzzy
+#| msgid ""
+#| "IKEv2 negotiation may allow establishing an IPsec connection with "
+#| "narrowed down traffic selectors. This option is ignored for IKEv1.\n"
+#| "config: narrowing <yes/no>"
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
-"config: narrowing <yes/no>"
+"                        config: narrowing <yes/no>"
 msgstr ""
 "A negociação IKEv2 pode permitir estabelecimento de uma conexão IPsec com "
 "seletores de tráfego estreitos. Essa opção é ignorada para IKEv1.\n"
 "config: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:50
+#: ../properties/nm-libreswan-dialog.ui.h:71
 msgid "Enable MOBIKE"
 msgstr "Habilitar MOBIKE"
 
-#: ../properties/nm-libreswan-dialog.ui.h:51
-#| msgid "IPsec Advanced Options"
+#: ../properties/nm-libreswan-dialog.ui.h:72
+msgid "Dead Peer Detection (DPD)"
+msgstr "Dead Peer Detection (DPD)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:73
+msgid "Delay"
+msgstr "Atraso"
+
+#: ../properties/nm-libreswan-dialog.ui.h:74
+msgid ""
+"The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
+"keepalives that are sent for this connection. Must be a number optionally "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' "
+"(days); if the unit is not specified, it defaults to seconds.\n"
+"                        config: dpddelay <delay>"
+msgstr ""
+"O intervalo entre Dead Peer Detection (IKEv1 RFC 3706) "
+"ou os \"keepalives de Liveness\" do IKEv2 foram enviados para esta conexão. "
+"Deve ser um número, opcionalmente seguido por uma unidade de tempo: 's' "
+"(segundos), 'm' (minutos), 'h' (horas) ou 'd' (dias); se a unidade não for "
+"especificada, o padrão é segundos. \n"
+"                        config: dpddelay <delay>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:76
+msgid "Timeout"
+msgstr "Tempo esgotado"
+
+#: ../properties/nm-libreswan-dialog.ui.h:77
+msgid ""
+"The length of time that we will idle without hearing back from our peer. "
+"After this period has elapsed with no response and no traffic, we will "
+"declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
+"enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
+"number optionally followed by a time unit: 's' (seconds), 'm' (minutes), 'h' "
+"(hours) or 'd' (days); if the unit is not specified, it defaults to "
+"seconds.\n"
+"                        config: dpdtimeout <timeout>"
+msgstr ""
+"O tempo de inatividade que aguardaremos sem receber uma resposta do nosso "
+"par. Após esse período sem resposta e sem tráfego, o par será considerado "
+"inativo, e a SA será removida. Defina um valor maior que o dpddelay para "
+"habilitar. Se dpdtimeout for configurado, dpddelay também precisa ser "
+"configurado. Deve ser um número, opcionalmente seguido por uma unidade de "
+"tempo: 's' (segundos), 'm' (minutos), 'h' (horas) ou 'd' (dias); se a "
+"unidade não for especificada, o padrão é segundos. \n"
+"\n"
+"config: dpdtimeout <timeout>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:79
+#, fuzzy
+#| msgid "Authentication"
+msgid "Action"
+msgstr "Autenticação"
+
+#: ../properties/nm-libreswan-dialog.ui.h:81
+#, no-c-format
+msgid ""
+"When a DPD enabled peer is declared dead, what action should be taken.  "
+"\"hold\" (default) means the eroute will be put into %hold status, while "
+"\"clear\" means the eroute and SA will both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will be renegotiated.\n"
+"                        config: dpdaction <action>"
+msgstr ""
+"Quando um par com DPD habilitado for declarado inativo, qual ação deve ser "
+"tomada. \"segurar\", em inglês \"hold\", (padrão) significa que a rota será "
+"colocada no status %hold, enquanto \"limpar\", em inglês \"clear\", "
+"significa que a rota e a SA serão ambas removidas. \"reiniciar\", em inglês "
+"\"restart\", significa que TODAS as SAs para o par inativo serão "
+"renegociadas.\n"
+"                        config: dpdaction <action>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:83
+msgid "Other options"
+msgstr "Outras opções"
+
+#: ../properties/nm-libreswan-dialog.ui.h:84
+msgid "IPsec interface"
+msgstr "Interface IPsec"
+
+#: ../properties/nm-libreswan-dialog.ui.h:85
+msgid ""
+"If set, create or use an existing virtual interface ipsecXXX for \"Routing "
+"based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
+"'no' or a number. When using a number, the IPsec interface created and/or "
+"used will use that number as part of the interface name. For example setting "
+"ipsec-interface=5 will create and/or use the ipsec5 interface. The value 0 "
+"cannot be used and is interpreted as 'no'. The value 'yes' is interpreted as "
+"the number 1, and thus will use the interface named 'ipsec1.'\n"
+"                        config: ipsec-interface yes|no|<num>"
+msgstr ""
+"Se configurado, crie ou use uma interface virtual existente ipsecXXX para "
+"\"VPNs baseadas em roteamento\" (em oposição a \"VPNs baseadas em "
+"políticas\"). As opções válidas são 'yes', 'no' ou um número. Ao usar um "
+"número, a interface IPsec criada e/ou utilizada terá esse número como parte "
+"do nome da interface. Por exemplo, configurar ipsec-interface=5 criará e/ou "
+"usará a interface ipsec5. O valor 0 não pode ser usado e é interpretado como "
+"'no'. O valor 'yes' é interpretado como o número 1, portanto, usará a "
+"interface chamada 'ipsec1'.\n"
+"                        config: ipsec-interface yes|no|<num>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:87
+msgid "Disable Mode Config client"
+msgstr "Desativar o modo cliente de configuração"
+
+#: ../properties/nm-libreswan-dialog.ui.h:88
+msgid "Remote certificate name"
+msgstr "Nome do certificado remoto"
+
+#: ../properties/nm-libreswan-dialog.ui.h:89
+msgid ""
+"If set, specify the name of the certificate from the NSS database to "
+"authenticate the remote"
+msgstr ""
+"Se configurado, especifique o nome do certificado no banco de dados NSS para "
+"autenticar o remoto"
+
+#: ../properties/nm-libreswan-dialog.ui.h:90
+msgid "Don't require remote certificate name"
+msgstr "Nome de certificado remoto não é requerido"
+
+#: ../properties/nm-libreswan-dialog.ui.h:91
+msgid "Other"
+msgstr "Outro"
+
+#: ../properties/nm-libreswan-dialog.ui.h:92
 msgid "Advanced Properties"
 msgstr "Propriedades avançadas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:52
-#| msgid "Ad_vanced"
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: ../properties/nm-libreswan-dialog.ui.h:53
+#: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "_Apply"
 msgstr "_Aplicar"
 
@@ -641,9 +877,6 @@ msgstr "_Aplicar"
 #~ msgid "<i>example: 172.16.0.0/16 10.11.12.0/24</i>"
 #~ msgstr "<i>exemplo: 172.16.0.0/16 10.11.12.0/24</i>"
 
-#~ msgid "Connection na_me:"
-#~ msgstr "No_me da conexão:"
-
 #~ msgid "Disable NAT _traversal"
 #~ msgstr "Desabilitar NAT _traversal"
 
@@ -662,9 +895,6 @@ msgstr "_Aplicar"
 #~ msgstr ""
 #~ "Nome usado para identificar a conexão à rede privada, p. ex. \"VPN do "
 #~ "Campus\" ou \"Rede Corporativa\""
-
-#~ msgid "Override _user name"
-#~ msgstr "Ignorar nome do _usuário"
 
 #~ msgid ""
 #~ "Please enter the information provided by your system administrator below. "
