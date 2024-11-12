@@ -12,21 +12,22 @@
 # Henrique Machado Campos <henriquecamposrj@gmail.com>, 2020.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
 # Rômulo de Oliveira <devromulodeoliveira@gmail.com>, 2024.
+# Juliano de Souza Camargo <julianosc@pm.me>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-10-23 07:10+0000\n"
-"PO-Revision-Date: 2024-10-27 20:07-0300\n"
-"Last-Translator: Rômulo de Oliveira <devromulodeoliveira@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"POT-Creation-Date: 2024-10-31 11:43+0000\n"
+"PO-Revision-Date: 2024-11-12 09:39-0300\n"
+"Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Gtranslator 47.0\n"
 "X-Project-Style: gnome\n"
 
@@ -160,15 +161,13 @@ msgid "Invalid value for '%s': "
 msgstr "Valor inválido para '%s'"
 
 #: ../shared/utils.c:161
-#, fuzzy
-#| msgid "Connection na_me:"
 msgid "Bad connection name: "
-msgstr "No_me da conexão:"
+msgstr "Nome da conexão inválido:"
 
 #: ../shared/utils.c:197
 #, c-format
 msgid "'%s' key needs to be present."
-msgstr ""
+msgstr "Chave '%s' precisa estar presente."
 
 #: ../shared/utils.c:377
 msgid "Invalid username: "
@@ -352,12 +351,6 @@ msgid "Phase1 Algorithms"
 msgstr "Algoritmos da fase 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:29
-#, fuzzy
-#| msgid ""
-#| "IKE encryption/authentication algorithm to be used for the connection "
-#| "(phase 1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
-#| "hash;modpgroup, …”.\n"
-#| "config: ike <proposals>"
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
@@ -367,19 +360,13 @@ msgstr ""
 "Algoritmo de criptografia/autenticação IKE a ser usado para a conexão (fase "
 "1, também conhecido por ISAKMP SA). O formato é “cipher-hash;modpgroup, "
 "cipher-hash;modpgroup, …”.\n"
-"config: ike <propostas>"
+"                        config: ike <propostas>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
 msgid "Phase2 Algorithms"
 msgstr "Algoritmos da fase 2"
 
 #: ../properties/nm-libreswan-dialog.ui.h:32
-#, fuzzy
-#| msgid ""
-#| "Specifies the algorithms that will be offered/accepted for a phase2 "
-#| "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
-#| "…”.\n"
-#| "config: esp <proposals>"
 msgid ""
 "Specifies the algorithms that will be offered/accepted for a phase2 "
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
@@ -388,19 +375,13 @@ msgid ""
 msgstr ""
 "Especifica os algoritmos que serão oferecidos/aceitos para a negociação de "
 "fase 2. O formato é “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
-"config: esp <propostas>"
+"                        config: esp <propostas>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:34
 msgid "Phase1 Lifetime"
 msgstr "Tempo de vida da fase 1"
 
 #: ../properties/nm-libreswan-dialog.ui.h:35
-#, fuzzy
-#| msgid ""
-#| "How long the keying channel of a connection should last before being "
-#| "renegotiated. The value is expressed by a number followed by an optional "
-#| "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
-#| "config: ikelifetime <lifetime>"
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
@@ -410,7 +391,7 @@ msgstr ""
 "Por quanto tempo o canal de chaveamento de uma conexão deve durar antes de "
 "ser renegociado. O valor é expresso por um número seguido por um valor "
 "opcional “s”(egundos), “m”(inutos), “h”(oras) ou “d”(ias).\n"
-"config: ikelifetime <tempo-de-vida>"
+"                        config: ikelifetime <tempo-de-vida>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
 msgid "Phase2 Lifetime"
@@ -436,28 +417,18 @@ msgid "Disable rekeying"
 msgstr "Desabilitar renovação de chave"
 
 #: ../properties/nm-libreswan-dialog.ui.h:41
-#, fuzzy
-#| msgid ""
-#| "Whether a connection should not be renegotiated when it is about to "
-#| "expire.\n"
-#| "config: rekey <no/yes>"
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "                        config: rekey <no/yes>"
 msgstr ""
 "Se uma conexão não deve ser renegociada quando estiver quase expirando.\n"
-"config: rekey <no/yes>"
+"                        config: rekey <não/sim>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
 msgid "Disable PFS"
 msgstr "Desabilitar PFS"
 
 #: ../properties/nm-libreswan-dialog.ui.h:44
-#, fuzzy
-#| msgid ""
-#| "Disable perfect forward security. Enable this option only if the server "
-#| "doesn’t support PFS.\n"
-#| "config: pfs <no/yes>"
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
@@ -465,7 +436,7 @@ msgid ""
 msgstr ""
 "Desabilita perfect forward security. Habilite essa opção apenas se o "
 "servidor não tiver suporte a PFS.\n"
-"config: pfs <no/yes>"
+"                        config: pfs <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:46
 msgid "Auth-by"
@@ -493,16 +464,33 @@ msgid ""
 "config: authby <value>\n"
 "                        "
 msgstr ""
+"Como dois gateways seguros devem autenticar-se entre si. Aceita uma lista "
+"separada por vírgula destes valores:\n"
+"- 'rsasig' para RSA com SHA2 ou SHA1\n"
+"- 'ecdsa' para assinatura digital ECDSA usando SHA-2\n"
+"- 'rsa-sha2' para assinatura digital RSASSA-PSS com autenticação baseada em "
+"SHA2-256\n"
+"- 'rsa-sha2_384' para assinatura digital RSASSA-PSS com autenticação baseada "
+"em SHA2-384\n"
+"- 'rsa-sha2_512' para assinatura digital RSASSA-PSS com autenticação baseada "
+"em SHA2-512\n"
+"- 'rsa-sha1' para assinatura digital RSA-PKCSv1.5 com autenticação baseada "
+"em SHA1\n"
+"- 'secret' para autenticação de segredos compartilhados (PSK)\n"
+"- 'never' se a negociação nunca deve ser tentada ou aceita (útil para "
+"conexões shunt-only)\n"
+"- 'null' para null-authentication.\n"
+"Se não especificado, o valor padrão é 'rsasig,ecdsa'.\n"
+"config: authby <value>\n"
+"                        "
 
 #: ../properties/nm-libreswan-dialog.ui.h:60
 msgid "Connectivity"
 msgstr "Conectividade"
 
 #: ../properties/nm-libreswan-dialog.ui.h:61
-#, fuzzy
-#| msgid "Remote Network"
 msgid "Local Network"
-msgstr "Rede remota"
+msgstr "Rede local"
 
 #: ../properties/nm-libreswan-dialog.ui.h:62
 msgid ""
@@ -518,18 +506,13 @@ msgid "Remote Network"
 msgstr "Rede remota"
 
 #: ../properties/nm-libreswan-dialog.ui.h:65
-#, fuzzy
-#| msgid ""
-#| "Private subnet behind the remote participant, expressed as network/"
-#| "netmask.\n"
-#| "config: rightsubnet <net>"
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "                        config: rightsubnet <net>"
 msgstr ""
 "Sub-rede privada por trás do participante remoto, expressado na notação rede/"
 "máscara.\n"
-"config: rightsubnet <rede>"
+"                        config: rightsubnet <rede>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:67
 msgid "Enable fragmentation"
@@ -540,11 +523,6 @@ msgid "narrowing"
 msgstr "narrowing"
 
 #: ../properties/nm-libreswan-dialog.ui.h:69
-#, fuzzy
-#| msgid ""
-#| "IKEv2 negotiation may allow establishing an IPsec connection with "
-#| "narrowed down traffic selectors. This option is ignored for IKEv1.\n"
-#| "config: narrowing <yes/no>"
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
@@ -552,7 +530,7 @@ msgid ""
 msgstr ""
 "A negociação IKEv2 pode permitir estabelecimento de uma conexão IPsec com "
 "seletores de tráfego estreitos. Essa opção é ignorada para IKEv1.\n"
-"config: narrowing <yes/no>"
+"                        config: narrowing <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:71
 msgid "Enable MOBIKE"
@@ -574,11 +552,11 @@ msgid ""
 "(days); if the unit is not specified, it defaults to seconds.\n"
 "                        config: dpddelay <delay>"
 msgstr ""
-"O intervalo entre Dead Peer Detection (IKEv1 RFC 3706) "
-"ou os \"keepalives de Liveness\" do IKEv2 foram enviados para esta conexão. "
-"Deve ser um número, opcionalmente seguido por uma unidade de tempo: 's' "
-"(segundos), 'm' (minutos), 'h' (horas) ou 'd' (dias); se a unidade não for "
-"especificada, o padrão é segundos. \n"
+"O intervalo entre Dead Peer Detection (IKEv1 RFC 3706) ou os \"keepalives de "
+"Liveness\" do IKEv2 foram enviados para esta conexão. Deve ser um número, "
+"opcionalmente seguido por uma unidade de tempo: 's' (segundos), 'm' "
+"(minutos), 'h' (horas) ou 'd' (dias); se a unidade não for especificada, o "
+"padrão é segundos. \n"
 "                        config: dpddelay <delay>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:76
@@ -607,10 +585,8 @@ msgstr ""
 "config: dpdtimeout <timeout>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:79
-#, fuzzy
-#| msgid "Authentication"
 msgid "Action"
-msgstr "Autenticação"
+msgstr "Ação"
 
 #: ../properties/nm-libreswan-dialog.ui.h:81
 #, no-c-format
