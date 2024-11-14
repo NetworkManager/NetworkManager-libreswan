@@ -37,6 +37,9 @@
   script:
     - dnf -y install make
     - tar xJf NetworkManager-libreswan-*.tar.xz
+    # Sometimes the CI builder clocks are skewed.
+    # Make sure the dst files are not from future.
+    - find |xargs touch
     - cd NetworkManager-libreswan-*/
     - ./configure
       --disable-silent-rules
