@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-10-22 12:10+0000\n"
-"PO-Revision-Date: 2024-10-23 09:09+0200\n"
+"POT-Creation-Date: 2024-11-14 18:13+0000\n"
+"PO-Revision-Date: 2024-11-14 21:21+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -78,35 +78,25 @@ msgstr "VPN s podporo IPsec"
 msgid "IPsec based VPN for remote clients"
 msgstr "VPN na osnovi IPsec za oddaljene odjemalce"
 
-#: ../properties/nm-libreswan-editor-plugin.c:94
-#, c-format
-msgid "Can’t open file “%s”: %s"
-msgstr "Datoteke »%s« ni mogoče odpreti: %s"
-
-#: ../properties/nm-libreswan-editor-plugin.c:250
-#, c-format
-msgid "Missing “conn” section in “%s”"
-msgstr "Manjkajoči razdelek »conn« v »%s«"
-
-#: ../properties/nm-libreswan-editor-plugin.c:311
+#: ../properties/nm-libreswan-editor-plugin.c:115
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Napaka pri pisanju v datoteko »%s«: %s"
 
-#: ../src/nm-libreswan-service.c:681
+#: ../src/nm-libreswan-service.c:515
 msgid "Invalid character in password."
 msgstr "Neveljaven znak v geslu."
 
-#: ../src/nm-libreswan-service.c:1667
+#: ../src/nm-libreswan-service.c:1501
 msgid "A password is required."
 msgstr "Geslo je obvezno."
 
-#: ../src/nm-libreswan-service.c:1787
+#: ../src/nm-libreswan-service.c:1621
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Napaka pri pisanju prilagoditve: %s"
 
-#: ../src/nm-libreswan-service.c:2114
+#: ../src/nm-libreswan-service.c:1942
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -114,54 +104,62 @@ msgstr ""
 "Zahteve ni bilo mogoče obdelati, ker nastavitve povezave VPN niso bile "
 "veljavne."
 
-#: ../src/nm-libreswan-service.c:2128
+#: ../src/nm-libreswan-service.c:1956
 msgid "Unhandled pending authentication."
 msgstr "Neobravnavana overitev na čakanju."
 
-#: ../src/nm-libreswan-service.c:2272
+#: ../src/nm-libreswan-service.c:2100
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Ne končaj, ko se VPN povezava prekine"
 
-#: ../src/nm-libreswan-service.c:2273
+#: ../src/nm-libreswan-service.c:2101
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Omogoči podrobno beleženje razhroščevanja (lahko razkrije gesla)"
 
-#: ../src/nm-libreswan-service.c:2274
+#: ../src/nm-libreswan-service.c:2102
 msgid "D-Bus name to use for this instance"
 msgstr "Ime D-Bus za ta primerek"
 
-#: ../src/nm-libreswan-service.c:2297
+#: ../src/nm-libreswan-service.c:2125
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Ta storitev zagotavlja integrirano zmožnost IPsec VPN za NetworkManager."
 
-#: ../shared/utils.c:45 ../shared/utils.c:66
+#: ../shared/utils.c:359
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Neveljaven znak v »%s«"
 
-#: ../shared/utils.c:85 ../shared/utils.c:104 ../shared/utils.c:183
-#: ../shared/utils.c:191 ../shared/utils.c:213 ../shared/utils.c:228
-#: ../shared/utils.c:242 ../shared/utils.c:252 ../shared/utils.c:285
-#: ../shared/utils.c:307 ../shared/utils.c:317 ../shared/utils.c:355
-#: ../shared/utils.c:444
+#: ../shared/utils.c:391
 #, c-format
-msgid "Invalid value for '%s': "
-msgstr "Neveljavna vrednost za »%s«: "
+msgid "'%s' key needs to be present"
+msgstr "Ključ »%s« mora biti prisoten"
 
-#: ../shared/utils.c:161
-msgid "Bad connection name: "
-msgstr "Slabo ime povezave"
-
-#: ../shared/utils.c:197
+#: ../shared/utils.c:417
 #, c-format
-msgid "'%s' key needs to be present."
-msgstr "Ključ »%s« mora biti prisoten."
+msgid "property '%s' invalid or not supported"
+msgstr "lastnost »%s« ni veljavna ali pa ni podprta"
 
-#: ../shared/utils.c:377
-msgid "Invalid username: "
-msgstr "Neveljavno uporabniško ime: "
+#: ../shared/utils.c:533
+#, c-format
+msgid "'%s' not understood"
+msgstr "»%s« ni možno razumeti"
+
+#: ../shared/utils.c:554
+#, c-format
+msgid "Expected a conn line before '%s'"
+msgstr "Pričakovana je vrstica conn pred »%s«"
+
+#: ../shared/utils.c:560 ../shared/utils.c:575
+#, c-format
+msgid "'%s' specified multiple times"
+msgstr "»%s« je večkrat navedeno"
+
+#: ../shared/utils.c:624
+#, c-format
+msgid "'%s' is not supported for '%s'"
+msgstr "»%s« ni podprt za »%s«"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
