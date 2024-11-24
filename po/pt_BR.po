@@ -13,15 +13,16 @@
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
 # Rômulo de Oliveira <devromulodeoliveira@gmail.com>, 2024.
 # Juliano de Souza Camargo <julianosc@pm.me>, 2024.
+# Jhonata Fernandes <fjhonata14@gmail.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-10-31 11:43+0000\n"
+"POT-Creation-Date: 2024-11-15 20:12+0000\n"
 "PO-Revision-Date: 2024-11-12 09:39-0300\n"
-"Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
+"Last-Translator: Jhonata Fernandes <fjhonata14@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -87,35 +88,25 @@ msgstr "VPN baseada em IPsec"
 msgid "IPsec based VPN for remote clients"
 msgstr "VPN baseada em IPsec para clientes remotos"
 
-#: ../properties/nm-libreswan-editor-plugin.c:94
-#, c-format
-msgid "Can’t open file “%s”: %s"
-msgstr "Não foi possível abrir o arquivo “%s”: %s"
-
-#: ../properties/nm-libreswan-editor-plugin.c:250
-#, c-format
-msgid "Missing “conn” section in “%s”"
-msgstr "Faltando seção “conn” em “%s”"
-
-#: ../properties/nm-libreswan-editor-plugin.c:311
+#: ../properties/nm-libreswan-editor-plugin.c:115
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Erro ao gravar o arquivo “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:681
+#: ../src/nm-libreswan-service.c:515
 msgid "Invalid character in password."
 msgstr "Caractere inválido na senha."
 
-#: ../src/nm-libreswan-service.c:1667
+#: ../src/nm-libreswan-service.c:1501
 msgid "A password is required."
 msgstr "A senha é necessária."
 
-#: ../src/nm-libreswan-service.c:1787
+#: ../src/nm-libreswan-service.c:1621
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Erro ao gravar a configuração: %s"
 
-#: ../src/nm-libreswan-service.c:2114
+#: ../src/nm-libreswan-service.c:1942
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -123,55 +114,63 @@ msgstr ""
 "Não é possível processar a requisição pelo fato da configuração conexão da "
 "VPN eram inválidas."
 
-#: ../src/nm-libreswan-service.c:2128
+#: ../src/nm-libreswan-service.c:1956
 msgid "Unhandled pending authentication."
 msgstr "Autenticação pendente não lidada."
 
-#: ../src/nm-libreswan-service.c:2272
+#: ../src/nm-libreswan-service.c:2100
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Não sair quando a conexão VPN terminar"
 
-#: ../src/nm-libreswan-service.c:2273
+#: ../src/nm-libreswan-service.c:2101
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ativar registro de depuração detalhado (pode expor senhas)"
 
-#: ../src/nm-libreswan-service.c:2274
+#: ../src/nm-libreswan-service.c:2102
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus a ser usado para esta instância"
 
-#: ../src/nm-libreswan-service.c:2297
+#: ../src/nm-libreswan-service.c:2125
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Este serviço oferece capacidade integrada de VPN IPsec ao Gerenciador de "
 "redes."
 
-#: ../shared/utils.c:45 ../shared/utils.c:66
+#: ../shared/utils.c:359
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Caractere inválido em '%s'"
 
-#: ../shared/utils.c:85 ../shared/utils.c:104 ../shared/utils.c:183
-#: ../shared/utils.c:191 ../shared/utils.c:213 ../shared/utils.c:228
-#: ../shared/utils.c:242 ../shared/utils.c:252 ../shared/utils.c:285
-#: ../shared/utils.c:307 ../shared/utils.c:317 ../shared/utils.c:355
-#: ../shared/utils.c:444
+#: ../shared/utils.c:391
 #, c-format
-msgid "Invalid value for '%s': "
-msgstr "Valor inválido para '%s'"
+msgid "'%s' key needs to be present"
+msgstr "Chave '%s' precisa estar presente"
 
-#: ../shared/utils.c:161
-msgid "Bad connection name: "
-msgstr "Nome da conexão inválido:"
-
-#: ../shared/utils.c:197
+#: ../shared/utils.c:417
 #, c-format
-msgid "'%s' key needs to be present."
-msgstr "Chave '%s' precisa estar presente."
+msgid "property '%s' invalid or not supported"
+msgstr "a propriedade '%s' é inválida ou não é suportada"
 
-#: ../shared/utils.c:377
-msgid "Invalid username: "
-msgstr "Nome de usuário inválido:"
+#: ../shared/utils.c:533
+#, c-format
+msgid "'%s' not understood"
+msgstr "'%s' não compreendido"
+
+#: ../shared/utils.c:554
+#, c-format
+msgid "Expected a conn line before '%s'"
+msgstr "Esperada uma linha de conexão antes de '%s'"
+
+#: ../shared/utils.c:560 ../shared/utils.c:575
+#, c-format
+msgid "'%s' specified multiple times"
+msgstr "'%s' especificado várias vezes"
+
+#: ../shared/utils.c:624
+#, c-format
+msgid "'%s' is not supported for '%s'"
+msgstr "'%s' não é suportado para '%s'"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
@@ -669,6 +668,24 @@ msgstr "_Cancelar"
 #: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "_Apply"
 msgstr "_Aplicar"
+
+#, c-format
+#~ msgid "Can’t open file “%s”: %s"
+#~ msgstr "Não foi possível abrir o arquivo “%s”: %s"
+
+#, c-format
+#~ msgid "Missing “conn” section in “%s”"
+#~ msgstr "Faltando seção “conn” em “%s”"
+
+#, c-format
+#~ msgid "Invalid value for '%s': "
+#~ msgstr "Valor inválido para '%s'"
+
+#~ msgid "Bad connection name: "
+#~ msgstr "Nome da conexão inválido:"
+
+#~ msgid "Invalid username: "
+#~ msgstr "Nome de usuário inválido:"
 
 #~ msgid "Authenticate VPN %s"
 #~ msgstr "Autenticar na VPN %s"
