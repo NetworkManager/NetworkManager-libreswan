@@ -175,7 +175,7 @@ add_rightsubnet (NMSettingVpn *s_vpn, const char *key, const char *val)
 			val = "::/0";
 	}
 	if (val == NULL || val[0] == '\0') {
-		leftsubnet = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
+		leftsubnet = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTSUBNET);
 		if (leftsubnet && nm_utils_parse_inaddr_prefix_bin (AF_INET6, leftsubnet, NULL, NULL))
 			val = "::/0";
 	}
@@ -300,8 +300,8 @@ static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_SALIFETIME,                 add_lifetime,          PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_HOSTADDRFAMILY,             add,                   PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_CLIENTADDRFAMILY,           add,                   PARAM_PRINTABLE },
-	{ NM_LIBRESWAN_KEY_LOCALNETWORK,               add,                   PARAM_PRINTABLE },
-	{ NM_LIBRESWAN_KEY_REMOTENETWORK,              add_rightsubnet,       PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_LEFTSUBNET,                 add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_RIGHTSUBNET,                add_rightsubnet,       PARAM_PRINTABLE },
 
 	{ NM_LIBRESWAN_KEY_LEFTXAUTHUSER,              add_username,          PARAM_STRING | PARAM_OLD },
 	{ NM_LIBRESWAN_KEY_LEFTUSERNAME,               add_username,          PARAM_STRING | PARAM_NEW },
@@ -481,6 +481,39 @@ nm_libreswan_get_ipsec_conf (int ipsec_version,
 	}
 
 	return g_string_free (g_steal_pointer (&ipsec_conf), FALSE);
+}
+
+gboolean
+nm_libreswan_check_value (const char *key,
+                          const char *val,
+                          GError **error)
+{
+	int i;
+
+	for (i = 0; params[i].name != NULL; i++) {
+		if (strcmp (params[i].name, key) != 0)
+			continue;
+
+		if (val != NULL && *val != '\0')
+			return check_val (val, params[i].flags & PARAM_STRING, error);
+
+		if (params[i].flags & PARAM_REQUIRED) {
+			g_set_error (error,
+			             NM_UTILS_ERROR,
+			             NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             _("'%s' key needs to be present"),
+			             key);
+			return FALSE;
+		}
+	}
+
+	g_set_error (error,
+		     NM_UTILS_ERROR,
+		     NM_UTILS_ERROR_INVALID_ARGUMENT,
+	             _("property '%s' invalid or not supported"),
+		     key);
+	return FALSE;
+
 }
 
 /*
@@ -748,4 +781,57 @@ nm_libreswan_detect_version (const char *path, gboolean *out_is_openswan, int *o
 		*out_banner = output;
 	else
 		g_free (output);
+}
+
+gboolean
+nm_libreswan_parse_subnets (const char *str,
+                            GPtrArray *arr,
+                            GError **error)
+{
+	gs_strfreev char **tokens = NULL;
+	char *addr;
+	int prefix;
+	int i;
+
+	g_return_val_if_fail (str != NULL, FALSE);
+	g_return_val_if_fail (!error || !*error, FALSE);
+
+	tokens = g_strsplit_set (str, ", \t\n\v", 0);
+	for (i = 0; tokens[i] != NULL; i++) {
+		if (*tokens[i] == '\0')
+			continue;
+		if (   nm_utils_parse_inaddr_prefix (AF_INET, tokens[i], &addr, &prefix) == FALSE
+		    && nm_utils_parse_inaddr_prefix (AF_INET6, tokens[i], &addr, &prefix) == FALSE) {
+			g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             "'%s' is not a valid IP subnet", tokens[i]);
+			return FALSE;
+		}
+		if (arr) {
+			if (prefix == -1) {
+				g_ptr_array_add (arr, g_strdup_printf ("%s", addr));
+			} else {
+				g_ptr_array_add (arr, g_strdup_printf ("%s/%d", addr, prefix));
+			}
+		}
+		g_free (addr);
+	}
+
+	return TRUE;
+}
+
+char *
+nm_libreswan_normalize_subnets (const char *str,
+                                GError **error)
+{
+	gs_unref_ptrarray GPtrArray *arr = NULL;
+
+	g_return_val_if_fail (str != NULL, FALSE);
+	g_return_val_if_fail (!error || !*error, FALSE);
+
+	arr = g_ptr_array_new_full (5, g_free);
+	if (nm_libreswan_parse_subnets (str, arr, error) == FALSE)
+		return NULL;
+	g_ptr_array_add (arr, NULL);
+
+	return g_strjoinv (",", (char **)arr->pdata);
 }

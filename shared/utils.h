@@ -36,6 +36,10 @@ NMSettingVpn *nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
                                              char **con_name,
                                              GError **error);
 
+gboolean nm_libreswan_check_value (const char *key,
+                                   const char *val,
+                                   GError **error);
+
 static inline gboolean
 nm_libreswan_utils_setting_is_ikev2 (NMSettingVpn *s_vpn)
 {
@@ -56,5 +60,8 @@ nm_libreswan_detect_version (const char *path,
 
 const char *nm_libreswan_find_helper_bin (const char *progname, GError **error);
 const char *nm_libreswan_find_helper_libexec (const char *progname, GError **error);
+
+gboolean nm_libreswan_parse_subnets (const char *str, GPtrArray *arr, GError **error);
+char *nm_libreswan_normalize_subnets (const char *str, GError **error);
 
 #endif /* __UTILS_H__ */
