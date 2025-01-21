@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-01-17 07:39+0000\n"
-"PO-Revision-Date: 2024-03-23 15:14+0100\n"
+"POT-Creation-Date: 2024-09-12 09:51+0000\n"
+"PO-Revision-Date: 2024-09-24 19:33+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -80,26 +80,26 @@ msgid "IPsec based VPN for remote clients"
 msgstr "IPsec-baseret VPN til eksterne klienter"
 
 #: ../properties/nm-libreswan-editor-plugin.c:94
-#: ../properties/nm-libreswan-editor-plugin.c:294
+#: ../properties/nm-libreswan-editor-plugin.c:300
 #, c-format
 msgid "Can’t open file “%s”: %s"
 msgstr "Kan ikke åbne filen “%s”: %s"
 
-#: ../properties/nm-libreswan-editor-plugin.c:244
+#: ../properties/nm-libreswan-editor-plugin.c:250
 #, c-format
 msgid "Missing “conn” section in “%s”"
 msgstr "Manglende “conn”-afsnit i “%s”"
 
-#: ../properties/nm-libreswan-editor-plugin.c:316
+#: ../properties/nm-libreswan-editor-plugin.c:322
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Fejl under skrivning til filen “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1466
+#: ../src/nm-libreswan-service.c:1684
 msgid "A password is required."
 msgstr "Adgangskode er krævet."
 
-#: ../src/nm-libreswan-service.c:1867
+#: ../src/nm-libreswan-service.c:2088
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -107,23 +107,23 @@ msgstr ""
 "Kunne ikke behandle forespørgslen, da indstillingerne for VPN-forbindelsen "
 "var ugyldige."
 
-#: ../src/nm-libreswan-service.c:1881
+#: ../src/nm-libreswan-service.c:2102
 msgid "Unhandled pending authentication."
 msgstr "Uhåndteret afventende godkendelse."
 
-#: ../src/nm-libreswan-service.c:2023
+#: ../src/nm-libreswan-service.c:2244
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Afslut ikke, når VPN-forbindelsen afsluttes"
 
-#: ../src/nm-libreswan-service.c:2024
+#: ../src/nm-libreswan-service.c:2245
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Aktivér uddybende fejlsøgningslogning (kan afsløre adgangskoder)"
 
-#: ../src/nm-libreswan-service.c:2025
+#: ../src/nm-libreswan-service.c:2246
 msgid "D-Bus name to use for this instance"
 msgstr "Navn på D-Bus der skal bruges i dette tilfælde"
 
-#: ../src/nm-libreswan-service.c:2048
+#: ../src/nm-libreswan-service.c:2269
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
@@ -445,10 +445,22 @@ msgid "Connectivity"
 msgstr "Forbindelse"
 
 #: ../properties/nm-libreswan-dialog.ui.h:61
+msgid "Local Network"
+msgstr "Lokalnetværk"
+
+#: ../properties/nm-libreswan-dialog.ui.h:62
+msgid ""
+"Private subnet behind the local participant, expressed as network/netmask.\n"
+"                        config: leftsubnet <net>"
+msgstr ""
+"Privat undernet bag ved den lokale deltager udtrykt som netværk/netmaske.\n"
+"                        Konfiguration: leftsubnet <net>"
+
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid "Remote Network"
 msgstr "Fjernnetværk"
 
-#: ../properties/nm-libreswan-dialog.ui.h:62
+#: ../properties/nm-libreswan-dialog.ui.h:65
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "                        config: rightsubnet <net>"
@@ -456,15 +468,15 @@ msgstr ""
 "Privat undernet bag ved fjerndeltageren udtrykt som netværk/netmaske.\n"
 "                        Konfiguration: rightsubnet <net>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:64
+#: ../properties/nm-libreswan-dialog.ui.h:67
 msgid "Enable fragmentation"
 msgstr "Aktivér fragmentering"
 
-#: ../properties/nm-libreswan-dialog.ui.h:65
+#: ../properties/nm-libreswan-dialog.ui.h:68
 msgid "narrowing"
 msgstr "indsnævring"
 
-#: ../properties/nm-libreswan-dialog.ui.h:66
+#: ../properties/nm-libreswan-dialog.ui.h:69
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
@@ -474,23 +486,23 @@ msgstr ""
 "indsnævrede traffikvælgere. Denne indstilling ignoreres for IKEv1.\n"
 "                        Konfiguration: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:68
+#: ../properties/nm-libreswan-dialog.ui.h:71
 msgid "Enable MOBIKE"
 msgstr "Aktivér MOBIKE"
 
-#: ../properties/nm-libreswan-dialog.ui.h:69
+#: ../properties/nm-libreswan-dialog.ui.h:72
 msgid "Dead Peer Detection (DPD)"
 msgstr "Genkendelse af døde peers (DPD)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:70
+#: ../properties/nm-libreswan-dialog.ui.h:73
 msgid "Delay"
 msgstr "Ventetid"
 
-#: ../properties/nm-libreswan-dialog.ui.h:71
+#: ../properties/nm-libreswan-dialog.ui.h:74
 msgid ""
 "The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
 "keepalives that are sent for this connection. Must be a number optionally "
-"followed by a time unit: 's' (seconds), 'm' (minutes), 'h', (hours) or "
+"followed by a time unit: 's' (seconds), 'm' (minutes), 'h' (hours) or "
 "'d' (days); if the unit is not specified, it defaults to seconds.\n"
 "                        config: dpddelay <delay>"
 msgstr ""
@@ -499,20 +511,20 @@ msgstr ""
 "eventuelt efterfulgt af en tidsenhed: “s” (sekunder), “m” (minutter), "
 "“h” (timer) eller “d” (dage); hvis enheden ikke er angivet, er den som "
 "standard sekunder.\n"
-"                        config: dpddelay <ventetid>"
+"                        konfiguration: dpddelay <ventetid>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:73
+#: ../properties/nm-libreswan-dialog.ui.h:76
 msgid "Timeout"
 msgstr "Tidsudløb"
 
-#: ../properties/nm-libreswan-dialog.ui.h:74
+#: ../properties/nm-libreswan-dialog.ui.h:77
 msgid ""
 "The length of time that we will idle without hearing back from our peer. "
 "After this period has elapsed with no response and no traffic, we will "
 "declare the peer dead, and remove the SA. Set value bigger than dpddelay to "
 "enable. If dpdtimeout is set, dpddelay also needs to be set. Must be a "
 "number optionally followed by a time unit: 's' (seconds), 'm' (minutes), "
-"'h', (hours) or 'd' (days); if the unit is not specified, it defaults to "
+"'h' (hours) or 'd' (days); if the unit is not specified, it defaults to "
 "seconds.\n"
 "                        config: dpdtimeout <timeout>"
 msgstr ""
@@ -525,34 +537,34 @@ msgstr ""
 "standard sekunder.\n"
 "                        Konfiguration: dpdtimeout <tidsudløb>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:76
+#: ../properties/nm-libreswan-dialog.ui.h:79
 msgid "Action"
 msgstr "Handling"
 
-#: ../properties/nm-libreswan-dialog.ui.h:78
+#: ../properties/nm-libreswan-dialog.ui.h:81
 #, no-c-format
 msgid ""
 "When a DPD enabled peer is declared dead, what action should be taken.  "
 "\"hold\" (default) means the eroute will be put into %hold status, while "
-"\"clear\" means the eroute and SA with both be cleared. \"restart\" means "
-"that ALL SAs to the dead peer will renegotiated.\n"
+"\"clear\" means the eroute and SA will both be cleared. \"restart\" means "
+"that ALL SAs to the dead peer will be renegotiated.\n"
 "                        config: dpdaction <action>"
 msgstr ""
 "Når en DPD-aktiveret peer erklæres død, hvilken handling skal der så "
 "foretages?  “hold” (standard) betyder, at eroute vil blive sat i %hold-"
 "status, mens “clear” betyder, at eroute og SA begge vil blive slettet. "
 "“restart” betyder, at ALLE SA'er til den døde peer vil blive genforhandlet.\n"
-"                        Konfigiguration: dpdaction <handling>"
+"                        Konfiguration: dpdaction <handling>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:80
+#: ../properties/nm-libreswan-dialog.ui.h:83
 msgid "Other options"
 msgstr "Andre indstillinger"
 
-#: ../properties/nm-libreswan-dialog.ui.h:81
+#: ../properties/nm-libreswan-dialog.ui.h:84
 msgid "IPsec interface"
 msgstr "IPsec-grænseflade"
 
-#: ../properties/nm-libreswan-dialog.ui.h:82
+#: ../properties/nm-libreswan-dialog.ui.h:85
 msgid ""
 "If set, create or use an existing virtual interface ipsecXXX for \"Routing "
 "based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
@@ -573,22 +585,38 @@ msgstr ""
 "vil derfor bruge grænsefladen med navnet “ipsec1”.\n"
 "                        Konfiguration: ipsec-interface yes|no|<tal>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:84
+#: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "Disable Mode Config client"
 msgstr "Deaktivér tilstandskonfigurationsklient"
 
-#: ../properties/nm-libreswan-dialog.ui.h:85
+#: ../properties/nm-libreswan-dialog.ui.h:88
+msgid "Remote certificate name"
+msgstr "Fjernservers _certifikatnavn"
+
+#: ../properties/nm-libreswan-dialog.ui.h:89
+msgid ""
+"If set, specify the name of the certificate from the NSS database to "
+"authenticate the remote"
+msgstr ""
+"Hvis tilvalgt, skal du angive navnet på certifikatet fra NSS-databasen for at "
+"godkende fjernserveren"
+
+#: ../properties/nm-libreswan-dialog.ui.h:90
+msgid "Don't require remote certificate name"
+msgstr "Kræv ikke fjernservers certifikatnavn"
+
+#: ../properties/nm-libreswan-dialog.ui.h:91
 msgid "Other"
 msgstr "Andet"
 
-#: ../properties/nm-libreswan-dialog.ui.h:86
+#: ../properties/nm-libreswan-dialog.ui.h:92
 msgid "Advanced Properties"
 msgstr "Avancerede egenskaber"
 
-#: ../properties/nm-libreswan-dialog.ui.h:87
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "_Cancel"
 msgstr "_Annullér"
 
-#: ../properties/nm-libreswan-dialog.ui.h:88
+#: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "_Apply"
 msgstr "An_vend"
