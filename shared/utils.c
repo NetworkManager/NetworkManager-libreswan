@@ -369,7 +369,7 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
                       GError **error)
 {
 	gs_unref_object NMSettingVpn *sanitized = NULL;
-	gboolean auto_defaults = TRUE;
+	gboolean auto_defaults;
 	int handled_items = 0;
 	const char *val;
 	int i;
@@ -382,9 +382,17 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 	              NM_SETTING_VPN_SERVICE_TYPE, NM_VPN_SERVICE_TYPE_LIBRESWAN,
 	              NULL);
 
-	auto_defaults = _nm_utils_ascii_str_to_bool (
-		nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS),
-		TRUE);
+	val = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS);
+	if (val == NULL) {
+		auto_defaults = TRUE;
+	} else if (   g_ascii_strcasecmp (val, "false") == 0
+	           || g_ascii_strcasecmp (val, "no") == 0
+	           || g_ascii_strcasecmp (val, "off") == 0
+	           || g_ascii_strcasecmp (val, "0") == 0) {
+		auto_defaults        = FALSE;
+	} else {
+		auto_defaults = TRUE;
+	}
 
 	for (i = 0; params[i].name != NULL; i++) {
 		val = nm_setting_vpn_get_data_item (s_vpn, params[i].name);
