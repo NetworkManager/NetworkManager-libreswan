@@ -166,8 +166,10 @@ add_keyingtries (NMSettingVpn *s_vpn, const char *key, const char *val)
 static void
 add_rightsubnet (NMSettingVpn *s_vpn, const char *key, const char *val)
 {
-	const char *leftsubnet;
+	gs_free char *leftsubnet = NULL;
+	struct in6_addr adr6;
 	const char *af;
+	char *slash;
 
 	if (val == NULL || val[0] == '\0') {
 		af = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_CLIENTADDRFAMILY);
@@ -175,9 +177,15 @@ add_rightsubnet (NMSettingVpn *s_vpn, const char *key, const char *val)
 			val = "::/0";
 	}
 	if (val == NULL || val[0] == '\0') {
-		leftsubnet = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK);
-		if (leftsubnet && nm_utils_parse_inaddr_prefix_bin (AF_INET6, leftsubnet, NULL, NULL))
-			val = "::/0";
+		leftsubnet = g_strdup (
+			nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LOCALNETWORK));
+		if (leftsubnet) {
+			slash = strchr (leftsubnet, '/');
+			if (slash)
+				*slash = '\0';
+			if (inet_pton (AF_INET6, leftsubnet, &adr6))
+				val = "::/0";
+		}
 	}
 	if (val == NULL || val[0] == '\0') {
 		val = "0.0.0.0/0";
