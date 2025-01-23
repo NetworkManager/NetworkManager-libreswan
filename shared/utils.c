@@ -26,6 +26,7 @@
 #include "utils.h"
 #include "nm-utils/nm-shared-utils.h"
 
+#include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -74,11 +75,16 @@ static void
 add_id (NMSettingVpn *s_vpn, const char *key, const char *val)
 {
 	gs_free char *new = NULL;
+	union {
+		struct in_addr in;
+		struct in6_addr in6;
+	} addr;
 
 	if (val == NULL || val[0] == '\0')
 		return;
 	if (   val[0] == '@' || val[0] == '%'
-	    || nm_utils_parse_inaddr_bin (AF_UNSPEC, val, NULL)) {
+	    || inet_pton (AF_INET, val, &addr.in)
+	    || inet_pton (AF_INET6, val, &addr.in6)) {
 		nm_setting_vpn_add_data_item (s_vpn, key, val);
 	} else {
 		new = g_strdup_printf ("@%s", val);
