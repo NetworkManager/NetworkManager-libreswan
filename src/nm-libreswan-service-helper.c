@@ -80,7 +80,11 @@ main (int argc, char *argv[])
 	case 1:
 		break;
 	case 4:
-		gl.log_level = _nm_utils_ascii_str_to_int64 (argv[1], 10, 0, LOG_DEBUG, 0);
+		gl.log_level = g_ascii_strtoll (argv[1], NULL, 10);
+		if (gl.log_level > LOG_DEBUG)
+			gl.log_level = LOG_DEBUG;
+		else if (gl.log_level < 0)
+			gl.log_level = 0;
 		gl.log_prefix_token = argv[2];
 		bus_name = argv[3];
 		break;

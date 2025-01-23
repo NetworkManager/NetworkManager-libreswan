@@ -2101,6 +2101,7 @@ main (int argc, char *argv[])
 	GDBusConnection *connection;
 	GError *error = NULL;
 	const gchar *bus_name = NM_DBUS_SERVICE_LIBRESWAN;
+	char *vpn_log_level;
 
 	GOptionEntry options[] = {
 		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don’t quit when VPN connection terminates"), NULL },
@@ -2136,9 +2137,15 @@ main (int argc, char *argv[])
 	if (getenv ("LIBRESWAN_DEBUG") || getenv ("IPSEC_DEBUG"))
 		gl.debug = TRUE;
 
-	gl.log_level = _nm_utils_ascii_str_to_int64 (getenv ("NM_VPN_LOG_LEVEL"),
-	                                             10, 0, LOG_DEBUG,
-	                                             gl.debug ? LOG_INFO : LOG_NOTICE);
+
+	vpn_log_level = getenv ("NM_VPN_LOG_LEVEL");
+	if (vpn_log_level) {
+		gl.log_level = g_ascii_strtoll (vpn_log_level, NULL, 10);
+		if (gl.log_level > LOG_DEBUG)
+			gl.log_level = LOG_DEBUG;
+		else if (gl.log_level < 0)
+			gl.log_level = gl.debug ? LOG_INFO : LOG_NOTICE;
+	}
 
 	_LOGD ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
