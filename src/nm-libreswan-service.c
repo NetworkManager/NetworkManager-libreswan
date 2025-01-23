@@ -849,24 +849,30 @@ parse_reply (struct nl_msg *msg, RoutesInfo *info)
 		for (i = 0; i < attrlen / sizeof (struct xfrm_user_tmpl); i++) {
 			struct xfrm_user_tmpl *tmpl = &list[i];
 
-			if (!NM_IN_SET (tmpl->family, AF_INET, AF_INET6))
+			if (tmpl->family != info->gw_addr_family)
 				continue;
 
-			if (   tmpl->family == info->gw_addr_family
-			    && memcmp (&tmpl->id.daddr, &info->gw, nm_utils_addr_family_to_size (tmpl->family)) == 0) {
+			if (tmpl->family == AF_INET) {
+				if (memcmp (&tmpl->id.daddr, &info->gw, sizeof (in_addr_t)) != 0)
+					continue;
+			} else if (tmpl->family == AF_INET6) {
+				if (memcmp (&tmpl->id.daddr, &info->gw, sizeof (struct in6_addr)) != 0)
+					continue;
+			} else {
+				continue;
+			}
 
-				_LOGD("found SAD non-default route: src %s/%u dst %s/%u gw %s",
-					   inet_ntop (xpinfo->sel.family, &xpinfo->sel.saddr, saddr, sizeof (saddr)),
-					   xpinfo->sel.prefixlen_s,
-					   inet_ntop( xpinfo->sel.family, &xpinfo->sel.daddr, daddr, sizeof (daddr)),
-					   xpinfo->sel.prefixlen_d,
-					   inet_ntop (tmpl->family, &tmpl->id.daddr, gw, sizeof (gw)));
+			_LOGD("found SAD non-default route: src %s/%u dst %s/%u gw %s",
+				   inet_ntop (xpinfo->sel.family, &xpinfo->sel.saddr, saddr, sizeof (saddr)),
+				   xpinfo->sel.prefixlen_s,
+				   inet_ntop( xpinfo->sel.family, &xpinfo->sel.daddr, daddr, sizeof (daddr)),
+				   xpinfo->sel.prefixlen_d,
+				   inet_ntop (tmpl->family, &tmpl->id.daddr, gw, sizeof (gw)));
 
-				if (xpinfo->sel.family == AF_INET) {
-					info->have_routes4 = TRUE;
-				} else if (xpinfo->sel.family == AF_INET6) {
-					info->have_routes6 = TRUE;
-				}
+			if (xpinfo->sel.family == AF_INET) {
+				info->have_routes4 = TRUE;
+			} else if (xpinfo->sel.family == AF_INET6) {
+				info->have_routes6 = TRUE;
 			}
 		}
 	}
