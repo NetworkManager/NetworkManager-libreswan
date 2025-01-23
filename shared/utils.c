@@ -370,7 +370,7 @@ check_val (const char *val, gboolean allow_spaces, GError **error)
 			if (allow_spaces || !g_ascii_isspace (*p))
 				continue;
 		}
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT,
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 			     _("Invalid character in '%s'"), val);
 		return FALSE;
 	}
@@ -414,8 +414,8 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 			handled_items++;
 		} else if (params[i].flags & PARAM_REQUIRED) {
 			g_set_error (error,
-			             NM_UTILS_ERROR,
-			             NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             NM_VPN_PLUGIN_ERROR,
+			             NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 			             _("'%s' key needs to be present"),
 			             params[i].name);
 			return NULL;
@@ -444,8 +444,8 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 				continue;
 
 			g_set_error (error,
-			             NM_UTILS_ERROR,
-			             NM_UTILS_ERROR_INVALID_ARGUMENT,
+			             NM_VPN_PLUGIN_ERROR,
+			             NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 			             _("property '%s' invalid or not supported"),
 			             keys[i]);
 			g_free (keys);
@@ -560,8 +560,8 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 	for (i = 0; lines[i]; i++) {
 		if (!g_regex_match (line_regex, lines[i], 0, &match_info)) {
 			parse_error = g_error_new (
-				NM_UTILS_ERROR,
-				NM_UTILS_ERROR_INVALID_ARGUMENT,
+				NM_VPN_PLUGIN_ERROR,
+				NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 				_("'%s' not understood"),
 				lines[i]);
 			g_match_info_unref (match_info);
@@ -581,14 +581,14 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 			/* key=value line */
 			if (con_name == NULL) {
 				parse_error = g_error_new (
-					NM_UTILS_ERROR,
-					NM_UTILS_ERROR_INVALID_ARGUMENT,
+					NM_VPN_PLUGIN_ERROR,
+					NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 					_("Expected a conn line before '%s'"),
 					key);
 			} else if (nm_setting_vpn_get_data_item (s_vpn, key)) {
 				parse_error = g_error_new (
-					NM_UTILS_ERROR,
-					NM_UTILS_ERROR_INVALID_ARGUMENT,
+					NM_VPN_PLUGIN_ERROR,
+					NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 					_("'%s' specified multiple times"),
 					key);
 			} else {
@@ -602,8 +602,8 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 			if (con_name != NULL) {
 				g_free (val);
 				parse_error = g_error_new (
-					NM_UTILS_ERROR,
-					NM_UTILS_ERROR_INVALID_ARGUMENT,
+					NM_VPN_PLUGIN_ERROR,
+					NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 					_("'%s' specified multiple times"),
 					"conn");
 			} else {
@@ -651,8 +651,8 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 			new = nm_setting_vpn_get_data_item (sanitized, params[i].name);
 			if (g_strcmp0 (old, new) != 0) {
 				g_set_error (error,
-				             NM_UTILS_ERROR,
-				             NM_UTILS_ERROR_INVALID_ARGUMENT,
+				             NM_VPN_PLUGIN_ERROR,
+				             NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
 				             _("'%s' is not supported for '%s'"),
 				             old, params[i].name);
 				return NULL;

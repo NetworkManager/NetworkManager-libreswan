@@ -183,7 +183,7 @@ test_config_write (void)
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
@@ -192,7 +192,7 @@ test_config_write (void)
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item (s_vpn, "ikev2", "hello world");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
@@ -200,7 +200,7 @@ test_config_write (void)
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12\n13.14");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
@@ -208,7 +208,7 @@ test_config_write (void)
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
@@ -217,7 +217,7 @@ test_config_write (void)
 	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
 	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
@@ -225,7 +225,7 @@ test_config_write (void)
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
@@ -516,7 +516,7 @@ test_config_read (void)
 		"conn my_con\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -525,7 +525,7 @@ test_config_read (void)
 		" right=11.12.13.14\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -535,7 +535,7 @@ test_config_read (void)
 		"right=11.12.13.14\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -545,7 +545,7 @@ test_config_read (void)
 		"conn my_con\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -556,7 +556,7 @@ test_config_read (void)
 		"conn my_con\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -567,7 +567,7 @@ test_config_read (void)
 		" right=11.12.13.14\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -579,7 +579,7 @@ test_config_read (void)
 		" hola=prdel\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -590,7 +590,7 @@ test_config_read (void)
 		" leftcert=Libreswan Client\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -617,7 +617,7 @@ test_config_read (void)
 		" nm-configured=yes",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -629,7 +629,7 @@ test_config_read (void)
 		" rightmodecfgserver=no\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
@@ -642,7 +642,7 @@ test_config_read (void)
 		" cisco-unity=yes\n",
 		&con_name,
 		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION);
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
