@@ -26,7 +26,6 @@
 #include <string.h>
 
 #include "nm-libreswan-helper-service-dbus.h"
-#include "nm-utils/nm-shared-utils.h"
 #include "nm-utils/nm-vpn-plugin-macros.h"
 
 extern char **environ;

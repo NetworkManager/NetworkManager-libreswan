@@ -38,8 +38,6 @@ nmvpnservice_DATA = nm-libreswan-service.name
 noinst_LTLIBRARIES += shared/libutils.la
 
 shared_libutils_la_SOURCES = \
-	shared/nm-utils/nm-shared-utils.c \
-	shared/nm-utils/nm-shared-utils.h \
 	shared/utils.c \
 	shared/utils.h \
 	shared/nm-service-defines.h
@@ -317,8 +315,6 @@ EXTRA_DIST += \
 	shared/README \
 	shared/nm-utils/nm-glib.h \
 	shared/nm-utils/nm-macros-internal.h \
-	shared/nm-utils/nm-shared-utils.c \
-	shared/nm-utils/nm-shared-utils.h \
 	shared/nm-utils/nm-vpn-plugin-utils.c \
 	shared/nm-utils/nm-vpn-plugin-utils.h \
 	shared/nm-utils/nm-vpn-plugin-macros.h \

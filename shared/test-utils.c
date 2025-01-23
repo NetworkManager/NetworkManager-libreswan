@@ -23,8 +23,6 @@
 
 #include "utils.h"
 
-#include "nm-utils/nm-shared-utils.h"
-
 static void
 test_config_write (void)
 {

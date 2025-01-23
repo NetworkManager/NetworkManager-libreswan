@@ -24,7 +24,6 @@
 #include "nm-default.h"
 
 #include "utils.h"
-#include "nm-utils/nm-shared-utils.h"
 
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -403,7 +402,7 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 	           || g_ascii_strcasecmp (val, "no") == 0
 	           || g_ascii_strcasecmp (val, "off") == 0
 	           || g_ascii_strcasecmp (val, "0") == 0) {
-		auto_defaults        = FALSE;
+		auto_defaults = FALSE;
 	} else {
 		auto_defaults = TRUE;
 	}
