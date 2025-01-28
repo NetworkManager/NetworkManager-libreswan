@@ -1,5 +1,5 @@
 =========================================================
-NetworkManager-libreswan-1.2.26 (in development)
+NetworkManager-libreswan-1.2.26
 Overview of changes since NetworkManager-libreswan-1.2.24
 =========================================================
 
@@ -7,6 +7,16 @@ Overview of changes since NetworkManager-libreswan-1.2.24
   allowed for various settings.
 * Added support for specifying multiple extra subnets to be routed locally
   or remotely ("leftsubnets", "rightsubnets").
+
+
+* Updated 
+Brazilian Portuguese,
+Danish,
+Russian,
+Slovenian and
+Ukrainian
+ translations.
+
 
 =========================================================
 NetworkManager-libreswan-1.2.24
