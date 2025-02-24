@@ -4,7 +4,7 @@
 # David Zeuthen <davidz@redhat.com>, 2005.
 # Lasse Bang Mikkelsen <lbm@fatalerror.dk>, 2006, 07.
 # Mads Bille Lundby <lundbymads@gmail.com>, 2009.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2017, 2018, 2022, 2024.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2017, 2018, 2022, 2024-25.
 # scootergrisen, 2020.
 #
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-09-12 09:51+0000\n"
-"PO-Revision-Date: 2024-09-24 19:33+0200\n"
+"POT-Creation-Date: 2025-01-21 14:25+0000\n"
+"PO-Revision-Date: 2025-02-18 18:33+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -79,27 +79,25 @@ msgstr "VPN baseret på IPsec"
 msgid "IPsec based VPN for remote clients"
 msgstr "IPsec-baseret VPN til eksterne klienter"
 
-#: ../properties/nm-libreswan-editor-plugin.c:94
-#: ../properties/nm-libreswan-editor-plugin.c:300
-#, c-format
-msgid "Can’t open file “%s”: %s"
-msgstr "Kan ikke åbne filen “%s”: %s"
-
-#: ../properties/nm-libreswan-editor-plugin.c:250
-#, c-format
-msgid "Missing “conn” section in “%s”"
-msgstr "Manglende “conn”-afsnit i “%s”"
-
-#: ../properties/nm-libreswan-editor-plugin.c:322
+#: ../properties/nm-libreswan-editor-plugin.c:115
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Fejl under skrivning til filen “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:1684
+#: ../src/nm-libreswan-service.c:515
+msgid "Invalid character in password."
+msgstr "Ugyldigt tegn i adgangskoden."
+
+#: ../src/nm-libreswan-service.c:1501
 msgid "A password is required."
 msgstr "Adgangskode er krævet."
 
-#: ../src/nm-libreswan-service.c:2088
+#: ../src/nm-libreswan-service.c:1621
+#, c-format
+msgid "Error writing config: %s"
+msgstr "Fejl under skrivning af konfiguration: %s"
+
+#: ../src/nm-libreswan-service.c:1942
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -107,33 +105,64 @@ msgstr ""
 "Kunne ikke behandle forespørgslen, da indstillingerne for VPN-forbindelsen "
 "var ugyldige."
 
-#: ../src/nm-libreswan-service.c:2102
+#: ../src/nm-libreswan-service.c:1956
 msgid "Unhandled pending authentication."
 msgstr "Uhåndteret afventende godkendelse."
 
-#: ../src/nm-libreswan-service.c:2244
+#: ../src/nm-libreswan-service.c:2100
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Afslut ikke, når VPN-forbindelsen afsluttes"
 
-#: ../src/nm-libreswan-service.c:2245
+#: ../src/nm-libreswan-service.c:2101
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Aktivér uddybende fejlsøgningslogning (kan afsløre adgangskoder)"
 
-#: ../src/nm-libreswan-service.c:2246
+#: ../src/nm-libreswan-service.c:2102
 msgid "D-Bus name to use for this instance"
 msgstr "Navn på D-Bus der skal bruges i dette tilfælde"
 
-#: ../src/nm-libreswan-service.c:2269
+#: ../src/nm-libreswan-service.c:2125
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Denne tjeneste tilbyder integreret Ipsec-VPN-kapacitet til "
 "Netværkshåndtering."
 
-#: ../shared/utils.c:86
+#: ../shared/utils.c:359
 #, c-format
-msgid "Error writing config: %s"
-msgstr "Fejl under skrivning af konfiguration: %s"
+msgid "Invalid character in '%s'"
+msgstr "Ugyldigt tegn i “%s”"
+
+#: ../shared/utils.c:391 ../shared/utils.c:504
+#, c-format
+msgid "'%s' key needs to be present"
+msgstr "Nøglen “%s” skal være til stede"
+
+#: ../shared/utils.c:417 ../shared/utils.c:513
+#, c-format
+msgid "property '%s' invalid or not supported"
+msgstr "egenskaben “%s” er ugyldig eller ikke understøttet"
+
+#: ../shared/utils.c:566
+#, c-format
+msgid "'%s' not understood"
+msgstr "“%s” kunne ikke fortolkes"
+
+# ?
+#: ../shared/utils.c:587
+#, c-format
+msgid "Expected a conn line before '%s'"
+msgstr "Forventede en conn-linje før “%s”"
+
+#: ../shared/utils.c:593 ../shared/utils.c:608
+#, c-format
+msgid "'%s' specified multiple times"
+msgstr "“%s” angivet flere gange"
+
+#: ../shared/utils.c:657
+#, c-format
+msgid "'%s' is not supported for '%s'"
+msgstr "“%s” understøttes ikke for “%s”"
 
 #: ../shared/nm-utils/nm-shared-utils.c:1087
 #, c-format
@@ -598,8 +627,8 @@ msgid ""
 "If set, specify the name of the certificate from the NSS database to "
 "authenticate the remote"
 msgstr ""
-"Hvis tilvalgt, skal du angive navnet på certifikatet fra NSS-databasen for at "
-"godkende fjernserveren"
+"Hvis tilvalgt, skal du angive navnet på certifikatet fra NSS-databasen for "
+"at godkende fjernserveren"
 
 #: ../properties/nm-libreswan-dialog.ui.h:90
 msgid "Don't require remote certificate name"
@@ -620,3 +649,11 @@ msgstr "_Annullér"
 #: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "_Apply"
 msgstr "An_vend"
+
+#, c-format
+#~ msgid "Can’t open file “%s”: %s"
+#~ msgstr "Kan ikke åbne filen “%s”: %s"
+
+#, c-format
+#~ msgid "Missing “conn” section in “%s”"
+#~ msgstr "Manglende “conn”-afsnit i “%s”"
