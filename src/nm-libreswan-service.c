@@ -65,6 +65,7 @@ typedef NMVpnServicePlugin NMLibreswanPlugin;
 typedef NMVpnServicePluginClass NMLibreswanPluginClass;
 
 static GType nm_libreswan_plugin_get_type (void);
+static bool is_leftmodecfgserver_enabled(NMSettingVpn *s_vpn);
 
 G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGIN)
 
@@ -1296,8 +1297,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 	if (   priv->connection
 	    && (s_vpn = nm_connection_get_setting_vpn (priv->connection))
-	    && (cstr = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT))
-	    && nm_streq (cstr, "no")) {
+	    && !is_leftmodecfgserver_enabled(s_vpn)
+	    ) {
 		/* no dynamic address needed */
 	} else {
 		/* IP address */
@@ -2178,4 +2179,22 @@ main (int argc, char *argv[])
 	g_object_unref (plugin);
 
 	exit (0);
+}
+
+static bool
+is_leftmodecfgserver_enabled(NMSettingVpn *s_vpn)
+{
+	const char *auto_value;
+	const char *cstr;
+
+	auto_value = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS);
+	if (auto_value && nm_streq(auto_value, "no")) {
+		// undefined means false when `nm-auto-defaults: no`
+		cstr = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT);
+		return (cstr && nm_streq(cstr, "yes"));
+	} else {
+		// undefined means true
+		cstr = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT);
+		return !(cstr && nm_streq(cstr, "no"));
+	}
 }
