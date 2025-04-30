@@ -19,9 +19,9 @@
 .\" with this manual; if not, write to the Free Software Foundation, Inc.,
 .\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 .\"
-.\" Copyright (C) 2018 Red Hat, Inc.
+.\" Copyright (C) 2018,2025 Red Hat, Inc.
 .\"
-.TH NM-SETTINGS-LIBRESWAN "5" "9 July 2018"
+.TH NM-SETTINGS-LIBRESWAN "5" "7 Apr 2025"
 
 .SH NAME
 nm\-setting\-libreswan \- NetworkManager Libreswan plugin supported options
@@ -166,6 +166,13 @@ parameter of the same name.
 .TP
 .I "pskinputmodes"
 where the 'pskvalue' can be retrieved. Used internally by the plugin. Allowed values are: 'unused', 'save', 'ask'.
+.TP
+.I "nm-auto-defaults"
+Allowed values are: 'yes' and 'no'.
+This options indicates that the VPN plugin should not substitute default values for keys that are not
+present in \fBvpn.data\fR or alter the values for the keys that are specified. Malformed values will be
+rejected for security reasons, but other than that the user is responsible for ensuring the configuration
+will work. This is mainly useful when connections are created with a management tool like \fBnmstatectl\fR(8).
 .TP
 .I "xauthpasswordinputmodes"
 where the 'xauthpassword' can be retrieved. Used internally by the plugin. Allowed values are: 'unused', 'save', 'ask'.
