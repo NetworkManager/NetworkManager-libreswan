@@ -223,10 +223,13 @@ add_ike (NMSettingVpn *s_vpn, const char *key, const char *val)
 static void
 add_phase2alg (NMSettingVpn *s_vpn, const char *key, const char *val)
 {
+	const char *leftid;
+
 	if (val == NULL || val[0] == '\0')
 		val = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
 	if (val == NULL || val[0] == '\0') {
-		if (nm_libreswan_utils_setting_is_ikev2 (s_vpn))
+		leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID);
+		if (!nm_libreswan_utils_setting_is_ikev2 (s_vpn) && leftid && leftid[0] != '\0')
 			val = NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP;
 	}
 	nm_setting_vpn_add_data_item (s_vpn, key, val);

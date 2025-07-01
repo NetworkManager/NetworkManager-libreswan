@@ -103,7 +103,6 @@ test_config_write (void)
 	                 " leftmodecfgclient=yes\n"
 	                 " rightsubnet=0.0.0.0/0\n"
 	                 " rekey=yes\n"
-	                 " phase2alg=aes256-sha1\n"
 	                 " keyingtries=1\n"
 	                 " rightmodecfgserver=yes\n"
 	                 " modecfgpull=yes\n");
@@ -127,7 +126,6 @@ test_config_write (void)
 	                 " leftmodecfgclient=yes\n"
 	                 " rightsubnet=0.0.0.0/0\n"
 	                 " rekey=yes\n"
-	                 " phase2alg=aes256-sha1\n"
 	                 " keyingtries=1\n"
 	                 " rightmodecfgserver=yes\n"
 	                 " modecfgpull=yes\n");
@@ -372,7 +370,6 @@ test_config_read (void)
 		 " leftmodecfgclient=yes\n"
 		 " rightsubnet=0.0.0.0/0\n"
 		 " rekey=yes\n"
-		 " phase2alg=aes256-sha1\n"
 		 " keyingtries=1\n"
 		 " rightmodecfgserver=yes\n"
 		 " modecfgpull=yes\n",
