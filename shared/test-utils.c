@@ -486,12 +486,34 @@ test_config_read (void)
 	g_object_unref (s_vpn);
 	g_clear_pointer (&con_name, g_free);
 
-	/* Make sure properties with right synthetic values are allowed. */
+	/* Check if vendor=Cisco imports right, adding cisco-unity=yes */
 	s_vpn = nm_libreswan_parse_ipsec_conf (
 		"conn conn\n"
 		" right=11.12.13.14\n"
-		" vendor=Cisco\n"
-		" cisco-unity=yes\n",
+		" vendor=Cisco\n",
+		&con_name,
+		&error);
+	g_assert_no_error (error);
+	g_assert_cmpint (nm_setting_vpn_get_num_data_items (s_vpn), ==, 11);
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "authby"),		==, "secret");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "ikelifetime"),		==, "24h");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "ikev2"),			==, "never");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "left"),			==, "%defaultroute");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "leftmodecfgclient"),	==, "yes");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rekey"),			==, "yes");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "right"),			==, "11.12.13.14");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightsubnet"),		==, "0.0.0.0/0");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "salifetime"),		==, "24h");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "vendor"),		==, "Cisco");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "cisco-unity"),		==, "yes");
+	g_object_unref (s_vpn);
+	g_clear_pointer (&con_name, g_free);
+
+	/* Accept cisco-unity without vendor */
+	s_vpn = nm_libreswan_parse_ipsec_conf (
+		"conn conn\n"
+		" cisco-unity=yes\n"
+		" right=11.12.13.14\n",
 		&con_name,
 		&error);
 	g_assert_no_error (error);
@@ -505,7 +527,7 @@ test_config_read (void)
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "right"),			==, "11.12.13.14");
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightsubnet"),		==, "0.0.0.0/0");
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "salifetime"),		==, "24h");
-	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "vendor"),		==, "Cisco");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "cisco-unity"),		==, "yes");
 	g_object_unref (s_vpn);
 	g_clear_pointer (&con_name, g_free);
 
@@ -624,19 +646,6 @@ test_config_read (void)
 		"conn conn\n"
 		" right=11.12.13.14\n"
 		" rightmodecfgserver=no\n",
-		&con_name,
-		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (s_vpn);
-	g_assert_null (con_name);
-	g_clear_error (&error);
-
-	/* Make sure properties with right synthetic values not allowed when they
-	 * wouldn't be used. */
-	s_vpn = nm_libreswan_parse_ipsec_conf (
-		"conn conn\n"
-		" right=11.12.13.14\n"
-		" cisco-unity=yes\n",
 		&con_name,
 		&error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);

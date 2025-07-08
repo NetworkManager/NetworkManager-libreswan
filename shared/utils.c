@@ -194,9 +194,11 @@ add_yes (NMSettingVpn *s_vpn, const char *key, const char *val)
 static void
 add_cisco_unity (NMSettingVpn *s_vpn, const char *key, const char *val)
 {
-	if (g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") != 0)
-		return;
-	add_yes (s_vpn, key, NULL);
+	if (g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") == 0) {
+		add_yes (s_vpn, key, NULL);
+	} else {
+		add (s_vpn, key, val);
+	}
 }
 
 static void
@@ -324,7 +326,7 @@ static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_ESP,                        add                    },
 	{ "phase2alg",                                 add_phase2alg,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ NM_LIBRESWAN_KEY_VENDOR,                     add                    },
-	{ "cisco-unity",                               add_cisco_unity,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
+	{ "cisco-unity",                               add_cisco_unity,       PARAM_PRINTABLE },
 
 	/* Synthetic, not stored. */
 	{ "keyingtries",                               add_keyingtries,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
