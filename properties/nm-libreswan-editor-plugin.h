@@ -34,6 +34,7 @@ typedef struct _LibreswanEditorPluginClass LibreswanEditorPluginClass;
 
 struct _LibreswanEditorPlugin {
 	GObject parent;
+	char *module_path;
 };
 
 struct _LibreswanEditorPluginClass {
@@ -52,4 +53,3 @@ nm_vpn_editor_factory_libreswan (NMVpnEditorPlugin *editor_plugin,
                                  GError **error);
 
 #endif /* __NM_LIBRESWAN_EDITOR_PLUGIN_H__ */
-
