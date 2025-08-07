@@ -4,6 +4,7 @@
 # If things don't seem to work, this can help:
 # https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/-/ci/lint
 
+# Template to install the dependencies for the build
 .fedora_deps: &fedora_deps
   before_script:
     - dnf -y install
@@ -23,17 +24,29 @@
       NetworkManager-libnm-devel
       pkgconfig
 
-# Disable fetching Git, run after the tarball is rolled
-.dist: &dist
+# Roll the distribution tarball
+release-dist:
+  <<: *fedora_deps
+  image: fedora:38
+  stage: build
+  script:
+    - dnf -y install
+      /usr/bin/autopoint
+      autoconf automake make
+    - sh autogen.sh
+    - make -j dist
+  artifacts:
+    paths:
+      - "*.xz"
+
+# Template to test in any version of Fedora
+.test_in_fedora_from_dist: &test_in_fedora_from_dist
+  <<: *fedora_deps
   stage: test
   dependencies:
-    - fedora38_dist
+    - release-dist
   variables:
     GIT_STRATEGY: none
-
-.fedora_from_dist: &fedora_from_dist
-  <<: *fedora_deps
-  <<: *dist
   script:
     - dnf -y install make
     - tar xJf NetworkManager-libreswan-*.tar.xz
@@ -50,21 +63,7 @@
     - make -j install
     - make -j uninstall
 
-# Roll the distribution tarball
-fedora38_dist:
-  <<: *fedora_deps
-  image: fedora:38
-  stage: build
-  script:
-    - dnf -y install
-      /usr/bin/autopoint
-      autoconf automake make
-    - sh autogen.sh
-    - make -j dist
-  artifacts:
-    paths:
-      - "*.xz"
-
-fedora_from_dist:
-  <<: *fedora_from_dist
+# Test on a recent distro
+test_in_fedora_from_dist:
+  <<: *test_in_fedora_from_dist
   image: fedora:latest
