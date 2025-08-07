@@ -4,6 +4,14 @@
 # If things don't seem to work, this can help:
 # https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/-/ci/lint
 
+# Import the necessary stuff for a CI release:
+# https://handbook.gnome.org/maintainers/release-pipeline.html
+include:
+  - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
+    inputs:
+      dist-job-name: "release-dist"
+
+
 # Template to install the dependencies for the build
 .fedora_deps: &fedora_deps
   before_script:
@@ -35,9 +43,12 @@ release-dist:
       autoconf automake make
     - sh autogen.sh
     - make -j dist
+    - for f in *.tar.xz; do sha256sum "$f" > "$f".sha256sum; done
+    - mkdir public-dist
+    - mv *.{tar.xz,tar.xz.sha256sum} public-dist
   artifacts:
     paths:
-      - "*.xz"
+      - public-dist
 
 # Template to test in any version of Fedora
 .test_in_fedora_from_dist: &test_in_fedora_from_dist
@@ -49,7 +60,7 @@ release-dist:
     GIT_STRATEGY: none
   script:
     - dnf -y install make
-    - tar xJf NetworkManager-libreswan-*.tar.xz
+    - tar xJf public-dist/NetworkManager-libreswan-*.tar.xz
     # Sometimes the CI builder clocks are skewed.
     # Make sure the dst files are not from future.
     - find |xargs touch
