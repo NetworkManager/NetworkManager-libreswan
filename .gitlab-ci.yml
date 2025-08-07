@@ -27,7 +27,7 @@
 # Roll the distribution tarball
 release-dist:
   <<: *fedora_deps
-  image: fedora:38
+  image: fedora:42
   stage: build
   script:
     - dnf -y install
