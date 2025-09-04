@@ -1248,6 +1248,33 @@ config: authby &lt;value&gt;
                         <property name="top_attach">1</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkLabel" id="leftsendcert_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Send certificate(leftsendcert)</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">leftsendcert_entry</property>
+                        <property name="xalign">1</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="leftsendcert_entry">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="tooltip_text" translatable="yes">Configure how Libreswan will send X.509 certificates to the remote host. Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'.</property>
+                        <property name="invisible_char">●</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">2</property>
+                      </packing>
+                    </child>
                   </object>
                 </child>
               </object>
