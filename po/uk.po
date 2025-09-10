@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the NetworkManager package.
 #
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2005-2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2022, 2023, 2024.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan"
 "/issues\n"
-"POT-Creation-Date: 2024-11-14 18:13+0000\n"
-"PO-Revision-Date: 2024-11-15 22:12+0200\n"
+"POT-Creation-Date: 2025-09-10 15:56+0000\n"
+"PO-Revision-Date: 2025-09-10 22:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -83,80 +83,79 @@ msgstr "VPN на основі IPsec для віддалених клієнтів
 msgid "Error writing to file “%s”: %s"
 msgstr "Помилка під час спроби виконати запис до файла «%s»: %s"
 
-#: ../src/nm-libreswan-service.c:515
+#: ../src/nm-libreswan-service.c:516
 msgid "Invalid character in password."
 msgstr "Некоректний символ у паролі."
 
-#: ../src/nm-libreswan-service.c:1501
+#: ../src/nm-libreswan-service.c:1502
 msgid "A password is required."
 msgstr "Потрібен пароль."
 
-#: ../src/nm-libreswan-service.c:1621
+#: ../src/nm-libreswan-service.c:1622
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Помилка під час спроби записати налаштування: %s"
 
-#: ../src/nm-libreswan-service.c:1942
+#: ../src/nm-libreswan-service.c:1943
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
 "Не вдалося обробити запит, оскільки параметри з'єднання VPN є некоректними."
 
-#: ../src/nm-libreswan-service.c:1956
+#: ../src/nm-libreswan-service.c:1957
 msgid "Unhandled pending authentication."
 msgstr "Непридатне до обробки розпізнавання у черзі."
 
-#: ../src/nm-libreswan-service.c:2100
+#: ../src/nm-libreswan-service.c:2101
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Не виходити, якщо розірвано з'єднання VPN"
 
-#: ../src/nm-libreswan-service.c:2101
+#: ../src/nm-libreswan-service.c:2102
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Увімкнути докладний журнал діагностики (можливе виведення паролів)"
 
-#: ../src/nm-libreswan-service.c:2102
+#: ../src/nm-libreswan-service.c:2103
 msgid "D-Bus name to use for this instance"
 msgstr "Назва D-Bus для використання для цього екземпляра"
 
-#: ../src/nm-libreswan-service.c:2125
+#: ../src/nm-libreswan-service.c:2126
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Ця служба надає NetworkManager доступ до інтегрованих можливостей VPN IPsec."
 
-#: ../shared/utils.c:359
+#: ../shared/utils.c:364
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Некоректний символ у «%s»"
 
-#: ../shared/utils.c:391
+#: ../shared/utils.c:401 ../shared/utils.c:518
 #, c-format
-#| msgid "'%s' key needs to be present."
 msgid "'%s' key needs to be present"
 msgstr "Мало бути вказано ключ «%s»"
 
-#: ../shared/utils.c:417
+#: ../shared/utils.c:431 ../shared/utils.c:527
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "властивість «%s» є некоректною або її підтримки не передбачено"
 
-#: ../shared/utils.c:533
+#: ../shared/utils.c:580
 #, c-format
 msgid "'%s' not understood"
 msgstr "«%s» невідоме програмі"
 
-#: ../shared/utils.c:554
+#: ../shared/utils.c:601
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Перед «%s» мав бути рядок conn"
 
-#: ../shared/utils.c:560 ../shared/utils.c:575
+#: ../shared/utils.c:607 ../shared/utils.c:622
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "«%s» вказано декілька разів"
 
-#: ../shared/utils.c:624
+#: ../shared/utils.c:671
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "підтримки «%s» для «%s» не передбачено"
@@ -200,27 +199,27 @@ msgstr ""
 "значення «%s» типу «%s» є некоректним для властивості «%s» типу «%s» або не "
 "належить до припустимого діапазону значень"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:50
 #, c-format
 msgid "unable to get editor plugin name: %s"
 msgstr "не вдалося отримати назву додатка до редактора: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:60
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "не вистачає файла додатка «%s»"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:128
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "не вдалося завантажити додаток до редактора: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:137
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "не вдалося завантажити обробник %s з додатка: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:163
 msgid "unknown error creating editor instance"
 msgstr "невідома помилка під час створення екземпляра редактора"
 
@@ -339,8 +338,8 @@ msgstr "Алгоритми фази 1"
 #: ../properties/nm-libreswan-dialog.ui.h:29
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
-"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
-"modpgroup, …”.\n"
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
+"hash;modpgroup, …”.\n"
 "                        config: ike <proposals>"
 msgstr ""
 "Алгоритм шифрування і розпізнавання IKE, яким слід скористатися для "
@@ -645,18 +644,30 @@ msgid "Don't require remote certificate name"
 msgstr "Не вимагати назви сертифіката віддаленого"
 
 #: ../properties/nm-libreswan-dialog.ui.h:91
+msgid "Send certificate(leftsendcert)"
+msgstr "Надіслати сертифікат (leftsendcert)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:92
+msgid ""
+"Configure how Libreswan will send X.509 certificates to the remote host. "
+"Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'."
+msgstr ""
+"Налаштуйте, як Libreswan надсилатиме сертифікати X.509 на віддалений вузол."
+" Коректні значення: «yes», «always», «no», «never», «sendifasked»."
+
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "Other"
 msgstr "Інше"
 
-#: ../properties/nm-libreswan-dialog.ui.h:92
+#: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "Advanced Properties"
 msgstr "Додаткові властивості"
 
-#: ../properties/nm-libreswan-dialog.ui.h:93
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "_Apply"
 msgstr "_Застосувати"
 
