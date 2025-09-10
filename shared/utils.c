@@ -318,6 +318,7 @@ static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_IPSEC_INTERFACE,            add,                   PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_TYPE,                       add,                   PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE,  add,                   PARAM_PRINTABLE },
+	{ NM_LIBRESWAN_KEY_LEFTSENDCERT,               add,                   PARAM_PRINTABLE },
 
 	/* Special. */
 	{ NM_LIBRESWAN_KEY_REKEY,                      add_rekey,             PARAM_PRINTABLE },

@@ -186,6 +186,12 @@ for details.
 how to handle the 'xauthpassword' secret. See the "Secret flag type" section at
 \fBnm-settings\fR(5)
 for details.
+.TP
+.I "leftsendcert"
+This option configures when Libreswan will send X.509 certificates to the
+remote host. Example values are: 'yes', 'always', 'no', 'never', 'sendifasked'.
+NetworkManager-libreswan does not validate this option but merely pass to
+Libreswan daemon. Please check Libreswan document for detail.
 
 .SH VPN.SECRETS
 .PP

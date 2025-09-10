@@ -77,6 +77,7 @@
 #define NM_LIBRESWAN_KEY_CLIENTADDRFAMILY           "clientaddrfamily"
 #define NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE  "require-id-on-certificate"
 #define NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS           "nm-auto-defaults"
+#define NM_LIBRESWAN_KEY_LEFTSENDCERT               "leftsendcert"
 
 #define NM_LIBRESWAN_IKEV2_NO      "no"
 #define NM_LIBRESWAN_IKEV2_NEVER   "never"
