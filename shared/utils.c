@@ -585,14 +585,19 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 
 		key = g_match_info_fetch (match_info, 1); /* Key */
 		val = g_match_info_fetch (match_info, 2); /* Unquoted value */
-		if (val[0] == '\0') {
+		/* Without fix from
+		 * https://gitlab.gnome.org/GNOME/glib/-/commit/b052620398237ce7
+		 * key and value might be NULL for empty line or comment only
+		 * line.
+		 */
+		if (val && val[0] == '\0') {
 			g_free (val);
 			/* Quoted value (quotes stripped off) */
 			val = g_match_info_fetch (match_info, 3);
 		}
 		g_match_info_unref (match_info);
 
-		if (key[0] != '\0') {
+		if (key && key[0] != '\0') {
 			/* key=value line */
 			if (con_name == NULL) {
 				parse_error = g_error_new (
@@ -611,7 +616,7 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 			}
 			g_free (key);
 			g_free (val);
-		} else if (val[0] != '\0') {
+		} else if (val && val[0] != '\0') {
 			/* If key didn't match, then this must be a "conn" line. */
 			g_free (key);
 			if (con_name != NULL) {
