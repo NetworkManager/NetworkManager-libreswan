@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2025-07-14 15:24+0000\n"
-"PO-Revision-Date: 2025-07-27 14:05+0900\n"
+"POT-Creation-Date: 2025-09-10 19:50+0000\n"
+"PO-Revision-Date: 2025-09-11 05:53+0900\n"
 "Last-Translator: Makoto Sakaguchi <ycco34vx@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -122,37 +122,37 @@ msgid ""
 msgstr ""
 "このサービスは NetworkManager に統合された IPsec VPN 機能を提供します。"
 
-#: ../shared/utils.c:363
+#: ../shared/utils.c:364
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "'%s' に無効な文字があります"
 
-#: ../shared/utils.c:400 ../shared/utils.c:517
+#: ../shared/utils.c:401 ../shared/utils.c:518
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "'%s' キーが必要です"
 
-#: ../shared/utils.c:430 ../shared/utils.c:526
+#: ../shared/utils.c:431 ../shared/utils.c:527
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "プロパティ “%s” は無効またはサポートされていません"
 
-#: ../shared/utils.c:579
+#: ../shared/utils.c:580
 #, c-format
 msgid "'%s' not understood"
 msgstr "%s を理解できません"
 
-#: ../shared/utils.c:600
+#: ../shared/utils.c:601
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "'%s' の前に conn 行が必要です"
 
-#: ../shared/utils.c:606 ../shared/utils.c:621
+#: ../shared/utils.c:607 ../shared/utils.c:622
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "'%s' が複数回指定されています"
 
-#: ../shared/utils.c:670
+#: ../shared/utils.c:671
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "'%s' は '%s' でサポートされていません"
@@ -511,7 +511,7 @@ msgstr "MOBIKE の有効化"
 
 #: ../properties/nm-libreswan-dialog.ui.h:72
 msgid "Dead Peer Detection (DPD)"
-msgstr "死活ピア検出 (DPD)"
+msgstr "デッドピア検出 (DPD)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:73
 msgid "Delay"
@@ -622,18 +622,30 @@ msgid "Don't require remote certificate name"
 msgstr "リモート証明書名を要求しない"
 
 #: ../properties/nm-libreswan-dialog.ui.h:91
+msgid "Send certificate(leftsendcert)"
+msgstr "証明書の送信 (leftsendcert)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:92
+msgid ""
+"Configure how Libreswan will send X.509 certificates to the remote host. "
+"Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'."
+msgstr ""
+"リモートホストに X.509 証明書を送信する方法を設定します。\n"
+"選択可能な値: 'yes', 'always', 'no', 'never', 'sendifasked'。"
+
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "Other"
 msgstr "その他"
 
-#: ../properties/nm-libreswan-dialog.ui.h:92
+#: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "Advanced Properties"
 msgstr "詳細プロパティ"
 
-#: ../properties/nm-libreswan-dialog.ui.h:93
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "_Apply"
 msgstr "適用(_A)"
 
