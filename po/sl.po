@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2025-09-10 04:01+0000\n"
-"PO-Revision-Date: 2025-09-10 17:55+0200\n"
+"POT-Creation-Date: 2025-09-17 18:46+0000\n"
+"PO-Revision-Date: 2025-09-17 21:01+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -126,37 +126,37 @@ msgid ""
 msgstr ""
 "Ta storitev zagotavlja integrirano zmožnost IPsec VPN za NetworkManager."
 
-#: ../shared/utils.c:364
+#: ../shared/utils.c:365
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Neveljaven znak v »%s«"
 
-#: ../shared/utils.c:401 ../shared/utils.c:518
+#: ../shared/utils.c:402 ../shared/utils.c:519
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "Ključ »%s« mora biti prisoten"
 
-#: ../shared/utils.c:431 ../shared/utils.c:527
+#: ../shared/utils.c:432 ../shared/utils.c:528
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "lastnost »%s« ni veljavna ali pa ni podprta"
 
-#: ../shared/utils.c:580
+#: ../shared/utils.c:581
 #, c-format
 msgid "'%s' not understood"
 msgstr "»%s« ni možno razumeti"
 
-#: ../shared/utils.c:601
+#: ../shared/utils.c:607
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Pričakovana je vrstica conn pred »%s«"
 
-#: ../shared/utils.c:607 ../shared/utils.c:622
+#: ../shared/utils.c:613 ../shared/utils.c:628
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "»%s« je večkrat navedeno"
 
-#: ../shared/utils.c:671
+#: ../shared/utils.c:677
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "»%s« ni podprt za »%s«"
@@ -644,17 +644,27 @@ msgstr ""
 "Veljavne vrednosti so: 'yes', 'always', 'no', 'never', 'sendifasked'."
 
 #: ../properties/nm-libreswan-dialog.ui.h:93
+msgid "Send certificate(rightca)"
+msgstr "Pošlji potrdilo (rightca)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:94
+msgid ""
+"Certificate Authority (CA) that signed the certificate of the remote host."
+msgstr ""
+"Overitelj potrdil (CA), ki je podpisal potrdilo oddaljenega gostitelja."
+
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "Other"
 msgstr "Drugo"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "Advanced Properties"
 msgstr "Napredne lastnosti"
 
-#: ../properties/nm-libreswan-dialog.ui.h:95
+#: ../properties/nm-libreswan-dialog.ui.h:97
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
-#: ../properties/nm-libreswan-dialog.ui.h:96
+#: ../properties/nm-libreswan-dialog.ui.h:98
 msgid "_Apply"
 msgstr "_Uveljavi"
