@@ -192,6 +192,10 @@ This option configures when Libreswan will send X.509 certificates to the
 remote host. Example values are: 'yes', 'always', 'no', 'never', 'sendifasked'.
 NetworkManager-libreswan does not validate this option but merely pass to
 Libreswan daemon. Please check Libreswan document for detail.
+.TP
+.I "rightca"
+This option specifies the authorized Certificate Authority (CA) that signed
+the certificate of the remote host.
 
 .SH VPN.SECRETS
 .PP
