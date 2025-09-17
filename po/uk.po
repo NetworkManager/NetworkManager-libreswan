@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan"
 "/issues\n"
-"POT-Creation-Date: 2025-09-10 15:56+0000\n"
-"PO-Revision-Date: 2025-09-10 22:49+0300\n"
+"POT-Creation-Date: 2025-09-17 06:55+0000\n"
+"PO-Revision-Date: 2025-09-17 21:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -125,37 +125,37 @@ msgid ""
 msgstr ""
 "Ця служба надає NetworkManager доступ до інтегрованих можливостей VPN IPsec."
 
-#: ../shared/utils.c:364
+#: ../shared/utils.c:365
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Некоректний символ у «%s»"
 
-#: ../shared/utils.c:401 ../shared/utils.c:518
+#: ../shared/utils.c:402 ../shared/utils.c:519
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "Мало бути вказано ключ «%s»"
 
-#: ../shared/utils.c:431 ../shared/utils.c:527
+#: ../shared/utils.c:432 ../shared/utils.c:528
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "властивість «%s» є некоректною або її підтримки не передбачено"
 
-#: ../shared/utils.c:580
+#: ../shared/utils.c:581
 #, c-format
 msgid "'%s' not understood"
 msgstr "«%s» невідоме програмі"
 
-#: ../shared/utils.c:601
+#: ../shared/utils.c:607
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Перед «%s» мав бути рядок conn"
 
-#: ../shared/utils.c:607 ../shared/utils.c:622
+#: ../shared/utils.c:613 ../shared/utils.c:628
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "«%s» вказано декілька разів"
 
-#: ../shared/utils.c:671
+#: ../shared/utils.c:677
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "підтримки «%s» для «%s» не передбачено"
@@ -645,29 +645,39 @@ msgstr "Не вимагати назви сертифіката віддален
 
 #: ../properties/nm-libreswan-dialog.ui.h:91
 msgid "Send certificate(leftsendcert)"
-msgstr "Надіслати сертифікат (leftsendcert)"
+msgstr "Надіслати certificate(leftsendcert)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:92
 msgid ""
 "Configure how Libreswan will send X.509 certificates to the remote host. "
 "Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'."
 msgstr ""
-"Налаштуйте, як Libreswan надсилатиме сертифікати X.509 на віддалений вузол."
-" Коректні значення: «yes», «always», «no», «never», «sendifasked»."
+"Налаштуйте, як Libreswan надсилатиме сертифікати X.509 на віддалений вузол. "
+"Коректні значення: «yes», «always», «no», «never», «sendifasked»."
 
 #: ../properties/nm-libreswan-dialog.ui.h:93
+#| msgid "Send certificate(leftsendcert)"
+msgid "Send certificate(rightca)"
+msgstr "Надіслати certificate(rightca)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:94
+msgid ""
+"Certificate Authority (CA) that signed the certificate of the remote host."
+msgstr "Служба сертифікації (CA), яка підписала сертифікат віддаленого вузла."
+
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "Other"
 msgstr "Інше"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "Advanced Properties"
 msgstr "Додаткові властивості"
 
-#: ../properties/nm-libreswan-dialog.ui.h:95
+#: ../properties/nm-libreswan-dialog.ui.h:97
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: ../properties/nm-libreswan-dialog.ui.h:96
+#: ../properties/nm-libreswan-dialog.ui.h:98
 msgid "_Apply"
 msgstr "_Застосувати"
 
