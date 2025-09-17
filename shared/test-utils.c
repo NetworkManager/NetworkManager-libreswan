@@ -169,6 +169,7 @@ test_config_write (void)
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
 	nm_setting_vpn_add_data_item (s_vpn, "leftsendcert", "always");
+	nm_setting_vpn_add_data_item (s_vpn, "rightca", "%same");
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
@@ -177,7 +178,8 @@ test_config_write (void)
                          " right=11.12.13.14\n"
                          " rightrsasigkey=\"world\"\n"
                          " leftrsasigkey=\"hello\"\n"
-                         " leftsendcert=always\n");
+                         " leftsendcert=always\n"
+                         " rightca=\"%same\"\n");
 	g_free (str);
 	g_object_unref (s_vpn);
 
