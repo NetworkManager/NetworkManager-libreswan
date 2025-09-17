@@ -227,6 +227,8 @@ add_phase2alg (NMSettingVpn *s_vpn, const char *key, const char *val)
 
 	if (val == NULL || val[0] == '\0')
 		val = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP);
+	else
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP, val);
 	if (val == NULL || val[0] == '\0') {
 		leftid = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTID);
 		if (!nm_libreswan_utils_setting_is_ikev2 (s_vpn) && leftid && leftid[0] != '\0')
@@ -324,11 +326,11 @@ static const struct LibreswanParam params[] = {
 	/* Special. */
 	{ NM_LIBRESWAN_KEY_REKEY,                      add_rekey,             PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_ESP,                        add                    },
-	{ "phase2alg",                                 add_phase2alg,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ NM_LIBRESWAN_KEY_VENDOR,                     add                    },
 	{ "cisco-unity",                               add_cisco_unity,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
 
 	/* Synthetic, not stored. */
+	{ "phase2alg",                                 add_phase2alg,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "keyingtries",                               add_keyingtries,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "aggrmode",                                  add_aggrmode,          PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "leftxauthclient",                           add_ikev1_yes,         PARAM_PRINTABLE | PARAM_SYNTHETIC },

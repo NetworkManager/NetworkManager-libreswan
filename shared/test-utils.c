@@ -184,6 +184,32 @@ test_config_write (void)
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
+	nm_setting_vpn_add_data_item (s_vpn, "esp", "aes_gcm256");
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	g_assert_no_error (error);
+	g_assert_cmpstr (str, ==,
+	                 "conn con_name\n"
+	                 " ikev2=never\n"
+	                 " right=11.12.13.14\n"
+	                 " left=%defaultroute\n"
+	                 " leftmodecfgclient=yes\n"
+	                 " authby=secret\n"
+	                 " ikelifetime=24h\n"
+	                 " salifetime=24h\n"
+	                 " rightsubnet=0.0.0.0/0\n"
+	                 " rekey=yes\n"
+	                 " phase2alg=aes_gcm256\n"
+	                 " keyingtries=1\n"
+	                 " leftxauthclient=yes\n"
+	                 " rightxauthserver=yes\n"
+	                 " remote-peer-type=cisco\n"
+	                 " rightmodecfgserver=yes\n"
+	                 " modecfgpull=yes\n");
+	g_free (str);
+	g_object_unref (s_vpn);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
 	g_assert_null (str);
@@ -510,6 +536,28 @@ test_config_read (void)
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightsubnet"),		==, "0.0.0.0/0");
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "salifetime"),		==, "24h");
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "vendor"),		==, "Cisco");
+	g_object_unref (s_vpn);
+	g_clear_pointer (&con_name, g_free);
+
+	/* Synchronize esp and phase2alg. */
+	s_vpn = nm_libreswan_parse_ipsec_conf (
+		"conn conn\n"
+		" right=11.12.13.14\n"
+		" phase2alg=aes128-sha2_512;dh19\n",
+		&con_name,
+		&error);
+	g_assert_no_error (error);
+	g_assert_cmpint (nm_setting_vpn_get_num_data_items (s_vpn), ==, 10);
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "authby"),		==, "secret");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "ikelifetime"),		==, "24h");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "ikev2"),			==, "never");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "left"),			==, "%defaultroute");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "leftmodecfgclient"),	==, "yes");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rekey"),			==, "yes");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "right"),			==, "11.12.13.14");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightsubnet"),		==, "0.0.0.0/0");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "salifetime"),		==, "24h");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "esp"),			==, "aes128-sha2_512;dh19");
 	g_object_unref (s_vpn);
 	g_clear_pointer (&con_name, g_free);
 
