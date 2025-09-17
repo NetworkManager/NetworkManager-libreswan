@@ -210,6 +210,32 @@ test_config_write (void)
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
+	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
+	nm_setting_vpn_add_data_item (s_vpn, "vendor", "Cisco");
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	g_assert_no_error (error);
+	g_assert_cmpstr (str, ==,
+	                 "conn con_name\n"
+	                 " ikev2=never\n"
+	                 " right=11.12.13.14\n"
+	                 " left=%defaultroute\n"
+	                 " leftmodecfgclient=yes\n"
+	                 " authby=secret\n"
+	                 " ikelifetime=24h\n"
+	                 " salifetime=24h\n"
+	                 " rightsubnet=0.0.0.0/0\n"
+	                 " rekey=yes\n"
+	                 " cisco-unity=yes\n"
+	                 " keyingtries=1\n"
+	                 " leftxauthclient=yes\n"
+	                 " rightxauthserver=yes\n"
+	                 " remote-peer-type=cisco\n"
+	                 " rightmodecfgserver=yes\n"
+	                 " modecfgpull=yes\n");
+	g_free (str);
+	g_object_unref (s_vpn);
+
+	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
 	g_assert_null (str);
@@ -520,7 +546,6 @@ test_config_read (void)
 	s_vpn = nm_libreswan_parse_ipsec_conf (
 		"conn conn\n"
 		" right=11.12.13.14\n"
-		" vendor=Cisco\n"
 		" cisco-unity=yes\n",
 		&con_name,
 		&error);
@@ -676,19 +701,6 @@ test_config_read (void)
 		"conn conn\n"
 		" right=11.12.13.14\n"
 		" rightmodecfgserver=no\n",
-		&con_name,
-		&error);
-	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (s_vpn);
-	g_assert_null (con_name);
-	g_clear_error (&error);
-
-	/* Make sure properties with right synthetic values not allowed when they
-	 * wouldn't be used. */
-	s_vpn = nm_libreswan_parse_ipsec_conf (
-		"conn conn\n"
-		" right=11.12.13.14\n"
-		" cisco-unity=yes\n",
 		&con_name,
 		&error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);

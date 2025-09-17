@@ -194,9 +194,14 @@ add_yes (NMSettingVpn *s_vpn, const char *key, const char *val)
 static void
 add_cisco_unity (NMSettingVpn *s_vpn, const char *key, const char *val)
 {
-	if (g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") != 0)
-		return;
-	add_yes (s_vpn, key, NULL);
+	if (val == NULL) {
+		if (g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR), "Cisco") == 0)
+			val = "yes";
+	}
+	if (g_strcmp0 (val, "yes") == 0) {
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_VENDOR, "Cisco");
+		add (s_vpn, key, val);
+	}
 }
 
 static void
@@ -286,6 +291,14 @@ add_username (NMSettingVpn *s_vpn, const char *key, const char *val)
 }
 
 
+/*
+ * Order matters! Some setters determine the value from other properties --
+ * those other properties need to come first. Look out for calls to
+ * nm_setting_vpn_get_data_item() or nm_libreswan_utils_setting_is_ikev2()
+ * (which refers to IKEV2) to determine which those are.
+ *
+ * If you must alter the order the test suite has your back.
+ */
 static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_IKEV2,                      add_ikev2,             PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_RIGHT,                      add,                   PARAM_PRINTABLE | PARAM_REQUIRED },
@@ -326,10 +339,20 @@ static const struct LibreswanParam params[] = {
 	/* Special. */
 	{ NM_LIBRESWAN_KEY_REKEY,                      add_rekey,             PARAM_PRINTABLE },
 	{ NM_LIBRESWAN_KEY_ESP,                        add                    },
-	{ NM_LIBRESWAN_KEY_VENDOR,                     add                    },
-	{ "cisco-unity",                               add_cisco_unity,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
+
+	/* Used internally or just ignored altogether. */
+	{ NM_LIBRESWAN_KEY_VENDOR,                     add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_DOMAIN,                     add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_DHGROUP,                    add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PFSGROUP,                   add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PSK_VALUE "-flags",         add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags",    add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS,           add,                   PARAM_IGNORE },
 
 	/* Synthetic, not stored. */
+	{ "cisco-unity",                               add_cisco_unity,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "phase2alg",                                 add_phase2alg,         PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "keyingtries",                               add_keyingtries,       PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "aggrmode",                                  add_aggrmode,          PARAM_PRINTABLE | PARAM_SYNTHETIC },
@@ -339,16 +362,6 @@ static const struct LibreswanParam params[] = {
 	{ "remote_peer_type",                          add_remote_peer_type,  PARAM_PRINTABLE | PARAM_SYNTHETIC | PARAM_OLD },
 	{ "rightmodecfgserver",                        add_yes,               PARAM_PRINTABLE | PARAM_SYNTHETIC },
 	{ "modecfgpull",                               add_yes,               PARAM_PRINTABLE | PARAM_SYNTHETIC },
-
-	/* Used internally or just ignored altogether. */
-	{ NM_LIBRESWAN_KEY_DOMAIN,                     add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_DHGROUP,                    add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_PFSGROUP,                   add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_PSK_VALUE "-flags",         add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags",    add,                   PARAM_IGNORE },
-	{ NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS,           add,                   PARAM_IGNORE },
 
 	{ NULL  }
 };
