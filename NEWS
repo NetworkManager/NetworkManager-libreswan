@@ -1,4 +1,16 @@
 =========================================================
+NetworkManager-libreswan-1.2.27
+Overview of changes since NetworkManager-libreswan-1.2.26
+=========================================================
+
+* Gracefully handle the situation when service plugin is installed,
+  but GUI editor plugin is not.
+* Add `nm-auto-defaults` option
+* Fix a handful of regressions in import/export.
+* Update Danish, Japanese, Slovenian, Swedish
+  and Ukrainian translations.
+
+=========================================================
 NetworkManager-libreswan-1.2.26
 Overview of changes since NetworkManager-libreswan-1.2.24
 =========================================================
@@ -7,16 +19,7 @@ Overview of changes since NetworkManager-libreswan-1.2.24
   allowed for various settings.
 * Added support for specifying multiple extra subnets to be routed locally
   or remotely ("leftsubnets", "rightsubnets").
-
-
-* Updated 
-Brazilian Portuguese,
-Danish,
-Russian,
-Slovenian and
-Ukrainian
- translations.
-
+* Updated Brazilian Portuguese, Danish, Russian, Slovenian and Ukrainian translations.
 
 =========================================================
 NetworkManager-libreswan-1.2.24
