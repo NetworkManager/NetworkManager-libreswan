@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-libreswan main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2025-09-10 19:50+0000\n"
-"PO-Revision-Date: 2025-09-11 05:53+0900\n"
+"POT-Creation-Date: 2025-09-18 08:28+0000\n"
+"PO-Revision-Date: 2025-09-19 10:07+0900\n"
 "Last-Translator: Makoto Sakaguchi <ycco34vx@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -122,37 +122,37 @@ msgid ""
 msgstr ""
 "このサービスは NetworkManager に統合された IPsec VPN 機能を提供します。"
 
-#: ../shared/utils.c:364
+#: ../shared/utils.c:365
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "'%s' に無効な文字があります"
 
-#: ../shared/utils.c:401 ../shared/utils.c:518
+#: ../shared/utils.c:402 ../shared/utils.c:519
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "'%s' キーが必要です"
 
-#: ../shared/utils.c:431 ../shared/utils.c:527
+#: ../shared/utils.c:432 ../shared/utils.c:528
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "プロパティ “%s” は無効またはサポートされていません"
 
-#: ../shared/utils.c:580
+#: ../shared/utils.c:581
 #, c-format
 msgid "'%s' not understood"
 msgstr "%s を理解できません"
 
-#: ../shared/utils.c:601
+#: ../shared/utils.c:607
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "'%s' の前に conn 行が必要です"
 
-#: ../shared/utils.c:607 ../shared/utils.c:622
+#: ../shared/utils.c:613 ../shared/utils.c:628
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "'%s' が複数回指定されています"
 
-#: ../shared/utils.c:671
+#: ../shared/utils.c:677
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "'%s' は '%s' でサポートされていません"
@@ -634,18 +634,27 @@ msgstr ""
 "選択可能な値: 'yes', 'always', 'no', 'never', 'sendifasked'。"
 
 #: ../properties/nm-libreswan-dialog.ui.h:93
+msgid "Send certificate(rightca)"
+msgstr "証明書の送信 (rightca)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:94
+msgid ""
+"Certificate Authority (CA) that signed the certificate of the remote host."
+msgstr "リモートホストの証明書に署名した認証局 (CA)。"
+
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "Other"
 msgstr "その他"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "Advanced Properties"
 msgstr "詳細プロパティ"
 
-#: ../properties/nm-libreswan-dialog.ui.h:95
+#: ../properties/nm-libreswan-dialog.ui.h:97
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:96
+#: ../properties/nm-libreswan-dialog.ui.h:98
 msgid "_Apply"
 msgstr "適用(_A)"
 
