@@ -338,7 +338,7 @@ static const struct LibreswanParam params[] = {
 
 	/* Special. */
 	{ NM_LIBRESWAN_KEY_REKEY,                      add_rekey,             PARAM_PRINTABLE },
-	{ NM_LIBRESWAN_KEY_ESP,                        add                    },
+	{ NM_LIBRESWAN_KEY_ESP,                        add,                   PARAM_PRINTABLE },
 
 	/* Used internally or just ignored altogether. */
 	{ NM_LIBRESWAN_KEY_VENDOR,                     add,                   PARAM_IGNORE },

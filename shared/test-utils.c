@@ -199,6 +199,7 @@ test_config_write (void)
 	                 " salifetime=24h\n"
 	                 " rightsubnet=0.0.0.0/0\n"
 	                 " rekey=yes\n"
+	                 " esp=aes_gcm256\n"
 	                 " phase2alg=aes_gcm256\n"
 	                 " keyingtries=1\n"
 	                 " leftxauthclient=yes\n"
