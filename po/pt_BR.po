@@ -14,22 +14,23 @@
 # Rômulo de Oliveira <devromulodeoliveira@gmail.com>, 2024.
 # Juliano de Souza Camargo <julianosc@pm.me>, 2024.
 # Jhonata Fernandes <fjhonata14@gmail.com>, 2024.
+# Leônidas Araújo <leorusvellt@hotmail.com>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2024-11-15 20:12+0000\n"
-"PO-Revision-Date: 2024-11-12 09:39-0300\n"
-"Last-Translator: Jhonata Fernandes <fjhonata14@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
+"POT-Creation-Date: 2025-10-11 01:51+0000\n"
+"PO-Revision-Date: 2025-10-11 17:51-0300\n"
+"Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 47.0\n"
+"X-Generator: Gtranslator 49.0\n"
 "X-Project-Style: gnome\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
@@ -93,20 +94,20 @@ msgstr "VPN baseada em IPsec para clientes remotos"
 msgid "Error writing to file “%s”: %s"
 msgstr "Erro ao gravar o arquivo “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:515
+#: ../src/nm-libreswan-service.c:516
 msgid "Invalid character in password."
 msgstr "Caractere inválido na senha."
 
-#: ../src/nm-libreswan-service.c:1501
+#: ../src/nm-libreswan-service.c:1502
 msgid "A password is required."
 msgstr "A senha é necessária."
 
-#: ../src/nm-libreswan-service.c:1621
+#: ../src/nm-libreswan-service.c:1622
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Erro ao gravar a configuração: %s"
 
-#: ../src/nm-libreswan-service.c:1942
+#: ../src/nm-libreswan-service.c:1943
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
@@ -114,60 +115,60 @@ msgstr ""
 "Não é possível processar a requisição pelo fato da configuração conexão da "
 "VPN eram inválidas."
 
-#: ../src/nm-libreswan-service.c:1956
+#: ../src/nm-libreswan-service.c:1957
 msgid "Unhandled pending authentication."
 msgstr "Autenticação pendente não lidada."
 
-#: ../src/nm-libreswan-service.c:2100
+#: ../src/nm-libreswan-service.c:2101
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Não sair quando a conexão VPN terminar"
 
-#: ../src/nm-libreswan-service.c:2101
+#: ../src/nm-libreswan-service.c:2102
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Ativar registro de depuração detalhado (pode expor senhas)"
 
-#: ../src/nm-libreswan-service.c:2102
+#: ../src/nm-libreswan-service.c:2103
 msgid "D-Bus name to use for this instance"
 msgstr "Nome D-Bus a ser usado para esta instância"
 
-#: ../src/nm-libreswan-service.c:2125
+#: ../src/nm-libreswan-service.c:2126
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Este serviço oferece capacidade integrada de VPN IPsec ao Gerenciador de "
 "redes."
 
-#: ../shared/utils.c:359
+#: ../shared/utils.c:380
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Caractere inválido em '%s'"
 
-#: ../shared/utils.c:391
+#: ../shared/utils.c:417 ../shared/utils.c:534
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "Chave '%s' precisa estar presente"
 
-#: ../shared/utils.c:417
+#: ../shared/utils.c:447 ../shared/utils.c:543
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "a propriedade '%s' é inválida ou não é suportada"
 
-#: ../shared/utils.c:533
+#: ../shared/utils.c:596
 #, c-format
 msgid "'%s' not understood"
 msgstr "'%s' não compreendido"
 
-#: ../shared/utils.c:554
+#: ../shared/utils.c:622
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Esperada uma linha de conexão antes de '%s'"
 
-#: ../shared/utils.c:560 ../shared/utils.c:575
+#: ../shared/utils.c:628 ../shared/utils.c:643
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "'%s' especificado várias vezes"
 
-#: ../shared/utils.c:624
+#: ../shared/utils.c:692
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "'%s' não é suportado para '%s'"
@@ -213,27 +214,27 @@ msgstr ""
 "o valor “%s” de tipo “%s” é inválido ou fora do intervalo da propriedade "
 "“%s” de tipo “%s”"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:50
 #, c-format
 msgid "unable to get editor plugin name: %s"
 msgstr "não foi possível obter o nome do editor do plug-in: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:60
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "faltando arquivo de plug-in “%s”"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:128
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "não foi possível carregar o editor do plug-in: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:137
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "não foi possível carregar %s de fábrica do plug-in: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:163
 msgid "unknown error creating editor instance"
 msgstr "erro desconhecido ao criar instância de editor"
 
@@ -352,8 +353,8 @@ msgstr "Algoritmos da fase 1"
 #: ../properties/nm-libreswan-dialog.ui.h:29
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
-"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
-"modpgroup, …”.\n"
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
+"hash;modpgroup, …”.\n"
 "                        config: ike <proposals>"
 msgstr ""
 "Algoritmo de criptografia/autenticação IKE a ser usado para a conexão (fase "
@@ -654,18 +655,40 @@ msgid "Don't require remote certificate name"
 msgstr "Nome de certificado remoto não é requerido"
 
 #: ../properties/nm-libreswan-dialog.ui.h:91
+msgid "Send certificate(leftsendcert)"
+msgstr "Enviar certificado (leftsendcert)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:92
+msgid ""
+"Configure how Libreswan will send X.509 certificates to the remote host. "
+"Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'."
+msgstr ""
+"Configure como o Libreswan enviará certificados X.509 para o host remoto. Os "
+"valores válidos são: 'yes', 'always', 'no', 'never', 'sendifasked'."
+
+#: ../properties/nm-libreswan-dialog.ui.h:93
+msgid "Send certificate(rightca)"
+msgstr "Enviar certificado (rightca)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:94
+msgid ""
+"Certificate Authority (CA) that signed the certificate of the remote host."
+msgstr ""
+"Autoridade de Certificação (CA) que assinou o certificado do host remoto."
+
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "Other"
 msgstr "Outro"
 
-#: ../properties/nm-libreswan-dialog.ui.h:92
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "Advanced Properties"
 msgstr "Propriedades avançadas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:93
+#: ../properties/nm-libreswan-dialog.ui.h:97
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:98
 msgid "_Apply"
 msgstr "_Aplicar"
 
