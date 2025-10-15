@@ -30,11 +30,14 @@ test_config_write (void)
 {
 	GError *error = NULL;
 	NMSettingVpn *s_vpn;
+	NMSettingVpn *s_vpn_sanitized;
 	char *str;
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "con_name", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
 	                 "conn con_name\n"
@@ -55,11 +58,14 @@ test_config_write (void)
 	                 " modecfgpull=yes\n");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item (s_vpn, "dhgroup", "ignored");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "con_name", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
 	                 "conn con_name\n"
@@ -81,13 +87,16 @@ test_config_write (void)
 
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "ikev2", "insist");
 	nm_setting_vpn_add_data_item (s_vpn, "leftcert", "LibreswanClient");
 	nm_setting_vpn_add_data_item (s_vpn, "leftid", "%fromcert");
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn,
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized,
 	                                   "f0008435-07af-4836-a53d-b43e8730e68f",
 			                   NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
@@ -108,13 +117,16 @@ test_config_write (void)
 	                 " modecfgpull=yes\n");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "ikev2", "insist");
 	nm_setting_vpn_add_data_item (s_vpn, "leftrsasigkey", "hello");
 	nm_setting_vpn_add_data_item (s_vpn, "rightrsasigkey", "world");
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
 	                 "conn conn\n"
@@ -131,10 +143,13 @@ test_config_write (void)
 	                 " modecfgpull=yes\n");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
-	str = nm_libreswan_get_ipsec_conf (3, s_vpn,
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (3, s_vpn_sanitized,
 	                                   "my_con",
 			                   "/foo/bar/ifupdown hello 123 456",
 	                                   TRUE, FALSE, &error);
@@ -161,6 +176,7 @@ test_config_write (void)
 	                 " nm-configured=yes");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "ikev2", "insist");
@@ -170,7 +186,9 @@ test_config_write (void)
 	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
 	nm_setting_vpn_add_data_item (s_vpn, "leftsendcert", "always");
 	nm_setting_vpn_add_data_item (s_vpn, "rightca", "%same");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
                          "conn conn\n"
@@ -182,11 +200,14 @@ test_config_write (void)
                          " rightca=\"%same\"\n");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item (s_vpn, "esp", "aes_gcm256");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "con_name", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
 	                 "conn con_name\n"
@@ -209,11 +230,14 @@ test_config_write (void)
 	                 " modecfgpull=yes\n");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item (s_vpn, "vendor", "Cisco");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "con_name", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
+	g_assert_no_error (error);
+	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "con_name", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
 	                 "conn con_name\n"
@@ -235,53 +259,54 @@ test_config_write (void)
 	                 " modecfgpull=yes\n");
 	g_free (str);
 	g_object_unref (s_vpn);
+	g_object_unref (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
+	g_assert_null (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item (s_vpn, "ikev2", "hello world");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (str);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
+	g_assert_null (s_vpn_sanitized);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12\n13.14");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (str);
+	g_assert_null (s_vpn_sanitized);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (str);
+	g_assert_null (s_vpn_sanitized);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
 	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (str);
+	g_assert_null (s_vpn_sanitized);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
-	str = nm_libreswan_get_ipsec_conf (4, s_vpn, "conn", NULL, FALSE, TRUE, &error);
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
-	g_assert_null (str);
+	g_assert_null (s_vpn_sanitized);
 	g_clear_error (&error);
 	g_object_unref (s_vpn);
 }
