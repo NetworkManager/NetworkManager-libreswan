@@ -13,19 +13,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-libreswan/"
-"issues\n"
-"POT-Creation-Date: 2024-11-24 10:48+0000\n"
-"PO-Revision-Date: 2024-12-26 19:55+0300\n"
-"Last-Translator: Дронова Юлия <juliette.tux@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
+"libreswan/issues\n"
+"POT-Creation-Date: 2025-10-13 10:58+0000\n"
+"PO-Revision-Date: 2025-10-15 13:12+0300\n"
+"Last-Translator: Гашигуллин Данил <gashigullin44@gmail.com>\n"
 "Language-Team: RU\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 24.08.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:1
 msgid "IPsec VPN client"
@@ -41,12 +41,12 @@ msgid ""
 "Support for configuring IKEv1 based IPsec virtual private network "
 "connections."
 msgstr ""
-"Возможность создания конфигураций виртуальных частных подключений IPsec на баз"
-"е IKEv1"
+"Возможность создания конфигураций виртуальных частных подключений IPsec на "
+"базе IKEv1."
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:4
 msgid "Compatible with Libreswan and Cisco IPsec VPN servers."
-msgstr "Совместимо с серверами VPN Libreswan и Cisco IPsec"
+msgstr "Совместимо с серверами VPN Libreswan и Cisco IPsec."
 
 #: ../appdata/network-manager-libreswan.metainfo.xml.in.h:5
 msgid "The NetworkManager Developers"
@@ -71,7 +71,7 @@ msgstr "Пароль _группы:"
 #: ../auth-dialog/main.c:486
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
-msgstr "Для доступа к частной виртуальной сети “%s” требуется аутентификация"
+msgstr "Для доступа к частной виртуальной сети “%s” требуется аутентификация."
 
 #: ../properties/nm-libreswan-editor-plugin.c:39
 msgid "IPsec based VPN"
@@ -86,83 +86,83 @@ msgstr "VPN на базе IPsec для удалённых клиентов"
 msgid "Error writing to file “%s”: %s"
 msgstr "Ошибка записи в файл “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:515
+#: ../src/nm-libreswan-service.c:516
 msgid "Invalid character in password."
 msgstr "Недействительный символ в пароле."
 
-#: ../src/nm-libreswan-service.c:1501
+#: ../src/nm-libreswan-service.c:1502
 msgid "A password is required."
 msgstr "Требуется пароль."
 
-#: ../src/nm-libreswan-service.c:1621
+#: ../src/nm-libreswan-service.c:1622
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Ошибка записи конфигурации: %s"
 
-#: ../src/nm-libreswan-service.c:1942
+#: ../src/nm-libreswan-service.c:1943
 msgid ""
 "Could not process the request because the VPN connection settings were "
 "invalid."
 msgstr ""
-"Не удалось обработать запрос, параметры подключения VPN оказались недействител"
-"ьными"
+"Не удалось обработать запрос, параметры подключения VPN оказались "
+"недействительными."
 
-#: ../src/nm-libreswan-service.c:1956
+#: ../src/nm-libreswan-service.c:1957
 msgid "Unhandled pending authentication."
-msgstr "Необработанная отложенная аутентификация"
+msgstr "Необработанная отложенная аутентификация."
 
-#: ../src/nm-libreswan-service.c:2100
+#: ../src/nm-libreswan-service.c:2101
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Не закрывать программу после прерывания подключения VPN"
 
-#: ../src/nm-libreswan-service.c:2101
+#: ../src/nm-libreswan-service.c:2102
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
-"Включить подробное журналирование отладки (пароли могут оказаться в открытом д"
-"оступе)"
+"Включить подробное журналирование отладки (пароли могут оказаться в открытом "
+"доступе)"
 
-#: ../src/nm-libreswan-service.c:2102
+#: ../src/nm-libreswan-service.c:2103
 msgid "D-Bus name to use for this instance"
 msgstr "Имя D-Bus, используемое для этого экземпляра"
 
-#: ../src/nm-libreswan-service.c:2125
+#: ../src/nm-libreswan-service.c:2126
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
-"Данная служба предоставляет встроенные возможности VPN IPsec программе Network"
-"Manager."
+"Данная служба предоставляет встроенные возможности VPN IPsec программе "
+"NetworkManager."
 
-#: ../shared/utils.c:359
+#: ../shared/utils.c:380
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Недействительный символ в '%s'"
 
-#: ../shared/utils.c:391
+#: ../shared/utils.c:417 ../shared/utils.c:534
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "Должен присутствовать ключ '%s'"
 
-#: ../shared/utils.c:417
+#: ../shared/utils.c:447 ../shared/utils.c:543
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "недействительный или неподдерживаемый параметр '%s'"
 
-#: ../shared/utils.c:533
+#: ../shared/utils.c:596
 #, c-format
 msgid "'%s' not understood"
 msgstr "'%s' не было понято"
 
-#: ../shared/utils.c:554
+#: ../shared/utils.c:622
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Перед '%s' ожидалась строка подключения"
 
-#: ../shared/utils.c:560 ../shared/utils.c:575
+#: ../shared/utils.c:628 ../shared/utils.c:643
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "'%s' указано несколько раз"
 
-#: ../shared/utils.c:624
+#: ../shared/utils.c:692
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "'%s' не имеет поддержки в '%s'"
@@ -204,30 +204,30 @@ msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
 "type '%s'"
 msgstr ""
-"значение \"%s\" с типом '%s' не является действительным или выходит за границы"
-" диапазона для параметра '%s' с типом '%s'"
+"значение \"%s\" с типом '%s' не является действительным или выходит за "
+"границы диапазона для параметра '%s' с типом '%s'"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:69
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:50
 #, c-format
 msgid "unable to get editor plugin name: %s"
 msgstr "не удалось получить имя модуля редактора: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:103
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:60
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "отсутствует файл модуля \"%s\""
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:109
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:128
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "невозможно загрузить модуль редактора: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:118
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:137
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "невозможно загрузить заводские настройки %s из модуля: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:144
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:163
 msgid "unknown error creating editor instance"
 msgstr "неизвестная ошибка при создании экземпляра редактора"
 
@@ -346,13 +346,12 @@ msgstr "Алгоритмы фазы 1"
 #: ../properties/nm-libreswan-dialog.ui.h:29
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
-"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-hash;"
-"modpgroup, …”.\n"
+"1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
+"hash;modpgroup, …”.\n"
 "                        config: ike <proposals>"
 msgstr ""
-"Алгоритм шифрования/аутентификации IKE, используемый в подключении (фаза 1, т."
-"е. ISAKMP SA). "
-"Формат: “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
+"Алгоритм шифрования/аутентификации IKE, используемый в подключении (фаза 1, "
+"т.е. ISAKMP SA). Формат: “cipher-hash;modpgroup, cipher-hash;modpgroup, …”.\n"
 "                        параметр в файле конфигурации: ike <proposals>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:31
@@ -381,10 +380,9 @@ msgid ""
 "“s”(econds), “m”(inutes), “h”(ours) or “d”(ays).\n"
 "                        config: ikelifetime <lifetime>"
 msgstr ""
-"Время существования защищённого ключом канала подключения до момента повторног"
-"о согласования. "
-"Значение выражается числом, за которым следуют (по желанию) единицы: "
-"“s” (секунды), “m” (минуты), “h”  (часы) или “d” (дни).\n"
+"Время существования защищённого ключом канала подключения до момента "
+"повторного согласования. Значение выражается числом, за которым следуют (по "
+"желанию) единицы: “s” (секунды), “m” (минуты), “h”  (часы) или “d” (дни).\n"
 "                        параметр в файле конфигурации: ikelifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:37
@@ -400,11 +398,10 @@ msgid ""
 "                        config: salifetime <lifetime>"
 msgstr ""
 "Время существования конкретного экземпляра подключения (набор ключей "
-"шифрования/аутентификации для пакетов пользователей) от момента успешного согл"
-"асования "
-"до окончания времени действия. Значение выражается числом, за которым следуют "
-"(по желанию) единицы: "
-"“s” (секунды), “m” (минуты), “h”  (часы) или “d” (дни).\n"
+"шифрования/аутентификации для пакетов пользователей) от момента успешного "
+"согласования до окончания времени действия. Значение выражается числом, за "
+"которым следуют (по желанию) единицы: “s” (секунды), “m” (минуты), “h”  "
+"(часы) или “d” (дни).\n"
 "                        параметр в файле конфигурации: salifetime <lifetime>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:40
@@ -416,8 +413,8 @@ msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "                        config: rekey <no/yes>"
 msgstr ""
-"Выполнять ли повторное согласование ключа подключения, если время его жизни по"
-"дходит к концу.\n"
+"Выполнять ли повторное согласование ключа подключения, если время его жизни "
+"подходит к концу.\n"
 "                        параметр в файле конфигурации: rekey <no/yes>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:43
@@ -460,21 +457,21 @@ msgid ""
 "config: authby <value>\n"
 "                        "
 msgstr ""
-"Процесс аутентификации между двумя шлюзами безопасности. Принимается список сл"
-"едующих значений, через запятую:\n"
+"Процесс аутентификации между двумя шлюзами безопасности. Принимается список "
+"следующих значений, через запятую:\n"
 "- 'rsasig' для RSA с SHA2 или SHA1\n"
 "- 'ecdsa' для цифровых подписей ECDSA с использованием SHA-2\n"
-"- 'rsa-sha2' для аутентификации на базе цифровых подписей RSASSA-PSS с использ"
-"ованием SHA2-256\n"
-"- 'rsa-sha2_384' для аутентификации на базе цифровых подписей RSASSA-PSS с исп"
-"ользованием SHA2-384\n"
-"- 'rsa-sha2_512' для аутентификации на базе цифровых подписей RSASSA-PSS с исп"
-"ользованием SHA2-512\n"
-"- 'rsa-sha1' для аутентификации на базе цифровых подписей RSA-PKCSv1.5 с испол"
-"ьзованием SHA1\n"
+"- 'rsa-sha2' для аутентификации на базе цифровых подписей RSASSA-PSS с "
+"использованием SHA2-256\n"
+"- 'rsa-sha2_384' для аутентификации на базе цифровых подписей RSASSA-PSS с "
+"использованием SHA2-384\n"
+"- 'rsa-sha2_512' для аутентификации на базе цифровых подписей RSASSA-PSS с "
+"использованием SHA2-512\n"
+"- 'rsa-sha1' для аутентификации на базе цифровых подписей RSA-PKCSv1.5 с "
+"использованием SHA1\n"
 "- 'secret' для аутентификации на базе разделяемых секретов (PSK)\n"
-"- 'never' если согласование никогда не должно предприниматься или приниматься "
-"(удобно для подключений shunt-only)\n"
+"- 'never' если согласование никогда не должно предприниматься или "
+"приниматься (удобно для подключений shunt-only)\n"
 "- 'null' при нулевой аутентификации.\n"
 "Если не указано, то значение по умолчанию: 'rsasig,ecdsa'.\n"
 "параметр в файле конфигурации: authby <value>\n"
@@ -493,7 +490,8 @@ msgid ""
 "Private subnet behind the local participant, expressed as network/netmask.\n"
 "                        config: leftsubnet <net>"
 msgstr ""
-"Частная подсеть локального участника, выраженная в форме сеть/сетевая маска.\n"
+"Частная подсеть локального участника, выраженная в форме сеть/сетевая "
+"маска.\n"
 "                        параметр в файле конфигурации: leftsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:64
@@ -505,7 +503,8 @@ msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "                        config: rightsubnet <net>"
 msgstr ""
-"Частная подсеть удалённого участника, выраженная в форме сеть/сетевая маска.\n"
+"Частная подсеть удалённого участника, выраженная в форме сеть/сетевая "
+"маска.\n"
 "                        параметр в файле конфигурации: rightsubnet <net>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:67
@@ -524,9 +523,8 @@ msgid ""
 "down traffic selectors. This option is ignored for IKEv1.\n"
 "                        config: narrowing <yes/no>"
 msgstr ""
-"Согласование IKEv2 может допускать сужение селекторов трафика при установлении"
-" "
-"подключения IPsec. Для IKEv1 этот параметр игнорируется.\n"
+"Согласование IKEv2 может допускать сужение селекторов трафика при "
+"установлении подключения IPsec. Для IKEv1 этот параметр игнорируется.\n"
 "                        параметр в файле конфигурации: narrowing <yes/no>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:71
@@ -550,11 +548,10 @@ msgid ""
 "                        config: dpddelay <delay>"
 msgstr ""
 "Задержка между обнаружениями нерабочих пиров (IKEv1 RFC 3706) или  "
-"проверками активности подключений IKEv2. Значение выражается числом, "
-"за которым следуют (по желанию) единицы времени: "
-"“s” (секунды), “m” (минуты), “h” (часы) или “d” (дни); если единицы не указаны"
-", по "
-"умолчанию подразумеваются секунды.\n"
+"проверками активности подключений IKEv2. Значение выражается числом, за "
+"которым следуют (по желанию) единицы времени: “s” (секунды), “m” (минуты), "
+"“h” (часы) или “d” (дни); если единицы не указаны, по умолчанию "
+"подразумеваются секунды.\n"
 "                        параметр в файле конфигурации: dpddelay <delay>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:76
@@ -573,17 +570,13 @@ msgid ""
 "                        config: dpdtimeout <timeout>"
 msgstr ""
 "Промежуток времени бездействия, в течение которого могут не приходить "
-"сведения от пира. После истечения этого промежутка (нет ответов и нет трафика)"
-" "
-"пир будет объявлен нерабочим, а сопоставление безопасности будет удалено. Для "
-"активации параметра "
-"укажите значение, превышающее значение dpddelay. При настроенном dpdtimeout та"
-"кже необходимо настроить "
-"dpddelay. Значение выражается числом, за которым следуют (по желанию) единицы "
-"времени: "
-"“s” (секунды), “m” (минуты), “h” (часы) или “d” (дни); если единицы не указаны"
-", по умолчанию "
-"подразумеваются секунды.\n"
+"сведения от пира. После истечения этого промежутка (нет ответов и нет "
+"трафика) пир будет объявлен нерабочим, а сопоставление безопасности будет "
+"удалено. Для активации параметра укажите значение, превышающее значение "
+"dpddelay. При настроенном dpdtimeout также необходимо настроить dpddelay. "
+"Значение выражается числом, за которым следуют (по желанию) единицы времени: "
+"“s” (секунды), “m” (минуты), “h” (часы) или “d” (дни); если единицы не "
+"указаны, по умолчанию подразумеваются секунды.\n"
 "                        параметр в файле конфигурации: dpdtimeout <timeout>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:79
@@ -600,10 +593,9 @@ msgid ""
 "                        config: dpdaction <action>"
 msgstr ""
 "Действия, предпринимаемые относительно пира с DPD, объявленного нерабочим. "
-"\"hold\" («удерживать», по умолчанию) — eroute помещается в статус %hold, а \""
-"clear\" («удалить») означает, что и eroute, "
-"и сопоставления безопасности будут удалены. \"restart\" означает, что для ВСЕХ"
-" сопоставлений безопасности "
+"\"hold\" («удерживать», по умолчанию) — eroute помещается в статус %hold, а "
+"\"clear\" («удалить») означает, что и eroute, и сопоставления безопасности "
+"будут удалены. \"restart\" означает, что для ВСЕХ сопоставлений безопасности "
 "нерабочего пира будет выполнено повторное согласование.\n"
 "                        параметр в файле конфигурации: dpdaction <action>"
 
@@ -626,21 +618,16 @@ msgid ""
 "the number 1, and thus will use the interface named 'ipsec1.'\n"
 "                        config: ipsec-interface yes|no|<num>"
 msgstr ""
-"Если параметр настроен, будет создан или будет использоваться уже существующий"
-" "
-"виртуальный интерфейс ipsecXXX для «VPN на базе маршрутизации» (в отличие от «"
-"VPN на базе "
-"политик»). Действительные "
-"значения: «да», «нет» или число. Если указано число, то оно будет частью имени"
-" создаваемого и/или "
-"существующего интерфейса IPsec. Пример: значение «ipsec-interface=5» создаст и"
-"/или будет "
-"использовать интерфейс «ipsec5». Значение 0 использоваться "
-"не может и интерпретируется как значение «нет». Значение «да» интерпретируется"
-" как число 1, и "
-"в таком случае будет использоваться интерфейс «ipsec1»\n"
-"                        параметр в файле конфигурации: ipsec-interface yes|no|"
-"<num>"
+"Если параметр настроен, будет создан или будет использоваться уже "
+"существующий виртуальный интерфейс ipsecXXX для «VPN на базе маршрутизации» "
+"(в отличие от «VPN на базе политик»). Действительные значения: «да», «нет» "
+"или число. Если указано число, то оно будет частью имени создаваемого и/или "
+"существующего интерфейса IPsec. Пример: значение «ipsec-interface=5» создаст "
+"и/или будет использовать интерфейс «ipsec5». Значение 0 использоваться не "
+"может и интерпретируется как значение «нет». Значение «да» интерпретируется "
+"как число 1, и в таком случае будет использоваться интерфейс «ipsec1»\n"
+"                        параметр в файле конфигурации: ipsec-interface yes|"
+"no|<num>"
 
 #: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "Disable Mode Config client"
@@ -655,25 +642,47 @@ msgid ""
 "If set, specify the name of the certificate from the NSS database to "
 "authenticate the remote"
 msgstr ""
-"Если параметр настроен, укажите имя сертификата из базы данных NSS "
-"для удалённой аутентификации"
+"Если параметр настроен, укажите имя сертификата из базы данных NSS для "
+"удалённой аутентификации"
 
 #: ../properties/nm-libreswan-dialog.ui.h:90
 msgid "Don't require remote certificate name"
 msgstr "Не требовать имя удалённого сертификата"
 
 #: ../properties/nm-libreswan-dialog.ui.h:91
+msgid "Send certificate(leftsendcert)"
+msgstr "Отправить сертификат(leftsendcert)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:92
+msgid ""
+"Configure how Libreswan will send X.509 certificates to the remote host. "
+"Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'."
+msgstr ""
+"Настройте, как Libreswan будет отправлять сертификаты X.509 на удаленный "
+"хост. Допустимые значения: 'yes' (да), 'always' (всегда), 'no' (нет), "
+"'never' (никогда), 'sendifasked' (отправлять по запросу)."
+
+#: ../properties/nm-libreswan-dialog.ui.h:93
+msgid "Send certificate(rightca)"
+msgstr "Отправить сертификат(rightca)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:94
+msgid ""
+"Certificate Authority (CA) that signed the certificate of the remote host."
+msgstr "Центр сертификации (CA), подписавший сертификат удалённого хоста."
+
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid "Other"
 msgstr "Другое"
 
-#: ../properties/nm-libreswan-dialog.ui.h:92
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "Advanced Properties"
 msgstr "Дополнительные параметры"
 
-#: ../properties/nm-libreswan-dialog.ui.h:93
+#: ../properties/nm-libreswan-dialog.ui.h:97
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:98
 msgid "_Apply"
 msgstr "_Применить"
