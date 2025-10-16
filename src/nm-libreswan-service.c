@@ -522,8 +522,7 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 		/* nm_libreswan_get_ipsec_conf() in _connect_common should've checked these. */
 		g_return_val_if_fail (strchr (leftid, '"') == NULL, FALSE);
 		g_return_val_if_fail (strchr (leftid, '\n') == NULL, FALSE);
-
-		secrets = g_strdup_printf ("@%s: PSK \"%s\"", leftid, psk);
+		secrets = g_strdup_printf ("%s: PSK \"%s\"", leftid, psk);
 	} else {
 		right = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHT);
 
@@ -1757,7 +1756,7 @@ _connect_common (NMVpnServicePlugin   *plugin,
 {
 	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (plugin);
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	const char *con_name = nm_connection_get_uuid (connection);
 	gs_free char *ipsec_banner = NULL;
 	gs_free char *ifupdown_script = NULL;
@@ -1795,7 +1794,8 @@ _connect_common (NMVpnServicePlugin   *plugin,
 			return FALSE;
 	}
 
-	s_vpn = nm_connection_get_setting_vpn (connection);
+	s_vpn = sanitize_setting_vpn(nm_connection_get_setting_vpn (connection),
+				     error);
 	g_assert (s_vpn);
 
 	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);

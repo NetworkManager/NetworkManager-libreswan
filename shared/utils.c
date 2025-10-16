@@ -384,7 +384,7 @@ check_val (const char *val, gboolean allow_spaces, GError **error)
 	return TRUE;
 }
 
-static NMSettingVpn *
+NMSettingVpn *
 sanitize_setting_vpn (NMSettingVpn *s_vpn,
                       GError **error)
 {
@@ -458,34 +458,30 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 
 char *
 nm_libreswan_get_ipsec_conf (int ipsec_version,
-                             NMSettingVpn *s_vpn,
+                             NMSettingVpn *s_vpn_sanitized,
                              const char *con_name,
                              const char *leftupdown_script,
                              gboolean openswan,
                              gboolean trailing_newline,
                              GError **error)
 {
-	gs_unref_object NMSettingVpn *sanitized = NULL;
 	nm_auto_free_gstring GString *ipsec_conf = NULL;
 	const char *val;
 	int i;
 
-	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn), NULL);
+	g_return_val_if_fail (NM_IS_SETTING_VPN (s_vpn_sanitized), NULL);
 	g_return_val_if_fail (!error || !*error, NULL);
 	g_return_val_if_fail (con_name && *con_name, NULL);
 
 	if (!check_val (con_name, FALSE, error))
 		return NULL;
 
-	sanitized = sanitize_setting_vpn (s_vpn, error);
-	if (!sanitized)
-		return NULL;
-
 	ipsec_conf = g_string_sized_new (1024);
 	g_string_append_printf (ipsec_conf, "conn %s\n", con_name);
 
 	for (i = 0; params[i].name != NULL; i++) {
-		val = nm_setting_vpn_get_data_item (sanitized, params[i].name);
+		val = nm_setting_vpn_get_data_item (s_vpn_sanitized,
+						    params[i].name);
 		if (val == NULL)
 			continue;
 
