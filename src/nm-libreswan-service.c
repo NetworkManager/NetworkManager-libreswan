@@ -65,7 +65,6 @@ typedef NMVpnServicePlugin NMLibreswanPlugin;
 typedef NMVpnServicePluginClass NMLibreswanPluginClass;
 
 static GType nm_libreswan_plugin_get_type (void);
-static bool is_leftmodecfgserver_enabled(NMSettingVpn *s_vpn);
 
 G_DEFINE_TYPE (NMLibreswanPlugin, nm_libreswan_plugin, NM_TYPE_VPN_SERVICE_PLUGIN)
 
@@ -1245,8 +1244,10 @@ handle_callback (NMDBusLibreswanHelper *object,
 	const char *verb;
 	gboolean success = FALSE;
 	gboolean is_ipv6;
+	gboolean dyn_addr_needed;
 	const char *cstr;
 	char *str = NULL;
+	gs_free_error GError *local = NULL;
 
 	verb = lookup_string (env, "PLUTO_VERB");
 	if (!verb) {
@@ -1294,17 +1295,17 @@ handle_callback (NMDBusLibreswanHelper *object,
 		}
 	}
 
-	{
-		gs_free_error GError *local = NULL;
-
-		s_vpn = get_setting_vpn_sanitized (priv->connection, &local);
-		if (!s_vpn)
-			_LOGW("%s", local->message);
+	s_vpn = get_setting_vpn_sanitized (priv->connection, &local);
+	if (!s_vpn) {
+		_LOGW("%s", local->message);
+		goto out;
 	}
 
-	if (s_vpn && !is_leftmodecfgserver_enabled(s_vpn)) {
-		/* no dynamic address needed */
-	} else {
+	dyn_addr_needed = _nm_utils_ascii_str_to_bool (
+		nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT),
+		FALSE);
+
+	if (dyn_addr_needed) {
 		/* IP address */
 		variant = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"), is_ipv6 ? AF_INET6 : AF_INET);
 		if (variant) {
@@ -2174,22 +2175,4 @@ main (int argc, char *argv[])
 	g_object_unref (plugin);
 
 	exit (0);
-}
-
-static bool
-is_leftmodecfgserver_enabled(NMSettingVpn *s_vpn)
-{
-	const char *auto_value;
-	const char *cstr;
-
-	auto_value = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS);
-	if (auto_value && nm_streq(auto_value, "no")) {
-		// undefined means false when `nm-auto-defaults: no`
-		cstr = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT);
-		return (cstr && nm_streq(cstr, "yes"));
-	} else {
-		// undefined means true
-		cstr = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT);
-		return !(cstr && nm_streq(cstr, "no"));
-	}
 }
