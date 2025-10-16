@@ -784,6 +784,29 @@ test_config_read (void)
 	g_assert_null (s_vpn);
 	g_assert_null (con_name);
 	g_clear_error (&error);
+
+	/* Make sure internal properties are rejected when importing. */
+	s_vpn = nm_libreswan_parse_ipsec_conf (
+		"conn conn\n"
+		" right=11.12.13.14\n"
+		" nm-auto-defaults=no\n",
+		&con_name,
+		&error);
+	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_null (s_vpn);
+	g_assert_null (con_name);
+	g_clear_error (&error);
+
+	s_vpn = nm_libreswan_parse_ipsec_conf (
+		"conn conn\n"
+		" right=11.12.13.14\n"
+		" vendor=Cisco\n",
+		&con_name,
+		&error);
+	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
+	g_assert_null (s_vpn);
+	g_assert_null (con_name);
+	g_clear_error (&error);
 }
 
 static void

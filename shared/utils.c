@@ -621,6 +621,7 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 	gs_free char *con_name = NULL;
 	GMatchInfo *match_info = NULL;
 	GError *parse_error = NULL;
+	gboolean has_no_auto_defaults = FALSE;
 	g_autoptr(GRegex) line_regex = NULL;
 	g_autoptr(GRegex) no_auto_regex = NULL;
 	const char *old, *new;
@@ -652,7 +653,7 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 		}
 
 		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
-			nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, "no");
+			has_no_auto_defaults = TRUE;
 			continue;
 		}
 
@@ -723,6 +724,26 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 	    && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, "keyingtries"), "1") == 0) {
 		nm_setting_vpn_remove_data_item (s_vpn, "keyingtries");
 	}
+
+	/* Params with the PARAM_IGNORE flags are internal only, they shouldn't be
+	 * defined in the input file. Reject them here. Any other unknown param will
+	 * be rejected by sanitize_setting_vpn(), but it cannot reject these
+	 * because they are valid internally. */
+	for (i = 0; params[i].name != NULL; i++) {
+		if ((params[i].flags & PARAM_IGNORE) != 0) {
+			if (nm_setting_vpn_get_data_item (s_vpn, params[i].name)) {
+				g_set_error (error,
+				             NM_UTILS_ERROR,
+				             NM_UTILS_ERROR_INVALID_ARGUMENT,
+				             _("property '%s' invalid or not supported"),
+				             params[i].name);
+				return NULL;
+			}
+		}
+	}
+
+	if (has_no_auto_defaults)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, "no");
 
 	sanitized = sanitize_setting_vpn (s_vpn, error);
 	if (!sanitized)
