@@ -183,7 +183,7 @@ test_config_write (void)
 	nm_setting_vpn_add_data_item (s_vpn, "leftrsasigkey", "hello");
 	nm_setting_vpn_add_data_item (s_vpn, "rightrsasigkey", "world");
 	nm_setting_vpn_add_data_item (s_vpn, "right", "11.12.13.14");
-	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
+	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "no");
 	nm_setting_vpn_add_data_item (s_vpn, "leftsendcert", "always");
 	nm_setting_vpn_add_data_item (s_vpn, "rightca", "%same");
 	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
@@ -191,6 +191,9 @@ test_config_write (void)
 	str = nm_libreswan_get_ipsec_conf (4, s_vpn_sanitized, "conn", NULL, FALSE, TRUE, &error);
 	g_assert_no_error (error);
 	g_assert_cmpstr (str, ==,
+                         "# NetworkManager specific configs, don't remove:\n"
+                         "# nm-auto-defaults=no\n"
+                         "\n"
                          "conn conn\n"
                          " ikev2=insist\n"
                          " right=11.12.13.14\n"
@@ -294,7 +297,7 @@ test_config_write (void)
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
-	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
+	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "no");
 	nm_setting_vpn_add_data_item (s_vpn, "rightcert", "\"cert\"");
 	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
@@ -303,7 +306,7 @@ test_config_write (void)
 	g_object_unref (s_vpn);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
-	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "false");
+	nm_setting_vpn_add_data_item (s_vpn, "nm-auto-defaults", "no");
 	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &error);
 	g_assert_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_INVALID_ARGUMENT);
 	g_assert_null (s_vpn_sanitized);
@@ -609,6 +612,54 @@ test_config_read (void)
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightsubnet"),		==, "0.0.0.0/0");
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "salifetime"),		==, "24h");
 	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "esp"),			==, "aes128-sha2_512;dh19");
+	g_object_unref (s_vpn);
+	g_clear_pointer (&con_name, g_free);
+
+	/* With the '# nm-auto-defaults=no' special comment */
+	s_vpn = nm_libreswan_parse_ipsec_conf (
+		"# nm-auto-defaults=no\n"
+		"conn conn\n"
+		" ikev2=insist\n"
+		" right=11.12.13.14\n"
+		" rightrsasigkey=\"world\"\n"
+		" leftrsasigkey=\"hello\"\n"
+		" leftsendcert=always\n"
+		" rightca=\"%same\"\n",
+		&con_name,
+		&error);
+	g_assert_no_error (error);
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "ikev2"), ==, "insist");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "leftrsasigkey"), == , "hello");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightrsasigkey"), == , "world");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "right"), == , "11.12.13.14");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "nm-auto-defaults"), == , "no");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "leftsendcert"), == , "always");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightca"), == , "%same");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightca"), == , "%same");
+	g_object_unref (s_vpn);
+	g_clear_pointer (&con_name, g_free);
+
+	/* With the '# nm-auto-defaults=no' special comment, different spacing */
+	s_vpn = nm_libreswan_parse_ipsec_conf (
+		"#nm-auto-defaults  	= 	 no  	 \n"
+		"conn conn\n"
+		" ikev2=insist\n"
+		" right=11.12.13.14\n"
+		" rightrsasigkey=\"world\"\n"
+		" leftrsasigkey=\"hello\"\n"
+		" leftsendcert=always\n"
+		" rightca=\"%same\"\n",
+		&con_name,
+		&error);
+	g_assert_no_error (error);
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "ikev2"), ==, "insist");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "leftrsasigkey"), == , "hello");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightrsasigkey"), == , "world");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "right"), == , "11.12.13.14");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "nm-auto-defaults"), == , "no");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "leftsendcert"), == , "always");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightca"), == , "%same");
+	g_assert_cmpstr (nm_setting_vpn_get_data_item (s_vpn, "rightca"), == , "%same");
 	g_object_unref (s_vpn);
 	g_clear_pointer (&con_name, g_free);
 
