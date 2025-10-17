@@ -90,16 +90,18 @@ export_to_file (NMVpnEditorPlugin *self,
                 NMConnection *connection,
                 GError **error)
 {
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	gboolean openswan = FALSE;
 	gs_free_error GError *local = NULL;
 	gs_free char *ipsec_conf = NULL;
 	gboolean is_openswan;
 	int version;
 
-	s_vpn = nm_connection_get_setting_vpn (connection);
-	if (s_vpn)
-		openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
+	s_vpn = get_setting_vpn_sanitized(connection, error);
+	if (!s_vpn)
+		return FALSE;
+
+	openswan = nm_streq (nm_setting_vpn_get_service_type (s_vpn), NM_VPN_SERVICE_TYPE_OPENSWAN);
 
 	nm_libreswan_detect_version (nm_libreswan_find_helper_bin ("ipsec", NULL),
 	                             &is_openswan, &version, NULL);
