@@ -482,6 +482,7 @@ nm_libreswan_get_ipsec_conf (int ipsec_version,
                              GError **error)
 {
 	nm_auto_free_gstring GString *ipsec_conf = NULL;
+	gboolean auto_defaults;
 	const char *val;
 	int i;
 
@@ -493,6 +494,16 @@ nm_libreswan_get_ipsec_conf (int ipsec_version,
 		return NULL;
 
 	ipsec_conf = g_string_sized_new (1024);
+
+	auto_defaults = _nm_utils_ascii_str_to_bool (
+		nm_setting_vpn_get_data_item (s_vpn_sanitized, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS),
+		TRUE);
+	if (!auto_defaults) {
+		g_string_append(ipsec_conf, "# NetworkManager specific configs, don't remove:\n");
+		g_string_append(ipsec_conf, "# nm-auto-defaults=no\n");
+		g_string_append(ipsec_conf, "\n");
+	}
+
 	g_string_append_printf (ipsec_conf, "conn %s\n", con_name);
 
 	for (i = 0; params[i].name != NULL; i++) {
@@ -573,6 +584,8 @@ static const char line_match[] =
 	")?"					/* (or just blank line) */
 	"\\s*(?:#.*)?$";			/* optional comment */
 
+static const char no_auto_match[] = "#\\s*nm-auto-defaults\\s*=\\s*no";
+
 NMSettingVpn *
 nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
                                char **out_con_name,
@@ -584,7 +597,8 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 	gs_free char *con_name = NULL;
 	GMatchInfo *match_info = NULL;
 	GError *parse_error = NULL;
-	GRegex *line_regex;
+	g_autoptr(GRegex) line_regex = NULL;
+	g_autoptr(GRegex) no_auto_regex = NULL;
 	const char *old, *new;
 	const char *rekey;
 	char *key, *val;
@@ -596,6 +610,8 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 
 	line_regex = g_regex_new (line_match, G_REGEX_RAW, 0, NULL);
 	g_return_val_if_fail (line_regex, NULL);
+	no_auto_regex = g_regex_new (no_auto_match, G_REGEX_RAW, 0, NULL);
+	g_return_val_if_fail (no_auto_regex, NULL);
 
 	s_vpn = NM_SETTING_VPN (nm_setting_vpn_new ());
 
@@ -609,6 +625,11 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 				lines[i]);
 			g_match_info_unref (match_info);
 			break;
+		}
+
+		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
+			nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, "no");
+			continue;
 		}
 
 		key = g_match_info_fetch (match_info, 1); /* Key */
@@ -666,7 +687,7 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 		if (parse_error)
 			break;
 	}
-	g_regex_unref (line_regex);
+
 	if (parse_error) {
 		g_propagate_error (error, parse_error);
 		return NULL;
