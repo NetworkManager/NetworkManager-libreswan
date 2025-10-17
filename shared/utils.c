@@ -38,6 +38,7 @@ enum LibreswanParamFlags {
 	PARAM_OLD	= 0x0010, /* Only include for libreswan < 4. */
 	PARAM_NEW	= 0x0020, /* Only include for libreswan >= 4. */
 	PARAM_IGNORE	= 0x0040, /* Not passed to or from Libreswan. */
+	PARAM_SECRET	= 0x0080, /* For secrets */
 };
 
 struct LibreswanParam {
@@ -347,7 +348,9 @@ static const struct LibreswanParam params[] = {
 	{ NM_LIBRESWAN_KEY_PFSGROUP,                   add,                   PARAM_IGNORE },
 	{ NM_LIBRESWAN_KEY_PSK_INPUT_MODES,            add,                   PARAM_IGNORE },
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES, add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_PSK_VALUE,                  add,                   PARAM_IGNORE | PARAM_SECRET},
 	{ NM_LIBRESWAN_KEY_PSK_VALUE "-flags",         add,                   PARAM_IGNORE },
+	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD,             add,                   PARAM_IGNORE | PARAM_SECRET},
 	{ NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags",    add,                   PARAM_IGNORE },
 	{ NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS,           add,                   PARAM_IGNORE },
 
@@ -407,22 +410,35 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 		TRUE);
 
 	for (i = 0; params[i].name != NULL; i++) {
-		val = nm_setting_vpn_get_data_item (s_vpn, params[i].name);
-		if (val != NULL) {
-			handled_items++;
-		} else if (params[i].flags & PARAM_REQUIRED) {
-			g_set_error (error,
-			             NM_UTILS_ERROR,
-			             NM_UTILS_ERROR_INVALID_ARGUMENT,
-			             _("'%s' key needs to be present"),
-			             params[i].name);
-			return NULL;
-		}
-
-		if (auto_defaults) {
-			params[i].add_sanitized (sanitized, params[i].name, val);
+		if (params[i].flags & PARAM_SECRET)  {
+			val = nm_setting_vpn_get_secret(s_vpn, params[i].name);
+			if (val != NULL) {
+				nm_setting_vpn_add_secret(sanitized,
+							  params[i].name,
+							  val);
+			}
 		} else {
-			nm_setting_vpn_add_data_item (sanitized, params[i].name, val);
+			val = nm_setting_vpn_get_data_item (s_vpn,
+							    params[i].name);
+			if (val != NULL) {
+				handled_items++;
+			} else if (params[i].flags & PARAM_REQUIRED) {
+				g_set_error (error,
+					     NM_UTILS_ERROR,
+					     NM_UTILS_ERROR_INVALID_ARGUMENT,
+					     _("'%s' key needs to be present"),
+					     params[i].name);
+				return NULL;
+			}
+
+			if (auto_defaults) {
+				params[i].add_sanitized (sanitized,
+							 params[i].name, val);
+			} else {
+				nm_setting_vpn_add_data_item (sanitized,
+							      params[i].name,
+							      val);
+			}
 		}
 
 		val = nm_setting_vpn_get_data_item (sanitized, params[i].name);
