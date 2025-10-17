@@ -46,3 +46,12 @@ gtk4/nm-libreswan-dialog.ui
 gtk4/resources.c
 
 /NetworkManager-libreswan*.tar*
+
+shared/test-utils
+shared/test-utils.log
+shared/test-utils.trs
+test-driver
+test-suite.log
+
+.vscode
+compile_commands.json
