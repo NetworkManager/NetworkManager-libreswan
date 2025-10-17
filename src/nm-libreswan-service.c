@@ -1234,7 +1234,7 @@ handle_callback (NMDBusLibreswanHelper *object,
                  gpointer user_data)
 {
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (user_data);
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	nm_auto_clear_variant_builder GVariantBuilder config = {};
 	nm_auto_clear_variant_builder GVariantBuilder ip4_config = {};
 	nm_auto_clear_variant_builder GVariantBuilder ip6_config = {};
@@ -1294,10 +1294,15 @@ handle_callback (NMDBusLibreswanHelper *object,
 		}
 	}
 
-	if (   priv->connection
-	    && (s_vpn = nm_connection_get_setting_vpn (priv->connection))
-	    && !is_leftmodecfgserver_enabled(s_vpn)
-	    ) {
+	{
+		gs_free_error GError *local = NULL;
+
+		s_vpn = get_setting_vpn_sanitized (priv->connection, &local);
+		if (!s_vpn)
+			_LOGW("%s", local->message);
+	}
+
+	if (s_vpn && !is_leftmodecfgserver_enabled(s_vpn)) {
 		/* no dynamic address needed */
 	} else {
 		/* IP address */
@@ -1794,9 +1799,9 @@ _connect_common (NMVpnServicePlugin   *plugin,
 			return FALSE;
 	}
 
-	s_vpn = sanitize_setting_vpn(nm_connection_get_setting_vpn (connection),
-				     error);
-	g_assert (s_vpn);
+	s_vpn = get_setting_vpn_sanitized (connection, error);
+	if (!s_vpn)
+		return FALSE;
 
 	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
 
@@ -1870,7 +1875,7 @@ real_need_secrets (NMVpnServicePlugin *plugin,
                    const char **setting_name,
                    GError **error)
 {
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	const char *leftcert;
 	const char *leftrsasigkey;
 	const char *rightcert;
@@ -1880,14 +1885,9 @@ real_need_secrets (NMVpnServicePlugin *plugin,
 	g_return_val_if_fail (NM_IS_VPN_SERVICE_PLUGIN (plugin), FALSE);
 	g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 
-	s_vpn = nm_connection_get_setting_vpn (connection);
-	if (!s_vpn) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
-		                     "Could not process the request because the VPN connection settings were invalid.");
+	s_vpn = get_setting_vpn_sanitized (connection, error);
+	if (!s_vpn)
 		return FALSE;
-	}
 
 	/* When leftcert is specified, rsasigkey are assumed to be '%cert' */
 	leftcert = nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTCERT);
@@ -1931,18 +1931,13 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 {
 	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (plugin);
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	const char *message = NULL;
 	const char *hints[] = { NULL, NULL };
 
-	s_vpn = nm_connection_get_setting_vpn (connection);
-	if (!s_vpn) {
-		g_set_error_literal (error,
-		                     NM_VPN_PLUGIN_ERROR,
-		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
-		                     _("Could not process the request because the VPN connection settings were invalid."));
+	s_vpn = get_setting_vpn_sanitized (connection, error);
+	if (!s_vpn)
 		return FALSE;
-	}
 
 	_LOGD ("VPN received new secrets; sending to ipsec");
 

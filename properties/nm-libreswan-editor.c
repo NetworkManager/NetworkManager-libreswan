@@ -487,10 +487,20 @@ init_editor_plugin (LibreswanEditor *self,
 {
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	NMSettingVpn *s_vpn = NULL;
+	gs_unref_object NMSettingVpn *s_vpn_sanitized = NULL;
 	GtkWidget *widget;
 	int contype = TYPE_IKEV2_CERT;
 
 	s_vpn = nm_connection_get_setting_vpn (connection);
+	if (s_vpn) {
+		/* Here it is possible to have an empty VPN setting (i.e. new connection).
+		 * If we have one, try to sanitize. If we don't, or sanitize fails, just
+		 * continue as with an empty setting. */
+		s_vpn_sanitized = sanitize_setting_vpn (s_vpn, NULL);
+		if (s_vpn_sanitized)
+			s_vpn = s_vpn_sanitized;
+	}
+
 	if (s_vpn)
 		priv->s_vpn = NM_SETTING_VPN (nm_setting_duplicate (NM_SETTING (s_vpn)));
 

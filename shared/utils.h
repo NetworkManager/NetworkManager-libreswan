@@ -65,6 +65,7 @@ gboolean nm_libreswan_parse_subnets (const char *str, GPtrArray *arr, GError **e
 char *nm_libreswan_normalize_subnets (const char *str, GError **error);
 
 NMSettingVpn *sanitize_setting_vpn (NMSettingVpn *s_vpn, GError **error);
+NMSettingVpn *get_setting_vpn_sanitized (NMConnection *connection, GError **error);
 
 
 #endif /* __UTILS_H__ */

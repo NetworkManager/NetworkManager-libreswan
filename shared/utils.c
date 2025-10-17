@@ -472,6 +472,30 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 	return g_steal_pointer (&sanitized);
 }
 
+NMSettingVpn *
+get_setting_vpn_sanitized (NMConnection *connection, GError **error)
+{
+	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn_sanitized = NULL;
+	gs_free_error GError *local = NULL;
+
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	if (!s_vpn) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
+		             _("Invalid VPN setting: %s"), _("Empty VPN configuration"));
+		return NULL;
+	}
+
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &local);
+	if (!s_vpn_sanitized) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
+		             _("Invalid VPN setting: %s"), local->message);
+		return NULL;
+	}
+
+	return g_steal_pointer (&s_vpn_sanitized);
+}
+
 char *
 nm_libreswan_get_ipsec_conf (int ipsec_version,
                              NMSettingVpn *s_vpn_sanitized,
