@@ -472,6 +472,30 @@ sanitize_setting_vpn (NMSettingVpn *s_vpn,
 	return g_steal_pointer (&sanitized);
 }
 
+NMSettingVpn *
+get_setting_vpn_sanitized (NMConnection *connection, GError **error)
+{
+	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn_sanitized = NULL;
+	gs_free_error GError *local = NULL;
+
+	s_vpn = nm_connection_get_setting_vpn (connection);
+	if (!s_vpn) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
+		             _("Invalid VPN setting: %s"), _("Empty VPN configuration"));
+		return NULL;
+	}
+
+	s_vpn_sanitized = sanitize_setting_vpn (s_vpn, &local);
+	if (!s_vpn_sanitized) {
+		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
+		             _("Invalid VPN setting: %s"), local->message);
+		return NULL;
+	}
+
+	return g_steal_pointer (&s_vpn_sanitized);
+}
+
 char *
 nm_libreswan_get_ipsec_conf (int ipsec_version,
                              NMSettingVpn *s_vpn_sanitized,
@@ -597,6 +621,7 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 	gs_free char *con_name = NULL;
 	GMatchInfo *match_info = NULL;
 	GError *parse_error = NULL;
+	gboolean has_no_auto_defaults = FALSE;
 	g_autoptr(GRegex) line_regex = NULL;
 	g_autoptr(GRegex) no_auto_regex = NULL;
 	const char *old, *new;
@@ -628,7 +653,7 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 		}
 
 		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
-			nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, "no");
+			has_no_auto_defaults = TRUE;
 			continue;
 		}
 
@@ -699,6 +724,26 @@ nm_libreswan_parse_ipsec_conf (const char *ipsec_conf,
 	    && g_strcmp0 (nm_setting_vpn_get_data_item (s_vpn, "keyingtries"), "1") == 0) {
 		nm_setting_vpn_remove_data_item (s_vpn, "keyingtries");
 	}
+
+	/* Params with the PARAM_IGNORE flags are internal only, they shouldn't be
+	 * defined in the input file. Reject them here. Any other unknown param will
+	 * be rejected by sanitize_setting_vpn(), but it cannot reject these
+	 * because they are valid internally. */
+	for (i = 0; params[i].name != NULL; i++) {
+		if ((params[i].flags & PARAM_IGNORE) != 0) {
+			if (nm_setting_vpn_get_data_item (s_vpn, params[i].name)) {
+				g_set_error (error,
+				             NM_UTILS_ERROR,
+				             NM_UTILS_ERROR_INVALID_ARGUMENT,
+				             _("property '%s' invalid or not supported"),
+				             params[i].name);
+				return NULL;
+			}
+		}
+	}
+
+	if (has_no_auto_defaults)
+		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, "no");
 
 	sanitized = sanitize_setting_vpn (s_vpn, error);
 	if (!sanitized)
