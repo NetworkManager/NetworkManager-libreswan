@@ -1,11 +1,25 @@
 =========================================================
+NetworkManager-libreswan-1.2.28
+Overview of changes since NetworkManager-libreswan-1.2.27
+=========================================================
+
+* Parse a special comment `# nm-auto-defaults=no` during import
+  and export to set the nm-auto-defaults property.
+* Fix a bug that didn't export the `esp` option.
+* Always sanitize the configuration before its use, so that changes
+  done after the initial import take effect.
+* Fix bug when adding the leading '@' to `leftid`.
+* Update Japanese, Portuguese and Russian translations.
+
+=========================================================
 NetworkManager-libreswan-1.2.27
 Overview of changes since NetworkManager-libreswan-1.2.26
 =========================================================
 
 * Gracefully handle the situation when service plugin is installed,
   but GUI editor plugin is not.
-* Add `nm-auto-defaults` option
+* Add `nm-auto-defaults` option.
+* Support `leftsendcert` and `rightca` options.
 * Fix a handful of regressions in import/export.
 * Update Danish, Japanese, Slovenian, Swedish
   and Ukrainian translations.
