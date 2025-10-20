@@ -30,11 +30,11 @@
 
 /*****************************************************************************/
 
-const void *const _NM_PTRARRAY_EMPTY[1] = { NULL };
+const void *const _NM_PTRARRAY_EMPTY[1] = {NULL};
 
 /*****************************************************************************/
 
-const NMIPAddr nm_ip_addr_zero = { 0 };
+const NMIPAddr nm_ip_addr_zero = {0};
 
 /*****************************************************************************/
 
@@ -167,8 +167,7 @@ nm_utils_strbuf_seek_end (char **buf, gsize *len)
 	nm_assert (buf && *buf);
 
 	if (*len <= 1) {
-		if (   *len == 1
-		    && (*buf)[0])
+		if (*len == 1 && (*buf)[0])
 			goto truncate;
 		return;
 	}
@@ -206,9 +205,7 @@ truncate:
  *   special case, a %NULL @bytes is treated like an empty array.
  */
 gboolean
-nm_utils_gbytes_equal_mem (GBytes *bytes,
-                           gconstpointer mem_data,
-                           gsize mem_len)
+nm_utils_gbytes_equal_mem (GBytes *bytes, gconstpointer mem_data, gsize mem_len)
 {
 	gconstpointer p;
 	gsize l;
@@ -220,8 +217,8 @@ nm_utils_gbytes_equal_mem (GBytes *bytes,
 	}
 
 	p = g_bytes_get_data (bytes, &l);
-	return    l == mem_len
-	       && (   mem_len == 0 /* allow @mem_data to be %NULL */
+	return l == mem_len
+	       && (mem_len == 0 /* allow @mem_data to be %NULL */
 	           || memcmp (p, mem_data, mem_len) == 0);
 }
 
@@ -379,8 +376,7 @@ nm_utils_flags2str (const NMUtilsFlags2StrDesc *descs,
 	}
 
 	for (i = 0; flags && i < n_descs; i++) {
-		if (   descs[i].flag
-		    && NM_FLAGS_ALL (flags, descs[i].flag)) {
+		if (descs[i].flag && NM_FLAGS_ALL (flags, descs[i].flag)) {
 			flags &= ~descs[i].flag;
 
 			if (buf[0] != '\0')
@@ -407,7 +403,7 @@ nm_utils_flags2str (const NMUtilsFlags2StrDesc *descs,
 guint32
 _nm_utils_ip4_prefix_to_netmask (guint32 prefix)
 {
-	return prefix < 32 ? ~htonl(0xFFFFFFFF >> prefix) : 0xFFFFFFFF;
+	return prefix < 32 ? ~htonl (0xFFFFFFFF >> prefix) : 0xFFFFFFFF;
 }
 
 /**
@@ -426,16 +422,15 @@ guint32
 _nm_utils_ip4_get_default_prefix (guint32 ip)
 {
 	if (((ntohl (ip) & 0xFF000000) >> 24) <= 127)
-		return 8;  /* Class A - 255.0.0.0 */
+		return 8; /* Class A - 255.0.0.0 */
 	else if (((ntohl (ip) & 0xFF000000) >> 24) <= 191)
-		return 16;  /* Class B - 255.255.0.0 */
+		return 16; /* Class B - 255.255.0.0 */
 
-	return 24;  /* Class C - 255.255.255.0 */
+	return 24; /* Class C - 255.255.255.0 */
 }
 
 gboolean
-nm_utils_ip_is_site_local (int addr_family,
-                           const void *address)
+nm_utils_ip_is_site_local (int addr_family, const void *address)
 {
 	in_addr_t addr4;
 
@@ -444,8 +439,7 @@ nm_utils_ip_is_site_local (int addr_family,
 		/* RFC1918 private addresses
 		 * 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 */
 		addr4 = ntohl (*((const in_addr_t *) address));
-		return    (addr4 & 0xff000000) == 0x0a000000
-		       || (addr4 & 0xfff00000) == 0xac100000
+		return (addr4 & 0xff000000) == 0x0a000000 || (addr4 & 0xfff00000) == 0xac100000
 		       || (addr4 & 0xffff0000) == 0xc0a80000;
 	case AF_INET6:
 		return IN6_IS_ADDR_SITELOCAL (address);
@@ -457,9 +451,7 @@ nm_utils_ip_is_site_local (int addr_family,
 /*****************************************************************************/
 
 gboolean
-nm_utils_parse_inaddr_bin (int addr_family,
-                           const char *text,
-                           gpointer out_addr)
+nm_utils_parse_inaddr_bin (int addr_family, const char *text, gpointer out_addr)
 {
 	NMIPAddr addrbin;
 
@@ -491,9 +483,7 @@ nm_utils_parse_inaddr_bin (int addr_family,
 }
 
 gboolean
-nm_utils_parse_inaddr (int addr_family,
-                       const char *text,
-                       char **out_addr)
+nm_utils_parse_inaddr (int addr_family, const char *text, char **out_addr)
 {
 	NMIPAddr addrbin;
 	char addrstr_buf[MAX (INET_ADDRSTRLEN, INET6_ADDRSTRLEN)];
@@ -502,7 +492,8 @@ nm_utils_parse_inaddr (int addr_family,
 
 	if (!nm_utils_parse_inaddr_bin (addr_family, text, &addrbin))
 		return FALSE;
-	NM_SET_OUT (out_addr, g_strdup (inet_ntop (addr_family, &addrbin, addrstr_buf, sizeof (addrstr_buf))));
+	NM_SET_OUT (out_addr,
+	            g_strdup (inet_ntop (addr_family, &addrbin, addrstr_buf, sizeof (addrstr_buf))));
 	return TRUE;
 }
 
@@ -541,10 +532,8 @@ nm_utils_parse_inaddr_prefix_bin (int addr_family,
 		return FALSE;
 
 	if (slash) {
-		prefix = _nm_utils_ascii_str_to_int64 (slash + 1, 10,
-		                                       0,
-		                                       addr_family == AF_INET ? 32 : 128,
-		                                       -1);
+		prefix =
+			_nm_utils_ascii_str_to_int64 (slash + 1, 10, 0, addr_family == AF_INET ? 32 : 128, -1);
 		if (prefix == -1)
 			return FALSE;
 	}
@@ -556,17 +545,15 @@ nm_utils_parse_inaddr_prefix_bin (int addr_family,
 }
 
 gboolean
-nm_utils_parse_inaddr_prefix (int addr_family,
-                              const char *text,
-                              char **out_addr,
-                              int *out_prefix)
+nm_utils_parse_inaddr_prefix (int addr_family, const char *text, char **out_addr, int *out_prefix)
 {
 	NMIPAddr addrbin;
 	char addrstr_buf[MAX (INET_ADDRSTRLEN, INET6_ADDRSTRLEN)];
 
 	if (!nm_utils_parse_inaddr_prefix_bin (addr_family, text, &addrbin, out_prefix))
 		return FALSE;
-	NM_SET_OUT (out_addr, g_strdup (inet_ntop (addr_family, &addrbin, addrstr_buf, sizeof (addrstr_buf))));
+	NM_SET_OUT (out_addr,
+	            g_strdup (inet_ntop (addr_family, &addrbin, addrstr_buf, sizeof (addrstr_buf))));
 	return TRUE;
 }
 
@@ -706,7 +693,7 @@ _dbus_path_component_as_num (const char *p)
 	if (!NM_STRCHAR_ALL (&p[1], ch, (ch >= '0' && ch <= '9')))
 		return -1;
 	n = _nm_utils_ascii_str_to_int64 (p, 10, 0, G_MAXINT64, -1);
-	nm_assert (n == -1 || nm_streq0 (p, nm_sprintf_bufa (100, "%"G_GINT64_FORMAT, n)));
+	nm_assert (n == -1 || nm_streq0 (p, nm_sprintf_bufa (100, "%" G_GINT64_FORMAT, n)));
 	return n;
 }
 
@@ -726,7 +713,7 @@ nm_utils_dbus_path_cmp (const char *dbus_path_a, const char *dbus_path_b)
 
 	/* if one or both paths have no slash (and no last component)
 	 * compare the full paths directly. */
-	if (   !(l_a = nm_utils_dbus_path_get_last_component (dbus_path_a))
+	if (!(l_a = nm_utils_dbus_path_get_last_component (dbus_path_a))
 	    || !(l_b = nm_utils_dbus_path_get_last_component (dbus_path_b)))
 		goto comp_full;
 
@@ -826,14 +813,16 @@ nm_utils_strsplit_set (const char *str, const char *delimiters, gboolean allow_e
 #define _is_delimiter(ch, delimiters_table, allow_esc, esc) \
 	((delimiters_table)[(guint8) (ch)] != 0 && (!allow_esc || !esc))
 
-#define next_char(p, esc) \
-	G_STMT_START { \
-		if (esc) \
-			esc = FALSE; \
-		else \
+#define next_char(p, esc)       \
+	G_STMT_START                \
+	{                           \
+		if (esc)                \
+			esc = FALSE;        \
+		else                    \
 			esc = p[0] == '\\'; \
-		p++; \
-	} G_STMT_END
+		p++;                    \
+	}                           \
+	G_STMT_END
 
 	/* skip initial delimiters, and return of the remaining string is
 	 * empty. */
@@ -969,7 +958,7 @@ _nm_utils_strv_cleanup (char **strv,
 		return strv;
 	j = 0;
 	for (i = 0; strv[i]; i++) {
-		if (   (skip_empty && !*strv[i])
+		if ((skip_empty && !*strv[i])
 		    || (skip_repeated && nm_utils_strv_find_first (strv, j, strv[i]) >= 0))
 			g_free (strv[i]);
 		else
@@ -982,8 +971,7 @@ _nm_utils_strv_cleanup (char **strv,
 /*****************************************************************************/
 
 int
-_nm_utils_ascii_str_to_bool (const char *str,
-                             int default_value)
+_nm_utils_ascii_str_to_bool (const char *str, int default_value)
 {
 	gsize len;
 	char *s = NULL;
@@ -1004,9 +992,11 @@ _nm_utils_ascii_str_to_bool (const char *str,
 		str = s;
 	}
 
-	if (!g_ascii_strcasecmp (str, "true") || !g_ascii_strcasecmp (str, "yes") || !g_ascii_strcasecmp (str, "on") || !g_ascii_strcasecmp (str, "1"))
+	if (!g_ascii_strcasecmp (str, "true") || !g_ascii_strcasecmp (str, "yes")
+	    || !g_ascii_strcasecmp (str, "on") || !g_ascii_strcasecmp (str, "1"))
 		default_value = TRUE;
-	else if (!g_ascii_strcasecmp (str, "false") || !g_ascii_strcasecmp (str, "no") || !g_ascii_strcasecmp (str, "off") || !g_ascii_strcasecmp (str, "0"))
+	else if (!g_ascii_strcasecmp (str, "false") || !g_ascii_strcasecmp (str, "no")
+	         || !g_ascii_strcasecmp (str, "off") || !g_ascii_strcasecmp (str, "0"))
 		default_value = FALSE;
 	if (s)
 		g_free (s);
@@ -1018,28 +1008,26 @@ _nm_utils_ascii_str_to_bool (const char *str,
 NM_CACHED_QUARK_FCN ("nm-utils-error-quark", nm_utils_error_quark)
 
 void
-nm_utils_error_set_cancelled (GError **error,
-                              gboolean is_disposing,
-                              const char *instance_name)
+nm_utils_error_set_cancelled (GError **error, gboolean is_disposing, const char *instance_name)
 {
 	if (is_disposing) {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_CANCELLED_DISPOSING,
+		g_set_error (error,
+		             NM_UTILS_ERROR,
+		             NM_UTILS_ERROR_CANCELLED_DISPOSING,
 		             "Disposing %s instance",
 		             instance_name && *instance_name ? instance_name : "source");
 	} else {
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED,
-		                     "Request cancelled");
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "Request cancelled");
 	}
 }
 
 gboolean
-nm_utils_error_is_cancelled (GError *error,
-                             gboolean consider_is_disposing)
+nm_utils_error_is_cancelled (GError *error, gboolean consider_is_disposing)
 {
 	if (error) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 			return TRUE;
-		if (   consider_is_disposing
+		if (consider_is_disposing
 		    && g_error_matches (error, NM_UTILS_ERROR, NM_UTILS_ERROR_CANCELLED_DISPOSING))
 			return TRUE;
 	}
@@ -1065,7 +1053,7 @@ nm_utils_error_is_cancelled (GError *error,
  */
 gboolean
 nm_g_object_set_property (GObject *object,
-                          const char   *property_name,
+                          const char *property_name,
                           const GValue *value,
                           GError **error)
 {
@@ -1083,50 +1071,66 @@ nm_g_object_set_property (GObject *object,
 	pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), property_name);
 
 	if (!pspec) {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_UNKNOWN,
-		             _("object class '%s' has no property named '%s'"),
+		g_set_error (error,
+		             NM_UTILS_ERROR,
+		             NM_UTILS_ERROR_UNKNOWN,
+		             _ ("object class '%s' has no property named '%s'"),
 		             G_OBJECT_TYPE_NAME (object),
 		             property_name);
 		return FALSE;
 	}
 	if (!(pspec->flags & G_PARAM_WRITABLE)) {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_UNKNOWN,
-		             _("property '%s' of object class '%s' is not writable"),
+		g_set_error (error,
+		             NM_UTILS_ERROR,
+		             NM_UTILS_ERROR_UNKNOWN,
+		             _ ("property '%s' of object class '%s' is not writable"),
 		             pspec->name,
 		             G_OBJECT_TYPE_NAME (object));
 		return FALSE;
 	}
 	if ((pspec->flags & G_PARAM_CONSTRUCT_ONLY)) {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_UNKNOWN,
-		             _("construct property \"%s\" for object '%s' can't be set after construction"),
-		             pspec->name, G_OBJECT_TYPE_NAME (object));
+		g_set_error (
+			error,
+			NM_UTILS_ERROR,
+			NM_UTILS_ERROR_UNKNOWN,
+			_ ("construct property \"%s\" for object '%s' can't be set after construction"),
+			pspec->name,
+			G_OBJECT_TYPE_NAME (object));
 		return FALSE;
 	}
 
 	klass = g_type_class_peek (pspec->owner_type);
 	if (klass == NULL) {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_UNKNOWN,
-		             _("'%s::%s' is not a valid property name; '%s' is not a GObject subtype"),
-		            g_type_name (pspec->owner_type), pspec->name, g_type_name (pspec->owner_type));
+		g_set_error (error,
+		             NM_UTILS_ERROR,
+		             NM_UTILS_ERROR_UNKNOWN,
+		             _ ("'%s::%s' is not a valid property name; '%s' is not a GObject subtype"),
+		             g_type_name (pspec->owner_type),
+		             pspec->name,
+		             g_type_name (pspec->owner_type));
 		return FALSE;
 	}
 
 	/* provide a copy to work from, convert (if necessary) and validate */
 	g_value_init (&tmp_value, pspec->value_type);
 	if (!g_value_transform (value, &tmp_value)) {
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_UNKNOWN,
-		             _("unable to set property '%s' of type '%s' from value of type '%s'"),
+		g_set_error (error,
+		             NM_UTILS_ERROR,
+		             NM_UTILS_ERROR_UNKNOWN,
+		             _ ("unable to set property '%s' of type '%s' from value of type '%s'"),
 		             pspec->name,
 		             g_type_name (pspec->value_type),
 		             G_VALUE_TYPE_NAME (value));
 		return FALSE;
 	}
-	if (   g_param_value_validate (pspec, &tmp_value)
-	    && !(pspec->flags & G_PARAM_LAX_VALIDATION)) {
+	if (g_param_value_validate (pspec, &tmp_value) && !(pspec->flags & G_PARAM_LAX_VALIDATION)) {
 		gs_free char *contents = g_strdup_value_contents (value);
 
-		g_set_error (error, NM_UTILS_ERROR, NM_UTILS_ERROR_UNKNOWN,
-		             _("value \"%s\" of type '%s' is invalid or out of range for property '%s' of type '%s'"),
+		g_set_error (error,
+		             NM_UTILS_ERROR,
+		             NM_UTILS_ERROR_UNKNOWN,
+		             _ ("value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
+		                "type '%s'"),
 		             contents,
 		             G_VALUE_TYPE_NAME (value),
 		             pspec->name,
@@ -1140,11 +1144,11 @@ nm_g_object_set_property (GObject *object,
 
 gboolean
 nm_g_object_set_property_boolean (GObject *object,
-                                  const char   *property_name,
+                                  const char *property_name,
                                   gboolean value,
                                   GError **error)
 {
-	nm_auto_unset_gvalue GValue gvalue = { 0 };
+	nm_auto_unset_gvalue GValue gvalue = {0};
 
 	g_value_init (&gvalue, G_TYPE_BOOLEAN);
 	g_value_set_boolean (&gvalue, !!value);
@@ -1153,11 +1157,11 @@ nm_g_object_set_property_boolean (GObject *object,
 
 gboolean
 nm_g_object_set_property_uint (GObject *object,
-                               const char   *property_name,
+                               const char *property_name,
                                guint value,
                                GError **error)
 {
-	nm_auto_unset_gvalue GValue gvalue = { 0 };
+	nm_auto_unset_gvalue GValue gvalue = {0};
 
 	g_value_init (&gvalue, G_TYPE_UINT);
 	g_value_set_uint (&gvalue, value);
@@ -1165,8 +1169,7 @@ nm_g_object_set_property_uint (GObject *object,
 }
 
 GParamSpec *
-nm_g_object_class_find_property_from_gtype (GType gtype,
-                                            const char *property_name)
+nm_g_object_class_find_property_from_gtype (GType gtype, const char *property_name)
 {
 	nm_auto_unref_gtypeclass GObjectClass *gclass = NULL;
 
@@ -1182,7 +1185,7 @@ _str_append_escape (GString *s, char ch)
 	g_string_append_c (s, '\\');
 	g_string_append_c (s, '0' + ((((guchar) ch) >> 6) & 07));
 	g_string_append_c (s, '0' + ((((guchar) ch) >> 3) & 07));
-	g_string_append_c (s, '0' + ( ((guchar) ch)       & 07));
+	g_string_append_c (s, '0' + (((guchar) ch) & 07));
 }
 
 gconstpointer
@@ -1242,12 +1245,24 @@ nm_utils_buf_utf8safe_unescape (const char *str, gsize *out_len, gpointer *to_fr
 			ch = v;
 		} else {
 			switch (ch) {
-			case 'b': ch = '\b'; break;
-			case 'f': ch = '\f'; break;
-			case 'n': ch = '\n'; break;
-			case 'r': ch = '\r'; break;
-			case 't': ch = '\t'; break;
-			case 'v': ch = '\v'; break;
+			case 'b':
+				ch = '\b';
+				break;
+			case 'f':
+				ch = '\f';
+				break;
+			case 'n':
+				ch = '\n';
+				break;
+			case 'r':
+				ch = '\r';
+				break;
+			case 't':
+				ch = '\t';
+				break;
+			case 'v':
+				ch = '\v';
+				break;
 			default:
 				/* Here we handle "\\\\", but all other unexpected escape sequences are really a bug.
 				 * Take them literally, after removing the escape character */
@@ -1305,7 +1320,10 @@ nm_utils_buf_utf8safe_unescape (const char *str, gsize *out_len, gpointer *to_fr
  *   with g_free. The escaping can be reverted by g_strcompress().
  **/
 const char *
-nm_utils_buf_utf8safe_escape (gconstpointer buf, gssize buflen, NMUtilsStrUtf8SafeFlags flags, char **to_free)
+nm_utils_buf_utf8safe_escape (gconstpointer buf,
+                              gssize buflen,
+                              NMUtilsStrUtf8SafeFlags flags,
+                              char **to_free)
 {
 	const char *const str = buf;
 	const char *p = NULL;
@@ -1329,16 +1347,16 @@ nm_utils_buf_utf8safe_escape (gconstpointer buf, gssize buflen, NMUtilsStrUtf8Sa
 		nul_terminated = TRUE;
 	}
 
-	if (   g_utf8_validate (str, buflen, &p)
-	    && nul_terminated) {
+	if (g_utf8_validate (str, buflen, &p) && nul_terminated) {
 		/* note that g_utf8_validate() does not allow NUL character inside @str. Good.
 		 * We can treat @str like a NUL terminated string. */
-		if (!NM_STRCHAR_ANY (str, ch,
-		                        (   ch == '\\' \
-		                         || (   NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_CTRL) \
-		                             && ch < ' ') \
-		                         || (   NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_NON_ASCII) \
-		                             && ((guchar) ch) >= 127))))
+		if (!NM_STRCHAR_ANY (
+				str,
+				ch,
+				(ch == '\\'
+		         || (NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_CTRL) && ch < ' ')
+		         || (NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_NON_ASCII)
+		             && ((guchar) ch) >= 127))))
 			return str;
 	}
 
@@ -1354,9 +1372,8 @@ nm_utils_buf_utf8safe_escape (gconstpointer buf, gssize buflen, NMUtilsStrUtf8Sa
 
 			if (ch == '\\')
 				g_string_append (gstr, "\\\\");
-			else if (   (   NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_CTRL) \
-			             && ch < ' ') \
-			         || (   NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_NON_ASCII) \
+			else if ((NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_CTRL) && ch < ' ')
+			         || (NM_FLAGS_HAS (flags, NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_NON_ASCII)
 			             && ((guchar) ch) >= 127))
 				_str_append_escape (gstr, ch);
 			else
@@ -1538,7 +1555,6 @@ nm_utils_fd_read_loop (int fd, void *buf, size_t nbytes, bool do_poll)
 				continue;
 
 			if (errno == EAGAIN && do_poll) {
-
 				/* We knowingly ignore any return value here,
 				 * and expect that any error/EOF is reported
 				 * via read() */
@@ -1585,8 +1601,7 @@ nm_utils_named_values_from_str_dict (GHashTable *hash, guint *out_len)
 	NMUtilsNamedValue *values;
 	guint i, len;
 
-	if (   !hash
-	    || !(len = g_hash_table_size (hash))) {
+	if (!hash || !(len = g_hash_table_size (hash))) {
 		NM_SET_OUT (out_len, 0);
 		return NULL;
 	}
@@ -1603,8 +1618,11 @@ nm_utils_named_values_from_str_dict (GHashTable *hash, guint *out_len)
 	values[i].value_ptr = NULL;
 
 	if (len > 1) {
-		g_qsort_with_data (values, len, sizeof (values[0]),
-		                   nm_utils_named_entry_cmp_with_data, NULL);
+		g_qsort_with_data (values,
+		                   len,
+		                   sizeof (values[0]),
+		                   nm_utils_named_entry_cmp_with_data,
+		                   NULL);
 	}
 
 	NM_SET_OUT (out_len, len);
@@ -1622,20 +1640,14 @@ nm_utils_hash_keys_to_array (GHashTable *hash,
 
 	/* by convention, we never return an empty array. In that
 	 * case, always %NULL. */
-	if (   !hash
-	    || g_hash_table_size (hash) == 0) {
+	if (!hash || g_hash_table_size (hash) == 0) {
 		NM_SET_OUT (out_len, 0);
 		return NULL;
 	}
 
 	keys = g_hash_table_get_keys_as_array (hash, &len);
-	if (   len > 1
-	    && compare_func) {
-		g_qsort_with_data (keys,
-		                   len,
-		                   sizeof (gpointer),
-		                   compare_func,
-		                   user_data);
+	if (len > 1 && compare_func) {
+		g_qsort_with_data (keys, len, sizeof (gpointer), compare_func, user_data);
 	}
 	NM_SET_OUT (out_len, len);
 	return keys;
@@ -1697,7 +1709,7 @@ nm_utils_ptrarray_find_binary_search (gconstpointer *list,
 
 						cmp = cmpfcn (list[i2mid], needle, user_data);
 						if (cmp == 0)
-							i2max = i2mid -1;
+							i2max = i2mid - 1;
 						else {
 							nm_assert (cmp < 0);
 							i2min = i2mid + 1;
@@ -1852,8 +1864,7 @@ nm_utils_hash_table_equal (const GHashTable *a,
 		while (g_hash_table_iter_next (&iter, (gpointer *) &key, (gpointer *) &v_a)) {
 			if (!g_hash_table_lookup_extended ((GHashTable *) b, key, NULL, (gpointer *) &v_b))
 				return FALSE;
-			if (   equal_func
-			    && !equal_func (v_a, v_b))
+			if (equal_func && !equal_func (v_a, v_b))
 				return FALSE;
 		}
 	}
@@ -1894,7 +1905,7 @@ nm_utils_get_start_time_for_pid (pid_t pid, char *out_state, pid_t *out_ppid)
 
 	g_return_val_if_fail (pid > 0, 0);
 
-	nm_sprintf_buf (filename, "/proc/%"G_GUINT64_FORMAT"/stat", (guint64) pid);
+	nm_sprintf_buf (filename, "/proc/%" G_GUINT64_FORMAT "/stat", (guint64) pid);
 
 	if (!g_file_get_contents (filename, &contents, &length, NULL))
 		goto fail;
@@ -1965,11 +1976,7 @@ _nm_utils_strv_sort (const char **strv, gssize len)
 
 	nm_assert (l <= (gsize) G_MAXINT);
 
-	g_qsort_with_data (strv,
-	                   l,
-	                   sizeof (const char *),
-	                   nm_strcmp_p_with_data,
-	                   NULL);
+	g_qsort_with_data (strv, l, sizeof (const char *), nm_strcmp_p_with_data, NULL);
 }
 
 /*****************************************************************************/
@@ -2059,7 +2066,7 @@ _nm_utils_unescape_spaces (char *str)
 		return NULL;
 
 	for (i = 0; str[i]; i++) {
-		if (str[i] == '\\' && IS_SPACE (str[i+1]))
+		if (str[i] == '\\' && IS_SPACE (str[i + 1]))
 			i++;
 		str[j++] = str[i];
 	}

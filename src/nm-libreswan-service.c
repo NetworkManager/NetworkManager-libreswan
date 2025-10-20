@@ -55,11 +55,12 @@
 #include "nm-utils/nm-vpn-plugin-macros.h"
 
 #if !defined(DIST_VERSION)
-# define DIST_VERSION VERSION
+#define DIST_VERSION VERSION
 #endif
 
 #define NM_TYPE_LIBRESWAN_PLUGIN (nm_libreswan_plugin_get_type ())
-#define NM_LIBRESWAN_PLUGIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPlugin))
+#define NM_LIBRESWAN_PLUGIN(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST ((obj), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPlugin))
 
 typedef NMVpnServicePlugin NMLibreswanPlugin;
 typedef NMVpnServicePluginClass NMLibreswanPluginClass;
@@ -74,7 +75,7 @@ static struct {
 	gboolean debug;
 	int log_level;
 	GMainLoop *loop;
-} gl/*obal*/;
+} gl /*obal*/;
 
 typedef enum {
 	CONNECT_STEP_FIRST,
@@ -128,30 +129,32 @@ typedef struct {
 	Pipe err;
 } NMLibreswanPluginPrivate;
 
-#define NM_LIBRESWAN_PLUGIN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPluginPrivate))
+#define NM_LIBRESWAN_PLUGIN_GET_PRIVATE(o) \
+	(G_TYPE_INSTANCE_GET_PRIVATE ((o), NM_TYPE_LIBRESWAN_PLUGIN, NMLibreswanPluginPrivate))
 
 /****************************************************************/
 
-#define _NMLOG(level, ...) \
-    G_STMT_START { \
-         if (gl.log_level >= (level)) { \
-              g_print ("nm-libreswan[%ld] %-7s " _NM_UTILS_MACRO_FIRST (__VA_ARGS__) "\n", \
-                       (long) getpid (), \
-                       nm_utils_syslog_to_str (level) \
-                       _NM_UTILS_MACRO_REST (__VA_ARGS__)); \
-         } \
-    } G_STMT_END
+#define _NMLOG(level, ...)                                                               \
+	G_STMT_START                                                                         \
+	{                                                                                    \
+		if (gl.log_level >= (level)) {                                                   \
+			g_print ("nm-libreswan[%ld] %-7s " _NM_UTILS_MACRO_FIRST (__VA_ARGS__) "\n", \
+			         (long) getpid (),                                                   \
+			         nm_utils_syslog_to_str (level) _NM_UTILS_MACRO_REST (__VA_ARGS__)); \
+		}                                                                                \
+	}                                                                                    \
+	G_STMT_END
 
 static gboolean
 _LOGD_enabled (void)
 {
-    return gl.log_level >= LOG_INFO;
+	return gl.log_level >= LOG_INFO;
 }
 
-#define _LOGD(...) _NMLOG(LOG_INFO,    __VA_ARGS__)
-#define _LOGI(...) _NMLOG(LOG_NOTICE,  __VA_ARGS__)
-#define _LOGW(...) _NMLOG(LOG_WARNING, __VA_ARGS__)
-#define _LOGE(...) _NMLOG(LOG_EMERG, __VA_ARGS__)
+#define _LOGD(...) _NMLOG (LOG_INFO, __VA_ARGS__)
+#define _LOGI(...) _NMLOG (LOG_NOTICE, __VA_ARGS__)
+#define _LOGW(...) _NMLOG (LOG_WARNING, __VA_ARGS__)
+#define _LOGE(...) _NMLOG (LOG_EMERG, __VA_ARGS__)
 
 /****************************************************************/
 
@@ -201,13 +204,9 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 	}
 	g_assert (condition & G_IO_IN);
 
-	while (   (g_io_channel_read_chars (source,
-	                                    buf,
-	                                    sizeof (buf) - 1,
-	                                    &bytes_read,
-	                                    NULL) == G_IO_STATUS_NORMAL)
-	       && bytes_read
-	       && pipe->str->len < 500)
+	while ((g_io_channel_read_chars (source, buf, sizeof (buf) - 1, &bytes_read, NULL)
+	        == G_IO_STATUS_NORMAL)
+	       && bytes_read && pipe->str->len < 500)
 		g_string_append_len (pipe->str, buf, bytes_read);
 
 	/* Print each complete line and remove it from the buffer */
@@ -215,7 +214,7 @@ pr_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 		nl = strpbrk (pipe->str->str, "\n\r");
 		if (!nl)
 			break;
-		*nl = 0;  /* Don't print the linebreak */
+		*nl = 0; /* Don't print the linebreak */
 		if (pipe->str->str[0])
 			_LOGD ("PTY(%s): %s", pipe->detail, pipe->str->str);
 		g_string_erase (pipe->str, 0, (nl - pipe->str->str) + 1);
@@ -301,9 +300,7 @@ delete_secrets_file (NMLibreswanPlugin *self)
 }
 
 static void
-connect_failed (NMLibreswanPlugin *self,
-                GError *error,
-                NMVpnPluginFailure reason)
+connect_failed (NMLibreswanPlugin *self, GError *error, NMVpnPluginFailure reason)
 {
 	if (error) {
 		_LOGW ("Connect failed: (%s/%d) %s",
@@ -464,10 +461,17 @@ do_spawn (NMLibreswanPlugin *self,
 	_LOGD ("spawn: %s", (cmdline = g_strjoinv (" ", (char **) argv->pdata)));
 	g_clear_pointer (&cmdline, g_free);
 
-	success = g_spawn_async_with_pipes (NULL, (char **) argv->pdata, NULL,
+	success = g_spawn_async_with_pipes (NULL,
+	                                    (char **) argv->pdata,
+	                                    NULL,
 	                                    G_SPAWN_DO_NOT_REAP_CHILD,
-	                                    NULL, NULL, &pid, out_stdin,
-	                                    NULL, out_stderr, &local);
+	                                    NULL,
+	                                    NULL,
+	                                    &pid,
+	                                    out_stdin,
+	                                    NULL,
+	                                    out_stderr,
+	                                    &local);
 
 	if (success) {
 		_LOGI ("spawn: success: %ld (%s)",
@@ -491,9 +495,7 @@ do_spawn (NMLibreswanPlugin *self,
 }
 
 static gboolean
-nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
-                               const char *secrets_path,
-                               GError **error)
+nm_libreswan_config_psk_write (NMSettingVpn *s_vpn, const char *secrets_path, GError **error)
 {
 	const char *pw_type, *psk, *leftid, *right;
 	gs_free const char *secrets = NULL;
@@ -512,7 +514,7 @@ nm_libreswan_config_psk_write (NMSettingVpn *s_vpn,
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
 		                     NM_VPN_PLUGIN_ERROR_INVALID_CONNECTION,
-		                     _("Invalid character in password."));
+		                     _ ("Invalid character in password."));
 		return FALSE;
 	}
 
@@ -572,15 +574,21 @@ spawn_pty (NMLibreswanPlugin *self,
 
 	/* The pipes */
 	if (pipe (stdout_pipe) == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: failed to create a stdout pipe (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		return FALSE;
 	}
 	if (pipe (stderr_pipe) == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: failed to create a stderr pipe (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		close (stdout_pipe[0]);
 		close (stdout_pipe[1]);
 		return FALSE;
@@ -592,60 +600,84 @@ spawn_pty (NMLibreswanPlugin *self,
 	 */
 	ret = fcntl (stdout_pipe[0], F_GETFL);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_GETFL on stdout failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 	ret = fcntl (stdout_pipe[0], F_SETFL, O_NONBLOCK | ret);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_SETFL on stdout failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 	ret = fcntl (stderr_pipe[0], F_GETFL);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_GETFL on stderr failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 	ret = fcntl (stderr_pipe[0], F_SETFL, O_NONBLOCK | ret);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_SETFL on stderr failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 
 	/* Disable buffering of child writes */
 	ret = fcntl (stdout_pipe[1], F_GETFL);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_GETFL on child stdout failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 	ret = fcntl (stdout_pipe[1], F_SETFL, O_SYNC | ret);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_SETFL on child stdout failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 	ret = fcntl (stderr_pipe[1], F_GETFL);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_GETFL on child stderr failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 	ret = fcntl (stderr_pipe[1], F_SETFL, O_SYNC | ret);
 	if (ret == -1) {
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn: F_SETFL on child stderr failed (%d): %s",
-		             errno, g_strerror (errno));
+		             errno,
+		             g_strerror (errno));
 		goto badpipes;
 	}
 
@@ -683,12 +715,14 @@ spawn_pty (NMLibreswanPlugin *self,
 		setenv ("LC_ALL", "C", 1);
 		setenv ("LANG", "C", 1);
 
-		execv (argv->pdata[0], (char * const*) argv->pdata);
+		execv (argv->pdata[0], (char *const *) argv->pdata);
 
 		/* This is probably a rather futile attempt to produce an error message
 		 * as it goes to the piped stderr. */
-		_LOGE ("PTY spawn: cannot exec '%s' (%d): %s", (char *) argv->pdata[0],
-		         errno, g_strerror (errno));
+		_LOGE ("PTY spawn: cannot exec '%s' (%d): %s",
+		       (char *) argv->pdata[0],
+		       errno,
+		       g_strerror (errno));
 		_exit (-1);
 	}
 
@@ -702,9 +736,12 @@ spawn_pty (NMLibreswanPlugin *self,
 		/* Close parent side's pipes */
 		close (stderr_pipe[0]);
 		close (stdout_pipe[0]);
-		g_set_error (error, NM_VPN_PLUGIN_ERROR, NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		g_set_error (error,
+		             NM_VPN_PLUGIN_ERROR,
+		             NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
 		             "PTY spawn failed for '%s' (%d)",
-		             (char *) argv->pdata[0], child_pid);
+		             (char *) argv->pdata[0],
+		             child_pid);
 		g_ptr_array_free (argv, TRUE);
 		return FALSE;
 	}
@@ -762,7 +799,9 @@ verify_source (struct nl_msg *msg, gpointer user_data)
 	if (!creds || creds->pid || creds->uid || creds->gid) {
 		if (creds) {
 			_LOGW ("netlink: received non-kernel message (pid %d uid %d gid %d)",
-			       creds->pid, creds->uid, creds->gid);
+			       creds->pid,
+			       creds->uid,
+			       creds->gid);
 		} else
 			_LOGW ("netlink: received message without credentials");
 		return NL_STOP;
@@ -819,10 +858,12 @@ parse_reply (struct nl_msg *msg, RoutesInfo *info)
 	}
 
 	xpinfo = nlmsg_data (n);
-	if (nla_parse (tb, XFRMA_MAX,
+	if (nla_parse (tb,
+	               XFRMA_MAX,
 	               nlmsg_attrdata (n, sizeof (struct xfrm_userpolicy_info)),
 	               nlmsg_attrlen (n, sizeof (struct xfrm_userpolicy_info)),
-	               NULL) < 0) {
+	               NULL)
+	    < 0) {
 		_LOGW ("failed to parse attributes");
 		return NL_SKIP;
 	}
@@ -851,15 +892,15 @@ parse_reply (struct nl_msg *msg, RoutesInfo *info)
 			if (!NM_IN_SET (tmpl->family, AF_INET, AF_INET6))
 				continue;
 
-			if (   tmpl->family == info->gw_addr_family
-			    && memcmp (&tmpl->id.daddr, &info->gw, nm_utils_addr_family_to_size (tmpl->family)) == 0) {
-
-				_LOGD("found SAD non-default route: src %s/%u dst %s/%u gw %s",
-					   inet_ntop (xpinfo->sel.family, &xpinfo->sel.saddr, saddr, sizeof (saddr)),
-					   xpinfo->sel.prefixlen_s,
-					   inet_ntop( xpinfo->sel.family, &xpinfo->sel.daddr, daddr, sizeof (daddr)),
-					   xpinfo->sel.prefixlen_d,
-					   inet_ntop (tmpl->family, &tmpl->id.daddr, gw, sizeof (gw)));
+			if (tmpl->family == info->gw_addr_family
+			    && memcmp (&tmpl->id.daddr, &info->gw, nm_utils_addr_family_to_size (tmpl->family))
+			           == 0) {
+				_LOGD ("found SAD non-default route: src %s/%u dst %s/%u gw %s",
+				       inet_ntop (xpinfo->sel.family, &xpinfo->sel.saddr, saddr, sizeof (saddr)),
+				       xpinfo->sel.prefixlen_s,
+				       inet_ntop (xpinfo->sel.family, &xpinfo->sel.daddr, daddr, sizeof (daddr)),
+				       xpinfo->sel.prefixlen_d,
+				       inet_ntop (tmpl->family, &tmpl->id.daddr, gw, sizeof (gw)));
 
 				if (xpinfo->sel.family == AF_INET) {
 					info->have_routes4 = TRUE;
@@ -874,10 +915,9 @@ parse_reply (struct nl_msg *msg, RoutesInfo *info)
 }
 
 static void
-have_sad_routes (const char *gw, int gw_addr_family,
-                 gboolean *have_routes4, gboolean *have_routes6)
+have_sad_routes (const char *gw, int gw_addr_family, gboolean *have_routes4, gboolean *have_routes6)
 {
-	RoutesInfo info = { };
+	RoutesInfo info = {};
 	struct nl_sock *sk;
 	int err;
 
@@ -897,9 +937,7 @@ have_sad_routes (const char *gw, int gw_addr_family,
 		goto done;
 	}
 
-	nl_socket_modify_cb (sk, NL_CB_VALID, NL_CB_CUSTOM,
-	                     (nl_recvmsg_msg_cb_t) parse_reply,
-	                     &info);
+	nl_socket_modify_cb (sk, NL_CB_VALID, NL_CB_CUSTOM, (nl_recvmsg_msg_cb_t) parse_reply, &info);
 
 	err = nl_recvmsgs_default (sk);
 	if (err < 0) {
@@ -919,7 +957,6 @@ done:
 static GVariant *
 str_to_gvariant (const char *str, gboolean try_convert)
 {
-
 	/* Empty */
 	if (!str || strlen (str) < 1)
 		return NULL;
@@ -953,10 +990,7 @@ addr_to_gvariant (const char *str, int addr_family)
 	if (addr_family == AF_INET) {
 		return g_variant_new_uint32 (addr.v4.s_addr);
 	} else {
-		return g_variant_new_fixed_array (G_VARIANT_TYPE_BYTE,
-		                                  &addr,
-		                                  sizeof (addr.v6),
-		                                  1);
+		return g_variant_new_fixed_array (G_VARIANT_TYPE_BYTE, &addr, sizeof (addr.v6), 1);
 	}
 }
 
@@ -1090,7 +1124,7 @@ take_route (GPtrArray *routes, NMIPRoute *route, gboolean alive)
 }
 
 static GVariant *
-route_to_gvariant(NMIPRoute *route)
+route_to_gvariant (NMIPRoute *route)
 {
 	const char *dest;
 	guint plen;
@@ -1098,11 +1132,11 @@ route_to_gvariant(NMIPRoute *route)
 	const char *next_hop;
 	const char *src = NULL;
 
-	dest     = nm_ip_route_get_dest (route);
-	plen     = nm_ip_route_get_prefix (route);
+	dest = nm_ip_route_get_dest (route);
+	plen = nm_ip_route_get_prefix (route);
 	next_hop = nm_ip_route_get_next_hop (route);
 
-	variant  = nm_ip_route_get_attribute (route, NM_IP_ROUTE_ATTRIBUTE_SRC);
+	variant = nm_ip_route_get_attribute (route, NM_IP_ROUTE_ATTRIBUTE_SRC);
 	if (variant) {
 		nm_assert (g_variant_is_of_type (variant, G_VARIANT_TYPE_STRING));
 		src = g_variant_get_string (variant, NULL);
@@ -1133,19 +1167,18 @@ route_to_gvariant(NMIPRoute *route)
 }
 
 static NMIPRoute *
-new_route(int         family,
-          const char *dest,
-          guint       prefix,
-          const char *next_hop,
-          const char *src)
+new_route (int family, const char *dest, guint prefix, const char *next_hop, const char *src)
 {
 	NMIPRoute *route;
 	gs_free_error GError *error = NULL;
 
 	route = nm_ip_route_new (family, dest, prefix, next_hop, 0, &error);
 	if (!route) {
-		_LOGW("Error creating route: dest %s, prefix %u, next_hop %s: %s",
-		       dest, prefix, next_hop, error->message);
+		_LOGW ("Error creating route: dest %s, prefix %u, next_hop %s: %s",
+		       dest,
+		       prefix,
+		       next_hop,
+		       error->message);
 		return NULL;
 	}
 
@@ -1197,10 +1230,10 @@ handle_route (GPtrArray *routes, GVariant *env, const char *verb, gboolean is_xf
 	if (nm_streq0 (peer, next_hop))
 		next_hop = NULL;
 
-	addr_family = strchr(net, ':') ? AF_INET6 : AF_INET;
+	addr_family = strchr (net, ':') ? AF_INET6 : AF_INET;
 
 	if (!netmask_to_prefixlen (mask, addr_family, &plen)) {
-		_LOGW("Invalid route netmask: %s", mask);
+		_LOGW ("Invalid route netmask: %s", mask);
 		return;
 	}
 
@@ -1237,8 +1270,8 @@ handle_callback (NMDBusLibreswanHelper *object,
 	nm_auto_clear_variant_builder GVariantBuilder config = {};
 	nm_auto_clear_variant_builder GVariantBuilder ip4_config = {};
 	nm_auto_clear_variant_builder GVariantBuilder ip6_config = {};
-	GVariantBuilder *ip_config[2] = { &ip4_config, &ip6_config };
-	gboolean has_ip_config[2] = { FALSE, FALSE };
+	GVariantBuilder *ip_config[2] = {&ip4_config, &ip6_config};
+	gboolean has_ip_config[2] = {FALSE, FALSE};
 	GVariant *variant;
 	const char *xfrm_interface = NULL;
 	const char *verb;
@@ -1287,34 +1320,41 @@ handle_callback (NMDBusLibreswanHelper *object,
 		if (variant)
 			g_variant_builder_add (&config, "{sv}", NM_VPN_PLUGIN_CONFIG_TUNDEV, variant);
 	} else {
-		variant = addr_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"), is_ipv6 ? AF_INET6 : AF_INET);
+		variant =
+			addr_to_gvariant (lookup_string (env, "PLUTO_NEXT_HOP"), is_ipv6 ? AF_INET6 : AF_INET);
 		if (variant) {
-			g_variant_builder_add (&config, "{sv}",
-			                       is_ipv6 ? NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY : NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY,
+			g_variant_builder_add (&config,
+			                       "{sv}",
+			                       is_ipv6 ? NM_VPN_PLUGIN_IP6_CONFIG_INT_GATEWAY
+			                               : NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY,
 			                       variant);
 		}
 	}
 
 	s_vpn = get_setting_vpn_sanitized (priv->connection, &local);
 	if (!s_vpn) {
-		_LOGW("%s", local->message);
+		_LOGW ("%s", local->message);
 		goto out;
 	}
 
 	dyn_addr_needed = _nm_utils_ascii_str_to_bool (
-		nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT),
+		nm_setting_vpn_get_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT),
 		FALSE);
 
 	if (dyn_addr_needed) {
 		/* IP address */
-		variant = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"), is_ipv6 ? AF_INET6 : AF_INET);
+		variant = addr_to_gvariant (lookup_string (env, "PLUTO_MY_SOURCEIP"),
+		                            is_ipv6 ? AF_INET6 : AF_INET);
 		if (variant) {
-			g_variant_builder_add (ip_config[is_ipv6], "{sv}",
-			                       is_ipv6 ? NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS : NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS,
+			g_variant_builder_add (ip_config[is_ipv6],
+			                       "{sv}",
+			                       is_ipv6 ? NM_VPN_PLUGIN_IP6_CONFIG_ADDRESS
+			                               : NM_VPN_PLUGIN_IP4_CONFIG_ADDRESS,
 			                       variant);
 			if (!is_ipv6) {
 				/* no PTP is expressed as PTP == ADDRESS */
-				g_variant_builder_add (ip_config[is_ipv6], "{sv}",
+				g_variant_builder_add (ip_config[is_ipv6],
+				                       "{sv}",
 				                       NM_VPN_PLUGIN_IP4_CONFIG_PTP,
 				                       variant);
 			}
@@ -1325,8 +1365,10 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 		/* Netmask */
 		variant = g_variant_new_uint32 (is_ipv6 ? 128 : 32);
-		g_variant_builder_add (ip_config[is_ipv6], "{sv}",
-		                       is_ipv6 ? NM_VPN_PLUGIN_IP6_CONFIG_PREFIX : NM_VPN_PLUGIN_IP4_CONFIG_PREFIX,
+		g_variant_builder_add (ip_config[is_ipv6],
+		                       "{sv}",
+		                       is_ipv6 ? NM_VPN_PLUGIN_IP6_CONFIG_PREFIX
+		                               : NM_VPN_PLUGIN_IP4_CONFIG_PREFIX,
 		                       variant);
 		has_ip_config[is_ipv6] = TRUE;
 	}
@@ -1357,8 +1399,10 @@ handle_callback (NMDBusLibreswanHelper *object,
 	if (cstr && (has_ip_config[0] || has_ip_config[1])) {
 		variant = str_to_gvariant (cstr, TRUE);
 		if (variant) {
-			g_variant_builder_add (has_ip_config[0] ? &ip4_config : &ip6_config, "{sv}",
-			                       has_ip_config[0] ? NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN : NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN,
+			g_variant_builder_add (has_ip_config[0] ? &ip4_config : &ip6_config,
+			                       "{sv}",
+			                       has_ip_config[0] ? NM_VPN_PLUGIN_IP4_CONFIG_DOMAIN
+			                                        : NM_VPN_PLUGIN_IP6_CONFIG_DOMAIN,
 			                       variant);
 		}
 	}
@@ -1378,7 +1422,7 @@ handle_callback (NMDBusLibreswanHelper *object,
 
 			if (nm_ip_route_get_family (route) == AF_INET) {
 				if (!routes4)
-					routes4 = g_variant_builder_new (G_VARIANT_TYPE("aau"));
+					routes4 = g_variant_builder_new (G_VARIANT_TYPE ("aau"));
 				g_variant_builder_add_value (routes4, variant);
 			} else {
 				if (!routes6)
@@ -1388,12 +1432,16 @@ handle_callback (NMDBusLibreswanHelper *object,
 		}
 
 		if (routes4) {
-			g_variant_builder_add (&ip4_config, "{sv}", NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
+			g_variant_builder_add (&ip4_config,
+			                       "{sv}",
+			                       NM_VPN_PLUGIN_IP4_CONFIG_ROUTES,
 			                       g_variant_builder_end (routes4));
 			has_ip_config[0] = TRUE;
 		}
 		if (routes6) {
-			g_variant_builder_add (&ip6_config, "{sv}", NM_VPN_PLUGIN_IP6_CONFIG_ROUTES,
+			g_variant_builder_add (&ip6_config,
+			                       "{sv}",
+			                       NM_VPN_PLUGIN_IP6_CONFIG_ROUTES,
 			                       g_variant_builder_end (routes6));
 			has_ip_config[1] = TRUE;
 		}
@@ -1411,52 +1459,55 @@ handle_callback (NMDBusLibreswanHelper *object,
 		                 &have_routes6);
 
 		if (has_ip_config[0] && have_routes4) {
-			g_variant_builder_add (&ip4_config, "{sv}",
+			g_variant_builder_add (&ip4_config,
+			                       "{sv}",
 			                       NM_VPN_PLUGIN_IP4_CONFIG_NEVER_DEFAULT,
 			                       g_variant_new_boolean (TRUE));
 		}
 		if (has_ip_config[1] && have_routes6) {
-			g_variant_builder_add (&ip6_config, "{sv}",
+			g_variant_builder_add (&ip6_config,
+			                       "{sv}",
 			                       NM_VPN_PLUGIN_IP6_CONFIG_NEVER_DEFAULT,
 			                       g_variant_new_boolean (TRUE));
 		}
 	}
 
-	g_variant_builder_add (&config, "{sv}",
+	g_variant_builder_add (&config,
+	                       "{sv}",
 	                       NM_VPN_PLUGIN_CONFIG_HAS_IP4,
 	                       g_variant_new_boolean (has_ip_config[0]));
-	g_variant_builder_add (&config, "{sv}",
+	g_variant_builder_add (&config,
+	                       "{sv}",
 	                       NM_VPN_PLUGIN_CONFIG_HAS_IP6,
 	                       g_variant_new_boolean (has_ip_config[1]));
 
 	/* Finally, send configs to NM */
 	variant = g_variant_builder_end (&config);
 	g_variant_ref_sink (variant);
-	_LOGD("sending config: %s", (str = g_variant_print (variant, FALSE)));
+	_LOGD ("sending config: %s", (str = g_variant_print (variant, FALSE)));
 	g_clear_pointer (&str, g_free);
 	nm_vpn_service_plugin_set_config (NM_VPN_SERVICE_PLUGIN (user_data), variant);
 	g_variant_unref (variant);
 
 	if (has_ip_config[0]) {
 		variant = g_variant_builder_end (&ip4_config);
-		_LOGD("sending IP4 config: %s", (str = g_variant_print (variant, FALSE)));
+		_LOGD ("sending IP4 config: %s", (str = g_variant_print (variant, FALSE)));
 		g_clear_pointer (&str, g_free);
-		nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data),
-		                                      variant);
+		nm_vpn_service_plugin_set_ip4_config (NM_VPN_SERVICE_PLUGIN (user_data), variant);
 		g_variant_unref (variant);
 	}
 	if (has_ip_config[1]) {
 		variant = g_variant_builder_end (&ip6_config);
-		_LOGD("sending IP6 config: %s", (str = g_variant_print (variant, FALSE)));
+		_LOGD ("sending IP6 config: %s", (str = g_variant_print (variant, FALSE)));
 		g_clear_pointer (&str, g_free);
-		nm_vpn_service_plugin_set_ip6_config (NM_VPN_SERVICE_PLUGIN (user_data),
-		                                      variant);
+		nm_vpn_service_plugin_set_ip6_config (NM_VPN_SERVICE_PLUGIN (user_data), variant);
 	}
 
 	success = TRUE;
 out:
 	if (!success) {
-		connect_failed (NM_LIBRESWAN_PLUGIN (user_data), NULL,
+		connect_failed (NM_LIBRESWAN_PLUGIN (user_data),
+		                NULL,
 		                NM_VPN_PLUGIN_FAILURE_CONNECT_FAILED);
 	}
 
@@ -1504,7 +1555,7 @@ handle_auth (NMLibreswanPlugin *self, const char **out_message, const char **out
 		priv->password = NULL;
 	} else {
 		*out_hint = NM_LIBRESWAN_KEY_XAUTH_PASSWORD;
-		*out_message = _("A password is required.");
+		*out_message = _ ("A password is required.");
 	}
 
 	return TRUE;
@@ -1550,7 +1601,7 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 
 	found = strstr (priv->io_buf->str, PASSPHRASE_REQUEST);
 	if (found) {
-		const char *hints[2] = { NULL, NULL };
+		const char *hints[2] = {NULL, NULL};
 		const char *message = NULL;
 
 		/* Erase everything up to and including the passphrase request */
@@ -1567,7 +1618,9 @@ io_cb (GIOChannel *source, GIOCondition condition, gpointer user_data)
 			priv->pending_auth = TRUE;
 			if (priv->interactive) {
 				_LOGD ("Requesting new secrets: '%s' (%s)", message, hints[0]);
-				nm_vpn_service_plugin_secrets_required (NM_VPN_SERVICE_PLUGIN (self), message, hints);
+				nm_vpn_service_plugin_secrets_required (NM_VPN_SERVICE_PLUGIN (self),
+				                                        message,
+				                                        hints);
 			} else {
 				/* Interactive not allowed, can't ask for more secrets */
 				_LOGW ("More secrets required but cannot ask interactively");
@@ -1591,9 +1644,7 @@ done:
 }
 
 static gboolean
-write_config (int fd,
-              const char *string,
-              GError **error)
+write_config (int fd, const char *string, GError **error)
 {
 	const char *p;
 	gsize l;
@@ -1623,8 +1674,11 @@ write_config (int fd,
 			continue;
 		break;
 	}
-	g_set_error (error, NMV_EDITOR_PLUGIN_ERROR, NMV_EDITOR_PLUGIN_ERROR,
-	             _("Error writing config: %s"), g_strerror (errsv));
+	g_set_error (error,
+	             NMV_EDITOR_PLUGIN_ERROR,
+	             NMV_EDITOR_PLUGIN_ERROR,
+	             _ ("Error writing config: %s"),
+	             g_strerror (errsv));
 	return FALSE;
 }
 
@@ -1652,7 +1706,15 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 		/* fallthrough */
 
 	case CONNECT_STEP_CHECK_RUNNING:
-		if (!do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--status", NULL))
+		if (!do_spawn (self,
+		               &priv->pid,
+		               NULL,
+		               NULL,
+		               error,
+		               priv->ipsec_path,
+		               "auto",
+		               "--status",
+		               NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, check_running_cb, self);
 		return TRUE;
@@ -1677,8 +1739,14 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_CHECK_NSS:
 		/* Start the IPsec service */
 		if (!priv->openswan) {
-			success = do_spawn (self, &priv->pid, NULL, NULL, error,
-			                    priv->ipsec_path, "--checknss", NULL);
+			success = do_spawn (self,
+			                    &priv->pid,
+			                    NULL,
+			                    NULL,
+			                    error,
+			                    priv->ipsec_path,
+			                    "--checknss",
+			                    NULL);
 			if (success)
 				priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 			return success;
@@ -1689,10 +1757,24 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_IPSEC_START:
 		/* Start the IPsec service */
 		if (priv->openswan)
-			success = do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "setup", "start", NULL);
+			success = do_spawn (self,
+			                    &priv->pid,
+			                    NULL,
+			                    NULL,
+			                    error,
+			                    priv->ipsec_path,
+			                    "setup",
+			                    "start",
+			                    NULL);
 		else {
-			success = do_spawn (self, &priv->pid, NULL, NULL, error,
-			                    priv->pluto_path, "--config", NM_IPSEC_CONF,
+			success = do_spawn (self,
+			                    &priv->pid,
+			                    NULL,
+			                    NULL,
+			                    error,
+			                    priv->pluto_path,
+			                    "--config",
+			                    NM_IPSEC_CONF,
 			                    NULL);
 		}
 		if (success) {
@@ -1704,15 +1786,33 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_WAIT_READY:
 		if (!priv->retries)
 			priv->retries = 30;
-		if (!do_spawn (self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "auto", "--ready", NULL))
+		if (!do_spawn (self,
+		               &priv->pid,
+		               NULL,
+		               NULL,
+		               error,
+		               priv->ipsec_path,
+		               "auto",
+		               "--ready",
+		               NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		return TRUE;
 
-	case CONNECT_STEP_CONFIG_ADD: {
-
-		if (!do_spawn (self, &priv->pid, &fd, NULL, error, priv->ipsec_path,
-		               "auto", "--replace", "--config", "-", uuid, NULL))
+	case CONNECT_STEP_CONFIG_ADD:
+	{
+		if (!do_spawn (self,
+		               &priv->pid,
+		               &fd,
+		               NULL,
+		               error,
+		               priv->ipsec_path,
+		               "auto",
+		               "--replace",
+		               "--config",
+		               "-",
+		               uuid,
+		               NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
 		if (!write_config (fd, priv->ipsec_conf, error)) {
@@ -1724,10 +1824,17 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_CONNECT:
 		g_assert (uuid);
 
-		if (!spawn_pty (self, &up_stdout, &up_stderr,
+		if (!spawn_pty (self,
+		                &up_stdout,
+		                &up_stderr,
 		                priv->xauth_enabled ? &up_pty : NULL,
-		                &priv->pid, error,
-		                priv->ipsec_path, "auto", "--up", uuid, NULL)) {
+		                &priv->pid,
+		                error,
+		                priv->ipsec_path,
+		                "auto",
+		                "--up",
+		                uuid,
+		                NULL)) {
 			return FALSE;
 		}
 		priv->watch_id = g_child_watch_add (priv->pid, child_watch_cb, self);
@@ -1738,7 +1845,8 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 			priv->channel = g_io_channel_unix_new (up_pty);
 			g_io_channel_set_encoding (priv->channel, NULL, NULL);
 			g_io_channel_set_buffered (priv->channel, FALSE);
-			priv->io_id = g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
+			priv->io_id =
+				g_io_add_watch (priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
 		}
 		pipe_init (&priv->out, up_stdout, "OUT");
 		pipe_init (&priv->err, up_stderr, "ERR");
@@ -1755,10 +1863,10 @@ connect_step (NMLibreswanPlugin *self, GError **error)
 }
 
 static gboolean
-_connect_common (NMVpnServicePlugin   *plugin,
-                 NMConnection  *connection,
-                 GVariant      *details,
-                 GError       **error)
+_connect_common (NMVpnServicePlugin *plugin,
+                 NMConnection *connection,
+                 GVariant *details,
+                 GError **error)
 {
 	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (plugin);
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
@@ -1777,9 +1885,9 @@ _connect_common (NMVpnServicePlugin   *plugin,
 
 	if (priv->connect_step != CONNECT_STEP_FIRST) {
 		g_set_error_literal (error,
-			                 NM_VPN_PLUGIN_ERROR,
-			                 NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
-			                 "Already connecting!");
+		                     NM_VPN_PLUGIN_ERROR,
+		                     NM_VPN_PLUGIN_ERROR_LAUNCH_FAILED,
+		                     "Already connecting!");
 		return FALSE;
 	}
 
@@ -1807,10 +1915,10 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	g_object_get (self, NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, &bus_name, NULL);
 
 	ifupdown_script = g_strdup_printf ("%s %d %ld %s",
-					   NM_LIBRESWAN_HELPER_PATH,
-					   LOG_DEBUG,
-					   (long) getpid (),
-					   bus_name);
+	                                   NM_LIBRESWAN_HELPER_PATH,
+	                                   LOG_DEBUG,
+	                                   (long) getpid (),
+	                                   bus_name);
 
 	/* openswan requires a terminating \n (otherwise it segfaults) while
 	 * libreswan fails parsing the configuration if you include the \n.
@@ -1821,12 +1929,12 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	/* Compose the ipsec.conf early, to catch configuration errors before
 	 * we initiate the conneciton. */
 	priv->ipsec_conf = nm_libreswan_get_ipsec_conf (version,
-		                                        s_vpn,
-		                                        con_name,
-		                                        ifupdown_script,
-		                                        priv->openswan,
-		                                        trailing_newline,
-		                                        error);
+	                                                s_vpn,
+	                                                con_name,
+	                                                ifupdown_script,
+	                                                priv->openswan,
+	                                                trailing_newline,
+	                                                error);
 	if (priv->ipsec_conf == NULL)
 		return FALSE;
 
@@ -1834,12 +1942,13 @@ _connect_common (NMVpnServicePlugin   *plugin,
 	priv->xauth_enabled = !nm_libreswan_utils_setting_is_ikev2 (s_vpn);
 
 	if (priv->xauth_enabled)
-		priv->password = g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
+		priv->password =
+			g_strdup (nm_setting_vpn_get_secret (s_vpn, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
 
 	/* Write the IPsec secret (group password); *SWAN always requires this and
 	 * doesn't ask for it interactively.
 	 */
-	priv->secrets_path = g_strdup_printf (NM_IPSEC_SECRETS_DIR"/ipsec-%s.secrets", con_name);
+	priv->secrets_path = g_strdup_printf (NM_IPSEC_SECRETS_DIR "/ipsec-%s.secrets", con_name);
 	if (!nm_libreswan_config_psk_write (s_vpn, priv->secrets_path, error))
 		return FALSE;
 
@@ -1850,18 +1959,16 @@ _connect_common (NMVpnServicePlugin   *plugin,
 }
 
 static gboolean
-real_connect (NMVpnServicePlugin   *plugin,
-              NMConnection  *connection,
-              GError       **error)
+real_connect (NMVpnServicePlugin *plugin, NMConnection *connection, GError **error)
 {
 	return _connect_common (plugin, connection, NULL, error);
 }
 
 static gboolean
-real_connect_interactive (NMVpnServicePlugin   *plugin,
-                          NMConnection  *connection,
-                          GVariant      *details,
-                          GError       **error)
+real_connect_interactive (NMVpnServicePlugin *plugin,
+                          NMConnection *connection,
+                          GVariant *details,
+                          GError **error)
 {
 	if (!_connect_common (plugin, connection, details, error))
 		return FALSE;
@@ -1926,15 +2033,13 @@ xauth_check:
 }
 
 static gboolean
-real_new_secrets (NMVpnServicePlugin *plugin,
-                  NMConnection *connection,
-                  GError **error)
+real_new_secrets (NMVpnServicePlugin *plugin, NMConnection *connection, GError **error)
 {
 	NMLibreswanPlugin *self = NM_LIBRESWAN_PLUGIN (plugin);
 	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE (self);
 	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	const char *message = NULL;
-	const char *hints[] = { NULL, NULL };
+	const char *hints[] = {NULL, NULL};
 
 	s_vpn = get_setting_vpn_sanitized (connection, error);
 	if (!s_vpn)
@@ -1950,7 +2055,7 @@ real_new_secrets (NMVpnServicePlugin *plugin,
 		g_set_error_literal (error,
 		                     NM_VPN_PLUGIN_ERROR,
 		                     NM_VPN_PLUGIN_ERROR_FAILED,
-		                     _("Unhandled pending authentication."));
+		                     _ ("Unhandled pending authentication."));
 		return FALSE;
 	}
 
@@ -1978,15 +2083,30 @@ real_disconnect (NMVpnServicePlugin *plugin, GError **error)
 	delete_secrets_file (plugin);
 
 	if (!priv->managed) {
-                const char *uuid = nm_connection_get_uuid (priv->connection);
-		ret = do_spawn (plugin, &priv->pid, NULL, NULL, error,
-		                priv->ipsec_path, "auto", "--delete", uuid, NULL);
+		const char *uuid = nm_connection_get_uuid (priv->connection);
+		ret = do_spawn (plugin,
+		                &priv->pid,
+		                NULL,
+		                NULL,
+		                error,
+		                priv->ipsec_path,
+		                "auto",
+		                "--delete",
+		                uuid,
+		                NULL);
 	} else if (priv->openswan) {
-		ret = do_spawn (plugin, &priv->pid, NULL, NULL, error,
-                                priv->ipsec_path, "setup", "stop", NULL);
+		ret = do_spawn (plugin,
+		                &priv->pid,
+		                NULL,
+		                NULL,
+		                error,
+		                priv->ipsec_path,
+		                "setup",
+		                "stop",
+		                NULL);
 	} else {
-		ret = do_spawn (plugin, &priv->pid, NULL, NULL, error,
-		                priv->whack_path, "--shutdown", NULL);
+		ret =
+			do_spawn (plugin, &priv->pid, NULL, NULL, error, priv->whack_path, "--shutdown", NULL);
 	}
 
 	if (ret)
@@ -2071,8 +2191,8 @@ setup_signals (void)
 	action.sa_handler = signal_handler;
 	action.sa_mask = mask;
 	action.sa_flags = 0;
-	sigaction (SIGTERM,  &action, NULL);
-	sigaction (SIGINT,  &action, NULL);
+	sigaction (SIGTERM, &action, NULL);
+	sigaction (SIGINT, &action, NULL);
 }
 
 static void
@@ -2093,14 +2213,30 @@ main (int argc, char *argv[])
 	GError *error = NULL;
 	const gchar *bus_name = NM_DBUS_SERVICE_LIBRESWAN;
 
-	GOptionEntry options[] = {
-		{ "persist", 0, 0, G_OPTION_ARG_NONE, &persist, N_("Don’t quit when VPN connection terminates"), NULL },
-		{ "debug", 0, 0, G_OPTION_ARG_NONE, &gl.debug, N_("Enable verbose debug logging (may expose passwords)"), NULL },
-		{ "bus-name", 0, 0, G_OPTION_ARG_STRING, &bus_name, N_("D-Bus name to use for this instance"), NULL },
-		{NULL}
-	};
+	GOptionEntry options[] = {{"persist",
+	                           0,
+	                           0,
+	                           G_OPTION_ARG_NONE,
+	                           &persist,
+	                           N_ ("Don’t quit when VPN connection terminates"),
+	                           NULL},
+	                          {"debug",
+	                           0,
+	                           0,
+	                           G_OPTION_ARG_NONE,
+	                           &gl.debug,
+	                           N_ ("Enable verbose debug logging (may expose passwords)"),
+	                           NULL},
+	                          {"bus-name",
+	                           0,
+	                           0,
+	                           G_OPTION_ARG_STRING,
+	                           &bus_name,
+	                           N_ ("D-Bus name to use for this instance"),
+	                           NULL},
+	                          {NULL}};
 
-#if !GLIB_CHECK_VERSION (2, 35, 0)
+#if !GLIB_CHECK_VERSION(2, 35, 0)
 	g_type_init ();
 #endif
 
@@ -2118,8 +2254,9 @@ main (int argc, char *argv[])
 	g_option_context_set_help_enabled (opt_ctx, TRUE);
 	g_option_context_add_main_entries (opt_ctx, options, NULL);
 
-	g_option_context_set_summary (opt_ctx,
-	    _("This service provides integrated IPsec VPN capability to NetworkManager."));
+	g_option_context_set_summary (
+		opt_ctx,
+		_ ("This service provides integrated IPsec VPN capability to NetworkManager."));
 
 	g_option_context_parse (opt_ctx, &argc, &argv, NULL);
 	g_option_context_free (opt_ctx);
@@ -2128,14 +2265,20 @@ main (int argc, char *argv[])
 		gl.debug = TRUE;
 
 	gl.log_level = _nm_utils_ascii_str_to_int64 (getenv ("NM_VPN_LOG_LEVEL"),
-	                                             10, 0, LOG_DEBUG,
+	                                             10,
+	                                             0,
+	                                             LOG_DEBUG,
 	                                             gl.debug ? LOG_INFO : LOG_NOTICE);
 
 	_LOGD ("%s (version " DIST_VERSION ") starting...", argv[0]);
 
-	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN, NULL, &error,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME, bus_name,
-	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER, !gl.debug,
+	plugin = g_initable_new (NM_TYPE_LIBRESWAN_PLUGIN,
+	                         NULL,
+	                         &error,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_SERVICE_NAME,
+	                         bus_name,
+	                         NM_VPN_SERVICE_PLUGIN_DBUS_WATCH_PEER,
+	                         !gl.debug,
 	                         NULL);
 	if (!plugin) {
 		_LOGW ("Failed to initialize a plugin instance: %s", error->message);
@@ -2156,9 +2299,13 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 
-	g_dbus_connection_register_object (connection, NM_VPN_DBUS_PLUGIN_PATH,
+	g_dbus_connection_register_object (connection,
+	                                   NM_VPN_DBUS_PLUGIN_PATH,
 	                                   nmdbus_libreswan_helper_interface_info (),
-	                                   NULL, NULL, NULL, NULL);
+	                                   NULL,
+	                                   NULL,
+	                                   NULL,
+	                                   NULL);
 
 	g_signal_connect (priv->dbus_skeleton, "handle-callback", G_CALLBACK (handle_callback), plugin);
 

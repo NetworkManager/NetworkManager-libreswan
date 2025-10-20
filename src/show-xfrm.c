@@ -34,7 +34,9 @@ verify_source (struct nl_msg *msg, gpointer user_data)
 	if (!creds || creds->pid || creds->uid || creds->gid) {
 		if (creds)
 			g_warning ("netlink: received non-kernel message (pid %d uid %d gid %d)",
-			           creds->pid, creds->uid, creds->gid);
+			           creds->pid,
+			           creds->uid,
+			           creds->gid);
 		else
 			g_warning ("netlink: received message without credentials");
 		return NL_STOP;
@@ -104,10 +106,12 @@ parse_reply (struct nl_msg *msg, void *arg)
 	}
 
 	xpinfo = nlmsg_data (n);
-	if (nla_parse (tb, XFRMA_MAX,
+	if (nla_parse (tb,
+	               XFRMA_MAX,
 	               nlmsg_attrdata (n, sizeof (struct xfrm_userpolicy_info)),
 	               nlmsg_attrlen (n, sizeof (struct xfrm_userpolicy_info)),
-	               NULL) < 0) {
+	               NULL)
+	    < 0) {
 		g_warning ("failed to parse attributes");
 		return NL_SKIP;
 	}
@@ -136,8 +140,8 @@ parse_reply (struct nl_msg *msg, void *arg)
 	return NL_OK;
 }
 
-
-int main (int argc, char **argv)
+int
+main (int argc, char **argv)
 {
 	struct nl_sock *sk;
 	int err;

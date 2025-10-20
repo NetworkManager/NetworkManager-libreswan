@@ -35,36 +35,45 @@
 #include <string.h>
 
 #define ENC_TYPE_SECURE 0
-#define ENC_TYPE_WEAK   1
-#define ENC_TYPE_NONE   2
+#define ENC_TYPE_WEAK 1
+#define ENC_TYPE_NONE 2
 
-#define PW_TYPE_SAVE   0
-#define PW_TYPE_ASK    1
+#define PW_TYPE_SAVE 0
+#define PW_TYPE_ASK 1
 #define PW_TYPE_UNUSED 2
 
-#if !GTK_CHECK_VERSION(4,0,0)
-#define gtk_editable_set_text(editable,text)		gtk_entry_set_text(GTK_ENTRY(editable), (text))
-#define gtk_editable_get_text(editable)			gtk_entry_get_text(GTK_ENTRY(editable))
-#define gtk_check_button_get_active(button)		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))
-#define gtk_check_button_set_active(button, active)	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), active)
-#define gtk_widget_get_root(widget)			gtk_widget_get_toplevel(widget)
-#define gtk_window_set_hide_on_close(window, hide)						\
-	G_STMT_START {										\
-		G_STATIC_ASSERT(hide);								\
-		g_signal_connect_swapped (G_OBJECT (window), "delete-event",			\
-		                          G_CALLBACK (gtk_widget_hide_on_delete), window); 	\
-	} G_STMT_END
+#if !GTK_CHECK_VERSION(4, 0, 0)
+#define gtk_editable_set_text(editable, text) gtk_entry_set_text (GTK_ENTRY (editable), (text))
+#define gtk_editable_get_text(editable) gtk_entry_get_text (GTK_ENTRY (editable))
+#define gtk_check_button_get_active(button) \
+	gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))
+#define gtk_check_button_set_active(button, active) \
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), active)
+#define gtk_widget_get_root(widget) gtk_widget_get_toplevel (widget)
+#define gtk_window_set_hide_on_close(window, hide)                        \
+	G_STMT_START                                                          \
+	{                                                                     \
+		G_STATIC_ASSERT (hide);                                           \
+		g_signal_connect_swapped (G_OBJECT (window),                      \
+		                          "delete-event",                         \
+		                          G_CALLBACK (gtk_widget_hide_on_delete), \
+		                          window);                                \
+	}                                                                     \
+	G_STMT_END
 #endif
 
 /*****************************************************************************/
 
 static void libreswan_editor_interface_init (NMVpnEditorInterface *iface_class);
 
-G_DEFINE_TYPE_EXTENDED (LibreswanEditor, libreswan_editor, G_TYPE_OBJECT, 0,
-                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR,
-                                               libreswan_editor_interface_init))
+G_DEFINE_TYPE_EXTENDED (LibreswanEditor,
+                        libreswan_editor,
+                        G_TYPE_OBJECT,
+                        0,
+                        G_IMPLEMENT_INTERFACE (NM_TYPE_VPN_EDITOR, libreswan_editor_interface_init))
 
-#define LIBRESWAN_EDITOR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), LIBRESWAN_TYPE_EDITOR, LibreswanEditorPrivate))
+#define LIBRESWAN_EDITOR_GET_PRIVATE(o) \
+	(G_TYPE_INSTANCE_GET_PRIVATE ((o), LIBRESWAN_TYPE_EDITOR, LibreswanEditorPrivate))
 
 typedef struct {
 	GtkBuilder *builder;
@@ -76,14 +85,14 @@ typedef struct {
 } LibreswanEditorPrivate;
 
 #define TYPE_IKEV1_XAUTH 0
-#define TYPE_IKEV2_CERT  1
+#define TYPE_IKEV2_CERT 1
 
 /* Define a three-valued logic (3VL) for managing boolean values that allows a third value
  * beside the common "yes"/"no". The third value actual meaning may depend on the context,
  * e.g., for fragmentation it means "force".
  */
-#define TYPE_3VL_NO    0
-#define TYPE_3VL_YES   1
+#define TYPE_3VL_NO 0
+#define TYPE_3VL_YES 1
 #define TYPE_3VL_OTHER 2
 
 static gboolean
@@ -134,14 +143,17 @@ contype_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 	LibreswanEditor *self = LIBRESWAN_EDITOR (user_data);
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
 	int contype;
-	const char *ikev1_widgets[] = { "user_label" , "user_entry",
-	                                "user_password_label", "user_password_entry",
-	                                "group_label", "group_entry",
-	                                "group_password_label", "group_password_entry",
-	                                "show_passwords_checkbutton",
-	                                NULL };
-	const char *ikev2_widgets[] = { "cert_label", "cert_entry",
-	                                NULL };
+	const char *ikev1_widgets[] = {"user_label",
+	                               "user_entry",
+	                               "user_password_label",
+	                               "user_password_entry",
+	                               "group_label",
+	                               "group_entry",
+	                               "group_password_label",
+	                               "group_password_entry",
+	                               "show_passwords_checkbutton",
+	                               NULL};
+	const char *ikev2_widgets[] = {"cert_label", "cert_entry", NULL};
 	const char **widget_show;
 	const char **widget_hide;
 
@@ -162,7 +174,6 @@ contype_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 		gtk_widget_show (GTK_WIDGET (gtk_builder_get_object (priv->builder, *widget_show++)));
 	while (*widget_hide)
 		gtk_widget_hide (GTK_WIDGET (gtk_builder_get_object (priv->builder, *widget_hide++)));
-
 }
 
 static void
@@ -206,9 +217,7 @@ show_toggled_cb (GtkCheckButton *button, LibreswanEditor *self)
 }
 
 static void
-password_storage_changed_cb (GObject *entry,
-                             GParamSpec *pspec,
-                             gpointer user_data)
+password_storage_changed_cb (GObject *entry, GParamSpec *pspec, gpointer user_data)
 {
 	LibreswanEditor *self = LIBRESWAN_EDITOR (user_data);
 
@@ -245,8 +254,7 @@ init_password_icon (LibreswanEditor *self,
 	entry = GTK_WIDGET (gtk_builder_get_object (priv->builder, entry_name));
 	g_assert (entry);
 
-	nma_utils_setup_password_storage (entry, 0, (NMSetting *) s_vpn, secret_key,
-	                                  TRUE, FALSE);
+	nma_utils_setup_password_storage (entry, 0, (NMSetting *) s_vpn, secret_key, TRUE, FALSE);
 
 	/* If there's no password and no flags in the setting,
 	 * initialize flags as "always-ask".
@@ -258,22 +266,26 @@ init_password_icon (LibreswanEditor *self,
 	}
 	value = gtk_editable_get_text (GTK_EDITABLE (entry));
 	if ((!value || !*value) && !flags) {
-		nma_utils_update_password_storage (entry, NM_SETTING_SECRET_FLAG_NOT_SAVED,
-		                                   (NMSetting *) s_vpn, secret_key);
+		nma_utils_update_password_storage (entry,
+		                                   NM_SETTING_SECRET_FLAG_NOT_SAVED,
+		                                   (NMSetting *) s_vpn,
+		                                   secret_key);
 	}
 
-	g_signal_connect (entry, "notify::secondary-icon-name",
-	                  G_CALLBACK (password_storage_changed_cb), self);
+	g_signal_connect (entry,
+	                  "notify::secondary-icon-name",
+	                  G_CALLBACK (password_storage_changed_cb),
+	                  self);
 }
 
 static void
 advanced_button_clicked_cb (GtkWidget *button, gpointer user_data)
 {
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (user_data);
-        void *root;
+	void *root;
 
 	root = gtk_widget_get_root (priv->widget);
-	if (GTK_IS_WINDOW(root))
+	if (GTK_IS_WINDOW (root))
 		gtk_window_set_transient_for (GTK_WINDOW (priv->advanced_dialog), GTK_WINDOW (root));
 	gtk_widget_show (priv->advanced_dialog);
 }
@@ -306,8 +318,7 @@ get_widget (NMVpnEditor *iface)
 }
 
 static void
-insert_text_check (GtkEditable *editable, char *new_text,
-                   int len, int *pos, gpointer user_data)
+insert_text_check (GtkEditable *editable, char *new_text, int len, int *pos, gpointer user_data)
 {
 	nm_auto_free_gstring GString *new_val = NULL;
 	const char *key = user_data;
@@ -356,8 +367,7 @@ populate_widget (LibreswanEditor *self,
 		                  (gpointer) key_name);
 
 	} else if (GTK_IS_CHECK_BUTTON (widget)) {
-		gtk_check_button_set_active (GTK_CHECK_BUTTON (widget),
-					     nm_streq0 (value, match_value));
+		gtk_check_button_set_active (GTK_CHECK_BUTTON (widget), nm_streq0 (value, match_value));
 	} else if (GTK_IS_COMBO_BOX (widget)) {
 		gint idx = -1;
 
@@ -382,7 +392,8 @@ populate_widget (LibreswanEditor *self,
 
 	g_signal_connect (G_OBJECT (widget),
 	                  GTK_IS_CHECK_BUTTON (widget) ? "toggled" : "changed",
-	                  G_CALLBACK (changed_cb), user_data);
+	                  G_CALLBACK (changed_cb),
+	                  user_data);
 }
 
 static gboolean
@@ -415,24 +426,23 @@ adv_changed_cb (GtkWidget *widget, gpointer user_data)
 
 	settings_valid = check_adv_validity (self, &error);
 	gtk_widget_set_sensitive (priv->apply_button, settings_valid);
-	gtk_widget_set_tooltip_text (priv->apply_button,
-	                             settings_valid ? NULL : error->message);
+	gtk_widget_set_tooltip_text (priv->apply_button, settings_valid ? NULL : error->message);
 }
 
 static inline void
 populate_adv (LibreswanEditor *self,
-               const char *widget_name,
-               const char *key_name,
-               const char *alt_key_name,
-               const char *match_value)
+              const char *widget_name,
+              const char *key_name,
+              const char *alt_key_name,
+              const char *match_value)
 {
 	populate_widget (self,
-			 widget_name,
-			 key_name,
-			 alt_key_name,
-			 match_value,
-			 G_CALLBACK (adv_changed_cb),
-			 self);
+	                 widget_name,
+	                 key_name,
+	                 alt_key_name,
+	                 match_value,
+	                 G_CALLBACK (adv_changed_cb),
+	                 self);
 }
 
 static void
@@ -445,8 +455,16 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_adv (self, "phase2_lifetime_entry", NM_LIBRESWAN_KEY_SALIFETIME, NULL, NULL);
 	populate_adv (self, "rekey_checkbutton", NM_LIBRESWAN_KEY_REKEY, NULL, "no");
 	populate_adv (self, "pfs_checkbutton", NM_LIBRESWAN_KEY_PFS, NULL, "no");
-	populate_adv (self, "local_network_entry", NM_LIBRESWAN_KEY_LEFTSUBNETS, NM_LIBRESWAN_KEY_LEFTSUBNET, NULL);
-	populate_adv (self, "remote_network_entry", NM_LIBRESWAN_KEY_RIGHTSUBNETS, NM_LIBRESWAN_KEY_RIGHTSUBNET, NULL);
+	populate_adv (self,
+	              "local_network_entry",
+	              NM_LIBRESWAN_KEY_LEFTSUBNETS,
+	              NM_LIBRESWAN_KEY_LEFTSUBNET,
+	              NULL);
+	populate_adv (self,
+	              "remote_network_entry",
+	              NM_LIBRESWAN_KEY_RIGHTSUBNETS,
+	              NM_LIBRESWAN_KEY_RIGHTSUBNET,
+	              NULL);
 	populate_adv (self, "narrowing_checkbutton", NM_LIBRESWAN_KEY_NARROWING, NULL, "yes");
 	populate_adv (self, "fragmentation_combo", NM_LIBRESWAN_KEY_FRAGMENTATION, NULL, "force");
 	populate_adv (self, "mobike_combo", NM_LIBRESWAN_KEY_MOBIKE, NULL, NULL);
@@ -455,9 +473,17 @@ populate_adv_dialog (LibreswanEditor *self)
 	populate_adv (self, "dpd_action_combo", NM_LIBRESWAN_KEY_DPDACTION, NULL, NULL);
 	populate_adv (self, "ipsec_interface_entry", NM_LIBRESWAN_KEY_IPSEC_INTERFACE, NULL, NULL);
 	populate_adv (self, "authby_entry", NM_LIBRESWAN_KEY_AUTHBY, NULL, NULL);
-	populate_adv (self, "disable_modecfgclient_checkbutton", NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT, NULL, "no");
+	populate_adv (self,
+	              "disable_modecfgclient_checkbutton",
+	              NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT,
+	              NULL,
+	              "no");
 	populate_adv (self, "remote_cert_entry", NM_LIBRESWAN_KEY_RIGHTCERT, NULL, NULL);
-	populate_adv (self, "require_id_on_certificate_checkbutton", NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, NULL, "no");
+	populate_adv (self,
+	              "require_id_on_certificate_checkbutton",
+	              NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE,
+	              NULL,
+	              "no");
 	populate_adv (self, "leftsendcert_entry", NM_LIBRESWAN_KEY_LEFTSENDCERT, NULL, NULL);
 	populate_adv (self, "rightca", NM_LIBRESWAN_KEY_RIGHTCA, NULL, NULL);
 	adv_changed_cb (NULL, self);
@@ -471,12 +497,12 @@ populate_main (LibreswanEditor *self,
                const char *match_value)
 {
 	populate_widget (self,
-			 widget_name,
-			 key_name,
-			 alt_key_name,
-			 match_value,
-			 G_CALLBACK (stuff_changed_cb),
-			 self);
+	                 widget_name,
+	                 key_name,
+	                 alt_key_name,
+	                 match_value,
+	                 G_CALLBACK (stuff_changed_cb),
+	                 self);
 }
 
 static gboolean
@@ -549,23 +575,28 @@ init_editor_plugin (LibreswanEditor *self,
 
 	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "show_passwords_checkbutton"));
 	g_return_val_if_fail (widget != NULL, FALSE);
-	g_signal_connect (G_OBJECT (widget), "toggled",
-	                  (GCallback) show_toggled_cb,
-	                  self);
+	g_signal_connect (G_OBJECT (widget), "toggled", (GCallback) show_toggled_cb, self);
 
 	populate_main (self, "gateway_entry", NM_LIBRESWAN_KEY_RIGHT, NULL, NULL);
-	populate_main (self, "user_entry", NM_LIBRESWAN_KEY_LEFTXAUTHUSER, NM_LIBRESWAN_KEY_LEFTUSERNAME, NULL);
+	populate_main (self,
+	               "user_entry",
+	               NM_LIBRESWAN_KEY_LEFTXAUTHUSER,
+	               NM_LIBRESWAN_KEY_LEFTUSERNAME,
+	               NULL);
 	populate_main (self, "group_entry", NM_LIBRESWAN_KEY_LEFTID, NULL, NULL);
 	populate_main (self, "cert_entry", NM_LIBRESWAN_KEY_LEFTCERT, NULL, NULL);
 	populate_main (self, "remoteid_entry", NM_LIBRESWAN_KEY_RIGHTID, NULL, NULL);
 
-	priv->advanced_dialog = GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-advanced-dialog"));
+	priv->advanced_dialog =
+		GTK_WIDGET (gtk_builder_get_object (priv->builder, "libreswan-advanced-dialog"));
 	g_return_val_if_fail (priv->advanced_dialog != NULL, FALSE);
 
 	gtk_window_set_hide_on_close (GTK_WINDOW (priv->advanced_dialog), TRUE);
 
-	g_signal_connect (G_OBJECT (priv->advanced_dialog), "response",
-	                  G_CALLBACK (advanced_dialog_response_cb), self);
+	g_signal_connect (G_OBJECT (priv->advanced_dialog),
+	                  "response",
+	                  G_CALLBACK (advanced_dialog_response_cb),
+	                  self);
 
 	priv->apply_button = GTK_WIDGET (gtk_builder_get_object (priv->builder, "apply_button"));
 	g_return_val_if_fail (priv->apply_button != NULL, FALSE);
@@ -634,8 +665,7 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_DOMAIN);
 
 	/* Local Network(s) */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-	                                             "local_network_entry"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "local_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	subnets = nm_libreswan_normalize_subnets (str, NULL);
 	if (subnets == NULL || subnets[0] == '\0') {
@@ -651,8 +681,7 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 	g_free (subnets);
 
 	/* Remote Network(s) */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-	                                             "remote_network_entry"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "remote_network_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	subnets = nm_libreswan_normalize_subnets (str, NULL);
 	if (subnets == NULL || subnets[0] == '\0') {
@@ -757,7 +786,8 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_AUTHBY);
 
 	/* Disable Mode Config client */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "disable_modecfgclient_checkbutton"));
+	widget =
+		GTK_WIDGET (gtk_builder_get_object (priv->builder, "disable_modecfgclient_checkbutton"));
 	if (gtk_check_button_get_active (GTK_CHECK_BUTTON (widget)))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_LEFTMODECFGCLIENT, "no");
 	else
@@ -772,7 +802,8 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCERT);
 
 	/* Disable Require ID on certificate */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "require_id_on_certificate_checkbutton"));
+	widget = GTK_WIDGET (
+		gtk_builder_get_object (priv->builder, "require_id_on_certificate_checkbutton"));
 	if (gtk_check_button_get_active (GTK_CHECK_BUTTON (widget)))
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE, "no");
 	else
@@ -793,13 +824,10 @@ update_adv_settings (LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCA, str);
 	else
 		nm_setting_vpn_remove_data_item (s_vpn, NM_LIBRESWAN_KEY_RIGHTCA);
-
 }
 
 static gboolean
-update_connection (NMVpnEditor *iface,
-                   NMConnection *connection,
-                   GError **error)
+update_connection (NMVpnEditor *iface, NMConnection *connection, GError **error)
 {
 	LibreswanEditor *self = LIBRESWAN_EDITOR (iface);
 	LibreswanEditorPrivate *priv = LIBRESWAN_EDITOR_GET_PRIVATE (self);
@@ -890,15 +918,13 @@ update_connection (NMVpnEditor *iface,
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_ESP, str);
 
 	/* Phase 1 Lifetime: ike */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-	                                             "phase1_lifetime_entry"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase1_lifetime_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_IKELIFETIME, str);
 
 	/* Phase 2 Lifetime: sa */
-	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder,
-	                                             "phase2_lifetime_entry"));
+	widget = GTK_WIDGET (gtk_builder_get_object (priv->builder, "phase2_lifetime_entry"));
 	str = gtk_editable_get_text (GTK_EDITABLE (widget));
 	if (str && *str)
 		nm_setting_vpn_add_data_item (s_vpn, NM_LIBRESWAN_KEY_SALIFETIME, str);
@@ -943,8 +969,12 @@ nm_vpn_editor_new (NMConnection *connection, GError **error)
 
 	gtk_builder_set_translation_domain (priv->builder, GETTEXT_PACKAGE);
 
-	if (!gtk_builder_add_from_resource (priv->builder, "/org/freedesktop/network-manager-libreswan/nm-libreswan-dialog.ui", error)) {
-		g_warning ("Couldn't load builder file: %s", error && *error ? (*error)->message : "(unknown)");
+	if (!gtk_builder_add_from_resource (
+			priv->builder,
+			"/org/freedesktop/network-manager-libreswan/nm-libreswan-dialog.ui",
+			error)) {
+		g_warning ("Couldn't load builder file: %s",
+		           error && *error ? (*error)->message : "(unknown)");
 		g_object_unref (object);
 		return NULL;
 	}
@@ -1005,8 +1035,7 @@ libreswan_editor_class_init (LibreswanEditorClass *req_class)
 
 static void
 libreswan_editor_init (LibreswanEditor *plugin)
-{
-}
+{}
 
 static void
 libreswan_editor_interface_init (NMVpnEditorInterface *iface_class)

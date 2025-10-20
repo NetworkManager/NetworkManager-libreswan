@@ -90,4 +90,3 @@ nm_utils_syslog_to_str (int syslog_level)
 /*****************************************************************************/
 
 #endif /* __NM_VPN_PLUGIN_MACROS_H__ */
-

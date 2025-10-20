@@ -34,27 +34,29 @@ extern char **environ;
 static struct {
 	int log_level;
 	const char *log_prefix_token;
-} gl/*obal*/ = {
+} gl /*obal*/ = {
 	.log_level = LOG_WARNING,
 	.log_prefix_token = "???",
 };
 
 /*****************************************************************************/
 
-#define _NMLOG(level, ...) \
-    G_STMT_START { \
-         if (gl.log_level >= (level)) { \
-              g_print ("nm-libreswan-helper[%s,%ld]: %-7s " _NM_UTILS_MACRO_FIRST (__VA_ARGS__) "\n", \
-                       gl.log_prefix_token, \
-                       (long) getpid (), \
-                       nm_utils_syslog_to_str (level) \
-                       _NM_UTILS_MACRO_REST (__VA_ARGS__)); \
-         } \
-    } G_STMT_END
+#define _NMLOG(level, ...)                                                                     \
+	G_STMT_START                                                                               \
+	{                                                                                          \
+		if (gl.log_level >= (level)) {                                                         \
+			g_print (                                                                          \
+				"nm-libreswan-helper[%s,%ld]: %-7s " _NM_UTILS_MACRO_FIRST (__VA_ARGS__) "\n", \
+				gl.log_prefix_token,                                                           \
+				(long) getpid (),                                                              \
+				nm_utils_syslog_to_str (level) _NM_UTILS_MACRO_REST (__VA_ARGS__));            \
+		}                                                                                      \
+	}                                                                                          \
+	G_STMT_END
 
-#define _LOGD(...) _NMLOG(LOG_INFO,    __VA_ARGS__)
-#define _LOGI(...) _NMLOG(LOG_NOTICE,  __VA_ARGS__)
-#define _LOGW(...) _NMLOG(LOG_WARNING, __VA_ARGS__)
+#define _LOGD(...) _NMLOG (LOG_INFO, __VA_ARGS__)
+#define _LOGI(...) _NMLOG (LOG_NOTICE, __VA_ARGS__)
+#define _LOGW(...) _NMLOG (LOG_WARNING, __VA_ARGS__)
 
 /*****************************************************************************/
 
@@ -70,7 +72,7 @@ main (int argc, char *argv[])
 	char *str = NULL;
 	char **i_env;
 
-#if !GLIB_CHECK_VERSION (2, 35, 0)
+#if !GLIB_CHECK_VERSION(2, 35, 0)
 	g_type_init ();
 #endif
 
@@ -106,11 +108,13 @@ main (int argc, char *argv[])
 	for (i_env = environ; i_env && *i_env; i_env++)
 		_LOGD ("environment: %s", *i_env);
 
-	proxy = nmdbus_libreswan_helper_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
-	                                                        G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES,
-	                                                        bus_name,
-	                                                        NM_DBUS_PATH_LIBRESWAN_HELPER,
-	                                                        NULL, &err);
+	proxy =
+		nmdbus_libreswan_helper_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
+	                                                    G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES,
+	                                                    bus_name,
+	                                                    NM_DBUS_PATH_LIBRESWAN_HELPER,
+	                                                    NULL,
+	                                                    &err);
 	if (!proxy) {
 		_LOGW ("Could not create a D-Bus proxy: %s", err->message);
 		g_error_free (err);
@@ -128,7 +132,8 @@ main (int argc, char *argv[])
 
 	if (!nmdbus_libreswan_helper_call_callback_sync (proxy,
 	                                                 g_variant_builder_end (&environment),
-	                                                 NULL, &err)) {
+	                                                 NULL,
+	                                                 &err)) {
 		_LOGW ("Could not call the plugin: %s", err->message);
 		g_error_free (err);
 		g_object_unref (proxy);

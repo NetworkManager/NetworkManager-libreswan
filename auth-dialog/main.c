@@ -38,12 +38,11 @@ static const SecretSchema network_manager_secret_schema = {
 	"org.freedesktop.NetworkManager.Connection",
 	SECRET_SCHEMA_DONT_MATCH_NAME,
 	{
-		{ KEYRING_UUID_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
-		{ KEYRING_SN_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
-		{ KEYRING_SK_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
-		{ NULL, 0 },
-	}
-};
+		{KEYRING_UUID_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING},
+		{KEYRING_SN_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING},
+		{KEYRING_SK_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING},
+		{NULL, 0},
+	}};
 
 #define UI_KEYFILE_GROUP "VPN Plugin UI"
 
@@ -55,14 +54,21 @@ keyring_lookup_secret (const char *uuid, const char *secret_name)
 	char *secret = NULL;
 
 	attrs = secret_attributes_build (&network_manager_secret_schema,
-	                                 KEYRING_UUID_TAG, uuid,
-	                                 KEYRING_SN_TAG, NM_SETTING_VPN_SETTING_NAME,
-	                                 KEYRING_SK_TAG, secret_name,
+	                                 KEYRING_UUID_TAG,
+	                                 uuid,
+	                                 KEYRING_SN_TAG,
+	                                 NM_SETTING_VPN_SETTING_NAME,
+	                                 KEYRING_SK_TAG,
+	                                 secret_name,
 	                                 NULL);
 
-	list = secret_service_search_sync (NULL, &network_manager_secret_schema, attrs,
-	                                   SECRET_SEARCH_ALL | SECRET_SEARCH_UNLOCK | SECRET_SEARCH_LOAD_SECRETS,
-	                                   NULL, NULL);
+	list = secret_service_search_sync (NULL,
+	                                   &network_manager_secret_schema,
+	                                   attrs,
+	                                   SECRET_SEARCH_ALL | SECRET_SEARCH_UNLOCK
+	                                       | SECRET_SEARCH_LOAD_SECRETS,
+	                                   NULL,
+	                                   NULL);
 	if (list && list->data) {
 		SecretItem *item = list->data;
 		SecretValue *value = secret_item_get_secret (item);
@@ -106,12 +112,12 @@ typedef void (*FinishFunc) (const char *vpn_name,
 /* External UI mode stuff */
 
 static void
-keyfile_add_entry_info (GKeyFile    *keyfile,
+keyfile_add_entry_info (GKeyFile *keyfile,
                         const gchar *key,
                         const gchar *value,
                         const gchar *label,
-                        gboolean     is_secret,
-                        gboolean     should_ask)
+                        gboolean is_secret,
+                        gboolean should_ask)
 {
 	g_key_file_set_string (keyfile, key, "Value", value);
 	g_key_file_set_string (keyfile, key, "Label", label);
@@ -161,7 +167,7 @@ eui_finish (const char *vpn_name,
 	g_key_file_set_integer (keyfile, UI_KEYFILE_GROUP, "Version", 2);
 	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Description", prompt);
 
-	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Title", _("Authenticate VPN"));
+	g_key_file_set_string (keyfile, UI_KEYFILE_GROUP, "Title", _ ("Authenticate VPN"));
 
 	/* If we have an existing password, or we need the user to give us one,
 	 * then tell the external UI about the password.  An entry for the password
@@ -176,7 +182,7 @@ eui_finish (const char *vpn_name,
 		keyfile_add_entry_info (keyfile,
 		                        NM_LIBRESWAN_KEY_XAUTH_PASSWORD,
 		                        existing_password ? existing_password : "",
-		                        _("Password"),
+		                        _ ("Password"),
 		                        TRUE,
 		                        show && allow_interaction);
 	}
@@ -186,7 +192,7 @@ eui_finish (const char *vpn_name,
 		keyfile_add_entry_info (keyfile,
 		                        NM_LIBRESWAN_KEY_PSK_VALUE,
 		                        existing_group_password ? existing_group_password : "",
-		                        _("Group Password"),
+		                        _ ("Group Password"),
 		                        TRUE,
 		                        show && allow_interaction);
 	}
@@ -224,7 +230,8 @@ std_ask_user (const char *vpn_name,
 
 	gtk_init (NULL, NULL);
 
-	dialog = NMA_VPN_PASSWORD_DIALOG (nma_vpn_password_dialog_new (_("Authenticate VPN"), prompt, NULL));
+	dialog = NMA_VPN_PASSWORD_DIALOG (
+		nma_vpn_password_dialog_new (_ ("Authenticate VPN"), prompt, NULL));
 
 	/* pre-fill dialog with existing passwords */
 	nma_vpn_password_dialog_set_show_password (dialog, need_password);
@@ -233,7 +240,7 @@ std_ask_user (const char *vpn_name,
 
 	nma_vpn_password_dialog_set_show_password_secondary (dialog, need_group_password);
 	if (need_group_password) {
-		nma_vpn_password_dialog_set_password_secondary_label (dialog, _("_Group Password:"));
+		nma_vpn_password_dialog_set_password_secondary_label (dialog, _ ("_Group Password:"));
 		nma_vpn_password_dialog_set_password_secondary (dialog, existing_group_password);
 	}
 
@@ -242,7 +249,8 @@ std_ask_user (const char *vpn_name,
 		if (need_password)
 			*out_new_password = g_strdup (nma_vpn_password_dialog_get_password (dialog));
 		if (need_group_password)
-			*out_new_group_password = g_strdup (nma_vpn_password_dialog_get_password_secondary (dialog));
+			*out_new_group_password =
+				g_strdup (nma_vpn_password_dialog_get_password_secondary (dialog));
 		success = TRUE;
 	}
 
@@ -341,18 +349,24 @@ get_existing_passwords (GHashTable *vpn_data,
 	g_return_if_fail (out_group_password != NULL);
 
 	if (need_password) {
-		upw_flags = get_pw_flags (existing_secrets, NM_LIBRESWAN_KEY_XAUTH_PASSWORD, NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
+		upw_flags = get_pw_flags (existing_secrets,
+		                          NM_LIBRESWAN_KEY_XAUTH_PASSWORD,
+		                          NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
 		if (!(upw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
-			*out_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
+			*out_password =
+				g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_KEY_XAUTH_PASSWORD));
 			if (!*out_password)
 				*out_password = keyring_lookup_secret (vpn_uuid, NM_LIBRESWAN_KEY_XAUTH_PASSWORD);
 		}
 	}
 
 	if (need_group_password) {
-		gpw_flags = get_pw_flags (existing_secrets, NM_LIBRESWAN_KEY_PSK_VALUE, NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
+		gpw_flags = get_pw_flags (existing_secrets,
+		                          NM_LIBRESWAN_KEY_PSK_VALUE,
+		                          NM_LIBRESWAN_KEY_PSK_INPUT_MODES);
 		if (!(gpw_flags & NM_SETTING_SECRET_FLAG_NOT_SAVED)) {
-			*out_group_password = g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_KEY_PSK_VALUE));
+			*out_group_password =
+				g_strdup (g_hash_table_lookup (existing_secrets, NM_LIBRESWAN_KEY_PSK_VALUE));
 			if (!*out_group_password)
 				*out_group_password = keyring_lookup_secret (vpn_uuid, NM_LIBRESWAN_KEY_PSK_VALUE);
 		}
@@ -385,7 +399,9 @@ get_passwords_required (GHashTable *data,
 	}
 
 	/* User password (XAuth password) */
-	flags = get_pw_flags (data, NM_LIBRESWAN_KEY_XAUTH_PASSWORD, NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
+	flags = get_pw_flags (data,
+	                      NM_LIBRESWAN_KEY_XAUTH_PASSWORD,
+	                      NM_LIBRESWAN_KEY_XAUTH_PASSWORD_INPUT_MODES);
 	if (!(flags & NM_SETTING_SECRET_FLAG_NOT_REQUIRED))
 		*out_need_password = TRUE;
 
@@ -406,7 +422,7 @@ free_secret (char *p)
 	}
 }
 
-int 
+int
 main (int argc, char *argv[])
 {
 	gboolean retry = FALSE, allow_interaction = FALSE, external_ui_mode = FALSE;
@@ -426,15 +442,20 @@ main (int argc, char *argv[])
 
 	GOptionContext *context;
 	GOptionEntry entries[] = {
-			{ "reprompt", 'r', 0, G_OPTION_ARG_NONE, &retry, "Reprompt for passwords", NULL},
-			{ "uuid", 'u', 0, G_OPTION_ARG_STRING, &vpn_uuid, "UUID of VPN connection", NULL},
-			{ "name", 'n', 0, G_OPTION_ARG_STRING, &vpn_name, "Name of VPN connection", NULL},
-			{ "service", 's', 0, G_OPTION_ARG_STRING, &vpn_service, "VPN service type", NULL},
-			{ "allow-interaction", 'i', 0, G_OPTION_ARG_NONE, &allow_interaction, "Allow user interaction", NULL},
-			{ "external-ui-mode", 0, 0, G_OPTION_ARG_NONE, &external_ui_mode, "External UI mode", NULL},
-			{ "hint", 't', 0, G_OPTION_ARG_STRING_ARRAY, &hints, "Hints from the VPN plugin", NULL},
-			{ NULL }
-		};
+		{"reprompt", 'r', 0, G_OPTION_ARG_NONE, &retry, "Reprompt for passwords", NULL},
+		{"uuid", 'u', 0, G_OPTION_ARG_STRING, &vpn_uuid, "UUID of VPN connection", NULL},
+		{"name", 'n', 0, G_OPTION_ARG_STRING, &vpn_name, "Name of VPN connection", NULL},
+		{"service", 's', 0, G_OPTION_ARG_STRING, &vpn_service, "VPN service type", NULL},
+		{"allow-interaction",
+	     'i',
+	     0,
+	     G_OPTION_ARG_NONE,
+	     &allow_interaction,
+	     "Allow user interaction",
+	     NULL},
+		{"external-ui-mode", 0, 0, G_OPTION_ARG_NONE, &external_ui_mode, "External UI mode", NULL},
+		{"hint", 't', 0, G_OPTION_ARG_STRING_ARRAY, &hints, "Hints from the VPN plugin", NULL},
+		{NULL}};
 
 	bindtextdomain (GETTEXT_PACKAGE, NULL);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -457,15 +478,19 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	if (   strcmp (vpn_service, NM_VPN_SERVICE_TYPE_LIBRESWAN) != 0
+	if (strcmp (vpn_service, NM_VPN_SERVICE_TYPE_LIBRESWAN) != 0
 	    && strcmp (vpn_service, NM_VPN_SERVICE_TYPE_OPENSWAN) != 0) {
-		fprintf (stderr, "This dialog only works with the '%s' service\n", NM_VPN_SERVICE_TYPE_LIBRESWAN);
+		fprintf (stderr,
+		         "This dialog only works with the '%s' service\n",
+		         NM_VPN_SERVICE_TYPE_LIBRESWAN);
 		return 1;
 	}
 
 	if (!nm_vpn_service_plugin_read_vpn_details (0, &data, &secrets)) {
-		fprintf (stderr, "Failed to read '%s' (%s) data and secrets from stdin.\n",
-		         vpn_name, vpn_uuid);
+		fprintf (stderr,
+		         "Failed to read '%s' (%s) data and secrets from stdin.\n",
+		         vpn_name,
+		         vpn_uuid);
 		return 1;
 	}
 
@@ -483,7 +508,9 @@ main (int argc, char *argv[])
 	 */
 	prompt = get_passwords_required (data, hints, &need_password, &need_group_password);
 	if (!prompt)
-		prompt = g_strdup_printf (_("You need to authenticate to access the Virtual Private Network “%s”."), vpn_name);
+		prompt = g_strdup_printf (
+			_ ("You need to authenticate to access the Virtual Private Network “%s”."),
+			vpn_name);
 
 	/* Exit early if we don't need any passwords */
 	if (!need_password && !need_group_password)
@@ -542,4 +569,3 @@ main (int argc, char *argv[])
 	g_free (prompt);
 	return canceled ? 1 : 0;
 }
-

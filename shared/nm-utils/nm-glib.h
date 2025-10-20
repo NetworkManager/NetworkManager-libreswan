@@ -34,11 +34,10 @@
 #undef G_GNUC_END_IGNORE_DEPRECATIONS
 
 #define G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
-    _Pragma("clang diagnostic push") \
-    _Pragma("clang diagnostic ignored \"-Wdeprecated-declarations\"")
+	_Pragma ("clang diagnostic push")    \
+		_Pragma ("clang diagnostic ignored \"-Wdeprecated-declarations\"")
 
-#define G_GNUC_END_IGNORE_DEPRECATIONS \
-    _Pragma("clang diagnostic pop")
+#define G_GNUC_END_IGNORE_DEPRECATIONS _Pragma ("clang diagnostic pop")
 
 #endif
 
@@ -47,8 +46,8 @@
 static inline void
 __g_type_ensure (GType type)
 {
-#if !GLIB_CHECK_VERSION(2,34,0)
-	if (G_UNLIKELY (type == (GType)-1))
+#if !GLIB_CHECK_VERSION(2, 34, 0)
+	if (G_UNLIKELY (type == (GType) -1))
 		g_error ("can't happen");
 #else
 	G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
@@ -60,30 +59,31 @@ __g_type_ensure (GType type)
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION(2,34,0)
+#if !GLIB_CHECK_VERSION(2, 34, 0)
 
-#define g_clear_pointer(pp, destroy) \
-    G_STMT_START {                                                                 \
-        G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));                       \
-        /* Only one access, please */                                              \
-        gpointer *_pp = (gpointer *) (pp);                                         \
-        gpointer _p;                                                               \
-        /* This assignment is needed to avoid a gcc warning */                     \
-        GDestroyNotify _destroy = (GDestroyNotify) (destroy);                      \
-                                                                                   \
-        _p = *_pp;                                                                 \
-        if (_p)                                                                    \
-        {                                                                          \
-            *_pp = NULL;                                                           \
-            _destroy (_p);                                                         \
-        }                                                                          \
-    } G_STMT_END
+#define g_clear_pointer(pp, destroy)                           \
+	G_STMT_START                                               \
+	{                                                          \
+		G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));   \
+		/* Only one access, please */                          \
+		gpointer *_pp = (gpointer *) (pp);                     \
+		gpointer _p;                                           \
+		/* This assignment is needed to avoid a gcc warning */ \
+		GDestroyNotify _destroy = (GDestroyNotify) (destroy);  \
+                                                               \
+		_p = *_pp;                                             \
+		if (_p) {                                              \
+			*_pp = NULL;                                       \
+			_destroy (_p);                                     \
+		}                                                      \
+	}                                                          \
+	G_STMT_END
 
 #endif
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION(2,34,0)
+#if !GLIB_CHECK_VERSION(2, 34, 0)
 
 /* These are used to clean up the output of test programs; we can just let
  * them no-op in older glib.
@@ -99,53 +99,80 @@ __g_type_ensure (GType type)
  */
 
 #define g_test_expect_message(domain, level, format...) \
-	G_STMT_START { \
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
-		g_test_expect_message (domain, level, format); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
-	} G_STMT_END
+	G_STMT_START                                        \
+	{                                                   \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS                \
+		g_test_expect_message (domain, level, format);  \
+		G_GNUC_END_IGNORE_DEPRECATIONS                  \
+	}                                                   \
+	G_STMT_END
 
-#define g_test_assert_expected_messages_internal(domain, file, line, func) \
-	G_STMT_START { \
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
+#define g_test_assert_expected_messages_internal(domain, file, line, func)   \
+	G_STMT_START                                                             \
+	{                                                                        \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS                                     \
 		g_test_assert_expected_messages_internal (domain, file, line, func); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
-	} G_STMT_END
+		G_GNUC_END_IGNORE_DEPRECATIONS                                       \
+	}                                                                        \
+	G_STMT_END
 
 #endif
 
 /*****************************************************************************/
 
-#if GLIB_CHECK_VERSION (2, 35, 0)
+#if GLIB_CHECK_VERSION(2, 35, 0)
 /* For glib >= 2.36, g_type_init() is deprecated.
  * But since 2.35.1 (7c42ab23b55c43ab96d0ac2124b550bf1f49c1ec) this function
  * does nothing. Replace the call with empty statement. */
-#define nm_g_type_init()     G_STMT_START { (void) 0; } G_STMT_END
+#define nm_g_type_init() \
+	G_STMT_START         \
+	{                    \
+		(void) 0;        \
+	}                    \
+	G_STMT_END
 #else
-#define nm_g_type_init()     G_STMT_START { g_type_init (); } G_STMT_END
+#define nm_g_type_init() \
+	G_STMT_START         \
+	{                    \
+		g_type_init ();  \
+	}                    \
+	G_STMT_END
 #endif
 
 /*****************************************************************************/
 
 /* g_test_initialized() is only available since glib 2.36. */
-#if !GLIB_CHECK_VERSION (2, 36, 0)
+#if !GLIB_CHECK_VERSION(2, 36, 0)
 #define g_test_initialized() (g_test_config_vars->test_initialized)
 #endif
 
 /*****************************************************************************/
 
 /* g_assert_cmpmem() is only available since glib 2.46. */
-#if !GLIB_CHECK_VERSION (2, 45, 7)
-#define g_assert_cmpmem(m1, l1, m2, l2) G_STMT_START {\
-                                             gconstpointer __m1 = m1, __m2 = m2; \
-                                             int __l1 = l1, __l2 = l2; \
-                                             if (__l1 != __l2) \
-                                               g_assertion_message_cmpnum (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
-                                                                           #l1 " (len(" #m1 ")) == " #l2 " (len(" #m2 "))", __l1, "==", __l2, 'i'); \
-                                             else if (memcmp (__m1, __m2, __l1) != 0) \
-                                               g_assertion_message (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
-                                                                    "assertion failed (" #m1 " == " #m2 ")"); \
-                                        } G_STMT_END
+#if !GLIB_CHECK_VERSION(2, 45, 7)
+#define g_assert_cmpmem(m1, l1, m2, l2)                                                  \
+	G_STMT_START                                                                         \
+	{                                                                                    \
+		gconstpointer __m1 = m1, __m2 = m2;                                              \
+		int __l1 = l1, __l2 = l2;                                                        \
+		if (__l1 != __l2)                                                                \
+			g_assertion_message_cmpnum (G_LOG_DOMAIN,                                    \
+			                            __FILE__,                                        \
+			                            __LINE__,                                        \
+			                            G_STRFUNC,                                       \
+			                            #l1 " (len(" #m1 ")) == " #l2 " (len(" #m2 "))", \
+			                            __l1,                                            \
+			                            "==",                                            \
+			                            __l2,                                            \
+			                            'i');                                            \
+		else if (memcmp (__m1, __m2, __l1) != 0)                                         \
+			g_assertion_message (G_LOG_DOMAIN,                                           \
+			                     __FILE__,                                               \
+			                     __LINE__,                                               \
+			                     G_STRFUNC,                                              \
+			                     "assertion failed (" #m1 " == " #m2 ")");               \
+	}                                                                                    \
+	G_STMT_END
 #endif
 
 /*****************************************************************************/
@@ -155,12 +182,10 @@ __g_type_ensure (GType type)
 static inline gboolean
 nm_glib_check_version (guint major, guint minor, guint micro)
 {
-	return    GLIB_CHECK_VERSION (major, minor, micro)
-	       || (   (   glib_major_version > major)
-	           || (   glib_major_version == major
-	               && glib_minor_version > minor)
-	           || (   glib_major_version == major
-	               && glib_minor_version == minor
+	return GLIB_CHECK_VERSION (major, minor, micro)
+	       || ((glib_major_version > major)
+	           || (glib_major_version == major && glib_minor_version > minor)
+	           || (glib_major_version == major && glib_minor_version == minor
 	               && glib_micro_version < micro));
 }
 
@@ -170,7 +195,7 @@ nm_glib_check_version (guint major, guint minor, guint micro)
 static inline void
 __nmtst_g_test_skip (const char *msg)
 {
-#if GLIB_CHECK_VERSION (2, 38, 0)
+#if GLIB_CHECK_VERSION(2, 38, 0)
 	G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 	g_test_skip (msg);
 	G_GNUC_END_IGNORE_DEPRECATIONS
@@ -184,12 +209,12 @@ __nmtst_g_test_skip (const char *msg)
 
 /* g_test_add_data_func_full() is only available since glib 2.34. Add a compatibility wrapper. */
 static inline void
-__g_test_add_data_func_full (const char     *testpath,
-                             gpointer        test_data,
-                             GTestDataFunc   test_func,
-                             GDestroyNotify  data_free_func)
+__g_test_add_data_func_full (const char *testpath,
+                             gpointer test_data,
+                             GTestDataFunc test_func,
+                             GDestroyNotify data_free_func)
 {
-#if GLIB_CHECK_VERSION (2, 34, 0)
+#if GLIB_CHECK_VERSION(2, 34, 0)
 	G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 	g_test_add_data_func_full (testpath, test_data, test_func, data_free_func);
 	G_GNUC_END_IGNORE_DEPRECATIONS
@@ -198,7 +223,10 @@ __g_test_add_data_func_full (const char     *testpath,
 	g_return_if_fail (testpath[0] == '/');
 	g_return_if_fail (test_func != NULL);
 
-	g_test_add_vtable (testpath, 0, test_data, NULL,
+	g_test_add_vtable (testpath,
+	                   0,
+	                   test_data,
+	                   NULL,
 	                   (GTestFixtureFunc) test_func,
 	                   (GTestFixtureFunc) data_free_func);
 #endif
@@ -207,18 +235,17 @@ __g_test_add_data_func_full (const char     *testpath,
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION (2, 34, 0)
-#define G_DEFINE_QUARK(QN, q_n)               \
-GQuark                                        \
-q_n##_quark (void)                            \
-{                                             \
-	static GQuark q;                          \
-                                              \
-	if G_UNLIKELY (q == 0)                    \
-		q = g_quark_from_static_string (#QN); \
-                                              \
-	return q;                                 \
-}
+#if !GLIB_CHECK_VERSION(2, 34, 0)
+#define G_DEFINE_QUARK(QN, q_n)                   \
+	GQuark q_n##_quark (void)                     \
+	{                                             \
+		static GQuark q;                          \
+                                                  \
+		if G_UNLIKELY (q == 0)                    \
+			q = g_quark_from_static_string (#QN); \
+                                                  \
+		return q;                                 \
+	}
 #endif
 
 /*****************************************************************************/
@@ -270,11 +297,9 @@ nm_g_hash_table_add (GHashTable *hash, gpointer key)
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION(2, 40, 0) || defined (NM_GLIB_COMPAT_H_TEST)
+#if !GLIB_CHECK_VERSION(2, 40, 0) || defined(NM_GLIB_COMPAT_H_TEST)
 static inline void
-_nm_g_ptr_array_insert (GPtrArray *array,
-                        int        index_,
-                        gpointer   data)
+_nm_g_ptr_array_insert (GPtrArray *array, int index_, gpointer data)
 {
 	g_return_if_fail (array);
 	g_return_if_fail (index_ >= -1);
@@ -292,23 +317,28 @@ _nm_g_ptr_array_insert (GPtrArray *array,
 #endif
 
 #if !GLIB_CHECK_VERSION(2, 40, 0)
-#define g_ptr_array_insert(array, index, data) G_STMT_START { _nm_g_ptr_array_insert (array, index, data); } G_STMT_END
+#define g_ptr_array_insert(array, index, data)       \
+	G_STMT_START                                     \
+	{                                                \
+		_nm_g_ptr_array_insert (array, index, data); \
+	}                                                \
+	G_STMT_END
 #else
-#define g_ptr_array_insert(array, index, data) \
-	G_STMT_START { \
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
+#define g_ptr_array_insert(array, index, data)   \
+	G_STMT_START                                 \
+	{                                            \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS         \
 		g_ptr_array_insert (array, index, data); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
-	} G_STMT_END
+		G_GNUC_END_IGNORE_DEPRECATIONS           \
+	}                                            \
+	G_STMT_END
 #endif
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION (2, 40, 0)
+#if !GLIB_CHECK_VERSION(2, 40, 0)
 static inline gboolean
-_g_key_file_save_to_file (GKeyFile     *key_file,
-                          const char   *filename,
-                          GError      **error)
+_g_key_file_save_to_file (GKeyFile *key_file, const char *filename, GError **error)
 {
 	char *contents;
 	gboolean success;
@@ -329,43 +359,41 @@ _g_key_file_save_to_file (GKeyFile     *key_file,
 #define g_key_file_save_to_file(key_file, filename, error) \
 	_g_key_file_save_to_file (key_file, filename, error)
 #else
-#define g_key_file_save_to_file(key_file, filename, error) \
-	({ \
-		gboolean _success; \
-		\
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
+#define g_key_file_save_to_file(key_file, filename, error)              \
+	({                                                                  \
+		gboolean _success;                                              \
+                                                                        \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS                                \
 		_success = g_key_file_save_to_file (key_file, filename, error); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
-		_success; \
+		G_GNUC_END_IGNORE_DEPRECATIONS                                  \
+		_success;                                                       \
 	})
 #endif
 
 /*****************************************************************************/
 
-#if GLIB_CHECK_VERSION (2, 36, 0)
-#define g_credentials_get_unix_pid(creds, error) \
-	({ \
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
-			(g_credentials_get_unix_pid) ((creds), (error)); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
+#if GLIB_CHECK_VERSION(2, 36, 0)
+#define g_credentials_get_unix_pid(creds, error)                                          \
+	({                                                                                    \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS (g_credentials_get_unix_pid) ((creds), (error)); \
+		G_GNUC_END_IGNORE_DEPRECATIONS                                                    \
 	})
 #else
-#define g_credentials_get_unix_pid(creds, error) \
-	({ \
-		struct ucred *native_creds; \
-		 \
+#define g_credentials_get_unix_pid(creds, error)                                           \
+	({                                                                                     \
+		struct ucred *native_creds;                                                        \
+                                                                                           \
 		native_creds = g_credentials_get_native ((creds), G_CREDENTIALS_TYPE_LINUX_UCRED); \
-		g_assert (native_creds); \
-		native_creds->pid; \
+		g_assert (native_creds);                                                           \
+		native_creds->pid;                                                                 \
 	})
 #endif
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION(2, 40, 0) || defined (NM_GLIB_COMPAT_H_TEST)
+#if !GLIB_CHECK_VERSION(2, 40, 0) || defined(NM_GLIB_COMPAT_H_TEST)
 static inline gpointer *
-_nm_g_hash_table_get_keys_as_array (GHashTable *hash_table,
-                                    guint      *length)
+_nm_g_hash_table_get_keys_as_array (GHashTable *hash_table, guint *length)
 {
 	GHashTableIter iter;
 	gpointer key, *ret;
@@ -389,15 +417,13 @@ _nm_g_hash_table_get_keys_as_array (GHashTable *hash_table,
 #endif
 #if !GLIB_CHECK_VERSION(2, 40, 0)
 #define g_hash_table_get_keys_as_array(hash_table, length) \
-	({ \
-		_nm_g_hash_table_get_keys_as_array (hash_table, length); \
-	})
+	({ _nm_g_hash_table_get_keys_as_array (hash_table, length); })
 #else
-#define g_hash_table_get_keys_as_array(hash_table, length) \
-	({ \
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
-			(g_hash_table_get_keys_as_array) ((hash_table), (length)); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
+#define g_hash_table_get_keys_as_array(hash_table, length)                               \
+	({                                                                                   \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS (g_hash_table_get_keys_as_array) ((hash_table), \
+		                                                                   (length));    \
+		G_GNUC_END_IGNORE_DEPRECATIONS                                                   \
 	})
 #endif
 
@@ -405,38 +431,35 @@ _nm_g_hash_table_get_keys_as_array (GHashTable *hash_table,
 
 #ifndef g_info
 /* g_info was only added with 2.39.2 */
-#define g_info(...)     g_log (G_LOG_DOMAIN,         \
-                               G_LOG_LEVEL_INFO,     \
-                               __VA_ARGS__)
+#define g_info(...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_INFO, __VA_ARGS__)
 #endif
 
 /*****************************************************************************/
 
 #define _NM_ENSURE_POINTER(value)                                                 \
-    do {                                                                          \
-        _nm_unused const void *const _unused_for_type_check = 0 ? (value) : NULL; \
-    } while (0)
+	do {                                                                          \
+		_nm_unused const void *const _unused_for_type_check = 0 ? (value) : NULL; \
+	} while (0)
 
 #ifdef g_steal_pointer
 #undef g_steal_pointer
 #endif
 
-#define g_steal_pointer(pp)              \
-    ({                                   \
-        typeof(*(pp)) *const _pp = (pp); \
-        typeof(*_pp)         _p  = *_pp; \
-                                         \
-        _NM_ENSURE_POINTER(_p);          \
-                                         \
-        *_pp = NULL;                     \
-        _p;                              \
-    })
+#define g_steal_pointer(pp)               \
+	({                                    \
+		typeof (*(pp)) *const _pp = (pp); \
+		typeof (*_pp) _p = *_pp;          \
+                                          \
+		_NM_ENSURE_POINTER (_p);          \
+                                          \
+		*_pp = NULL;                      \
+		_p;                               \
+	})
 
 /*****************************************************************************/
 
 static inline gboolean
-_nm_g_strv_contains (const char * const *strv,
-                     const char          *str)
+_nm_g_strv_contains (const char *const *strv, const char *str)
 {
 #if !GLIB_CHECK_VERSION(2, 44, 0)
 	g_return_val_if_fail (strv != NULL, FALSE);
@@ -493,9 +516,7 @@ _nm_g_variant_new_take_string (char *string)
 /*****************************************************************************/
 
 #if !GLIB_CHECK_VERSION(2, 38, 0)
-_nm_printf (1, 2)
-static inline GVariant *
-_nm_g_variant_new_printf (const char *format_string, ...)
+_nm_printf (1, 2) static inline GVariant *_nm_g_variant_new_printf (const char *format_string, ...)
 {
 	char *string;
 	va_list ap;
@@ -508,24 +529,24 @@ _nm_g_variant_new_printf (const char *format_string, ...)
 
 	return g_variant_new_take_string (string);
 }
-#define g_variant_new_printf(...) _nm_g_variant_new_printf(__VA_ARGS__)
+#define g_variant_new_printf(...) _nm_g_variant_new_printf (__VA_ARGS__)
 #else
-#define g_variant_new_printf(...) \
-	({ \
-		GVariant *_v; \
-		\
-		G_GNUC_BEGIN_IGNORE_DEPRECATIONS \
+#define g_variant_new_printf(...)                \
+	({                                           \
+		GVariant *_v;                            \
+                                                 \
+		G_GNUC_BEGIN_IGNORE_DEPRECATIONS         \
 		_v = g_variant_new_printf (__VA_ARGS__); \
-		G_GNUC_END_IGNORE_DEPRECATIONS \
-		_v; \
+		G_GNUC_END_IGNORE_DEPRECATIONS           \
+		_v;                                      \
 	})
 #endif
 
 /*****************************************************************************/
 
-#if !GLIB_CHECK_VERSION (2, 56, 0)
-#define g_object_ref(Obj)      ((typeof(Obj)) g_object_ref (Obj))
-#define g_object_ref_sink(Obj) ((typeof(Obj)) g_object_ref_sink (Obj))
+#if !GLIB_CHECK_VERSION(2, 56, 0)
+#define g_object_ref(Obj) ((typeof (Obj)) g_object_ref (Obj))
+#define g_object_ref_sink(Obj) ((typeof (Obj)) g_object_ref_sink (Obj))
 #endif
 
 /*****************************************************************************/
@@ -540,4 +561,4 @@ _nm_g_variant_new_printf (const char *format_string, ...)
 
 /*****************************************************************************/
 
-#endif  /* __NM_GLIB_H__ */
+#endif /* __NM_GLIB_H__ */

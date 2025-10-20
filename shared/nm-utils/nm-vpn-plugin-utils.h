@@ -30,8 +30,7 @@ typedef NMVpnEditor *(NMVpnPluginUtilsEditorFactory) (gpointer factory,
                                                       gpointer user_data,
                                                       GError **error);
 
-char *
-nm_vpn_plugin_utils_get_editor_module_path (const char *module_name, GError **error);
+char *nm_vpn_plugin_utils_get_editor_module_path (const char *module_name, GError **error);
 
 NMVpnEditor *nm_vpn_plugin_utils_load_editor (const char *module_path,
                                               const char *factory_name,
@@ -42,4 +41,3 @@ NMVpnEditor *nm_vpn_plugin_utils_load_editor (const char *module_path,
                                               GError **error);
 
 #endif /* __NM_VPN_PLUGIN_UTILS_H__ */
-
