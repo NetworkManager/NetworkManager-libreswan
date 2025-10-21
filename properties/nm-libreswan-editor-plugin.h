@@ -22,12 +22,17 @@
 #ifndef __NM_LIBRESWAN_EDITOR_PLUGIN_H__
 #define __NM_LIBRESWAN_EDITOR_PLUGIN_H__
 
-#define LIBRESWAN_TYPE_EDITOR_PLUGIN            (libreswan_editor_plugin_get_type ())
-#define LIBRESWAN_EDITOR_PLUGIN(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPlugin))
-#define LIBRESWAN_EDITOR_PLUGIN_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPluginClass))
-#define LIBRESWAN_IS_EDITOR_PLUGIN(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN))
-#define LIBRESWAN_IS_EDITOR_PLUGIN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN))
-#define LIBRESWAN_EDITOR_PLUGIN_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPluginClass))
+#define LIBRESWAN_TYPE_EDITOR_PLUGIN (libreswan_editor_plugin_get_type())
+#define LIBRESWAN_EDITOR_PLUGIN(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPlugin))
+#define LIBRESWAN_EDITOR_PLUGIN_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPluginClass))
+#define LIBRESWAN_IS_EDITOR_PLUGIN(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN))
+#define LIBRESWAN_IS_EDITOR_PLUGIN_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN))
+#define LIBRESWAN_EDITOR_PLUGIN_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS((obj), LIBRESWAN_TYPE_EDITOR_PLUGIN, LibreswanEditorPluginClass))
 
 typedef struct _LibreswanEditorPlugin LibreswanEditorPlugin;
 typedef struct _LibreswanEditorPluginClass LibreswanEditorPluginClass;
@@ -41,15 +46,14 @@ struct _LibreswanEditorPluginClass {
 	GObjectClass parent;
 };
 
-GType libreswan_editor_plugin_get_type (void);
+GType libreswan_editor_plugin_get_type(void);
 
-typedef NMVpnEditor *(*NMVpnEditorFactory) (NMVpnEditorPlugin *editor_plugin,
-                                            NMConnection *connection,
-                                            GError **error);
+typedef NMVpnEditor *(*NMVpnEditorFactory)(NMVpnEditorPlugin *editor_plugin,
+                                           NMConnection *connection,
+                                           GError **error);
 
-NMVpnEditor *
-nm_vpn_editor_factory_libreswan (NMVpnEditorPlugin *editor_plugin,
-                                 NMConnection *connection,
-                                 GError **error);
+NMVpnEditor *nm_vpn_editor_factory_libreswan(NMVpnEditorPlugin *editor_plugin,
+                                             NMConnection *connection,
+                                             GError **error);
 
 #endif /* __NM_LIBRESWAN_EDITOR_PLUGIN_H__ */

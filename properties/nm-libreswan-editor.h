@@ -22,12 +22,15 @@
 #ifndef __NM_LIBRESWAN_EDITOR_H__
 #define __NM_LIBRESWAN_EDITOR_H__
 
-#define LIBRESWAN_TYPE_EDITOR            (libreswan_editor_get_type ())
-#define LIBRESWAN_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditor))
-#define LIBRESWAN_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), LIBRESWAN_TYPE_EDITOR, LibreswanEditorClass))
-#define LIBRESWAN_IS_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), LIBRESWAN_TYPE_EDITOR))
-#define LIBRESWAN_IS_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), LIBRESWAN_TYPE_EDITOR))
-#define LIBRESWAN_EDITOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditorClass))
+#define LIBRESWAN_TYPE_EDITOR (libreswan_editor_get_type())
+#define LIBRESWAN_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditor))
+#define LIBRESWAN_EDITOR_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_CAST((klass), LIBRESWAN_TYPE_EDITOR, LibreswanEditorClass))
+#define LIBRESWAN_IS_EDITOR(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), LIBRESWAN_TYPE_EDITOR))
+#define LIBRESWAN_IS_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((obj), LIBRESWAN_TYPE_EDITOR))
+#define LIBRESWAN_EDITOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS((obj), LIBRESWAN_TYPE_EDITOR, LibreswanEditorClass))
 
 typedef struct _LibreswanEditor LibreswanEditor;
 typedef struct _LibreswanEditorClass LibreswanEditorClass;
@@ -40,9 +43,8 @@ struct _LibreswanEditorClass {
 	GObjectClass parent;
 };
 
-GType libreswan_editor_get_type (void);
+GType libreswan_editor_get_type(void);
 
-NMVpnEditor *nm_vpn_editor_new (NMConnection *connection, GError **error);
+NMVpnEditor *nm_vpn_editor_new(NMConnection *connection, GError **error);
 
 #endif /* __NM_LIBRESWAN_EDITOR_H__ */
-

@@ -27,7 +27,7 @@
 /*****************************************************************************/
 
 static inline gboolean
-_NM_INT_NOT_NEGATIVE (gssize val)
+_NM_INT_NOT_NEGATIVE(gssize val)
 {
 	/* whether an enum (without negative values) is a signed int, depends on compiler options
 	 * and compiler implementation.
@@ -46,27 +46,30 @@ _NM_INT_NOT_NEGATIVE (gssize val)
 /*****************************************************************************/
 
 static inline char
-nm_utils_addr_family_to_char (int addr_family)
+nm_utils_addr_family_to_char(int addr_family)
 {
 	switch (addr_family) {
-	case AF_INET:  return '4';
-	case AF_INET6: return '6';
+	case AF_INET:
+		return '4';
+	case AF_INET6:
+		return '6';
 	}
-	g_return_val_if_reached ('?');
+	g_return_val_if_reached('?');
 }
 
 static inline gsize
-nm_utils_addr_family_to_size (int addr_family)
+nm_utils_addr_family_to_size(int addr_family)
 {
 	switch (addr_family) {
-	case AF_INET:  return sizeof (in_addr_t);
-	case AF_INET6: return sizeof (struct in6_addr);
+	case AF_INET:
+		return sizeof(in_addr_t);
+	case AF_INET6:
+		return sizeof(struct in6_addr);
 	}
-	g_return_val_if_reached (0);
+	g_return_val_if_reached(0);
 }
 
-#define nm_assert_addr_family(addr_family) \
-	nm_assert (NM_IN_SET ((addr_family), AF_INET, AF_INET6))
+#define nm_assert_addr_family(addr_family) nm_assert(NM_IN_SET((addr_family), AF_INET, AF_INET6))
 
 /*****************************************************************************/
 
@@ -86,11 +89,11 @@ typedef struct {
 extern const NMIPAddr nm_ip_addr_zero;
 
 static inline void
-nm_ip_addr_set (int addr_family, gpointer dst, const NMIPAddr *src)
+nm_ip_addr_set(int addr_family, gpointer dst, const NMIPAddr *src)
 {
-	nm_assert_addr_family (addr_family);
-	nm_assert (dst);
-	nm_assert (src);
+	nm_assert_addr_family(addr_family);
+	nm_assert(dst);
+	nm_assert(src);
 
 	if (addr_family != AF_INET6)
 		*((in_addr_t *) dst) = src->addr4;
@@ -100,98 +103,103 @@ nm_ip_addr_set (int addr_family, gpointer dst, const NMIPAddr *src)
 
 /*****************************************************************************/
 
-#define NM_CMP_RETURN(c) \
-    G_STMT_START { \
-        const int _cc = (c); \
-        if (_cc) \
-            return _cc < 0 ? -1 : 1; \
-    } G_STMT_END
+#define NM_CMP_RETURN(c)             \
+	G_STMT_START                     \
+	{                                \
+		const int _cc = (c);         \
+		if (_cc)                     \
+			return _cc < 0 ? -1 : 1; \
+	}                                \
+	G_STMT_END
 
-#define NM_CMP_SELF(a, b) \
-    G_STMT_START { \
-        typeof (a) _a = (a); \
-        typeof (b) _b = (b); \
-        \
-        if (_a == _b) \
-            return 0; \
-        if (!_a) \
-            return -1; \
-        if (!_b) \
-            return 1; \
-    } G_STMT_END
+#define NM_CMP_SELF(a, b)   \
+	G_STMT_START            \
+	{                       \
+		typeof(a) _a = (a); \
+		typeof(b) _b = (b); \
+                            \
+		if (_a == _b)       \
+			return 0;       \
+		if (!_a)            \
+			return -1;      \
+		if (!_b)            \
+			return 1;       \
+	}                       \
+	G_STMT_END
 
-#define NM_CMP_DIRECT(a, b) \
-    G_STMT_START { \
-        typeof (a) _a = (a); \
-        typeof (b) _b = (b); \
-        \
-        if (_a != _b) \
-            return (_a < _b) ? -1 : 1; \
-    } G_STMT_END
+#define NM_CMP_DIRECT(a, b)            \
+	G_STMT_START                       \
+	{                                  \
+		typeof(a) _a = (a);            \
+		typeof(b) _b = (b);            \
+                                       \
+		if (_a != _b)                  \
+			return (_a < _b) ? -1 : 1; \
+	}                                  \
+	G_STMT_END
 
-#define NM_CMP_DIRECT_MEMCMP(a, b, size) \
-    NM_CMP_RETURN (memcmp ((a), (b), (size)))
+#define NM_CMP_DIRECT_MEMCMP(a, b, size) NM_CMP_RETURN(memcmp((a), (b), (size)))
 
-#define NM_CMP_DIRECT_STRCMP0(a, b) \
-    NM_CMP_RETURN (g_strcmp0 ((a), (b)))
+#define NM_CMP_DIRECT_STRCMP0(a, b) NM_CMP_RETURN(g_strcmp0((a), (b)))
 
-#define NM_CMP_DIRECT_IN6ADDR(a, b) \
-    G_STMT_START { \
-        const struct in6_addr *const _a = (a); \
-        const struct in6_addr *const _b = (b); \
-        NM_CMP_RETURN (memcmp (_a, _b, sizeof (struct in6_addr))); \
-    } G_STMT_END
+#define NM_CMP_DIRECT_IN6ADDR(a, b)                             \
+	G_STMT_START                                                \
+	{                                                           \
+		const struct in6_addr *const _a = (a);                  \
+		const struct in6_addr *const _b = (b);                  \
+		NM_CMP_RETURN(memcmp(_a, _b, sizeof(struct in6_addr))); \
+	}                                                           \
+	G_STMT_END
 
-#define NM_CMP_FIELD(a, b, field) \
-    NM_CMP_DIRECT (((a)->field), ((b)->field))
+#define NM_CMP_FIELD(a, b, field) NM_CMP_DIRECT(((a)->field), ((b)->field))
 
-#define NM_CMP_FIELD_UNSAFE(a, b, field) \
-    G_STMT_START { \
-        /* it's unsafe, because it evaluates the arguments more then once.
+#define NM_CMP_FIELD_UNSAFE(a, b, field)                                   \
+	G_STMT_START                                                           \
+	{                                                                      \
+		/* it's unsafe, because it evaluates the arguments more then once.
          * This is necessary for bitfields, for which typeof() doesn't work. */ \
-        if (((a)->field) != ((b)->field)) \
-            return ((a)->field < ((b)->field)) ? -1 : 1; \
-    } G_STMT_END
+		if (((a)->field) != ((b)->field))                                  \
+			return ((a)->field < ((b)->field)) ? -1 : 1;                   \
+	}                                                                      \
+	G_STMT_END
 
-#define NM_CMP_FIELD_BOOL(a, b, field) \
-    NM_CMP_DIRECT (!!((a)->field), !!((b)->field))
+#define NM_CMP_FIELD_BOOL(a, b, field) NM_CMP_DIRECT(!!((a)->field), !!((b)->field))
 
-#define NM_CMP_FIELD_STR(a, b, field) \
-    NM_CMP_RETURN (strcmp (((a)->field), ((b)->field)))
+#define NM_CMP_FIELD_STR(a, b, field) NM_CMP_RETURN(strcmp(((a)->field), ((b)->field)))
 
 #define NM_CMP_FIELD_STR_INTERNED(a, b, field) \
-    G_STMT_START { \
-        const char *_a = ((a)->field); \
-        const char *_b = ((b)->field); \
-        \
-        if (_a != _b) { \
-            NM_CMP_RETURN (g_strcmp0 (_a, _b)); \
-        } \
-    } G_STMT_END
+	G_STMT_START                               \
+	{                                          \
+		const char *_a = ((a)->field);         \
+		const char *_b = ((b)->field);         \
+                                               \
+		if (_a != _b) {                        \
+			NM_CMP_RETURN(g_strcmp0(_a, _b));  \
+		}                                      \
+	}                                          \
+	G_STMT_END
 
-#define NM_CMP_FIELD_STR0(a, b, field) \
-    NM_CMP_RETURN (g_strcmp0 (((a)->field), ((b)->field)))
+#define NM_CMP_FIELD_STR0(a, b, field) NM_CMP_RETURN(g_strcmp0(((a)->field), ((b)->field)))
 
 #define NM_CMP_FIELD_MEMCMP_LEN(a, b, field, len) \
-    NM_CMP_RETURN (memcmp (&((a)->field), &((b)->field), \
-                           MIN (len, sizeof ((a)->field))))
+	NM_CMP_RETURN(memcmp(&((a)->field), &((b)->field), MIN(len, sizeof((a)->field))))
 
 #define NM_CMP_FIELD_MEMCMP(a, b, field) \
-    NM_CMP_RETURN (memcmp (&((a)->field), \
-                           &((b)->field), \
-                           sizeof ((a)->field)))
+	NM_CMP_RETURN(memcmp(&((a)->field), &((b)->field), sizeof((a)->field)))
 
-#define NM_CMP_FIELD_IN6ADDR(a, b, field) \
-    G_STMT_START { \
-        const struct in6_addr *const _a = &((a)->field); \
-        const struct in6_addr *const _b = &((b)->field); \
-        NM_CMP_RETURN (memcmp (_a, _b, sizeof (struct in6_addr))); \
-    } G_STMT_END
+#define NM_CMP_FIELD_IN6ADDR(a, b, field)                       \
+	G_STMT_START                                                \
+	{                                                           \
+		const struct in6_addr *const _a = &((a)->field);        \
+		const struct in6_addr *const _b = &((b)->field);        \
+		NM_CMP_RETURN(memcmp(_a, _b, sizeof(struct in6_addr))); \
+	}                                                           \
+	G_STMT_END
 
 /*****************************************************************************/
 
 static inline gboolean
-nm_utils_mem_all_zero (gconstpointer mem, gsize len)
+nm_utils_mem_all_zero(gconstpointer mem, gsize len)
 {
 	const guint8 *p;
 
@@ -224,14 +232,14 @@ nm_utils_mem_all_zero (gconstpointer mem, gsize len)
  * passing a %NULL @data pointer.
  */
 static inline gpointer
-nm_memdup (gconstpointer data, gsize size)
+nm_memdup(gconstpointer data, gsize size)
 {
 	gpointer p;
 
 	if (size == 0)
 		return NULL;
-	p = g_malloc (size);
-	memcpy (p, data, size);
+	p = g_malloc(size);
+	memcpy(p, data, size);
 	return p;
 }
 
@@ -239,55 +247,55 @@ nm_memdup (gconstpointer data, gsize size)
 
 extern const void *const _NM_PTRARRAY_EMPTY[1];
 
-#define NM_PTRARRAY_EMPTY(type) ((type const*) _NM_PTRARRAY_EMPTY)
+#define NM_PTRARRAY_EMPTY(type) ((type const *) _NM_PTRARRAY_EMPTY)
 
 static inline void
-_nm_utils_strbuf_init (char *buf, gsize len, char **p_buf_ptr, gsize *p_buf_len)
+_nm_utils_strbuf_init(char *buf, gsize len, char **p_buf_ptr, gsize *p_buf_len)
 {
-	NM_SET_OUT (p_buf_len, len);
-	NM_SET_OUT (p_buf_ptr, buf);
+	NM_SET_OUT(p_buf_len, len);
+	NM_SET_OUT(p_buf_ptr, buf);
 	buf[0] = '\0';
 }
 
-#define nm_utils_strbuf_init(buf, p_buf_ptr, p_buf_len) \
-	G_STMT_START { \
-		G_STATIC_ASSERT (G_N_ELEMENTS (buf) == sizeof (buf) && sizeof (buf) > sizeof (char *)); \
-		_nm_utils_strbuf_init ((buf), sizeof (buf), (p_buf_ptr), (p_buf_len)); \
-	} G_STMT_END
-void nm_utils_strbuf_append (char **buf, gsize *len, const char *format, ...) _nm_printf (3, 4);
-void nm_utils_strbuf_append_c (char **buf, gsize *len, char c);
-void nm_utils_strbuf_append_str (char **buf, gsize *len, const char *str);
-void nm_utils_strbuf_seek_end (char **buf, gsize *len);
+#define nm_utils_strbuf_init(buf, p_buf_ptr, p_buf_len)                                    \
+	G_STMT_START                                                                           \
+	{                                                                                      \
+		G_STATIC_ASSERT(G_N_ELEMENTS(buf) == sizeof(buf) && sizeof(buf) > sizeof(char *)); \
+		_nm_utils_strbuf_init((buf), sizeof(buf), (p_buf_ptr), (p_buf_len));               \
+	}                                                                                      \
+	G_STMT_END
+void nm_utils_strbuf_append(char **buf, gsize *len, const char *format, ...) _nm_printf(3, 4);
+void nm_utils_strbuf_append_c(char **buf, gsize *len, char c);
+void nm_utils_strbuf_append_str(char **buf, gsize *len, const char *str);
+void nm_utils_strbuf_seek_end(char **buf, gsize *len);
 
-const char *nm_strquote (char *buf, gsize buf_len, const char *str);
+const char *nm_strquote(char *buf, gsize buf_len, const char *str);
 
 static inline gboolean
-nm_utils_is_separator (const char c)
+nm_utils_is_separator(const char c)
 {
-	return NM_IN_SET (c, ' ', '\t');
+	return NM_IN_SET(c, ' ', '\t');
 }
 
 /*****************************************************************************/
 
 static inline gboolean
-nm_gbytes_equal0 (GBytes *a, GBytes *b)
+nm_gbytes_equal0(GBytes *a, GBytes *b)
 {
-	return a == b || (a && b && g_bytes_equal (a, b));
+	return a == b || (a && b && g_bytes_equal(a, b));
 }
 
-gboolean nm_utils_gbytes_equal_mem (GBytes *bytes,
-                                    gconstpointer mem_data,
-                                    gsize mem_len);
+gboolean nm_utils_gbytes_equal_mem(GBytes *bytes, gconstpointer mem_data, gsize mem_len);
 
-GVariant *nm_utils_gbytes_to_variant_ay (GBytes *bytes);
+GVariant *nm_utils_gbytes_to_variant_ay(GBytes *bytes);
 
 /*****************************************************************************/
 
 static inline int
-nm_utils_hexchar_to_int (char ch)
+nm_utils_hexchar_to_int(char ch)
 {
-	G_STATIC_ASSERT_EXPR ('0' < 'A');
-	G_STATIC_ASSERT_EXPR ('A' < 'a');
+	G_STATIC_ASSERT_EXPR('0' < 'A');
+	G_STATIC_ASSERT_EXPR('A' < 'a');
 
 	if (ch >= '0') {
 		if (ch <= '9')
@@ -304,60 +312,54 @@ nm_utils_hexchar_to_int (char ch)
 
 /*****************************************************************************/
 
-const char *nm_utils_dbus_path_get_last_component (const char *dbus_path);
+const char *nm_utils_dbus_path_get_last_component(const char *dbus_path);
 
-int nm_utils_dbus_path_cmp (const char *dbus_path_a, const char *dbus_path_b);
-
-/*****************************************************************************/
-
-const char **nm_utils_strsplit_set (const char *str, const char *delimiters, gboolean allow_escaping);
-
-gssize nm_utils_strv_find_first (char **list, gssize len, const char *needle);
-
-char **_nm_utils_strv_cleanup (char **strv,
-                               gboolean strip_whitespace,
-                               gboolean skip_empty,
-                               gboolean skip_repeated);
+int nm_utils_dbus_path_cmp(const char *dbus_path_a, const char *dbus_path_b);
 
 /*****************************************************************************/
 
-guint32 _nm_utils_ip4_prefix_to_netmask (guint32 prefix);
-guint32 _nm_utils_ip4_get_default_prefix (guint32 ip);
+const char **
+nm_utils_strsplit_set(const char *str, const char *delimiters, gboolean allow_escaping);
 
-gboolean nm_utils_ip_is_site_local (int addr_family,
-                                    const void *address);
+gssize nm_utils_strv_find_first(char **list, gssize len, const char *needle);
+
+char **_nm_utils_strv_cleanup(char **strv,
+                              gboolean strip_whitespace,
+                              gboolean skip_empty,
+                              gboolean skip_repeated);
 
 /*****************************************************************************/
 
-gboolean nm_utils_parse_inaddr_bin  (int addr_family,
-                                     const char *text,
-                                     gpointer out_addr);
+guint32 _nm_utils_ip4_prefix_to_netmask(guint32 prefix);
+guint32 _nm_utils_ip4_get_default_prefix(guint32 ip);
 
-gboolean nm_utils_parse_inaddr (int addr_family,
-                                const char *text,
-                                char **out_addr);
+gboolean nm_utils_ip_is_site_local(int addr_family, const void *address);
 
-gboolean nm_utils_parse_inaddr_prefix_bin (int addr_family,
-                                           const char *text,
-                                           gpointer out_addr,
-                                           int *out_prefix);
+/*****************************************************************************/
 
-gboolean nm_utils_parse_inaddr_prefix (int addr_family,
-                                       const char *text,
-                                       char **out_addr,
-                                       int *out_prefix);
+gboolean nm_utils_parse_inaddr_bin(int addr_family, const char *text, gpointer out_addr);
 
-gint64 _nm_utils_ascii_str_to_int64 (const char *str, guint base, gint64 min, gint64 max, gint64 fallback);
+gboolean nm_utils_parse_inaddr(int addr_family, const char *text, char **out_addr);
 
-int _nm_utils_ascii_str_to_bool (const char *str,
-                                  int default_value);
+gboolean nm_utils_parse_inaddr_prefix_bin(int addr_family,
+                                          const char *text,
+                                          gpointer out_addr,
+                                          int *out_prefix);
+
+gboolean
+nm_utils_parse_inaddr_prefix(int addr_family, const char *text, char **out_addr, int *out_prefix);
+
+gint64
+_nm_utils_ascii_str_to_int64(const char *str, guint base, gint64 min, gint64 max, gint64 fallback);
+
+int _nm_utils_ascii_str_to_bool(const char *str, int default_value);
 
 /*****************************************************************************/
 
 extern char _nm_utils_to_string_buffer[2096];
 
-void     nm_utils_to_string_buffer_init (char **buf, gsize *len);
-gboolean nm_utils_to_string_buffer_init_null (gconstpointer obj, char **buf, gsize *len);
+void nm_utils_to_string_buffer_init(char **buf, gsize *len);
+gboolean nm_utils_to_string_buffer_init_null(gconstpointer obj, char **buf, gsize *len);
 
 /*****************************************************************************/
 
@@ -366,102 +368,117 @@ typedef struct {
 	const char *name;
 } NMUtilsFlags2StrDesc;
 
-#define NM_UTILS_FLAGS2STR(f, n) { .flag = f, .name = ""n, }
+#define NM_UTILS_FLAGS2STR(f, n) \
+	{                            \
+		.flag = f,               \
+		.name = "" n,            \
+	}
 
-#define _NM_UTILS_FLAGS2STR_DEFINE(scope, fcn_name, flags_type, ...) \
-scope const char * \
-fcn_name (flags_type flags, char *buf, gsize len) \
-{ \
-	static const NMUtilsFlags2StrDesc descs[] = { \
-		__VA_ARGS__ \
-	}; \
-	G_STATIC_ASSERT (sizeof (flags_type) <= sizeof (unsigned)); \
-	return nm_utils_flags2str (descs, G_N_ELEMENTS (descs), flags, buf, len); \
-};
+#define _NM_UTILS_FLAGS2STR_DEFINE(scope, fcn_name, flags_type, ...)            \
+	scope const char *fcn_name(flags_type flags, char *buf, gsize len)          \
+	{                                                                           \
+		static const NMUtilsFlags2StrDesc descs[] = {__VA_ARGS__};              \
+		G_STATIC_ASSERT(sizeof(flags_type) <= sizeof(unsigned));                \
+		return nm_utils_flags2str(descs, G_N_ELEMENTS(descs), flags, buf, len); \
+	};
 
 #define NM_UTILS_FLAGS2STR_DEFINE(fcn_name, flags_type, ...) \
-	_NM_UTILS_FLAGS2STR_DEFINE (, fcn_name, flags_type, __VA_ARGS__)
+	_NM_UTILS_FLAGS2STR_DEFINE(, fcn_name, flags_type, __VA_ARGS__)
 #define NM_UTILS_FLAGS2STR_DEFINE_STATIC(fcn_name, flags_type, ...) \
-	_NM_UTILS_FLAGS2STR_DEFINE (static, fcn_name, flags_type, __VA_ARGS__)
+	_NM_UTILS_FLAGS2STR_DEFINE(static, fcn_name, flags_type, __VA_ARGS__)
 
-const char *nm_utils_flags2str (const NMUtilsFlags2StrDesc *descs,
-                                gsize n_descs,
-                                unsigned flags,
-                                char *buf,
-                                gsize len);
+const char *nm_utils_flags2str(const NMUtilsFlags2StrDesc *descs,
+                               gsize n_descs,
+                               unsigned flags,
+                               char *buf,
+                               gsize len);
 
 /*****************************************************************************/
 
-#define NM_UTILS_ENUM2STR(v, n)     (void) 0; case v: s = ""n""; break; (void) 0
-#define NM_UTILS_ENUM2STR_IGNORE(v) (void) 0; case v: break; (void) 0
+#define NM_UTILS_ENUM2STR(v, n) \
+	(void) 0;                   \
+	case v:                     \
+		s = "" n "";            \
+		break;                  \
+		(void) 0
+#define NM_UTILS_ENUM2STR_IGNORE(v) \
+	(void) 0;                       \
+	case v:                         \
+		break;                      \
+		(void) 0
 
 #define _NM_UTILS_ENUM2STR_DEFINE(scope, fcn_name, lookup_type, int_fmt, ...) \
-scope const char * \
-fcn_name (lookup_type val, char *buf, gsize len) \
-{ \
-	nm_utils_to_string_buffer_init (&buf, &len); \
-	if (len) { \
-		const char *s = NULL; \
-		switch (val) { \
-			(void) 0, \
-			__VA_ARGS__ \
-			(void) 0; \
-		}; \
-		if (s) \
-			g_strlcpy (buf, s, len); \
-		else \
-			g_snprintf (buf, len, "(%"int_fmt")", val); \
-	} \
-	return buf; \
-}
+	scope const char *fcn_name(lookup_type val, char *buf, gsize len)         \
+	{                                                                         \
+		nm_utils_to_string_buffer_init(&buf, &len);                           \
+		if (len) {                                                            \
+			const char *s = NULL;                                             \
+			switch (val) {                                                    \
+				(void) 0, __VA_ARGS__(void) 0;                                \
+			};                                                                \
+			if (s)                                                            \
+				g_strlcpy(buf, s, len);                                       \
+			else                                                              \
+				g_snprintf(buf, len, "(%" int_fmt ")", val);                  \
+		}                                                                     \
+		return buf;                                                           \
+	}
 
 #define NM_UTILS_ENUM2STR_DEFINE(fcn_name, lookup_type, ...) \
-	_NM_UTILS_ENUM2STR_DEFINE (, fcn_name, lookup_type, "d", __VA_ARGS__)
+	_NM_UTILS_ENUM2STR_DEFINE(, fcn_name, lookup_type, "d", __VA_ARGS__)
 #define NM_UTILS_ENUM2STR_DEFINE_STATIC(fcn_name, lookup_type, ...) \
-	_NM_UTILS_ENUM2STR_DEFINE (static, fcn_name, lookup_type, "d", __VA_ARGS__)
+	_NM_UTILS_ENUM2STR_DEFINE(static, fcn_name, lookup_type, "d", __VA_ARGS__)
 
 /*****************************************************************************/
 
-#define _nm_g_slice_free_fcn_define(mem_size) \
-static inline void \
-_nm_g_slice_free_fcn_##mem_size (gpointer mem_block) \
-{ \
-	g_slice_free1 (mem_size, mem_block); \
-}
+#define _nm_g_slice_free_fcn_define(mem_size)                              \
+	static inline void _nm_g_slice_free_fcn_##mem_size(gpointer mem_block) \
+	{                                                                      \
+		g_slice_free1(mem_size, mem_block);                                \
+	}
 
-_nm_g_slice_free_fcn_define (1)
-_nm_g_slice_free_fcn_define (2)
-_nm_g_slice_free_fcn_define (4)
-_nm_g_slice_free_fcn_define (8)
-_nm_g_slice_free_fcn_define (10)
-_nm_g_slice_free_fcn_define (12)
-_nm_g_slice_free_fcn_define (16)
+_nm_g_slice_free_fcn_define(1) _nm_g_slice_free_fcn_define(2) _nm_g_slice_free_fcn_define(4)
+	_nm_g_slice_free_fcn_define(8) _nm_g_slice_free_fcn_define(10) _nm_g_slice_free_fcn_define(12)
+		_nm_g_slice_free_fcn_define(16)
 
-#define _nm_g_slice_free_fcn1(mem_size) \
-	({ \
-		void (*_fcn) (gpointer); \
-		\
+#define _nm_g_slice_free_fcn1(mem_size)                                                       \
+	({                                                                                        \
+		void (*_fcn)(gpointer);                                                               \
+                                                                                              \
 		/* If mem_size is a compile time constant, the compiler
 		 * will be able to optimize this. Hence, you don't want
-		 * to call this with a non-constant size argument. */ \
-		G_STATIC_ASSERT_EXPR (   ((mem_size) ==  1) \
-		                      || ((mem_size) ==  2) \
-		                      || ((mem_size) ==  4) \
-		                      || ((mem_size) ==  8) \
-		                      || ((mem_size) == 10) \
-		                      || ((mem_size) == 12) \
-		                      || ((mem_size) == 16)); \
-		switch ((mem_size)) { \
-		case  1: _fcn = _nm_g_slice_free_fcn_1;  break; \
-		case  2: _fcn = _nm_g_slice_free_fcn_2;  break; \
-		case  4: _fcn = _nm_g_slice_free_fcn_4;  break; \
-		case  8: _fcn = _nm_g_slice_free_fcn_8;  break; \
-		case 10: _fcn = _nm_g_slice_free_fcn_10; break; \
-		case 12: _fcn = _nm_g_slice_free_fcn_12; break; \
-		case 16: _fcn = _nm_g_slice_free_fcn_16; break; \
-		default: g_assert_not_reached (); _fcn = NULL; break; \
-		} \
-		_fcn; \
+		 * to call this with a non-constant size argument. */                               \
+		G_STATIC_ASSERT_EXPR(((mem_size) == 1) || ((mem_size) == 2) || ((mem_size) == 4)      \
+		                     || ((mem_size) == 8) || ((mem_size) == 10) || ((mem_size) == 12) \
+		                     || ((mem_size) == 16));                                          \
+		switch ((mem_size)) {                                                                 \
+		case 1:                                                                               \
+			_fcn = _nm_g_slice_free_fcn_1;                                                    \
+			break;                                                                            \
+		case 2:                                                                               \
+			_fcn = _nm_g_slice_free_fcn_2;                                                    \
+			break;                                                                            \
+		case 4:                                                                               \
+			_fcn = _nm_g_slice_free_fcn_4;                                                    \
+			break;                                                                            \
+		case 8:                                                                               \
+			_fcn = _nm_g_slice_free_fcn_8;                                                    \
+			break;                                                                            \
+		case 10:                                                                              \
+			_fcn = _nm_g_slice_free_fcn_10;                                                   \
+			break;                                                                            \
+		case 12:                                                                              \
+			_fcn = _nm_g_slice_free_fcn_12;                                                   \
+			break;                                                                            \
+		case 16:                                                                              \
+			_fcn = _nm_g_slice_free_fcn_16;                                                   \
+			break;                                                                            \
+		default:                                                                              \
+			g_assert_not_reached();                                                           \
+			_fcn = NULL;                                                                      \
+			break;                                                                            \
+		}                                                                                     \
+		_fcn;                                                                                 \
 	})
 
 /**
@@ -474,13 +491,13 @@ _nm_g_slice_free_fcn_define (16)
  *
  * Only certain types are implemented. You'll get an assertion
  * using the wrong type. */
-#define nm_g_slice_free_fcn(type) (_nm_g_slice_free_fcn1 (sizeof (type)))
+#define nm_g_slice_free_fcn(type) (_nm_g_slice_free_fcn1(sizeof(type)))
 
-#define nm_g_slice_free_fcn_gint64 (nm_g_slice_free_fcn (gint64))
+#define nm_g_slice_free_fcn_gint64 (nm_g_slice_free_fcn(gint64))
 
-/*****************************************************************************/
+	/*****************************************************************************/
 
-/**
+	/**
  * NMUtilsError:
  * @NM_UTILS_ERROR_UNKNOWN: unknown or unclassified error
  * @NM_UTILS_ERROR_CANCELLED_DISPOSING: when disposing an object that has
@@ -502,12 +519,12 @@ _nm_g_slice_free_fcn_define (16)
  *
  * @NM_UTILS_ERROR_INVALID_ARGUMENT: invalid argument.
  */
-typedef enum {
-	NM_UTILS_ERROR_UNKNOWN = 0,                 /*< nick=Unknown >*/
-	NM_UTILS_ERROR_CANCELLED_DISPOSING,         /*< nick=CancelledDisposing >*/
-	NM_UTILS_ERROR_INVALID_ARGUMENT,            /*< nick=InvalidArgument >*/
+	typedef enum {
+		NM_UTILS_ERROR_UNKNOWN = 0,         /*< nick=Unknown >*/
+		NM_UTILS_ERROR_CANCELLED_DISPOSING, /*< nick=CancelledDisposing >*/
+		NM_UTILS_ERROR_INVALID_ARGUMENT,    /*< nick=InvalidArgument >*/
 
-	/* the following codes have a special meaning and are exactly used for
+		/* the following codes have a special meaning and are exactly used for
 	 * nm_device_check_connection_compatible() and nm_device_check_connection_available().
 	 *
 	 * Actually, their meaning is not very important (so, don't think too
@@ -518,72 +535,73 @@ typedef enum {
 	 * message from the device that returned the *highest* error code,
 	 * in the hope that this message makes the most sense for the caller.
 	 * */
-	NM_UTILS_ERROR_CONNECTION_AVAILABLE_INCOMPATIBLE,
-	NM_UTILS_ERROR_CONNECTION_AVAILABLE_UNMANAGED_DEVICE,
-	NM_UTILS_ERROR_CONNECTION_AVAILABLE_TEMPORARY,
+		NM_UTILS_ERROR_CONNECTION_AVAILABLE_INCOMPATIBLE,
+		NM_UTILS_ERROR_CONNECTION_AVAILABLE_UNMANAGED_DEVICE,
+		NM_UTILS_ERROR_CONNECTION_AVAILABLE_TEMPORARY,
 
-} NMUtilsError;
+	} NMUtilsError;
 
-#define NM_UTILS_ERROR (nm_utils_error_quark ())
-GQuark nm_utils_error_quark (void);
+#define NM_UTILS_ERROR (nm_utils_error_quark())
+GQuark nm_utils_error_quark(void);
 
-void nm_utils_error_set_cancelled (GError **error,
-                                   gboolean is_disposing,
-                                   const char *instance_name);
-gboolean nm_utils_error_is_cancelled (GError *error,
-                                      gboolean consider_is_disposing);
+void nm_utils_error_set_cancelled(GError **error, gboolean is_disposing, const char *instance_name);
+gboolean nm_utils_error_is_cancelled(GError *error, gboolean consider_is_disposing);
 
 static inline void
-nm_utils_error_set_literal (GError **error, int error_code, const char *literal)
+nm_utils_error_set_literal(GError **error, int error_code, const char *literal)
 {
-	g_set_error_literal (error, NM_UTILS_ERROR, error_code, literal);
+	g_set_error_literal(error, NM_UTILS_ERROR, error_code, literal);
 }
 
 #define nm_utils_error_set(error, error_code, ...) \
-	g_set_error ((error), NM_UTILS_ERROR, error_code, __VA_ARGS__)
+	g_set_error((error), NM_UTILS_ERROR, error_code, __VA_ARGS__)
 
 /*****************************************************************************/
 
-gboolean nm_g_object_set_property (GObject *object,
-                                   const char   *property_name,
-                                   const GValue *value,
-                                   GError **error);
+gboolean nm_g_object_set_property(GObject *object,
+                                  const char *property_name,
+                                  const GValue *value,
+                                  GError **error);
 
-gboolean nm_g_object_set_property_boolean (GObject *object,
-                                           const char   *property_name,
-                                           gboolean value,
-                                           GError **error);
+gboolean nm_g_object_set_property_boolean(GObject *object,
+                                          const char *property_name,
+                                          gboolean value,
+                                          GError **error);
 
-gboolean nm_g_object_set_property_uint (GObject *object,
-                                        const char   *property_name,
-                                        guint value,
-                                        GError **error);
+gboolean nm_g_object_set_property_uint(GObject *object,
+                                       const char *property_name,
+                                       guint value,
+                                       GError **error);
 
-GParamSpec *nm_g_object_class_find_property_from_gtype (GType gtype,
-                                                        const char *property_name);
+GParamSpec *nm_g_object_class_find_property_from_gtype(GType gtype, const char *property_name);
 
 /*****************************************************************************/
 
 typedef enum {
-	NM_UTILS_STR_UTF8_SAFE_FLAG_NONE                = 0,
-	NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_CTRL         = 0x0001,
-	NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_NON_ASCII    = 0x0002,
+	NM_UTILS_STR_UTF8_SAFE_FLAG_NONE = 0,
+	NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_CTRL = 0x0001,
+	NM_UTILS_STR_UTF8_SAFE_FLAG_ESCAPE_NON_ASCII = 0x0002,
 } NMUtilsStrUtf8SafeFlags;
 
-const char *nm_utils_buf_utf8safe_escape (gconstpointer buf, gssize buflen, NMUtilsStrUtf8SafeFlags flags, char **to_free);
-const char *nm_utils_buf_utf8safe_escape_bytes (GBytes *bytes, NMUtilsStrUtf8SafeFlags flags, char **to_free);
-gconstpointer nm_utils_buf_utf8safe_unescape (const char *str, gsize *out_len, gpointer *to_free);
+const char *nm_utils_buf_utf8safe_escape(gconstpointer buf,
+                                         gssize buflen,
+                                         NMUtilsStrUtf8SafeFlags flags,
+                                         char **to_free);
+const char *
+nm_utils_buf_utf8safe_escape_bytes(GBytes *bytes, NMUtilsStrUtf8SafeFlags flags, char **to_free);
+gconstpointer nm_utils_buf_utf8safe_unescape(const char *str, gsize *out_len, gpointer *to_free);
 
-const char *nm_utils_str_utf8safe_escape   (const char *str, NMUtilsStrUtf8SafeFlags flags, char **to_free);
-const char *nm_utils_str_utf8safe_unescape (const char *str, char **to_free);
+const char *
+nm_utils_str_utf8safe_escape(const char *str, NMUtilsStrUtf8SafeFlags flags, char **to_free);
+const char *nm_utils_str_utf8safe_unescape(const char *str, char **to_free);
 
-char *nm_utils_str_utf8safe_escape_cp   (const char *str, NMUtilsStrUtf8SafeFlags flags);
-char *nm_utils_str_utf8safe_unescape_cp (const char *str);
+char *nm_utils_str_utf8safe_escape_cp(const char *str, NMUtilsStrUtf8SafeFlags flags);
+char *nm_utils_str_utf8safe_unescape_cp(const char *str);
 
-char *nm_utils_str_utf8safe_escape_take (char *str, NMUtilsStrUtf8SafeFlags flags);
+char *nm_utils_str_utf8safe_escape_take(char *str, NMUtilsStrUtf8SafeFlags flags);
 
 static inline void
-nm_g_variant_unref_floating (GVariant *var)
+nm_g_variant_unref_floating(GVariant *var)
 {
 	/* often a function wants to keep a reference to an input variant.
 	 * It uses g_variant_ref_sink() to either increase the ref-count,
@@ -595,25 +613,25 @@ nm_g_variant_unref_floating (GVariant *var)
 	 *
 	 *   - does nothing if @var is not floating
 	 *   - unrefs (consumes) @var if it is floating. */
-	if (g_variant_is_floating (var))
-		g_variant_unref (var);
+	if (g_variant_is_floating(var))
+		g_variant_unref(var);
 }
 
 /*****************************************************************************/
 
 static inline int
-nm_utf8_collate0 (const char *a, const char *b)
+nm_utf8_collate0(const char *a, const char *b)
 {
 	if (!a)
 		return !b ? 0 : -1;
 	if (!b)
 		return 1;
-	return g_utf8_collate (a, b);
+	return g_utf8_collate(a, b);
 }
 
-int nm_strcmp_p_with_data (gconstpointer a, gconstpointer b, gpointer user_data);
-int nm_cmp_uint32_p_with_data (gconstpointer p_a, gconstpointer p_b, gpointer user_data);
-int nm_cmp_int2ptr_p_with_data (gconstpointer p_a, gconstpointer p_b, gpointer user_data);
+int nm_strcmp_p_with_data(gconstpointer a, gconstpointer b, gpointer user_data);
+int nm_cmp_uint32_p_with_data(gconstpointer p_a, gconstpointer p_b, gpointer user_data);
+int nm_cmp_int2ptr_p_with_data(gconstpointer p_a, gconstpointer p_b, gpointer user_data);
 
 /*****************************************************************************/
 
@@ -632,84 +650,82 @@ typedef struct {
 	};
 } NMUtilsNamedValue;
 
-#define nm_utils_named_entry_cmp           nm_strcmp_p
+#define nm_utils_named_entry_cmp nm_strcmp_p
 #define nm_utils_named_entry_cmp_with_data nm_strcmp_p_with_data
 
-NMUtilsNamedValue *nm_utils_named_values_from_str_dict (GHashTable *hash, guint *out_len);
+NMUtilsNamedValue *nm_utils_named_values_from_str_dict(GHashTable *hash, guint *out_len);
 
-gpointer *nm_utils_hash_keys_to_array (GHashTable *hash,
-                                       GCompareDataFunc compare_func,
-                                       gpointer user_data,
-                                       guint *out_len);
+gpointer *nm_utils_hash_keys_to_array(GHashTable *hash,
+                                      GCompareDataFunc compare_func,
+                                      gpointer user_data,
+                                      guint *out_len);
 
 static inline const char **
-nm_utils_strdict_get_keys (const GHashTable *hash,
-                           gboolean sorted,
-                           guint *out_length)
+nm_utils_strdict_get_keys(const GHashTable *hash, gboolean sorted, guint *out_length)
 {
-	return (const char **) nm_utils_hash_keys_to_array ((GHashTable *) hash,
-	                                                    sorted ? nm_strcmp_p_with_data : NULL,
-	                                                    NULL,
-	                                                    out_length);
+	return (const char **) nm_utils_hash_keys_to_array((GHashTable *) hash,
+	                                                   sorted ? nm_strcmp_p_with_data : NULL,
+	                                                   NULL,
+	                                                   out_length);
 }
 
-char **nm_utils_strv_make_deep_copied (const char **strv);
+char **nm_utils_strv_make_deep_copied(const char **strv);
 
 static inline char **
-nm_utils_strv_make_deep_copied_nonnull (const char **strv)
+nm_utils_strv_make_deep_copied_nonnull(const char **strv)
 {
-	return nm_utils_strv_make_deep_copied (strv) ?: g_new0 (char *, 1);
+	return nm_utils_strv_make_deep_copied(strv) ?: g_new0(char *, 1);
 }
 
 /*****************************************************************************/
 
-gssize nm_utils_ptrarray_find_binary_search (gconstpointer *list,
-                                             gsize len,
-                                             gconstpointer needle,
-                                             GCompareDataFunc cmpfcn,
-                                             gpointer user_data,
-                                             gssize *out_idx_first,
-                                             gssize *out_idx_last);
+gssize nm_utils_ptrarray_find_binary_search(gconstpointer *list,
+                                            gsize len,
+                                            gconstpointer needle,
+                                            GCompareDataFunc cmpfcn,
+                                            gpointer user_data,
+                                            gssize *out_idx_first,
+                                            gssize *out_idx_last);
 
-gssize nm_utils_array_find_binary_search (gconstpointer list,
-                                          gsize elem_size,
-                                          gsize len,
-                                          gconstpointer needle,
-                                          GCompareDataFunc cmpfcn,
-                                          gpointer user_data);
-
-/*****************************************************************************/
-
-typedef gboolean (*NMUtilsHashTableEqualFunc) (gconstpointer a,
-                                               gconstpointer b);
-
-gboolean nm_utils_hash_table_equal (const GHashTable *a,
-                                    const GHashTable *b,
-                                    gboolean treat_null_as_empty,
-                                    NMUtilsHashTableEqualFunc equal_func);
+gssize nm_utils_array_find_binary_search(gconstpointer list,
+                                         gsize elem_size,
+                                         gsize len,
+                                         gconstpointer needle,
+                                         GCompareDataFunc cmpfcn,
+                                         gpointer user_data);
 
 /*****************************************************************************/
 
-void _nm_utils_strv_sort (const char **strv, gssize len);
-#define nm_utils_strv_sort(strv, len) _nm_utils_strv_sort (NM_CAST_STRV_MC (strv), len)
+typedef gboolean (*NMUtilsHashTableEqualFunc)(gconstpointer a, gconstpointer b);
+
+gboolean nm_utils_hash_table_equal(const GHashTable *a,
+                                   const GHashTable *b,
+                                   gboolean treat_null_as_empty,
+                                   NMUtilsHashTableEqualFunc equal_func);
 
 /*****************************************************************************/
 
-#define NM_UTILS_NS_PER_SECOND   ((gint64) 1000000000)
-#define NM_UTILS_NS_PER_MSEC     ((gint64) 1000000)
+void _nm_utils_strv_sort(const char **strv, gssize len);
+#define nm_utils_strv_sort(strv, len) _nm_utils_strv_sort(NM_CAST_STRV_MC(strv), len)
+
+/*****************************************************************************/
+
+#define NM_UTILS_NS_PER_SECOND ((gint64) 1000000000)
+#define NM_UTILS_NS_PER_MSEC ((gint64) 1000000)
 #define NM_UTILS_MSEC_PER_SECOND ((gint64) 1000)
-#define NM_UTILS_NS_TO_MSEC_CEIL(nsec)      (((nsec) + (NM_UTILS_NS_PER_MSEC - 1)) / NM_UTILS_NS_PER_MSEC)
+#define NM_UTILS_NS_TO_MSEC_CEIL(nsec) \
+	(((nsec) + (NM_UTILS_NS_PER_MSEC - 1)) / NM_UTILS_NS_PER_MSEC)
 
 /*****************************************************************************/
 
-int nm_utils_fd_wait_for_event (int fd, int event, gint64 timeout_ns);
-ssize_t nm_utils_fd_read_loop (int fd, void *buf, size_t nbytes, bool do_poll);
-int nm_utils_fd_read_loop_exact (int fd, void *buf, size_t nbytes, bool do_poll);
+int nm_utils_fd_wait_for_event(int fd, int event, gint64 timeout_ns);
+ssize_t nm_utils_fd_read_loop(int fd, void *buf, size_t nbytes, bool do_poll);
+int nm_utils_fd_read_loop_exact(int fd, void *buf, size_t nbytes, bool do_poll);
 
 /*****************************************************************************/
 
 static inline const char *
-nm_utils_dbus_normalize_object_path (const char *path)
+nm_utils_dbus_normalize_object_path(const char *path)
 {
 	/* D-Bus does not allow an empty object path. Hence, whenever we mean NULL / no-object
 	 * on D-Bus, it's path is actually "/".
@@ -721,110 +737,81 @@ nm_utils_dbus_normalize_object_path (const char *path)
 }
 
 #define NM_DEFINE_GDBUS_ARG_INFO_FULL(name_, ...) \
-	((GDBusArgInfo *) (&((const GDBusArgInfo) { \
-		.ref_count = -1, \
-		.name = name_, \
-		__VA_ARGS__ \
-	})))
+	((GDBusArgInfo *) (&((const GDBusArgInfo) {.ref_count = -1, .name = name_, __VA_ARGS__})))
 
 #define NM_DEFINE_GDBUS_ARG_INFO(name_, a_signature) \
-	NM_DEFINE_GDBUS_ARG_INFO_FULL ( \
-		name_, \
-		.signature = a_signature, \
-	)
+	NM_DEFINE_GDBUS_ARG_INFO_FULL(name_, .signature = a_signature, )
 
-#define NM_DEFINE_GDBUS_ARG_INFOS(...) \
+#define NM_DEFINE_GDBUS_ARG_INFOS(...)             \
 	((GDBusArgInfo **) ((const GDBusArgInfo *[]) { \
-		__VA_ARGS__ \
-		NULL, \
+		__VA_ARGS__ NULL,                          \
 	}))
 
 #define NM_DEFINE_GDBUS_PROPERTY_INFO(name_, ...) \
-	((GDBusPropertyInfo *) (&((const GDBusPropertyInfo) { \
-		.ref_count = -1, \
-		.name = name_, \
-		__VA_ARGS__ \
-	})))
+	((GDBusPropertyInfo *) (&(                    \
+		(const GDBusPropertyInfo) {.ref_count = -1, .name = name_, __VA_ARGS__})))
 
 #define NM_DEFINE_GDBUS_PROPERTY_INFO_READABLE(name_, m_signature) \
-	NM_DEFINE_GDBUS_PROPERTY_INFO ( \
-		name_, \
-		.signature = m_signature, \
-		.flags = G_DBUS_PROPERTY_INFO_FLAGS_READABLE, \
-	)
+	NM_DEFINE_GDBUS_PROPERTY_INFO(name_,                           \
+	                              .signature = m_signature,        \
+	                              .flags = G_DBUS_PROPERTY_INFO_FLAGS_READABLE, )
 
-#define NM_DEFINE_GDBUS_PROPERTY_INFOS(...) \
+#define NM_DEFINE_GDBUS_PROPERTY_INFOS(...)                  \
 	((GDBusPropertyInfo **) ((const GDBusPropertyInfo *[]) { \
-		__VA_ARGS__ \
-		NULL, \
+		__VA_ARGS__ NULL,                                    \
 	}))
 
-#define NM_DEFINE_GDBUS_SIGNAL_INFO_INIT(name_, ...) \
-	{ \
-		.ref_count = -1, \
-		.name = name_, \
-		__VA_ARGS__ \
-	}
+#define NM_DEFINE_GDBUS_SIGNAL_INFO_INIT(name_, ...) {.ref_count = -1, .name = name_, __VA_ARGS__}
 
 #define NM_DEFINE_GDBUS_SIGNAL_INFO(name_, ...) \
-	((GDBusSignalInfo *) (&((const GDBusSignalInfo) NM_DEFINE_GDBUS_SIGNAL_INFO_INIT (name_, __VA_ARGS__))))
+	((GDBusSignalInfo *) (&(                    \
+		(const GDBusSignalInfo) NM_DEFINE_GDBUS_SIGNAL_INFO_INIT(name_, __VA_ARGS__))))
 
-#define NM_DEFINE_GDBUS_SIGNAL_INFOS(...) \
+#define NM_DEFINE_GDBUS_SIGNAL_INFOS(...)                \
 	((GDBusSignalInfo **) ((const GDBusSignalInfo *[]) { \
-		__VA_ARGS__ \
-		NULL, \
+		__VA_ARGS__ NULL,                                \
 	}))
 
-#define NM_DEFINE_GDBUS_METHOD_INFO_INIT(name_, ...) \
-	{ \
-		.ref_count = -1, \
-		.name = name_, \
-		__VA_ARGS__ \
-	}
+#define NM_DEFINE_GDBUS_METHOD_INFO_INIT(name_, ...) {.ref_count = -1, .name = name_, __VA_ARGS__}
 
 #define NM_DEFINE_GDBUS_METHOD_INFO(name_, ...) \
-	((GDBusMethodInfo *) (&((const GDBusMethodInfo) NM_DEFINE_GDBUS_METHOD_INFO_INIT (name_, __VA_ARGS__))))
+	((GDBusMethodInfo *) (&(                    \
+		(const GDBusMethodInfo) NM_DEFINE_GDBUS_METHOD_INFO_INIT(name_, __VA_ARGS__))))
 
-#define NM_DEFINE_GDBUS_METHOD_INFOS(...) \
+#define NM_DEFINE_GDBUS_METHOD_INFOS(...)                \
 	((GDBusMethodInfo **) ((const GDBusMethodInfo *[]) { \
-		__VA_ARGS__ \
-		NULL, \
+		__VA_ARGS__ NULL,                                \
 	}))
 
 #define NM_DEFINE_GDBUS_INTERFACE_INFO_INIT(name_, ...) \
-	{ \
-		.ref_count = -1, \
-		.name = name_, \
-		__VA_ARGS__ \
-	}
+	{.ref_count = -1, .name = name_, __VA_ARGS__}
 
 #define NM_DEFINE_GDBUS_INTERFACE_INFO(name_, ...) \
-	((GDBusInterfaceInfo *) (&((const GDBusInterfaceInfo) NM_DEFINE_GDBUS_INTERFACE_INFO_INIT (name_, __VA_ARGS__))))
+	((GDBusInterfaceInfo *) (&(                    \
+		(const GDBusInterfaceInfo) NM_DEFINE_GDBUS_INTERFACE_INFO_INIT(name_, __VA_ARGS__))))
 
 #define NM_DEFINE_GDBUS_INTERFACE_VTABLE(...) \
-	((GDBusInterfaceVTable *) (&((const GDBusInterfaceVTable) { \
-		__VA_ARGS__ \
-	})))
+	((GDBusInterfaceVTable *) (&((const GDBusInterfaceVTable) {__VA_ARGS__})))
 
 /*****************************************************************************/
 
-guint64 nm_utils_get_start_time_for_pid (pid_t pid, char *out_state, pid_t *out_ppid);
+guint64 nm_utils_get_start_time_for_pid(pid_t pid, char *out_state, pid_t *out_ppid);
 
 /*****************************************************************************/
 
-gpointer _nm_utils_user_data_pack (int nargs, gconstpointer *args);
+gpointer _nm_utils_user_data_pack(int nargs, gconstpointer *args);
 
 #define nm_utils_user_data_pack(...) \
-	_nm_utils_user_data_pack(NM_NARG (__VA_ARGS__), (gconstpointer[]) { __VA_ARGS__ })
+	_nm_utils_user_data_pack(NM_NARG(__VA_ARGS__), (gconstpointer[]) {__VA_ARGS__})
 
-void _nm_utils_user_data_unpack (gpointer user_data, int nargs, ...);
+void _nm_utils_user_data_unpack(gpointer user_data, int nargs, ...);
 
 #define nm_utils_user_data_unpack(user_data, ...) \
-	_nm_utils_user_data_unpack(user_data, NM_NARG (__VA_ARGS__), __VA_ARGS__)
+	_nm_utils_user_data_unpack(user_data, NM_NARG(__VA_ARGS__), __VA_ARGS__)
 
 /*****************************************************************************/
 
-const char *_nm_utils_escape_spaces (const char *str, char **to_free);
-char *_nm_utils_unescape_spaces (char *str);
+const char *_nm_utils_escape_spaces(const char *str, char **to_free);
+char *_nm_utils_unescape_spaces(char *str);
 
 #endif /* __NM_SHARED_UTILS_H__ */

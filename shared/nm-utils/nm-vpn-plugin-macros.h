@@ -25,7 +25,7 @@
 #include <syslog.h>
 
 static inline int
-nm_utils_syslog_coerce_from_nm (int syslog_level)
+nm_utils_syslog_coerce_from_nm(int syslog_level)
 {
 	/* NetworkManager uses internally NMLogLevel levels. When spawning
 	 * the VPN plugin, it maps those levels to syslog levels as follows:
@@ -57,7 +57,7 @@ nm_utils_syslog_coerce_from_nm (int syslog_level)
 }
 
 static inline const char *
-nm_utils_syslog_to_str (int syslog_level)
+nm_utils_syslog_to_str(int syslog_level)
 {
 	/* Maps the levels the same way as NetworkManager's nm-logging.c does */
 	if (syslog_level >= LOG_DEBUG)
@@ -90,4 +90,3 @@ nm_utils_syslog_to_str (int syslog_level)
 /*****************************************************************************/
 
 #endif /* __NM_VPN_PLUGIN_MACROS_H__ */
-
