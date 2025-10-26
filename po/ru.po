@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2025-10-13 10:58+0000\n"
-"PO-Revision-Date: 2025-10-15 13:12+0300\n"
+"POT-Creation-Date: 2025-10-21 10:31+0000\n"
+"PO-Revision-Date: 2025-10-26 14:31+0300\n"
 "Last-Translator: Гашигуллин Данил <gashigullin44@gmail.com>\n"
 "Language-Team: RU\n"
 "Language: ru\n"
@@ -52,23 +52,23 @@ msgstr "Совместимо с серверами VPN Libreswan и Cisco IPsec.
 msgid "The NetworkManager Developers"
 msgstr "Разработчики NetworkManager"
 
-#: ../auth-dialog/main.c:164 ../auth-dialog/main.c:227
+#: ../auth-dialog/main.c:170 ../auth-dialog/main.c:234
 msgid "Authenticate VPN"
 msgstr "Аутентификация VPN"
 
-#: ../auth-dialog/main.c:179
+#: ../auth-dialog/main.c:185
 msgid "Password"
 msgstr "Пароль"
 
-#: ../auth-dialog/main.c:189
+#: ../auth-dialog/main.c:195
 msgid "Group Password"
 msgstr "Пароль группы"
 
-#: ../auth-dialog/main.c:236
+#: ../auth-dialog/main.c:243
 msgid "_Group Password:"
 msgstr "Пароль _группы:"
 
-#: ../auth-dialog/main.c:486
+#: ../auth-dialog/main.c:512
 #, c-format
 msgid "You need to authenticate to access the Virtual Private Network “%s”."
 msgstr "Для доступа к частной виртуальной сети “%s” требуется аутентификация."
@@ -81,103 +81,104 @@ msgstr "VPN на базе IPsec"
 msgid "IPsec based VPN for remote clients"
 msgstr "VPN на базе IPsec для удалённых клиентов"
 
-#: ../properties/nm-libreswan-editor-plugin.c:115
+#: ../properties/nm-libreswan-editor-plugin.c:118
 #, c-format
 msgid "Error writing to file “%s”: %s"
 msgstr "Ошибка записи в файл “%s”: %s"
 
-#: ../src/nm-libreswan-service.c:516
+#: ../src/nm-libreswan-service.c:517
 msgid "Invalid character in password."
 msgstr "Недействительный символ в пароле."
 
-#: ../src/nm-libreswan-service.c:1502
+#: ../src/nm-libreswan-service.c:1556
 msgid "A password is required."
 msgstr "Требуется пароль."
 
-#: ../src/nm-libreswan-service.c:1622
+#: ../src/nm-libreswan-service.c:1676
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Ошибка записи конфигурации: %s"
 
-#: ../src/nm-libreswan-service.c:1943
-msgid ""
-"Could not process the request because the VPN connection settings were "
-"invalid."
-msgstr ""
-"Не удалось обработать запрос, параметры подключения VPN оказались "
-"недействительными."
-
-#: ../src/nm-libreswan-service.c:1957
+#: ../src/nm-libreswan-service.c:2047
 msgid "Unhandled pending authentication."
 msgstr "Необработанная отложенная аутентификация."
 
-#: ../src/nm-libreswan-service.c:2101
+#: ../src/nm-libreswan-service.c:2209
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Не закрывать программу после прерывания подключения VPN"
 
-#: ../src/nm-libreswan-service.c:2102
+#: ../src/nm-libreswan-service.c:2216
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr ""
 "Включить подробное журналирование отладки (пароли могут оказаться в открытом "
 "доступе)"
 
-#: ../src/nm-libreswan-service.c:2103
+#: ../src/nm-libreswan-service.c:2223
 msgid "D-Bus name to use for this instance"
 msgstr "Имя D-Bus, используемое для этого экземпляра"
 
-#: ../src/nm-libreswan-service.c:2126
+#: ../src/nm-libreswan-service.c:2247
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr ""
 "Данная служба предоставляет встроенные возможности VPN IPsec программе "
 "NetworkManager."
 
-#: ../shared/utils.c:380
+#: ../shared/utils.c:382
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Недействительный символ в '%s'"
 
-#: ../shared/utils.c:417 ../shared/utils.c:534
+#: ../shared/utils.c:423 ../shared/utils.c:575
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "Должен присутствовать ключ '%s'"
 
-#: ../shared/utils.c:447 ../shared/utils.c:543
+#: ../shared/utils.c:454 ../shared/utils.c:584 ../shared/utils.c:725
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "недействительный или неподдерживаемый параметр '%s'"
 
-#: ../shared/utils.c:596
+#: ../shared/utils.c:478 ../shared/utils.c:488
+#, c-format
+msgid "Invalid VPN setting: %s"
+msgstr "Некорректный параметр VPN: %s"
+
+#: ../shared/utils.c:479
+msgid "Empty VPN configuration"
+msgstr "Пустая конфигурация VPN"
+
+#: ../shared/utils.c:639
 #, c-format
 msgid "'%s' not understood"
 msgstr "'%s' не было понято"
 
-#: ../shared/utils.c:622
+#: ../shared/utils.c:669
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Перед '%s' ожидалась строка подключения"
 
-#: ../shared/utils.c:628 ../shared/utils.c:643
+#: ../shared/utils.c:674 ../shared/utils.c:688
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "'%s' указано несколько раз"
 
-#: ../shared/utils.c:692
+#: ../shared/utils.c:757
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "'%s' не имеет поддержки в '%s'"
 
-#: ../shared/nm-utils/nm-shared-utils.c:1087
+#: ../shared/nm-utils/nm-shared-utils.c:1077
 #, c-format
 msgid "object class '%s' has no property named '%s'"
 msgstr "у класса объектов '%s' нет параметра с именем '%s'"
 
-#: ../shared/nm-utils/nm-shared-utils.c:1094
+#: ../shared/nm-utils/nm-shared-utils.c:1086
 #, c-format
 msgid "property '%s' of object class '%s' is not writable"
 msgstr "свойство «%s» класса объекта «%s» недоступно для записи"
 
-#: ../shared/nm-utils/nm-shared-utils.c:1101
+#: ../shared/nm-utils/nm-shared-utils.c:1095
 #, c-format
 msgid ""
 "construct property \"%s\" for object '%s' can't be set after construction"
@@ -185,20 +186,20 @@ msgstr ""
 "свойство конструкции \"%s\" объекта '%s' не может быть установлено после "
 "создания конструкции"
 
-#: ../shared/nm-utils/nm-shared-utils.c:1109
+#: ../shared/nm-utils/nm-shared-utils.c:1106
 #, c-format
 msgid "'%s::%s' is not a valid property name; '%s' is not a GObject subtype"
 msgstr ""
 "'%s::%s' не является действительным именем свойства; '%s' не является "
 "подтипом GObject"
 
-#: ../shared/nm-utils/nm-shared-utils.c:1118
+#: ../shared/nm-utils/nm-shared-utils.c:1119
 #, c-format
 msgid "unable to set property '%s' of type '%s' from value of type '%s'"
 msgstr ""
 "невозможно настроить свойство '%s' с типом '%s' на базе значения с типом '%s'"
 
-#: ../shared/nm-utils/nm-shared-utils.c:1129
+#: ../shared/nm-utils/nm-shared-utils.c:1131
 #, c-format
 msgid ""
 "value \"%s\" of type '%s' is invalid or out of range for property '%s' of "
@@ -212,22 +213,22 @@ msgstr ""
 msgid "unable to get editor plugin name: %s"
 msgstr "не удалось получить имя модуля редактора: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:60
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:61
 #, c-format
 msgid "missing plugin file \"%s\""
 msgstr "отсутствует файл модуля \"%s\""
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:128
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:132
 #, c-format
 msgid "cannot load editor plugin: %s"
 msgstr "невозможно загрузить модуль редактора: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:137
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:142
 #, c-format
 msgid "cannot load factory %s from plugin: %s"
 msgstr "невозможно загрузить заводские настройки %s из модуля: %s"
 
-#: ../shared/nm-utils/nm-vpn-plugin-utils.c:163
+#: ../shared/nm-utils/nm-vpn-plugin-utils.c:165
 msgid "unknown error creating editor instance"
 msgstr "неизвестная ошибка при создании экземпляра редактора"
 
@@ -686,3 +687,10 @@ msgstr "_Отменить"
 #: ../properties/nm-libreswan-dialog.ui.h:98
 msgid "_Apply"
 msgstr "_Применить"
+
+#~ msgid ""
+#~ "Could not process the request because the VPN connection settings were "
+#~ "invalid."
+#~ msgstr ""
+#~ "Не удалось обработать запрос, параметры подключения VPN оказались "
+#~ "недействительными."
