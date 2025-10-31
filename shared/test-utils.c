@@ -794,6 +794,30 @@ test_config_read(void)
 	g_assert_null(s_vpn);
 	g_assert_null(con_name);
 	g_clear_error(&error);
+
+	/* Keys with embedded equal signs. The keys here are not valid keys, they were
+	 * shortened to fit a single line. */
+#define RSASIGKEY1 "0sAwEAAcy05zwQ9LMZrc9GrK4CQIfiw=="
+#define RSASIGKEY2 "0sAwEAAcrSZGhYW8ZJVzRG/3SYiAT9Q0="
+	s_vpn = nm_libreswan_parse_ipsec_conf("conn conn\n"
+	                                      " leftid=@west\n"
+	                                      " left=192.0.42.1\n"
+	                                      " leftrsasigkey=" RSASIGKEY1 "\n"
+	                                      " rightid=@east\n"
+	                                      " right=192.0.42.2\n"
+	                                      " rightrsasigkey=" RSASIGKEY2 "\n"
+	                                      " authby=rsasig\n",
+	                                      &con_name,
+	                                      &error);
+	g_assert_no_error(error);
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftid"), ==, "@west");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "left"), ==, "192.0.42.1");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftrsasigkey"), ==, RSASIGKEY1);
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightid"), ==, "@east");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "right"), ==, "192.0.42.2");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightrsasigkey"), ==, RSASIGKEY2);
+	g_object_unref(s_vpn);
+	g_clear_pointer(&con_name, g_free);
 }
 
 static void
