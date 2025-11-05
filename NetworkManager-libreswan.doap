@@ -37,20 +37,20 @@
       <gnome:userid>bgalvani</gnome:userid>
     </foaf:Person>
   </maintainer>
-<!--  <maintainer>
+  <maintainer>
     <foaf:Person>
-      <foaf:name>Francesco Giudici</foaf:name>
-      <foaf:mbox rdf:resource="mailto:fgiudici@redhat.com" />
-      <gnome:userid>fgiudici</gnome:userid>
+      <foaf:name>Vladimir Benes</foaf:name>
+      <foaf:mbox rdf:resource="mailto:mailto:vbenes@redhat.com" />
+      <gnome:userid>benesv</gnome:userid>
     </foaf:Person>
-  </maintainer> -->
-<!--  <maintainer>
+  </maintainer>
+  <maintainer>
     <foaf:Person>
-      <foaf:name>Dan Williams</foaf:name>
-      <foaf:mbox rdf:resource="mailto:dcbw@redhat.com" />
-      <gnome:userid>dcbw</gnome:userid>
+      <foaf:name>Filip Pokryvka</foaf:name>
+      <foaf:mbox rdf:resource="mailto:mailto:fpokryvk@redhat.com" />
+      <gnome:userid>fpokryvk</gnome:userid>
     </foaf:Person>
-  </maintainer> -->
+  </maintainer>
   <maintainer>
     <foaf:Person>
       <foaf:name>Avesh Agarwal</foaf:name>
