@@ -7,3 +7,16 @@ specfile_path: NetworkManager-libreswan.spec
 upstream_package_name: NetworkManager-libreswan
 # downstream (Fedora) RPM package name
 downstream_package_name: NetworkManager-libreswan
+
+actions:
+  post-upstream-clone:
+    - "wget https://src.fedoraproject.org/rpms/NetworkManager-libreswan/raw/main/f/NetworkManager-libreswan.spec -O NetworkManager-libreswan.spec"
+
+srpm_build_deps:
+  - wget
+
+jobs:
+  - job: copr_build
+    trigger: pull_request
+    targets:
+      - fedora-rawhide
