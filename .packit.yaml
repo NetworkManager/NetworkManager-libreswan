@@ -12,8 +12,33 @@ actions:
   post-upstream-clone:
     - "wget https://src.fedoraproject.org/rpms/NetworkManager-libreswan/raw/main/f/NetworkManager-libreswan.spec -O NetworkManager-libreswan.spec"
 
+  create-archive:
+    - "sh autogen.sh"
+    - "make -j dist"
+    - 'bash -c "echo $(ls *.tar.xz)"'
+
 srpm_build_deps:
   - wget
+  - file
+  - findutils
+  - gcc
+  - gettext-devel
+  - glib2-devel
+  - gtk3-devel
+  - gtk4-devel
+  - libnma-gtk4-devel
+  - libnl3-devel
+  - intltool
+  - libtool
+  - libsecret-devel
+  - libnma-devel
+  - NetworkManager-libnm-devel
+  - pkgconfig
+  # from the .gitlab-ci.yml
+  - '/usr/bin/autopoint'
+  - autoconf
+  - automake
+  - make
 
 jobs:
   - job: copr_build
