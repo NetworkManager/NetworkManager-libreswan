@@ -1,0 +1,55 @@
+# See the documentation for more information:
+# https://packit.dev/docs/configuration/
+
+specfile_path: NetworkManager-libreswan.spec
+
+# name in upstream package repository or registry (e.g. in PyPI)
+upstream_package_name: NetworkManager-libreswan
+# downstream (Fedora) RPM package name
+downstream_package_name: NetworkManager-libreswan
+
+actions:
+  post-upstream-clone:
+    - "wget https://src.fedoraproject.org/rpms/NetworkManager-libreswan/raw/main/f/NetworkManager-libreswan.spec -O NetworkManager-libreswan.spec"
+
+  create-archive:
+    - "sh autogen.sh"
+    - "make -j dist"
+    - 'bash -c "echo $(ls *.tar.xz)"'
+
+srpm_build_deps:
+  - wget
+  - file
+  - findutils
+  - gcc
+  - gettext-devel
+  - glib2-devel
+  - gtk3-devel
+  - gtk4-devel
+  - libnma-gtk4-devel
+  - libnl3-devel
+  - intltool
+  - libtool
+  - libsecret-devel
+  - libnma-devel
+  - NetworkManager-libnm-devel
+  - pkgconfig
+  # from the .gitlab-ci.yml
+  - '/usr/bin/autopoint'
+  - autoconf
+  - automake
+  - make
+
+jobs:
+  - job: copr_build
+    trigger: pull_request
+    targets:
+      - fedora-rawhide
+
+  - job: tests
+    trigger: pull_request
+    targets:
+      - fedora-rawhide
+    fmf_url: https://gitlab.freedesktop.org/NetworkManager/NetworkManager-ci/
+    fmf_ref: main
+    tmt_plan: NetworkManager-libreswan

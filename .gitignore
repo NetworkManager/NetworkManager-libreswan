@@ -55,3 +55,6 @@ test-suite.log
 
 .vscode
 compile_commands.json
+
+# Packit
+prepare_sources_result*/
