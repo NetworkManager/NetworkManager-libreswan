@@ -78,3 +78,75 @@ release-dist:
 test_in_fedora_from_dist:
   <<: *test_in_fedora_from_dist
   image: fedora:latest
+
+# Define the stages for the CI/CD pipeline
+stages:
+  - build_copr
+
+# Global workflow rules: Run the pipeline ONLY for 'main' branch pushes 
+# (which includes merge commits) and explicitly reject other pushes to maintain clarity.
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - when: never # Do not run for other branch pushes or external events
+
+copr_build_on_merge:
+  stage: build_copr
+  # Use a stable Fedora image for DNF and build tools
+  image: fedora:latest
+  
+  before_script:
+    # 1. Install necessary tools for RPM building and the COPR CLI client
+    - dnf install -y git-core rpm-build tar make wget copr-cli python3-libmodulemd
+    
+    # 2. Configure COPR CLI for authentication using masked CI/CD variables
+    # (COPR_USERNAME, COPR_TOKEN must be set in GitLab Settings > CI/CD > Variables)
+    - mkdir -p ~/.config/copr
+    - echo "[copr-cli]" > ~/.config/copr/config
+    - echo "username = $COPR_USERNAME" >> ~/.config/copr/config
+    - echo "token = $COPR_TOKEN" >> ~/.config/copr/config
+    
+    # 3. Create the rpmbuild directory structure and download the spec file
+    - mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+    # Fetch the upstream spec file directly from Fedora
+    - wget https://src.fedoraproject.org/rpms/NetworkManager-libreswan/raw/main/f/NetworkManager-libreswan.spec -O ~/rpmbuild/SPECS/NetworkManager-libreswan.spec
+
+  script:
+    # 4. Determine versioning information from Git
+    # VERSION: Get the latest tag or short commit hash
+    - VERSION=$(git describe --tags --always | sed 's/^v//')
+    # COMMIT_COUNT: Get the total number of commits in the history for incremental numbering
+    - COMMIT_COUNT=$(git rev-list --count HEAD)
+    # SHORT_COMMIT: Get the short commit ID
+    - SHORT_COMMIT=$(git rev-parse --short HEAD)
+    
+    # 5. Create the Source Archive (tarball) from the current commit's code
+    - RELEASE_NAME="NetworkManager-libreswan-$VERSION"
+    - git archive --format=tar.gz --prefix=$RELEASE_NAME/ HEAD -o ~/rpmbuild/SOURCES/$RELEASE_NAME.tar.gz
+
+    # 6. Define the custom Release format: <commit_count>.copr.<short_commit>
+    # The %{?dist} macro will automatically add the distribution identifier (e.g., .fc40 or .el9)
+    RELEASE_FORMAT="$COMMIT_COUNT.copr.$SHORT_COMMIT"
+    
+    # 7. Update the spec file with the new Version and Release fields
+    # Update Version
+    - sed -i "s/^Version:.*/Version: $VERSION/" ~/rpmbuild/SPECS/NetworkManager-libreswan.spec
+    # Update Release using the custom format
+    - sed -i "s/^Release:.*/Release: $RELEASE_FORMAT%{?dist}/" ~/rpmbuild/SPECS/NetworkManager-libreswan.spec
+    
+    # 8. Create the Source RPM (SRPM) package
+    - rpmbuild --define "_topdir %(echo $HOME)/rpmbuild" -bs ~/rpmbuild/SPECS/NetworkManager-libreswan.spec
+    
+    # 9. Find the generated SRPM file path
+    - SRPM_FILE=$(find ~/rpmbuild/SRPMS -name "NetworkManager-libreswan-*.src.rpm")
+    
+    # 10. Upload the SRPM to your persistent COPR project and start the build
+    # COPR_PROJECT must be set to your fully qualified project name (e.g., user/project-name)
+    - echo "Uploading $SRPM_FILE to COPR project $COPR_PROJECT..."
+    - copr-cli build-srpm --nowait $COPR_PROJECT $SRPM_FILE
+
+  rules:
+    # Rule to ensure this specific job only runs when code is PUSHed to the 'main' branch
+    # (This covers the merge commit scenario you requested)
+    - if: $CI_COMMIT_BRANCH == "main"
+
