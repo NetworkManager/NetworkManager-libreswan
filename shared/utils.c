@@ -596,10 +596,10 @@ nm_libreswan_check_value(const char *key, const char *val, GError **error)
  */
 static const char line_match[] =
 	"^(?:"
-	"(?:conn\\s+|\\s+(\\S+)\\s*=\\s*)" /* <"conn "> or <whitespace><key>...=... */
-	"(?:\"([^\"]*)\"|(\\S+))"          /* <value> or "<v a l u e>" */
-	")?"                               /* (or just blank line) */
-	"\\s*(?:#.*)?$";                   /* optional comment */
+	"(?:conn\\s+|\\s+([^=\\s]+)\\s*=\\s*)" /* <"conn "> or <whitespace><key>...=... */
+	"(?:\"([^\"]*)\"|(\\S+))"              /* <value> or "<v a l u e>" */
+	")?"                                   /* (or just blank line) */
+	"\\s*(?:#.*)?$";                       /* optional comment */
 
 static const char no_auto_match[] = "#\\s*nm-auto-defaults\\s*=\\s*no";
 
