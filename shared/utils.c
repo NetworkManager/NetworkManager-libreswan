@@ -644,6 +644,7 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 
 		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
 			has_no_auto_defaults = TRUE;
+			g_match_info_unref(match_info);
 			continue;
 		}
 
