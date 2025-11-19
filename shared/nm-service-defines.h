@@ -34,6 +34,7 @@
 
 #define NM_LIBRESWAN_HELPER_PATH LIBEXECDIR "/nm-libreswan-service-helper"
 
+/* VPN properties */
 #define NM_LIBRESWAN_KEY_RIGHT "right"
 #define NM_LIBRESWAN_KEY_RIGHTID "rightid"
 #define NM_LIBRESWAN_KEY_RIGHTRSASIGKEY "rightrsasigkey"
@@ -76,11 +77,14 @@
 #define NM_LIBRESWAN_KEY_HOSTADDRFAMILY "hostaddrfamily"
 #define NM_LIBRESWAN_KEY_CLIENTADDRFAMILY "clientaddrfamily"
 #define NM_LIBRESWAN_KEY_REQUIRE_ID_ON_CERTIFICATE "require-id-on-certificate"
-#define NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS "nm-auto-defaults"
 #define NM_LIBRESWAN_KEY_LEFTSENDCERT "leftsendcert"
 #define NM_LIBRESWAN_KEY_RIGHTCA "rightca"
 #define NM_LIBRESWAN_KEY_LEFTPROTOPORT "leftprotoport"
 #define NM_LIBRESWAN_KEY_RIGHTPROTOPORT "rightprotoport"
+
+/* NM-only VPN properties */
+#define NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS "nm-auto-defaults"
+#define NM_LIBRESWAN_KEY_NM_CONNECT_MODE "nm-connect-mode"
 
 #define NM_LIBRESWAN_IKEV2_NO "no"
 #define NM_LIBRESWAN_IKEV2_NEVER "never"
@@ -95,6 +99,10 @@
 #define NM_LIBRESWAN_AGGRMODE_DEFAULT_IKE "aes256-sha1;modp1536"
 #define NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP "aes256-sha1"
 #define NM_LIBRESWAN_IKEV1_DEFAULT_LIFETIME "24h"
+
+#define NM_LIBRESWAN_NM_CONNECT_MODE_ADD      "add"
+#define NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND "ondemand"
+#define NM_LIBRESWAN_NM_CONNECT_MODE_UP       "up"
 
 #ifndef NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE
 #define NM_VPN_PLUGIN_IP4_CONFIG_TUNDEV_NONE "_none_"

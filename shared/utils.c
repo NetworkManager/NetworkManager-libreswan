@@ -364,6 +364,7 @@ static const struct LibreswanParam params[] = {
 	{NM_LIBRESWAN_KEY_XAUTH_PASSWORD, add, PARAM_IGNORE | PARAM_SECRET},
 	{NM_LIBRESWAN_KEY_XAUTH_PASSWORD "-flags", add, PARAM_IGNORE},
 	{NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, add, PARAM_IGNORE},
+	{NM_LIBRESWAN_KEY_NM_CONNECT_MODE, add, PARAM_IGNORE},
 
 	/* Synthetic, not stored. */
 	{"cisco-unity", add_cisco_unity, PARAM_PRINTABLE | PARAM_SYNTHETIC},
@@ -517,6 +518,7 @@ nm_libreswan_get_ipsec_conf(int ipsec_version,
 {
 	nm_auto_free_gstring GString *ipsec_conf = NULL;
 	gboolean auto_defaults;
+	const char *nm_connect_mode;
 	const char *val;
 	int i;
 
@@ -532,9 +534,22 @@ nm_libreswan_get_ipsec_conf(int ipsec_version,
 	auto_defaults = _nm_utils_ascii_str_to_bool(
 		nm_setting_vpn_get_data_item(s_vpn_sanitized, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS),
 		TRUE);
-	if (!auto_defaults) {
+
+	nm_connect_mode =
+		nm_setting_vpn_get_data_item(s_vpn_sanitized, NM_LIBRESWAN_KEY_NM_CONNECT_MODE);
+	if (!NM_IN_STRSET(nm_connect_mode,
+	                  NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND,
+	                  NM_LIBRESWAN_NM_CONNECT_MODE_ADD)) {
+		/* UP is the fallback value, and the default */
+		nm_connect_mode = NULL;
+	}
+
+	if (!auto_defaults || nm_connect_mode) {
 		g_string_append(ipsec_conf, "# NetworkManager specific configs, don't remove:\n");
-		g_string_append(ipsec_conf, "# nm-auto-defaults=no\n");
+		if (!auto_defaults)
+			g_string_append(ipsec_conf, "# nm-auto-defaults=no\n");
+		if (nm_connect_mode)
+			g_string_append_printf(ipsec_conf, "# nm-connect-mode=%s\n", nm_connect_mode);
 		g_string_append(ipsec_conf, "\n");
 	}
 
@@ -615,6 +630,7 @@ static const char line_match[] =
 	"\\s*(?:#.*)?$";                       /* optional comment */
 
 static const char no_auto_match[] = "#\\s*nm-auto-defaults\\s*=\\s*no";
+static const char nm_connect_mode_match[] = "#\\s*nm-connect-mode\\s*=\\s*(\\S+)";
 
 NMSettingVpn *
 nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GError **error)
@@ -627,6 +643,8 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 	gboolean has_no_auto_defaults = FALSE;
 	g_autoptr(GRegex) line_regex = NULL;
 	g_autoptr(GRegex) no_auto_regex = NULL;
+	g_autoptr(GRegex) nm_connect_mode_regex = NULL;
+	gs_free char *nm_connect_mode = NULL;
 	const char *old, *new;
 	const char *rekey;
 	char *key, *val;
@@ -640,6 +658,8 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 	g_return_val_if_fail(line_regex, NULL);
 	no_auto_regex = g_regex_new(no_auto_match, G_REGEX_RAW, 0, NULL);
 	g_return_val_if_fail(no_auto_regex, NULL);
+	nm_connect_mode_regex = g_regex_new(nm_connect_mode_match, G_REGEX_RAW, 0, NULL);
+	g_return_val_if_fail(nm_connect_mode_regex, NULL);
 
 	s_vpn = NM_SETTING_VPN(nm_setting_vpn_new());
 
@@ -647,17 +667,23 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 	for (i = 0; lines[i]; i++) {
 		g_autoptr(GMatchInfo) match_info = NULL;
 
+		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
+			has_no_auto_defaults = TRUE;
+			continue;
+		}
+
+		if (g_regex_match(nm_connect_mode_regex, lines[i], 0, &match_info)) {
+			nm_connect_mode = g_match_info_fetch(match_info, 1);
+			continue;
+		}
+
+		g_clear_pointer(&match_info, g_match_info_unref);
 		if (!g_regex_match(line_regex, lines[i], 0, &match_info)) {
 			parse_error = g_error_new(NM_UTILS_ERROR,
 			                          NM_UTILS_ERROR_INVALID_ARGUMENT,
 			                          _("'%s' not understood"),
 			                          lines[i]);
 			break;
-		}
-
-		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
-			has_no_auto_defaults = TRUE;
-			continue;
 		}
 
 		key = g_match_info_fetch(match_info, 1); /* Key */
@@ -743,6 +769,8 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 
 	if (has_no_auto_defaults)
 		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS, "no");
+	if (nm_connect_mode)
+		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_CONNECT_MODE, nm_connect_mode);
 
 	sanitized = sanitize_setting_vpn(s_vpn, error);
 	if (!sanitized)
