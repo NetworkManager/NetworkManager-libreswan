@@ -226,19 +226,30 @@ add_ike(NMSettingVpn *s_vpn, const char *key, const char *val)
 }
 
 static void
-add_phase2alg(NMSettingVpn *s_vpn, const char *key, const char *val)
+add_esp(NMSettingVpn *s_vpn, const char *key, const char *val)
 {
 	const char *leftid;
 
-	if (val == NULL || val[0] == '\0')
-		val = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_ESP);
-	else
-		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_ESP, val);
 	if (val == NULL || val[0] == '\0') {
 		leftid = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTID);
 		if (!nm_libreswan_utils_setting_is_ikev2(s_vpn) && leftid && leftid[0] != '\0')
 			val = NM_LIBRESWAN_AGGRMODE_DEFAULT_ESP;
 	}
+	nm_setting_vpn_add_data_item(s_vpn, key, val);
+}
+
+/* phase2alg is deprecated and also alias of esp */
+static void
+add_phase2alg(NMSettingVpn *s_vpn, const char *key, const char *val)
+{
+	if (val != NULL &&
+	    val[0] != '\0' &&
+	    !nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_ESP)) {
+		nm_setting_vpn_add_data_item(s_vpn,
+					     NM_LIBRESWAN_KEY_ESP,
+					     val);
+	}
+
 	nm_setting_vpn_add_data_item(s_vpn, key, val);
 }
 
@@ -337,7 +348,7 @@ static const struct LibreswanParam params[] = {
 
 	/* Special. */
 	{NM_LIBRESWAN_KEY_REKEY, add_rekey, PARAM_PRINTABLE},
-	{NM_LIBRESWAN_KEY_ESP, add, PARAM_PRINTABLE},
+	{NM_LIBRESWAN_KEY_ESP, add_esp, PARAM_PRINTABLE},
 
 	/* Used internally or just ignored altogether. */
 	{NM_LIBRESWAN_KEY_VENDOR, add, PARAM_IGNORE},
