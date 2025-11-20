@@ -484,7 +484,7 @@ populate_adv_dialog(LibreswanEditor *self)
 	             NULL,
 	             "no");
 	populate_adv(self, "leftsendcert_entry", NM_LIBRESWAN_KEY_LEFTSENDCERT, NULL, NULL);
-	populate_adv(self, "rightca", NM_LIBRESWAN_KEY_RIGHTCA, NULL, NULL);
+	populate_adv(self, "rightca_entry", NM_LIBRESWAN_KEY_RIGHTCA, NULL, NULL);
 	adv_changed_cb(NULL, self);
 }
 
