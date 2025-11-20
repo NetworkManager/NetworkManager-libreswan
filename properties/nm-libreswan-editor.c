@@ -378,6 +378,14 @@ populate_widget(LibreswanEditor *self,
 				idx = 2;
 			else if (nm_streq(value, "restart"))
 				idx = 3;
+		} else if (nm_streq(widget_name, "connect_mode_combo")) {
+			idx = 0;
+			if (nm_streq(value, NM_LIBRESWAN_NM_CONNECT_MODE_UP))
+				idx = 0;
+			else if (nm_streq(value, NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND))
+				idx = 1;
+			else if (nm_streq(value, NM_LIBRESWAN_NM_CONNECT_MODE_ADD))
+				idx = 2;
 		} else {
 			if (nm_streq(value, "no"))
 				idx = TYPE_3VL_NO;
@@ -470,6 +478,7 @@ populate_adv_dialog(LibreswanEditor *self)
 	populate_adv(self, "dpd_delay_entry", NM_LIBRESWAN_KEY_DPDDELAY, NULL, NULL);
 	populate_adv(self, "dpd_timeout_entry", NM_LIBRESWAN_KEY_DPDTIMEOUT, NULL, NULL);
 	populate_adv(self, "dpd_action_combo", NM_LIBRESWAN_KEY_DPDACTION, NULL, NULL);
+	populate_adv(self, "connect_mode_combo", NM_LIBRESWAN_KEY_NM_CONNECT_MODE, NULL, NULL);
 	populate_adv(self, "ipsec_interface_entry", NM_LIBRESWAN_KEY_IPSEC_INTERFACE, NULL, NULL);
 	populate_adv(self, "authby_entry", NM_LIBRESWAN_KEY_AUTHBY, NULL, NULL);
 	populate_adv(self,
@@ -776,6 +785,23 @@ update_adv_settings(LibreswanEditor *self, NMSettingVpn *s_vpn)
 		break;
 	default:
 		nm_setting_vpn_remove_data_item(s_vpn, NM_LIBRESWAN_KEY_DPDACTION);
+	}
+
+	/* NM connect mode */
+	widget = GTK_WIDGET(gtk_builder_get_object(priv->builder, "connect_mode_combo"));
+	switch (gtk_combo_box_get_active(GTK_COMBO_BOX(widget))) {
+	case 1:
+		nm_setting_vpn_add_data_item(s_vpn,
+		                             NM_LIBRESWAN_KEY_NM_CONNECT_MODE,
+		                             NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND);
+		break;
+	case 2:
+		nm_setting_vpn_add_data_item(s_vpn,
+		                             NM_LIBRESWAN_KEY_NM_CONNECT_MODE,
+		                             NM_LIBRESWAN_NM_CONNECT_MODE_ADD);
+		break;
+	default:
+		nm_setting_vpn_remove_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_CONNECT_MODE);
 	}
 
 	/* IPsec interface */
