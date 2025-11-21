@@ -1002,9 +1002,9 @@ test_normalize_subnets(void)
 static void
 test_config_read_rsakey(void)
 {
-	char *con_name = NULL;
+	gs_free char *con_name = NULL;
 	GError *error = NULL;
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 
 	const char *conf_str =
 		"# nm-auto-defaults=no\n"
