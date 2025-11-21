@@ -623,7 +623,6 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 	gs_unref_object NMSettingVpn *s_vpn = NULL;
 	gs_strfreev char **lines = NULL;
 	gs_free char *con_name = NULL;
-	GMatchInfo *match_info = NULL;
 	GError *parse_error = NULL;
 	gboolean has_no_auto_defaults = FALSE;
 	g_autoptr(GRegex) line_regex = NULL;
@@ -646,18 +645,18 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 
 	lines = g_strsplit_set(ipsec_conf, "\r\n", -1);
 	for (i = 0; lines[i]; i++) {
+		g_autoptr(GMatchInfo) match_info = NULL;
+
 		if (!g_regex_match(line_regex, lines[i], 0, &match_info)) {
 			parse_error = g_error_new(NM_UTILS_ERROR,
 			                          NM_UTILS_ERROR_INVALID_ARGUMENT,
 			                          _("'%s' not understood"),
 			                          lines[i]);
-			g_match_info_unref(match_info);
 			break;
 		}
 
 		if (g_regex_match(no_auto_regex, lines[i], 0, NULL)) {
 			has_no_auto_defaults = TRUE;
-			g_match_info_unref(match_info);
 			continue;
 		}
 
@@ -673,7 +672,6 @@ nm_libreswan_parse_ipsec_conf(const char *ipsec_conf, char **out_con_name, GErro
 			/* Quoted value (quotes stripped off) */
 			val = g_match_info_fetch(match_info, 3);
 		}
-		g_match_info_unref(match_info);
 
 		if (key && key[0] != '\0') {
 			/* key=value line */
