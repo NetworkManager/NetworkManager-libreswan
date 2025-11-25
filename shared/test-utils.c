@@ -238,7 +238,6 @@ test_config_write(void)
 	                " rightsubnet=0.0.0.0/0\n"
 	                " rekey=yes\n"
 	                " esp=aes_gcm256\n"
-	                " phase2alg=aes_gcm256\n"
 	                " keyingtries=1\n"
 	                " leftxauthclient=yes\n"
 	                " rightxauthserver=yes\n"
@@ -406,7 +405,7 @@ test_config_read(void)
 	                                      &con_name,
 	                                      &error);
 	g_assert_no_error(error);
-	g_assert_cmpint(nm_setting_vpn_get_num_data_items(s_vpn), ==, 12);
+	g_assert_cmpint(nm_setting_vpn_get_num_data_items(s_vpn), ==, 13);
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "authby"), ==, "secret");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "ike"), ==, "aes256-sha1;modp1536");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "ikelifetime"), ==, "24h");
@@ -419,6 +418,7 @@ test_config_read(void)
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "right"), ==, "172.31.79.2");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightsubnet"), ==, "10.0.2.0/24");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "salifetime"), ==, "24h");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "esp"), ==, "aes256-sha1");
 	g_object_unref(s_vpn);
 	g_clear_pointer(&con_name, g_free);
 
