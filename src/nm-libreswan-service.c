@@ -431,38 +431,24 @@ child_watch_cb(GPid pid, gint status, gpointer user_data)
 	g_clear_error(&error);
 }
 
-G_GNUC_NULL_TERMINATED
 static gboolean
-do_spawn(NMLibreswanPlugin *self,
-         GPid *out_pid,
-         int *out_stdin,
-         int *out_stderr,
-         GError **error,
-         const char *progname,
-         ...)
+do_spawn_strv(NMLibreswanPlugin *self,
+              GPid *out_pid,
+              int *out_stdin,
+              int *out_stderr,
+              GError **error,
+              const char *const *strv)
 {
+	gs_free char *cmdline = NULL;
 	GError *local = NULL;
-	va_list ap;
-	GPtrArray *argv;
-	char *cmdline = NULL;
-	char *arg;
 	gboolean success;
 	GPid pid = 0;
 
-	argv = g_ptr_array_sized_new(10);
-	g_ptr_array_add(argv, (char *) progname);
-
-	va_start(ap, progname);
-	while ((arg = va_arg(ap, char *)))
-		g_ptr_array_add(argv, arg);
-	va_end(ap);
-	g_ptr_array_add(argv, NULL);
-
-	_LOGD("spawn: %s", (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
-	g_clear_pointer(&cmdline, g_free);
+	cmdline = g_strjoinv(" ", (char **) strv);
+	_LOGD("spawn: %s", cmdline);
 
 	success = g_spawn_async_with_pipes(NULL,
-	                                   (char **) argv->pdata,
+	                                   (char **) strv,
 	                                   NULL,
 	                                   G_SPAWN_DO_NOT_REAP_CHILD,
 	                                   NULL,
@@ -474,24 +460,50 @@ do_spawn(NMLibreswanPlugin *self,
 	                                   &local);
 
 	if (success) {
-		_LOGI("spawn: success: %ld (%s)",
-		      (long) pid,
-		      (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
+		_LOGI("spawn: success: %ld (%s)", (long) pid, cmdline);
 	} else {
-		_LOGW("spawn: failed: %s (%s)",
-		      local->message,
-		      (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
+		_LOGW("spawn: failed: %s (%s)", local->message, cmdline);
 		g_propagate_error(error, local);
 	}
-	g_clear_pointer(&cmdline, g_free);
 
 	if (out_pid)
 		*out_pid = pid;
 
-	g_ptr_array_free(argv, TRUE);
 	if (success)
 		block_quit(self);
+
 	return success;
+}
+
+G_GNUC_NULL_TERMINATED
+static gboolean
+do_spawn(NMLibreswanPlugin *self,
+         GPid *out_pid,
+         int *out_stdin,
+         int *out_stderr,
+         GError **error,
+         const char *progname,
+         ...)
+{
+	gs_unref_ptrarray GPtrArray *argv = NULL;
+	va_list ap;
+	char *arg;
+
+	argv = g_ptr_array_sized_new(10);
+	g_ptr_array_add(argv, (char *) progname);
+
+	va_start(ap, progname);
+	while ((arg = va_arg(ap, char *)))
+		g_ptr_array_add(argv, arg);
+	va_end(ap);
+	g_ptr_array_add(argv, NULL);
+
+	return do_spawn_strv(self,
+	                     out_pid,
+	                     out_stdin,
+	                     out_stderr,
+	                     error,
+	                     (const char *const *) argv->pdata);
 }
 
 static gboolean
