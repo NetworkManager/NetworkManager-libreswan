@@ -485,6 +485,16 @@ populate_adv_dialog(LibreswanEditor *self)
 	             "no");
 	populate_adv(self, "leftsendcert_entry", NM_LIBRESWAN_KEY_LEFTSENDCERT, NULL, NULL);
 	populate_adv(self, "rightca_entry", NM_LIBRESWAN_KEY_RIGHTCA, NULL, NULL);
+	populate_adv(self,
+		     "leftprotoport_entry",
+		     NM_LIBRESWAN_KEY_LEFTPROTOPORT,
+		     NULL,
+		     NULL);
+	populate_adv(self,
+		     "rightprotoport_entry",
+		     NM_LIBRESWAN_KEY_RIGHTPROTOPORT,
+		     NULL,
+		     NULL);
 	adv_changed_cb(NULL, self);
 }
 
@@ -822,6 +832,22 @@ update_adv_settings(LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_RIGHTCA, str);
 	else
 		nm_setting_vpn_remove_data_item(s_vpn, NM_LIBRESWAN_KEY_RIGHTCA);
+
+	/* leftprotoport */
+	widget = GTK_WIDGET(gtk_builder_get_object(priv->builder, "leftprotoport_entry"));
+	str = gtk_editable_get_text(GTK_EDITABLE(widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTPROTOPORT, str);
+	else
+		nm_setting_vpn_remove_data_item(s_vpn, NM_LIBRESWAN_KEY_LEFTPROTOPORT);
+
+	/* rightprotoport */
+	widget = GTK_WIDGET(gtk_builder_get_object(priv->builder, "rightprotoport_entry"));
+	str = gtk_editable_get_text(GTK_EDITABLE(widget));
+	if (str && *str)
+		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_RIGHTPROTOPORT, str);
+	else
+		nm_setting_vpn_remove_data_item(s_vpn, NM_LIBRESWAN_KEY_RIGHTPROTOPORT);
 }
 
 static gboolean

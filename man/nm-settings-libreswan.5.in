@@ -196,6 +196,12 @@ Libreswan daemon. Please check Libreswan document for detail.
 .I "rightca"
 This option specifies the authorized Certificate Authority (CA) that signed
 the certificate of the remote host.
+.TP
+.I "leftprotoport"
+This option specifies the allowed protocols and ports over connection.
+.TP
+.I "rightprotoport"
+This option specifies the allowed protocols and ports over connection.
 
 .SH VPN.SECRETS
 .PP

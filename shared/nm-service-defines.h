@@ -79,6 +79,8 @@
 #define NM_LIBRESWAN_KEY_NM_AUTO_DEFAULTS "nm-auto-defaults"
 #define NM_LIBRESWAN_KEY_LEFTSENDCERT "leftsendcert"
 #define NM_LIBRESWAN_KEY_RIGHTCA "rightca"
+#define NM_LIBRESWAN_KEY_LEFTPROTOPORT "leftprotoport"
+#define NM_LIBRESWAN_KEY_RIGHTPROTOPORT "rightprotoport"
 
 #define NM_LIBRESWAN_IKEV2_NO "no"
 #define NM_LIBRESWAN_IKEV2_NEVER "never"
