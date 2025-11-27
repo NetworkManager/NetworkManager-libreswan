@@ -198,6 +198,8 @@ test_config_write(void)
 	nm_setting_vpn_add_data_item(s_vpn, "nm-auto-defaults", "no");
 	nm_setting_vpn_add_data_item(s_vpn, "leftsendcert", "always");
 	nm_setting_vpn_add_data_item(s_vpn, "rightca", "%same");
+	nm_setting_vpn_add_data_item(s_vpn, "leftprotoport", "ipv6-icmp/34816");
+	nm_setting_vpn_add_data_item(s_vpn, "rightprotoport", "icmp/2048");
 	s_vpn_sanitized = sanitize_setting_vpn(s_vpn, &error);
 	g_assert_no_error(error);
 	str = nm_libreswan_get_ipsec_conf(4, s_vpn_sanitized, "conn", NULL, FALSE, TRUE, &error);
@@ -213,7 +215,9 @@ test_config_write(void)
 	                " rightrsasigkey=\"world\"\n"
 	                " leftrsasigkey=\"hello\"\n"
 	                " leftsendcert=always\n"
-	                " rightca=\"%same\"\n");
+	                " rightca=\"%same\"\n"
+	                " leftprotoport=\"ipv6-icmp/34816\"\n"
+	                " rightprotoport=\"icmp/2048\"\n");
 	g_free(str);
 	g_object_unref(s_vpn);
 	g_object_unref(s_vpn_sanitized);
@@ -628,7 +632,9 @@ test_config_read(void)
 	                                      " rightrsasigkey=\"world\"\n"
 	                                      " leftrsasigkey=\"hello\"\n"
 	                                      " leftsendcert=always\n"
-	                                      " rightca=\"%same\"\n",
+	                                      " rightca=\"%same\"\n"
+	                                      " leftprotoport=\"ipv6-icmp/34816\"\n"
+	                                      " rightprotoport=\"icmp/2048\"\n",
 	                                      &con_name,
 	                                      &error);
 	g_assert_no_error(error);
@@ -639,7 +645,8 @@ test_config_read(void)
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "nm-auto-defaults"), ==, "no");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftsendcert"), ==, "always");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightca"), ==, "%same");
-	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightca"), ==, "%same");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftprotoport"), ==, "ipv6-icmp/34816");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightprotoport"), ==, "icmp/2048");
 	g_object_unref(s_vpn);
 	g_clear_pointer(&con_name, g_free);
 
@@ -651,7 +658,9 @@ test_config_read(void)
 	                                      " rightrsasigkey=\"world\"\n"
 	                                      " leftrsasigkey=\"hello\"\n"
 	                                      " leftsendcert=always\n"
-	                                      " rightca=\"%same\"\n",
+	                                      " rightca=\"%same\"\n"
+	                                      " leftprotoport=\"ipv6-icmp/34816\"\n"
+	                                      " rightprotoport=\"icmp/2048\"\n",
 	                                      &con_name,
 	                                      &error);
 	g_assert_no_error(error);
@@ -662,7 +671,8 @@ test_config_read(void)
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "nm-auto-defaults"), ==, "no");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftsendcert"), ==, "always");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightca"), ==, "%same");
-	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightca"), ==, "%same");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftprotoport"), ==, "ipv6-icmp/34816");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightprotoport"), ==, "icmp/2048");
 	g_object_unref(s_vpn);
 	g_clear_pointer(&con_name, g_free);
 
