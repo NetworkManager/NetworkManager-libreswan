@@ -196,6 +196,7 @@ test_config_write(void)
 	nm_setting_vpn_add_data_item(s_vpn, "rightrsasigkey", "world");
 	nm_setting_vpn_add_data_item(s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item(s_vpn, "nm-auto-defaults", "no");
+	nm_setting_vpn_add_data_item(s_vpn, "nm-connect-mode", "add");
 	nm_setting_vpn_add_data_item(s_vpn, "leftsendcert", "always");
 	nm_setting_vpn_add_data_item(s_vpn, "rightca", "%same");
 	nm_setting_vpn_add_data_item(s_vpn, "leftprotoport", "ipv6-icmp/34816");
@@ -208,6 +209,7 @@ test_config_write(void)
 	                ==,
 	                "# NetworkManager specific configs, don't remove:\n"
 	                "# nm-auto-defaults=no\n"
+	                "# nm-connect-mode=add\n"
 	                "\n"
 	                "conn conn\n"
 	                " ikev2=insist\n"
@@ -626,6 +628,7 @@ test_config_read(void)
 
 	/* With the '# nm-auto-defaults=no' special comment */
 	s_vpn = nm_libreswan_parse_ipsec_conf("# nm-auto-defaults=no\n"
+	                                      "# nm-connect-mode=ondemand\n"
 	                                      "conn conn\n"
 	                                      " ikev2=insist\n"
 	                                      " right=11.12.13.14\n"
@@ -643,6 +646,7 @@ test_config_read(void)
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightrsasigkey"), ==, "world");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "right"), ==, "11.12.13.14");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "nm-auto-defaults"), ==, "no");
+	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "nm-connect-mode"), ==, "ondemand");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftsendcert"), ==, "always");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "rightca"), ==, "%same");
 	g_assert_cmpstr(nm_setting_vpn_get_data_item(s_vpn, "leftprotoport"), ==, "ipv6-icmp/34816");
@@ -1002,9 +1006,9 @@ test_normalize_subnets(void)
 static void
 test_config_read_rsakey(void)
 {
-	char *con_name = NULL;
+	gs_free char *con_name = NULL;
 	GError *error = NULL;
-	NMSettingVpn *s_vpn;
+	gs_unref_object NMSettingVpn *s_vpn = NULL;
 
 	const char *conf_str =
 		"# nm-auto-defaults=no\n"

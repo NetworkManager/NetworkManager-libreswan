@@ -1678,6 +1678,32 @@ write_config(int fd, const char *string, GError **error)
 	return FALSE;
 }
 
+static void
+send_listening_config(NMLibreswanPlugin *self)
+{
+	GVariantBuilder config = {};
+	gs_unref_variant GVariant *variant = NULL;
+	gs_free char *str = NULL;
+
+	g_variant_builder_init(&config, G_VARIANT_TYPE_VARDICT);
+
+	g_variant_builder_add(&config, "{sv}", "listening", g_variant_new_boolean(TRUE));
+	g_variant_builder_add(&config,
+	                      "{sv}",
+	                      NM_VPN_PLUGIN_CONFIG_HAS_IP4,
+	                      g_variant_new_boolean(FALSE));
+	g_variant_builder_add(&config,
+	                      "{sv}",
+	                      NM_VPN_PLUGIN_CONFIG_HAS_IP6,
+	                      g_variant_new_boolean(FALSE));
+
+	variant = g_variant_builder_end(&config);
+	g_variant_ref_sink(variant);
+
+	_LOGD("sending config: %s", (str = g_variant_print(variant, FALSE)));
+	nm_vpn_service_plugin_set_config(NM_VPN_SERVICE_PLUGIN(self), variant);
+}
+
 static gboolean
 connect_step(NMLibreswanPlugin *self, GError **error)
 {
@@ -1812,34 +1838,71 @@ connect_step(NMLibreswanPlugin *self, GError **error)
 		return g_close(fd, error);
 	}
 	case CONNECT_STEP_CONNECT:
-		g_assert(uuid);
+	{
+		NMSettingVpn *s_vpn;
+		const char *val;
 
-		if (!spawn_pty(self,
-		               &up_stdout,
-		               &up_stderr,
-		               priv->xauth_enabled ? &up_pty : NULL,
-		               &priv->pid,
-		               error,
-		               priv->ipsec_path,
-		               "auto",
-		               "--up",
-		               uuid,
-		               NULL)) {
-			return FALSE;
-		}
-		priv->watch_id = g_child_watch_add(priv->pid, child_watch_cb, self);
+		nm_assert(uuid);
+		s_vpn = nm_connection_get_setting_vpn(priv->connection);
+		nm_assert(s_vpn);
+		val = nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_CONNECT_MODE);
 
-		if (priv->xauth_enabled) {
-			/* Wait for the password request */
-			priv->io_buf = g_string_sized_new(128);
-			priv->channel = g_io_channel_unix_new(up_pty);
-			g_io_channel_set_encoding(priv->channel, NULL, NULL);
-			g_io_channel_set_buffered(priv->channel, FALSE);
-			priv->io_id = g_io_add_watch(priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
+		if (!val
+		    || NM_IN_STRSET(val,
+		                    NM_LIBRESWAN_NM_CONNECT_MODE_UP,
+		                    NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND)) {
+			if (!spawn_pty(self,
+			               &up_stdout,
+			               &up_stderr,
+			               priv->xauth_enabled ? &up_pty : NULL,
+			               &priv->pid,
+			               error,
+			               priv->ipsec_path,
+			               "auto",
+			               nm_streq0(val, NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND) ? "--route"
+			                                                                     : "--up",
+			               uuid,
+			               NULL)) {
+				return FALSE;
+			}
+			priv->watch_id = g_child_watch_add(priv->pid, child_watch_cb, self);
+
+			if (priv->xauth_enabled) {
+				/* Wait for the password request */
+				priv->io_buf = g_string_sized_new(128);
+				priv->channel = g_io_channel_unix_new(up_pty);
+				g_io_channel_set_encoding(priv->channel, NULL, NULL);
+				g_io_channel_set_buffered(priv->channel, FALSE);
+				priv->io_id =
+					g_io_add_watch(priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP, io_cb, self);
+			}
+			pipe_init(&priv->out, up_stdout, "OUT");
+			pipe_init(&priv->err, up_stderr, "ERR");
+			return TRUE;
+		} else if (nm_streq(val, NM_LIBRESWAN_NM_CONNECT_MODE_ADD)) {
+			_LOGD("skipping connect step for connection with connect-mode=add");
+			/*
+			 * We want that VPN connections having "nm-connect-mode=add" become
+			 * "activated" even if there is no host connected yet. However NM
+			 * sets the VPN connection as activated only after receiving a
+			 * configuration from the plugin; Libreswan sends us a configuration
+			 * only when the tunnel is established, or when we issue the "route"
+			 * command for a "nm-connect-mode=ondemand" connection.
+			 *
+			 * Send an empty configuration with IPv4 and IPv6 disabled, and with
+			 * the "listening" flag to indicate that the information is incomplete
+			 * (e.g. the external gateway is missing).
+			 */
+			send_listening_config(self);
+
+			/* Proceed to the next step */
+		} else {
+			nm_assert_not_reached();
 		}
-		pipe_init(&priv->out, up_stdout, "OUT");
-		pipe_init(&priv->err, up_stderr, "ERR");
-		return TRUE;
+	}
+
+		priv->connect_step++;
+		/* fallthrough */
 
 	case CONNECT_STEP_LAST:
 		/* Everything successfully set up */
