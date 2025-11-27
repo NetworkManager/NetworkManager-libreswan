@@ -242,12 +242,9 @@ add_esp(NMSettingVpn *s_vpn, const char *key, const char *val)
 static void
 add_phase2alg(NMSettingVpn *s_vpn, const char *key, const char *val)
 {
-	if (val != NULL &&
-	    val[0] != '\0' &&
-	    !nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_ESP)) {
-		nm_setting_vpn_add_data_item(s_vpn,
-					     NM_LIBRESWAN_KEY_ESP,
-					     val);
+	if (val != NULL && val[0] != '\0'
+	    && !nm_setting_vpn_get_data_item(s_vpn, NM_LIBRESWAN_KEY_ESP)) {
+		nm_setting_vpn_add_data_item(s_vpn, NM_LIBRESWAN_KEY_ESP, val);
 	}
 
 	nm_setting_vpn_add_data_item(s_vpn, key, val);
@@ -537,9 +534,7 @@ nm_libreswan_get_ipsec_conf(int ipsec_version,
 
 	nm_connect_mode =
 		nm_setting_vpn_get_data_item(s_vpn_sanitized, NM_LIBRESWAN_KEY_NM_CONNECT_MODE);
-	if (!NM_IN_STRSET(nm_connect_mode,
-	                  NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND,
-	                  NM_LIBRESWAN_NM_CONNECT_MODE_ADD)) {
+	if (!nm_streq0(nm_connect_mode, NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND)) {
 		/* UP is the fallback value, and the default */
 		nm_connect_mode = NULL;
 	}

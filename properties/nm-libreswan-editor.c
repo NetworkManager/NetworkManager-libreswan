@@ -384,8 +384,6 @@ populate_widget(LibreswanEditor *self,
 				idx = 0;
 			else if (nm_streq(value, NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND))
 				idx = 1;
-			else if (nm_streq(value, NM_LIBRESWAN_NM_CONNECT_MODE_ADD))
-				idx = 2;
 		} else {
 			if (nm_streq(value, "no"))
 				idx = TYPE_3VL_NO;
@@ -794,11 +792,6 @@ update_adv_settings(LibreswanEditor *self, NMSettingVpn *s_vpn)
 		nm_setting_vpn_add_data_item(s_vpn,
 		                             NM_LIBRESWAN_KEY_NM_CONNECT_MODE,
 		                             NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND);
-		break;
-	case 2:
-		nm_setting_vpn_add_data_item(s_vpn,
-		                             NM_LIBRESWAN_KEY_NM_CONNECT_MODE,
-		                             NM_LIBRESWAN_NM_CONNECT_MODE_ADD);
 		break;
 	default:
 		nm_setting_vpn_remove_data_item(s_vpn, NM_LIBRESWAN_KEY_NM_CONNECT_MODE);

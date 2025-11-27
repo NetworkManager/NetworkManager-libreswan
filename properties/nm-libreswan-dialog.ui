@@ -473,9 +473,6 @@
       <row>
         <col id="0" translatable="yes">On Demand</col>
       </row>
-      <row>
-        <col id="0" translatable="yes">Add</col>
-      </row>
     </data>
   </object>
   <object class="GtkDialog" id="libreswan-advanced-dialog">
@@ -1152,9 +1149,9 @@ config: authby &lt;value&gt;
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="tooltip_text"> Indicates the mode in which NetworkManager establishes the connection. "Up" instructs the Libreswan daemon to immediately attempt to establish the tunnel. "On Demand" adds the necessary IPsec policy and routes on the system; it also causes the connection to be established when there is outgoing traffic destined for the remote network. "Add" allows a remote host to connect, but the local system does not actively attempt to establish the connection or install any special routes.</property>
+                        <property name="tooltip_text"> Indicates the mode in which NetworkManager establishes the connection. "Up" instructs the Libreswan daemon to immediately attempt to establish the tunnel. "On Demand" adds the necessary IPsec policy and routes on the system; it also causes the connection to be established when there is outgoing traffic destined for the remote network.</property>
                         <property name="model">liststore_connect_mode</property>
-                        <property name="active">1</property>
+                        <property name="active">0</property>
                         <child>
                           <object class="GtkCellRendererText" id="connect_mode_renderer"/>
                           <attributes>

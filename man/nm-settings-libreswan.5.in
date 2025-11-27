@@ -175,22 +175,22 @@ rejected for security reasons, but other than that the user is responsible for e
 will work. This is mainly useful when connections are created with a management tool like \fBnmstatectl\fR(8).
 .TP
 .I "nm-connect-mode"
-Indicates the mode in which NetworkManager establishes the connection.
-
-When set to "add", it is equivalent to calling "ipsec add".
-The connection configuration is loaded, allowing the remote host
-to connect, but the local system does not actively attempt to establish
-the connection or install any special routes.
+Indicates the mode in which NetworkManager establishes the
+connection. Allowed values are: 'up' (the default) and 'ondemand'.
 
 When set to "ondemand", it is equivalent to calling "ipsec add" and
-"ipsec route" on the connection. It is similar to "add", but it also
-adds the necessary IPsec policy and routes on the system; it also
-causes the connection to be established when there is outgoing traffic
-destined for the remote network.
+"ipsec route" on the connection. The connection configuration is
+loaded, allowing the remote host to connect. The necessary IPsec
+policy and routes are added to the system, preventing any leak of
+unencrypted traffic. This mode also causes the tunnel to be
+established when there is outgoing traffic destined for the remote
+network. A failure in creating the tunnel does not cause a failure of
+the NetworkManager connection, as this mode always keeps listening.
 
 The default value is "up", which is equivalent to calling "ipsec add"
-and "ipsec up"; this value instructs the Libreswan daemon to immediately
-attempt to establish the tunnel.
+and "ipsec up"; this value instructs the Libreswan daemon to
+immediately attempt to establish the tunnel. If the tunnel can't be
+established, the activation will fail.
 
 The allowed values are similar to those of the Libreswan "auto" property,
 with some differences. NetworkManager-libreswan only supports the values

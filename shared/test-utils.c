@@ -196,7 +196,7 @@ test_config_write(void)
 	nm_setting_vpn_add_data_item(s_vpn, "rightrsasigkey", "world");
 	nm_setting_vpn_add_data_item(s_vpn, "right", "11.12.13.14");
 	nm_setting_vpn_add_data_item(s_vpn, "nm-auto-defaults", "no");
-	nm_setting_vpn_add_data_item(s_vpn, "nm-connect-mode", "add");
+	nm_setting_vpn_add_data_item(s_vpn, "nm-connect-mode", "ondemand");
 	nm_setting_vpn_add_data_item(s_vpn, "leftsendcert", "always");
 	nm_setting_vpn_add_data_item(s_vpn, "rightca", "%same");
 	nm_setting_vpn_add_data_item(s_vpn, "leftprotoport", "ipv6-icmp/34816");
@@ -209,7 +209,7 @@ test_config_write(void)
 	                ==,
 	                "# NetworkManager specific configs, don't remove:\n"
 	                "# nm-auto-defaults=no\n"
-	                "# nm-connect-mode=add\n"
+	                "# nm-connect-mode=ondemand\n"
 	                "\n"
 	                "conn conn\n"
 	                " ikev2=insist\n"
