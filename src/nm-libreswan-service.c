@@ -1357,6 +1357,18 @@ handle_callback(NMDBusLibreswanHelper *object,
 
 	_LOGI("Configuration from the helper received, verb '%s'", verb);
 
+	if (!priv->connection) {
+		/* Connection already deleted */
+		success = TRUE;
+		goto out;
+	} else {
+		s_vpn = get_setting_vpn_sanitized(priv->connection, &local);
+		if (!s_vpn) {
+			_LOGW("%s", local->message);
+			goto out;
+		}
+	}
+
 	g_variant_builder_init(&config, G_VARIANT_TYPE_VARDICT);
 	g_variant_builder_init(&ip4_config, G_VARIANT_TYPE_VARDICT);
 	g_variant_builder_init(&ip6_config, G_VARIANT_TYPE_VARDICT);
@@ -1396,12 +1408,6 @@ handle_callback(NMDBusLibreswanHelper *object,
 			                              : NM_VPN_PLUGIN_IP4_CONFIG_INT_GATEWAY,
 			                      variant);
 		}
-	}
-
-	s_vpn = get_setting_vpn_sanitized(priv->connection, &local);
-	if (!s_vpn) {
-		_LOGW("%s", local->message);
-		goto out;
 	}
 
 	dyn_addr_needed = _nm_utils_ascii_str_to_bool(
