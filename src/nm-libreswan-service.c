@@ -104,6 +104,7 @@ typedef struct {
 
 	char *ipsec_conf;
 
+	int version;
 	gboolean openswan;
 	gboolean interactive;
 	gboolean pending_auth;
@@ -431,38 +432,24 @@ child_watch_cb(GPid pid, gint status, gpointer user_data)
 	g_clear_error(&error);
 }
 
-G_GNUC_NULL_TERMINATED
 static gboolean
-do_spawn(NMLibreswanPlugin *self,
-         GPid *out_pid,
-         int *out_stdin,
-         int *out_stderr,
-         GError **error,
-         const char *progname,
-         ...)
+do_spawn_strv(NMLibreswanPlugin *self,
+              GPid *out_pid,
+              int *out_stdin,
+              int *out_stderr,
+              GError **error,
+              const char *const *strv)
 {
+	gs_free char *cmdline = NULL;
 	GError *local = NULL;
-	va_list ap;
-	GPtrArray *argv;
-	char *cmdline = NULL;
-	char *arg;
 	gboolean success;
 	GPid pid = 0;
 
-	argv = g_ptr_array_sized_new(10);
-	g_ptr_array_add(argv, (char *) progname);
-
-	va_start(ap, progname);
-	while ((arg = va_arg(ap, char *)))
-		g_ptr_array_add(argv, arg);
-	va_end(ap);
-	g_ptr_array_add(argv, NULL);
-
-	_LOGD("spawn: %s", (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
-	g_clear_pointer(&cmdline, g_free);
+	cmdline = g_strjoinv(" ", (char **) strv);
+	_LOGD("spawn: %s", cmdline);
 
 	success = g_spawn_async_with_pipes(NULL,
-	                                   (char **) argv->pdata,
+	                                   (char **) strv,
 	                                   NULL,
 	                                   G_SPAWN_DO_NOT_REAP_CHILD,
 	                                   NULL,
@@ -474,24 +461,107 @@ do_spawn(NMLibreswanPlugin *self,
 	                                   &local);
 
 	if (success) {
-		_LOGI("spawn: success: %ld (%s)",
-		      (long) pid,
-		      (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
+		_LOGI("spawn: success: %ld (%s)", (long) pid, cmdline);
 	} else {
-		_LOGW("spawn: failed: %s (%s)",
-		      local->message,
-		      (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
+		_LOGW("spawn: failed: %s (%s)", local->message, cmdline);
 		g_propagate_error(error, local);
 	}
-	g_clear_pointer(&cmdline, g_free);
 
 	if (out_pid)
 		*out_pid = pid;
 
-	g_ptr_array_free(argv, TRUE);
 	if (success)
 		block_quit(self);
+
 	return success;
+}
+
+G_GNUC_NULL_TERMINATED
+static gboolean
+do_spawn(NMLibreswanPlugin *self,
+         GPid *out_pid,
+         int *out_stdin,
+         int *out_stderr,
+         GError **error,
+         const char *progname,
+         ...)
+{
+	gs_unref_ptrarray GPtrArray *argv = NULL;
+	va_list ap;
+	char *arg;
+
+	argv = g_ptr_array_sized_new(10);
+	g_ptr_array_add(argv, (char *) progname);
+
+	va_start(ap, progname);
+	while ((arg = va_arg(ap, char *)))
+		g_ptr_array_add(argv, arg);
+	va_end(ap);
+	g_ptr_array_add(argv, NULL);
+
+	return do_spawn_strv(self,
+	                     out_pid,
+	                     out_stdin,
+	                     out_stderr,
+	                     error,
+	                     (const char *const *) argv->pdata);
+}
+
+/* Some ipsec commands must be passed as subcommands of "auto" in Libreswan < 5.
+ *
+ * For example:
+ *  (libreswan 4) ipsec auto --replace --config -
+ *  (libreswan 5) ipsec replace --config -
+ *
+ * This function performs the necessary translation of such commands. The exception is:
+ *  (libreswan 4) ipsec auto --ready
+ *  (libreswan 5) ipsec listen
+ */
+G_GNUC_NULL_TERMINATED
+static gboolean
+do_spawn_auto(NMLibreswanPlugin *self,
+              GPid *out_pid,
+              int *out_stdin,
+              int *out_stderr,
+              GError **error,
+              const char *progname,
+              const char *cmd,
+              ...)
+{
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE(self);
+	gs_unref_ptrarray GPtrArray *argv = NULL;
+	gs_free char *dash_cmd = NULL;
+	va_list ap;
+	char *arg;
+
+	argv = g_ptr_array_sized_new(10);
+	g_ptr_array_add(argv, (char *) progname);
+
+	if (priv->version >= 5) {
+		g_ptr_array_add(argv, (char *) cmd);
+	} else {
+		g_ptr_array_add(argv, "auto");
+
+		if (nm_streq(cmd, "listen")) {
+			g_ptr_array_add(argv, "--ready");
+		} else {
+			dash_cmd = g_strdup_printf("--%s", cmd);
+			g_ptr_array_add(argv, dash_cmd);
+		}
+	}
+
+	va_start(ap, cmd);
+	while ((arg = va_arg(ap, char *)))
+		g_ptr_array_add(argv, arg);
+	va_end(ap);
+	g_ptr_array_add(argv, NULL);
+
+	return do_spawn_strv(self,
+	                     out_pid,
+	                     out_stdin,
+	                     out_stderr,
+	                     error,
+	                     (const char *const *) argv->pdata);
 }
 
 static gboolean
@@ -543,33 +613,25 @@ nm_libreswan_config_psk_write(NMSettingVpn *s_vpn, const char *secrets_path, GEr
 
 /****************************************************************/
 
-static gboolean spawn_pty(NMLibreswanPlugin *self,
-                          int *out_stdout,
-                          int *out_stderr,
-                          int *out_ptyin,
-                          GPid *out_pid,
-                          GError **error,
-                          const char *progname,
-                          ...) G_GNUC_NULL_TERMINATED;
-
 static gboolean
-spawn_pty(NMLibreswanPlugin *self,
-          int *out_stdout,
-          int *out_stderr,
-          int *out_ptyin,
-          GPid *out_pid,
-          GError **error,
-          const char *progname,
-          ...)
+spawn_pty_cmd(NMLibreswanPlugin *self,
+              int *out_stdout,
+              int *out_stderr,
+              int *out_ptyin,
+              GPid *out_pid,
+              GError **error,
+              const char *progname,
+              const char *cmd,
+              const char *uuid)
 {
+	NMLibreswanPluginPrivate *priv = NM_LIBRESWAN_PLUGIN_GET_PRIVATE(self);
 	int pty_controller_fd = 0;
 	int stdout_pipe[2], stderr_pipe[2];
 	pid_t child_pid;
 	struct termios termios_flags;
-	va_list ap;
 	GPtrArray *argv;
 	gs_free char *cmdline = NULL;
-	char *arg;
+	gs_free char *dash_cmd = NULL;
 	int ret;
 
 	/* The pipes */
@@ -685,10 +747,15 @@ spawn_pty(NMLibreswanPlugin *self,
 	argv = g_ptr_array_sized_new(10);
 	g_ptr_array_add(argv, (char *) progname);
 
-	va_start(ap, progname);
-	while ((arg = va_arg(ap, char *)))
-		g_ptr_array_add(argv, arg);
-	va_end(ap);
+	if (priv->version >= 5) {
+		g_ptr_array_add(argv, (char *) cmd);
+	} else {
+		dash_cmd = g_strdup_printf("--%s", cmd);
+		g_ptr_array_add(argv, "auto");
+		g_ptr_array_add(argv, dash_cmd);
+	}
+
+	g_ptr_array_add(argv, (char *) uuid);
 	g_ptr_array_add(argv, NULL);
 
 	_LOGI("PTY spawn: %s", (cmdline = g_strjoinv(" ", (char **) argv->pdata)));
@@ -1728,15 +1795,7 @@ connect_step(NMLibreswanPlugin *self, GError **error)
 		/* fallthrough */
 
 	case CONNECT_STEP_CHECK_RUNNING:
-		if (!do_spawn(self,
-		              &priv->pid,
-		              NULL,
-		              NULL,
-		              error,
-		              priv->ipsec_path,
-		              "auto",
-		              "--status",
-		              NULL))
+		if (!do_spawn_auto(self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "status", NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add(priv->pid, check_running_cb, self);
 		return TRUE;
@@ -1802,33 +1861,24 @@ connect_step(NMLibreswanPlugin *self, GError **error)
 	case CONNECT_STEP_WAIT_READY:
 		if (!priv->retries)
 			priv->retries = 30;
-		if (!do_spawn(self,
-		              &priv->pid,
-		              NULL,
-		              NULL,
-		              error,
-		              priv->ipsec_path,
-		              "auto",
-		              "--ready",
-		              NULL))
+		if (!do_spawn_auto(self, &priv->pid, NULL, NULL, error, priv->ipsec_path, "listen", NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add(priv->pid, child_watch_cb, self);
 		return TRUE;
 
 	case CONNECT_STEP_CONFIG_ADD:
 	{
-		if (!do_spawn(self,
-		              &priv->pid,
-		              &fd,
-		              NULL,
-		              error,
-		              priv->ipsec_path,
-		              "auto",
-		              "--replace",
-		              "--config",
-		              "-",
-		              uuid,
-		              NULL))
+		if (!do_spawn_auto(self,
+		                   &priv->pid,
+		                   &fd,
+		                   NULL,
+		                   error,
+		                   priv->ipsec_path,
+		                   "replace",
+		                   "--config",
+		                   "-",
+		                   uuid,
+		                   NULL))
 			return FALSE;
 		priv->watch_id = g_child_watch_add(priv->pid, child_watch_cb, self);
 		if (!write_config(fd, priv->ipsec_conf, error)) {
@@ -1851,18 +1901,16 @@ connect_step(NMLibreswanPlugin *self, GError **error)
 		    || NM_IN_STRSET(val,
 		                    NM_LIBRESWAN_NM_CONNECT_MODE_UP,
 		                    NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND)) {
-			if (!spawn_pty(self,
-			               &up_stdout,
-			               &up_stderr,
-			               priv->xauth_enabled ? &up_pty : NULL,
-			               &priv->pid,
-			               error,
-			               priv->ipsec_path,
-			               "auto",
-			               nm_streq0(val, NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND) ? "--route"
-			                                                                     : "--up",
-			               uuid,
-			               NULL)) {
+			if (!spawn_pty_cmd(self,
+			                   &up_stdout,
+			                   &up_stderr,
+			                   priv->xauth_enabled ? &up_pty : NULL,
+			                   &priv->pid,
+			                   error,
+			                   priv->ipsec_path,
+			                   nm_streq0(val, NM_LIBRESWAN_NM_CONNECT_MODE_ONDEMAND) ? "route"
+			                                                                         : "up",
+			                   uuid)) {
 				return FALSE;
 			}
 			priv->watch_id = g_child_watch_add(priv->pid, child_watch_cb, self);
@@ -1928,7 +1976,6 @@ _connect_common(NMVpnServicePlugin *plugin,
 	gs_free char *ifupdown_script = NULL;
 	gs_free char *bus_name = NULL;
 	gboolean trailing_newline;
-	int version;
 
 	if (_LOGD_enabled()) {
 		_LOGD("connection:");
@@ -1947,9 +1994,11 @@ _connect_common(NMVpnServicePlugin *plugin,
 	if (!priv->ipsec_path)
 		return FALSE;
 
-	nm_libreswan_detect_version(priv->ipsec_path, &priv->openswan, &version, &ipsec_banner);
+	nm_libreswan_detect_version(priv->ipsec_path, &priv->openswan, &priv->version, &ipsec_banner);
 	_LOGD("ipsec: version banner: %s", ipsec_banner);
-	_LOGD("ipsec: detected version %d (%s)", version, priv->openswan ? "Openswan" : "Libreswan");
+	_LOGD("ipsec: detected version %d (%s)",
+	      priv->version,
+	      priv->openswan ? "Openswan" : "Libreswan");
 
 	if (!priv->openswan) {
 		priv->pluto_path = nm_libreswan_find_helper_libexec("pluto", error);
@@ -1980,7 +2029,7 @@ _connect_common(NMVpnServicePlugin *plugin,
 
 	/* Compose the ipsec.conf early, to catch configuration errors before
 	 * we initiate the conneciton. */
-	priv->ipsec_conf = nm_libreswan_get_ipsec_conf(version,
+	priv->ipsec_conf = nm_libreswan_get_ipsec_conf(priv->version,
 	                                               s_vpn,
 	                                               con_name,
 	                                               ifupdown_script,
@@ -2136,16 +2185,15 @@ real_disconnect(NMVpnServicePlugin *plugin, GError **error)
 
 	if (!priv->managed) {
 		const char *uuid = nm_connection_get_uuid(priv->connection);
-		ret = do_spawn(plugin,
-		               &priv->pid,
-		               NULL,
-		               NULL,
-		               error,
-		               priv->ipsec_path,
-		               "auto",
-		               "--delete",
-		               uuid,
-		               NULL);
+		ret = do_spawn_auto(plugin,
+		                    &priv->pid,
+		                    NULL,
+		                    NULL,
+		                    error,
+		                    priv->ipsec_path,
+		                    "delete",
+		                    uuid,
+		                    NULL);
 	} else if (priv->openswan) {
 		ret = do_spawn(plugin,
 		               &priv->pid,
@@ -2305,9 +2353,9 @@ main(int argc, char *argv[])
 	g_option_context_set_help_enabled(opt_ctx, TRUE);
 	g_option_context_add_main_entries(opt_ctx, options, NULL);
 
-	g_option_context_set_summary(
-		opt_ctx,
-		_("This service provides integrated IPsec VPN capability to NetworkManager."));
+	g_option_context_set_summary(opt_ctx,
+	                             _("This service provides integrated IPsec "
+	                               "VPN capability to NetworkManager."));
 
 	g_option_context_parse(opt_ctx, &argc, &argv, NULL);
 	g_option_context_free(opt_ctx);
