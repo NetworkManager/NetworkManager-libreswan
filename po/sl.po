@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2025-11-27 15:23+0000\n"
-"PO-Revision-Date: 2025-11-27 22:58+0100\n"
+"POT-Creation-Date: 2025-11-28 18:51+0000\n"
+"PO-Revision-Date: 2025-11-29 17:49+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -667,18 +667,16 @@ msgstr ""
 "Overitelj potrdil (CA), ki je podpisal potrdilo oddaljenega gostitelja."
 
 #: ../properties/nm-libreswan-dialog.ui.h:98
-#, fuzzy
 msgid "Local Port Selectors(leftprotoport)"
-msgstr "Krajevna vrata Selectors(leftprotoport)"
+msgstr "Izbirniki krajevnih vrat(leftprotoport)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:99
 msgid "Allowed local protocols and ports over connection"
 msgstr "Dovoljeni krajevni protokoli in vrata prek povezave"
 
 #: ../properties/nm-libreswan-dialog.ui.h:100
-#, fuzzy
 msgid "Remote Port Selectors(rightprotoport)"
-msgstr "Oddaljena vrata Selectors(rightprotoport)"
+msgstr "Izbirniki oddaljenih vrat (rightprotoport)"
 
 #: ../properties/nm-libreswan-dialog.ui.h:101
 msgid "Allowed remote protocols and ports over connection"
