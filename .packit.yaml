@@ -45,11 +45,15 @@ jobs:
     trigger: pull_request
     targets:
       - fedora-rawhide
+      - centos-stream-9
+      - centos-stream-10
 
   - job: tests
     trigger: pull_request
     targets:
       - fedora-rawhide
+      - centos-stream-9
+      - centos-stream-10
     fmf_url: https://gitlab.freedesktop.org/NetworkManager/NetworkManager-ci/
     fmf_ref: main
     tmt_plan: NetworkManager-libreswan
