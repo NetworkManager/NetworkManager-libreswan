@@ -45,6 +45,7 @@ jobs:
     trigger: pull_request
     targets:
       - fedora-rawhide
+      - fedora-latest-stable
       - centos-stream-9
       - centos-stream-10
 
@@ -52,6 +53,7 @@ jobs:
     trigger: pull_request
     targets:
       - fedora-rawhide
+      - fedora-latest-stable
       - centos-stream-9
       - centos-stream-10
     fmf_url: https://gitlab.freedesktop.org/NetworkManager/NetworkManager-ci/
@@ -66,4 +68,4 @@ jobs:
   - job: bodhi_update
     trigger: release
     targets:
-      - fedora-43
+      - fedora-latest-stable
