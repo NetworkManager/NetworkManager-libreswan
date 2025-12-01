@@ -57,3 +57,13 @@ jobs:
     fmf_url: https://gitlab.freedesktop.org/NetworkManager/NetworkManager-ci/
     fmf_ref: main
     tmt_plan: NetworkManager-libreswan
+
+  - job: koji_build
+    trigger: release
+    targets:
+      - fedora-rawhide
+
+  - job: bodhi_update
+    trigger: release
+    targets:
+      - fedora-43
