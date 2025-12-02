@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: NetworkManager-vpnc HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/NetworkManager-"
 "libreswan/issues\n"
-"POT-Creation-Date: 2025-11-20 09:53+0000\n"
-"PO-Revision-Date: 2025-11-23 21:41+0200\n"
+"POT-Creation-Date: 2025-12-01 21:33+0000\n"
+"PO-Revision-Date: 2025-12-02 23:25+0200\n"
 "Last-Translator: Aurimas Černius <aurimas.cernius@mailo.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -84,80 +84,80 @@ msgstr "IPsec pagrindo VPN nuotoliniams klientams"
 msgid "Error writing to file “%s”: %s"
 msgstr "Klaida rašant į failą „%s“: %s"
 
-#: ../src/nm-libreswan-service.c:517
+#: ../src/nm-libreswan-service.c:587
 msgid "Invalid character in password."
 msgstr "Netinkamas simbolis slaptažodyje."
 
-#: ../src/nm-libreswan-service.c:1556
+#: ../src/nm-libreswan-service.c:1629
 msgid "A password is required."
 msgstr "Reikalingas slaptažodis."
 
-#: ../src/nm-libreswan-service.c:1676
+#: ../src/nm-libreswan-service.c:1749
 #, c-format
 msgid "Error writing config: %s"
 msgstr "Klaida rašant konfigūraciją: %s"
 
-#: ../src/nm-libreswan-service.c:2047
+#: ../src/nm-libreswan-service.c:2110
 msgid "Unhandled pending authentication."
 msgstr "Neapdorotas laukiamas tapatybės nustatymas."
 
-#: ../src/nm-libreswan-service.c:2209
+#: ../src/nm-libreswan-service.c:2271
 msgid "Don’t quit when VPN connection terminates"
 msgstr "Neišeiti, kai nutrūksta VPN ryšys"
 
-#: ../src/nm-libreswan-service.c:2216
+#: ../src/nm-libreswan-service.c:2278
 msgid "Enable verbose debug logging (may expose passwords)"
 msgstr "Įjungti išsamų derinimo žurnalą (gali atskleisti slaptažodžius)"
 
-#: ../src/nm-libreswan-service.c:2223
+#: ../src/nm-libreswan-service.c:2285
 msgid "D-Bus name to use for this instance"
 msgstr "D-Bus pavadinimas, kurį naudoti šiam egzemplioriui"
 
-#: ../src/nm-libreswan-service.c:2247
+#: ../src/nm-libreswan-service.c:2308
 msgid ""
 "This service provides integrated IPsec VPN capability to NetworkManager."
 msgstr "Ši tarnyba sutekia NetworkManager integruotą IPsec VPN galimybę."
 
-#: ../shared/utils.c:382
+#: ../shared/utils.c:393
 #, c-format
 msgid "Invalid character in '%s'"
 msgstr "Netinkamas simbolis eilutėje „%s“"
 
-#: ../shared/utils.c:423 ../shared/utils.c:575
+#: ../shared/utils.c:434 ../shared/utils.c:598
 #, c-format
 msgid "'%s' key needs to be present"
 msgstr "Turi būti raktas „%s“"
 
-#: ../shared/utils.c:454 ../shared/utils.c:584 ../shared/utils.c:726
+#: ../shared/utils.c:465 ../shared/utils.c:607 ../shared/utils.c:758
 #, c-format
 msgid "property '%s' invalid or not supported"
 msgstr "savybė „%s“ netinkama arba nepalaikoma"
 
-#: ../shared/utils.c:478 ../shared/utils.c:488
+#: ../shared/utils.c:489 ../shared/utils.c:499
 #, c-format
 msgid "Invalid VPN setting: %s"
-msgstr "netinkama VPN nuostata: %s"
+msgstr "Netinkama VPN nuostata: %s"
 
-#: ../shared/utils.c:479
+#: ../shared/utils.c:490
 msgid "Empty VPN configuration"
 msgstr "Tuščia VPN konfigūracija"
 
-#: ../shared/utils.c:639
+#: ../shared/utils.c:679
 #, c-format
 msgid "'%s' not understood"
 msgstr "„%s“ nesuprasta"
 
-#: ../shared/utils.c:670
+#: ../shared/utils.c:702
 #, c-format
 msgid "Expected a conn line before '%s'"
 msgstr "Laukta conn eilutės prieš „%s“"
 
-#: ../shared/utils.c:675 ../shared/utils.c:689
+#: ../shared/utils.c:707 ../shared/utils.c:721
 #, c-format
 msgid "'%s' specified multiple times"
 msgstr "„%s“ nurodyta kelis kartus"
 
-#: ../shared/utils.c:758
+#: ../shared/utils.c:792
 #, c-format
 msgid "'%s' is not supported for '%s'"
 msgstr "„%s“ nepalaikoma „%s“"
@@ -308,18 +308,26 @@ msgid "Restart"
 msgstr "Perleisti"
 
 #: ../properties/nm-libreswan-dialog.ui.h:22
+msgid "Up"
+msgstr "Aukštyn"
+
+#: ../properties/nm-libreswan-dialog.ui.h:23
+msgid "On Demand"
+msgstr "Prireikus"
+
+#: ../properties/nm-libreswan-dialog.ui.h:24
 msgid "IPsec Advanced Options"
 msgstr "IPsec išplėstiniai parametrai"
 
-#: ../properties/nm-libreswan-dialog.ui.h:23
+#: ../properties/nm-libreswan-dialog.ui.h:25
 msgid "Identification"
 msgstr "Identifikacija"
 
-#: ../properties/nm-libreswan-dialog.ui.h:24
+#: ../properties/nm-libreswan-dialog.ui.h:26
 msgid "Domain"
 msgstr "Domenas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:25
+#: ../properties/nm-libreswan-dialog.ui.h:27
 msgid ""
 "(NT-)Domain name for authentication.\n"
 "                        config: Domain <domain>"
@@ -327,15 +335,15 @@ msgstr ""
 "(NT-)Domeno pavadinimas tapatybės patvirtinimui.\n"
 "                        konfig: Domain <domain>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:27
+#: ../properties/nm-libreswan-dialog.ui.h:29
 msgid "Security"
 msgstr "Saugumas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:28
+#: ../properties/nm-libreswan-dialog.ui.h:30
 msgid "Phase1 Algorithms"
 msgstr "Pirmos fazės algoritmai"
 
-#: ../properties/nm-libreswan-dialog.ui.h:29
+#: ../properties/nm-libreswan-dialog.ui.h:31
 msgid ""
 "IKE encryption/authentication algorithm to be used for the connection (phase "
 "1 aka ISAKMP SA). The format is “cipher-hash;modpgroup, cipher-"
@@ -347,11 +355,11 @@ msgstr ""
 "…“.\n"
 "                        konfig: ike <proposals>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:31
+#: ../properties/nm-libreswan-dialog.ui.h:33
 msgid "Phase2 Algorithms"
 msgstr "Antros fazės algoritmai"
 
-#: ../properties/nm-libreswan-dialog.ui.h:32
+#: ../properties/nm-libreswan-dialog.ui.h:34
 msgid ""
 "Specifies the algorithms that will be offered/accepted for a phase2 "
 "negotiation. The format is “cipher-hash;modpgroup, cipher-hash;modpgroup, "
@@ -362,11 +370,11 @@ msgstr ""
 "Formatas yra „cipher-hash;modpgroup, cipher-hash;modpgroup, …“.\n"
 "                        konfig: esp <proposals>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:34
+#: ../properties/nm-libreswan-dialog.ui.h:36
 msgid "Phase1 Lifetime"
 msgstr "Pirmos fazės ciklas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:35
+#: ../properties/nm-libreswan-dialog.ui.h:37
 msgid ""
 "How long the keying channel of a connection should last before being "
 "renegotiated. The value is expressed by a number followed by an optional "
@@ -378,11 +386,11 @@ msgstr ""
 "(dienos).\n"
 "                        konfig: ikelifetime <lifetime"
 
-#: ../properties/nm-libreswan-dialog.ui.h:37
+#: ../properties/nm-libreswan-dialog.ui.h:39
 msgid "Phase2 Lifetime"
 msgstr "Antros fazės ciklas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:38
+#: ../properties/nm-libreswan-dialog.ui.h:40
 msgid ""
 "How long a particular instance of a connection (a set of encryption/"
 "authentication keys for user packets) should last, from successful "
@@ -396,11 +404,11 @@ msgstr ""
 "(minutės“ arba „d“ (dienos).\n"
 "                        konfig: salifetime <lifetime>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:40
+#: ../properties/nm-libreswan-dialog.ui.h:42
 msgid "Disable rekeying"
 msgstr "Išjungti raktų keitimą"
 
-#: ../properties/nm-libreswan-dialog.ui.h:41
+#: ../properties/nm-libreswan-dialog.ui.h:43
 msgid ""
 "Whether a connection should not be renegotiated when it is about to expire.\n"
 "                        config: rekey <no/yes>"
@@ -408,11 +416,11 @@ msgstr ""
 "Ar ryšio nereikia atnaujinti jo galiojimui artėjant į pabaigą.\n"
 "                        konfig: rekey <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:43
+#: ../properties/nm-libreswan-dialog.ui.h:45
 msgid "Disable PFS"
 msgstr "Išjungti PFS"
 
-#: ../properties/nm-libreswan-dialog.ui.h:44
+#: ../properties/nm-libreswan-dialog.ui.h:46
 msgid ""
 "Disable perfect forward security. Enable this option only if the server "
 "doesn’t support PFS.\n"
@@ -422,11 +430,11 @@ msgstr ""
 "nepalaiko PFS.\n"
 "                        konfig: pfs <no/yes>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:46
+#: ../properties/nm-libreswan-dialog.ui.h:48
 msgid "Auth-by"
 msgstr "Patvirtino"
 
-#: ../properties/nm-libreswan-dialog.ui.h:47
+#: ../properties/nm-libreswan-dialog.ui.h:49
 msgid ""
 "How the two security gateways should authenticate each other. Accepts a "
 "comma-separated list of these values:\n"
@@ -468,15 +476,15 @@ msgstr ""
 "konfig: authby <value>\r\n"
 "                        "
 
-#: ../properties/nm-libreswan-dialog.ui.h:60
+#: ../properties/nm-libreswan-dialog.ui.h:62
 msgid "Connectivity"
 msgstr "Jungiamumas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:61
+#: ../properties/nm-libreswan-dialog.ui.h:63
 msgid "Local Network"
 msgstr "Vietinis tinklas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:62
+#: ../properties/nm-libreswan-dialog.ui.h:64
 msgid ""
 "Private subnet behind the local participant, expressed as network/netmask.\n"
 "                        config: leftsubnet <net>"
@@ -484,11 +492,11 @@ msgstr ""
 "Privatus potinklis už nuotolinio dalyvio, nurodomas kaip tinklas/kaukė.\n"
 "                        konfig: rightsubnet <net>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:64
+#: ../properties/nm-libreswan-dialog.ui.h:66
 msgid "Remote Network"
 msgstr "Nutolęs tinklas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:65
+#: ../properties/nm-libreswan-dialog.ui.h:67
 msgid ""
 "Private subnet behind the remote participant, expressed as network/netmask.\n"
 "                        config: rightsubnet <net>"
@@ -496,15 +504,15 @@ msgstr ""
 "Privatus potinklis už nuotolinio dalyvio, nurodomas kaip tinklas/kaukė.\n"
 "                        konfig: rightsubnet <net>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:67
+#: ../properties/nm-libreswan-dialog.ui.h:69
 msgid "Enable fragmentation"
 msgstr "Įjungti fragmentaciją"
 
-#: ../properties/nm-libreswan-dialog.ui.h:68
+#: ../properties/nm-libreswan-dialog.ui.h:70
 msgid "narrowing"
 msgstr "siaurinama"
 
-#: ../properties/nm-libreswan-dialog.ui.h:69
+#: ../properties/nm-libreswan-dialog.ui.h:71
 msgid ""
 "IKEv2 negotiation may allow establishing an IPsec connection with narrowed "
 "down traffic selectors. This option is ignored for IKEv1.\n"
@@ -514,19 +522,19 @@ msgstr ""
 "žymikliais. Šio parametro nepaisoma naudojant IKEv1.\n"
 "                        konfig: narrowing <yes/no>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:71
+#: ../properties/nm-libreswan-dialog.ui.h:73
 msgid "Enable MOBIKE"
 msgstr "Įjungti MOBIKE"
 
-#: ../properties/nm-libreswan-dialog.ui.h:72
+#: ../properties/nm-libreswan-dialog.ui.h:74
 msgid "Dead Peer Detection (DPD)"
 msgstr "Neveikiančio porininko aptikimas (DPD)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:73
+#: ../properties/nm-libreswan-dialog.ui.h:75
 msgid "Delay"
 msgstr "Delsa"
 
-#: ../properties/nm-libreswan-dialog.ui.h:74
+#: ../properties/nm-libreswan-dialog.ui.h:76
 msgid ""
 "The delay between Dead Peer Detection (IKEv1 RFC 3706) or IKEv2 Liveness "
 "keepalives that are sent for this connection. Must be a number optionally "
@@ -540,11 +548,11 @@ msgstr ""
 "„d“ (dienos); jei nenurodyta, numatytai naudojamos sekundės.\n"
 "                        konfig: dpddelay <delay>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:76
+#: ../properties/nm-libreswan-dialog.ui.h:78
 msgid "Timeout"
 msgstr "Laiko riba"
 
-#: ../properties/nm-libreswan-dialog.ui.h:77
+#: ../properties/nm-libreswan-dialog.ui.h:79
 msgid ""
 "The length of time that we will idle without hearing back from our peer. "
 "After this period has elapsed with no response and no traffic, we will "
@@ -563,11 +571,11 @@ msgstr ""
 "jei vienetas nenurodytas, numatytai naudojamos sekundės.\n"
 "                        konfig: dpdtimeout <timeout>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:79
+#: ../properties/nm-libreswan-dialog.ui.h:81
 msgid "Action"
 msgstr "Veiksmas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:81
+#: ../properties/nm-libreswan-dialog.ui.h:83
 #, no-c-format
 msgid ""
 "When a DPD enabled peer is declared dead, what action should be taken.  "
@@ -582,15 +590,19 @@ msgstr ""
 "VISI SA su neveikiančiu porininku turi būti iš naujo užmegzti.\n"
 "                        konfig: dpdaction <action>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:83
+#: ../properties/nm-libreswan-dialog.ui.h:85
 msgid "Other options"
 msgstr "Kiti parametrai"
 
-#: ../properties/nm-libreswan-dialog.ui.h:84
+#: ../properties/nm-libreswan-dialog.ui.h:86
+msgid "Connect mode"
+msgstr "Prisijungimo veiksena"
+
+#: ../properties/nm-libreswan-dialog.ui.h:87
 msgid "IPsec interface"
 msgstr "IPsec sąsaja"
 
-#: ../properties/nm-libreswan-dialog.ui.h:85
+#: ../properties/nm-libreswan-dialog.ui.h:88
 msgid ""
 "If set, create or use an existing virtual interface ipsecXXX for \"Routing "
 "based VPNs\" (as opposed to \"Policy based VPNs\"). Valid options are 'yes', "
@@ -611,15 +623,15 @@ msgstr ""
 "pavadinimu „ipsec1“.\n"
 "                        konfig: ipsec-interface yes|no|<num>"
 
-#: ../properties/nm-libreswan-dialog.ui.h:87
+#: ../properties/nm-libreswan-dialog.ui.h:90
 msgid "Disable Mode Config client"
 msgstr "Išjungti veiksenos konfigūracijos klientą"
 
-#: ../properties/nm-libreswan-dialog.ui.h:88
+#: ../properties/nm-libreswan-dialog.ui.h:91
 msgid "Remote certificate name"
 msgstr "Nuotolinio liudijimo pavadinimas"
 
-#: ../properties/nm-libreswan-dialog.ui.h:89
+#: ../properties/nm-libreswan-dialog.ui.h:92
 msgid ""
 "If set, specify the name of the certificate from the NSS database to "
 "authenticate the remote"
@@ -627,15 +639,15 @@ msgstr ""
 "Jei nustatyta, nurodyti liudijimo pavadinimą iš NSS duomenų bazės "
 "nuotoliniam tapatybės patvirtinimui"
 
-#: ../properties/nm-libreswan-dialog.ui.h:90
+#: ../properties/nm-libreswan-dialog.ui.h:93
 msgid "Don't require remote certificate name"
 msgstr "Nereikalauti nuotolinio liudijimo pavaidinimo"
 
-#: ../properties/nm-libreswan-dialog.ui.h:91
+#: ../properties/nm-libreswan-dialog.ui.h:94
 msgid "Send certificate(leftsendcert)"
 msgstr "Siųsti liudijimą(leftsendcert)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:92
+#: ../properties/nm-libreswan-dialog.ui.h:95
 msgid ""
 "Configure how Libreswan will send X.509 certificates to the remote host. "
 "Valid values are: 'yes', 'always', 'no', 'never', 'sendifasked'."
@@ -643,28 +655,44 @@ msgstr ""
 "Konfigūruoti, kaip Libreswan siųs X.509 liudijimus nuotoliniam serveriui. "
 "Galimos vertės yra: „yes“, „always“, „no“, „never“, „sendifasked“."
 
-#: ../properties/nm-libreswan-dialog.ui.h:93
+#: ../properties/nm-libreswan-dialog.ui.h:96
 msgid "Send certificate(rightca)"
 msgstr "Siųsti liudijimą(rightca)"
 
-#: ../properties/nm-libreswan-dialog.ui.h:94
+#: ../properties/nm-libreswan-dialog.ui.h:97
 msgid ""
 "Certificate Authority (CA) that signed the certificate of the remote host."
 msgstr "Liudijimų įstaiga (LĮ), kuri pasirašė nuotolinio serverio liudijimą."
 
-#: ../properties/nm-libreswan-dialog.ui.h:95
+#: ../properties/nm-libreswan-dialog.ui.h:98
+msgid "Local Port Selectors(leftprotoport)"
+msgstr "Vietinio prievado parinkėjai(leftprotoport)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:99
+msgid "Allowed local protocols and ports over connection"
+msgstr "Ryšiui leidžiami vietiniai protokolai bei prievadai"
+
+#: ../properties/nm-libreswan-dialog.ui.h:100
+msgid "Remote Port Selectors(rightprotoport)"
+msgstr "Nuotolinių prievadų parinkėjai(rightprotoport)"
+
+#: ../properties/nm-libreswan-dialog.ui.h:101
+msgid "Allowed remote protocols and ports over connection"
+msgstr "Ryšiui leidžiami nuotoliniai protokolai bei prievadai"
+
+#: ../properties/nm-libreswan-dialog.ui.h:102
 msgid "Other"
 msgstr "Kita"
 
-#: ../properties/nm-libreswan-dialog.ui.h:96
+#: ../properties/nm-libreswan-dialog.ui.h:103
 msgid "Advanced Properties"
 msgstr "Išplėstiniai parametrai"
 
-#: ../properties/nm-libreswan-dialog.ui.h:97
+#: ../properties/nm-libreswan-dialog.ui.h:104
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
-#: ../properties/nm-libreswan-dialog.ui.h:98
+#: ../properties/nm-libreswan-dialog.ui.h:105
 msgid "_Apply"
 msgstr "_Pritaikyti"
 
