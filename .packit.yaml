@@ -16,7 +16,7 @@ actions:
     - "sh autogen.sh"
     - "make -j dist"
     - 'bash -c "echo $(ls *.tar.xz)"'
-
+  
 srpm_build_deps:
   - wget
   - file
@@ -60,6 +60,9 @@ jobs:
     fmf_ref: main
     tmt_plan: NetworkManager-libreswan
 
+  - job: propose_downstream
+    trigger: release
+
   - job: koji_build
     trigger: release
     targets:
@@ -69,3 +72,4 @@ jobs:
     trigger: release
     targets:
       - fedora-latest-stable
+  
