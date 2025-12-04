@@ -16,7 +16,7 @@ actions:
     - "sh autogen.sh"
     - "make -j dist"
     - 'bash -c "echo $(ls *.tar.xz)"'
-  
+
 srpm_build_deps:
   - wget
   - file
@@ -64,12 +64,22 @@ jobs:
     trigger: release
 
   - job: koji_build
-    trigger: release
-    targets:
+    trigger: commit
+    allowed_pr_authors:
+      - packit
+      - vbenes
+    allowed_committers:
+      - packit
+      - vbenes
+    dist_git_branches:
       - fedora-rawhide
-
-  - job: bodhi_update
-    trigger: release
-    targets:
       - fedora-latest-stable
-  
+ 
+  - job: bodhi_update
+    trigger: commit
+    allowed_builders:
+      - packit
+      - vbenes 
+    dist_git_branches:
+      - fedora-latest-stable
+
