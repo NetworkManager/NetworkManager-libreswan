@@ -1,4 +1,14 @@
 =========================================================
+NetworkManager-libreswan-1.2.30
+Overview of changes since NetworkManager-libreswan-1.2.29
+=========================================================
+
+* Declare supports-safe-private-file-access so private
+  connections can continue working after change in the
+  daemon.
+* Update Lithuanian translation.
+
+=========================================================
 NetworkManager-libreswan-1.2.29
 Overview of changes since NetworkManager-libreswan-1.2.28
 =========================================================
